@@ -1,0 +1,2769 @@
+{
+  "level": "Level 04",
+  "levelNumber": 4,
+  "guides": [
+    {
+      "projectId": "PRJ-16",
+      "coreConcepts": [
+        {
+          "name": {
+            "en": "POSIX Permission Bitmasks & File Metadata",
+            "bn": "POSIX পারমিশন বিটমাস্ক ও ফাইল মেটাডেটা"
+          },
+          "explanation": {
+            "en": "Inspect file mode bits safely with stat.S_IMODE and bit masks to catch world-writable configs or exposed private key files.",
+            "bn": "stat.S_IMODE ও বিটমাস্ক ব্যবহার করে ওয়ার্ল্ড-রাইটেবল কনফিগ বা অতিরিক্ত খোলা প্রাইভেট কী পারমিশন শনাক্ত করা।"
+          },
+          "pylogicPart": 16
+        },
+        {
+          "name": {
+            "en": "Comment-Aware Configuration Parsing",
+            "bn": "কমেন্ট-সচেতন কনফিগারেশন পার্সিং"
+          },
+          "explanation": {
+            "en": "Parse OpenSSH sshd_config and sysctl snapshots while preserving directive precedence (first match wins in sshd_config) and ignoring comments.",
+            "bn": "কমেন্ট বাদ দিয়ে এবং OpenSSH-এর প্রথম-ডিরেক্টিভ অগ্রাধিকার বজায় রেখে sshd_config ও sysctl স্ন্যাপশট পার্স করা।"
+          },
+          "pylogicPart": 7
+        },
+        {
+          "name": {
+            "en": "Virtual Sysroot Abstraction & Check Registry",
+            "bn": "ভার্চুয়াল সিসরুট বিমূর্ততা ও চেক রেজিস্ট্রি"
+          },
+          "explanation": {
+            "en": "Route all file reads through a SysrootContext class so checks run deterministically against safe local sandbox fixtures on any OS.",
+            "bn": "সব ফাইল পাঠা SysrootContext ক্লাসের মাধ্যমে পরিচালনা করা যাতে যেকোনো OS-এ নিরাপদ স্যান্ডবক্স ফিক্সচারে অডিট টেস্ট করা যায়।"
+          },
+          "pylogicPart": 15
+        },
+        {
+          "name": {
+            "en": "Weighted Compliance Scoring & Read-Only Safety",
+            "bn": "গুরুত্ব অনুযায়ী স্কোরিং ও রিড-ওনলি নিরাপত্তা"
+          },
+          "explanation": {
+            "en": "Classify controls as PASS, FAIL, WARN, or NOT_APPLICABLE with severity weights and non-mutating remediation advice.",
+            "bn": "তীব্রতা ওয়েট অনুযায়ী PASS, FAIL, WARN বা NOT_APPLICABLE নির্ণয় এবং কোনো ফাইল পরিবর্তন ছাড়াই সমাধান নির্দেশনা দেওয়া।"
+          },
+          "pylogicPart": 10
+        }
+      ],
+      "standardLibrary": [
+        {
+          "name": "os",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Reads file stat metadata, ownership IDs, and directory entries in read-only mode.",
+            "bn": "রিড-ওনলি মোডে ফাইলের স্ট্যাট মেটাডেটা, ওনারশিপ ও ডিরেক্টরি তথ্য পড়ে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Inspects permissions and missing paths safely without spawning shell commands.",
+            "bn": "শেল কমান্ড ছাড়াই নিরাপদে ফাইল পারমিশন ও পাথ যাচাই করে।"
+          },
+          "whereUsed": {
+            "en": "sysroot_context.py and permission checks.",
+            "bn": "sysroot_context.py ও পারমিশন চেকে।"
+          }
+        },
+        {
+          "name": "stat",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Decodes POSIX permission bits (S_IMODE, sticky bit S_ISVTX, world-write S_IWOTH).",
+            "bn": "POSIX পারমিশন বিট (S_IMODE, স্টিকি বিট S_ISVTX, ওয়ার্ল্ড-রাইট S_IWOTH) ডিকোড করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Replaces fragile octal string guessing with exact bitwise permission flags.",
+            "bn": "ভুল অক্টাল স্ট্রিং তুলনার বদলে নির্ভুল বিটওয়াইজ পারমিশন যাচাই দেয়।"
+          },
+          "whereUsed": {
+            "en": "checks.py filesystem checks.",
+            "bn": "checks.py ফাইলসিস্টেম চেকে।"
+          }
+        },
+        {
+          "name": "pathlib",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Resolves virtual sysroot paths cleanly and guards against '..' path traversal.",
+            "bn": "ভার্চুয়াল সিসরুট পাথ গঠন করে এবং '..' পাথ ট্র্যাভার্সাল প্রতিরোধ করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Keeps fixture auditing portable across Linux, macOS, and Windows.",
+            "bn": "Linux, macOS ও Windows—সব জায়গায় স্যান্ডবক্স অডিট পোর্টেবল রাখে।"
+          },
+          "whereUsed": {
+            "en": "sysroot_context.py.",
+            "bn": "sysroot_context.py-তে।"
+          }
+        },
+        {
+          "name": "re",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Tokenizes SSH directives, Match blocks, and sysctl key-value settings reliably.",
+            "bn": "SSH ডিরেক্টিভ, Match ব্লক ও sysctl কী-ভ্যালু লাইন নির্ভরযোগ্যভাবে পার্স করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Handles tabs, multiple spaces, inline comments, and case-insensitive SSH keywords.",
+            "bn": "একাধিক স্পেস, ট্যাব, কমেন্ট ও কেস-ইনসেনসিটিভ SSH কীওয়ার্ড সামলায়।"
+          },
+          "whereUsed": {
+            "en": "parsers.py.",
+            "bn": "parsers.py-তে।"
+          }
+        },
+        {
+          "name": "json",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Loads declarative baseline policy rules and exports structured audit scorecards.",
+            "bn": "ডিক্লারেটিভ বেসলাইন নীতি পড়ে ও অডিট স্কোরকার্ড JSON আকারে রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Enables baseline drift comparison between successive audit runs.",
+            "bn": "পরপর দুটি অডিটের মধ্যে কনফিগারেশন বিচ্যুতি (Drift) তুলনা করতে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "Policy loader and report.py.",
+            "bn": "পলিসি লোডার ও report.py-তে।"
+          }
+        },
+        {
+          "name": "csv",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Exports Pass/Fail/Warn control checklists into spreadsheet-friendly compliance tables.",
+            "bn": "Pass/Fail/Warn কন্ট্রোল চেকলিস্ট স্প্রেডশিট-উপযোগী CSV-তে রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Helps operations teams track failed controls by owner and severity.",
+            "bn": "সিস্টেম অ্যাডমিন টিমের জন্য সংশোধন তালিকা ট্র্যাক করা সহজ করে।"
+          },
+          "whereUsed": {
+            "en": "report.py CSV exporter.",
+            "bn": "report.py CSV এক্সপোর্টারে।"
+          }
+        },
+        {
+          "name": "platform",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Detects host OS platform so live host-only checks mark NOT_APPLICABLE gracefully on non-Linux machines.",
+            "bn": "অপারেটিং সিস্টেম শনাক্ত করে যেন নন-লিনাক্স মেশিনে লাইভ হোস্ট চেক নিরাপদে NOT_APPLICABLE দেখায়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Prevents confusing crashes while encouraging safe sandbox sysroot testing.",
+            "bn": "অহেতুক ক্র্যাশ ঠেকিয়ে স্যান্ডবক্স সিসরুট ব্যবহারে সহায়তা করে।"
+          },
+          "whereUsed": {
+            "en": "cli.py and sysroot_context.py.",
+            "bn": "cli.py ও sysroot_context.py-তে।"
+          }
+        },
+        {
+          "name": "argparse",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Parses `--sysroot`, `--policy`, `--diff`, and `--format` CLI arguments.",
+            "bn": "`--sysroot`, `--policy`, `--diff` ও `--format` CLI অপশন পরিচালনা করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Provides clean subcommands for fixture audits and report diffing.",
+            "bn": "ফিক্সচার অডিট ও রিপোর্ট তুলনার পরিষ্কার CLI কমান্ড দেয়।"
+          },
+          "whereUsed": {
+            "en": "cli.py.",
+            "bn": "cli.py-তে।"
+          }
+        }
+      ],
+      "externalLibraries": [
+        {
+          "name": "pyyaml",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pyyaml",
+          "whatItDoes": {
+            "en": "Allows defining CIS-inspired hardening baselines in human-readable YAML alongside JSON.",
+            "bn": "JSON-এর পাশাপাশি সহজপাঠ্য YAML ফরম্যাটে হার্ডেনিং বেসলাইন লেখার সুবিধা দেয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Optional convenience when security teams maintain annotated compliance baselines.",
+            "bn": "মন্তব্যসহ কমপ্লায়েন্স নীতি রক্ষণাবেক্ষণের জন্য ঐচ্ছিক সুবিধা।"
+          },
+          "whereUsed": {
+            "en": "Optional YAML policy adapter.",
+            "bn": "ঐচ্ছিক YAML পলিসি অ্যাডাপ্টারে।"
+          }
+        },
+        {
+          "name": "rich",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install rich",
+          "whatItDoes": {
+            "en": "Renders color-coded PASS/FAIL/WARN hardening scorecards in the terminal.",
+            "bn": "টার্মিনালে রঙিন PASS/FAIL/WARN হার্ডেনিং স্কোরকার্ড প্রদর্শন করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Highlights critical SSH or permission failures cleanly during terminal reviews.",
+            "bn": "টার্মিনাল রিভিউয়ে জরুরি কনফিগ ত্রুটি দ্রুত চোখে পড়তে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "Optional CLI formatter.",
+            "bn": "ঐচ্ছিক CLI ফরম্যাটারে।"
+          }
+        },
+        {
+          "name": "pytest",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pytest",
+          "whatItDoes": {
+            "en": "Tests sshd_config directive precedence, permission bitmasks, and tmp_path sysroot fixtures.",
+            "bn": "sshd_config অগ্রাধিকার, পারমিশন বিটমাস্ক ও tmp_path সিসরুট ফিক্সচার টেস্ট করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Makes creating temporary sandbox directories with exact chmod modes effortless.",
+            "bn": "টেস্টের সময় অস্থায়ী স্যান্ডবক্স ফোল্ডার ও পারমিশন তৈরি সহজ করে।"
+          },
+          "whereUsed": {
+            "en": "tests/ test suite.",
+            "bn": "tests/ টেস্ট ফোল্ডারে।"
+          }
+        }
+      ],
+      "skillPrerequisites": {
+        "difficulty": "Advanced",
+        "requiredPythonKnowledge": [
+          {
+            "en": "Classes, dataclasses/models, bitwise AND (&), and pathlib traversal guards",
+            "bn": "ক্লাস, বিটওয়াইজ AND (&) এবং pathlib ট্র্যাভার্সাল গার্ড"
+          },
+          {
+            "en": "Graceful FileNotFoundError and PermissionError handling",
+            "bn": "FileNotFoundError ও PermissionError নিরাপদভাবে সামলানো"
+          }
+        ],
+        "requiredProgrammingConcepts": [
+          {
+            "en": "Linux SSH hardening directives, POSIX rwx/sticky bits, and sysctl network defaults",
+            "bn": "লিনাক্স SSH হার্ডেনিং, POSIX rwx/স্টিকি বিট ও sysctl বেসলাইন"
+          },
+          {
+            "en": "Strict read-only design: observe and report, never mutate production configs automatically",
+            "bn": "কঠোর রিড-ওনলি নীতি: কেবল পর্যবেক্ষণ ও রিপোর্ট, স্বয়ংক্রিয় পরিবর্তন নয়"
+          }
+        ],
+        "recommendedPreviousKnowledge": [
+          {
+            "en": "Rule-engine and file-inspection patterns from PRJ-10 and PRJ-13",
+            "bn": "PRJ-10 ও PRJ-13 থেকে রুল-ইঞ্জিন ও ফাইল পরিদর্শনের অভিজ্ঞতা"
+          }
+        ],
+        "studyBeforeStarting": [
+          {
+            "concept": {
+              "en": "POSIX Bitmasks & Octal Permissions",
+              "bn": "POSIX বিটমাস্ক ও অক্টাল পারমিশন"
+            },
+            "shortExplanation": {
+              "en": "Review bitwise masking so checking `mode & 0o022` for group/world write bits is intuitive.",
+              "bn": "গ্রুপ বা ওয়ার্ল্ড রাইট বিট (`mode & 0o022`) যাচাই করতে বিটওয়াইজ মাস্কিং ঝালিয়ে নিন।"
+            },
+            "pylogicPart": 16,
+            "partLabel": {
+              "en": "Part 16 · Binary, Boolean & Bitwise Logic",
+              "bn": "পার্ট ১৬ · বাইনারি, বুলিয়ান ও বিটওয়াইজ লজিক"
+            }
+          },
+          {
+            "concept": {
+              "en": "OOP Check Abstraction",
+              "bn": "OOP চেক অ্যাবস্ট্রাকশন"
+            },
+            "shortExplanation": {
+              "en": "Design uniform AuditCheck and SysrootContext classes for clean extensibility.",
+              "bn": "নতুন অডিট নিয়ম সহজে যোগ করার জন্য অভিন্ন AuditCheck ও SysrootContext ক্লাস সাজান।"
+            },
+            "pylogicPart": 15,
+            "partLabel": {
+              "en": "Part 15 · OOP Problem Solving",
+              "bn": "পার্ট ১৫ · OOP সমস্যা সমাধান"
+            }
+          }
+        ]
+      },
+      "buildRoadmap": [
+        {
+          "stepNumber": 1,
+          "title": {
+            "en": "Understand the Story",
+            "bn": "গল্প ও মূল সমস্যা বুঝুন"
+          },
+          "objective": {
+            "en": "Understand why Bogura Linux Lab needed automated read-only hardening audits across SSH, permissions, and sysctl baselines.",
+            "bn": "ম্যানুয়াল চেকলিস্টের ভুল এড়াতে কেন রিড-ওনলি লিনাক্স হার্ডেনিং অডিটর প্রয়োজন তা বোঝা।"
+          },
+          "details": [
+            {
+              "en": "Expected outcome: a portable read-only auditor scoring 12+ controls against virtual sysroot fixtures or authorized local read-only targets.",
+              "bn": "প্রত্যাশিত ফলাফল: স্যান্ডবক্স সিসরুট বা অনুমোদিত লোকাল হোস্টে ১২+ নিরাপত্তা চেক চালানো ও স্কোর করা।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 2,
+          "title": {
+            "en": "Analyze Requirements",
+            "bn": "প্রয়োজনীয়তা বিশ্লেষণ করুন"
+          },
+          "objective": {
+            "en": "List all SSH, file permission, password aging, and sysctl checks plus PASS/FAIL/WARN/NOT_APPLICABLE states.",
+            "bn": "SSH, ফাইল পারমিশন, পাসওয়ার্ড মেয়াদ ও sysctl চেক এবং চারটি ফলাফল স্ট্যাটাস নির্ধারণ করা।"
+          },
+          "details": [
+            {
+              "en": "Ensure no check ever writes to `/etc` or restarts daemons—even remediation suggestions remain text guidance.",
+              "bn": "কোনো চেকই `/etc`-তে কিছু লিখবে না বা সার্ভিস রিস্টার্ট করবে না—সংশোধন নির্দেশনা কেবল টেক্সট আকারে থাকবে।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": {
+            "en": "Plan the Logic",
+            "bn": "যুক্তি ও অ্যালগরিদম পরিকল্পনা করুন"
+          },
+          "objective": {
+            "en": "Map OpenSSH first-match parsing, permission bit checks, and weighted compliance scoring.",
+            "bn": "OpenSSH প্রথম-ডিরেক্টিভ অগ্রাধিকার, পারমিশন বিট যাচাই ও ওয়েটেড স্কোরিং যুক্তি তৈরি করা।"
+          },
+          "details": [
+            {
+              "en": "Flow: Resolve safe sysroot path -> Parse configs into dicts -> Run registered checks -> Weight PASS vs applicable checks -> Emit scorecard.",
+              "bn": "প্রবাহ: নিরাপদ সিসরুট পাথ -> কনফিগ পার্স -> নিবন্ধিত চেক চালানো -> ওয়েটেড স্কোর গণনা -> রিপোর্ট।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": {
+            "en": "Plan the File Structure",
+            "bn": "ফোল্ডার কাঠামো সাজান"
+          },
+          "objective": {
+            "en": "Separate SysrootContext, config parsers, check registry, report formatter, and sandbox fixtures.",
+            "bn": "SysrootContext, পার্সার, চেক রেজিস্ট্রি, রিপোর্ট ও স্যান্ডবক্স ফিক্সচার আলাদা মডিউলে রাখা।"
+          },
+          "details": [
+            {
+              "en": "Organize policies/baseline_policy.json, sample_sysroot/, src/sysroot_context.py, src/parsers.py, src/checks.py, and src/report.py.",
+              "bn": "policies/, sample_sysroot/, src/sysroot_context.py, parsers.py, checks.py ও report.py আলাদা রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": {
+            "en": "Build the Basic Version",
+            "bn": "প্রাথমিক (MVP) সংস্করণ তৈরি করুন"
+          },
+          "objective": {
+            "en": "Build SysrootContext plus 4 core sshd_config checks against a hardened vs weak fixture.",
+            "bn": "SysrootContext ও দুর্বল বনাম সুরক্ষিত sshd_config-এর ওপর ৪টি মূল চেক দিয়ে শুরু করুন।"
+          },
+          "details": [
+            {
+              "en": "Verify `PermitRootLogin`, `PasswordAuthentication`, `PermitEmptyPasswords`, and `MaxAuthTries` parse accurately.",
+              "bn": "`PermitRootLogin`, `PasswordAuthentication`, `PermitEmptyPasswords` ও `MaxAuthTries` সঠিক পার্স হয় কি না দেখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": {
+            "en": "Add Main Features",
+            "bn": "মূল ফিচারগুলো যোগ করুন"
+          },
+          "objective": {
+            "en": "Expand to 12+ checks (file modes, sticky bit, login.defs aging, sysctl flags), weighted scoring, and drift diffing.",
+            "bn": "১২+ চেক (ফাইল মোড, স্টিকি বিট, login.defs, sysctl), ওয়েটেড স্কোরিং ও রিপোর্ট ডিফ যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Include lockout warnings in remediation notes whenever recommending disabling password auth before SSH keys are verified.",
+              "bn": "SSH পাসওয়ার্ড বন্ধ করার পরামর্শে কী-যাচাই ছাড়া লকআউট ঝুঁকির সতর্কতা যোগ করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": {
+            "en": "Handle Errors",
+            "bn": "ত্রুটি ও ব্যতিক্রম সামলান"
+          },
+          "objective": {
+            "en": "Return WARN/NOT_APPLICABLE on missing files, unreadable paths, or path-traversal attempts.",
+            "bn": "ফাইল অনুপস্থিত, অনুমতি না থাকা বা পাথ ট্র্যাভার্সাল প্রচেষ্টায় ক্র্যাশ না করে নিরাপদ ফলাফল দেওয়া।"
+          },
+          "details": [
+            {
+              "en": "Verify resolved path stays strictly inside `--sysroot` using `Path.is_relative_to()`.",
+              "bn": "`Path.is_relative_to()` দিয়ে পাথ `--sysroot`-এর ভেতরেই সীমাবদ্ধ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": {
+            "en": "Testing",
+            "bn": "টেস্টিং ও এজ কেস যাচাই করুন"
+          },
+          "objective": {
+            "en": "Unit-test hardened vs weak sysroots, Match blocks, permission modes, and score math.",
+            "bn": "দুর্বল বনাম হার্ডেন্ড সিসরুট, Match ব্লক, পারমিশন মোড ও স্কোর গণনা টেস্ট করুন।"
+          },
+          "details": [
+            {
+              "en": "Edge cases: duplicate sshd_config directive where first says 'no' and second says 'yes'; missing sysctl.conf.",
+              "bn": "এজ কেস: sshd_config-এ একই ডিরেক্টিভ দুবার থাকা এবং অনুপস্থিত sysctl.conf।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": {
+            "en": "Improve the Project",
+            "bn": "প্রজেক্টের মানোন্নয়ন করুন"
+          },
+          "objective": {
+            "en": "Add baseline comparison diffing (`--diff previous.json`) highlighting PASS -> FAIL regressions.",
+            "bn": "`--diff previous.json` দিয়ে আগের তুলনায় নতুন PASS -> FAIL দুর্বলতা আলাদা দেখান।"
+          },
+          "details": [
+            {
+              "en": "Export a crisp Markdown hardening report suitable for team review.",
+              "bn": "টিম রিভিউয়ের উপযোগী পরিষ্কার মার্কডাউন হার্ডেনিং রিপোর্ট রপ্তানি করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": {
+            "en": "Finalize the Project",
+            "bn": "ডকুমেন্টেশন ও গিটহাব চূড়ান্ত করুন"
+          },
+          "objective": {
+            "en": "Publish control table, defensive rationale, and sample fixture audit outputs in README.md.",
+            "bn": "কন্ট্রোল টেবিল, প্রতিরক্ষামূলক যুক্তি ও নমুনা অডিট ফলাফল README-তে নথিভুক্ত করুন।"
+          },
+          "details": [
+            {
+              "en": "Ensure repository contains only synthetic mock configs—never real server secrets or private keys.",
+              "bn": "রিপোজিটরিতে যেন কেবল মক কনফিগারেশন থাকে—কোনো আসল প্রাইভেট কী বা গোপন ফাইল নয়।"
+            }
+          ]
+        }
+      ],
+      "conceptMapping": [
+        {
+          "feature": {
+            "en": "POSIX file & sticky-bit permission audit",
+            "bn": "POSIX ফাইল ও স্টিকি-বিট পারমিশন অডিট"
+          },
+          "concept": {
+            "en": "Bitmask extraction on file mode bits",
+            "bn": "ফাইল মোডে বিটমাস্ক যাচাই"
+          },
+          "moduleOrLibrary": "os, stat",
+          "purpose": {
+            "en": "Detect overly permissive config/key files or missing /tmp sticky bit.",
+            "bn": "অতিরিক্ত উন্মুক্ত ফাইল বা স্টিকি-বিটবিহীন ডিরেক্টরি ধরা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Sandbox sysroot isolation",
+            "bn": "স্যান্ডবক্স সিসরুট বিচ্ছিন্নতা"
+          },
+          "concept": {
+            "en": "Path normalization & OOP Context abstraction",
+            "bn": "পাথ নরমালাইজেশন ও Context ক্লাস"
+          },
+          "moduleOrLibrary": "pathlib",
+          "purpose": {
+            "en": "Test Linux hardening checks deterministically on any OS.",
+            "bn": "যেকোনো OS-এ নিরাপদ ফিক্সচারের ওপর নির্ভুল টেস্ট চালানো।"
+          }
+        },
+        {
+          "feature": {
+            "en": "OpenSSH & sysctl directive parsing",
+            "bn": "OpenSSH ও sysctl ডিরেক্টিভ পার্সিং"
+          },
+          "concept": {
+            "en": "Order-aware config tokenization",
+            "bn": "অগ্রাধিকার-সচেতন কনফিগ পার্সিং"
+          },
+          "moduleOrLibrary": "re",
+          "purpose": {
+            "en": "Enforce OpenSSH first-directive-wins semantics accurately.",
+            "bn": "OpenSSH-এর প্রথম-মিল অগ্রাধিকার সঠিকভাবে অনুসরণ করা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Compliance scorecard & drift diff",
+            "bn": "কমপ্লায়েন্স স্কোরকার্ড ও ড্রিফট তুলনা"
+          },
+          "concept": {
+            "en": "Weighted aggregation & JSON diffing",
+            "bn": "ওয়েটেড স্কোর ও JSON তুলনা"
+          },
+          "moduleOrLibrary": "json, csv",
+          "purpose": {
+            "en": "Measure hardening score and spot security regressions.",
+            "bn": "নিরাপত্তা স্কোর মাপা ও নতুন কনফিগ দুর্বলতা ধরা।"
+          }
+        }
+      ],
+      "commandReference": [
+        {
+          "command": "python -m src.cli audit --sysroot ./sample_sysroot --policy ./policies/baseline_policy.json",
+          "whenToUse": {
+            "en": "When running a full read-only audit against a sandbox sysroot fixture",
+            "bn": "নমুনা স্যান্ডবক্স সিসরুট ফিক্সচারে পূর্ণ রিড-ওনলি অডিট চালাতে"
+          },
+          "whyUsed": {
+            "en": "Evaluates all 12+ hardening rules safely without touching host OS files.",
+            "bn": "মূল OS স্পর্শ না করেই নিরাপদে ১২টির বেশি হার্ডেনিং নিয়ম পরীক্ষা করতে।"
+          }
+        },
+        {
+          "command": "python -m src.cli audit --sysroot ./sample_sysroot --diff ./reports/prev_audit.json",
+          "whenToUse": {
+            "en": "When comparing current system posture against an earlier baseline report",
+            "bn": "আগের অডিট রিপোর্টের সাথে বর্তমান অবস্থার বিচ্যুতি তুলনা করতে"
+          },
+          "whyUsed": {
+            "en": "Highlights newly broken controls (PASS -> FAIL) immediately.",
+            "bn": "আগে ঠিক থাকা কোন কন্ট্রোলটি নতুন করে ভেঙেছে তা দ্রুত বের করতে।"
+          }
+        },
+        {
+          "command": "python -m unittest discover -s tests",
+          "whenToUse": {
+            "en": "To validate sshd_config parser precedence and permission checks",
+            "bn": "sshd_config পার্সার ও পারমিশন চেক ইউনিট টেস্ট করতে"
+          },
+          "whyUsed": {
+            "en": "Verifies all checks across ephemeral mock directories automatically.",
+            "bn": "অস্থায়ী মক ফোল্ডারে সব চেক স্বয়ংক্রিয়ভাবে যাচাই করতে।"
+          }
+        }
+      ]
+    },
+    {
+      "projectId": "PRJ-17",
+      "coreConcepts": [
+        {
+          "name": {
+            "en": "Relational Incident & IOC Modeling",
+            "bn": "রিলেশনাল ইনসিডেন্ট ও IOC মডেলিং"
+          },
+          "explanation": {
+            "en": "Connect cases, timeline entries, normalized IOCs (via many-to-many join table), and evidence custody rows cleanly in SQLite.",
+            "bn": "SQLite-এ কেস, টাইমলাইন, মেনি-টু-মেনি IOC জয়েন টেবিল ও প্রমাণ কাস্টডি সারণী সুসংগঠিতভাবে যুক্ত করা।"
+          },
+          "pylogicPart": 14
+        },
+        {
+          "name": {
+            "en": "Finite State Machine Transition Guards",
+            "bn": "স্টেট মেশিন ধাপ পরিবর্তন নিয়ন্ত্রণ"
+          },
+          "explanation": {
+            "en": "Enforce valid NIST incident stages (New -> Triage -> Containment -> Eradication -> Recovery -> Post-Incident) and block invalid jumps.",
+            "bn": "NIST ইনসিডেন্ট ধাপগুলোর বৈধ রূপান্তর নিশ্চিত করা ও ধাপ না পেরিয়ে সরাসরি কেস বন্ধ করা আটকে দেওয়া।"
+          },
+          "pylogicPart": 15
+        },
+        {
+          "name": {
+            "en": "Cryptographic Chain-of-Custody Hashing",
+            "bn": "চেইন-অব-কাস্টডি SHA-256 অখণ্ডতা"
+          },
+          "explanation": {
+            "en": "Hash synthetic evidence artifacts at intake and verify integrity on every subsequent review.",
+            "bn": "সংগ্রহের সময় প্রমাণ ফাইলের SHA-256 হ্যাশ সংরক্ষণ করে পরবর্তীতে অখণ্ডতা যাচাই করা।"
+          },
+          "pylogicPart": 19
+        },
+        {
+          "name": {
+            "en": "UTC Timestamp Arithmetic & SLA Metrics",
+            "bn": "UTC সময় গণনা ও MTTD/MTTR মেট্রিক্স"
+          },
+          "explanation": {
+            "en": "Compute Mean Time to Detect (MTTD), Mean Time to Contain/Resolve (MTTR), and SLA breach flags reliably across ISO-8601 UTC strings.",
+            "bn": "ISO-8601 UTC সময় ব্যবহার করে নির্ভুল MTTD, MTTR ও SLA সময়সীমা অতিক্রম শনাক্ত করা।"
+          },
+          "pylogicPart": 10
+        }
+      ],
+      "standardLibrary": [
+        {
+          "name": "sqlite3",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Stores incidents, append-only timelines, normalized IOCs, incident_iocs links, and evidence custody records.",
+            "bn": "ইনসিডেন্ট, অ্যাপেন্ড-ওনলি টাইমলাইন, নরমালাইজড IOC ও এভিডেন্স কাস্টডি সংরক্ষণ করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Enforces foreign keys (`PRAGMA foreign_keys = ON`) and instant cross-case IOC correlation queries.",
+            "bn": "ফরেইন-কী অখণ্ডতা ও দ্রুত ক্রস-কেস IOC কোরিলেশন কোয়েরি নিশ্চিত করে।"
+          },
+          "whereUsed": {
+            "en": "db.py and ioc_manager.py.",
+            "bn": "db.py ও ioc_manager.py-তে।"
+          }
+        },
+        {
+          "name": "hashlib",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Computes streaming SHA-256 digests of synthetic evidence artifacts for chain-of-custody logs.",
+            "bn": "চেইন-অব-কাস্টডি যাচাইয়ের জন্য প্রমাণ ফাইলের SHA-256 হ্যাশ হিসাব করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Detects accidental or unauthorized tampering of investigation artifacts immediately.",
+            "bn": "তদন্তের প্রমাণ ফাইলে কোনো পরিবর্তন হলে তা সাথে সাথে ধরে ফেলে।"
+          },
+          "whereUsed": {
+            "en": "custody.py.",
+            "bn": "custody.py-তে।"
+          }
+        },
+        {
+          "name": "datetime",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Tracks timezone-aware UTC detection, containment, and closure timestamps for SLA math.",
+            "bn": "SLA হিসাবের জন্য UTC টাইমজোন-সচেতন শনাক্তকরণ, কনটেইনমেন্ট ও ক্লোজার সময় মাপে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Prevents local clock offset bugs in MTTD and MTTR calculations.",
+            "bn": "MTTD ও MTTR গণনায় লোকাল টাইমজোনের ভুল প্রতিরোধ করে।"
+          },
+          "whereUsed": {
+            "en": "workflow.py and reporting.py.",
+            "bn": "workflow.py ও reporting.py-তে।"
+          }
+        },
+        {
+          "name": "ipaddress",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Validates IPv4/IPv6 IOC values cleanly after refanging `[.]` notation.",
+            "bn": "`[.]` ডিফ্যাং অংশ খুলে IPv4/IPv6 IOC ঠিকানা নির্ভুলভাবে যাচাই করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Ensures canonical IOC storage so cross-case lookups never miss equivalent IPs.",
+            "bn": "ক্যানোনিকাল রূপে সংরক্ষণ করে যাতে ভিন্ন কেসে একই IP মিস না হয়।"
+          },
+          "whereUsed": {
+            "en": "ioc_manager.py.",
+            "bn": "ioc_manager.py-তে।"
+          }
+        },
+        {
+          "name": "uuid",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Generates collision-free custody handoff IDs and evidence reference tokens.",
+            "bn": "কাস্টডি হ্যান্ডঅফ ও প্রমাণপত্রের ইউনিক রেফারেন্স আইডি তৈরি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Keeps audit events uniquely traceable across exported post-incident dossiers.",
+            "bn": "রপ্তানি করা কেস ডসিয়ারে প্রতিটি ইভেন্ট আলাদাভাবে চিহ্নিত রাখে।"
+          },
+          "whereUsed": {
+            "en": "custody.py.",
+            "bn": "custody.py-তে।"
+          }
+        },
+        {
+          "name": "json",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Exports case dossiers and imports structured synthetic alerts cleanly.",
+            "bn": "সম্পূর্ণ কেস ডসিয়ার রপ্তানি ও সিন্থেটিক অ্যালার্ট ইম্পোর্ট করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Supports machine-readable SOAR-style handoffs and reporting.",
+            "bn": "SOAR-ধাঁচের অটোমেটেড রিপোর্টিং ও ডেটা আদান-প্রদান সহজ করে।"
+          },
+          "whereUsed": {
+            "en": "reporting.py.",
+            "bn": "reporting.py-তে।"
+          }
+        }
+      ],
+      "externalLibraries": [
+        {
+          "name": "flask",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install flask",
+          "whatItDoes": {
+            "en": "Optional local web UI for browsing incident queues, timelines, and linked IOC graphs.",
+            "bn": "ইনসিডেন্ট কিউ, টাইমলাইন ও IOC সংযোগ দেখার ঐচ্ছিক লোকাল ওয়েব ড্যাশবোর্ড দেয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Helpful upgrade after CLI and SQLite workflow integrity pass all tests.",
+            "bn": "মূল CLI ও SQLite ওয়ার্কফ্লো সম্পূর্ণ হওয়ার পর ভিজ্যুয়াল ড্যাশবোর্ড যোগ করতে সহায়ক।"
+          },
+          "whereUsed": {
+            "en": "Optional web_ui.py.",
+            "bn": "ঐচ্ছিক web_ui.py-তে।"
+          }
+        },
+        {
+          "name": "rich",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install rich",
+          "whatItDoes": {
+            "en": "Renders clean case queues, P1–P4 SLA timers, and custody tables in terminal.",
+            "bn": "টার্মিনালে P1–P4 কেস কিউ, SLA টাইমার ও কাস্টডি টেবিল সুন্দরভাবে দেখায়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Improves triage readability during simulated incident drills.",
+            "bn": "অনুশীলন মহড়ায় দ্রুত কেস অগ্রাধিকার বুঝতে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "Optional CLI view.",
+            "bn": "ঐচ্ছিক CLI প্রদর্শনে।"
+          }
+        },
+        {
+          "name": "pytest",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pytest",
+          "whatItDoes": {
+            "en": "Verifies state transition guards, IOC cross-case links, custody hashes, and MTTD/MTTR math.",
+            "bn": "স্টেট নিয়ম, IOC ক্রস-লিংক, কাস্টডি হ্যাশ ও MTTD/MTTR হিসাব টেস্ট করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Provides isolated temporary SQLite fixtures cleanly per test.",
+            "bn": "প্রতিটি টেস্টের জন্য আলাদা অস্থায়ী SQLite ডেটাবেজ তৈরি সহজ করে।"
+          },
+          "whereUsed": {
+            "en": "tests/ test suite.",
+            "bn": "tests/ ডিরেক্টরিতে।"
+          }
+        }
+      ],
+      "skillPrerequisites": {
+        "difficulty": "Advanced",
+        "requiredPythonKnowledge": [
+          {
+            "en": "Parameterized SQLite transactions, joins, and foreign-key enforcement",
+            "bn": "প্যারামিটারাইজড SQLite ট্রানজ্যাকশন, জয়েন ও ফরেইন-কী নিয়ন্ত্রণ"
+          },
+          {
+            "en": "UTC datetime math, hashing, and explicit state-machine dictionaries",
+            "bn": "UTC datetime হিসাব, হ্যাশিং ও স্টেট মেশিন ডিকশনারি"
+          }
+        ],
+        "requiredProgrammingConcepts": [
+          {
+            "en": "NIST incident response stages (Preparation, Detection, Containment, Eradication, Recovery, Post-Incident)",
+            "bn": "NIST ইনসিডেন্ট রেসপন্স ধাপসমূহ ও MTTD/MTTR ধারণা"
+          },
+          {
+            "en": "Append-only forensic audit trail & IOC defanging (`hxxp://`, `192[.]0[.]2[.]10`)",
+            "bn": "অ্যাপেন্ড-ওনলি ফরেনসিক লগ ও রিপোর্টে IOC ডিফ্যাং করার নিয়ম"
+          }
+        ],
+        "recommendedPreviousKnowledge": [
+          {
+            "en": "Relational SQLite patterns from PRJ-08 and security alert design from PRJ-13",
+            "bn": "PRJ-08-এর SQLite ও PRJ-13-এর সিকিউরিটি অ্যালার্ট অভিজ্ঞতা"
+          }
+        ],
+        "studyBeforeStarting": [
+          {
+            "concept": {
+              "en": "Relational Joins & Append-Only Logs",
+              "bn": "রিলেশনাল জয়েন ও অ্যাপেন্ড-ওনলি লগ"
+            },
+            "shortExplanation": {
+              "en": "Practice many-to-many join tables so multiple incidents can link to canonical IOCs without duplicating indicators.",
+              "bn": "ডুপ্লিকেট ছাড়া একাধিক কেসে একই IOC যুক্ত করতে মেনি-টু-মেনি জয়েন টেবিল অনুশীলন করুন।"
+            },
+            "pylogicPart": 14,
+            "partLabel": {
+              "en": "Part 14 · File Handling & Data Processing",
+              "bn": "পার্ট ১৪ · ফাইল হ্যান্ডলিং ও ডেটা প্রসেসিং"
+            }
+          },
+          {
+            "concept": {
+              "en": "Hashing & Evidence Integrity",
+              "bn": "হ্যাশিং ও প্রমাণপত্রের অখণ্ডতা"
+            },
+            "shortExplanation": {
+              "en": "Review SHA-256 verification and safe handling of synthetic security artifacts.",
+              "bn": "SHA-256 অখণ্ডতা যাচাই ও নিরাপদ ফরেনসিক হ্যান্ডলিং অনুশীলন করুন।"
+            },
+            "pylogicPart": 19,
+            "partLabel": {
+              "en": "Part 19 · Cyber Security Programming",
+              "bn": "পার্ট ১৯ · সাইবার সিকিউরিটি প্রোগ্রামিং"
+            }
+          }
+        ]
+      },
+      "buildRoadmap": [
+        {
+          "stepNumber": 1,
+          "title": {
+            "en": "Understand the Story",
+            "bn": "গল্প ও মূল সমস্যা বুঝুন"
+          },
+          "objective": {
+            "en": "See why scattered spreadsheets caused Bogura Polytechnic SOC trainees to miss linked IOCs and containment SLAs.",
+            "bn": "ছড়ানো স্প্রেডশিটের কারণে কেন IOC সংযোগ ও SLA ট্র্যাকিং হারিয়ে যাচ্ছিল তা বোঝা।"
+          },
+          "details": [
+            {
+              "en": "Expected outcome: an SQLite case tracker enforcing NIST stages, IOC correlation, and custody hashing.",
+              "bn": "প্রত্যাশিত ফলাফল: NIST ধাপ, IOC কোরিলেশন ও কাস্টডি হ্যাশসহ SQLite ইনসিডেন্ট ট্র্যাকার।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 2,
+          "title": {
+            "en": "Analyze Requirements",
+            "bn": "প্রয়োজনীয়তা বিশ্লেষণ করুন"
+          },
+          "objective": {
+            "en": "Design normalized tables (`incidents`, `timeline_events`, `iocs`, `incident_iocs`, `evidence_custody`) and severity SLAs.",
+            "bn": "টেবিল স্কিমা ও P1–P4 তীব্রতা অনুযায়ী SLA সময়সীমা নির্ধারণ করা।"
+          },
+          "details": [
+            {
+              "en": "Keep all sample fixtures strictly synthetic (RFC 5737 IPs, `.test` domains, dummy text artifacts—zero real PII/malware).",
+              "bn": "সব নমুনা যেন সম্পূর্ণ সিন্থেটিক (RFC 5737 IP, `.test` ডোমেইন) হয়—কোনো আসল ব্যক্তিগত তথ্য নয়।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": {
+            "en": "Plan the Logic",
+            "bn": "যুক্তি ও অ্যালগরিদম পরিকল্পনা করুন"
+          },
+          "objective": {
+            "en": "Define ALLOWED_TRANSITIONS map, IOC canonicalizer, and MTTD/MTTR delta rules.",
+            "bn": "স্টেট ট্রানজিশন ম্যাপ, IOC নরমালাইজার ও MTTD/MTTR সূত্র সাজানো।"
+          },
+          "details": [
+            {
+              "en": "Flow: Normalize IOC -> Upsert IOC row -> Link via incident_iocs -> Query past cases sharing same IOC ID.",
+              "bn": "প্রবাহ: IOC নরমালাইজ -> আপসার্ট -> জয়েন লিংক -> একই IOC থাকা পুরনো কেস খোঁজা।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": {
+            "en": "Plan the File Structure",
+            "bn": "ফোল্ডার কাঠামো সাজান"
+          },
+          "objective": {
+            "en": "Isolate SQLite storage, state machine rules, IOC correlation, custody hashing, and report generation.",
+            "bn": "SQLite স্টোর, ওয়ার্কফ্লো, IOC, কাস্টডি ও রিপোর্টিং আলাদা মডিউলে রাখা।"
+          },
+          "details": [
+            {
+              "en": "Use src/db.py, src/workflow.py, src/ioc_manager.py, src/custody.py, src/reporting.py, and tests/.",
+              "bn": "src/-এ db.py, workflow.py, ioc_manager.py, custody.py, reporting.py ও tests/ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": {
+            "en": "Build the Basic Version",
+            "bn": "প্রাথমিক (MVP) সংস্করণ তৈরি করুন"
+          },
+          "objective": {
+            "en": "Create SQLite schema with foreign keys enabled and implement incident creation + valid stage transitions.",
+            "bn": "ফরেইন-কীসহ SQLite স্কিমা, কেস তৈরি ও বৈধ ধাপ পরিবর্তনের নিয়ম তৈরি করুন।"
+          },
+          "details": [
+            {
+              "en": "Log every stage change automatically inside `timeline_events` within the same transaction.",
+              "bn": "প্রতিটি স্টেজ পরিবর্তন একই ট্রানজ্যাকশনে স্বয়ংক্রিয়ভাবে `timeline_events`-এ লিখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": {
+            "en": "Add Main Features",
+            "bn": "মূল ফিচারগুলো যোগ করুন"
+          },
+          "objective": {
+            "en": "Add canonical IOC linking, cross-case correlation query, SHA-256 evidence custody, and SLA reporting.",
+            "bn": "IOC লিংকিং, ক্রস-কেস কোরিলেশন, SHA-256 কাস্টডি ও SLA রিপোর্টিং যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Defang external-looking URLs/IPs (`example[.]test`) automatically when rendering Markdown post-incident reports.",
+              "bn": "মার্কডাউন রিপোর্ট রপ্তানির সময় ভুল ক্লিক ঠেকাতে IOC ডিফ্যাং করে রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": {
+            "en": "Handle Errors",
+            "bn": "ত্রুটি ও ব্যতিক্রম সামলান"
+          },
+          "objective": {
+            "en": "Reject invalid transitions, malformed SHA-256 strings, missing evidence files, and duplicate custody entries.",
+            "bn": "অবৈধ স্টেট জাম্প, ভুল ৬৪-হেক্স SHA-256 ও অনুপস্থিত প্রমাণ ফাইল স্পষ্ট ত্রুটিসহ প্রত্যাখ্যান করুন।"
+          },
+          "details": [
+            {
+              "en": "Never allow editing or deleting historical timeline or custody rows from CLI.",
+              "bn": "CLI থেকে ঐতিহাসিক টাইমলাইন বা কাস্টডি রো মুছে ফেলার সুযোগ রাখবেন না।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": {
+            "en": "Testing",
+            "bn": "টেস্টিং ও এজ কেস যাচাই করুন"
+          },
+          "objective": {
+            "en": "Verify invalid jump rejection, defanged/refanged IOC deduplication, custody tamper alerts, and SLA calculations.",
+            "bn": "অবৈধ স্টেজ জাম্প, ডিফ্যাংড IOC মিল, কাস্টডি হ্যাশ অমিল এবং SLA গণনা পরীক্ষা করুন।"
+          },
+          "details": [
+            {
+              "en": "Edge cases: incident reopened after Post-Incident keeps original `contained_at` intact; altered byte in evidence file triggers mismatch.",
+              "bn": "এজ কেস: রিওপেন হওয়া কেসে পুরনো `contained_at` রক্ষা পাওয়া ও ১ বাইট পরিবর্তনে হ্যাশ অমিল ধরা পড়া।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": {
+            "en": "Improve the Project",
+            "bn": "প্রজেক্টের মানোন্নয়ন করুন"
+          },
+          "objective": {
+            "en": "Import sample JSON alerts from PRJ-13 directly into new triage incidents.",
+            "bn": "PRJ-13-এর JSON অ্যালার্ট থেকে সরাসরি নতুন ইনসিডেন্ট তৈরি করার ইম্পোর্টার যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Compute team-wide SLA compliance summary across all closed and active incidents.",
+              "bn": "সকল সক্রিয় ও সমাপ্ত কেস মিলিয়ে টিমের গড় MTTD/MTTR ড্যাশবোর্ড দেখান।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": {
+            "en": "Finalize the Project",
+            "bn": "ডকুমেন্টেশন ও গিটহাব চূড়ান্ত করুন"
+          },
+          "objective": {
+            "en": "Document ER schema, NIST workflow diagram, and sample Post-Incident Markdown dossier in README.",
+            "bn": "ER স্কিমা, NIST ওয়ার্কফ্লো ডায়াগ্রাম ও নমুনা পোস্ট-ইনসিডেন্ট ডসিয়ার README-তে সাজান।"
+          },
+          "details": [
+            {
+              "en": "Confirm SQLite test databases remain ignored in `.gitignore` while synthetic seed scripts stay reproducible.",
+              "bn": "`.gitignore`-এ ব্যক্তিগত `.db` ফাইল বাদ দিয়ে সিন্থেটিক ডেমো সিড স্ক্রিপ্ট যুক্ত রাখুন।"
+            }
+          ]
+        }
+      ],
+      "conceptMapping": [
+        {
+          "feature": {
+            "en": "Cross-case IOC correlation",
+            "bn": "ক্রস-কেস IOC কোরিলেশন"
+          },
+          "concept": {
+            "en": "Many-to-many join tables & canonicalization",
+            "bn": "মেনি-টু-মেনি জয়েন টেবিল ও নরমালাইজেশন"
+          },
+          "moduleOrLibrary": "sqlite3, ipaddress",
+          "purpose": {
+            "en": "Spot recurring attacker infrastructure across separate incidents.",
+            "bn": "ভিন্ন ভিন্ন কেসে একই সন্দেহজনক সূচকের পুনরাবৃত্তি ধরা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "NIST lifecycle state enforcement",
+            "bn": "NIST লাইফসাইকেল ধাপ নিয়ন্ত্রণ"
+          },
+          "concept": {
+            "en": "Finite state machine transition guards",
+            "bn": "স্টেট মেশিন ট্রানজিশন গার্ড"
+          },
+          "moduleOrLibrary": "Python dict/set rules",
+          "purpose": {
+            "en": "Prevent skipping containment or post-incident review stages.",
+            "bn": "কনটেইনমেন্ট বা রিভিউ ধাপ বাদ দিয়ে কেস বন্ধ করা ঠেকানো।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Evidence chain-of-custody verification",
+            "bn": "প্রমাণপত্রের চেইন-অব-কাস্টডি যাচাই"
+          },
+          "concept": {
+            "en": "Cryptographic digest verification",
+            "bn": "ক্রিপ্টোগ্রাফিক SHA-256 হ্যাশ যাচাই"
+          },
+          "moduleOrLibrary": "hashlib, uuid",
+          "purpose": {
+            "en": "Prove evidence artifacts remained unaltered since acquisition.",
+            "bn": "সংগ্রহের পর থেকে প্রমাণ ফাইল অপরিবর্তিত আছে কি না প্রমাণ করা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "MTTD / MTTR SLA metrics & dossiers",
+            "bn": "MTTD/MTTR SLA মেট্রিক্স ও ডসিয়ার"
+          },
+          "concept": {
+            "en": "UTC timestamp arithmetic & reporting",
+            "bn": "UTC সময় গণনা ও রিপোর্টিং"
+          },
+          "moduleOrLibrary": "datetime, json",
+          "purpose": {
+            "en": "Measure detection/containment speed and export audit-ready reports.",
+            "bn": "শনাক্তকরণ ও সমাধানের গতি মাপা এবং অডিট-উপযোগী রিপোর্ট তৈরি।"
+          }
+        }
+      ],
+      "commandReference": [
+        {
+          "command": "python -m src.cli create --title \"Suspicious Phishing Drill\" --severity P2 --owner Sajid",
+          "whenToUse": {
+            "en": "When opening a new synthetic security incident case",
+            "bn": "নতুন একটি সিন্থেটিক সিকিউরিটি ইনসিডেন্ট কেস খুলতে"
+          },
+          "whyUsed": {
+            "en": "Initializes case record, SLA deadline, and first append-only timeline entry.",
+            "bn": "কেস রেকর্ড, SLA সময়সীমা ও প্রথম টাইমলাইন এন্ট্রি তৈরি করতে।"
+          }
+        },
+        {
+          "command": "python -m src.cli attach-ioc --case INC-001 --type ip --value \"192[.]0[.]2[.]10\"",
+          "whenToUse": {
+            "en": "When linking an indicator and checking past incidents for matches",
+            "bn": "কোনো IOC যুক্ত করে আগের কেসের সাথে মিল খুঁজতে"
+          },
+          "whyUsed": {
+            "en": "Normalizes the IOC cleanly and prints all correlated historical cases.",
+            "bn": "IOC নরমালাইজ করে সংশ্লিষ্ট পূর্ববর্তী কেসগুলো সাথে সাথে দেখাতে।"
+          }
+        },
+        {
+          "command": "python -m unittest discover -s tests",
+          "whenToUse": {
+            "en": "To test workflow guards, custody hashing, and SLA calculations",
+            "bn": "ওয়ার্কফ্লো গার্ড, কাস্টডি হ্যাশ ও SLA গণনা পরীক্ষা করতে"
+          },
+          "whyUsed": {
+            "en": "Runs full verification against temporary SQLite databases.",
+            "bn": "অস্থায়ী SQLite ডেটাবেজে সম্পূর্ণ টেস্ট চালাতে।"
+          }
+        }
+      ]
+    },
+    {
+      "projectId": "PRJ-18",
+      "coreConcepts": [
+        {
+          "name": {
+            "en": "Static OpenAPI Specification Auditing",
+            "bn": "স্ট্যাটিক OpenAPI স্পেসিফিকেশন অডিটিং"
+          },
+          "explanation": {
+            "en": "Walk OpenAPI JSON path and method trees offline to spot unauthenticated endpoints, HTTP server URLs, and missing security schemes.",
+            "bn": "অফলাইনে OpenAPI JSON পাথ ও মেথড পরীক্ষা করে অথেনটিকেশনবিহীন এন্ডপয়েন্ট বা অনিরাপদ HTTP URL শনাক্ত করা।"
+          },
+          "pylogicPart": 14
+        },
+        {
+          "name": {
+            "en": "Target Policy Gate & Non-Destructive HTTP Inspection",
+            "bn": "টার্গেট পলিসি গেট ও নিরাপদ HTTP পরিদর্শন"
+          },
+          "explanation": {
+            "en": "Restrict dynamic GET/OPTIONS/HEAD baseline checks strictly to localhost or explicitly allowlisted lab servers with capped body reads.",
+            "bn": "ডায়নামিক GET/OPTIONS/HEAD পরীক্ষা কেবল লোকালহোস্ট বা অনুমোদিত ল্যাব সার্ভারে সীমাবদ্ধ রাখা ও রেসপন্স সাইজ নিয়ন্ত্রণ করা।"
+          },
+          "pylogicPart": 18
+        },
+        {
+          "name": {
+            "en": "CORS, Security Headers & Verbose Error Checks",
+            "bn": "CORS, সিকিউরিটি হেডার ও ত্রুটি তথ্য ফাঁস পরীক্ষা"
+          },
+          "explanation": {
+            "en": "Detect reflected Origins with Allow-Credentials: true, missing Cache-Control/X-Content-Type-Options, and leaked tracebacks.",
+            "bn": "অরিজিন রিফ্লেকশন, অনুপস্থিত সিকিউরিটি হেডার এবং 4xx/5xx উত্তরে স্ট্যাক ট্রেস ফাঁস হওয়া শনাক্ত করা।"
+          },
+          "pylogicPart": 19
+        },
+        {
+          "name": {
+            "en": "Self-Contained Local Mock Server Testing",
+            "bn": "লোকাল মক API সার্ভার দিয়ে স্বয়ংসম্পূর্ণ টেস্টিং"
+          },
+          "explanation": {
+            "en": "Spin up ephemeral vulnerable vs hardened localhost endpoints inside tests using Python's built-in http.server.",
+            "bn": "টেস্টের ভেতরেই বিল্ট-ইন http.server দিয়ে দুর্বল ও সুরক্ষিত লোকাল এন্ডপয়েন্ট চালু করে অডিটর যাচাই করা।"
+          },
+          "pylogicPart": 15
+        }
+      ],
+      "standardLibrary": [
+        {
+          "name": "urllib",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Sends bounded GET/OPTIONS requests (`urllib.request`) and validates hostnames/schemes (`urllib.parse`).",
+            "bn": "সীমাবদ্ধ GET/OPTIONS রিকোয়েস্ট পাঠায় (`urllib.request`) ও URL হোস্ট যাচাই করে (`urllib.parse`)।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Performs safe header and auth-gating observations without extra dependencies.",
+            "bn": "অতিরিক্ত প্যাকেজ ছাড়াই নিরাপদে হেডার ও অথেনটিকেশন গেট পর্যবেক্ষণ করে।"
+          },
+          "whereUsed": {
+            "en": "target_policy.py and http_auditor.py.",
+            "bn": "target_policy.py ও http_auditor.py-তে।"
+          }
+        },
+        {
+          "name": "http",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Provides `http.server` to host reproducible vulnerable-vs-hardened localhost API test servers.",
+            "bn": "লোকালহোস্টে দুর্বল ও সুরক্ষিত API টেস্ট সার্ভার চালাতে `http.server` দেয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Guarantees 100% offline, ethical testing without touching external APIs.",
+            "bn": "বাইরের কোনো API স্পর্শ না করে সম্পূর্ণ অফলাইনে অডিটর যাচাইয়ের নিশ্চয়তা দেয়।"
+          },
+          "whereUsed": {
+            "en": "tests/test_local_http_auditor.py.",
+            "bn": "tests/test_local_http_auditor.py-তে।"
+          }
+        },
+        {
+          "name": "json",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Parses OpenAPI 3.x JSON specifications, allowlists, and exports OWASP-mapped findings.",
+            "bn": "OpenAPI JSON স্পেক ও অনুমোদন তালিকা পড়ে এবং OWASP-ম্যাপড ফাইন্ডিংস রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Supports shift-left CI/CD pipeline consumption of audit findings.",
+            "bn": "CI/CD পাইপলাইনে সহজেই অডিট ফলাফল ব্যবহারের উপযোগী করে।"
+          },
+          "whereUsed": {
+            "en": "openapi_auditor.py and reporter.py.",
+            "bn": "openapi_auditor.py ও reporter.py-তে।"
+          }
+        },
+        {
+          "name": "re",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Screens capped HTTP error bodies for Python tracebacks, SQL syntax leaks, or internal paths.",
+            "bn": "এরর বডিতে পাইথন স্ট্যাক ট্রেস, SQL ত্রুটি বা অভ্যন্তরীণ ফাইল পাথ ফাঁস প্যাটার্ন ধরে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Prevents verbose debug info from reaching production clients.",
+            "bn": "প্রোডাকশনে সংবেদনশীল ডিবাগ তথ্য প্রকাশ হওয়া ঠেকায়।"
+          },
+          "whereUsed": {
+            "en": "http_auditor.py error analyzer.",
+            "bn": "http_auditor.py এরর বিশ্লেষকে।"
+          }
+        },
+        {
+          "name": "ssl",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Enforces strict TLS certificate verification on authorized HTTPS staging APIs.",
+            "bn": "অনুমোদিত HTTPS স্টেজিং API-তে কঠোর TLS সনদ যাচাই প্রয়োগ করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Flags misconfigured TLS or cleartext HTTP endpoints during API posture checks.",
+            "bn": "অসুরক্ষিত HTTP বা দুর্বল TLS কনফিগারেশন চিহ্নিত করে।"
+          },
+          "whereUsed": {
+            "en": "http_auditor.py TLS context.",
+            "bn": "http_auditor.py TLS কনটেক্সটে।"
+          }
+        },
+        {
+          "name": "argparse",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Exposes `audit-spec`, `audit-local`, and `--allowlist` CLI options.",
+            "bn": "`audit-spec`, `audit-local` ও `--allowlist` CLI কমান্ড প্রদান করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Lets learners run offline spec linting separately from local server checks.",
+            "bn": "স্ট্যাটিক স্পেক ও লোকাল সার্ভার পরীক্ষা আলাদাভাবে চালানোর সুযোগ দেয়।"
+          },
+          "whereUsed": {
+            "en": "cli.py.",
+            "bn": "cli.py-তে।"
+          }
+        }
+      ],
+      "externalLibraries": [
+        {
+          "name": "requests",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install requests",
+          "whatItDoes": {
+            "en": "Optional ergonomic HTTP session client with explicit `allow_redirects=False` control.",
+            "bn": "`allow_redirects=False` সহ সহজ HTTP সেশন ক্লায়েন্ট সুবিধা দেয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Nice alternative to urllib once the core target_policy gate is complete.",
+            "bn": "মূল টার্গেট পলিসি গেট শেষ হলে কোড সংক্ষিপ্ত করার ঐচ্ছিক বিকল্প।"
+          },
+          "whereUsed": {
+            "en": "Optional HTTP client adapter.",
+            "bn": "ঐচ্ছিক HTTP ক্লায়েন্ট অ্যাডাপ্টারে।"
+          }
+        },
+        {
+          "name": "pyyaml",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pyyaml",
+          "whatItDoes": {
+            "en": "Parses OpenAPI YAML files in addition to OpenAPI JSON.",
+            "bn": "OpenAPI JSON-এর পাশাপাশি YAML স্পেক ফাইলও পার্স করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Many real-world FastAPI/Swagger repos export `openapi.yaml`.",
+            "bn": "বাস্তবে অনেক API প্রজেক্ট `openapi.yaml` ফরম্যাট ব্যবহার করে।"
+          },
+          "whereUsed": {
+            "en": "Optional openapi_auditor.py loader.",
+            "bn": "ঐচ্ছিক openapi_auditor.py লোডারে।"
+          }
+        },
+        {
+          "name": "pytest",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pytest",
+          "whatItDoes": {
+            "en": "Runs fixture-based tests against OpenAPI specs and localhost http.server threads.",
+            "bn": "OpenAPI স্পেক ও লোকালহোস্ট টেস্ট সার্ভারের বিরুদ্ধে অটোমেটেড টেস্ট চালায়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Clean setup/teardown fixtures guarantee test servers always close cleanly.",
+            "bn": "টেস্ট শেষে লোকাল সার্ভার থ্রেড নিরাপদভাবে বন্ধ নিশ্চিত করে।"
+          },
+          "whereUsed": {
+            "en": "tests/ test suite.",
+            "bn": "tests/ ডিরেক্টরিতে।"
+          }
+        }
+      ],
+      "skillPrerequisites": {
+        "difficulty": "Advanced",
+        "requiredPythonKnowledge": [
+          {
+            "en": "Nested JSON dictionary traversal, regex matching, and HTTP status/header handling",
+            "bn": "নেস্টেড JSON ডিকশনারি, রেজেক্স ও HTTP স্ট্যাটাস/হেডার পরিচালনা"
+          },
+          {
+            "en": "Threading or context managers for ephemeral local test servers",
+            "bn": "অস্থায়ী লোকাল টেস্ট সার্ভার চালানো ও নিরাপদে বন্ধ করা"
+          }
+        ],
+        "requiredProgrammingConcepts": [
+          {
+            "en": "CORS Origin/Credentials semantics, OWASP API baseline posture, and OpenAPI securitySchemes",
+            "bn": "CORS অরিজিন/ক্রেডেনশিয়াল নীতি, OWASP API বেসলাইন ও OpenAPI securitySchemes"
+          },
+          {
+            "en": "Strict ethical gate: non-destructive GET/OPTIONS checks on localhost/authorized labs only",
+            "bn": "কঠোর নৈতিক সীমা: কেবল লোকালহোস্ট/অনুমোদিত ল্যাবে অ-ধ্বংসাত্মক GET/OPTIONS পরীক্ষা"
+          }
+        ],
+        "recommendedPreviousKnowledge": [
+          {
+            "en": "HTTP client probing from PRJ-06 and networking fundamentals from PRJ-11",
+            "bn": "PRJ-06-এর HTTP প্রোব ও PRJ-11-এর নেটওয়ার্কিং জ্ঞান"
+          }
+        ],
+        "studyBeforeStarting": [
+          {
+            "concept": {
+              "en": "HTTP Requests, Headers & Timeouts",
+              "bn": "HTTP রিকোয়েস্ট, হেডার ও টাইমআউট"
+            },
+            "shortExplanation": {
+              "en": "Review URL parsing, socket/HTTP timeouts, and case-insensitive header comparison.",
+              "bn": "URL পার্সিং, টাইমআউট ও কেস-ইনসেনসিটিভ হেডার তুলনা ঝালিয়ে নিন।"
+            },
+            "pylogicPart": 18,
+            "partLabel": {
+              "en": "Part 18 · Networking & Internet Programming",
+              "bn": "পার্ট ১৮ · নেটওয়ার্কিং ও ইন্টারনেট প্রোগ্রামিং"
+            }
+          },
+          {
+            "concept": {
+              "en": "Defensive AppSec Verification",
+              "bn": "প্রতিরক্ষামূলক AppSec যাচাই"
+            },
+            "shortExplanation": {
+              "en": "Focus on catching misconfigurations defensively (auth gaps, CORS, error leaks) without exploit payloads.",
+              "bn": "এক্সপ্লয়েট পেলোড ছাড়া কীভাবে নিরাপদে কনফিগ ত্রুটি ধরা যায় তা অনুশীলন করুন।"
+            },
+            "pylogicPart": 19,
+            "partLabel": {
+              "en": "Part 19 · Cyber Security Programming",
+              "bn": "পার্ট ১৯ · সাইবার সিকিউরিটি প্রোগ্রামিং"
+            }
+          }
+        ]
+      },
+      "buildRoadmap": [
+        {
+          "stepNumber": 1,
+          "title": {
+            "en": "Understand the Story",
+            "bn": "গল্প ও মূল সমস্যা বুঝুন"
+          },
+          "objective": {
+            "en": "See why a campus startup portal leaked stack traces and permitted wildcard CORS before pre-release checks.",
+            "bn": "রিলিজের আগে পরীক্ষা না থাকায় কীভাবে CORS ও এরর স্ট্যাক-ট্রেস ফাঁস হয়েছিল তা বোঝা।"
+          },
+          "details": [
+            {
+              "en": "Expected outcome: a shift-left AppSec baseline checker combining static OpenAPI linting with local HTTP posture checks.",
+              "bn": "প্রত্যাশিত ফলাফল: স্ট্যাটিক OpenAPI লিন্টার ও লোকাল HTTP পোস্টার চেকারের সমন্বিত টুল।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 2,
+          "title": {
+            "en": "Analyze Requirements",
+            "bn": "প্রয়োজনীয়তা বিশ্লেষণ করুন"
+          },
+          "objective": {
+            "en": "Specify OpenAPI checks, CORS reflection tests, security header checks, and target allowlist rules.",
+            "bn": "OpenAPI নিয়ম, CORS পরীক্ষা, সিকিউরিটি হেডার ও অনুমোদন তালিকার শর্ত ঠিক করা।"
+          },
+          "details": [
+            {
+              "en": "Ban external non-allowlisted URLs and prohibit mutating POST/PUT/DELETE requests completely.",
+              "bn": "অননুমোদিত বাইরের URL এবং পরিবর্তনকারী POST/PUT/DELETE রিকোয়েস্ট সম্পূর্ণ নিষিদ্ধ করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": {
+            "en": "Plan the Logic",
+            "bn": "যুক্তি ও অ্যালগরিদম পরিকল্পনা করুন"
+          },
+          "objective": {
+            "en": "Design unified Finding schema shared by static spec analyzer and dynamic localhost auditor.",
+            "bn": "স্ট্যাটিক ও ডায়নামিক উভয় বিশ্লেষকের জন্য অভিন্ন Finding কাঠামো ও যাচাই প্রবাহ তৈরি।"
+          },
+          "details": [
+            {
+              "en": "Flow: Verify target_policy -> Lint OpenAPI spec -> Run bounded GET/OPTIONS checks -> Redact headers -> Emit OWASP report.",
+              "bn": "প্রবাহ: টার্গেট যাচাই -> OpenAPI লিন্ট -> নিরাপদ GET/OPTIONS চেক -> টোকেন মাস্কিং -> OWASP রিপোর্ট।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": {
+            "en": "Plan the File Structure",
+            "bn": "ফোল্ডার কাঠামো সাজান"
+          },
+          "objective": {
+            "en": "Separate target policy, static OpenAPI auditor, dynamic HTTP auditor, and reporter.",
+            "bn": "টার্গেট পলিসি, OpenAPI অডিটর, HTTP অডিটর ও রিপোর্টার আলাদা রাখা।"
+          },
+          "details": [
+            {
+              "en": "Use src/target_policy.py, src/openapi_auditor.py, src/http_auditor.py, src/reporter.py, and samples/.",
+              "bn": "src/-এ target_policy.py, openapi_auditor.py, http_auditor.py, reporter.py ও samples/ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": {
+            "en": "Build the Basic Version",
+            "bn": "প্রাথমিক (MVP) সংস্করণ তৈরি করুন"
+          },
+          "objective": {
+            "en": "Implement offline OpenAPI spec auditor catching missing auth definitions and cleartext `http://` server URLs.",
+            "bn": "অফলাইন OpenAPI অডিটর তৈরি করে অথেনটিকেশনবিহীন রুট ও HTTP URL শনাক্ত করুন।"
+          },
+          "details": [
+            {
+              "en": "Respect both top-level `security` and per-operation `security` overrides (`security: []`).",
+              "bn": "গ্লোবাল `security` এবং রুট-ভিত্তিক `security: []` ওভাররাইড দুটোই বিবেচনা করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": {
+            "en": "Add Main Features",
+            "bn": "মূল ফিচারগুলো যোগ করুন"
+          },
+          "objective": {
+            "en": "Add target-gated local HTTP header audit (CORS, Cache-Control, RateLimit headers), unauthenticated 401/403 check, and traceback redaction/detection.",
+            "bn": "লোকাল HTTP হেডার অডিট (CORS, রেট-লিমিট, Cache-Control), ৪0১/৪০৩ যাচাই ও স্ট্যাক-ট্রেস শনাক্তকরণ যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Disable cross-origin auto-redirects so header inspection evaluates the API endpoint directly.",
+              "bn": "হেডার পরিদর্শনে সরাসরি এন্ডপয়েন্টের উত্তর দেখতে অটো-রিডাইরেক্ট বন্ধ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": {
+            "en": "Handle Errors",
+            "bn": "ত্রুটি ও ব্যতিক্রম সামলান"
+          },
+          "objective": {
+            "en": "Handle connection failures, HTTP 4xx/5xx HTTPError bodies, malformed OpenAPI JSON, and giant response payloads.",
+            "bn": "কানেকশন ব্যর্থতা, 4xx/5xx এরর বডি ও বিশাল রেসপন্স পেলোড নিরাপদে সামলান।"
+          },
+          "details": [
+            {
+              "en": "Cap HTTP body reads (e.g., first 64 KB) and redact any test Authorization headers before writing reports.",
+              "bn": "HTTP বডি পড়া সীমিত (যেমন ৬৪ KB) রাখুন এবং রিপোর্টে টেস্ট টোকেন লিখে ফেলবেন না।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": {
+            "en": "Testing",
+            "bn": "টেস্টিং ও এজ কেস যাচাই করুন"
+          },
+          "objective": {
+            "en": "Run built-in 127.0.0.1 test servers returning insecure CORS, stack traces, and hardened headers.",
+            "bn": "127.0.0.1 লোকাল মক সার্ভারে অনিরাপদ CORS, স্ট্যাক ট্রেস ও সুরক্ষিত হেডার টেস্ট করুন।"
+          },
+          "details": [
+            {
+              "en": "Verify `target_policy.py` strictly blocks non-allowlisted external domains before sending any packet.",
+              "bn": "অননুমোদিত বাইরের ডোমেইন কোনো রিকোয়েস্ট পাঠানোর আগেই `target_policy` আটকায় কি না পরীক্ষা করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": {
+            "en": "Improve the Project",
+            "bn": "প্রজেক্টের মানোন্নয়ন করুন"
+          },
+          "objective": {
+            "en": "Add CI exit-code thresholds (fail build on High/Critical AppSec findings) and Markdown remediation summaries.",
+            "bn": "CI পাইপলাইন গেট হিসেবে High/Critical ফাইন্ডিংয়ে নন-জিরো এক্সিট কোড যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Compare OpenAPI documented endpoints vs observed localhost routes cleanly.",
+              "bn": "OpenAPI ডকুমেন্টের সাথে লোকাল সার্ভারের রুটের মিল-অমিল আলাদাভাবে দেখান।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": {
+            "en": "Finalize the Project",
+            "bn": "ডকুমেন্টেশন ও গিটহাব চূড়ান্ত করুন"
+          },
+          "objective": {
+            "en": "Document OWASP API mapping, authorized-only policy, and sample CI gate run in README.",
+            "bn": "OWASP API ম্যাপিং, অনুমোদিত ব্যবহার নীতি ও নমুনা CI গেট ফলাফল README-তে লিখুন।"
+          },
+          "details": [
+            {
+              "en": "Include a clean sample vulnerable vs hardened OpenAPI comparison in `samples/`.",
+              "bn": "`samples/`-এ দুর্বল বনাম সুরক্ষিত OpenAPI স্পেকের নমুনা যুক্ত রাখুন।"
+            }
+          ]
+        }
+      ],
+      "conceptMapping": [
+        {
+          "feature": {
+            "en": "Static OpenAPI auth & TLS linter",
+            "bn": "স্ট্যাটিক OpenAPI ও TLS লিন্টার"
+          },
+          "concept": {
+            "en": "Recursive JSON schema traversal",
+            "bn": "নেস্টেড JSON ডিকশনারি বিশ্লেষণ"
+          },
+          "moduleOrLibrary": "json",
+          "purpose": {
+            "en": "Spot routes lacking `security` definitions offline before deployment.",
+            "bn": "ডিপ্লয়মেন্টের আগেই অথেনটিকেশনহীন API রুট ধরা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Allowlist target enforcement",
+            "bn": "অনুমোদিত টার্গেট নিয়ন্ত্রণ"
+          },
+          "concept": {
+            "en": "URL parsing & host policy validation",
+            "bn": "URL পার্সিং ও হোস্ট নীতি যাচাই"
+          },
+          "moduleOrLibrary": "urllib.parse",
+          "purpose": {
+            "en": "Ensure dynamic probing runs exclusively on localhost or approved lab hosts.",
+            "bn": "কেবল লোকালহোস্ট বা অনুমোদিত ল্যাব হোস্টে পরীক্ষা সীমাবদ্ধ রাখা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "CORS, header & error leakage audit",
+            "bn": "CORS, হেডার ও এরর ফাঁস পরীক্ষা"
+          },
+          "concept": {
+            "en": "Non-destructive HTTP observation & regex matching",
+            "bn": "নিরাপদ HTTP পর্যবেক্ষণ ও রেজেক্স"
+          },
+          "moduleOrLibrary": "urllib.request, re",
+          "purpose": {
+            "en": "Catch origin reflection, missing security headers, and exposed tracebacks.",
+            "bn": "অনিরাপদ CORS ও স্ট্যাক-ট্রেস ফাঁস শনাক্ত করা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Offline reproducible local API fixtures",
+            "bn": "অফলাইন লোকাল API টেস্ট ফিক্সচার"
+          },
+          "concept": {
+            "en": "Ephemeral localhost HTTP server testing",
+            "bn": "অস্থায়ী লোকালহোস্ট HTTP সার্ভার টেস্টিং"
+          },
+          "moduleOrLibrary": "http.server",
+          "purpose": {
+            "en": "Verify every AppSec detector reliably offline.",
+            "bn": "বাইরের সার্ভার ছাড়াই প্রতিটি চেক অফলাইনে পরীক্ষা করা।"
+          }
+        }
+      ],
+      "commandReference": [
+        {
+          "command": "python -m src.cli audit-spec ./samples/sample_openapi.json",
+          "whenToUse": {
+            "en": "When auditing an OpenAPI JSON specification completely offline",
+            "bn": "সম্পূর্ণ অফলাইনে OpenAPI JSON স্পেসিফিকেশন অডিট করতে"
+          },
+          "whyUsed": {
+            "en": "Finds unauthenticated endpoints and cleartext URLs with zero network traffic.",
+            "bn": "কোনো নেটওয়ার্ক কল ছাড়াই স্পেক-স্তরের নিরাপত্তা ত্রুটি খুঁজতে।"
+          }
+        },
+        {
+          "command": "python -m src.cli audit-local http://127.0.0.1:8000 --spec ./samples/sample_openapi.json",
+          "whenToUse": {
+            "en": "When checking a locally running test API against baseline security headers and CORS",
+            "bn": "লোকালি চলা টেস্ট API-তে সিকিউরিটি হেডার ও CORS পরীক্ষা করতে"
+          },
+          "whyUsed": {
+            "en": "Validates localhost target policy first, then performs safe read-only GET/OPTIONS checks.",
+            "bn": "লোকালহোস্ট নীতি যাচাই করে নিরাপদ GET/OPTIONS অডিট চালাতে।"
+          }
+        },
+        {
+          "command": "python -m unittest discover -s tests",
+          "whenToUse": {
+            "en": "To run built-in localhost server AppSec tests offline",
+            "bn": "লোকালহোস্ট মক সার্ভারসহ AppSec টেস্ট চালাতে"
+          },
+          "whyUsed": {
+            "en": "Confirms detectors catch both CORS/traceback flaws and hardened responses cleanly.",
+            "bn": "দুর্বল ও সুরক্ষিত উভয় API রেসপন্সে ডিটেক্টরের নির্ভুলতা যাচাই করতে।"
+          }
+        }
+      ]
+    },
+    {
+      "projectId": "PRJ-19",
+      "coreConcepts": [
+        {
+          "name": {
+            "en": "Pattern-Aware Entropy Estimation",
+            "bn": "প্যাটার্ন-সচেতন এনট্রপি নির্ণয়"
+          },
+          "explanation": {
+            "en": "Detect keyboard walks, years, repeats, and l33tspeak words before estimating effective bits with math.log2 so predictable passwords aren't overrated.",
+            "bn": "math.log2 হিসাবের আগে কিবোর্ড ওয়াক, সাল, পুনরাবৃত্তি ও লিটস্পিক শব্দ শনাক্ত করে কার্যকর এনট্রপি কমানো।"
+          },
+          "pylogicPart": 7
+        },
+        {
+          "name": {
+            "en": "Modular Crypt Format (KDF) Metadata Auditing",
+            "bn": "KDF ও হ্যাশ-ফরম্যাট মেটাডেটা অডিটিং"
+          },
+          "explanation": {
+            "en": "Inspect encoded hash strings ($argon2id$, $2b$, pbkdf2, raw hex) for salt presence and work factor adequacy without ever cracking passwords.",
+            "bn": "কোনো ক্র্যাকিং ছাড়াই হ্যাশ স্ট্রিংয়ের ফরম্যাট ($argon2id$, $2b$, pbkdf2 বা MD5) থেকে সল্ট ও কস্ট ফ্যাক্টর অডিট করা।"
+          },
+          "pylogicPart": 19
+        },
+        {
+          "name": {
+            "en": "NIST SP 800-63B Authentication Policy Review",
+            "bn": "NIST SP 800-63B অথেনটিকেশন নীতি পর্যালোচনা"
+          },
+          "explanation": {
+            "en": "Score application auth JSON configs for MFA enforcement, rate limiting, lockout availability risks, and session TTL hygiene.",
+            "bn": "MFA, রেট-লিমিট, নিরাপদ লকআউট ও সেশন মেয়াদ যাচাই করে অথেনটিকেশন কনফিগ স্কোর করা।"
+          },
+          "pylogicPart": 3
+        },
+        {
+          "name": {
+            "en": "Zero-Secret-Leakage Logging Hygiene",
+            "bn": "জিরো-সিক্রেট লিকেজ ও মাস্কিং নিরাপত্তা"
+          },
+          "explanation": {
+            "en": "Use getpass for terminal entry and guarantee saved JSON/Markdown posture reports never persist raw candidate passwords.",
+            "bn": "টার্মিনালে getpass ব্যবহার ও সংরক্ষিত রিপোর্টে কখনোই আসল পাসওয়ার্ড স্ট্রিং না রাখার নিয়ম নিশ্চিত করা।"
+          },
+          "pylogicPart": 14
+        }
+      ],
+      "standardLibrary": [
+        {
+          "name": "math",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Computes `log2` character-pool entropy and penalized effective bit estimates.",
+            "bn": "`log2` দিয়ে ক্যারেক্টার-স্পেস ও প্যাটার্ন-সমন্বিত কার্যকর এনট্রপি হিসাব করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Demonstrates mathematically why length beats naive symbol complexity on predictable strings.",
+            "bn": "প্যাটার্ন থাকলে ছোট জটিল পাসওয়ার্ডের চেয়ে দীর্ঘ পাসফ্রেজ কেন শক্তিশালী তা গাণিতিকভাবে দেখায়।"
+          },
+          "whereUsed": {
+            "en": "entropy_estimator.py.",
+            "bn": "entropy_estimator.py-তে।"
+          }
+        },
+        {
+          "name": "re",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Matches date/year patterns, repeated runs, and Modular Crypt Format ($id$params$...) fields.",
+            "bn": "তারিখ/সাল, পুনরাবৃত্ত অক্ষর ও Modular Crypt Format হ্যাশ প্যারামিটার পার্স করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Extracts bcrypt cost and Argon2 memory/time parameters cleanly from format strings.",
+            "bn": "bcrypt কস্ট ও Argon2 মেমোরি/সময় প্যারামিটার সঠিকভাবে বের করে।"
+          },
+          "whereUsed": {
+            "en": "pattern_detector.py and hash_format_auditor.py.",
+            "bn": "pattern_detector.py ও hash_format_auditor.py-তে।"
+          }
+        },
+        {
+          "name": "hashlib",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Provides `pbkdf2_hmac` in unit tests to generate safe synthetic KDF samples for policy validation.",
+            "bn": "ইউনিট টেস্টে নিরাপদ সিন্থেটিক PBKDF2 নমুনা তৈরি ও যাচাইয়ে ব্যবহৃত হয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Helps learners compare fast unsalted hashes vs slow salted KDF behavior safely.",
+            "bn": "দ্রুত অ-সল্টেড হ্যাশ বনাম ধীর সল্টেড KDF-এর পার্থক্য বোঝাতে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "KDF educational comparator and tests.",
+            "bn": "KDF তুলনামূলক ডেমো ও টেস্টে।"
+          }
+        },
+        {
+          "name": "hmac",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Demonstrates constant-time `hmac.compare_digest` verification concepts in auth policy checks.",
+            "bn": "অথেনটিকেশন যাচাইয়ে কনস্ট্যান্ট-টাইম `hmac.compare_digest` ধারণা প্রদর্শন করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Teaches timing-attack resistance alongside storage cryptography hygiene.",
+            "bn": "স্টোরেজ নিরাপত্তার পাশাপাশি টাইমিং-অ্যাটাক প্রতিরোধের ধারণা শেখায়।"
+          },
+          "whereUsed": {
+            "en": "policy_auditor.py recommendations.",
+            "bn": "policy_auditor.py পরামর্শ অংশে।"
+          }
+        },
+        {
+          "name": "getpass",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Reads interactive candidate strings without echoing secrets to terminal history.",
+            "bn": "টার্মিনালে অক্ষর না দেখিয়েই নিরাপদভাবে ইনপুট নেয়।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Prevents shoulder-surfing or shell history capture during interactive checks.",
+            "bn": "শেল হিস্ট্রিতে পরীক্ষামূলক পাসওয়ার্ড জমা হওয়া ঠেকায়।"
+          },
+          "whereUsed": {
+            "en": "cli.py interactive prompt.",
+            "bn": "cli.py ইন্টার‍্যাক্টিভ মোডে।"
+          }
+        },
+        {
+          "name": "json",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Loads auth configuration JSON files and exports redacted risk posture reports.",
+            "bn": "অথ কনফিগ JSON লোড করে এবং গোপন তথ্য বাদ দিয়ে ঝুঁকি রিপোর্ট রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Ensures reproducible auth posture scorecards.",
+            "bn": "ধারাবাহিক ও পরিমাপযোগ্য অথেনটিকেশন স্কোরকার্ড তৈরি করে।"
+          },
+          "whereUsed": {
+            "en": "policy_auditor.py and cli.py.",
+            "bn": "policy_auditor.py ও cli.py-তে।"
+          }
+        }
+      ],
+      "externalLibraries": [
+        {
+          "name": "argon2-cffi",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install argon2-cffi",
+          "whatItDoes": {
+            "en": "Optional reference implementation demonstrating recommended Argon2id memory-hard parameters.",
+            "bn": "প্রস্তাবিত মেমোরি-হার্ড Argon2id প্যারামিটার ডেমো দেখানোর ঐচ্ছিক লাইব্রেরি।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Lets learners benchmark recommended memory/time cost settings in synthetic demos.",
+            "bn": "সিন্থেটিক ডেমোতে Argon2id মেমোরি/টাইম কস্ট বাস্তবে পরীক্ষা করতে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "Optional KDF parameter benchmark helper.",
+            "bn": "ঐচ্ছিক KDF বেঞ্চমার্ক হেল্পারে।"
+          }
+        },
+        {
+          "name": "zxcvbn",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install zxcvbn",
+          "whatItDoes": {
+            "en": "Optional industry-standard pattern estimator to benchmark your own Python detector against.",
+            "bn": "নিজের তৈরি প্যাটার্ন ডিটেক্টরের ফলাফল তুলনা করার ঐচ্ছিক ইন্ডাস্ট্রি-স্ট্যান্ডার্ড লাইব্রেরি।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Build your own pattern detector first, then compare accuracy cleanly.",
+            "bn": "আগে নিজের অ্যালগরিদম বানিয়ে তারপর নির্ভুলতা যাচাই করতে দারুণ।"
+          },
+          "whereUsed": {
+            "en": "Optional benchmark comparison.",
+            "bn": "ঐচ্ছিক তুলনামূলক বেঞ্চমার্কে।"
+          }
+        },
+        {
+          "name": "pytest",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pytest",
+          "whatItDoes": {
+            "en": "Tests l33t penalties, keyboard walks, hash format recognition, and zero-secret redaction.",
+            "bn": "লিটস্পিক পেনাল্টি, কিবোর্ড ওয়াক, হ্যাশ ফরম্যাট চেনা এবং গোপন তথ্য মাস্কিং টেস্ট করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Guarantees no saved report accidentally echoes raw test passwords.",
+            "bn": "সংরক্ষিত রিপোর্টে কোনো আসল পাসওয়ার্ড ফাঁস না হওয়া নিশ্চিত করে।"
+          },
+          "whereUsed": {
+            "en": "tests/ test suite.",
+            "bn": "tests/ ডিরেক্টরিতে।"
+          }
+        }
+      ],
+      "skillPrerequisites": {
+        "difficulty": "Advanced",
+        "requiredPythonKnowledge": [
+          {
+            "en": "String normalization, span tracking without double-counting overlaps, and math.log2",
+            "bn": "স্ট্রিং নরমালাইজেশন, ওভারল্যাপ ছাড়া স্প্যান গণনা ও math.log2"
+          },
+          {
+            "en": "Regex parsing and strict secret redaction before output",
+            "bn": "রেজেক্স পার্সিং ও আউটপুটের আগে কঠোর গোপন তথ্য বাদ দেওয়া"
+          }
+        ],
+        "requiredProgrammingConcepts": [
+          {
+            "en": "Fast hashes (MD5/SHA-256) vs memory-hard salted KDFs (Argon2id/bcrypt/PBKDF2)",
+            "bn": "দ্রুত হ্যাশ বনাম মেমোরি-হার্ড সল্টেড KDF-এর পার্থক্য"
+          },
+          {
+            "en": "Strict defensive boundary: never build hash crackers or store leaked credential dumps",
+            "bn": "কঠোর প্রতিরক্ষামূলক সীমা: কোনো হ্যাশ-ক্র্যাকিং বা লিকড পাসওয়ার্ড ডেটাবেজ নয়"
+          }
+        ],
+        "recommendedPreviousKnowledge": [
+          {
+            "en": "String pattern parsing from Part 07 and security foundations from PRJ-14",
+            "bn": "পার্ট ০৭-এর স্ট্রিং বিশ্লেষণ ও PRJ-14-এর সিকিউরিটি অভিজ্ঞতা"
+          }
+        ],
+        "studyBeforeStarting": [
+          {
+            "concept": {
+              "en": "String Normalization & Span Matching",
+              "bn": "স্ট্রিং নরমালাইজেশন ও প্যাটার্ন ম্যাচিং"
+            },
+            "shortExplanation": {
+              "en": "Practice mapping l33t substitutions and sequential character checks cleanly.",
+              "bn": "লিটস্পিক রূপান্তর ও ক্রমিক অক্ষর/সংখ্যা শনাক্তকরণ অনুশীলন করুন।"
+            },
+            "pylogicPart": 7,
+            "partLabel": {
+              "en": "Part 07 · String Manipulation & Analysis",
+              "bn": "পার্ট ০৭ · স্ট্রিং ম্যানিপুলেশন ও বিশ্লেষণ"
+            }
+          },
+          {
+            "concept": {
+              "en": "Hashing, Salts & KDF Hygiene",
+              "bn": "হ্যাশিং, সল্ট ও KDF নিরাপত্তা"
+            },
+            "shortExplanation": {
+              "en": "Understand why salted slow KDFs defend stored passwords against offline cracking.",
+              "bn": "অফলাইন আক্রমণ ঠেকাতে কেন সল্টসহ ধীরগতির KDF জরুরি তা অনুশীলন করুন।"
+            },
+            "pylogicPart": 19,
+            "partLabel": {
+              "en": "Part 19 · Cyber Security Programming",
+              "bn": "পার্ট ১৯ · সাইবার সিকিউরিটি প্রোগ্রামিং"
+            }
+          }
+        ]
+      },
+      "buildRoadmap": [
+        {
+          "stepNumber": 1,
+          "title": {
+            "en": "Understand the Story",
+            "bn": "গল্প ও মূল সমস্যা বুঝুন"
+          },
+          "objective": {
+            "en": "See why legacy symbol-count rules misled users into weak 'P@ssw0rd2024!' secrets while old configs lacked KDF/MFA hygiene.",
+            "bn": "পুরনো জটিল নিয়ম কীভাবে দুর্বল পাসওয়ার্ড তৈরি করছিল এবং KDF/MFA অডিট কেন প্রয়োজন তা বোঝা।"
+          },
+          "details": [
+            {
+              "en": "Expected outcome: a three-layer defensive analyzer covering pattern entropy, KDF metadata, and NIST auth policy JSONs.",
+              "bn": "প্রত্যাশিত ফলাফল: প্যাটার্ন এনট্রপি, KDF মেটাডেটা ও NIST অথ পলিসি যাচাইকারী প্রতিরক্ষামূলক টুল।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 2,
+          "title": {
+            "en": "Analyze Requirements",
+            "bn": "প্রয়োজনীয়তা বিশ্লেষণ করুন"
+          },
+          "objective": {
+            "en": "Define all pattern penalties, hash format rules, auth policy checks, and zero-plaintext-persistence constraints.",
+            "bn": "প্যাটার্ন পেনাল্টি, হ্যাশ ফরম্যাট নিয়ম, অথ পলিসি চেক এবং প্লেইনটেক্সট না রাখার শর্ত ঠিক করা।"
+          },
+          "details": [
+            {
+              "en": "Ensure hash auditing examines format/cost parameters only—never attempting preimage recovery.",
+              "bn": "হ্যাশ অডিটর কেবল ফরম্যাট ও প্যারামিটার দেখবে—কখনোই পাসওয়ার্ড ডিক্রিপ্ট/ক্র্যাক করবে না।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": {
+            "en": "Plan the Logic",
+            "bn": "যুক্তি ও অ্যালগরিদম পরিকল্পনা করুন"
+          },
+          "objective": {
+            "en": "Design span-merging pattern detection and Modular Crypt Format parsing.",
+            "bn": "ওভারল্যাপমুক্ত প্যাটার্ন স্প্যান শনাক্তকরণ ও Modular Crypt Format পার্সিং ডিজাইন।"
+          },
+          "details": [
+            {
+              "en": "Flow: Scan l33t/keyboard/date/repeat spans -> Merge overlapping spans -> Penalize effective bits -> Mask secret before output.",
+              "bn": "প্রবাহ: প্যাটার্ন স্প্যান খোঁজা -> ওভারল্যাপ মেলানো -> কার্যকর বিট নির্ণয় -> আউটপুটে গোপন অংশ মাস্ক।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": {
+            "en": "Plan the File Structure",
+            "bn": "ফোল্ডার কাঠামো সাজান"
+          },
+          "objective": {
+            "en": "Decouple pattern detector, entropy math, hash format auditor, and policy auditor.",
+            "bn": "প্যাটার্ন ডিটেক্টর, এনট্রপি গণনা, হ্যাশ অডিটর ও পলিসি অডিটর আলাদা রাখা।"
+          },
+          "details": [
+            {
+              "en": "Use src/pattern_detector.py, src/entropy_estimator.py, src/hash_format_auditor.py, and src/policy_auditor.py.",
+              "bn": "src/-এ pattern_detector.py, entropy_estimator.py, hash_format_auditor.py ও policy_auditor.py রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": {
+            "en": "Build the Basic Version",
+            "bn": "প্রাথমিক (MVP) সংস্করণ তৈরি করুন"
+          },
+          "objective": {
+            "en": "Implement naive vs pattern-penalized entropy estimator catching repeats, sequences, and years.",
+            "bn": "পুনরাবৃত্তি, ক্রমিক ধারা ও সাল শনাক্তকারী প্যাটার্ন-সচেতন এনট্রপি হিসাব তৈরি করুন।"
+          },
+          "details": [
+            {
+              "en": "Verify `qwertyuiop` and `Summer2024!` drop sharply below random multi-word passphrases.",
+              "bn": "`qwertyuiop` ও `Summer2024!`-এর কার্যকর স্কোর র‍্যান্ডম পাসফ্রেজের চেয়ে কম আসে কি না দেখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": {
+            "en": "Add Main Features",
+            "bn": "মূল ফিচারগুলো যোগ করুন"
+          },
+          "objective": {
+            "en": "Add l33t normalization, KDF Modular Crypt Format auditor, and NIST SP 800-63B auth config scorer.",
+            "bn": "লিটস্পিক নরমালাইজেশন, KDF হ্যাশ অডিটর ও NIST SP 800-63B পলিসি স্কোরার যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Flag 32-hex strings honestly as ambiguous weak fast hash (e.g. MD5/NTLM candidate) rather than guessing blindly.",
+              "bn": "৩২-হেক্স স্ট্রিংকে একতরফা দাবি না করে সম্ভাব্য দুর্বল ফাস্ট হ্যাশ (MD5/NTLM) হিসেবে স্পষ্টভাবে চিহ্নিত করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": {
+            "en": "Handle Errors",
+            "bn": "ত্রুটি ও ব্যতিক্রম সামলান"
+          },
+          "objective": {
+            "en": "Handle empty inputs, Unicode passphrases, malformed crypt strings, and missing policy keys safely.",
+            "bn": "খালি ইনপুট, ইউনিকোড পাসফ্রেজ, ভুল হ্যাশ ফরম্যাট ও অনুপস্থিত পলিসি কী নিরাপদে সামলান।"
+          },
+          "details": [
+            {
+              "en": "Ensure exceptions or stack traces never echo the evaluated candidate string.",
+              "bn": "যেকোনো এরর মেসেজে পরীক্ষিত পাসওয়ার্ড স্ট্রিং যেন কখনোই প্রিন্ট না হয় তা নিশ্চিত করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": {
+            "en": "Testing",
+            "bn": "টেস্টিং ও এজ কেস যাচাই করুন"
+          },
+          "objective": {
+            "en": "Test overlapping patterns, weak MD5 vs strong Argon2id parameters, and report secret-redaction guarantees.",
+            "bn": "ওভারল্যাপিং প্যাটার্ন, MD5 বনাম Argon2id প্যারামিটার এবং রিপোর্টে গোপন তথ্য না থাকা পরীক্ষা করুন।"
+          },
+          "details": [
+            {
+              "en": "Edge cases: `'P@ssw0rd123!'`, ambiguous 32-char hex, permanent lockout anti-pattern in auth JSON.",
+              "bn": "এজ কেস: `'P@ssw0rd123!'`, ৩২-হেক্স অস্পষ্টতা এবং স্থায়ী লকআউট অ্যান্টি-প্যাটার্ন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": {
+            "en": "Improve the Project",
+            "bn": "প্রজেক্টের মানোন্নয়ন করুন"
+          },
+          "objective": {
+            "en": "Add spatial QWERTY row/diagonal walk detection and constructive user feedback.",
+            "bn": "কিবোর্ড রো/ডায়াগোনাল ওয়াক শনাক্তকরণ ও ব্যবহারবান্ধব উন্নয়ন পরামর্শ যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Never prescribe a fixed replacement password—explain structural improvements (length + randomness).",
+              "bn": "নির্দিষ্ট পাসওয়ার্ড বলে না দিয়ে কীভাবে গঠন উন্নত করতে হয় (দৈর্ঘ্য + র‍্যান্ডমনেস) তা বোঝান।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": {
+            "en": "Finalize the Project",
+            "bn": "ডকুমেন্টেশন ও গিটহাব চূড়ান্ত করুন"
+          },
+          "objective": {
+            "en": "Publish defensive scope statement, entropy comparison chart/examples, and sanitized sample report in README.",
+            "bn": "প্রতিরক্ষামূলক নীতি, এনট্রপি তুলনা ও স্যানিটাইজড নমুনা রিপোর্ট README-তে সাজান।"
+          },
+          "details": [
+            {
+              "en": "Double-check sample fixtures contain zero real credentials or leaked dumps.",
+              "bn": "নমুনা ফিক্সচারে কোনো আসল পাসওয়ার্ড বা লিকড ডেটাসেট না থাকার বিষয়টি নিশ্চিত করুন।"
+            }
+          ]
+        }
+      ],
+      "conceptMapping": [
+        {
+          "feature": {
+            "en": "Naive vs pattern-penalized entropy math",
+            "bn": "সাধারণ বনাম প্যাটার্ন-সমন্বিত এনট্রপি"
+          },
+          "concept": {
+            "en": "Logarithmic information bits & penalty spans",
+            "bn": "লগারিদমিক বিট ও স্প্যান পেনাল্টি"
+          },
+          "moduleOrLibrary": "math, re",
+          "purpose": {
+            "en": "Expose why predictable substitutions remain weak despite symbols.",
+            "bn": "চিহ্ন থাকা সত্ত্বেও অনুমানযোগ্য প্যাটার্ন কেন দুর্বল তা দেখানো।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Hash & KDF format metadata auditor",
+            "bn": "হ্যাশ ও KDF ফরম্যাট অডিটর"
+          },
+          "concept": {
+            "en": "Modular Crypt Format string parsing",
+            "bn": "হ্যাশ ফরম্যাট প্যারামিটার বিশ্লেষণ"
+          },
+          "moduleOrLibrary": "re, hashlib",
+          "purpose": {
+            "en": "Audit salt presence and cost parameters without cracking anything.",
+            "bn": "কোনো ক্র্যাকিং ছাড়াই সল্ট ও কস্ট ফ্যাক্টর যাচাই করা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "NIST SP 800-63B auth policy review",
+            "bn": "NIST SP 800-63B অথ পলিসি অডিট"
+          },
+          "concept": {
+            "en": "Rule evaluation & timing-safe comparison guidance",
+            "bn": "নীতি মূল্যায়ন ও কনস্ট্যান্ট-টাইম যাচাই"
+          },
+          "moduleOrLibrary": "json, hmac",
+          "purpose": {
+            "en": "Detect missing MFA, missing rate-limits, and unsafe session TTLs.",
+            "bn": "MFA, রেট-লিমিট ও সেশন মেয়াদের ঘাটতি শনাক্ত করা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Zero-leakage terminal input",
+            "bn": "গোপনীয়তা-সুরক্ষিত টার্মিনাল ইনপুট"
+          },
+          "concept": {
+            "en": "Non-echoing secret entry",
+            "bn": "গোপন ইনপুট প্রদর্শন না করা"
+          },
+          "moduleOrLibrary": "getpass",
+          "purpose": {
+            "en": "Prevent shell history or screen capture exposure during checks.",
+            "bn": "পরীক্ষার সময় শেল হিস্ট্রি বা স্ক্রিনে ইনপুট প্রকাশ ঠেকানো।"
+          }
+        }
+      ],
+      "commandReference": [
+        {
+          "command": "python -m src.cli check-interactive",
+          "whenToUse": {
+            "en": "When evaluating a synthetic passphrase safely without saving it to shell history",
+            "bn": "শেল হিস্ট্রিতে না রেখে নিরাপদভাবে পরীক্ষামূলক পাসফ্রেজ যাচাই করতে"
+          },
+          "whyUsed": {
+            "en": "Uses getpass and prints pattern diagnostics without logging the string.",
+            "bn": "গোপন স্ট্রিং লগ না করেই getpass দিয়ে প্যাটার্ন বিশ্লেষণ দেখাতে।"
+          }
+        },
+        {
+          "command": "python -m src.cli audit-policy ./data/sample_auth_policies.json",
+          "whenToUse": {
+            "en": "When scoring an app's authentication & KDF configuration JSON",
+            "bn": "অ্যাপ্লিকেশনের অথেনটিকেশন ও KDF কনফিগ JSON স্কোর করতে"
+          },
+          "whyUsed": {
+            "en": "Evaluates MFA, rate-limiting, KDF parameters, and session policies against NIST guidance.",
+            "bn": "NIST নির্দেশনা অনুযায়ী MFA, রেট-লিমিট ও KDF প্যারামিটার যাচাই করতে।"
+          }
+        },
+        {
+          "command": "python -m unittest discover -s tests",
+          "whenToUse": {
+            "en": "To verify pattern penalties, KDF format recognition, and redaction safety",
+            "bn": "প্যাটার্ন পেনাল্টি, KDF ফরম্যাট ও গোপনীয়তা সুরক্ষা টেস্ট করতে"
+          },
+          "whyUsed": {
+            "en": "Proves saved reports contain zero plaintext candidates.",
+            "bn": "সংরক্ষিত রিপোর্টে কোনো প্লেইনটেক্সট পাসওয়ার্ড না থাকার নিশ্চয়তা দেয়।"
+          }
+        }
+      ]
+    },
+    {
+      "projectId": "PRJ-20",
+      "coreConcepts": [
+        {
+          "name": {
+            "en": "Tuple-Based Semantic Version & Range Matching",
+            "bn": "সিম্যান্টিক ভার্সন ও রেঞ্জ ম্যাচিং"
+          },
+          "explanation": {
+            "en": "Parse version strings into numeric integer tuples plus prerelease ordering so '2.10.0' > '2.9.5' compares accurately against offline advisories.",
+            "bn": "সাধারণ স্ট্রিং তুলনার ভুল এড়িয়ে '2.10.0' > '2.9.5' ও প্রি-রিলিজ ট্যাগ সঠিকভাবে তুলনা করে অফলাইন অ্যাডভাইজরি মেলানো।"
+          },
+          "pylogicPart": 12
+        },
+        {
+          "name": {
+            "en": "Idempotent Finding Fingerprinting & Deduplication",
+            "bn": "স্থির ফাইন্ডিং ফিঙ্গারপ্রিন্টিং ও ডিডুপ্লিকেশন"
+          },
+          "explanation": {
+            "en": "Compute deterministic SHA-256 fingerprints over canonical (asset_id, component, vuln_id) so repeated imports update last_seen without duplicating rows.",
+            "bn": "পুনঃ-ইম্পোর্টে ডুপ্লিকেট তৈরি না করে `last_seen` ও অটো-রিজলভ হালনাগাদ করতে স্থির SHA-256 ফিঙ্গারপ্রিন্ট ব্যবহার করা।"
+          },
+          "pylogicPart": 17
+        },
+        {
+          "name": {
+            "en": "Contextual Risk-Based Prioritization (RBVM)",
+            "bn": "প্রাসঙ্গিক ঝুঁকি নির্ণয় ও অগ্রাধিকার মডেল"
+          },
+          "explanation": {
+            "en": "Combine Base CVSS, Internet Exposure, Asset Tier Criticality, and KEV flags into an explainable score with JSON factor breakdown.",
+            "bn": "CVSS, ইন্টারনেট এক্সপোজার, অ্যাসেটের গুরুত্ব ও KEV ফ্ল্যাগ মিলিয়ে ব্যাখ্যাযোগ্য প্রাসঙ্গিক ঝুঁকি স্কোর গণনা করা।"
+          },
+          "pylogicPart": 20
+        },
+        {
+          "name": {
+            "en": "SLA Governance & Time-Bound Risk Waivers",
+            "bn": "SLA পরিচালনা ও মেয়াদযুক্ত ঝুঁকি-ছাড়"
+          },
+          "explanation": {
+            "en": "Track Open -> In Remediation -> Risk Accepted -> Resolved states, detect overdue patch SLAs, and automatically resurface expired waivers.",
+            "bn": "প্যাচ SLA-এর সময়সীমা ট্র্যাক করা ও মেয়াদ ফুরানো রিস্ক-অ্যাক্সেপ্ট্যান্স স্বয়ংক্রিয়ভাবে আবার সক্রিয় করা।"
+          },
+          "pylogicPart": 15
+        }
+      ],
+      "standardLibrary": [
+        {
+          "name": "sqlite3",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Persists assets, normalized findings, advisories, audit history, and time-bound risk waivers with unique fingerprint keys.",
+            "bn": "অ্যাসেট, ডিডুপ্লিকেটেড ফাইন্ডিং, অ্যাডভাইজরি, অডিট ইতিহাস ও ঝুঁকি-ছাড় ইউনিক ফিঙ্গারপ্রিন্টসহ সংরক্ষণ করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Supports idempotent upserts, relational joins, and fast indexed backlog queries by owning team.",
+            "bn": "আইডেমপোটেন্ট আপসার্ট ও টিমভিত্তিক দ্রুত ব্যাকলগ কোয়েরি চালাতে অপরিহার্য।"
+          },
+          "whereUsed": {
+            "en": "store.py.",
+            "bn": "store.py-তে।"
+          }
+        },
+        {
+          "name": "json",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Ingests asset inventories, package manifests, offline advisories, risk-policy weights, and exports remediation roadmaps.",
+            "bn": "অ্যাসেট ইনভেন্টরি, প্যাকেজ ম্যানিফেস্ট, অফলাইন অ্যাডভাইজরি ও পলিসি ওয়েট লোড এবং রোডম্যাপ রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Enables seamless ingestion adapters from PRJ-16 and PRJ-18 audit JSON outputs.",
+            "bn": "PRJ-16 ও PRJ-18-এর JSON আউটপুট সরাসরি একীভূত করতে সাহায্য করে।"
+          },
+          "whereUsed": {
+            "en": "advisory_matcher.py, risk_engine.py, and roadmap_reporter.py.",
+            "bn": "advisory_matcher.py, risk_engine.py ও roadmap_reporter.py-তে।"
+          }
+        },
+        {
+          "name": "csv",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Exports prioritized per-team patching roadmaps and SLA status tables for engineering leads.",
+            "bn": "টিম লিডদের জন্য অগ্রাধিকারভিত্তিক প্যাচ রোডম্যাপ ও SLA টেবিল CSV-তে রপ্তানি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Makes importing prioritized vulnerability sprints into ticketing trackers effortless.",
+            "bn": "স্প্রিন্ট ব্যাকলগ ও টিকেটিং সিস্টেমে সহজেই কাজ নেওয়া যায়।"
+          },
+          "whereUsed": {
+            "en": "roadmap_reporter.py.",
+            "bn": "roadmap_reporter.py-তে।"
+          }
+        },
+        {
+          "name": "hashlib",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Computes deterministic SHA-256 finding fingerprints across canonical `(asset_id, component, vuln_id)` tuples.",
+            "bn": "ডিডুপ্লিকেশনের জন্য `(asset_id, component, vuln_id)`-এর স্থির SHA-256 ফিঙ্গারপ্রিন্ট তৈরি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Prevents duplicate rows when re-scanning unchanged assets or merging multiple scanner feeds.",
+            "bn": "একই অ্যাসেট বারবার স্ক্যান করলে বা একাধিক স্ক্যানারের রিপোর্ট মেলালে ডুপ্লিকেট ঠেকায়।"
+          },
+          "whereUsed": {
+            "en": "store.py ingestion deduplicator.",
+            "bn": "store.py ইনজেশন ডিডুপ্লিকেটরে।"
+          }
+        },
+        {
+          "name": "datetime",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Preserves `first_seen` vs `last_seen`, evaluates patch SLA deadlines, and detects expired risk-acceptance waivers.",
+            "bn": "`first_seen`/`last_seen` রক্ষা করে, SLA মেয়াদ যাচাই ও মেয়াদোত্তীর্ণ ওয়েভার শনাক্ত করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Ensures daily scans never reset an older finding's original SLA countdown.",
+            "bn": "প্রতিদিনের স্ক্যানে পুরনো দুর্বলতার আসল SLA ঘড়ি রিসেট না হওয়া নিশ্চিত করে।"
+          },
+          "whereUsed": {
+            "en": "store.py and risk_engine.py.",
+            "bn": "store.py ও risk_engine.py-তে।"
+          }
+        },
+        {
+          "name": "re",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Parses bounded version constraints (`>=1.2.0,<2.0.0`) and prerelease suffixes safely without ReDoS.",
+            "bn": "ReDoS ঝুঁকি এড়িয়ে নিরাপদে ভার্সন শর্ত (`>=1.2.0,<2.0.0`) ও প্রি-রিলিজ ট্যাগ পার্স করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Accurate offline vulnerability matching across diverse package constraints.",
+            "bn": "বিভিন্ন প্যাকেজ ভার্সন শর্তের সাথে অফলাইন অ্যাডভাইজরি নির্ভুলভাবে মেলাতে।"
+          },
+          "whereUsed": {
+            "en": "semver.py.",
+            "bn": "semver.py-তে।"
+          }
+        },
+        {
+          "name": "statistics",
+          "tier": "Recommended",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Summarizes mean/median risk reduction and team SLA metrics for executive posture reports.",
+            "bn": "টিমভিত্তিক গড়/মিডিয়ান ঝুঁকি হ্রাস ও SLA পরিসংখ্যান তৈরি করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Quantifies how many critical risks one targeted dependency upgrade eliminates.",
+            "bn": "একটি প্যাকেজ আপডেটে মোট কতটা ঝুঁকি কমে তা সংখ্যাগতভাবে দেখাতে।"
+          },
+          "whereUsed": {
+            "en": "roadmap_reporter.py analytics.",
+            "bn": "roadmap_reporter.py অ্যানালিটিক্সে।"
+          }
+        },
+        {
+          "name": "argparse",
+          "tier": "Required",
+          "isBuiltin": true,
+          "whatItDoes": {
+            "en": "Exposes `ingest`, `prioritize`, `waive`, `check-sla`, and `export-roadmap` subcommands.",
+            "bn": "`ingest`, `prioritize`, `waive`, `check-sla` ও `export-roadmap` সাবকমান্ড পরিচালনা করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Drives the full RBVM lifecycle cleanly from a single capstone CLI.",
+            "bn": "একটি ক্যাপস্টোন CLI থেকেই সম্পূর্ণ RBVM লাইফসাইকেল পরিচালনা করে।"
+          },
+          "whereUsed": {
+            "en": "cli.py.",
+            "bn": "cli.py-তে।"
+          }
+        }
+      ],
+      "externalLibraries": [
+        {
+          "name": "packaging",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install packaging",
+          "whatItDoes": {
+            "en": "Optional PEP 440 / SpecifierSet cross-check library to validate your custom tuple semver parser.",
+            "bn": "নিজের তৈরি সিমভার পার্সারের সাথে তুলনা করার জন্য ঐচ্ছিক PEP 440 স্পেসিফায়ার লাইব্রেরি।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Implement your own tuple-based semver parser first for core logic mastery.",
+            "bn": "মূল লজিক দক্ষতার জন্য আগে নিজের টাপল-ভিত্তিক পার্সার তৈরি করে এটিকে যাচাইয়ে ব্যবহার করুন।"
+          },
+          "whereUsed": {
+            "en": "Optional semver reference validator.",
+            "bn": "ঐচ্ছিক সিমভার তুলনামূলক অংশে।"
+          }
+        },
+        {
+          "name": "fastapi",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install fastapi uvicorn",
+          "whatItDoes": {
+            "en": "Optional REST API layer serving prioritized risk backlogs, team roadmaps, and SLA dashboards.",
+            "bn": "অগ্রাধিকারভিত্তিক ব্যাকলগ, রোডম্যাপ ও SLA ড্যাশবোর্ডের জন্য ঐচ্ছিক REST API স্তর।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Turns the CLI capstone into a team-ready web API platform after core RBVM tests pass.",
+            "bn": "মূল RBVM টেস্ট পাস করার পর প্রজেক্টটিকে পূর্ণাঙ্গ প্ল্যাটফর্ম API-তে উন্নীত করতে।"
+          },
+          "whereUsed": {
+            "en": "Optional api_server.py.",
+            "bn": "ঐচ্ছিক api_server.py-তে।"
+          }
+        },
+        {
+          "name": "pytest",
+          "tier": "Optional",
+          "isBuiltin": false,
+          "pipCommand": "pip install pytest",
+          "whatItDoes": {
+            "en": "Runs end-to-end capstone tests for semver ranges, contextual scoring, idempotent scans, and waiver expiry.",
+            "bn": "সিমভার রেঞ্জ, প্রাসঙ্গিক স্কোরিং, আইডেমপোটেন্ট স্ক্যান ও ওয়েভার মেয়াদ টেস্ট করে।"
+          },
+          "whyProjectNeedsIt": {
+            "en": "Verifies multi-stage SQLite state updates cleanly across test fixtures.",
+            "bn": "একাধিক স্ক্যান ও স্টেট পরিবর্তনের টেস্ট নির্ভুলভাবে চালাতে।"
+          },
+          "whereUsed": {
+            "en": "tests/ test suite.",
+            "bn": "tests/ ডিরেক্টরিতে।"
+          }
+        }
+      ],
+      "skillPrerequisites": {
+        "difficulty": "Professional",
+        "requiredPythonKnowledge": [
+          {
+            "en": "Tuple comparison, deterministic SHA-256 hashing, and parameterized SQLite upserts",
+            "bn": "টাপল তুলনা, স্থির SHA-256 হ্যাশিং ও প্যারামিটারাইজড SQLite আপসার্ট"
+          },
+          {
+            "en": "Multi-module domain layering, JSON/CSV serialization, and UTC SLA calculations",
+            "bn": "মাল্টি-মডিউল ডোমেইন আর্কিটেকচার, JSON/CSV রপ্তানি ও UTC SLA গণনা"
+          }
+        ],
+        "requiredProgrammingConcepts": [
+          {
+            "en": "Risk-Based Vulnerability Management (CVSS vs exposure, asset criticality, KEV, SLAs)",
+            "bn": "রিস্ক-ভিত্তিক ভালনারেবিলিটি ম্যানেজমেন্ট (CVSS বনাম এক্সপোজার, অ্যাসেট গুরুত্ব, KEV ও SLA)"
+          },
+          {
+            "en": "Idempotent ingestion, finding deduplication, and time-bound risk exception governance",
+            "bn": "আইডেমপোটেন্ট ইনজেশন, ডিডুপ্লিকেশন ও সময়-সীমাবদ্ধ ঝুঁকি-ছাড় নিয়ন্ত্রণ"
+          }
+        ],
+        "recommendedPreviousKnowledge": [
+          {
+            "en": "Audit ingestion & case lifecycle insights from PRJ-16, PRJ-17, and PRJ-18",
+            "bn": "PRJ-16, PRJ-17 ও PRJ-18 থেকে অডিট ও কেস লাইফসাইকেল অভিজ্ঞতা"
+          }
+        ],
+        "studyBeforeStarting": [
+          {
+            "concept": {
+              "en": "Custom Sorting & Version Tuple Comparison",
+              "bn": "কাস্টম সর্টিং ও ভার্সন টাপল তুলনা"
+            },
+            "shortExplanation": {
+              "en": "Review tuple ordering and custom key functions so version parsing avoids string bugs like '2.9' > '2.10'.",
+              "bn": "'2.9' > '2.10'-এর মতো স্ট্রিং তুলনার ভুল এড়াতে টাপল অর্ডারিং ও কাস্টম সর্টিং অনুশীলন করুন।"
+            },
+            "pylogicPart": 12,
+            "partLabel": {
+              "en": "Part 12 · Sorting Algorithms",
+              "bn": "পার্ট ১২ · সর্টিং অ্যালগরিদম"
+            }
+          },
+          {
+            "concept": {
+              "en": "Real-World Security System Architecture",
+              "bn": "বাস্তবমুখী সিকিউরিটি সিস্টেম আর্কিটেকচার"
+            },
+            "shortExplanation": {
+              "en": "Synthesize data structures, risk scoring trade-offs, and system design clarity for capstone readiness.",
+              "bn": "ক্যাপস্টোন স্তরের ডেটা মডেলিং, ঝুঁকি স্কোরিং ও আর্কিটেকচারাল স্পষ্টতা অনুশীলন করুন।"
+            },
+            "pylogicPart": 20,
+            "partLabel": {
+              "en": "Part 20 · AI-Era Job Interview & Real-World Challenges",
+              "bn": "পার্ট ২০ · এআই-যুগের জব ইন্টারভিউ ও বাস্তব চ্যালেঞ্জ"
+            }
+          }
+        ]
+      },
+      "buildRoadmap": [
+        {
+          "stepNumber": 1,
+          "title": {
+            "en": "Understand the Story",
+            "bn": "গল্প ও মূল সমস্যা বুঝুন"
+          },
+          "objective": {
+            "en": "See why raw CVSS scanner lists overwhelmed Sajid's capstone security team until exposure, asset tier, and SLAs drove prioritization.",
+            "bn": "শুধু কাঁচা CVSS তালিকা কেন প্রকৃত ঝুঁকি লুকিয়ে রাখে এবং এক্সপোজার ও অ্যাসেট গুরুত্ব কেন প্রয়োজন তা বোঝা।"
+          },
+          "details": [
+            {
+              "en": "Expected outcome: a complete offline RBVM platform ingesting inventories/advisories, deduplicating findings, and building team patch roadmaps.",
+              "bn": "প্রত্যাশিত ফলাফল: ইনভেন্টরি ও অ্যাডভাইজরি মিলিয়ে ডিডুপ্লিকেটেড রিস্ক স্কোর ও টিম রোডম্যাপ তৈরির পূর্ণাঙ্গ প্ল্যাটফর্ম।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 2,
+          "title": {
+            "en": "Analyze Requirements",
+            "bn": "প্রয়োজনীয়তা বিশ্লেষণ করুন"
+          },
+          "objective": {
+            "en": "Specify semver constraints, contextual risk weights in JSON, idempotent re-scan rules, and waiver expiration.",
+            "bn": "সিমভার শর্ত, প্রাসঙ্গিক রিস্ক ওয়েট JSON, পুনঃ-স্ক্যান নিয়ম ও ঝুঁকি-ছাড় মেয়াদ নির্ধারণ করা।"
+          },
+          "details": [
+            {
+              "en": "Operate 100% offline using synthetic advisories, mock assets, and safe dependency manifests.",
+              "bn": "সিন্থেটিক অ্যাডভাইজরি, মক অ্যাসেট ও নিরাপদ ম্যানিফেস্ট নিয়ে ১০০% অফলাইনে পরিচালনা করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": {
+            "en": "Plan the Logic",
+            "bn": "যুক্তি ও অ্যালগরিদম পরিকল্পনা করুন"
+          },
+          "objective": {
+            "en": "Design semver parser, deterministic fingerprint formula, transparent score breakdown, and auto-resolve diff.",
+            "bn": "সিমভার পার্সার, স্থির ফিঙ্গারপ্রিন্ট সূত্র, ব্যাখ্যাযোগ্য স্কোর এবং অটো-রিজলভ যুক্তি তৈরি।"
+          },
+          "details": [
+            {
+              "en": "Flow: Parse manifests -> Match offline advisories -> Fingerprint findings -> Compute contextual score -> Upsert SQLite (auto-resolve fixed deps) -> Emit roadmaps.",
+              "bn": "প্রবাহ: ম্যানিফেস্ট পড়া -> অ্যাডভাইজরি মেলানো -> ফিঙ্গারপ্রিন্ট -> রিস্ক স্কোর -> SQLite আপসার্ট -> টিম রোডম্যাপ।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": {
+            "en": "Plan the File Structure",
+            "bn": "ফোল্ডার কাঠামো সাজান"
+          },
+          "objective": {
+            "en": "Keep semver math, advisory matching, risk engine, SQLite store, and roadmap reporter cleanly separated.",
+            "bn": "সিমভার, অ্যাডভাইজরি, রিস্ক ইঞ্জিন, স্টোর ও রোডম্যাপ রিপোর্টার আলাদা ডোমেইন স্তরে রাখা।"
+          },
+          "details": [
+            {
+              "en": "Use src/semver.py, src/advisory_matcher.py, src/risk_engine.py, src/store.py, src/roadmap_reporter.py, and tests/.",
+              "bn": "src/-এ semver.py, advisory_matcher.py, risk_engine.py, store.py, roadmap_reporter.py ও tests/ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": {
+            "en": "Build the Basic Version",
+            "bn": "প্রাথমিক (MVP) সংস্করণ তৈরি করুন"
+          },
+          "objective": {
+            "en": "Implement tuple-based semantic version comparator and match sample package dependencies against offline advisories.",
+            "bn": "টাপল-ভিত্তিক সিমভার তুলনাকারী ও অফলাইন অ্যাডভাইজরি ম্যাচিং দিয়ে শুরু করুন।"
+          },
+          "details": [
+            {
+              "en": "Handle compound ranges (`>=1.2.0,<1.5.3`) and prereleases (`2.10.0rc1 < 2.10.0`) accurately.",
+              "bn": "কম্পাউন্ড রেঞ্জ ও প্রি-রিলিজ (`2.10.0rc1 < 2.10.0`) সঠিকভাবে তুলনা করুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": {
+            "en": "Add Main Features",
+            "bn": "মূল ফিচারগুলো যোগ করুন"
+          },
+          "objective": {
+            "en": "Add SQLite idempotent ingestion, contextual scoring with JSON breakdown, SLA deadlines, and team roadmaps.",
+            "bn": "SQLite আইডেমপোটেন্ট ইনজেশন, ব্যাখ্যাযোগ্য রিস্ক স্কোর, SLA ও টিম রোডম্যাপ যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Require owner, justification, and strict expiry date whenever marking a finding `Risk Accepted`.",
+              "bn": "`Risk Accepted` দেওয়ার সময় অনুমোদনকারী, কারণ ও নির্দিষ্ট মেয়াদোত্তীর্ণ তারিখ বাধ্যতামূলক রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": {
+            "en": "Handle Errors",
+            "bn": "ত্রুটি ও ব্যতিক্রম সামলান"
+          },
+          "objective": {
+            "en": "Reject malformed manifests, unparseable version constraints, missing assets, and unexpiring waivers safely.",
+            "bn": "ভুল ম্যানিফেস্ট, অবৈধ ভার্সন শর্ত, অনুপস্থিত অ্যাসেট ও মেয়াদহীন ওয়েভার নিরাপদে প্রত্যাখ্যান করুন।"
+          },
+          "details": [
+            {
+              "en": "Limit version string length before parsing to prevent pathological input slowdowns.",
+              "bn": "পার্সিংয়ের আগে ভার্সন স্ট্রিংয়ের দৈর্ঘ্য সীমাবদ্ধ রাখুন।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": {
+            "en": "Testing",
+            "bn": "টেস্টিং ও এজ কেস যাচাই করুন"
+          },
+          "objective": {
+            "en": "Verify semver ordering, exposure-vs-tier ranking, idempotent re-scans, auto-resolution on upgrade, and expired waivers.",
+            "bn": "সিমভার ক্রম, এক্সপোজার স্কোরিং, পুনঃ-স্ক্যান ডিডুপ্লিকেশন, অটো-রিজলভ ও মেয়াদোত্তীর্ণ ওয়েভার টেস্ট করুন।"
+          },
+          "details": [
+            {
+              "en": "Edge cases: `first_seen` preserved on scan 2; package upgraded from vulnerable to fixed closes open finding automatically.",
+              "bn": "এজ কেস: দ্বিতীয় স্ক্যানে `first_seen` অপরিবর্তিত থাকা ও প্যাকেজ আপগ্রেডে ফাইন্ডিং রিজলভ হওয়া।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": {
+            "en": "Improve the Project",
+            "bn": "প্রজেক্টের মানোন্নয়ন করুন"
+          },
+          "objective": {
+            "en": "Add PRJ-16/PRJ-18 audit JSON adapters and remediation-impact analytics (top upgrade reducing max fleet risk).",
+            "bn": "PRJ-16 ও PRJ-18 JSON ইম্পোর্ট অ্যাডাপ্টার এবং সর্বোচ্চ ঝুঁকি-হ্রাসকারী আপগ্রেড অ্যানালিটিক্স যোগ করুন।"
+          },
+          "details": [
+            {
+              "en": "Contrast raw CVSS sorting vs contextual RBVM sorting in a clear comparison table.",
+              "bn": "কাঁচা CVSS বনাম প্রাসঙ্গিক RBVM র‍্যাংকিংয়ের পার্থক্য তুলনামূলক টেবিলে দেখান।"
+            }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": {
+            "en": "Finalize the Project",
+            "bn": "ডকুমেন্টেশন ও গিটহাব চূড়ান্ত করুন"
+          },
+          "objective": {
+            "en": "Publish architecture diagram, contextual risk formula, and sample prioritized engineering backlog in README.",
+            "bn": "আর্কিটেকচার ডায়াগ্রাম, প্রাসঙ্গিক রিস্ক ফর্মুলা ও নমুনা টিম ব্যাকলগ README-তে নথিভুক্ত করুন।"
+          },
+          "details": [
+            {
+              "en": "Keep sample datasets self-contained so anyone cloning the capstone repo can run the full demo in one command.",
+              "bn": "নমুনা ডেটাসেট সম্পূর্ণ স্বয়ংসম্পূর্ণ রাখুন যাতে রিপো ক্লোন করেই এক কমান্ডে ডেমো চালানো যায়।"
+            }
+          ]
+        }
+      ],
+      "conceptMapping": [
+        {
+          "feature": {
+            "en": "Offline semantic version advisory matcher",
+            "bn": "অফলাইন সিমভার অ্যাডভাইজরি ম্যাচিং"
+          },
+          "concept": {
+            "en": "Tuple version comparison & bounded regex",
+            "bn": "টাপল ভার্সন তুলনা ও নিরাপদ রেজেক্স"
+          },
+          "moduleOrLibrary": "re, json",
+          "purpose": {
+            "en": "Avoid '2.10' < '2.9' string errors when checking vulnerable ranges.",
+            "bn": "'2.10' < '2.9'-এর মতো স্ট্রিং তুলনার ভুল ছাড়া দুর্বল ভার্সন ধরা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Cross-feed deduplication & SLA persistence",
+            "bn": "ক্রস-ফিড ডিডুপ্লিকেশন ও SLA সংরক্ষণ"
+          },
+          "concept": {
+            "en": "Deterministic fingerprinting & idempotent SQLite upserts",
+            "bn": "স্থির ফিঙ্গারপ্রিন্ট ও আইডেমপোটেন্ট SQLite আপসার্ট"
+          },
+          "moduleOrLibrary": "hashlib, sqlite3, datetime",
+          "purpose": {
+            "en": "Refresh last_seen without resetting discovery time or duplicating tickets.",
+            "bn": "আসল শনাক্ত সময় ও SLA না হারিয়ে ডুপ্লিকেট মুক্ত রাখা।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Contextual RBVM risk prioritizer",
+            "bn": "প্রাসঙ্গিক RBVM ঝুঁকি প্রাইওরিটাইজার"
+          },
+          "concept": {
+            "en": "Weighted multi-factor scoring with auditability",
+            "bn": "ব্যাখ্যাযোগ্য মাল্টি-ফ্যাক্টর ওয়েটেড স্কোরিং"
+          },
+          "moduleOrLibrary": "json, statistics",
+          "purpose": {
+            "en": "Rank exposed Tier-1 production assets ahead of isolated dev sandboxes.",
+            "bn": "বিচ্ছিন্ন টেস্ট অ্যাসেটের আগে ইন্টারনেট-এক্সপোজড গুরুত্বপূর্ণ অ্যাসেটকে অগ্রাধিকার দেওয়া।"
+          }
+        },
+        {
+          "feature": {
+            "en": "Team patching roadmap & SLA exporter",
+            "bn": "টিম প্যাচিং রোডম্যাপ ও SLA রপ্তানি"
+          },
+          "concept": {
+            "en": "Grouped backlog reporting & waiver expiry checks",
+            "bn": "গ্রুপড ব্যাকলগ রিপোর্টিং ও ওয়েভার মেয়াদ যাচাই"
+          },
+          "moduleOrLibrary": "csv, argparse",
+          "purpose": {
+            "en": "Deliver actionable sprint backlogs per owning engineering team.",
+            "bn": "প্রতিটি ইঞ্জিনিয়ারিং টিমের জন্য কার্যকর স্প্রিন্ট প্যাচ তালিকা দেওয়া।"
+          }
+        }
+      ],
+      "commandReference": [
+        {
+          "command": "python -m src.cli ingest --assets ./sample_data/assets.json --deps ./sample_data/dependencies.json --advisories ./sample_data/offline_advisories.json",
+          "whenToUse": {
+            "en": "When ingesting inventories, dependencies, and offline advisories into the SQLite store",
+            "bn": "অ্যাসেট, ডিপেন্ডেন্সি ও অফলাইন অ্যাডভাইজরি SQLite-এ ইম্পোর্ট করতে"
+          },
+          "whyUsed": {
+            "en": "Deduplicates findings deterministically, scores contextual risk, and auto-resolves upgraded packages.",
+            "bn": "ফাইন্ডিং ডিডুপ্লিকেট করে, প্রাসঙ্গিক স্কোর বসায় ও আপগ্রেড হওয়া প্যাকেজ রিজলভ করে।"
+          }
+        },
+        {
+          "command": "python -m src.cli export-roadmap --format markdown --out ./reports/team_roadmap.md",
+          "whenToUse": {
+            "en": "When generating prioritized patching roadmaps and overdue SLA alerts per team",
+            "bn": "টিমভিত্তিক অগ্রাধিকার রোডম্যাপ ও ওভারডিউ SLA রিপোর্ট তৈরি করতে"
+          },
+          "whyUsed": {
+            "en": "Outputs explainable priority breakdowns and upcoming 7-day SLA deadlines.",
+            "bn": "ব্যাখ্যাযোগ্য ঝুঁকি স্কোর ও আসন্ন SLA সময়সীমা রপ্তানি করতে।"
+          }
+        },
+        {
+          "command": "python -m unittest discover -s tests",
+          "whenToUse": {
+            "en": "To verify semver matching, idempotent re-scans, and expired risk waivers",
+            "bn": "সিমভার ম্যাচিং, পুনঃ-স্ক্যান ও মেয়াদোত্তীর্ণ ওয়েভার টেস্ট করতে"
+          },
+          "whyUsed": {
+            "en": "Confirms full end-to-end RBVM accuracy offline.",
+            "bn": "সম্পূর্ণ অফলাইনে ক্যাপস্টোন প্ল্যাটফর্মের নির্ভুলতা যাচাই করতে।"
+          }
+        }
+      ]
+    }
+  ]
+}

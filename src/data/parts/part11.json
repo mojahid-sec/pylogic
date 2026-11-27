@@ -1,0 +1,1293 @@
+{
+  "partId": "part-11",
+  "partNumber": 11,
+  "problems": [
+    {
+      "id": "P11-01",
+      "number": 1,
+      "title": {
+        "en": "Linear Search — Last Occurrence Index",
+        "bn": "লিনিয়ার সার্চ — সর্বশেষ উপস্থিতির সূচক"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Sequential array scan (O(N))", "bn": "ধারাবাহিক অ্যারে স্ক্যান (O(N))" },
+        { "en": "Unsorted data search rule", "bn": "অসাজানো ডেটায় সার্চের নিয়ম" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (which may be unsorted and contain duplicates) and an integer target on the second line. Find and print the 0-based index of the LAST occurrence of target using Linear Search. If target is not present, print -1.",
+        "bn": "প্রথম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা (যা অসাজানো ও ডুপ্লিকেটযুক্ত হতে পারে) এবং দ্বিতীয় লাইনে একটি target সংখ্যা ইনপুট নিন। লিনিয়ার সার্চ ব্যবহার করে target সংখ্যাটির সর্বশেষ (LAST) উপস্থিতির ০-ভিত্তিক সূচক (index) প্রিন্ট করুন। না পাওয়া গেলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: পূর্ণসংখ্যা target।"
+      },
+      "expectedOutput": {
+        "en": "The last 0-based index of target, or -1 if absent.",
+        "bn": "target-এর শেষ ০-ভিত্তিক সূচক, অথবা অনুপস্থিত থাকলে -1।"
+      },
+      "examples": [
+        {
+          "input": "4 7 2 7 9 7 1\n7",
+          "output": "5",
+          "explanation": {
+            "en": "7 appears at indices 1, 3, and 5; the last occurrence is at index 5.",
+            "bn": "7 সংখ্যাটি ১, ৩ ও ৫ সূচকে রয়েছে; সর্বশেষ সূচক হলো ৫।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Because the list is unsorted, you cannot skip elements using Binary Search—every element may need inspection in O(N) time.",
+        "bn": "তালিকাটি সাজানো নয় বলে এখানে বাইনারি সার্চ চালানো যাবে না—সঠিক ফলাফলের জন্য লিনিয়ার সার্চ (O(N)) প্রয়োজন।"
+      },
+      "hint2": {
+        "en": "Either scan from index len(arr)-1 down to 0 and break on first match, or scan forward updating last_idx = i whenever arr[i] == target.",
+        "bn": "শেষ থেকে উল্টো দিকে স্ক্যান করে প্রথম মিল পেলেই break করুন, অথবা শুরু থেকে লুপ চালিয়ে প্রতিবার মিললে last_idx = i আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "When data is unsorted, Linear Search is the only correct general-purpose strategy because any uninspected element could still match target. To locate the last occurrence without sorting (which would alter original indices!), scanning backward from `len(arr) - 1` down to `0` returns immediately on the rightmost match in best-case O(1) and worst-case O(N) time. A common beginner mistake is stopping at the first match from the left or sorting the array first, which destroys original positions.",
+        "bn": "তালিকা অসাজানো থাকলে বাইনারি সার্চ কাজ করে না এবং সর্টিং করলে মূল সূচক নষ্ট হয়ে যায়—তাই এখানে লিনিয়ার সার্চই একমাত্র সঠিক উপায়। শেষ সূচক খুঁজতে ডান থেকে বামে স্ক্যান করলে প্রথম মিল পাওয়ামাত্রই থামা যায়, যা সময় বাঁচায়।"
+      },
+      "algorithm": [
+        { "en": "Parse line 1 into integer list arr and line 2 into integer target.", "bn": "১ম লাইন থেকে arr লিস্ট এবং ২য় লাইন থেকে target পড়ুন।" },
+        { "en": "Initialize ans = -1.", "bn": "ans = -1 নির্ধারণ করুন।" },
+        { "en": "Loop i from len(arr) - 1 down to 0: if arr[i] == target, set ans = i and break.", "bn": "len(arr) - 1 থেকে 0 পর্যন্ত উল্টো লুপ চালিয়ে arr[i] == target হলে ans = i সেট করে break করুন।" },
+        { "en": "Print ans.", "bn": "ans প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nans = -1\n# Scan right-to-left so the first match is the last occurrence\nfor i in range(len(arr) - 1, -1, -1):\n    if arr[i] == target:\n        ans = i\n        break\nprint(ans)",
+      "codeExplanation": {
+        "en": "range(len(arr) - 1, -1, -1) iterates from the final index down to 0. As soon as arr[i] == target, ans records i and break exits early. If the loop completes without matching, ans stays -1.",
+        "bn": "range(len(arr) - 1, -1, -1) শেষ সূচক থেকে শুরু পর্যন্ত উল্টো দিকে চলে। arr[i] == target হওয়া মাত্রই ans আপডেট হয়ে লুপ থামে; না মিললে -1 প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) input storage, O(1) auxiliary" },
+      "testCases": [
+        { "input": "4 7 2 7 9 7 1\n7", "expectedOutput": "5", "note": { "en": "Multiple duplicates", "bn": "একাধিক ডুপ্লিকেট" } },
+        { "input": "10 20 30\n99", "expectedOutput": "-1", "note": { "en": "Target absent", "bn": "অনুপস্থিত লক্ষ্য" } },
+        { "input": "5\n5", "expectedOutput": "0", "note": { "en": "Single matching element", "bn": "একটি উপাদানে মিল" } },
+        { "input": "3 1 4 1\n3", "expectedOutput": "0", "note": { "en": "Match only at index 0", "bn": "শুরুর সূচকে মিল" } }
+      ]
+    },
+    {
+      "id": "P11-02",
+      "number": 2,
+      "title": {
+        "en": "Linear Search — All Matching Indices",
+        "bn": "লিনিয়ার সার্চ — সব মিল পাওয়া সূচকের তালিকা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Exhaustive linear traversal", "bn": "সম্পূর্ণ লিনিয়ার পরিভ্রমণ" },
+        { "en": "Collecting matching positions", "bn": "সব মিলের সূচক সংগ্রহ" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers and an integer target. Using Linear Search, find ALL 0-based indices where target appears in ascending order and print them space-separated. If target never appears, print 'None'.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ও একটি target সংখ্যা ইনপুট নিন। লিনিয়ার সার্চের মাধ্যমে target সংখ্যাটি যে যে ০-ভিত্তিক সূচকে রয়েছে তার সবগুলো ছোট থেকে বড় ক্রমে স্পেস দিয়ে প্রিন্ট করুন। একবারও না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers (may be empty). Line 2: integer target.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা (খালি হতে পারে)। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated indices in ascending order, or 'None'.",
+        "bn": "আরোহী ক্রমে স্পেস-বিচ্ছিন্ন সূচকসমূহ অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "5 2 5 8 5 1\n5",
+          "output": "0 2 4",
+          "explanation": {
+            "en": "5 appears at indices 0, 2, and 4.",
+            "bn": "5 সংখ্যাটি ০, ২ ও ৪ সূচকে আছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Unlike finding only the first or last index, finding ALL occurrences forbids breaking early—every element must be inspected.",
+        "bn": "সব অবস্থান খুঁজে বের করতে হলে প্রথম মিলে break করা যাবে না—পুরো তালিকা দেখতে হবে।"
+      },
+      "hint2": {
+        "en": "Use enumerate(arr) to get (idx, val) pairs and append str(idx) to a list whenever val == target.",
+        "bn": "enumerate(arr) দিয়ে (idx, val) নিয়ে val == target হলে str(idx) একটি লিস্টে জমা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Even when the goal is to collect multiple results, Linear Search guarantees indices are discovered in ascending order automatically if you iterate left-to-right. Notice that skipping early with `break` is wrong here, and guarding an empty matches list prints 'None' rather than a blank line.",
+        "bn": "বাম থেকে ডানে লিনিয়ার সার্চ চালালে সূচকগুলো স্বয়ংক্রিয়ভাবে ছোট থেকে বড় ক্রমে পাওয়া যায়। এখানে আগেভাগে break করা ভুল; আর মিল না পেলে খালি লাইনের বদলে 'None' প্রিন্ট করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Parse arr and target.", "bn": "arr এবং target পড়ুন।" },
+        { "en": "Initialize indices = [].", "bn": "খালি লিস্ট indices = [] নিন।" },
+        { "en": "For i, val in enumerate(arr): if val == target, append str(i).", "bn": "প্রতিটি (i, val)-এর জন্য val == target হলে str(i) যোগ করুন।" },
+        { "en": "Print ' '.join(indices) if indices else 'None'.", "bn": "indices থাকলে স্পেস দিয়ে, নতুবা 'None' প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nindices = []\nfor idx, val in enumerate(arr):\n    if val == target:\n        indices.append(str(idx))\n\nprint(\" \".join(indices) if indices else \"None\")",
+      "codeExplanation": {
+        "en": "enumerate yields each index and value pair in order. Matching indices are converted to strings for joining, and an empty list safely falls back to 'None'.",
+        "bn": "enumerate প্রতিটি সূচক ও মান দেয়। মিল পাওয়া সূচকগুলো স্ট্রিং হিসেবে জমে এবং লিস্ট খালি থাকলে 'None' প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(K) for K matches" },
+      "testCases": [
+        { "input": "5 2 5 8 5 1\n5", "expectedOutput": "0 2 4", "note": { "en": "Multiple occurrences", "bn": "একাধিক উপস্থিতি" } },
+        { "input": "1 2 3 4\n9", "expectedOutput": "None", "note": { "en": "No match", "bn": "কোনো মিল নেই" } },
+        { "input": "   \n7", "expectedOutput": "None", "note": { "en": "Empty list", "bn": "খালি তালিকা" } }
+      ]
+    },
+    {
+      "id": "P11-03",
+      "number": 3,
+      "title": {
+        "en": "First Element Strictly Greater Than Threshold",
+        "bn": "নির্দিষ্ট সীমার চেয়ে বড় প্রথম উপাদান খোঁজা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Predicate linear search", "bn": "শর্তভিত্তিক লিনিয়ার সার্চ" },
+        { "en": "Early exit on first match", "bn": "প্রথম মিলে দ্রুত সমাপ্তি" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers and an integer threshold T on the second line. Find the first element (from left to right) strictly greater than T and print '<index> <value>'. If no element exceeds T, print 'Not Found'.",
+        "bn": "প্রথম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং দ্বিতীয় লাইনে সীমা T ইনপুট নিন। বাম থেকে ডানে T-এর চেয়ে বড় (strictly > T) প্রথম উপাদানটি খুঁজে '<index> <value>' আকারে প্রিন্ট করুন। না থাকলে 'Not Found' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer threshold T.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: পূর্ণসংখ্যা T।"
+      },
+      "expectedOutput": {
+        "en": "'<index> <value>' of first element > T, or 'Not Found'.",
+        "bn": "প্রথম উপাদানের '<index> <value>' অথবা 'Not Found'।"
+      },
+      "examples": [
+        {
+          "input": "12 18 25 19 30\n20",
+          "output": "2 25",
+          "explanation": {
+            "en": "12 <= 20, 18 <= 20, and 25 > 20 at index 2 (30 also > 20, but 25 comes first).",
+            "bn": "১২ ও ১৮ বড় নয়; সূচক ২-এ থাকা ২৫ প্রথম T=২০-এর চেয়ে বড়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Searching isn't only about `==`; you can linear-search for ANY boolean condition such as `val > threshold`.",
+        "bn": "সার্চ মানে কেবল `==` নয়; `val > threshold`-এর মতো যেকোনো শর্তেও লিনিয়ার সার্চ করা যায়।"
+      },
+      "hint2": {
+        "en": "Use `for ... else:` or a boolean flag so you print 'Not Found' only when the loop completes without breaking.",
+        "bn": "লুপ শেষে `else:` ব্লক ব্যবহার করলে কোনো মিল না পাওয়া অবস্থায় 'Not Found' প্রিন্ট করা সহজ হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Predicate search generalizes equality search to arbitrary conditions. Because order matters ('first element from left to right' in an unsorted array), you must iterate sequentially and stop immediately on the first element satisfying `val > threshold`. Python's `for ... else` construct cleanly separates the match path from the not-found path without an extra boolean variable.",
+        "bn": "অসাজানো ডেটায় শর্ত পূরণকারী প্রথম উপাদান খুঁজতে বাম থেকে ডানে স্ক্যান করে প্রথম মিলেই থামতে হয়। `val >= threshold` লিখলে সমান মানও চলে আসবে—তাই কঠোরভাবে `val > threshold` লিখতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and integer t.", "bn": "arr এবং t পড়ুন।" },
+        { "en": "For i, val in enumerate(arr): if val > t, print(i, val) and break.", "bn": "val > t হলে i ও val প্রিন্ট করে break করুন।" },
+        { "en": "In loop else block: print('Not Found').", "bn": "লুপের else অংশে 'Not Found' প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nt = int(input())\n\nfor i, val in enumerate(arr):\n    if val > t:\n        print(i, val)\n        break\nelse:\n    print(\"Not Found\")",
+      "codeExplanation": {
+        "en": "The loop checks val > t left to right. The first match prints its index and value and triggers break, skipping the else block. If no break happens, else prints 'Not Found'.",
+        "bn": "বাম থেকে ডানে প্রতিটি মান পরীক্ষা করে প্রথম val > t পেলেই সূচক ও মান প্রিন্ট করে break হয়। break না হলে else ব্লক 'Not Found' দেখায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "12 18 25 19 30\n20", "expectedOutput": "2 25", "note": { "en": "First match before larger later item", "bn": "প্রথম বড় মান" } },
+        { "input": "10 20 15\n20", "expectedOutput": "Not Found", "note": { "en": "Equal to threshold is NOT strictly greater", "bn": "সমান মান গ্রহণযোগ্য নয়" } },
+        { "input": "-10 -5 -2\n-6", "expectedOutput": "1 -5", "note": { "en": "Negative numbers comparison", "bn": "ঋণাত্মক সংখ্যার তুলনা" } }
+      ]
+    },
+    {
+      "id": "P11-04",
+      "number": 4,
+      "title": {
+        "en": "Count Target Occurrences via Linear Scan",
+        "bn": "লিনিয়ার স্ক্যানে লক্ষ্য সংখ্যার পুনরাবৃত্তি গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Linear frequency count", "bn": "লিনিয়ার ফ্রিকোয়েন্সি গণনা" },
+        { "en": "Why unsorted counting is O(N)", "bn": "অসাজানো তালিকায় কেন O(N) লাগে" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (unsorted) and an integer target. Count how many times target appears in the list using a manual linear scan (without using list.count()).",
+        "bn": "অসাজানো স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ও একটি target সংখ্যা ইনপুট নিন। `list.count()` ব্যবহার না করে লিনিয়ার স্ক্যানের মাধ্যমে target কতবার আছে তা গণনা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "Non-negative integer count of target.",
+        "bn": "target যতবার পাওয়া গেছে তার সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "3 5 3 2 9 3 5\n3",
+          "output": "3",
+          "explanation": {
+            "en": "3 appears three times in the unsorted list.",
+            "bn": "3 সংখ্যাটি তালিকায় মোট ৩ বার রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize count = 0 and increment it by 1 each time an element equals target.",
+        "bn": "count = 0 দিয়ে শুরু করে প্রতিটি উপাদান target-এর সমান হলে ১ বাড়ান।"
+      },
+      "hint2": {
+        "en": "Contrast this with sorted data: on unsorted input, O(N) is the theoretical minimum because every item must be checked at least once.",
+        "bn": "অসাজানো ডেটায় প্রতিটি উপাদান অন্তত একবার দেখতেই হয় বলে O(N) এখানে সর্বোত্তম সম্ভব সময়।"
+      },
+      "logicBreakdown": {
+        "en": "Counting occurrences on unsorted data establishes an important baseline before learning Binary Search counting (P11-09). Without sorted order, no sub-linear O(log N) shortcut exists—every single item could potentially equal target, requiring a full O(N) linear pass with O(1) extra space.",
+        "bn": "সাজানো না থাকায় এখানে কোনো অংশ বাদ দেওয়া যায় না; তাই O(N) সময় এবং O(1) অতিরিক্ত মেমোরিতে এক পাসেই গণনা সম্পন্ন করতে হয়। পরবর্তীতে সাজানো ডেটায় এটিই O(log N) সময়ে করা যাবে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and target.", "bn": "arr ও target পড়ুন।" },
+        { "en": "Set count = 0.", "bn": "count = 0 ধরুন।" },
+        { "en": "For x in arr: if x == target, count += 1.", "bn": "প্রতিটি x-এর জন্য x == target হলে count += 1 করুন।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\ncount = 0\nfor x in arr:\n    if x == target:\n        count += 1\nprint(count)",
+      "codeExplanation": {
+        "en": "A single for loop checks each element x against target and increments count when equal, printing 0 cleanly if target is missing or the list is empty.",
+        "bn": "একটি লুপ প্রতিটি উপাদানের সাথে target মিলিয়ে দেখে এবং সমান হলে count বাড়ায়; না থাকলে 0 প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "3 5 3 2 9 3 5\n3", "expectedOutput": "3", "note": { "en": "Repeated matches", "bn": "একাধিক মিল" } },
+        { "input": "1 2 4 8\n5", "expectedOutput": "0", "note": { "en": "Zero matches", "bn": "কোনো মিল নেই" } },
+        { "input": "   \n0", "expectedOutput": "0", "note": { "en": "Empty list", "bn": "খালি তালিকা" } }
+      ]
+    },
+    {
+      "id": "P11-05",
+      "number": 5,
+      "title": {
+        "en": "Case-Insensitive Word Search in List",
+        "bn": "তালিকায় কেস-নিরপেক্ষ শব্দ অনুসন্ধান"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Normalized linear string search", "bn": "নরমালাইজড লিনিয়ার স্ট্রিং সার্চ" },
+        { "en": "Preserving original casing in output", "bn": "মূল অক্ষর-বিন্যাস বজায় রাখা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated words and a query word on the second line. Search for the first word that matches the query case-insensitively. If found, print 'Found at <index>: <original_word>'; otherwise print 'Not Found'.",
+        "bn": "প্রথম লাইনে স্পেস-বিচ্ছিন্ন শব্দের তালিকা এবং দ্বিতীয় লাইনে একটি query শব্দ ইনপুট নিন। ছোট-বড় অক্ষরের পার্থক্য না ধরে প্রথম মিল পাওয়া শব্দটি খুঁজুন। পাওয়া গেলে 'Found at <index>: <original_word>' এবং না পাওয়া গেলে 'Not Found' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated words. Line 2: query word.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন শব্দ। ২য় লাইন: অনুসন্ধানযোগ্য শব্দ।"
+      },
+      "expectedOutput": {
+        "en": "'Found at <index>: <original_word>' or 'Not Found'.",
+        "bn": "'Found at <index>: <original_word>' অথবা 'Not Found'।"
+      },
+      "examples": [
+        {
+          "input": "Apple Banana Python Logic\npython",
+          "output": "Found at 2: Python",
+          "explanation": {
+            "en": "'Python' at index 2 matches 'python' case-insensitively, and original 'Python' is preserved.",
+            "bn": "সূচক ২-এর 'Python' শব্দটি 'python'-এর সাথে মিলেছে এবং মূল বানান 'Python' প্রিন্ট হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compare `word.lower() == query.lower()` during the search—do NOT mutate the list elements themselves.",
+        "bn": "তালিকার মূল শব্দ না বদলে কেবল তুলনার সময় `word.lower() == query.lower()` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Use `.strip()` on query in case of trailing whitespace.",
+        "bn": "অতিরিক্ত স্পেস এড়াতে query পড়ার সময় `.strip()` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Real-world text search normalizes case only for comparison while returning the untouched original record. Mutating the input list with `.lower()` before searching is a common mistake that loses the original capitalization.",
+        "bn": "বাস্তব অনুসন্ধানে তুলনার জন্য কেস এক করা হয়, কিন্তু প্রদর্শনের সময় মূল শব্দটি অক্ষত রাখা হয়। আগেই পুরো লিস্টকে `.lower()` করে ফেললে মূল ক্যাপিটালাইজেশন হারিয়ে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read words = input().split() and q = input().strip().lower().", "bn": "words লিস্ট ও q = input().strip().lower() পড়ুন।" },
+        { "en": "For i, w in enumerate(words): if w.lower() == q, print formatted result with original w and break.", "bn": "w.lower() == q হলে মূল w সহ ফলাফল প্রিন্ট করে break করুন।" },
+        { "en": "If loop ends without break, print 'Not Found'.", "bn": "না মিললে 'Not Found' প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\nquery = input().strip().lower()\n\nfor i, word in enumerate(words):\n    if word.lower() == query:\n        print(f\"Found at {i}: {word}\")\n        break\nelse:\n    print(\"Not Found\")",
+      "codeExplanation": {
+        "en": "query is normalized once before the loop. Each word in words is compared via word.lower(), while the unmodified word is printed upon matching.",
+        "bn": "query একবার ছোট হাতের অক্ষরে নেওয়া হয়। এরপর প্রতিটি word-এর lower() রূপ তুলনা করে মিললে মূল word প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N * L) where L is word length", "space": "O(N * L)" },
+      "testCases": [
+        { "input": "Apple Banana Python Logic\npython", "expectedOutput": "Found at 2: Python", "note": { "en": "Case-insensitive match", "bn": "কেস-নিরপেক্ষ মিল" } },
+        { "input": "Data Cyber CODE\ncode", "expectedOutput": "Found at 2: CODE", "note": { "en": "Uppercase original preserved", "bn": "বড় হাতের মূল শব্দ সংরক্ষিত" } },
+        { "input": "Alpha Beta Gamma\nDelta", "expectedOutput": "Not Found", "note": { "en": "Word absent", "bn": "শব্দ অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P11-06",
+      "number": 6,
+      "title": {
+        "en": "Standard Iterative Binary Search",
+        "bn": "স্ট্যান্ডার্ড ইটারেটিভ বাইনারি সার্চ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Sorted array invariant", "bn": "সাজানো অ্যারের শর্ত" },
+        { "en": "O(log N) search space halving", "bn": "O(log N) সময়ে সার্চ পরিসর অর্ধেক করা" }
+      ],
+      "description": {
+        "en": "Read a sorted (non-decreasing) line of space-separated integers and an integer target. Implement iterative Binary Search to find and print the 0-based index of target (any matching index if duplicates exist), or -1 if target is not in the array.",
+        "bn": "ছোট থেকে বড় ক্রমে সাজানো স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ও একটি target সংখ্যা ইনপুট নিন। ইটারেটিভ বাইনারি সার্চ (Binary Search) প্রয়োগ করে target-এর ০-ভিত্তিক সূচক (ডুপ্লিকেট থাকলে যেকোনো একটি মিল) অথবা অনুপস্থিত থাকলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: সাজানো স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "0-based index of target, or -1.",
+        "bn": "target-এর ০-ভিত্তিক সূচক অথবা -1।"
+      },
+      "examples": [
+        {
+          "input": "2 5 8 12 16 23 38 56\n23",
+          "output": "5",
+          "explanation": {
+            "en": "mid=3 (12 < 23 -> right half), mid=5 (23 == 23 -> index 5) in just 2 steps!",
+            "bn": "প্রথমে mid=3 (12 < 23), পরের ধাপেই mid=5 (23) মাত্র ২ ধাপে পাওয়া গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why does Binary Search require sorted data? Because comparing `arr[mid] < target` lets you safely discard the entire left half `[low..mid]` ONLY when every element left of `mid` is guaranteed `<= arr[mid]`!",
+        "bn": "বাইনারি সার্চে সাজানো ডেটা কেন দরকার? কারণ `arr[mid] < target` হলে বামের অর্ধেক বাদ দেওয়ার শর্ত কেবল তখনই সত্য হয় যখন বামের সব উপাদান `arr[mid]`-এর সমান বা ছোট!"
+      },
+      "hint2": {
+        "en": "Maintain inclusive bounds `low = 0`, `high = len(arr) - 1`, loop `while low <= high`, compute `mid = (low + high) // 2`, and update `low = mid + 1` or `high = mid - 1`.",
+        "bn": "`low = 0` ও `high = len(arr) - 1` নিয়ে `while low <= high` লুপে `mid = (low + high) // 2` পরীক্ষা করে `low = mid + 1` বা `high = mid - 1` আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Linear Search checks up to N elements; Binary Search cuts the candidate range in half on every comparison, taking at most log2(N) + 1 steps (around 20 comparisons for 1,000,000 items!). This works ONLY on monotonic/sorted arrays where `arr[mid] < target` proves target cannot exist anywhere in `arr[low..mid]`. Classic bug: writing `low < high` instead of `low <= high`, or setting `low = mid` instead of `low = mid + 1` (causing an infinite loop!).",
+        "bn": "লিনিয়ার সার্চে N ধাপ লাগলেও বাইনারি সার্চ প্রতি ধাপে খোঁজার পরিসর অর্ধেক করে O(log N) সময়ে উত্তর দেয় (১০ লাখ উপাদানেও মাত্র ~২০ ধাপ)। তবে এটি কেবল সাজানো তালিকাতেই কাজ করে। সাধারণ ভুল: `low <= high`-এর বদলে `low < high` লেখা (এক উপাদানে ভুল দেয়) বা `mid + 1`/`mid - 1` না দিয়ে অসীম লুপে পড়া।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr and integer target.", "bn": "সাজানো arr ও target পড়ুন।" },
+        { "en": "Initialize low = 0, high = len(arr) - 1.", "bn": "low = 0 ও high = len(arr) - 1 ধরুন।" },
+        { "en": "While low <= high: compute mid = (low + high) // 2. If arr[mid] == target return/print mid; if arr[mid] < target set low = mid + 1; else high = mid - 1.", "bn": "low <= high পর্যন্ত mid পরীক্ষা করে সমান হলে সূচক প্রিন্ট করুন, ছোট হলে low = mid + 1, বড় হলে high = mid - 1 করুন।" },
+        { "en": "If loop exits, print -1.", "bn": "লুপ শেষে না পেলে -1 প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nlow, high = 0, len(arr) - 1\nans = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        ans = mid\n        break\n    elif arr[mid] < target:\n        low = mid + 1\n    else:\n        high = mid - 1\nprint(ans)",
+      "codeExplanation": {
+        "en": "low and high mark the inclusive search window. Each comparison either finds target at mid or halves the window by moving low to mid + 1 or high to mid - 1. When low crosses high, target cannot exist and -1 is printed.",
+        "bn": "low ও high বর্তমান খোঁজার সীমা ধরে রাখে। প্রতি ধাপে mid-এ মিল না পেলে অর্ধেক অংশ বাদ দিয়ে সীমা সংকুচিত হয়। শেষে সীমা শূন্য হলে -1 প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 5 8 12 16 23 38 56\n23", "expectedOutput": "5", "note": { "en": "Standard sorted array search", "bn": "সাধারণ বাইনারি সার্চ" } },
+        { "input": "2 5 8 12 16\n10", "expectedOutput": "-1", "note": { "en": "Missing value between elements", "bn": "মাঝের অনুপস্থিত মান" } },
+        { "input": "42\n42", "expectedOutput": "0", "note": { "en": "Single element match (tests low <= high)", "bn": "এক উপাদানের তালিকা" } },
+        { "input": "   \n5", "expectedOutput": "-1", "note": { "en": "Empty array edge case", "bn": "খালি তালিকা" } }
+      ]
+    },
+    {
+      "id": "P11-07",
+      "number": 7,
+      "title": {
+        "en": "Binary Search — First Occurrence (Lower Bound)",
+        "bn": "বাইনারি সার্চ — প্রথম উপস্থিতি (Lower Bound)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Modified binary search invariant", "bn": "পরিমার্জিত বাইনারি সার্চ" },
+        { "en": "Continuing left after a match", "bn": "মিল পাওয়ার পরও বামে খোঁজা" }
+      ],
+      "description": {
+        "en": "Given a sorted array of integers (which may contain duplicates) and a target integer, find the 0-based index of the FIRST (leftmost) occurrence of target in O(log N) time. Print -1 if not found.",
+        "bn": "ডুপ্লিকেট থাকতে পারে এমন একটি সাজানো পূর্ণসংখ্যার তালিকা ও target ইনপুট নিন। O(log N) সময়ে target-এর প্রথম (সবচেয়ে বামের) উপস্থিতির সূচক নির্ণয় করুন; না থাকলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: সাজানো পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "First 0-based index of target, or -1.",
+        "bn": "target-এর প্রথম সূচক অথবা -1।"
+      },
+      "examples": [
+        {
+          "input": "1 2 4 4 4 4 7 9\n4",
+          "output": "2",
+          "explanation": {
+            "en": "4 appears at indices 2, 3, 4, 5; the leftmost occurrence is 2.",
+            "bn": "4 রয়েছে ২–৫ সূচকে; এর প্রথম সূচক ২।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Do NOT break when `arr[mid] == target`! Recording `ans = mid` and walking linearly left would ruin O(log N) when all N elements are identical.",
+        "bn": "`arr[mid] == target` হলে থামবেন না বা লিনিয়ারলি বামে হাঁটবেন না—সব উপাদান সমান হলে সেটি O(N) হয়ে যাবে!"
+      },
+      "hint2": {
+        "en": "When `arr[mid] == target`, save `ans = mid` AND set `high = mid - 1` so Binary Search keeps hunting for an earlier match to the left.",
+        "bn": "`arr[mid] == target` হলে `ans = mid` সংরক্ষণ করে `high = mid - 1` দিন যাতে বামে আরও আগে মিল আছে কি না তা O(log N)-এ পরীক্ষা হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Standard Binary Search stops at whatever duplicate `mid` lands on first. To guarantee the leftmost index in O(log N) even on arrays like `[4, 4, 4, ..., 4]`, whenever `arr[mid] == target`, record `ans = mid` as the best candidate so far and shrink the search window leftward (`high = mid - 1`).",
+        "bn": "সাধারণ বাইনারি সার্চ যেকোনো একটি ডুপ্লিকেটে থেমে যায়। কিন্তু আমরা `arr[mid] == target` হলে উত্তর হিসেবে `ans = mid` জমা রেখে `high = mid - 1` করে বাম দিকে অনুসন্ধান চালিয়ে যাই, ফলে নিশ্চিত O(log N) সময়েই প্রথম সূচক পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr and target.", "bn": "arr ও target পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1, ans = -1.", "bn": "low = 0, high = len(arr) - 1, ans = -1 নিন।" },
+        { "en": "While low <= high: if arr[mid] == target, set ans = mid and high = mid - 1; elif arr[mid] < target, low = mid + 1; else high = mid - 1.", "bn": "arr[mid] == target হলে ans = mid এবং high = mid - 1 করুন; নতুবা সাধারণ বাইনারি সার্চের মতো সীমা বদলান।" },
+        { "en": "Print ans.", "bn": "ans প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nlow, high = 0, len(arr) - 1\nans = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        ans = mid\n        high = mid - 1  # Keep searching left half for an earlier index\n    elif arr[mid] < target:\n        low = mid + 1\n    else:\n        high = mid - 1\nprint(ans)",
+      "codeExplanation": {
+        "en": "Upon hitting target at mid, saving ans and moving high to mid - 1 guarantees that any earlier index is explored in logarithmic steps while preserving ans if none exists.",
+        "bn": "target পেলে ans = mid সংরক্ষণ করে high = mid - 1 করায় লুপটি বাম অর্ধে আরও আগের অবস্থান খুঁজে দেখে, না পেলে শেষ সংরক্ষিত ans-ই প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 4 4 4 4 7 9\n4", "expectedOutput": "2", "note": { "en": "Multiple duplicates in middle", "bn": "মাঝে একাধিক ডুপ্লিকেট" } },
+        { "input": "5 5 5 5 5\n5", "expectedOutput": "0", "note": { "en": "All elements equal", "bn": "সব উপাদান সমান" } },
+        { "input": "1 3 5 7\n6", "expectedOutput": "-1", "note": { "en": "Target missing", "bn": "লক্ষ্য অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P11-08",
+      "number": 8,
+      "title": {
+        "en": "Binary Search — Last Occurrence in Sorted Array",
+        "bn": "বাইনারি সার্চ — সাজানো তালিকায় শেষ উপস্থিতি"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Symmetric binary search bound", "bn": "বাইনারি সার্চের ডান প্রান্ত খোঁজা" },
+        { "en": "Continuing right after a match", "bn": "মিলের পরও ডানে খোঁজা" }
+      ],
+      "description": {
+        "en": "Given a sorted array of integers (which may contain duplicates) and a target integer, find the 0-based index of the LAST (rightmost) occurrence of target in O(log N) time. Print -1 if not found.",
+        "bn": "সাজানো পূর্ণসংখ্যার একটি তালিকা ও target ইনপুট নিন। O(log N) সময়ে target-এর শেষ (সবচেয়ে ডানের) উপস্থিতির ০-ভিত্তিক সূচক নির্ণয় করুন; না থাকলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: সাজানো পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "Last 0-based index of target, or -1.",
+        "bn": "target-এর শেষ সূচক অথবা -1।"
+      },
+      "examples": [
+        {
+          "input": "1 2 4 4 4 4 7 9\n4",
+          "output": "5",
+          "explanation": {
+            "en": "4 spans indices 2..5; the rightmost occurrence is 5.",
+            "bn": "4 রয়েছে ২ থেকে ৫ সূচকে; শেষ সূচক ৫।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "This is the mirror of First Occurrence: when `arr[mid] == target`, save `ans = mid` and push `low` rightward!",
+        "bn": "এটি প্রথম উপস্থিতির ঠিক বিপরীত: `arr[mid] == target` হলে `ans = mid` রেখে ডান অর্ধে অনুসন্ধান চালিয়ে যান!"
+      },
+      "hint2": {
+        "en": "Set `low = mid + 1` inside the `arr[mid] == target` branch.",
+        "bn": "`arr[mid] == target` হলে `low = mid + 1` দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Mirroring P11-07, whenever `arr[mid] == target`, we store `ans = mid` and discard the left half by setting `low = mid + 1`. That forces Binary Search rightward until no duplicate remains, yielding the exact rightmost index in O(log N).",
+        "bn": "যখনই `arr[mid] == target` হয়, আমরা সেটিকে সম্ভাব্য উত্তর ধরে `low = mid + 1` দিয়ে ডান দিকে খুঁজতে থাকি যতক্ষণ না সর্বশেষ অবস্থানটি পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr and target.", "bn": "arr ও target পড়ুন।" },
+        { "en": "Initialize low = 0, high = len(arr) - 1, ans = -1.", "bn": "সীমা ও ans = -1 নির্ধারণ করুন।" },
+        { "en": "While low <= high: if arr[mid] == target, set ans = mid and low = mid + 1; elif arr[mid] < target, low = mid + 1; else high = mid - 1.", "bn": "arr[mid] == target হলে ans = mid এবং low = mid + 1 করুন।" },
+        { "en": "Print ans.", "bn": "ans প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nlow, high = 0, len(arr) - 1\nans = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        ans = mid\n        low = mid + 1  # Keep searching right half for a later index\n    elif arr[mid] < target:\n        low = mid + 1\n    else:\n        high = mid - 1\nprint(ans)",
+      "codeExplanation": {
+        "en": "Recording ans = mid and shifting low = mid + 1 ensures the loop only settles once the rightmost matching element has been located.",
+        "bn": "ans = mid সংরক্ষণ করে low = mid + 1 দেওয়ায় ডানের সবচেয়ে দূরবর্তী মিলটি পাওয়া পর্যন্ত বাইনারি সার্চ চলতে থাকে।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 4 4 4 4 7 9\n4", "expectedOutput": "5", "note": { "en": "Middle block of duplicates", "bn": "মাঝে ডুপ্লিকেট ব্লক" } },
+        { "input": "5 5 5 5\n5", "expectedOutput": "3", "note": { "en": "All equal returns last index", "bn": "সব সমান হলে শেষ সূচক" } },
+        { "input": "10 20 30\n5", "expectedOutput": "-1", "note": { "en": "Absent below minimum", "bn": "ন্যূনতমের চেয়ে ছোট অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P11-09",
+      "number": 9,
+      "title": {
+        "en": "Count Occurrences in Sorted Array in O(log N)",
+        "bn": "সাজানো তালিকায় O(log N) সময়ে পুনরাবৃত্তি গণনা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Combining first & last occurrence", "bn": "প্রথম ও শেষ উপস্থিতির সমন্বয়" },
+        { "en": "O(log N) vs O(N) counting", "bn": "O(log N) বনাম O(N) গণনা" }
+      ],
+      "description": {
+        "en": "Read a sorted array of integers and a target integer. Count how many times target appears in O(log N) time using two Binary Searches (without scanning linearly).",
+        "bn": "সাজানো পূর্ণসংখ্যার একটি তালিকা ও একটি target ইনপুট নিন। লিনিয়ার স্ক্যান না করে দুটি বাইনারি সার্চের মাধ্যমে O(log N) সময়ে target মোট কতবার আছে তা নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted space-separated integers. Line 2: integer target.",
+        "bn": "১ম লাইন: সাজানো পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "Integer count of target occurrences (0 if absent).",
+        "bn": "target মোট যতবার আছে সেই সংখ্যা (না থাকলে 0)।"
+      },
+      "examples": [
+        {
+          "input": "2 2 5 5 5 5 8 10\n5",
+          "output": "4",
+          "explanation": {
+            "en": "First index is 2, last index is 5 -> 5 - 2 + 1 = 4.",
+            "bn": "প্রথম সূচক ২ ও শেষ সূচক ৫ -> ৫ - ২ + ১ = ৪।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Because the array is sorted, all occurrences of target sit together in one contiguous block `[first, last]`!",
+        "bn": "তালিকা সাজানো থাকায় target-এর সবগুলো কপি `[first, last]`-এ পাশাপাশি অবস্থান করে!"
+      },
+      "hint2": {
+        "en": "If `first == -1`, return 0 immediately (don't run the second search and compute `-1 - (-1) + 1 = 1`!). Otherwise return `last - first + 1`.",
+        "bn": "`first == -1` হলে সরাসরি 0 প্রিন্ট করুন (নাহলে `-1 - (-1) + 1 = 1` হয়ে যাওয়ার ভুল হতে পারে); নতুবা `last - first + 1`।"
+      },
+      "logicBreakdown": {
+        "en": "Compare this with P11-04 (unsorted linear count in O(N)). Once data is sorted, identical values are adjacent, so finding `first` and `last` via two O(log N) Binary Searches gives the exact count `last - first + 1` in O(log N) total time. Always guard `first == -1` first so absent targets return 0 rather than 1.",
+        "bn": "সাজানো তালিকায় একই মানগুলো পাশাপাশি থাকে বলে শুরু ও শেষ সূচক পেলেই পুরো সংখ্যাটি পাওয়া যায়। একটি সাধারণ ভুল হলো অনুপস্থিত মানের জন্য `-1 - (-1) + 1 = 1` দিয়ে দেওয়া—তাই `first == -1` হলেই আগে 0 রিটার্ন করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Write helper find_bound(arr, target, find_first) returning leftmost or rightmost index (or -1).", "bn": "বাম বা ডান প্রান্ত খোঁজার হেল্পার find_bound লিখুন।" },
+        { "en": "Compute first = find_bound(arr, target, True). If first == -1, print 0.", "bn": "first == -1 হলে 0 প্রিন্ট করুন।" },
+        { "en": "Else compute last = find_bound(arr, target, False) and print last - first + 1.", "bn": "নতুবা last বের করে last - first + 1 প্রিন্ট করুন।" }
+      ],
+      "solution": "def find_bound(arr, target, find_first):\n    low, high = 0, len(arr) - 1\n    ans = -1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            ans = mid\n            if find_first:\n                high = mid - 1\n            else:\n                low = mid + 1\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return ans\n\narr = [int(x) for x in input().split()]\ntarget = int(input())\nfirst = find_bound(arr, target, True)\nif first == -1:\n    print(0)\nelse:\n    last = find_bound(arr, target, False)\n    print(last - first + 1)",
+      "codeExplanation": {
+        "en": "find_bound parameterizes both first and last searches cleanly via find_first. Checking first == -1 avoids unnecessary second search and prevents off-by-one errors on missing elements.",
+        "bn": "find_bound ফাংশনটি find_first বুলিয়ানের মাধ্যমে প্রথম ও শেষ উভয় সূচক বের করে। first == -1 যাচাই করায় অনুপস্থিত উপাদানে নির্ভুল 0 পাওয়া যায়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 2 5 5 5 5 8 10\n5", "expectedOutput": "4", "note": { "en": "Contiguous block count", "bn": "একটানা ব্লক গণনা" } },
+        { "input": "1 3 5 7\n4", "expectedOutput": "0", "note": { "en": "Absent target returns 0", "bn": "অনুপস্থিত মানে 0" } },
+        { "input": "9\n9", "expectedOutput": "1", "note": { "en": "Single element match", "bn": "একক উপাদানে ১" } }
+      ]
+    },
+    {
+      "id": "P11-10",
+      "number": 10,
+      "title": {
+        "en": "Search Insert Position in Sorted Array",
+        "bn": "সাজানো তালিকায় সন্নিবেশ অবস্থান (Insert Position) নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Lower-bound binary search", "bn": "লোয়ার-বাউন্ড বাইনারি সার্চ" },
+        { "en": "Loop termination invariant (low)", "bn": "লুপ শেষে low সূচকের তাৎপর্য" }
+      ],
+      "description": {
+        "en": "Read a sorted array of distinct integers and a target integer. If target exists, print its 0-based index. If not, print the 0-based index where it would be inserted to keep the array sorted, all in O(log N) time.",
+        "bn": "ভিন্ন ভিন্ন পূর্ণসংখ্যার একটি সাজানো তালিকা ও একটি target ইনপুট নিন। target তালিকায় থাকলে তার সূচক এবং না থাকলে তালিকাটিকে সাজানো রাখতে target-কে কোন ০-ভিত্তিক সূচকে বসাতে হতো তা O(log N) সময়ে নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted distinct integers. Line 2: integer target.",
+        "bn": "১ম লাইন: সাজানো স্বতন্ত্র পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "0-based index (0 to len(arr)).",
+        "bn": "০-ভিত্তিক সন্নিবেশ সূচক (0 থেকে len(arr) পর্যন্ত)।"
+      },
+      "examples": [
+        {
+          "input": "1 3 5 6\n2",
+          "output": "1",
+          "explanation": {
+            "en": "2 is not present; inserting 2 at index 1 gives [1, 2, 3, 5, 6].",
+            "bn": "2 নেই; এটি সূচক ১-এ বসালে [1, 2, 3, 5, 6] সাজানো থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "At every step, every element strictly left of `low` is `< target` and every element right of `high` is `>= target`.",
+        "bn": "লুপ চলাকালীন সবসময় `low`-এর বামের সব মান `< target` এবং `high`-এর ডানের সব মান `>= target` থাকে।"
+      },
+      "hint2": {
+        "en": "When the `while low <= high` loop finishes without an exact match, `low` equals `high + 1`, which is the exact insertion position!",
+        "bn": "সমান মান না মিললে লুপ শেষে `low` নিজেই সঠিক সন্নিবেশ সূচকে অবস্থান করে!"
+      },
+      "logicBreakdown": {
+        "en": "Understanding the loop invariant of Binary Search unlocks dozens of problems: throughout `while low <= high`, all elements before `low` are strictly smaller than `target`, and all elements after `high` are greater than `target`. When `low` passes `high`, `low` points to the first index whose value is `>= target` (or `len(arr)` if `target` exceeds every element).",
+        "bn": "বাইনারি সার্চের ইনভ্যারিয়েন্ট হলো `low`-এর আগে সবসময় ছোট মান এবং `high`-এর পরে বড় মান থাকে। লুপ শেষ হলে `low` ঠিক সেই প্রথম অবস্থানে এসে থামে যেখানে target বসালে ক্রম নষ্ট হয় না।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr and target.", "bn": "arr এবং target পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1.", "bn": "low = 0, high = len(arr) - 1 সেট করুন।" },
+        { "en": "While low <= high: if arr[mid] == target return mid; elif arr[mid] < target low = mid + 1; else high = mid - 1.", "bn": "বাইনারি সার্চে সমান পেলে mid, নতুবা low/high আপডেট করুন।" },
+        { "en": "Print low if no exact match was found.", "bn": "সমান না মিললে low প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nlow, high = 0, len(arr) - 1\nwhile low <= high:\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        low = mid\n        break\n    elif arr[mid] < target:\n        low = mid + 1\n    else:\n        high = mid - 1\nprint(low)",
+      "codeExplanation": {
+        "en": "If arr[mid] == target, setting low = mid and breaking outputs the found index. Otherwise, loop termination naturally leaves low at the exact insertion index (including 0 when smaller than all items, and len(arr) when larger than all items).",
+        "bn": "মিল পেলে low = mid হয়ে break হয়, আর না মিললে লুপ শেষে low নিজেই 0 থেকে len(arr)-এর মধ্যে সঠিক অবস্থানে পৌঁছে যায়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 3 5 6\n2", "expectedOutput": "1", "note": { "en": "Insert in middle", "bn": "মাঝে সন্নিবেশ" } },
+        { "input": "1 3 5 6\n7", "expectedOutput": "4", "note": { "en": "Insert at end", "bn": "শেষে সন্নিবেশ" } },
+        { "input": "1 3 5 6\n0", "expectedOutput": "0", "note": { "en": "Insert at index 0", "bn": "শুরুতে সন্নিবেশ" } },
+        { "input": "1 3 5 6\n5", "expectedOutput": "2", "note": { "en": "Existing element", "bn": "বিদ্যমান উপাদান" } }
+      ]
+    },
+    {
+      "id": "P11-11",
+      "number": 11,
+      "title": {
+        "en": "Integer Square Root via Binary Search",
+        "bn": "বাইনারি সার্চের মাধ্যমে পূর্ণসংখ্যা বর্গমূল (floor(sqrt(N)))"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Binary search on answer space", "bn": "উত্তরের পরিসরে বাইনারি সার্চ" },
+        { "en": "Avoiding floating-point precision errors", "bn": "ফ্লোটিং-পয়েন্ট ত্রুটি এড়ানো" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N (up to 10^18). Compute floor(sqrt(N)) in O(log N) time using Binary Search WITHOUT importing `math` or using floating-point `** 0.5` (which loses precision for large integers!).",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (10^18 পর্যন্ত) ইনপুট নিন। `math` বা ফ্লোটিং-পয়েন্ট `** 0.5` ব্যবহার না করে (যা বড় সংখ্যায় ভুল দেয়!) বাইনারি সার্চের মাধ্যমে O(log N) সময়ে floor(sqrt(N)) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 0).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Largest integer x such that x * x <= N.",
+        "bn": "সবচেয়ে বড় পূর্ণসংখ্যা x যেখানে x * x <= N।"
+      },
+      "examples": [
+        {
+          "input": "20",
+          "output": "4",
+          "explanation": {
+            "en": "4 * 4 = 16 <= 20, while 5 * 5 = 25 > 20, so floor(sqrt(20)) = 4.",
+            "bn": "4*4 = 16 <= 20 এবং 5*5 = 25 > 20, তাই উত্তর 4।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice that `x * x` increases monotonically as `x` increases from `0` to `N`—so you can Binary Search the answer space `[0, N]` directly without any array!",
+        "bn": "কোনো অ্যারে ছাড়াই `[0, N]` পরিসরে `x * x <= N` শর্তটি মনোটনিক, তাই সরাসরি উত্তরের পরিসরে বাইনারি সার্চ চালানো যায়!"
+      },
+      "hint2": {
+        "en": "When `mid * mid <= N`, `mid` is valid: store `ans = mid` and search higher (`low = mid + 1`); otherwise search lower (`high = mid - 1`).",
+        "bn": "`mid * mid <= N` হলে `ans = mid` রেখে `low = mid + 1`, নতুবা `high = mid - 1` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "For N = 10^18, linear guessing takes 10^9 steps and `int(N ** 0.5)` suffers 53-bit IEEE-754 float rounding errors! Binary Search on the answer range `[0, N]` uses exact integer multiplication `mid * mid <= N` and converges in ~60 iterations even for N = 10^18.",
+        "bn": "ফ্লোটিং-পয়েন্ট `** 0.5` ৫৩-বিট সীমার পর নির্ভুল থাকে না এবং লিনিয়ার সার্চ ১ বিলিয়ন ধাপ নেয়। কিন্তু `[0, N]` পরিসরে `mid * mid <= N` দিয়ে বাইনারি সার্চ করলে ১০^১৮-এর জন্যও মাত্র ~৬০ ধাপে নিখুঁত পূর্ণসংখ্যা উত্তর পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n. If n < 2, print n.", "bn": "n পড়ুন; n < 2 হলে n প্রিন্ট করুন।" },
+        { "en": "Set low = 1, high = n // 2, ans = 1.", "bn": "low = 1, high = n // 2, ans = 1 ধরুন।" },
+        { "en": "While low <= high: mid = (low + high) // 2; if mid * mid <= n, set ans = mid and low = mid + 1; else high = mid - 1.", "bn": "mid * mid <= n হলে ans = mid ও low = mid + 1, নতুবা high = mid - 1 করুন।" },
+        { "en": "Print ans.", "bn": "ans প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n < 2:\n    print(n)\nelse:\n    low, high = 1, n // 2\n    ans = 1\n    while low <= high:\n        mid = (low + high) // 2\n        if mid * mid <= n:\n            ans = mid\n            low = mid + 1\n        else:\n            high = mid - 1\n    print(ans)",
+      "codeExplanation": {
+        "en": "For n >= 2, sqrt(n) <= n // 2, shrinking the initial high bound by half immediately. Exact integer squaring mid * mid checks feasibility in O(1) per step.",
+        "bn": "n >= 2 হলে বর্গমূল সবসময় n // 2-এর সমান বা ছোট থাকে। প্রতি ধাপে পূর্ণসংখ্যার গুণফল mid * mid <= n পরীক্ষা করে উত্তর বের করা হয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "20", "expectedOutput": "4", "note": { "en": "Non-perfect square", "bn": "অপূর্ণবর্গ সংখ্যা" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero edge case", "bn": "শূন্য এজ কেস" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "One boundary", "bn": "১ বাউন্ডারি" } },
+        { "input": "999999999999999999", "expectedOutput": "999999999", "note": { "en": "Large integer where float **0.5 rounds wrongly to 10^9", "bn": "বড় সংখ্যা যেখানে float ভুল করে" } }
+      ]
+    },
+    {
+      "id": "P11-12",
+      "number": 12,
+      "title": {
+        "en": "Find Peak Element Index in O(log N)",
+        "bn": "O(log N) সময়ে পিক (Peak) উপাদানের সূচক নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Binary search on unsorted local slopes", "bn": "ঢাল (Slope) দেখে বাইনারি সার্চ" },
+        { "en": "Guaranteed peak invariant", "bn": "পিক থাকার নিশ্চয়তা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers where adjacent elements are distinct (`arr[i] != arr[i+1]`). A peak element is strictly greater than its neighbors (boundary elements only compare against their single neighbor). Find and print the 0-based index of ANY peak element in O(log N) time.",
+        "bn": "পাশাপাশি কোনো সমান উপাদান নেই এমন পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। যে উপাদান তার দুই পাশের প্রতিবেশীর চেয়ে বড় (প্রান্তিক উপাদানের ক্ষেত্রে কেবল এক পাশের প্রতিবেশীর চেয়ে বড়) তাকে পিক (Peak) উপাদান বলে। O(log N) সময়ে যেকোনো একটি পিক উপাদানের সূচক নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers (no two adjacent equal).",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা (পাশাপাশি সমান নয়)।"
+      },
+      "expectedOutput": {
+        "en": "0-based index of a peak element.",
+        "bn": "একটি পিক উপাদানের ০-ভিত্তিক সূচক।"
+      },
+      "examples": [
+        {
+          "input": "1 3 8 12 4 2",
+          "output": "3",
+          "explanation": {
+            "en": "12 at index 3 is greater than both neighbors 8 and 4.",
+            "bn": "সূচক ৩-এর ১২ তার দুই পাশের ৮ ও ৪ উভয়ের চেয়ে বড়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Surprise: Binary Search works here even though the array isn't fully sorted! Look at the slope between `arr[mid]` and `arr[mid + 1]`.",
+        "bn": "সম্পূর্ণ তালিকা সাজানো না হলেও শুধু `arr[mid]` ও `arr[mid + 1]`-এর ঢাল দেখেই বাইনারি সার্চ করা যায়!"
+      },
+      "hint2": {
+        "en": "If `arr[mid] < arr[mid + 1]`, the sequence is rising toward a peak on the right (`low = mid + 1`); otherwise, `mid` itself or something to its left must be a peak (`high = mid`).",
+        "bn": "`arr[mid] < arr[mid + 1]` হলে ডানে পাহাড় উঠছে (`low = mid + 1`), নতুবা বামে বা `mid`-এই পিক আছে (`high = mid`)।"
+      },
+      "logicBreakdown": {
+        "en": "Even when an array has multiple ups and downs, checking `arr[mid] < arr[mid + 1]` proves a peak MUST exist in `[mid + 1, high]` (either it keeps rising to the boundary `high`, or drops somewhere first—creating a peak!). Conversely if `arr[mid] > arr[mid + 1]`, a peak MUST exist in `[low, mid]`. Using `while low < high` converges cleanly on `low == high` as a guaranteed peak in O(log N).",
+        "bn": "যদি `arr[mid] < arr[mid + 1]` হয়, তবে ডানদিকে যেতে থাকলে সংখ্যাগুলো হয় শেষ প্রান্ত পর্যন্ত বাড়তে থাকবে (ফলে শেষ প্রান্ত পিক হবে) নতুবা কোথাও না কোথাও নামবে (ফলে তার আগে পিক তৈরি হবে)। তাই `while low < high` লুপে `high = mid` রাখলে শেষ পর্যন্ত `low` নিশ্চিত পিকে গিয়ে থামে।"
+      },
+      "algorithm": [
+        { "en": "Parse list arr.", "bn": "arr লিস্ট পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1.", "bn": "low = 0, high = len(arr) - 1 নিন।" },
+        { "en": "While low < high: mid = (low + high) // 2; if arr[mid] < arr[mid + 1], set low = mid + 1; else set high = mid.", "bn": "low < high পর্যন্ত: arr[mid] < arr[mid + 1] হলে low = mid + 1, নতুবা high = mid করুন।" },
+        { "en": "Print low.", "bn": "low প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nlow, high = 0, len(arr) - 1\nwhile low < high:\n    mid = (low + high) // 2\n    if arr[mid] < arr[mid + 1]:\n        low = mid + 1\n    else:\n        high = mid\nprint(low)",
+      "codeExplanation": {
+        "en": "Using while low < high keeps mid + 1 strictly within bounds. When arr[mid] > arr[mid + 1], mid could be the peak itself so high becomes mid (never mid - 1).",
+        "bn": "low < high শর্তে mid + 1 কখনোই সীমার বাইরে যায় না। arr[mid] > arr[mid + 1] হলে mid নিজেই পিক হতে পারে বলে high = mid রাখা হয়েছে।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 3 8 12 4 2", "expectedOutput": "3", "note": { "en": "Single mountain peak", "bn": "পাহাড়ের চূড়া" } },
+        { "input": "10 20 30 40", "expectedOutput": "3", "note": { "en": "Strictly ascending (last element is peak)", "bn": "ক্রমবর্ধমান (শেষটি পিক)" } },
+        { "input": "50 40 30 20", "expectedOutput": "0", "note": { "en": "Strictly descending (first element is peak)", "bn": "ক্রমহ্রাসমান (প্রথমটি পিক)" } },
+        { "input": "7", "expectedOutput": "0", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P11-13",
+      "number": 13,
+      "title": {
+        "en": "Minimum in Rotated Sorted Array",
+        "bn": "রোটেটেড সর্টেড অ্যারেতে ন্যূনতম উপাদান খোঁজা"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Identifying sorted vs rotated half", "bn": "সাজানো বনাম রোটেটেড অর্ধ শনাক্তকরণ" },
+        { "en": "Comparing arr[mid] with arr[high]", "bn": "arr[mid]-এর সাথে arr[high] তুলনা" }
+      ],
+      "description": {
+        "en": "A strictly increasing sorted array of distinct integers has been rotated an unknown number of times (e.g., `[4, 5, 6, 7, 0, 1, 2]`). Find and print the minimum element in O(log N) time.",
+        "bn": "ভিন্ন ভিন্ন পূর্ণসংখ্যার একটি সাজানো তালিকা অজানা সংখ্যক বার রোটেট করা হয়েছে (যেমন `[4, 5, 6, 7, 0, 1, 2]`)। O(log N) সময়ে এর সবচেয়ে ছোট উপাদানটি খুঁজে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated distinct integers (rotated sorted).",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন রোটেটেড সর্টেড পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The minimum integer in the array.",
+        "bn": "তালিকার সর্বনিম্ন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "4 5 6 7 0 1 2",
+          "output": "0",
+          "explanation": {
+            "en": "The rotation pivot drops from 7 to 0; 0 is the minimum.",
+            "bn": "৭ থেকে ০-এ ঘূর্ণন ঘটেছে; সর্বনিম্ন মান 0।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why compare `arr[mid]` with `arr[high]` instead of `arr[low]`? Comparing with `arr[high]` works even when the array is NOT rotated at all (0 rotations)!",
+        "bn": "`arr[low]`-এর বদলে `arr[high]`-এর সাথে তুলনা করলে তালিকাটি মোটেও রোটেট না হলেও (0 রোটেশন) সঠিক কাজ করে!"
+      },
+      "hint2": {
+        "en": "If `arr[mid] > arr[high]`, the cliff/minimum MUST lie strictly to the right (`low = mid + 1`); otherwise it lies at `mid` or left (`high = mid`).",
+        "bn": "`arr[mid] > arr[high]` হলে ক্ষুদ্রতম উপাদান ডান অর্ধে (`low = mid + 1`), নতুবা `mid` বা তার বামে (`high = mid`) রয়েছে।"
+      },
+      "logicBreakdown": {
+        "en": "In a rotated sorted array with distinct elements, if `arr[mid] > arr[high]`, the wrap-around pivot (and thus the minimum) must sit in `(mid, high]`, so `arr[mid]` cannot be the minimum (`low = mid + 1`). Otherwise `arr[mid] <= arr[high]` means `[mid..high]` is sorted upward, so the minimum cannot lie past `mid` (`high = mid`).",
+        "bn": "যদি `arr[mid] > arr[high]` হয়, তবে বড় মান থেকে ছোট মানে পতন ডান অর্ধেই ঘটেছে এবং `arr[mid]` নিজে কখনোই সর্বনিম্ন নয়—তাই `low = mid + 1`। নতুবা ডান অর্ধটি স্বাভাবিক সাজানো থাকায় সর্বনিম্ন মান `mid` বা তার বামে থাকবে (`high = mid`)।"
+      },
+      "algorithm": [
+        { "en": "Parse rotated sorted list arr.", "bn": "arr পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1.", "bn": "low = 0, high = len(arr) - 1 ধরুন।" },
+        { "en": "While low < high: if arr[mid] > arr[high], low = mid + 1; else high = mid.", "bn": "low < high পর্যন্ত: arr[mid] > arr[high] হলে low = mid + 1, নতুবা high = mid।" },
+        { "en": "Print arr[low].", "bn": "arr[low] প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nlow, high = 0, len(arr) - 1\nwhile low < high:\n    mid = (low + high) // 2\n    if arr[mid] > arr[high]:\n        low = mid + 1\n    else:\n        high = mid\nprint(arr[low])",
+      "codeExplanation": {
+        "en": "The invariant keeps the minimum inside [low, high]. When arr[mid] > arr[high], mid is strictly skipped via low = mid + 1; otherwise high moves to mid so mid stays a candidate.",
+        "bn": "প্রতি ধাপে সর্বনিম্ন উপাদানটি [low, high]-এর ভেতরে থাকে। শেষে low == high হলে arr[low] ন্যূনতম মান দেয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "4 5 6 7 0 1 2", "expectedOutput": "0", "note": { "en": "Pivot in right half", "bn": "ডানে রোটেশন বিন্দু" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "1", "note": { "en": "Zero rotations (fully sorted)", "bn": "রোটেশনহীন তালিকা" } },
+        { "input": "2 3 4 5 1", "expectedOutput": "1", "note": { "en": "Minimum at last index", "bn": "শেষে ন্যূনতম মান" } },
+        { "input": "9", "expectedOutput": "9", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P11-14",
+      "number": 14,
+      "title": {
+        "en": "Two-Pointer Pair Search in Sorted Array",
+        "bn": "সাজানো তালিকায় টু-পয়েন্টার জোড়া অনুসন্ধান"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Opposite-ends two-pointer search", "bn": "দুই প্রান্ত থেকে টু-পয়েন্টার সার্চ" },
+        { "en": "O(1) extra space vs hash map", "bn": "হ্যাশ ম্যাপের বদলে O(1) অতিরিক্ত মেমোরি" }
+      ],
+      "description": {
+        "en": "Given a sorted (non-decreasing) array of integers and a target integer S, determine in O(N) time and O(1) auxiliary space whether two distinct indices i < j exist with `arr[i] + arr[j] == S`. If found, print the 0-based indices `i j` (if multiple exist, print the pair found first by shrinking inward from the ends); otherwise print 'None'.",
+        "bn": "ছোট থেকে বড় ক্রমে সাজানো পূর্ণসংখ্যার একটি তালিকা ও লক্ষ্য যোগফল S ইনপুট নিন। হ্যাশ ম্যাপ ছাড়া O(N) সময় এবং O(1) অতিরিক্ত মেমোরিতে এমন দুটি ভিন্ন সূচক i < j আছে কি না খুঁজুন যাদের `arr[i] + arr[j] == S`। পাওয়া গেলে `i j` (এবং না পেলে 'None') প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted space-separated integers. Line 2: integer target S.",
+        "bn": "১ম লাইন: সাজানো পূর্ণসংখ্যা। ২য় লাইন: লক্ষ্য যোগফল S।"
+      },
+      "expectedOutput": {
+        "en": "'i j' (0-based indices) or 'None'.",
+        "bn": "'i j' অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "1 2 4 6 10 15\n14",
+          "output": "2 4",
+          "explanation": {
+            "en": "arr[2] + arr[4] = 4 + 10 = 14.",
+            "bn": "arr[2] + arr[4] = 4 + 10 = 14।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Place `left = 0` at the smallest value and `right = len(arr) - 1` at the largest value.",
+        "bn": "`left = 0` সবচেয়ে ছোট মানে এবং `right = len(arr) - 1` সবচেয়ে বড় মানে রাখুন।"
+      },
+      "hint2": {
+        "en": "If `arr[left] + arr[right] < S`, moving `right` left only decreases the sum—so you MUST move `left += 1`! Symmetrically, if sum `> S`, move `right -= 1`.",
+        "bn": "যোগফল `< S` হলে একমাত্র বাড়ানোর উপায় `left += 1`; আর `> S` হলে কমানোর উপায় `right -= 1`!"
+      },
+      "logicBreakdown": {
+        "en": "On an unsorted array, Two-Sum needs an O(N) hash dictionary (P08-16). On a SORTED array, sorted order lets opposite-end pointers eliminate one entire row/column of the pair matrix at each step in O(1) extra space! If `arr[left] + arr[right] < S`, `arr[left]` paired with ANY smaller index `<= right` would also be `< S`, so `left` can never participate in a valid pair and is safely discarded.",
+        "bn": "সাজানো থাকার সুবিধায় বাম পয়েন্টার বাড়ালে যোগফল বাড়ে আর ডান পয়েন্টার কমালে যোগফল কমে। ফলে কোনো অতিরিক্ত ডিকশনারি ছাড়াই O(N) সময়ে এবং O(1) অতিরিক্ত মেমোরিতে জোড়া খুঁজে পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr and target S.", "bn": "arr ও S পড়ুন।" },
+        { "en": "Initialize left = 0, right = len(arr) - 1.", "bn": "left = 0 ও right = len(arr) - 1 ধরুন।" },
+        { "en": "While left < right: compute cur = arr[left] + arr[right]. If cur == S print(left, right) and break; elif cur < S left += 1; else right -= 1.", "bn": "cur == S হলে সূচকদ্বয় প্রিন্ট করুন; ছোট হলে left += 1, বড় হলে right -= 1 করুন।" },
+        { "en": "If loop finishes without break, print 'None'.", "bn": "না পেলে 'None' প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nleft, right = 0, len(arr) - 1\nwhile left < right:\n    cur = arr[left] + arr[right]\n    if cur == target:\n        print(left, right)\n        break\n    elif cur < target:\n        left += 1\n    else:\n        right -= 1\nelse:\n    print(\"None\")",
+      "codeExplanation": {
+        "en": "Strictly requiring left < right ensures two distinct elements are paired. Each pointer moves inward at most N times total, guaranteeing linear runtime and constant auxiliary memory.",
+        "bn": "left < right শর্ত দুটি ভিন্ন সূচক নিশ্চিত করে। প্রতি ধাপে অন্তত একটি পয়েন্টার ভেতরের দিকে এগোয় বলে মোট ধাপ সংখ্যা সর্বোচ্চ N।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 4 6 10 15\n14", "expectedOutput": "2 4", "note": { "en": "Valid pair found", "bn": "বৈধ জোড়া পাওয়া গেছে" } },
+        { "input": "-5 -1 0 3 8\n2", "expectedOutput": "1 3", "note": { "en": "Negative + positive pair (-1 + 3)", "bn": "ঋণাত্মক ও ধনাত্মক (-1 + 3)" } },
+        { "input": "2 5 9\n10", "expectedOutput": "None", "note": { "en": "Cannot reuse element 5 with itself", "bn": "একই উপাদান দুবার নেওয়া যায় না" } }
+      ]
+    },
+    {
+      "id": "P11-15",
+      "number": 15,
+      "title": {
+        "en": "Batch Query Search Optimization (Sort + Binary Search)",
+        "bn": "একাধিক কুয়েরি অনুসন্ধান অপটিমাইজেশন (সর্ট + বাইনারি সার্চ)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Amortizing O(N log N) sort over Q queries", "bn": "Qটি কুয়েরির জন্য সর্টিংয়ের খরচ ভাগ করে নেওয়া" },
+        { "en": "Linear O(N*Q) vs O((N+Q) log N)", "bn": "O(N*Q) বনাম O((N+Q) log N) তুলনা" }
+      ],
+      "description": {
+        "en": "Read an UNSORTED list of integers, followed by a line of Q query integers. For each query, determine whether it exists in the list ('YES' or 'NO') and print the space-separated answers. Optimize using sorting + Binary Search instead of running Q linear searches.",
+        "bn": "একটি অসাজানো পূর্ণসংখ্যার তালিকা এবং পরের লাইনে Qটি অনুসন্ধান কুয়েরি ইনপুট নিন। প্রতিটি কুয়েরি তালিকায় আছে কি না ('YES' বা 'NO') স্পেস দিয়ে আলাদা করে প্রিন্ট করুন। প্রতিটি কুয়েরিতে লিনিয়ার সার্চ না চালিয়ে ডেটা সাজিয়ে বাইনারি সার্চের মাধ্যমে অপটিমাইজ করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: unsorted space-separated integers. Line 2: space-separated query integers.",
+        "bn": "১ম লাইন: অসাজানো পূর্ণসংখ্যা। ২য় লাইন: কুয়েরি পূর্ণসংখ্যাগুলো।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated 'YES'/'NO' answers matching each query in order.",
+        "bn": "প্রতিটি কুয়েরির ক্রম অনুযায়ী স্পেস-বিচ্ছিন্ন 'YES'/'NO'।"
+      },
+      "examples": [
+        {
+          "input": "18 4 27 9 12\n9 5 18 1",
+          "output": "YES NO YES NO",
+          "explanation": {
+            "en": "After sorting [4, 9, 12, 18, 27], each query runs in O(log N).",
+            "bn": "তালিকা সাজানোর পর প্রতিটি কুয়েরি O(log N) সময়ে যাচাই হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "For 1 query on unsorted data, Linear Search O(N) beats Sort+Binary Search O(N log N). When Q is large, sorting ONCE drops total time from O(N*Q) to O((N+Q) log N)!",
+        "bn": "মাত্র ১টি কুয়েরিতে লিনিয়ার সার্চ ভালো, কিন্তু Q বড় হলে একবার সাজিয়ে নেওয়ায় সময় O(N*Q) থেকে কমে O((N+Q) log N) হয়!"
+      },
+      "hint2": {
+        "en": "Sort a copy of `arr` once, write a `binary_search(sorted_arr, q)` helper returning True/False, and run it for every query.",
+        "bn": "`arr` একবার সর্ট করে প্রতিটি কুয়েরির জন্য `binary_search` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A foundational engineering question is: 'When is sorting first worth it?' If N = 100,000 and Q = 1, sorting takes ~1.7M operations vs 100k for Linear Search. But if Q = 100,000, Q linear searches take 10^10 operations (timeout!), whereas sorting once + Q binary searches take ~3.4M operations. Understanding this trade-off separates algorithm engineers from brute-force coders.",
+        "bn": "একটি কুয়েরির জন্য অসাজানো ডেটা সর্ট করা অযথা খরচ, কিন্তু হাজার হাজার কুয়েরি থাকলে একবার O(N log N) খরচে সর্ট করে নেওয়া সবগুলো কুয়েরিকে O(log N) গতিতে নামিয়ে আনে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and queries lists.", "bn": "arr ও queries লিস্ট পড়ুন।" },
+        { "en": "Sort arr once: arr.sort().", "bn": "arr একবার সর্ট করুন।" },
+        { "en": "Define binary_search(arr, target) returning bool.", "bn": "বুলিয়ান রিটার্ন করা binary_search ফাংশন লিখুন।" },
+        { "en": "Evaluate every q in queries and join 'YES'/'NO'.", "bn": "প্রতিটি q-এর জন্য 'YES' বা 'NO' প্রিন্ট করুন।" }
+      ],
+      "solution": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return True\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return False\n\narr = [int(x) for x in input().split()]\nqueries = [int(x) for x in input().split()]\narr.sort()\n\nresults = [\"YES\" if binary_search(arr, q) else \"NO\" for q in queries]\nprint(\" \".join(results))",
+      "codeExplanation": {
+        "en": "arr.sort() sorts once in O(N log N). Each query then executes O(log N) binary_search instead of scanning N items.",
+        "bn": "arr.sort() একবার ডেটা সাজিয়ে দেয়, এরপর প্রতিটি কুয়েরি O(log N) বাইনারি সার্চ দিয়ে দ্রুত উত্তর বের করে।"
+      },
+      "complexity": { "time": "O((N + Q) log N)", "space": "O(N + Q)" },
+      "testCases": [
+        { "input": "18 4 27 9 12\n9 5 18 1", "expectedOutput": "YES NO YES NO", "note": { "en": "Mixed hits and misses", "bn": "মিশ্র কুয়েরি" } },
+        { "input": "10 10 10\n10 20", "expectedOutput": "YES NO", "note": { "en": "Duplicates in data", "bn": "ডুপ্লিকেট ডেটা" } },
+        { "input": "   \n1 2", "expectedOutput": "NO NO", "note": { "en": "Empty dataset", "bn": "খালি ডেটাসেট" } }
+      ]
+    },
+    {
+      "id": "P11-16",
+      "number": 16,
+      "title": {
+        "en": "Search Target in Rotated Sorted Array",
+        "bn": "রোটেটেড সর্টেড অ্যারেতে লক্ষ্য উপাদান খোঁজা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Half-sorted guarantee in rotated arrays", "bn": "প্রতিটি বিভাজনে অন্তত এক অর্ধ সাজানো থাকার নিশ্চয়তা" },
+        { "en": "Range-check inside sorted half", "bn": "সাজানো অর্ধের ভেতর সীমা যাচাই" }
+      ],
+      "description": {
+        "en": "Given a rotated sorted array of distinct integers (e.g. `4 5 6 7 0 1 2`) and a target integer, find the 0-based index of target in O(log N) time, or print -1 if absent.",
+        "bn": "ভিন্ন ভিন্ন পূর্ণসংখ্যার একটি রোটেটেড সর্টেড তালিকা (যেমন `4 5 6 7 0 1 2`) এবং একটি target ইনপুট নিন। O(log N) সময়ে target-এর ০-ভিত্তিক সূচক নির্ণয় করুন; না থাকলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: distinct rotated sorted integers. Line 2: integer target.",
+        "bn": "১ম লাইন: রোটেটেড সর্টেড স্বতন্ত্র পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "0-based index of target, or -1.",
+        "bn": "target-এর সূচক অথবা -1।"
+      },
+      "examples": [
+        {
+          "input": "4 5 6 7 0 1 2\n0",
+          "output": "4",
+          "explanation": {
+            "en": "0 is located at index 4.",
+            "bn": "0 সংখ্যাটি ৪ নম্বর সূচকে রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Whenever you split a rotated sorted array at `mid`, AT LEAST ONE of `[low..mid]` or `[mid..high]` is guaranteed to be normally sorted!",
+        "bn": "রোটেটেড সর্টেড অ্যারে মাঝখানে ভাগ করলে বাম অর্ধ অথবা ডান অর্ধ—অন্তত একটি অংশ সবসময় সম্পূর্ণ সাজানো থাকে!"
+      },
+      "hint2": {
+        "en": "First check `arr[low] <= arr[mid]` to see which half is sorted. Then check whether `target` lies inside that sorted half's `[min, max]` interval!",
+        "bn": "প্রথমে `arr[low] <= arr[mid]` দিয়ে কোন অর্ধ সাজানো তা দেখুন; তারপর `target` সেই সাজানো সীমার ভেতরে পড়ে কি না যাচাই করে অর্ধেক অংশ বাদ দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Even after rotation, splitting `[low..high]` at `mid` always leaves one cleanly sorted side: if `arr[low] <= arr[mid]`, `[low..mid]` is sorted—so `arr[low] <= target < arr[mid]` tells you deterministically whether to search left (`high = mid - 1`) or right (`low = mid + 1`). Otherwise `[mid..high]` is sorted and we apply the symmetric interval test. Note `<=` in `arr[low] <= arr[mid]` handles the 2-element boundary when `low == mid`!",
+        "bn": "ভাগ করার পর যে অর্ধটি সাজানো, কেবল তার দুই প্রান্ত দেখে নিশ্চিতভাবে বলা যায় `target` তার ভেতরে আছে কি না। একটি সূক্ষ্ম দিক হলো ২টি উপাদানের ক্ষেত্রে `low == mid` হতে পারে, তাই `arr[low] < arr[mid]`-এর বদলে `arr[low] <= arr[mid]` লিখতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Parse arr and target.", "bn": "arr ও target পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1.", "bn": "low ও high নির্ধারণ করুন।" },
+        { "en": "While low <= high: if arr[mid] == target return mid. If arr[low] <= arr[mid]: check arr[low] <= target < arr[mid] to move high or low; else check arr[mid] < target <= arr[high].", "bn": "সাজানো অর্ধ শনাক্ত করে target সীমার ভেতরে থাকলে সেই অর্ধে, নতুবা অন্য অর্ধে যান।" },
+        { "en": "Print -1 if not found.", "bn": "না পেলে -1 প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ntarget = int(input())\n\nlow, high = 0, len(arr) - 1\nans = -1\nwhile low <= high:\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        ans = mid\n        break\n    if arr[low] <= arr[mid]:  # Left half is sorted\n        if arr[low] <= target < arr[mid]:\n            high = mid - 1\n        else:\n            low = mid + 1\n    else:  # Right half is sorted\n        if arr[mid] < target <= arr[high]:\n            low = mid + 1\n        else:\n            high = mid - 1\nprint(ans)",
+      "codeExplanation": {
+        "en": "At each iteration, one half is guaranteed sorted. Using <= on arr[low] <= arr[mid] and boundary checks correctly narrows the window in O(log N) steps.",
+        "bn": "প্রতি ধাপে সাজানো অর্ধের সীমায় target পড়ে কি না যাচাই করে নিশ্চিতভাবে অর্ধেক ডেটা বাদ দেওয়া হয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "4 5 6 7 0 1 2\n0", "expectedOutput": "4", "note": { "en": "Target in right rotated part", "bn": "ডান অংশে target" } },
+        { "input": "4 5 6 7 0 1 2\n3", "expectedOutput": "-1", "note": { "en": "Absent target", "bn": "অনুপস্থিত মান" } },
+        { "input": "3 1\n1", "expectedOutput": "1", "note": { "en": "2-element rotated edge case (low == mid)", "bn": "২-উপাদান রোটেটেড এজ কেস" } },
+        { "input": "1 2 3 4 5\n4", "expectedOutput": "3", "note": { "en": "Unrotated sorted array", "bn": "রোটেশন ছাড়া সাজানো তালিকা" } }
+      ]
+    },
+    {
+      "id": "P11-17",
+      "number": 17,
+      "title": {
+        "en": "Search in Row & Column Sorted 2D Matrix",
+        "bn": "সারি ও কলাম অনুযায়ী সাজানো ২ডি ম্যাট্রিক্সে অনুসন্ধান"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Staircase elimination search", "bn": "স্টেয়ারকেস (কোণা থেকে) সার্চ" },
+        { "en": "Eliminating a full row or column per step", "bn": "প্রতি ধাপে পুরো সারি বা কলাম বাদ দেওয়া" }
+      ],
+      "description": {
+        "en": "Read R and C on line 1, followed by R rows of C integers where every row is sorted left-to-right AND every column is sorted top-to-bottom. Read target on the last line. Search for target in O(R + C) time and print '<row> <col>' (0-based) or 'Not Found'.",
+        "bn": "প্রথম লাইনে সারি R ও কলাম C এবং পরের R লাইনে এমন একটি ম্যাট্রিক্স ইনপুট নিন যার প্রতিটি সারি বাম থেকে ডানে এবং প্রতিটি কলাম উপর থেকে নিচে সাজানো। শেষ লাইনে target দিন। O(R + C) সময়ে target খুঁজে '<row> <col>' অথবা 'Not Found' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: R C. Next R lines: C sorted integers. Final line: target.",
+        "bn": "১ম লাইন: R C। পরের R লাইন: ম্যাট্রিক্স সারি। শেষ লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "0-based 'r c', or 'Not Found'.",
+        "bn": "০-ভিত্তিক 'r c' অথবা 'Not Found'।"
+      },
+      "examples": [
+        {
+          "input": "3 4\n1 4 7 11\n2 5 8 12\n3 6 9 16\n9",
+          "output": "2 2",
+          "explanation": {
+            "en": "Starting at top-right (0,3)=11 > 9 -> move left to (0,2)=7 < 9 -> down to (1,2)=8 < 9 -> down to (2,2)=9!",
+            "bn": "উপরের-ডান কোণা (0,3)=11 থেকে বামে 7, তারপর নিচে 8, তারপর (2,2)=9 পাওয়া গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why NOT start at top-left `(0, 0)`? From `(0, 0)`, both down and right are larger—so you wouldn't know which way to go!",
+        "bn": "উপরের-বাম `(0, 0)` থেকে শুরু করা যায় না কেন? কারণ ডানে ও নিচে উভয় দিকেই সংখ্যা বাড়ে!"
+      },
+      "hint2": {
+        "en": "Start at top-right `(0, C - 1)`: everything left of it is SMALLER, and everything below it is LARGER—giving an unambiguous choice every step!",
+        "bn": "উপরের-ডান কোণা `(0, C - 1)` থেকে শুরু করুন: এর বামের সব মান ছোট এবং নিচের সব মান বড়—তাই প্রতি ধাপে একটি স্পষ্ট সিদ্ধান্ত পাওয়া যায়!"
+      },
+      "logicBreakdown": {
+        "en": "Top-right (or bottom-left) acts as a 2D decision pivot: at `(r, c)`, if `mat[r][c] > target`, every element below `mat[r][c]` in column `c` is even larger, so column `c` is eliminated (`c -= 1`). If `mat[r][c] < target`, every element left of `mat[r][c]` in row `r` is even smaller, so row `r` is eliminated (`r += 1`). Each step removes a row or column in O(R + C) total steps!",
+        "bn": "উপরের-ডান কোণা `(r, c)`-তে `mat[r][c] > target` হলে ঐ কলামের নিচের সব সংখ্যা আরও বড় বলে পুরো কলাম বাদ (`c -= 1`) দেওয়া যায়। আর `< target` হলে ঐ সারির বামের সব সংখ্যা আরও ছোট বলে পুরো সারি বাদ (`r += 1`) দেওয়া যায়। ফলে সর্বোচ্চ R + C ধাপেই উত্তর পাওয়া যায়!"
+      },
+      "algorithm": [
+        { "en": "Read r_cnt, c_cnt, matrix rows, and target.", "bn": "R, C, ম্যাট্রিক্স ও target পড়ুন।" },
+        { "en": "Start at r = 0, c = c_cnt - 1.", "bn": "r = 0, c = c_cnt - 1 থেকে শুরু করুন।" },
+        { "en": "While r < r_cnt and c >= 0: if mat[r][c] == target print(r, c) and break; elif mat[r][c] > target c -= 1; else r += 1.", "bn": "সমান হলে (r, c) প্রিন্ট করুন; বড় হলে c -= 1, ছোট হলে r += 1 করুন।" },
+        { "en": "If out of bounds without finding target, print 'Not Found'.", "bn": "সীমার বাইরে গেলে 'Not Found' প্রিন্ট করুন।" }
+      ],
+      "solution": "rows, cols = map(int, input().split())\nmat = [[int(x) for x in input().split()] for _ in range(rows)]\ntarget = int(input())\n\nr, c = 0, cols - 1\nwhile r < rows and c >= 0:\n    if mat[r][c] == target:\n        print(r, c)\n        break\n    elif mat[r][c] > target:\n        c -= 1\n    else:\n        r += 1\nelse:\n    print(\"Not Found\")",
+      "codeExplanation": {
+        "en": "Starting at top-right ensures each comparison eliminates either an entire column (c -= 1) or an entire row (r += 1), terminating in at most rows + cols iterations.",
+        "bn": "উপরের-ডান কোণা থেকে শুরু করায় প্রতি ধাপে একটি সম্পূর্ণ সারি বা কলাম বাদ পড়ে এবং সর্বোচ্চ R + C ধাপে অনুসন্ধান শেষ হয়।"
+      },
+      "complexity": { "time": "O(R + C)", "space": "O(R * C) matrix, O(1) auxiliary" },
+      "testCases": [
+        { "input": "3 4\n1 4 7 11\n2 5 8 12\n3 6 9 16\n9", "expectedOutput": "2 2", "note": { "en": "Middle matrix match", "bn": "ম্যাট্রিক্সের ভেতর মিল" } },
+        { "input": "3 3\n1 2 3\n4 5 6\n7 8 9\n10", "expectedOutput": "Not Found", "note": { "en": "Greater than max", "bn": "সর্বোচ্চের চেয়ে বড়" } },
+        { "input": "2 2\n5 10\n15 20\n15", "expectedOutput": "1 0", "note": { "en": "Bottom-left corner", "bn": "নিচের-বাম কোণা" } }
+      ]
+    },
+    {
+      "id": "P11-18",
+      "number": 18,
+      "title": {
+        "en": "Missing Term in Arithmetic Progression in O(log N)",
+        "bn": "সমান্তর প্রগমনে অনুপস্থিত পদ নির্ণয় (O(log N))"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Expected value formula arr[0] + i * d", "bn": "প্রত্যাশিত মান arr[0] + i * d" },
+        { "en": "Binary search on index mismatch", "bn": "সূচক-ভিত্তিক অমিল খোঁজার বাইনারি সার্চ" }
+      ],
+      "description": {
+        "en": "Read a sorted array of N >= 3 integers representing an Arithmetic Progression with exactly ONE interior term missing (never the first or last term). Find and print the missing term in O(log N) time.",
+        "bn": "N >= 3টি পূর্ণসংখ্যার একটি সমান্তর প্রগমন (Arithmetic Progression) ইনপুট নিন যেখান থেকে মাঝের ঠিক একটি পদ বাদ পড়েছে (প্রথম ও শেষ পদ নয়)। O(log N) সময়ে বাইনারি সার্চ ব্যবহার করে অনুপস্থিত পদটি নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of N >= 3 space-separated integers forming an AP minus one interior term.",
+        "bn": "এক লাইনে N >= 3টি পূর্ণসংখ্যা (মাঝের একটি পদ অনুপস্থিত)।"
+      },
+      "expectedOutput": {
+        "en": "The missing integer term.",
+        "bn": "অনুপস্থিত পূর্ণসংখ্যা পদটি।"
+      },
+      "examples": [
+        {
+          "input": "2 4 8 10 12",
+          "output": "6",
+          "explanation": {
+            "en": "Common difference d = (12 - 2) // 5 = 2. Index 2 has 8 instead of 2 + 2*2 = 6.",
+            "bn": "সাধারণ অন্তর d = (12 - 2) // 5 = 2; সূচক ২-এ ৬ থাকার কথা ছিল।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Because the original sequence had `N + 1` terms (`len(arr)` present + 1 missing) and both endpoints are present, `d = (arr[-1] - arr[0]) // len(arr)`!",
+        "bn": "মোট `len(arr) + 1`টি পদ ছিল এবং দুই প্রান্তের পদ উপস্থিত, তাই সাধারণ অন্তর `d = (arr[-1] - arr[0]) // len(arr)`!"
+      },
+      "hint2": {
+        "en": "At index `mid`, if `arr[mid] == arr[0] + mid * d`, nothing is missing to the left of `mid` (`low = mid + 1`); otherwise the missing term is at or before `mid` (`high = mid`).",
+        "bn": "`arr[mid] == arr[0] + mid * d` হলে `mid` পর্যন্ত কোনো পদ হারায়নি (`low = mid + 1`), নতুবা `high = mid`।"
+      },
+      "logicBreakdown": {
+        "en": "Knowing both endpoints lets us compute the exact common difference `d = (arr[-1] - arr[0]) // len(arr)`. Before the missing gap, every element satisfies `arr[i] == arr[0] + i * d`. From the gap onward, every element shifts by `+d` (`arr[i] == arr[0] + (i + 1) * d`). Binary Search locates the first shifted index `low`, and the missing value is `arr[0] + low * d` in O(log N)!",
+        "bn": "প্রথম ও শেষ পদ থেকে সাধারণ অন্তর `d` বের করা যায়। হারিয়ে যাওয়া পদের আগে পর্যন্ত প্রতিটি সূচক `arr[i] == arr[0] + i * d` মানে, আর তার পরের পদগুলো এক ঘর এগিয়ে যায়। বাইনারি সার্চ প্রথম অসঙ্গতিপূর্ণ সূচক `low` খুঁজে বের করে, এবং `arr[0] + low * d`-ই উত্তর।"
+      },
+      "algorithm": [
+        { "en": "Parse list arr of length n.", "bn": "n দৈর্ঘ্যের arr লিস্ট পড়ুন।" },
+        { "en": "Compute d = (arr[-1] - arr[0]) // n.", "bn": "d = (arr[-1] - arr[0]) // n বের করুন।" },
+        { "en": "Binary search low = 0, high = n - 1 while low < high: if arr[mid] == arr[0] + mid * d, low = mid + 1; else high = mid.", "bn": "arr[mid] == arr[0] + mid * d হলে low = mid + 1, নতুবা high = mid করুন।" },
+        { "en": "Print arr[0] + low * d.", "bn": "arr[0] + low * d প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nn = len(arr)\nd = (arr[-1] - arr[0]) // n\n\nlow, high = 0, n - 1\nwhile low < high:\n    mid = (low + high) // 2\n    if arr[mid] == arr[0] + mid * d:\n        low = mid + 1\n    else:\n        high = mid\nprint(arr[0] + low * d)",
+      "codeExplanation": {
+        "en": "Because exactly one term is missing between arr[0] and arr[-1], there are n intervals of width d across arr[0]..arr[-1]. Binary search pinpoints the first index low whose value deviates from arr[0] + low * d.",
+        "bn": "arr[0] থেকে arr[-1]-এর মধ্যে ঠিক একটি পদ অনুপস্থিত থাকায় মোট nটি ব্যবধান রয়েছে। বাইনারি সার্চে প্রথম বিচ্যুত সূচক low পেয়ে arr[0] + low * d প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 4 8 10 12", "expectedOutput": "6", "note": { "en": "Positive AP missing middle", "bn": "ধনাত্মক প্রগমন" } },
+        { "input": "1 6 11 16 26", "expectedOutput": "21", "note": { "en": "Missing near end", "bn": "শেষের দিকে অনুপস্থিত" } },
+        { "input": "-10 -4 2 14", "expectedOutput": "8", "note": { "en": "Negative starting term AP (d = 6)", "bn": "ঋণাত্মক প্রথম পদের প্রগমন" } },
+        { "input": "20 15 5 0", "expectedOutput": "10", "note": { "en": "Decreasing AP (negative d = -5)", "bn": "ক্রমহ্রাসমান প্রগমন (ঋণাত্মক অন্তর)" } }
+      ]
+    },
+    {
+      "id": "P11-19",
+      "number": 19,
+      "title": {
+        "en": "Single Non-Duplicate Element in Sorted Array",
+        "bn": "সাজানো তালিকায় একমাত্র জোড়াবিহীন উপাদান (O(log N))"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Index parity before vs after singleton", "bn": "একক উপাদানের আগে-পরে সূচকের জোড়-বিজোড় নিয়ম" },
+        { "en": "Even-index pairing with mid ^ 1", "bn": "জোড় সূচক ও mid ^ 1 তুলনা" }
+      ],
+      "description": {
+        "en": "Read a sorted array of integers where every element appears TWICE except for exactly ONE element that appears ONCE. Find and print that single element in O(log N) time and O(1) auxiliary space (not O(N) XOR scan!).",
+        "bn": "সাজানো পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন যেখানে একটিমাত্র উপাদান বাদে বাকি প্রতিটি উপাদান ঠিক দুবার করে আছে। O(N) XOR স্ক্যানের বদলে O(log N) সময়ে বাইনারি সার্চ ব্যবহার করে সেই একমাত্র একক উপাদানটি খুঁজে বের করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of odd number of sorted space-separated integers.",
+        "bn": "এক লাইনে বিজোড় সংখ্যক সাজানো পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The single non-duplicate integer.",
+        "bn": "একমাত্র জোড়াবিহীন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "1 1 2 3 3 4 4 8 8",
+          "output": "2",
+          "explanation": {
+            "en": "Before 2: pairs sit at (even, odd) = (0,1). After 2: pairs shift to (odd, even) = (3,4), (5,6), (7,8)!",
+            "bn": "২-এর আগে জোড়াগুলো (জোড়, বিজোড়) সূচকে ছিল; ২-এর পরে সব জোড়া (বিজোড়, জোড়) সূচকে সরে গেছে!"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Before the single element, every pair starts at an EVEN index (`0, 2, 4...`). After the single element, every pair starts at an ODD index!",
+        "bn": "একক উপাদানটির আগে প্রতিটি জোড়া জোড় সূচকে শুরু হয় (`0, 2, 4...`), আর পরে শুরু হয় বিজোড় সূচকে!"
+      },
+      "hint2": {
+        "en": "Force `mid` to be even (`if mid % 2 == 1: mid -= 1`). If `arr[mid] == arr[mid + 1]`, the left side up to `mid+1` is cleanly paired, so search right (`low = mid + 2`); else search left (`high = mid`).",
+        "bn": "`mid` বিজোড় হলে ১ কমিয়ে জোড় করুন। যদি `arr[mid] == arr[mid + 1]` হয়, তবে বামে জোড়া ঠিক আছে—তাই `low = mid + 2`; নতুবা `high = mid`।"
+      },
+      "logicBreakdown": {
+        "en": "While an XOR loop solves this in O(N), sorted order enables O(log N) Binary Search via index parity. Aligning `mid` to an even index turns pair inspection into one check: if `arr[mid] == arr[mid + 1]`, no singleton disrupted parity before `mid`, so the singleton lies strictly after `mid + 1` (`low = mid + 2`). Otherwise parity already broke at or before `mid` (`high = mid`).",
+        "bn": "সাজানো থাকার কারণে সূচকের জোড়-বিজোড় দেখে একক উপাদান কোন পাশে আছে তা বোঝা যায়। `mid`-কে সবসময় জোড় করে নিয়ে `arr[mid] == arr[mid + 1]` পরীক্ষা করলে বামের জোড়াগুলো অক্ষত আছে কি না তা O(1)-এ জানা যায়, ফলে বাইনারি সার্চ O(log N)-এ উত্তর দেয়।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted list arr.", "bn": "arr পড়ুন।" },
+        { "en": "Set low = 0, high = len(arr) - 1.", "bn": "low = 0, high = len(arr) - 1 ধরুন।" },
+        { "en": "While low < high: mid = (low + high) // 2; if mid % 2 == 1: mid -= 1. If arr[mid] == arr[mid + 1], low = mid + 2; else high = mid.", "bn": "mid জোড় করে arr[mid] == arr[mid+1] হলে low = mid + 2, নতুবা high = mid করুন।" },
+        { "en": "Print arr[low].", "bn": "arr[low] প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nlow, high = 0, len(arr) - 1\nwhile low < high:\n    mid = (low + high) // 2\n    if mid % 2 == 1:\n        mid -= 1\n    if arr[mid] == arr[mid + 1]:\n        low = mid + 2\n    else:\n        high = mid\nprint(arr[low])",
+      "codeExplanation": {
+        "en": "Aligning mid to an even index ensures mid + 1 is its expected pair partner. Matching pairs push low to mid + 2; mismatched pairs shrink high to mid.",
+        "bn": "mid-কে জোড় সূচকে নামিয়ে আনলে mid ও mid + 1 প্রত্যাশিত জোড়া নির্দেশ করে। জোড়া মিললে একক মান ডানে (low = mid + 2), না মিললে বামে বা mid-এ (high = mid) থাকে।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 1 2 3 3 4 4 8 8", "expectedOutput": "2", "note": { "en": "Singleton in left half", "bn": "বামে একক মান" } },
+        { "input": "3 3 7 7 10 11 11", "expectedOutput": "10", "note": { "en": "Singleton in right half", "bn": "ডানে একক মান" } },
+        { "input": "5 9 9", "expectedOutput": "5", "note": { "en": "Singleton at index 0", "bn": "শুরুতে একক মান" } },
+        { "input": "42", "expectedOutput": "42", "note": { "en": "Single element array", "bn": "একটিমাত্র উপাদান" } }
+      ]
+    },
+    {
+      "id": "P11-20",
+      "number": 20,
+      "title": {
+        "en": "Minimum Ship Capacity Within D Days (Binary Search on Answer)",
+        "bn": "D দিনে সব প্যাকেজ পরিবহনের ন্যূনতম জাহাজ ধারণক্ষমতা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Binary search on monotonic feasibility", "bn": "সম্ভাব্যতার ওপর বাইনারি সার্চ" },
+        { "en": "Greedy validation helper can_ship()", "bn": "গ্রিডি যাচাই ফাংশন can_ship()" }
+      ],
+      "description": {
+        "en": "A conveyor belt has packages with given integer weights (in order) that must be shipped within D days without reordering packages. Each day you load packages sequentially up to the ship's weight capacity C. Read package weights on line 1 and integer D on line 2. Find the minimum integer capacity C needed to ship all packages within D days.",
+        "bn": "প্রথম লাইনে ধারাবাহিক প্যাকেজগুলোর ওজন এবং দ্বিতীয় লাইনে দিনসংখ্যা D ইনপুট নিন। প্যাকেজের ক্রম না বদলে D দিনের মধ্যে সবগুলো প্যাকেজ পাঠাতে একটি জাহাজের সর্বনিম্ন কত ওজন ধারণক্ষমতা C প্রয়োজন তা বাইনারি সার্চ ব্যবহার করে নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated positive integer weights. Line 2: integer D (1 <= D <= len(weights)).",
+        "bn": "১ম লাইন: ধনাত্মক ওজনের তালিকা। ২য় লাইন: দিনসংখ্যা D।"
+      },
+      "expectedOutput": {
+        "en": "Minimum integer capacity C.",
+        "bn": "সর্বনিম্ন ধারণক্ষমতা C।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 4 5 6 7 8 9 10\n5",
+          "output": "15",
+          "explanation": {
+            "en": "With C=15: [1..5], [6,7], [8], [9], [10] takes exactly 5 days; C=14 would require 6 days.",
+            "bn": "C=15 হলে ৫ দিনে সব পাঠানো যায়; ১৪ হলে ৬ দিন লাগে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "What are the exact search bounds for capacity C? A ship must carry at least `max(weights)` (to fit the heaviest single package) and never needs more than `sum(weights)` (1 day).",
+        "bn": "ধারনক্ষমতা C-এর সর্বনিম্ন সীমা `max(weights)` এবং সর্বোচ্চ সীমা `sum(weights)`!"
+      },
+      "hint2": {
+        "en": "Write `can_ship(cap)` which greedily packs each day until adding the next package exceeds `cap`, counting days needed. Binary search `[max(weights), sum(weights)]` for the smallest `cap` with `days <= D`.",
+        "bn": "`can_ship(cap)` ফাংশনে প্রতিদিন যতটা সম্ভব প্যাকেজ ভরে মোট দিন গুনুন। যদি দিন <= D হয়, তবে `high = mid`, নতুবা `low = mid + 1`।"
+      },
+      "logicBreakdown": {
+        "en": "This classic interview pattern ('Binary Search on Answer') applies whenever a monotonic feasibility predicate `can_ship(C)` flips from False to True at an optimal threshold. Trying every capacity from `max(weights)` to `sum(weights)` would take O(N * sum), whereas Binary Search shrinks the capacity space in `O(log(sum))` steps, each validated in `O(N)` greedy simulation.",
+        "bn": "যেকোনো সক্ষমতা C-এর জন্য পাঠানো সম্ভব কি না তা ক্রমবর্ধমানভাবে সত্য হয় বলে উত্তরের সীমা `[max(weights), sum(weights)]`-এ বাইনারি সার্চ চালানো যায়। প্রতিটি মধ্যবর্তী মান O(N) গ্রিডি সিমুলেশনে যাচাই করে মোট `O(N log(sum))` সময়ে ন্যূনতম ধারণক্ষমতা পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read weights list and integer D.", "bn": "weights ও D পড়ুন।" },
+        { "en": "Define can_ship(cap): simulate greedy daily loading, return days <= D.", "bn": "can_ship(cap) ফাংশন দিয়ে কত দিন লাগে তা <= D কি না দেখুন।" },
+        { "en": "Binary search low = max(weights), high = sum(weights) while low < high: if can_ship(mid), high = mid; else low = mid + 1.", "bn": "can_ship(mid) সত্য হলে high = mid, নতুবা low = mid + 1 করুন।" },
+        { "en": "Print low.", "bn": "low প্রিন্ট করুন।" }
+      ],
+      "solution": "def can_ship(weights, days_limit, cap):\n    days = 1\n    cur = 0\n    for w in weights:\n        if cur + w > cap:\n            days += 1\n            cur = 0\n        cur += w\n    return days <= days_limit\n\nweights = [int(x) for x in input().split()]\nd = int(input())\n\nlow, high = max(weights), sum(weights)\nwhile low < high:\n    mid = (low + high) // 2\n    if can_ship(weights, d, mid):\n        high = mid\n    else:\n        low = mid + 1\nprint(low)",
+      "codeExplanation": {
+        "en": "low starts at max(weights) so every single package fits; high starts at sum(weights). Whenever mid suffices within d days, high lowers to mid to seek a tighter capacity; otherwise low rises to mid + 1.",
+        "bn": "low শুরু হয় max(weights) থেকে যাতে সবচেয়ে ভারী প্যাকেজও ওঠে। প্রতি ধাপে can_ship(mid) সত্য হলে আরও ছোট ধারণক্ষমতা খুঁজতে high = mid করা হয়।"
+      },
+      "complexity": { "time": "O(N log(sum(weights)))", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 3 4 5 6 7 8 9 10\n5", "expectedOutput": "15", "note": { "en": "Standard multi-day split", "bn": "৫ দিনের বিভাজন" } },
+        { "input": "3 2 2 4 1 4\n3", "expectedOutput": "6", "note": { "en": "Uneven weights", "bn": "অসমান ওজন" } },
+        { "input": "1 2 3 1 1\n4", "expectedOutput": "3", "note": { "en": "Bounded by max(weights)", "bn": "সর্বোচ্চ একক ওজনের সমান সীমা" } },
+        { "input": "10 20 30\n1", "expectedOutput": "60", "note": { "en": "D=1 requires sum(weights)", "bn": "১ দিনে সব পরিবহন" } }
+      ]
+    }
+  ]
+}

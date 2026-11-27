@@ -1,0 +1,1268 @@
+{
+  "partId": "part-02",
+  "partNumber": 2,
+  "problems": [
+    {
+      "id": "P02-01",
+      "number": 1,
+      "title": {
+        "en": "True Division, Floor Division, and Remainder",
+        "bn": "সাধারণ ভাগ, পূর্ণসংখ্যা ভাগ এবং ভাগশেষ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "True division (/)", "bn": "সাধারণ ভাগ (/)" },
+        { "en": "Floor division (//)", "bn": "ফ্লোর ডিভিশন (//)" },
+        { "en": "Modulus (%)", "bn": "মডুলাস (%)" }
+      ],
+      "description": {
+        "en": "Read two positive integers a and b. Output the true division (a / b rounded to 2 decimals), floor division (a // b), and remainder (a % b).",
+        "bn": "দুটি ধনাত্মক পূর্ণসংখ্যা a এবং b ইনপুট নিন। সাধারণ ভাগ (a / b, ২ দশমিক স্থান পর্যন্ত), পূর্ণসংখ্যা ভাগ (a // b) এবং ভাগশেষ (a % b) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing positive integers a and b (b > 0).",
+        "bn": "দুটি লাইনে ধনাত্মক পূর্ণসংখ্যা a এবং b (b > 0)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: a / b (2 decimals). Line 2: a // b. Line 3: a % b.",
+        "bn": "প্রথম লাইন: a / b (২ দশমিক)। দ্বিতীয় লাইন: a // b। তৃতীয় লাইন: a % b।"
+      },
+      "examples": [
+        {
+          "input": "17\n5",
+          "output": "3.40\n3\n2",
+          "explanation": {
+            "en": "17 / 5 = 3.40, 17 // 5 = 3, and 17 % 5 = 2.",
+            "bn": "17 / 5 = 3.40, 17 // 5 = 3 এবং 17 % 5 = 2।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "/ always returns a float in Python 3, while // returns the integer quotient.",
+        "bn": "পাইথন ৩-এ / সবসময় ফ্লোট দেয়, আর // পূর্ণসংখ্যা ভাগফল দেয়।"
+      },
+      "hint2": {
+        "en": "Format the first output with f\"{a / b:.2f}\".",
+        "bn": "প্রথম আউটপুটটি f\"{a / b:.2f}\" দিয়ে ফরম্যাট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Python distinguishes exact floating-point division (/) from quotient-only integer division (//). Together with %, a == (a // b) * b + (a % b) always holds.",
+        "bn": "পাইথনে (/) এবং (//) দুটি ভিন্ন অপারেটর। পূর্ণসংখ্যা ভাগের ক্ষেত্রে a == (a // b) * b + (a % b) সর্বদা সত্য।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a এবং b পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print f\"{a / b:.2f}\".", "bn": "f\"{a / b:.2f}\" প্রিন্ট করুন।" },
+        { "en": "Print a // b and a % b.", "bn": "a // b এবং a % b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nprint(f\"{a / b:.2f}\")\nprint(a // b)\nprint(a % b)",
+      "codeExplanation": {
+        "en": "a / b computes float division, a // b drops the fractional part, and a % b yields the remainder.",
+        "bn": "a / b ভগ্নাংশসহ ভাগফল, a // b পূর্ণ ভাগফল এবং a % b ভাগশেষ প্রদান করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "17\n5", "expectedOutput": "3.40\n3\n2" },
+        { "input": "20\n4", "expectedOutput": "5.00\n5\n0" },
+        { "input": "3\n8", "expectedOutput": "0.38\n0\n3" }
+      ]
+    },
+    {
+      "id": "P02-02",
+      "number": 2,
+      "title": {
+        "en": "String Repetition & Character Length",
+        "bn": "স্ট্রিং পুনরাবৃত্তি ও দৈর্ঘ্য নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "String repetition (*)", "bn": "স্ট্রিং পুনরাবৃত্তি (*)" },
+        { "en": "len() function", "bn": "len() ফাংশন" }
+      ],
+      "description": {
+        "en": "Read a word s and an integer k. Repeat the word k times into a single string, print the repeated string, and print its total character count.",
+        "bn": "একটি শব্দ s এবং একটি পূর্ণসংখ্যা k ইনপুট নিন। শব্দটি k বার পুনরাবৃত্তি করে একটি স্ট্রিং তৈরি করুন, সেটি প্রিন্ট করুন এবং তার মোট অক্ষর সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string s. Line 2: integer k (>= 0).",
+        "bn": "প্রথম লাইন: স্ট্রিং s। দ্বিতীয় লাইন: পূর্ণসংখ্যা k (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Repeated string. Line 2: Length of repeated string.",
+        "bn": "প্রথম লাইন: পুনরাবৃত্ত স্ট্রিং। দ্বিতীয় লাইন: মোট দৈর্ঘ্য।"
+      },
+      "examples": [
+        {
+          "input": "Py\n3",
+          "output": "PyPyPy\n6",
+          "explanation": {
+            "en": "'Py' * 3 is 'PyPyPy', which has 6 characters.",
+            "bn": "'Py' * 3 হলো 'PyPyPy', যার দৈর্ঘ্য ৬টি অক্ষর।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "The * operator works on strings to repeat them k times.",
+        "bn": "স্ট্রিংয়ের সাথে * অপারেটর ব্যবহার করলে স্ট্রিংটি k বার পুনরাবৃত্তি হয়।"
+      },
+      "hint2": {
+        "en": "Use len(result) to get the total character count.",
+        "bn": "মোট অক্ষর সংখ্যা পেতে len(result) ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Operators behave differently depending on data types (operator overloading): * multiplies numbers, but repeats strings.",
+        "bn": "ডেটা টাইপ ভেদে অপারেটরের আচরণ বদলায়: সংখ্যার ক্ষেত্রে * গুণ করে, আর স্ট্রিংয়ের ক্ষেত্রে পুনরাবৃত্তি করে।"
+      },
+      "algorithm": [
+        { "en": "Read s = input().strip() and k = int(input()).", "bn": "s এবং k ইনপুট নিন।" },
+        { "en": "Compute repeated = s * k.", "bn": "repeated = s * k তৈরি করুন।" },
+        { "en": "Print repeated and len(repeated).", "bn": "repeated ও len(repeated) প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().strip()\nk = int(input())\nrepeated = s * k\nprint(repeated)\nprint(len(repeated))",
+      "codeExplanation": {
+        "en": "s * k creates a new string repeated k times, and len() returns its character length.",
+        "bn": "s * k স্ট্রিংটিকে k বার পুনরাবৃত্ত করে এবং len() তার দৈর্ঘ্য দেয়।"
+      },
+      "complexity": { "time": "O(len(s) * k)", "space": "O(len(s) * k)" },
+      "testCases": [
+        { "input": "Py\n3", "expectedOutput": "PyPyPy\n6" },
+        { "input": "Logic\n1", "expectedOutput": "Logic\n5" },
+        { "input": "Code\n0", "expectedOutput": "\n0" }
+      ]
+    },
+    {
+      "id": "P02-03",
+      "number": 3,
+      "title": {
+        "en": "String vs Numeric Addition (Type Conversion)",
+        "bn": "স্ট্রিং বনাম সংখ্যার যোগ (টাইপ রূপান্তর)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "int() vs str() types", "bn": "int() বনাম str() টাইপ" },
+        { "en": "Concatenation vs Addition", "bn": "কনক্যাটেনেশন বনাম যোগ" }
+      ],
+      "description": {
+        "en": "Read two numeric strings s1 and s2. First print their string concatenation (s1 + s2), and on the second line print their integer sum.",
+        "bn": "সংখ্যা-নির্দেশক দুটি স্ট্রিং s1 এবং s2 ইনপুট নিন। প্রথম লাইনে তাদের স্ট্রিং সংযুক্তি (s1 + s2) এবং দ্বিতীয় লাইনে তাদের পূর্ণসংখ্যার যোগফল প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines, each containing digits representing an integer.",
+        "bn": "দুটি লাইন, প্রতিটিতে পূর্ণসংখ্যা-সূচক অঙ্ক।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Concatenated string. Line 2: Integer sum.",
+        "bn": "প্রথম লাইন: সংযুক্ত স্ট্রিং। দ্বিতীয় লাইন: পূর্ণসংখ্যার যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "15\n25",
+          "output": "1525\n40",
+          "explanation": {
+            "en": "'15' + '25' gives '1525', while 15 + 25 gives 40.",
+            "bn": "'15' + '25' হলো '1525', আর 15 + 25 হলো 40।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep the original inputs as strings with input().strip() for the first line.",
+        "bn": "প্রথম লাইনের জন্য input().strip() দিয়ে স্ট্রিং অবস্থায় রাখুন।"
+      },
+      "hint2": {
+        "en": "Convert with int(s1) + int(s2) for the second line.",
+        "bn": "দ্বিতীয় লাইনের জন্য int(s1) + int(s2) ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Understanding why '15' + '25' produces '1525' instead of 40 prevents the most frequent type bug in Python input handling.",
+        "bn": "কেন '15' + '25' সমান 40 না হয়ে '1525' হয় তা বোঝা পাইথন ইনপুট হ্যান্ডলিংয়ের সবচেয়ে সাধারণ ভুল এড়াতে সাহায্য করে।"
+      },
+      "algorithm": [
+        { "en": "Read s1 and s2 as stripped strings.", "bn": "s1 ও s2 স্ট্রিং হিসেবে পড়ুন।" },
+        { "en": "Print s1 + s2.", "bn": "s1 + s2 প্রিন্ট করুন।" },
+        { "en": "Print int(s1) + int(s2).", "bn": "int(s1) + int(s2) প্রিন্ট করুন।" }
+      ],
+      "solution": "s1 = input().strip()\ns2 = input().strip()\nprint(s1 + s2)\nprint(int(s1) + int(s2))",
+      "codeExplanation": {
+        "en": "s1 + s2 joins the strings, whereas int(s1) + int(s2) adds their numeric values.",
+        "bn": "s1 + s2 স্ট্রিং দুটি জোড়া দেয় এবং int(s1) + int(s2) সংখ্যা দুটির গাণিতিক যোগফল দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "15\n25", "expectedOutput": "1525\n40" },
+        { "input": "0\n7", "expectedOutput": "07\n7" },
+        { "input": "100\n200", "expectedOutput": "100200\n300" }
+      ]
+    },
+    {
+      "id": "P02-04",
+      "number": 4,
+      "title": {
+        "en": "Comparison Operator Boolean Report",
+        "bn": "তুলনামূলক অপারেটরের বুলিয়ান ফলাফল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Comparison operators (<, ==, >)", "bn": "তুলনামূলক অপারেটর (<, ==, >)" },
+        { "en": "Boolean values (True / False)", "bn": "বুলিয়ান মান (True / False)" }
+      ],
+      "description": {
+        "en": "Read two integers a and b. Without using if statements, print the Boolean results of (a < b), (a == b), and (a > b) on three lines.",
+        "bn": "দুটি পূর্ণসংখ্যা a এবং b ইনপুট নিন। কোনো if স্টেটমেন্ট ছাড়াই তিন লাইনে যথাক্রমে (a < b), (a == b) এবং (a > b)-এর বুলিয়ান ফলাফল প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers a and b.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা a ও b।"
+      },
+      "expectedOutput": {
+        "en": "Three lines showing True or False for a < b, a == b, and a > b.",
+        "bn": "তিনটি লাইনে True অথবা False।"
+      },
+      "examples": [
+        {
+          "input": "4\n9",
+          "output": "True\nFalse\nFalse",
+          "explanation": {
+            "en": "4 is less than 9, not equal to 9, and not greater than 9.",
+            "bn": "4 সংখ্যাটি 9-এর চেয়ে ছোট, সমান নয় এবং বড়ও নয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every comparison expression like a < b evaluates directly to True or False.",
+        "bn": "a < b-এর মতো প্রতিটি তুলনা সরাসরি True বা False মান তৈরি করে।"
+      },
+      "hint2": {
+        "en": "You can pass the expression straight into print(a < b).",
+        "bn": "সরাসরি print(a < b) লিখলেই বুলিয়ান মান প্রিন্ট হবে।"
+      },
+      "logicBreakdown": {
+        "en": "Conditional statements rely on Boolean expressions. Learning that comparisons themselves produce True/False values helps you write cleaner, simpler conditions later.",
+        "bn": "শর্তসাপেক্ষ স্টেটমেন্ট বুলিয়ান মানের ওপর কাজ করে। তুলনামূলক এক্সপ্রেশন নিজেই True বা False রিটার্ন করে।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a এবং b পড়ুন।" },
+        { "en": "Print a < b, a == b, and a > b.", "bn": "a < b, a == b এবং a > b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nprint(a < b)\nprint(a == b)\nprint(a > b)",
+      "codeExplanation": {
+        "en": "Python evaluates each relational expression to a bool (True or False) and prints it.",
+        "bn": "পাইথন প্রতিটি তুলনামূলক এক্সপ্রেশনকে True বা False হিসেবে মূল্যায়ন করে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4\n9", "expectedOutput": "True\nFalse\nFalse" },
+        { "input": "7\n7", "expectedOutput": "False\nTrue\nFalse" },
+        { "input": "12\n-3", "expectedOutput": "False\nFalse\nTrue" }
+      ]
+    },
+    {
+      "id": "P02-05",
+      "number": 5,
+      "title": {
+        "en": "Even Number Check Without Conditionals",
+        "bn": "শর্ত ছাড়াই জোড় সংখ্যা যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Parity via modulus (% 2)", "bn": "% 2 দিয়ে জোড়-বিজোড় পরীক্ষা" },
+        { "en": "Equality comparison (==)", "bn": "সমতা যাচাই (==)" }
+      ],
+      "description": {
+        "en": "Read an integer n and print True if it is even, or False if it is odd, using only a comparison expression (no if-else).",
+        "bn": "একটি পূর্ণসংখ্যা n ইনপুট নিন এবং if-else ছাড়াই শুধু তুলনামূলক এক্সপ্রেশন ব্যবহার করে সংখ্যাটি জোড় হলে True, বিজোড় হলে False প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer n.",
+        "bn": "একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "True if n is even, otherwise False.",
+        "bn": "জোড় হলে True, অন্যথায় False।"
+      },
+      "examples": [
+        {
+          "input": "14",
+          "output": "True",
+          "explanation": {
+            "en": "14 % 2 is 0, so 14 % 2 == 0 is True.",
+            "bn": "14 % 2 সমান 0, তাই ফলাফল True।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Even integers leave remainder 0 when divided by 2.",
+        "bn": "জোড় সংখ্যাকে 2 দিয়ে ভাগ করলে ভাগশেষ 0 থাকে।"
+      },
+      "hint2": {
+        "en": "Evaluate n % 2 == 0 directly inside print().",
+        "bn": "সরাসরি print(n % 2 == 0) লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Modulus % 2 tests divisibility by 2 for both positive and negative integers in Python.",
+        "bn": "পাইথনে ধনাত্মক ও ঋণাত্মক উভয় পূর্ণসংখ্যার জন্যই % 2 সমান 0 হলে সংখ্যাটি জোড় হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "n পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print n % 2 == 0.", "bn": "n % 2 == 0 প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nprint(n % 2 == 0)",
+      "codeExplanation": {
+        "en": "n % 2 computes the remainder modulo 2, and == 0 converts that check into a Boolean.",
+        "bn": "n % 2 ভাগশেষ বের করে এবং == 0 সেটিকে True বা False বুলিয়ান মানে রূপান্তর করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "14", "expectedOutput": "True" },
+        { "input": "7", "expectedOutput": "False" },
+        { "input": "0", "expectedOutput": "True" },
+        { "input": "-8", "expectedOutput": "True" }
+      ]
+    },
+    {
+      "id": "P02-06",
+      "number": 6,
+      "title": {
+        "en": "Operator Precedence Expression Evaluator",
+        "bn": "অপারেটর অগ্রাধিকার সমীকরণ মূল্যায়ন"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Operator precedence (** > *, // > +, -)", "bn": "অপারেটর অগ্রাধিকার (** > *, // > +, -)" }
+      ],
+      "description": {
+        "en": "Read integers a, b, c, d. Compute and output two values: first (a + b * c ** 2 - d // 2), and second ((a + b) * c ** 2 - d // 2), showing how parentheses alter precedence.",
+        "bn": "চারটি পূর্ণসংখ্যা a, b, c, d ইনপুট নিন। প্রথম লাইনে (a + b * c ** 2 - d // 2) এবং দ্বিতীয় লাইনে ((a + b) * c ** 2 - d // 2)-এর মান প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Four lines containing integers a, b, c, d.",
+        "bn": "চারটি লাইনে পূর্ণসংখ্যা a, b, c, d।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Result without extra parentheses. Line 2: Result with (a + b) grouped.",
+        "bn": "প্রথম লাইন: স্বাভাবিক অগ্রাধিকারে মান। দ্বিতীয় লাইন: (a + b) বন্ধনীসহ মান।"
+      },
+      "examples": [
+        {
+          "input": "2\n3\n4\n5",
+          "output": "48\n78",
+          "explanation": {
+            "en": "First: 2 + 3*16 - 2 = 48. Second: 5*16 - 2 = 78.",
+            "bn": "প্রথম: 2 + 3*16 - 2 = 48। দ্বিতীয়: 5*16 - 2 = 78।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Exponentiation (**) always runs before multiplication (*), which runs before addition (+).",
+        "bn": "ঘাত (**) সবসময় গুণ (*)-এর আগে এবং গুণ যোগ (+)-এর আগে সম্পন্ন হয়।"
+      },
+      "hint2": {
+        "en": "Compute both expressions directly and print them on two lines.",
+        "bn": "দুটি এক্সপ্রেশন আলাদা ভ্যারিয়েবলে হিসাব করে দুই লাইনে প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Python follows PEMDAS: Parentheses, Exponents (**), Multiplication/Division (*, /, //, %), Addition/Subtraction (+, -).",
+        "bn": "পাইথন PEMDAS নিয়ম অনুসরণ করে: বন্ধনী, ঘাত (**), গুণ/ভাগ (*, /, //, %), এবং সবশেষে যোগ/বিয়োগ (+, -)।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c, d as integers.", "bn": "a, b, c, d পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Evaluate expr1 = a + b * c ** 2 - d // 2.", "bn": "expr1 হিসাব করুন।" },
+        { "en": "Evaluate expr2 = (a + b) * c ** 2 - d // 2.", "bn": "expr2 হিসাব করুন।" },
+        { "en": "Print expr1 and expr2.", "bn": "expr1 ও expr2 প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nc = int(input())\nd = int(input())\nexpr1 = a + b * c ** 2 - d // 2\nexpr2 = (a + b) * c ** 2 - d // 2\nprint(expr1)\nprint(expr2)",
+      "codeExplanation": {
+        "en": "In expr1, c**2 executes first, then b*16 and d//2, then + and -. In expr2, (a+b) executes first.",
+        "bn": "expr1-এ c**2 এবং গুণ-ভাগ আগে হয়েছে; expr2-এ বন্ধনীর কারণে (a + b) আগে যোগ হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2\n3\n4\n5", "expectedOutput": "48\n78" },
+        { "input": "1\n1\n2\n3", "expectedOutput": "4\n7" },
+        { "input": "0\n5\n3\n4", "expectedOutput": "43\n43" }
+      ]
+    },
+    {
+      "id": "P02-07",
+      "number": 7,
+      "title": {
+        "en": "Logical AND / OR Eligibility Check",
+        "bn": "লজিক্যাল AND / OR যোগ্যতা যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Logical operators (and, or)", "bn": "লজিক্যাল অপারেটর (and, or)" },
+        { "en": "Boolean combinations", "bn": "বুলিয়ান সমন্বয়" }
+      ],
+      "description": {
+        "en": "A lab grants access if a student is at least 18 years old AND has an active ID ('yes'), OR has a special pass ('yes'). Print True if access is granted, else False.",
+        "bn": "একটি ল্যাবে প্রবেশের জন্য শিক্ষার্থীর বয়স কমপক্ষে ১৮ এবং সক্রিয় আইডি ('yes') থাকতে হবে, অথবা তার একটি বিশেষ পাস ('yes') থাকতে হবে। প্রবেশাধিকার পেলে True, নাহলে False প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: age (int). Line 2: has_id ('yes' or 'no'). Line 3: has_pass ('yes' or 'no').",
+        "bn": "লাইন ১: বয়স (int)। লাইন ২: has_id ('yes'/'no')। লাইন ৩: has_pass ('yes'/'no')।"
+      },
+      "expectedOutput": {
+        "en": "True or False.",
+        "bn": "True অথবা False।"
+      },
+      "examples": [
+        {
+          "input": "19\nyes\nno",
+          "output": "True",
+          "explanation": {
+            "en": "Age >= 18 and has_id == 'yes' is satisfied.",
+            "bn": "বয়স >= ১৮ এবং আইডি থাকায় প্রবেশাধিকার মিলেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Group the standard rule with parentheses: (age >= 18 and has_id == 'yes').",
+        "bn": "সাধারণ শর্তটি বন্ধনীতে রাখুন: (age >= 18 and has_id == 'yes')।"
+      },
+      "hint2": {
+        "en": "Combine with or has_pass == 'yes'.",
+        "bn": "এর সাথে or has_pass == 'yes' যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "In Python, 'and' binds tighter than 'or', but explicit parentheses make compound access-control rules unmistakable and bug-free.",
+        "bn": "পাইথনে 'or'-এর চেয়ে 'and'-এর অগ্রাধিকার বেশি, তবে স্পষ্ট বন্ধনী ব্যবহার করলে শর্ত বুঝতে ও নিরাপদ রাখতে সুবিধা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read age, has_id, has_pass.", "bn": "age, has_id, has_pass ইনপুট নিন।" },
+        { "en": "Evaluate (age >= 18 and has_id == 'yes') or (has_pass == 'yes').", "bn": "লজিক্যাল শর্ত মূল্যায়ন করুন।" },
+        { "en": "Print the Boolean result.", "bn": "বুলিয়ান ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "age = int(input())\nhas_id = input().strip()\nhas_pass = input().strip()\nallowed = (age >= 18 and has_id == \"yes\") or (has_pass == \"yes\")\nprint(allowed)",
+      "codeExplanation": {
+        "en": "The expression evaluates to True if both age >= 18 and valid ID hold, or if the override pass is 'yes'.",
+        "bn": "বয়স ১৮+ ও আইডি থাকলে অথবা বিশেষ পাস থাকলে allowed-এর মান True হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "19\nyes\nno", "expectedOutput": "True" },
+        { "input": "16\nno\nyes", "expectedOutput": "True" },
+        { "input": "20\nno\nno", "expectedOutput": "False" },
+        { "input": "17\nyes\nno", "expectedOutput": "False" }
+      ]
+    },
+    {
+      "id": "P02-08",
+      "number": 8,
+      "title": {
+        "en": "Separate Integer and Fractional Parts",
+        "bn": "দশমিক সংখ্যার পূর্ণ ও ভগ্নাংশ পৃথকীকরণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "int() truncation", "bn": "int() ট্রাঙ্কেশন" },
+        { "en": "Float precision", "bn": "ফ্লোট নির্ভুলতা" }
+      ],
+      "description": {
+        "en": "Read a non-negative floating-point number x. Output its integer part on the first line and its fractional part rounded to 4 decimal places on the second line.",
+        "bn": "একটি অঋণাত্মক দশমিক সংখ্যা x ইনপুট নিন। প্রথম লাইনে এর পূর্ণ অংশ এবং দ্বিতীয় লাইনে ৪ দশমিক স্থান পর্যন্ত ভগ্নাংশ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-negative float x.",
+        "bn": "একটি অঋণাত্মক ফ্লোট x।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: integer part. Line 2: fractional part (4 decimals).",
+        "bn": "প্রথম লাইন: পূর্ণ অংশ। দ্বিতীয় লাইন: ভগ্নাংশ (৪ দশমিক)।"
+      },
+      "examples": [
+        {
+          "input": "12.345",
+          "output": "12\n0.3450",
+          "explanation": {
+            "en": "int(12.345) is 12; 12.345 - 12 = 0.3450.",
+            "bn": "int(12.345) হলো 12 এবং 12.345 - 12 = 0.3450।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "int(x) discards everything after the decimal point for non-negative numbers.",
+        "bn": "অঋণাত্মক সংখ্যার জন্য int(x) দশমিকের পরের অংশ বাদ দেয়।"
+      },
+      "hint2": {
+        "en": "Subtract whole = int(x) from x to get the fractional part.",
+        "bn": "x থেকে int(x) বিয়োগ করলে ভগ্নাংশ পাওয়া যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Formatting with :.4f cleans up tiny binary floating-point representation noise (like 0.34499999999999886).",
+        "bn": ":.4f দিয়ে ফরম্যাট করলে ফ্লোটিং-পয়েন্ট গণনার সূক্ষ্ম ত্রুটি দূর হয়ে পরিষ্কার ৪-দশমিক আউটপুট আসে।"
+      },
+      "algorithm": [
+        { "en": "Read x = float(input()).", "bn": "x = float(input()) পড়ুন।" },
+        { "en": "Compute whole = int(x) and frac = x - whole.", "bn": "whole = int(x) এবং frac = x - whole বের করুন।" },
+        { "en": "Print whole and f\"{frac:.4f}\".", "bn": "whole এবং f\"{frac:.4f}\" প্রিন্ট করুন।" }
+      ],
+      "solution": "x = float(input())\nwhole = int(x)\nfrac = x - whole\nprint(whole)\nprint(f\"{frac:.4f}\")",
+      "codeExplanation": {
+        "en": "int(x) extracts the integer portion, and subtracting it from x isolates the fractional portion.",
+        "bn": "int(x) পূর্ণ অংশ বের করে এবং x থেকে সেটি বিয়োগ করলে ভগ্নাংশ পাওয়া যায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12.345", "expectedOutput": "12\n0.3450" },
+        { "input": "7.0", "expectedOutput": "7\n0.0000" },
+        { "input": "0.125", "expectedOutput": "0\n0.1250" }
+      ]
+    },
+    {
+      "id": "P02-09",
+      "number": 9,
+      "title": {
+        "en": "Same Last Digit Check",
+        "bn": "শেষ অঙ্ক সমান কিনা যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Modulus 10 (% 10)", "bn": "মডুলাস ১০ (% 10)" },
+        { "en": "Equality check", "bn": "সমতা যাচাই" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers a and b. Print True if both numbers end with the exact same last digit, otherwise False.",
+        "bn": "দুটি অঋণাত্মক পূর্ণসংখ্যা a এবং b ইনপুট নিন। উভয় সংখ্যার শেষ অঙ্ক একই হলে True, নাহলে False প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing non-negative integers a and b.",
+        "bn": "দুটি লাইনে অঋণাত্মক পূর্ণসংখ্যা a ও b।"
+      },
+      "expectedOutput": {
+        "en": "True or False.",
+        "bn": "True অথবা False।"
+      },
+      "examples": [
+        {
+          "input": "27\n107",
+          "output": "True",
+          "explanation": {
+            "en": "Both 27 and 107 have last digit 7.",
+            "bn": "27 এবং 107 উভয়ের শেষ অঙ্ক 7।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "The last digit of any non-negative integer n is n % 10.",
+        "bn": "যেকোনো অঋণাত্মক পূর্ণসংখ্যা n-এর শেষ অঙ্ক হলো n % 10।"
+      },
+      "hint2": {
+        "en": "Compare a % 10 == b % 10.",
+        "bn": "a % 10 == b % 10 তুলনা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Modulo 10 isolates the units digit regardless of whether the number has 1 digit or 10 digits.",
+        "bn": "সংখ্যা যত বড়ই হোক, % 10 সর্বদা এককের ঘরের অর্থাৎ শেষ অঙ্কটি বের করে।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a ও b পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print (a % 10) == (b % 10).", "bn": "(a % 10) == (b % 10) প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nprint((a % 10) == (b % 10))",
+      "codeExplanation": {
+        "en": "(a % 10) == (b % 10) extracts both last digits and checks equality directly.",
+        "bn": "(a % 10) == (b % 10) উভয় সংখ্যার শেষ অঙ্ক বের করে সমান কিনা যাচাই করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "27\n107", "expectedOutput": "True" },
+        { "input": "40\n5", "expectedOutput": "False" },
+        { "input": "0\n100", "expectedOutput": "True" }
+      ]
+    },
+    {
+      "id": "P02-10",
+      "number": 10,
+      "title": {
+        "en": "Character ASCII Code and Offset Shift",
+        "bn": "অক্ষরের ASCII কোড ও অফসেট শিফট"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "ord() and chr()", "bn": "ord() এবং chr()" },
+        { "en": "Character encoding", "bn": "ক্যারেক্টার এনকোডিং" }
+      ],
+      "description": {
+        "en": "Read a single character ch and an integer shift k. Print the ASCII/Unicode integer value of ch on line 1, and the character located k positions ahead (chr(ord(ch) + k)) on line 2.",
+        "bn": "একটি একক অক্ষর ch এবং একটি পূর্ণসংখ্যা k ইনপুট নিন। প্রথম লাইনে ch-এর ASCII মান এবং দ্বিতীয় লাইনে k ধাপ পরের অক্ষরটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: single character ch. Line 2: integer shift k.",
+        "bn": "প্রথম লাইন: একটি অক্ষর ch। দ্বিতীয় লাইন: পূর্ণসংখ্যা k।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: integer code of ch. Line 2: shifted character.",
+        "bn": "প্রথম লাইন: অক্ষরের কোড। দ্বিতীয় লাইন: পরিবর্তিত অক্ষর।"
+      },
+      "examples": [
+        {
+          "input": "A\n3",
+          "output": "65\nD",
+          "explanation": {
+            "en": "ASCII of 'A' is 65; 65 + 3 = 68, which is 'D'.",
+            "bn": "'A'-এর ASCII মান 65; 65 + 3 = 68 যা হলো 'D'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "ord(ch) converts a single character to its integer code.",
+        "bn": "ord(ch) একটি অক্ষরকে তার সংখ্যাগত কোডে রূপান্তর করে।"
+      },
+      "hint2": {
+        "en": "chr(code) converts an integer code back into a character.",
+        "bn": "chr(code) সংখ্যাগত কোডকে পুনরায় অক্ষরে রূপান্তর করে।"
+      },
+      "logicBreakdown": {
+        "en": "Computers store text as numbers. Mapping characters via ord() and chr() is the foundation of Caesar ciphers and text parsers.",
+        "bn": "কম্পিউটার প্রতিটি অক্ষরকে সংখ্যা হিসেবে সংরক্ষণ করে। ord() এবং chr() দিয়ে টেক্সট এনকোডিং ও সাইফার তৈরি করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read ch = input().strip() and k = int(input()).", "bn": "ch এবং k ইনপুট নিন।" },
+        { "en": "Compute code = ord(ch).", "bn": "code = ord(ch) বের করুন।" },
+        { "en": "Print code and chr(code + k).", "bn": "code এবং chr(code + k) প্রিন্ট করুন।" }
+      ],
+      "solution": "ch = input().strip()\nk = int(input())\ncode = ord(ch)\nprint(code)\nprint(chr(code + k))",
+      "codeExplanation": {
+        "en": "ord(ch) retrieves the numeric code point, and chr(code + k) shifts it by k positions.",
+        "bn": "ord(ch) থেকে অক্ষরের কোড নিয়ে k যোগ করে chr() দিয়ে নতুন অক্ষর পাওয়া গেছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "A\n3", "expectedOutput": "65\nD" },
+        { "input": "a\n1", "expectedOutput": "97\nb" },
+        { "input": "0\n5", "expectedOutput": "48\n5" }
+      ]
+    },
+    {
+      "id": "P02-11",
+      "number": 11,
+      "title": {
+        "en": "Sequential Discount and Tax Billing",
+        "bn": "ধারাবাহিক ছাড় ও ভ্যাট বিল হিসাব"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Compound assignment (*=, -=, +=)", "bn": "কম্পাউন্ড অ্যাসাইনমেন্ট (*=, -=, +=)" },
+        { "en": "Order of financial operations", "bn": "অপারেশনের ক্রম" }
+      ],
+      "description": {
+        "en": "An item costs price. First apply a discount_pct% discount, then apply tax_pct% VAT on the discounted price. Output the final payable amount to 2 decimal places.",
+        "bn": "একটি পণ্যের মূল্য price। প্রথমে discount_pct% ছাড় দিন এবং ছাড়ের পরের মূল্যের ওপর tax_pct% ভ্যাট যোগ করুন। চূড়ান্ত মূল্য ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines: price, discount_pct, tax_pct (floats).",
+        "bn": "তিনটি লাইনে ফ্লোট মান: price, discount_pct, tax_pct।"
+      },
+      "expectedOutput": {
+        "en": "Final price formatted to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত চূড়ান্ত মূল্য।"
+      },
+      "examples": [
+        {
+          "input": "1000\n10\n15",
+          "output": "1035.00",
+          "explanation": {
+            "en": "After 10% discount: 900. Adding 15% of 900 (135) gives 1035.00.",
+            "bn": "১০% ছাড়ে ৯০০ টাকা; ৯০০-এর ১৫% ভ্যাট (১৩৫) যোগে ১০৩৫.০০ টাকা।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Multiply price by (1 - discount_pct / 100) to apply the discount.",
+        "bn": "ছাড় দিতে মূল্যকে (1 - discount_pct / 100) দিয়ে গুণ করুন।"
+      },
+      "hint2": {
+        "en": "Then multiply the discounted price by (1 + tax_pct / 100).",
+        "bn": "এরপর ছাড়কৃত মূল্যকে (1 + tax_pct / 100) দিয়ে গুণ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Sequential percentage changes are multiplicative, not additive: a 10% discount followed by 15% tax is NOT +5%, because tax applies to the reduced base.",
+        "bn": "ধারাবাহিক শতকরা পরিবর্তন যোগ-বিয়োগ নয় বরং গুণনযোগ্য; কারণ ভ্যাট ছাড় দেওয়ার পরের মূল্যের ওপর প্রযোজ্য হয়।"
+      },
+      "algorithm": [
+        { "en": "Read price, discount_pct, tax_pct.", "bn": "price, discount_pct, tax_pct পড়ুন।" },
+        { "en": "Apply discount: price *= (1 - discount_pct / 100).", "bn": "price *= (1 - discount_pct / 100)।" },
+        { "en": "Apply tax: price *= (1 + tax_pct / 100).", "bn": "price *= (1 + tax_pct / 100)।" },
+        { "en": "Print price with :.2f.", "bn": ":.2f ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "price = float(input())\ndiscount_pct = float(input())\ntax_pct = float(input())\nprice *= (1 - discount_pct / 100)\nprice *= (1 + tax_pct / 100)\nprint(f\"{price:.2f}\")",
+      "codeExplanation": {
+        "en": "*= updates price in-place through two clear sequential transformations.",
+        "bn": "*= ব্যবহার করে প্রথমে ছাড় এবং পরে ভ্যাট ধাপে ধাপে price-এর ওপর প্রয়োগ করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1000\n10\n15", "expectedOutput": "1035.00" },
+        { "input": "500\n20\n0", "expectedOutput": "400.00" },
+        { "input": "250\n0\n10", "expectedOutput": "275.00" }
+      ]
+    },
+    {
+      "id": "P02-12",
+      "number": 12,
+      "title": {
+        "en": "Simultaneous Divisibility Check",
+        "bn": "একসাথে দুটি সংখ্যা দ্বারা বিভাজ্যতা যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Compound modulus conditions", "bn": "যৌগিক মডুলাস শর্ত" },
+        { "en": "Logical and", "bn": "লজিক্যাল and" }
+      ],
+      "description": {
+        "en": "Read integers n, x, and y (x, y > 0). Print True if n is divisible by BOTH x and y, otherwise print False (without using if statements).",
+        "bn": "পূর্ণসংখ্যা n, x এবং y (x, y > 0) ইনপুট নিন। if স্টেটমেন্ট ছাড়াই n সংখ্যাটি x ও y উভয় দ্বারাই নিঃশেষে বিভাজ্য হলে True, নাহলে False প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers n, x, y.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা n, x, y।"
+      },
+      "expectedOutput": {
+        "en": "True or False.",
+        "bn": "True অথবা False।"
+      },
+      "examples": [
+        {
+          "input": "30\n3\n5",
+          "output": "True",
+          "explanation": {
+            "en": "30 % 3 == 0 and 30 % 5 == 0 are both True.",
+            "bn": "30 % 3 == 0 এবং 30 % 5 == 0 উভয়ই সত্য।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Divisibility by x means n % x == 0.",
+        "bn": "x দ্বারা বিভাজ্য হওয়া মানে n % x == 0।"
+      },
+      "hint2": {
+        "en": "Join both checks with the and operator.",
+        "bn": "উভয় শর্তকে and অপারেটর দিয়ে যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Writing (n % x == 0) and (n % y == 0) works even when x and y share common factors (unlike checking x * y, which fails when x=4, y=6, n=12).",
+        "bn": "x এবং y-এর সাধারণ গুণনীয়ক থাকলেও (n % x == 0) and (n % y == 0) সঠিকভাবে কাজ করে, যেখানে n % (x * y) == 0 ভুল হতে পারে (যেমন x=4, y=6, n=12)।"
+      },
+      "algorithm": [
+        { "en": "Read n, x, y as integers.", "bn": "n, x, y পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print (n % x == 0) and (n % y == 0).", "bn": "(n % x == 0) and (n % y == 0) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nx = int(input())\ny = int(input())\nprint((n % x == 0) and (n % y == 0))",
+      "codeExplanation": {
+        "en": "Both remainder checks must equal 0 for the combined Boolean expression to return True.",
+        "bn": "উভয় ভাগশেষ শূন্য হলেই কেবল যৌগিক বুলিয়ান মান True হবে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "30\n3\n5", "expectedOutput": "True" },
+        { "input": "12\n4\n6", "expectedOutput": "True", "note": { "en": "Non-coprime divisors", "bn": "সহ-মৌলিক নয় এমন ভাজক" } },
+        { "input": "18\n3\n5", "expectedOutput": "False" }
+      ]
+    },
+    {
+      "id": "P02-13",
+      "number": 13,
+      "title": {
+        "en": "Swap Halves of a String",
+        "bn": "স্ট্রিংয়ের দুই অর্ধেক অদলবদল"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "String slicing", "bn": "স্ট্রিং স্লাইসিং" },
+        { "en": "Midpoint index calculation", "bn": "মধ্যবিন্দু ইনডেক্স নির্ণয়" }
+      ],
+      "description": {
+        "en": "Read a string s. Split it at midpoint mid = len(s) // 2 into two halves and print the second half followed by the first half.",
+        "bn": "একটি স্ট্রিং s ইনপুট নিন। mid = len(s) // 2 অবস্থানে স্ট্রিংটিকে দুই ভাগে ভাগ করে দ্বিতীয় অর্ধেকটি আগে এবং প্রথম অর্ধেকটি পরে বসিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-empty string s.",
+        "bn": "একটি অ-খালি স্ট্রিং s।"
+      },
+      "expectedOutput": {
+        "en": "String with halves swapped.",
+        "bn": "দুই অর্ধেক অদলবদল করা স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "PYTHON",
+          "output": "HONPYT",
+          "explanation": {
+            "en": "mid = 3; first half 'PYT', second half 'HON' -> 'HONPYT'.",
+            "bn": "mid = 3; প্রথম ভাগ 'PYT', দ্বিতীয় ভাগ 'HON' -> 'HONPYT'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compute mid = len(s) // 2 using floor division so mid is always a valid integer index.",
+        "bn": "mid = len(s) // 2 বের করুন যাতে ইনডেক্সটি পূর্ণসংখ্যা হয়।"
+      },
+      "hint2": {
+        "en": "s[:mid] is the first half and s[mid:] is the second half.",
+        "bn": "s[:mid] হলো প্রথম অংশ এবং s[mid:] হলো দ্বিতীয় অংশ।"
+      },
+      "logicBreakdown": {
+        "en": "Using // 2 ensures odd-length strings split cleanly without index errors (e.g. length 5 splits into 2 and 3).",
+        "bn": "// 2 ব্যবহার করায় বিজোড় দৈর্ঘ্যের স্ট্রিংও কোনো ত্রুটি ছাড়াই বিভক্ত হয় (যেমন দৈর্ঘ্য ৫ হলে ২ ও ৩ ভাগে)।"
+      },
+      "algorithm": [
+        { "en": "Read s = input().strip().", "bn": "s ইনপুট নিন।" },
+        { "en": "Compute mid = len(s) // 2.", "bn": "mid = len(s) // 2 বের করুন।" },
+        { "en": "Print s[mid:] + s[:mid].", "bn": "s[mid:] + s[:mid] প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().strip()\nmid = len(s) // 2\nprint(s[mid:] + s[:mid])",
+      "codeExplanation": {
+        "en": "s[mid:] slices from mid to the end, and s[:mid] slices from index 0 up to mid (excluded).",
+        "bn": "s[mid:] মধ্যবিন্দু থেকে শেষ পর্যন্ত এবং s[:mid] শুরু থেকে মধ্যবিন্দুর আগ পর্যন্ত কেটে নেয়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(n)" },
+      "testCases": [
+        { "input": "PYTHON", "expectedOutput": "HONPYT" },
+        { "input": "LOGIC", "expectedOutput": "GICLO" },
+        { "input": "A", "expectedOutput": "A" }
+      ]
+    },
+    {
+      "id": "P02-14",
+      "number": 14,
+      "title": {
+        "en": "Bitwise AND, OR, and XOR Operations",
+        "bn": "বিটওয়াইজ AND, OR এবং XOR অপারেশন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Bitwise AND (&)", "bn": "বিটওয়াইজ AND (&)" },
+        { "en": "Bitwise OR (|)", "bn": "বিটওয়াইজ OR (|)" },
+        { "en": "Bitwise XOR (^)", "bn": "বিটওয়াইজ XOR (^)" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers a and b. Output the results of bitwise AND (a & b), bitwise OR (a | b), and bitwise XOR (a ^ b) on three separate lines.",
+        "bn": "দুটি অঋণাত্মক পূর্ণসংখ্যা a এবং b ইনপুট নিন। তিনটি আলাদা লাইনে বিটওয়াইজ AND (a & b), OR (a | b) এবং XOR (a ^ b)-এর মান প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers a and b.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা a ও b।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: a & b. Line 2: a | b. Line 3: a ^ b.",
+        "bn": "লাইন ১: a & b, লাইন ২: a | b, লাইন ৩: a ^ b।"
+      },
+      "examples": [
+        {
+          "input": "6\n3",
+          "output": "2\n7\n5",
+          "explanation": {
+            "en": "6 is 110, 3 is 011 in binary -> AND=010 (2), OR=111 (7), XOR=101 (5).",
+            "bn": "6 = 110 ও 3 = 011 -> AND=010 (2), OR=111 (7), XOR=101 (5)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Bitwise operators compare corresponding binary bits of both integers.",
+        "bn": "বিটওয়াইজ অপারেটর দুটি সংখ্যার প্রতিটি বাইনারি বিটের মধ্যে তুলনা করে।"
+      },
+      "hint2": {
+        "en": "& gives 1 when both bits are 1; | gives 1 when at least one is 1; ^ gives 1 when bits differ.",
+        "bn": "উভয় বিট 1 হলে & দেয় 1; যেকোনো একটি 1 হলে | দেয় 1; বিট ভিন্ন হলে ^ দেয় 1।"
+      },
+      "logicBreakdown": {
+        "en": "Bitwise operations work directly on binary representations and are essential in subnet masks, permission flags, and cryptography.",
+        "bn": "বিটওয়াইজ অপারেশন সরাসরি বাইনারি বিটে কাজ করে; সাবনেট মাস্ক, পারমিশন ফ্ল্যাগ ও ক্রিপ্টোগ্রাফিতে এর ব্যাপক ব্যবহার রয়েছে।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a ও b পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print a & b, a | b, and a ^ b.", "bn": "a & b, a | b এবং a ^ b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nprint(a & b)\nprint(a | b)\nprint(a ^ b)",
+      "codeExplanation": {
+        "en": "Python applies &, |, and ^ bit by bit on integers and returns the resulting decimal integers.",
+        "bn": "পাইথন পূর্ণসংখ্যার বিটগুলোর ওপর &, | এবং ^ প্রয়োগ করে দশমিক ফলাফল দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "6\n3", "expectedOutput": "2\n7\n5" },
+        { "input": "12\n10", "expectedOutput": "8\n14\n6" },
+        { "input": "5\n5", "expectedOutput": "5\n5\n0" }
+      ]
+    },
+    {
+      "id": "P02-15",
+      "number": 15,
+      "title": {
+        "en": "Power-of-Two Scaling via Bit Shifts",
+        "bn": "বিট শিফটের মাধ্যমে ২-এর ঘাত গুণ ও ভাগ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Left shift (<<)", "bn": "লেফট শিফট (<<)" },
+        { "en": "Right shift (>>)", "bn": "রাইট শিফট (>>)" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers n and k. Using bitwise shift operators only (no * or //), compute n multiplied by 2^k and n floor-divided by 2^k.",
+        "bn": "দুটি অঋণাত্মক পূর্ণসংখ্যা n এবং k ইনপুট নিন। * বা // ব্যবহার না করে শুধু বিট শিফট অপারেটর দিয়ে n * (2^k) এবং n // (2^k) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: n (>= 0). Line 2: k (>= 0).",
+        "bn": "প্রথম লাইন: n (>= 0)। দ্বিতীয় লাইন: k (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: n << k. Line 2: n >> k.",
+        "bn": "প্রথম লাইন: n << k। দ্বিতীয় লাইন: n >> k।"
+      },
+      "examples": [
+        {
+          "input": "12\n2",
+          "output": "48\n3",
+          "explanation": {
+            "en": "12 * 4 = 48 (left shift by 2); 12 // 4 = 3 (right shift by 2).",
+            "bn": "12 << 2 = 48 এবং 12 >> 2 = 3।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Shifting left by 1 bit multiplies an integer by 2.",
+        "bn": "বামে ১ বিট সরালে সংখ্যা ২ দিয়ে গুণ হয়।"
+      },
+      "hint2": {
+        "en": "Shifting right by k bits divides by 2^k and drops fractional bits.",
+        "bn": "ডানে k বিট সরালে 2^k দিয়ে পূর্ণসংখ্যা ভাগ হয়।"
+      },
+      "logicBreakdown": {
+        "en": "In base-10, shifting left adds zeros (multiplying by 10). In base-2, << k multiplies by 2^k and >> k floor-divides by 2^k.",
+        "bn": "দশমিকে যেমন ডানে শূন্য বসালে ১০ দিয়ে গুণ হয়, বাইনারিতে << k মানে 2^k দিয়ে গুণ এবং >> k মানে 2^k দিয়ে পূর্ণসংখ্যা ভাগ।"
+      },
+      "algorithm": [
+        { "en": "Read integers n and k.", "bn": "n ও k পড়ুন।" },
+        { "en": "Print n << k.", "bn": "n << k প্রিন্ট করুন।" },
+        { "en": "Print n >> k.", "bn": "n >> k প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\nprint(n << k)\nprint(n >> k)",
+      "codeExplanation": {
+        "en": "n << k shifts binary digits left by k places; n >> k shifts them right by k places.",
+        "bn": "n << k বিটগুলো বামে k ঘর সরায় এবং n >> k ডানে k ঘর সরায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12\n2", "expectedOutput": "48\n3" },
+        { "input": "5\n3", "expectedOutput": "40\n0" },
+        { "input": "9\n0", "expectedOutput": "9\n9" }
+      ]
+    },
+    {
+      "id": "P02-16",
+      "number": 16,
+      "title": {
+        "en": "XOR In-Place Variable Swap",
+        "bn": "XOR ব্যবহার করে ইন-প্লেস অদলবদল"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "XOR self-inverse (x ^ x = 0)", "bn": "XOR অভেদ (x ^ x = 0)" },
+        { "en": "Bitwise state cancellation", "bn": "বিটওয়াইজ ক্যানসেলেশন" }
+      ],
+      "description": {
+        "en": "Given two integers a and b, swap their values purely using three XOR (^=) operations without tuple unpacking or a temporary variable.",
+        "bn": "দুটি পূর্ণসংখ্যা a এবং b দেওয়া আছে। টাপল আনপ্যাকিং বা অতিরিক্ত ভ্যারিয়েবল ছাড়া কেবল তিনটি XOR (^=) অপারেশন ব্যবহার করে মান অদলবদল করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers a and b.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা a ও b।"
+      },
+      "expectedOutput": {
+        "en": "Swapped values: new a and new b separated by space.",
+        "bn": "অদলবদলের পর নতুন a এবং b স্পেস দিয়ে।"
+      },
+      "examples": [
+        {
+          "input": "9\n14",
+          "output": "14 9",
+          "explanation": {
+            "en": "XOR preserves combined bit differences and cancels out duplicates.",
+            "bn": "XOR বিটের পার্থক্য সংরক্ষণ করে এবং সমান অংশ বাতিল করে মান ফিরিয়ে আনে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Remember two identities: x ^ x == 0 and x ^ 0 == x.",
+        "bn": "দুটি নিয়ম মনে রাখুন: x ^ x == 0 এবং x ^ 0 == x।"
+      },
+      "hint2": {
+        "en": "Apply: a ^= b; b ^= a; a ^= b.",
+        "bn": "ধাপগুলো হলো: a ^= b; b ^= a; a ^= b।"
+      },
+      "logicBreakdown": {
+        "en": "Step 1 stores a^b in a. Step 2 computes b ^ (a^b) = a and stores it in b. Step 3 computes (a^b) ^ a = b and stores it in a.",
+        "bn": "ধাপ ১-এ a হয় a^b। ধাপ ২-এ b হয় b^(a^b) = a। ধাপ ৩-এ a হয় (a^b)^a = b।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a ও b পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Execute a ^= b, then b ^= a, then a ^= b.", "bn": "ধারাবাহিকভাবে a ^= b, b ^= a, a ^= b চালান।" },
+        { "en": "Print a and b.", "bn": "a এবং b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\na ^= b\nb ^= a\na ^= b\nprint(a, b)",
+      "codeExplanation": {
+        "en": "Three XOR assignments cancel overlapping bits cleanly, swapping even when a == b (since variables are distinct).",
+        "bn": "তিনটি XOR অ্যাসাইনমেন্টের মাধ্যমে ভ্যারিয়েবল দুটির মান নিরাপদে বিনিময় হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "9\n14", "expectedOutput": "14 9" },
+        { "input": "-4\n11", "expectedOutput": "11 -4" },
+        { "input": "5\n5", "expectedOutput": "5 5" }
+      ]
+    },
+    {
+      "id": "P02-17",
+      "number": 17,
+      "title": {
+        "en": "Check Power of Two Using Bitwise Logic",
+        "bn": "বিটওয়াইজ লজিকে ২-এর ঘাত যাচাই"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Binary powers of two", "bn": "বাইনারিতে ২-এর ঘাত" },
+        { "en": "n & (n - 1) trick", "bn": "n & (n - 1) কৌশল" }
+      ],
+      "description": {
+        "en": "Read an integer n. Without loops, print True if n is an exact power of 2 (1, 2, 4, 8, 16, ...), otherwise False.",
+        "bn": "একটি পূর্ণসংখ্যা n ইনপুট নিন। কোনো লুপ ছাড়াই n সংখ্যাটি ২-এর ঘাত (1, 2, 4, 8, ...) হলে True, নাহলে False প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer n.",
+        "bn": "একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "True or False.",
+        "bn": "True অথবা False।"
+      },
+      "examples": [
+        {
+          "input": "16",
+          "output": "True",
+          "explanation": {
+            "en": "16 is 10000 in binary and 15 is 01111; 16 & 15 == 0.",
+            "bn": "16 (10000) এবং 15 (01111)-এর বিটওয়াইজ AND সমান 0।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A power of 2 has exactly one 1 bit in binary. Also, 0 and negative numbers are never powers of 2.",
+        "bn": "২-এর ঘাতের বাইনারিতে ঠিক একটি 1 বিট থাকে। আর 0 বা ঋণাত্মক সংখ্যা কখনোই ২-এর ঘাত নয়।"
+      },
+      "hint2": {
+        "en": "Subtracting 1 flips the single 1 bit to 0 and all lower 0s to 1s, so (n & (n - 1)) == 0.",
+        "bn": "n থেকে 1 বিয়োগ করলে একমাত্র 1 বিটটি 0 হয় ও পরের সব বিট 1 হয়; তাই (n & (n - 1)) == 0।"
+      },
+      "logicBreakdown": {
+        "en": "Combining n > 0 with (n & (n - 1)) == 0 checks power-of-two membership in constant O(1) time.",
+        "bn": "n > 0 এবং (n & (n - 1)) == 0 একত্রিত করলে O(1) সময়েই ২-এর ঘাত যাচাই করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "n পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Print n > 0 and (n & (n - 1)) == 0.", "bn": "n > 0 and (n & (n - 1)) == 0 প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nprint(n > 0 and (n & (n - 1)) == 0)",
+      "codeExplanation": {
+        "en": "n > 0 excludes 0 and negatives; (n & (n - 1)) == 0 verifies only a single set bit exists.",
+        "bn": "n > 0 শূন্য ও ঋণাত্মক সংখ্যা বাদ দেয় এবং (n & (n - 1)) == 0 নিশ্চিত করে যে মাত্র একটি বিট 1।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "16", "expectedOutput": "True" },
+        { "input": "1", "expectedOutput": "True" },
+        { "input": "0", "expectedOutput": "False" },
+        { "input": "12", "expectedOutput": "False" }
+      ]
+    },
+    {
+      "id": "P02-18",
+      "number": 18,
+      "title": {
+        "en": "Inspect the K-th Bit of an Integer",
+        "bn": "সংখ্যার K-তম বিট পরীক্ষা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Right shift + mask (& 1)", "bn": "রাইট শিফট ও মাস্কিং (& 1)" },
+        { "en": "0-indexed bit positions", "bn": "০-ইনডেক্সড বিট অবস্থান" }
+      ],
+      "description": {
+        "en": "Read non-negative integers n and k. Determine whether the k-th bit from the right (0-indexed) of n's binary representation is 1 or 0.",
+        "bn": "অঋণাত্মক পূর্ণসংখ্যা n এবং k ইনপুট নিন। ডান দিক থেকে n-এর বাইনারি রূপের k-তম বিট (0-ইনডেক্সড) 1 না 0 তা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: n (>= 0). Line 2: k (>= 0).",
+        "bn": "প্রথম লাইন: n (>= 0)। দ্বিতীয় লাইন: k (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "1 if the k-th bit is set, otherwise 0.",
+        "bn": "k-তম বিট সেট থাকলে 1, নাহলে 0।"
+      },
+      "examples": [
+        {
+          "input": "13\n2",
+          "output": "1",
+          "explanation": {
+            "en": "13 in binary is 1101. Bit 0 is 1, bit 1 is 0, bit 2 is 1.",
+            "bn": "13-এর বাইনারি 1101। ডান থেকে ০ নম্বর বিট 1, ১ নম্বর 0, ২ নম্বর বিট 1।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Shift n right by k positions so the k-th bit lands at position 0.",
+        "bn": "n-কে ডানে k ঘর সরালে k-তম বিটটি ০ নম্বর স্থানে চলে আসে।"
+      },
+      "hint2": {
+        "en": "Apply & 1 to mask out all other bits.",
+        "bn": "অন্যান্য সব বিট বাদ দিতে & 1 ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "(n >> k) & 1 is the universal bit-testing idiom for reading hardware flags and permission masks.",
+        "bn": "হার্ডওয়্যার ফ্ল্যাগ ও পারমিশন মাস্ক পড়ার জন্য (n >> k) & 1 একটি সর্বজনীন পদ্ধতি।"
+      },
+      "algorithm": [
+        { "en": "Read n and k.", "bn": "n ও k পড়ুন।" },
+        { "en": "Compute bit = (n >> k) & 1.", "bn": "bit = (n >> k) & 1 বের করুন।" },
+        { "en": "Print bit.", "bn": "bit প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\nprint((n >> k) & 1)",
+      "codeExplanation": {
+        "en": "n >> k brings the target bit to the least significant position, and & 1 isolates it as 0 or 1.",
+        "bn": "n >> k কাঙ্ক্ষিত বিটকে সবচেয়ে ডানে আনে এবং & 1 সেটিকে 0 বা 1 হিসেবে আলাদা করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "13\n2", "expectedOutput": "1" },
+        { "input": "13\n1", "expectedOutput": "0" },
+        { "input": "8\n3", "expectedOutput": "1" },
+        { "input": "8\n4", "expectedOutput": "0" }
+      ]
+    },
+    {
+      "id": "P02-19",
+      "number": 19,
+      "title": {
+        "en": "Closed Interval Overlap Detector",
+        "bn": "দুটি ব্যবধির ওভারল্যাপ শনাক্তকরণ"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Boolean interval geometry", "bn": "বুলিয়ান ইন্টারভাল জ্যামিতি" },
+        { "en": "Compound comparisons", "bn": "যৌগিক তুলনা" }
+      ],
+      "description": {
+        "en": "Given two closed integer intervals [l1, r1] and [l2, r2] (where l1 <= r1 and l2 <= r2), determine if they share at least one common point using only a Boolean expression (no if statements).",
+        "bn": "দুটি বদ্ধ ব্যবধি [l1, r1] এবং [l2, r2] (যেখানে l1 <= r1 এবং l2 <= r2) দেওয়া আছে। কোনো if স্টেটমেন্ট ছাড়া শুধু বুলিয়ান এক্সপ্রেশন দিয়ে ব্যবধি দুটি পরস্পরকে ছেদ করে কিনা (True/False) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Four lines containing integers l1, r1, l2, r2.",
+        "bn": "চারটি লাইনে পূর্ণসংখ্যা l1, r1, l2, r2।"
+      },
+      "expectedOutput": {
+        "en": "True if intervals overlap, otherwise False.",
+        "bn": "ওভারল্যাপ করলে True, নাহলে False।"
+      },
+      "examples": [
+        {
+          "input": "2\n7\n5\n10",
+          "output": "True",
+          "explanation": {
+            "en": "[2, 7] and [5, 10] share points 5, 6, 7.",
+            "bn": "[2, 7] এবং [5, 10] উভয়ের মধ্যে 5, 6, 7 সাধারণ বিন্দু রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "When do two intervals NOT overlap? Only if one ends strictly before the other starts (r1 < l2 or r2 < l1).",
+        "bn": "দুটি ব্যবধি কখন ওভারল্যাপ করে না? যখন একটি অপরটির শুরুর আগেই পুরোপুরি শেষ হয়ে যায় (r1 < l2 অথবা r2 < l1)।"
+      },
+      "hint2": {
+        "en": "Negating that gives the clean overlap rule: l1 <= r2 and l2 <= r1.",
+        "bn": "এর বিপরীত শর্তটিই ওভারল্যাপের নিয়ম: l1 <= r2 and l2 <= r1।"
+      },
+      "logicBreakdown": {
+        "en": "Instead of writing 4 separate containment cases, inverting the disjoint condition yields a concise, universal two-comparison test.",
+        "bn": "৪টি আলাদা শর্ত লেখার চেয়ে বিচ্ছিন্ন থাকার শর্তকে উল্টে দিলে মাত্র দুটি তুলনায় সব ক্ষেত্রে সঠিক উত্তর পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read l1, r1, l2, r2.", "bn": "l1, r1, l2, r2 পড়ুন।" },
+        { "en": "Print l1 <= r2 and l2 <= r1.", "bn": "l1 <= r2 and l2 <= r1 প্রিন্ট করুন।" }
+      ],
+      "solution": "l1 = int(input())\nr1 = int(input())\nl2 = int(input())\nr2 = int(input())\nprint(l1 <= r2 and l2 <= r1)",
+      "codeExplanation": {
+        "en": "Both intervals overlap if and only if each starts at or before the other's end.",
+        "bn": "প্রত্যেক ব্যবধির শুরু অপরটির শেষের সমান বা আগে হলেই কেবল তারা ওভারল্যাপ করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2\n7\n5\n10", "expectedOutput": "True" },
+        { "input": "1\n4\n4\n9", "expectedOutput": "True", "note": { "en": "Touching boundary point 4", "bn": "প্রান্তবিন্দু ৪-এ স্পর্শ" } },
+        { "input": "1\n3\n5\n8", "expectedOutput": "False" },
+        { "input": "5\n8\n1\n4", "expectedOutput": "False" }
+      ]
+    },
+    {
+      "id": "P02-20",
+      "number": 20,
+      "title": {
+        "en": "Toggle K-th Bit Using Bitmask",
+        "bn": "বিটমাস্ক দিয়ে K-তম বিট টগল করা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Bitmask construction (1 << k)", "bn": "বিটমাস্ক গঠন (1 << k)" },
+        { "en": "XOR bit toggling (^)", "bn": "XOR বিট টগলিং (^)" }
+      ],
+      "description": {
+        "en": "Read non-negative integers n and k. Flip (toggle) the k-th bit (0-indexed from right) of n—changing 0 to 1 or 1 to 0—and print the resulting integer.",
+        "bn": "অঋণাত্মক পূর্ণসংখ্যা n এবং k ইনপুট নিন। n-এর ডান দিক থেকে k-তম বিটটি (0-ইনডেক্সড) উল্টে দিন—অর্থাৎ 0 থাকলে 1 এবং 1 থাকলে 0 করে নতুন সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: n (>= 0). Line 2: k (>= 0).",
+        "bn": "প্রথম লাইন: n (>= 0)। দ্বিতীয় লাইন: k (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Integer value of n after toggling bit k.",
+        "bn": "k-তম বিট টগল করার পর n-এর নতুন মান।"
+      },
+      "examples": [
+        {
+          "input": "10\n1",
+          "output": "8",
+          "explanation": {
+            "en": "10 is 1010 in binary. Toggling bit 1 gives 1000 (8).",
+            "bn": "10-এর বাইনারি 1010। ১ নম্বর বিট উল্টালে 1000 অর্থাৎ 8 হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Create a mask with only the k-th bit set: mask = 1 << k.",
+        "bn": "শুধু k-তম বিট 1 রেখে একটি মাস্ক তৈরি করুন: mask = 1 << k।"
+      },
+      "hint2": {
+        "en": "XORing any bit with 1 flips it, while XORing with 0 leaves it unchanged.",
+        "bn": "যেকোনো বিটের সাথে 1-এর XOR করলে বিটটি উল্টে যায়, আর 0-এর সাথে XOR করলে অপরিবর্তিত থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "n ^ (1 << k) toggles bit k cleanly in one hardware-level operation regardless of whether bit k started as 0 or 1.",
+        "bn": "k-তম বিট আগে 0 ছিল নাকি 1, তা না জেনেই n ^ (1 << k) এক ধাপে বিটটিকে উল্টে দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read integers n and k.", "bn": "n ও k পড়ুন।" },
+        { "en": "Construct mask = 1 << k.", "bn": "mask = 1 << k তৈরি করুন।" },
+        { "en": "Print n ^ mask.", "bn": "n ^ mask প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\nprint(n ^ (1 << k))",
+      "codeExplanation": {
+        "en": "1 << k places a single 1 at bit position k, and ^ flips that bit inside n.",
+        "bn": "1 << k কেবল k-তম অবস্থানে 1 বসায় এবং ^ অপারেটর n-এর ওই বিটটি টগল করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n1", "expectedOutput": "8" },
+        { "input": "8\n1", "expectedOutput": "10" },
+        { "input": "0\n3", "expectedOutput": "8" },
+        { "input": "7\n0", "expectedOutput": "6" }
+      ]
+    }
+  ]
+}

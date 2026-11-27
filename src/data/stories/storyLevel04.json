@@ -1,0 +1,931 @@
+{
+  "level": "Level 04",
+  "levelNumber": 4,
+  "stories": [
+    {
+      "projectId": "PRJ-16",
+      "previousConnection": {
+        "en": "Entering Level 04 after finishing Level 03's networking and defensive security toolkit, MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon prepared for their final-year Department of Computer Science & Technology (CST) industry project at Bogura Polytechnic Institute. Their Dhaka CyberWatch mentor connected them with Padma Cloud Hosting, whose infrastructure team needed a safe, read-only Linux configuration auditor to catch weak SSH defaults and world-writable permissions before staging VM images ever shipped.",
+        "bn": "লেভেল ০৩-এর নেটওয়ার্কিং ও প্রতিরক্ষামূলক সিকিউরিটি টুলকিট শেষ করে লেভেল ০৪-এ পা রেখেই বগুড়া পলিটেকনিক ইনস্টিটিউটের CST বিভাগের মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন তাদের চূড়ান্ত বর্ষের ইন্ডাস্ট্রি প্রজেক্টের প্রস্তুতি নিল। ঢাকা সাইবারওয়াচ ল্যাবের মেন্টর তাদের পরিচয় করিয়ে দিলেন 'পদ্মা ক্লাউড হোস্টিং' (Padma Cloud Hosting)-এর সাথে—যাদের অবকাঠামো দলের স্টেজিং VM ইমেজ রিলিজের আগেই দুর্বল SSH সেটিংস ও অতিরিক্ত ফাইল পারমিশন ধরার জন্য একটি রিড-ওনলি লিনাক্স কনফিগারেশন অডিটর প্রয়োজন ছিল।"
+      },
+      "storyNarrative": [
+        {
+          "en": "When Padma Cloud's junior sysadmin shared exported sample configuration snapshots from staging VMs, MD. MOJAHIDUR RAHMAN SAJID immediately noticed a pattern familiar across real incidents: breaches rarely begin with exotic zero-days; they begin with 'PermitRootLogin yes', 'PasswordAuthentication yes', a 0644 private SSH key, or a 0777 configuration script left behind during hasty setup. Yet auditing configurations on live production Linux hosts directly from student laptops wasn't practical or cross-platform.",
+          "bn": "পদ্মা ক্লাউডের এক জুনিয়র সিসঅ্যাডমিন যখন স্টেজিং VM-এর নমুনা কনফিগ স্ন্যাপশট পাঠালেন, মোঃ মোজাহিদুর রহমান সাজিদ সাথে সাথেই চেনা সমস্যাগুলো ধরে ফেললেন: বড় ধরনের নিরাপত্তা বিপর্যয় সাধারণত জটিল জিরো-ডে দিয়ে শুরু হয় না—বরং শুরু হয় 'PermitRootLogin yes', 'PasswordAuthentication yes', 0644 পারমিশনের প্রাইভেট কী বা তাড়াহুড়োয় ফেলে রাখা 0777 কনফিগ ফাইল থেকে। তবে সবার ল্যাপটপে আসল প্রোডাকশন লিনাক্স হোস্ট পড়ে পরীক্ষা করা বাস্তবসম্মত নয়।"
+        },
+        {
+          "en": "Jihad proposed an elegant systems abstraction inside Bogura Polytechnic's OS lab: inject a 'SysrootContext' object into every check! Instead of hardcoding '/etc/ssh/sshd_config', checks ask the context for paths relative to a '--sysroot' virtual directory (or '/' when explicitly auditing a local Linux host read-only). That meant Badhon could run 12+ automated CIS-inspired checks reliably on Windows, macOS, or Linux CI runners against realistic mock sysroot trees.",
+          "bn": "জিহাদ একটি চমৎকার সিস্টেম অ্যাবস্ট্রাকশন প্রস্তাব করল: প্রতিটি অডিট চেকে একটি 'SysrootContext' অবজেক্ট পাস করা! কোডে হার্ডকোডেড '/etc/ssh/sshd_config' না লিখে চেকগুলো কনটেক্সটের মাধ্যমে '--sysroot' ভার্চুয়াল ফোল্ডার থেকে ফাইল ও মেটাডেটা পড়বে। এর ফলে বাঁধন উইন্ডোজ, ম্যাক বা লিনাক্স যেকোনো পরিবেশেই নকল sysroot ফিক্সচার দিয়ে ১২টির বেশি CIS-ধাঁচের হার্ডেনিং চেক ১০০% নির্ভরযোগ্যভাবে পরীক্ষা করতে পারল।"
+        },
+        {
+          "en": "Sojib dug into OpenSSH documentation and caught a subtle parser pitfall that trips up many naive scripts: in 'sshd_config', OpenSSH applies the FIRST matching value of a directive rather than the last, and supports 'Match' conditional blocks—plus comments must be stripped cleanly without executing anything in a shell! Adding 'stat.S_IMODE' permission bitmask checks, weighted PASS/FAIL/WARN/NOT_APPLICABLE scoring, and baseline drift diffing, the four friends built their read-only Linux Security Configuration Auditor.",
+          "bn": "সজীব OpenSSH ডকুমেন্টেশন পড়ে আরেকটি সূক্ষ্ম পার্সার ফাঁদ ধরল: 'sshd_config'-এ ডিরেক্টিভের শেষ মানের বদলে প্রথম ম্যাচ করা মানই কার্যকর হয়, এবং 'Match' ব্লক ও কমেন্ট সঠিকভাবে পার্স করতে হয়—তাও আবার কখনোই শেল কমান্ড না চালিয়ে! এর সাথে 'stat.S_IMODE' পারমিশন বিটমাস্ক যাচাই, ওয়েটেড PASS/FAIL/WARN/NOT_APPLICABLE স্কোরিং ও পূর্ববর্তী রিপোর্টের সাথে রিগ্রেশন ডিফ যুক্ত করে চার বন্ধু গড়ে তুলল রিড-ওনলি Linux Security Configuration Auditor।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Hardening Architecture Lead", "bn": "টিম লিডার ও হার্ডেনিং আর্কিটেকচার লিড" },
+          "responsibility": {
+            "en": "Enforces strict read-only auditing boundaries, designs the declarative policy rulebook with severity weights, and adds actionable remediation impact warnings.",
+            "bn": "কঠোর রিড-ওনলি নীতি বজায় রাখেন, গুরুত্ব-ওয়েটসহ ডিক্লারেটিভ রুলবুক ডিজাইন করেন এবং সংশোধন পরামর্শে সম্ভাব্য লকআউট ঝুঁকি যোগ করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Config Parser & Compliance Scorer", "bn": "কনফিগ পার্সার ও কমপ্লায়েন্স স্কোরার" },
+          "responsibility": {
+            "en": "Implements comment-aware sshd_config and sysctl parsers preserving first-match precedence, plus weighted compliance scoring and drift diff reports.",
+            "bn": "কমেন্ট-সচেতন sshd_config (প্রথম-ম্যাচ অগ্রাধিকারসহ) ও sysctl পার্সার এবং ওয়েটেড স্কোর ও রিগ্রেশন ডিফ তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "SysrootContext & POSIX Bitmask Engineer", "bn": "SysrootContext ও POSIX বিটমাস্ক ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Builds the path-traversal-safe SysrootContext abstraction and checks file modes/sticky bits via os.stat and stat.S_IMODE across 12+ hardening rules.",
+            "bn": "পাথ-ট্র্যাভার্সাল-নিরাপদ SysrootContext এবং os.stat ও stat.S_IMODE দিয়ে ১২টির বেশি হার্ডেনিং ও স্টিকি-বিট চেক তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Cross-Platform Fixture & Regression Tester", "bn": "ক্রস-প্ল্যাটফর্ম ফিক্সচার ও রিগ্রেশন টেস্টার" },
+          "responsibility": {
+            "en": "Maintains sample_sysroot hardened vs weak fixtures and verifies permission checks, missing-file WARN/SKIP handling, and JSON diff accuracy.",
+            "bn": "হার্ডেন্ড বনাম দুর্বল sample_sysroot ফিক্সচার তৈরি করে পারমিশন অডিট, অনুপস্থিত ফাইলে WARN/SKIP এবং ডিফ নির্ভুলতা পরীক্ষা করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Padma Cloud Hosting — Staging VM Hardening Team",
+          "bn": "পদ্মা ক্লাউড হোস্টিং — স্টেজিং VM হার্ডেনিং টিম"
+        },
+        "domain": {
+          "en": "Linux Systems Security & Compliance-as-Code",
+          "bn": "লিনাক্স সিস্টেমস সিকিউরিটি ও কমপ্লায়েন্স-অ্যাজ-কোড"
+        },
+        "currentSystem": {
+          "en": "Manual VM provisioning checklists prone to overlooked SSH settings, world-writable files, and untracked configuration drift.",
+          "bn": "ম্যানুয়াল VM চেকলিস্ট, যেখানে প্রায়ই দুর্বল SSH সেটিংস, অতিরিক্ত ফাইল পারমিশন ও কনফিগারেশন বিচ্যুতি চোখ এড়িয়ে যায়।"
+        },
+        "requirementsSummary": {
+          "en": "A cross-platform read-only Python Linux auditor supporting --sysroot mock trees, 12+ declarative CIS-style checks (SSH, POSIX modes, password policy, sysctl), compliance scoring, remediation notes, and drift diffing.",
+          "bn": "--sysroot স্যান্ডবক্স সমর্থনকারী রিড-ওনলি পাইথন অডিটর, যাতে ১২+ CIS-ধাঁচের চেক, ওয়েটেড স্কোর, সংশোধন নির্দেশনা ও বেসলাইন ডিফ রয়েছে।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "While testing remediation messages, MD. MOJAHIDUR RAHMAN SAJID pointed out a real-world sysadmin trap: advising an admin to set 'PasswordAuthentication no' blindly without warning them to verify SSH public-key login first can lock them out of a remote cloud VM completely. Remediation guidance must explain operational impact honestly.",
+          "bn": "সংশোধন নির্দেশনা লেখার সময় সাজিদ একটি বাস্তব ঝুঁকি ধরিয়ে দিলেন: আগে SSH কী-লগইন পরীক্ষা না করেই 'PasswordAuthentication no' করতে বললে রিমোট ক্লাউড সার্ভার থেকে অ্যাডমিন নিজেই লকড-আউট হতে পারেন—তাই সমাধানের সাথে সতর্কতামূলক প্রভাব লেখা জরুরি।"
+        },
+        {
+          "en": "In addition, auditing a '--sysroot' input path requires canonical path normalization so malicious symlinks or '../' segments inside mock trees cannot escape the virtual sysroot boundary onto real host files.",
+          "bn": "এছাড়া '--sysroot' ইনপুটে পাথ ট্র্যাভার্সাল যাচাই না করলে '../' বা সিমলিংক ভার্চুয়াল স্যান্ডবক্সের বাইরে বেরিয়ে যেতে পারে—তাই SysrootContext-এ কঠোর পাথ সীমানা বসানো হলো।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Sysroot & Bitmask Engineer", "bn": "সিসরুট ও বিটমাস্ক ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "Every check asks SysrootContext for paths—never '/etc/...' directly—so all 12+ SSH, permission, sticky-bit, and sysctl checks test cleanly inside sample_sysroot on any OS.",
+            "bn": "কোনো চেক সরাসরি '/etc/...' পড়বে না; সব চেক SysrootContext থেকে নেবে—ফলে যেকোনো অপারেটিং সিস্টেমেই sample_sysroot-এ ১২+ নিয়ম টেস্ট করা যাবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Parser & Compliance Scorer", "bn": "পার্সার ও কমপ্লায়েন্স স্কোরার" },
+          "line": {
+            "en": "In sshd_config, if 'PermitRootLogin no' appears on line 10 and 'PermitRootLogin yes' appears on line 90, OpenSSH enforces line 10! Our parser preserves directive precedence accurately.",
+            "bn": "sshd_config-এ ১০ নম্বর লাইনে 'no' ও ৯০ নম্বর লাইনে 'yes' থাকলে OpenSSH প্রথমটিই মানে! আমাদের পার্সার সেই সঠিক অগ্রাধিকার বজায় রাখে।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Fixture & Regression Tester", "bn": "ফিক্সচার ও রিগ্রেশন টেস্টার" },
+          "line": {
+            "en": "If a file is absent or unreadable, the auditor classifies it gracefully as WARN or NOT_APPLICABLE instead of crashing—and diffing two JSON reports immediately flags PASS -> FAIL regressions.",
+            "bn": "কোনো ফাইল না থাকলে ক্র্যাশ না করে WARN বা NOT_APPLICABLE দেখায়, আর দুটি JSON রিপোর্ট তুলনা করলে নতুন PASS -> FAIL বিচ্যুতি সঙ্গে সঙ্গে ধরা পড়ে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Strictly read-only forever: never call chmod, never restart daemons, never store real /etc/shadow hashes, and never pass config strings into a shell.",
+            "bn": "সর্বদা সম্পূর্ণ রিড-ওনলি: কখনোই chmod বা সার্ভিস রিস্টার্ট নয়, আসল /etc/shadow নয় এবং কনফিগ মান দিয়ে কোনো শেল কমান্ড নয়।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a strictly read-only, cross-platform Python Linux Security Configuration Auditor that evaluates 12+ CIS-inspired controls across SSH config (preserving first-match precedence), POSIX file permissions, password policy, and sysctl fixtures via a safe SysrootContext abstraction, computes severity-weighted PASS/FAIL/WARN/NOT_APPLICABLE scorecards with remediation impact notes, and supports baseline drift diffing.",
+        "bn": "SysrootContext বিমূর্ততার মাধ্যমে সম্পূর্ণ রিড-ওনলি ও ক্রস-প্ল্যাটফর্ম পাইথন লিনাক্স সিকিউরিটি অডিটর তৈরি করুন যা SSH (প্রথম-ম্যাচ নিয়মসহ), POSIX ফাইল পারমিশন, পাসওয়ার্ড নীতি ও sysctl জুড়ে ১২+ CIS-ধাঁচের চেক চালিয়ে ওয়েটেড PASS/FAIL/WARN/NOT_APPLICABLE স্কোরকার্ড, সংশোধন পরামর্শ ও বেসলাইন ডিফ তৈরি করে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Think through virtual sysroot isolation, OpenSSH directive precedence, and non-destructive scoring before coding.",
+          "bn": "কোড লেখার আগে ভার্চুয়াল সিসরুট বিচ্ছিন্নতা, OpenSSH অগ্রাধিকার ও নিরাপদ স্কোরিং নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Read-Only Sysroot Abstraction", "bn": "ধাপ ১ — রিড-ওনলি সিসরুট বিমূর্ততা" },
+            "guidingQuestions": [
+              { "en": "How does SysrootContext prevent '../' path traversal while letting checks run identically on a mock folder or local Linux root?", "bn": "SysrootContext কীভাবে '../' পাথ ট্র্যাভার্সাল আটকে মক ফোল্ডার ও লোকাল সিস্টেমে একইভাবে কাজ করবে?" },
+              { "en": "Why should metadata checks avoid reading raw secret contents when os.stat and stat.S_IMODE answer the permission rule?", "bn": "কেবল পারমিশন যাচাইয়ের ক্ষেত্রে ফাইলের গোপন কনটেন্ট না পড়ে os.stat ও stat.S_IMODE ব্যবহার করা উচিত কেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Precedence-Aware Parsing & Bitmasks", "bn": "ধাপ ২ — অগ্রাধিকার-সচেতন পার্সিং ও বিটমাস্ক" },
+            "guidingQuestions": [
+              { "en": "Why does recording only the LAST seen value of PermitRootLogin misreport OpenSSH behavior?", "bn": "PermitRootLogin-এর শেষ মান নিলে OpenSSH-এর প্রকৃত আচরণের সাথে কেন অমিল হয়?" },
+              { "en": "How do stat.S_IMODE bitmasks distinguish world-writable 0o002 risk from a directory protected with the sticky bit 0o1000?", "bn": "stat.S_IMODE বিটমাস্ক দিয়ে কীভাবে ওয়ার্ল্ড-রাইটেবল 0o002 এবং স্টিকি বিট 0o1000 আলাদা করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Compliance Scoring & Drift Diffs", "bn": "ধাপ ৩ — কমপ্লায়েন্স স্কোরিং ও ডিফ" },
+            "guidingQuestions": [
+              { "en": "How should NOT_APPLICABLE checks affect your denominator so optional subsystems do not artificially punish compliance %?", "bn": "ঐচ্ছিক সার্ভিস না থাকলে NOT_APPLICABLE ফলাফল যেন কমপ্লায়েন্স শতাংশ কমিয়ে না দেয় সেজন্য স্কোরিং কীভাবে করবেন?" },
+              { "en": "How can comparing two JSON audit reports surface PASS -> FAIL regressions immediately?", "bn": "দুটি JSON অডিট রিপোর্ট তুলনা করে কীভাবে নতুন PASS -> FAIL বিচ্যুতি চিহ্নিত করবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Architect testable systems abstractions (SysrootContext) separating rule logic from host OS paths.", "bn": "SysrootContext বিমূর্ততা দিয়ে নিয়ম লজিক ও host পাথ আলাদা করার আর্কিটেকচার শেখা।" },
+        { "en": "Parse OpenSSH and sysctl configurations cleanly while auditing POSIX permission bitmasks.", "bn": "OpenSSH/sysctl পার্সিং ও POSIX পারমিশন বিটমাস্ক অডিট আয়ত্ত করা।" },
+        { "en": "Build severity-weighted compliance scoring and configuration drift diffing safely.", "bn": "গুরুত্ব-ওয়েটেড কমপ্লায়েন্স স্কোরিং ও কনফিগারেশন ডিফ তৈরি।" }
+      ],
+      "testingScenarios": [
+        { "en": "Audit weak vs hardened sshd_config fixtures (including duplicate directives testing first-match precedence).", "bn": "দুর্বল বনাম হার্ডেন্ড sshd_config (পুনরাবৃত্ত ডিরেক্টিভসহ) পরীক্ষা করে প্রথম-ম্যাচ নিয়ম যাচাই করুন।" },
+        { "en": "Verify overly permissive modes (e.g., 0644 private key or 0777 config) trigger FAIL with remediation impact notes.", "bn": "অতিরিক্ত পারমিশনে (যেমন 0644 প্রাইভেট কী বা 0777 কনফিগ) FAIL ও সমাধান পরামর্শ আসে কি না দেখুন।" },
+        { "en": "Test absent or unreadable target files inside sample_sysroot return WARN/NOT_APPLICABLE cleanly without crashing.", "bn": "অনুপস্থিত ফাইলে ক্র্যাশ না হয়ে WARN/NOT_APPLICABLE ফলাফল আসে তা নিশ্চিত করুন।" },
+        { "en": "Diff two saved JSON audit snapshots and confirm PASS -> FAIL regressions appear clearly.", "bn": "দুটি সংরক্ষিত JSON রিপোর্টের ডিফে PASS -> FAIL পরিবর্তন ধরা পড়ে কি না পরীক্ষা করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "100% read-only execution with zero host mutation, zero elevated privilege requirement, and zero shell execution.", "bn": "সম্পূর্ণ রিড-ওনলি: কোনো সিস্টেম ফাইল পরিবর্তন, রুট অধিকার বা শেল এক্সিকিউশন ছাড়াই চলে।" },
+        { "en": "Evaluates 12+ distinct rules across SSH, POSIX modes, auth policies, and sysctl via SysrootContext.", "bn": "SysrootContext-এর মাধ্যমে SSH, POSIX পারমিশন, অথ ও sysctl জুড়ে ১২+ নিয়ম পরীক্ষা করে।" },
+        { "en": "Respects OpenSSH first-match directive order and handles path traversal safely on --sysroot.", "bn": "OpenSSH প্রথম-ম্যাচ ক্রম মেনে চলে এবং --sysroot-এ পাথ ট্র্যাভার্সাল আটকায়।" },
+        { "en": "Exports severity-weighted JSON/Markdown compliance scorecards and baseline drift diffs.", "bn": "ওয়েটেড JSON/Markdown স্কোরকার্ড ও বেসলাইন ডিফ রপ্তানি করে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team delivers linux_security_auditor with baseline_policy.json, mock sample_sysroot fixtures, cross-platform tests, and hardened vs non-hardened audit scorecards.",
+        "bn": "CST দলটি baseline_policy.json, মক sample_sysroot ফিক্সচার, ক্রস-প্ল্যাটফর্ম টেস্ট স্যুট ও স্কোরকার্ডসহ linux_security_auditor সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They discovered how virtual sysroot abstraction turns OS-specific security checks into clean, cross-platform, 100%-testable engineering.",
+          "bn": "তারা উপলব্ধি করল ভার্চুয়াল সিসরুট বিমূর্ততা কীভাবে OS-নির্ভর নিরাপত্তা চেককে ক্রস-প্ল্যাটফর্ম ও ১০০% টেস্টযোগ্য প্রকৌশলে রূপান্তর করে।"
+        },
+        "bridgeToNext": {
+          "en": "Shortly after Padma Cloud adopted their hardening checks, a simulated SOC incident exercise caught an unusual SSH anomaly—and Padma Cloud's analysts struggled to track evidence hashes, IOCs, and SLAs across scattered spreadsheets, launching Project 17.",
+          "bn": "পদ্মা ক্লাউড তাদের হার্ডেনিং চেক চালুর কিছুদিন পর একটি সিমুলেটেড SOC ড্রিল চলাকালে বিশ্লেষকরা স্প্রেডশিটে IOC, প্রমাণের হ্যাশ ও SLA হারিয়ে ফেলতে শুরু করলেন—যার সমাধান হলো প্রজেক্ট ১৭।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-17",
+      "previousConnection": {
+        "en": "Following Project 16, Padma Cloud Hosting's SOC team ran a tabletop security drill across multiple simulated staging servers. MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon watched analysts juggle scattered spreadsheets and chat logs—losing track of shared IPs between tickets, modifying evidence timestamps unintentionally, and missing containment SLAs.",
+        "bn": "প্রজেক্ট ১৬-এর পর পদ্মা ক্লাউড হোস্টিংয়ের SOC দল একটি সিমুলেটেড নিরাপত্তা মহড়া চালায়। মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন দেখলেন বিশ্লেষকরা ছড়িয়ে থাকা স্প্রেডশিট ও চ্যাট লগে কাজ করতে গিয়ে দুই কেসের অভিন্ন IP সংযোগ হারিয়ে ফেলছেন, প্রমাণের অখণ্ডতা ঠিক রাখতে পারছেন না এবং কনটেইনমেন্ট SLA সময়সীমা অতিক্রম করছেন।"
+      },
+      "storyNarrative": [
+        {
+          "en": "During their evening design session at Bogura Polytechnic Institute, MD. MOJAHIDUR RAHMAN SAJID opened a clean ER diagram on the lab whiteboard. Incident response is a disciplined state machine, not a sticky-note pile. Every case must move strictly along NIST-inspired stages—New -> Triage -> Containment -> Eradication -> Recovery -> Post-Incident—while logging every transition and analyst note into an append-only timeline that nobody can silently erase.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের সন্ধ্যাবেলার ডিজাইন সেশনে মোঃ মোজাহিদুর রহমান সাজিদ হোয়াইটবোর্ডে একটি পরিচ্ছন্ন ER ডায়াগ্রাম আঁকলেন। ইনসিডেন্ট রেসপন্স কোনো এলোমেলো নোটের স্তূপ নয়—এটি একটি কঠোর স্টেট মেশিন। প্রতিটি কেস New -> Triage -> Containment -> Eradication -> Recovery -> Post-Incident ধাপ মেনে চলবে এবং প্রতিটি পদক্ষেপ অ্যাপেন্ড-ওনলি টাইমলাইনে রেকর্ড হবে যা কেউ নীরবে মুছে ফেলতে পারবে না।"
+        },
+        {
+          "en": "Sojib saw immediately why storing comma-separated IOC strings inside the incidents table breaks cross-case threat intelligence: you can't reliably query which closed ticket from last month shared the same malicious domain or SHA-256! Furthermore, analysts often paste defanged indicators like '192[.]0[.]2[.]10' alongside raw '192.0.2.10'. Normalizing every indicator first and linking them through a relational 'incident_iocs' join table with 'PRAGMA foreign_keys = ON' gave instant cross-case correlation.",
+          "bn": "সজীব সাথে সাথেই ধরল কেন ইনসিডেন্ট টেবিলে কমা দিয়ে IOC স্ট্রিং রাখলে ক্রস-কেস অনুসন্ধান ভেঙে যায়। তাছাড়া বিশ্লেষকরা কখনো ডিফ্যাংড '192[.]0[.]2[.]10' আবার কখনো সরাসরি '192.0.2.10' লেখেন! তাই সংরক্ষণের আগে IOC নরমালাইজ করে 'incident_iocs' জয়েন টেবিল ও 'PRAGMA foreign_keys = ON' ব্যবহার করায় দুই কেসের সংযোগ মুহূর্তেই বের হয়ে আসতে লাগল।"
+        },
+        {
+          "en": "Jihad handled forensic chain-of-custody and SLA math: storing intake SHA-256 hashes and handoff records for evidence artifacts so any tampering fails verification immediately, while keeping all timestamps in ISO-8601 UTC to calculate MTTD and MTTR accurately across timezones. Badhon built strict unit tests proving invalid stage jumps (like skipping from New straight to Closed) are blocked, defanged Markdown exports prevent accidental clicks, and custody hash tampering triggers instant alerts. Together they built the Security Incident Investigation and Response Tracker.",
+          "bn": "জিহাদ ফরেনসিক চেইন-অব-কাস্টডি ও SLA গণনা তৈরি করল: প্রমাণ ফাইলের সংগ্রহকালীন SHA-256 ও হস্তান্তর লগ সংরক্ষণ এবং ISO-8601 UTC সময়ে নির্ভুল MTTD ও MTTR হিসাব। বাঁধন টেস্ট দিয়ে প্রমাণ করল অবৈধ স্টেপ জাম্প (যেমন New থেকে সরাসরি Closed) আটকে যায়, রিপোর্টে IOC ডিফ্যাং থাকে এবং প্রমাণ ফাইলের হ্যাশ বদলালে সাথে সাথেই টেম্পারিং ধরা পড়ে। এভাবে তৈরি হলো Security Incident Investigation and Response Tracker।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & DFIR Relational Architect", "bn": "টিম লিডার ও DFIR রিলেশনাল আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Designs the normalized 5-table SQLite schema with foreign keys, append-only audit timeline rules, and synthetic RFC-5737 / .test safe data policy.",
+            "bn": "ফরেইন-কীসহ ৫-টেবিলের SQLite স্কিমা, অ্যাপেন্ড-ওনলি টাইমলাইন নিয়ম এবং নিরাপদ সিন্থেটিক ডেটা নীতি নির্ধারণ করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "IOC Normalization & Correlation Engineer", "bn": "IOC নরমালাইজেশন ও কোরিলেশন ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Validates IPs, domains, URLs, and 64-hex SHA-256 hashes, canonicalizes defanged inputs, deduplicates in the iocs table, and powers cross-case correlation queries.",
+            "bn": "IP, ডোমেইন, URL ও ৬৪-হেক্স SHA-256 যাচাই ও নরমালাইজ করে জয়েন টেবিলের মাধ্যমে কেস-টু-কেস IOC সংযোগ বের করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Workflow State, Custody & SLA Engineer", "bn": "ওয়ার্কফ্লো, কাস্টডি ও SLA ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements ALLOWED_TRANSITIONS guards, SHA-256 evidence intake & custody handoff checks, UTC ISO-8601 MTTD/MTTR calculations, and Markdown dossiers.",
+            "bn": "ALLOWED_TRANSITIONS স্টেট গার্ড, প্রমাণ ফাইলের SHA-256 কাস্টডি যাচাই, UTC সময়ে MTTD/MTTR গণনা ও রিপোর্ট রপ্তানি তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "State-Guard & Custody Verification Tester", "bn": "স্টেট-গার্ড ও কাস্টডি টেস্টার" },
+          "responsibility": {
+            "en": "Tests invalid lifecycle transitions, shared IOC correlation across cases, evidence tampering detection, and UTC SLA boundary math on temp SQLite DBs.",
+            "bn": "অবৈধ স্টেট পরিবর্তন, শেয়ারড IOC সংযোগ, প্রমাণ টেম্পারিং শনাক্তকরণ ও UTC SLA হিসাব নিয়ে টেম্প SQLite টেস্ট চালায়।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Padma Cloud SOC — Incident Response Operations",
+          "bn": "পদ্মা ক্লাউড SOC — ইনসিডেন্ট রেসপন্স অপারেশনস"
+        },
+        "domain": {
+          "en": "DFIR Case Management & Security Operations",
+          "bn": "DFIR কেস ম্যানেজমেন্ট ও সিকিউরিটি অপারেশনস"
+        },
+        "currentSystem": {
+          "en": "Scattered chat threads and flat spreadsheets with duplicated IOCs, mutable notes, no chain-of-custody hashes, and manual SLA tracking.",
+          "bn": "ছড়িয়ে থাকা চ্যাট ও স্প্রেডশিট যেখানে ডুপ্লিকেট IOC, পরিবর্তনযোগ্য নোট ও ম্যানুয়াল SLA হিসাবের কারণে প্রমাণের ধারাবাহিকতা হারিয়ে যায়।"
+        },
+        "requirementsSummary": {
+          "en": "A parameterized SQLite DFIR incident tracker enforcing NIST lifecycle transitions, append-only timelines, normalized many-to-many IOC correlation, SHA-256 evidence custody logs, UTC MTTD/MTTR SLAs, and defanged case exports.",
+          "bn": "প্যারামিটারাইজড SQLite DFIR ট্র্যাকার যেখানে NIST স্টেট নিয়ম, অ্যাপেন্ড-ওনলি টাইমলাইন, নরমালাইজড IOC কোরিলেশন, SHA-256 এভিডেন্স কাস্টডি, UTC MTTD/MTTR ও ডিফ্যাংড রিপোর্ট রয়েছে।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "When designing reopened-incident behavior, the team spotted a subtle reporting flaw: if a reopened incident overwrites 'contained_at' with null or a later timestamp, historical SLA containment data gets corrupted. Keeping immutable containment milestones in the timeline preserves honest SLA records across reopens.",
+          "bn": "পুনরায় খোলা ইনসিডেন্টের ডিজাইনে দলটি বুঝল পুরনো 'contained_at' সময় মুছে ফেললে ঐতিহাসিক SLA হিসাব নষ্ট হয়ে যায়—তাই অ্যাপেন্ড-ওনলি টাইমলাইনে মূল মাইলস্টোন অপরিবর্তিত রাখা জরুরি।"
+        },
+        {
+          "en": "And even though IOCs are canonicalized cleanly in the database for exact correlation matching, exporting case reports in Markdown must automatically re-defang malicious-looking domains and URLs so nobody triggers an accidental click during review.",
+          "bn": "এছাড়া ডেটাবেসে ম্যাচিংয়ের জন্য IOC নরমালাইজড থাকলেও মার্কডাউন রিপোর্ট রপ্তানির সময় সেগুলো পুনরায় ডিফ্যাং করা বাধ্যতামূলক যাতে রিভিউয়ের সময় ভুল ক্লিক না হয়।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Workflow & Custody Engineer", "bn": "ওয়ার্কফ্লো ও কাস্টডি ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "No case can jump from New straight to Closed; ALLOWED_TRANSITIONS enforces every stage, and every transition appends a timestamped immutable entry to timeline_events.",
+            "bn": "কোনো কেস New থেকে সরাসরি Closed-এ যেতে পারবে না; ALLOWED_TRANSITIONS প্রতিটি ধাপ যাচাই করবে এবং timeline_events-এ অপরিবর্তনীয় রেকর্ড যোগ করবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "IOC Correlation Engineer", "bn": "IOC কোরিলেশন ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "When an analyst enters '192[.]0[.]2[.]10' on Case 02 and '192.0.2.10' was already seen on Case 01, normalization maps both to one unique IOC row and displays the cross-case link instantly.",
+            "bn": "কেস ০২-এ '192[.]0[.]2[.]10' দিলে এবং কেস ০১-এ আগেই '192.0.2.10' থাকলে নরমালাইজেশন দুটোকে এক IOC রো-তে যুক্ত করে তাৎক্ষণিক ক্রস-কেস সংযোগ দেখায়।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "State & Custody Tester", "bn": "স্টেট ও কাস্টডি টেস্টার" },
+          "line": {
+            "en": "If an attached evidence file changes by even 1 byte after intake, our custody verifier flags an immediate hash mismatch against acquired_hash.",
+            "bn": "সংগ্রহের পর প্রমাণ ফাইলের ১ বাইটও বদলালে আমাদের কাস্টডি ভেরিফায়ার সাথে সাথে acquired_hash-এর সাথে অমিল ধরিয়ে দেবে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Store every timestamp in ISO-8601 UTC, enforce PRAGMA foreign_keys = ON on every connection, and test strictly using RFC 5737 test IPs and '.test' domains.",
+            "bn": "সব সময় ISO-8601 UTC ফরম্যাটে রাখবে, প্রতিটি কানেকশনে PRAGMA foreign_keys = ON চালু রাখবে এবং কেবল RFC 5737 টেস্ট IP ও '.test' ডোমেইন দিয়ে পরীক্ষা করবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a parameterized SQLite DFIR Incident Investigation and Response Tracker CLI enforcing NIST lifecycle transitions, append-only event timelines, normalized many-to-many IOC correlation, SHA-256 chain-of-custody evidence checks, UTC MTTD/MTTR SLA calculations, and defanged JSON/Markdown post-incident reports.",
+        "bn": "NIST লাইফসাইকেল নিয়ম, অ্যাপেন্ড-ওনলি টাইমলাইন, নরমালাইজড মেনি-টু-মেনি IOC কোরিলেশন, SHA-256 চেইন-অব-কাস্টডি যাচাই, UTC MTTD/MTTR SLA ও ডিফ্যাংড পোস্ট-ইনসিডেন্ট রিপোর্টসমৃদ্ধ একটি প্যারামিটারাইজড SQLite DFIR ইনসিডেন্ট ট্র্যাকার তৈরি করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Design relational integrity, immutable custody records, and UTC SLA timing carefully before writing SQL or workflow code.",
+          "bn": "SQL বা ওয়ার্কফ্লো কোড লেখার আগে রিলেশনাল অখণ্ডতা, অপরিবর্তনীয় কাস্টডি লগ ও UTC SLA হিসাব ভেবে নিন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Relational Schema & IOC Normalization", "bn": "ধাপ ১ — রিলেশনাল স্কিমা ও IOC স্বাভাবিকীকরণ" },
+            "guidingQuestions": [
+              { "en": "Why does an incident_iocs join table with unique (type, value) constraints outperform comma-separated IOC columns?", "bn": "কমা-সেপারেটেড কলামের চেয়ে ইউনিক (type, value) ও incident_iocs জয়েন টেবিল কেন অনেক বেশি কার্যকর?" },
+              { "en": "How do you validate and canonicalize defanged IPs, domains, and 64-char SHA-256 strings before storing?", "bn": "সংরক্ষণের আগে ডিফ্যাংড IP, ডোমেইন ও ৬৪-অক্ষরের SHA-256 কীভাবে যাচাই ও নরমালাইজ করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Lifecycle Guards & Append-Only Audit", "bn": "ধাপ ২ — স্টেট গার্ড ও অ্যাপেন্ড-ওনলি অডিট" },
+            "guidingQuestions": [
+              { "en": "How does ALLOWED_TRANSITIONS block invalid jumps while letting reopened cases retain historical SLA records?", "bn": "ALLOWED_TRANSITIONS কীভাবে অবৈধ ধাপ পরিবর্তন আটকায় এবং কেস পুনরায় খুললেও পুরনো SLA তথ্য অক্ষত রাখে?" },
+              { "en": "Why must timeline_events and custody handoffs remain strictly append-only?", "bn": "timeline_events এবং কাস্টডি হস্তান্তর রেকর্ড কেন সর্বদা অ্যাপেন্ড-ওনলি রাখতে হয়?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Custody Hashing, UTC SLAs & Defanging", "bn": "ধাপ ৩ — কাস্টডি হ্যাশ, UTC SLA ও ডিফ্যাং" },
+            "guidingQuestions": [
+              { "en": "How do detected_at, triaged_at, contained_at, and closed_at in UTC map cleanly to MTTD and MTTR metrics?", "bn": "UTC সময়ে detected_at, triaged_at, contained_at ও closed_at থেকে কীভাবে MTTD ও MTTR হিসাব করবেন?" },
+              { "en": "Why must Markdown post-incident reports defang exported IOCs while the DB holds canonical values for matching?", "bn": "ম্যাচিংয়ের জন্য ডেটাবেসে স্বাভাবিক IOC থাকলেও রপ্তানিকৃত মার্কডাউনে সেগুলো ডিফ্যাং করা প্রয়োজন কেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Model normalized many-to-many relational schemas with enforced SQLite foreign keys.", "bn": "ফরেইন-কীসহ মেনি-টু-মেনি SQLite রিলেশনাল ডেটাবেজ মডেলিং।" },
+        { "en": "Implement strict workflow state machines and append-only forensic custody timelines.", "bn": "কঠোর ওয়ার্কফ্লো স্টেট মেশিন ও অ্যাপেন্ড-ওনলি চেইন-অব-কাস্টডি তৈরি।" },
+        { "en": "Compute UTC-consistent MTTD/MTTR SLA metrics and defanged executive reports.", "bn": "UTC-ভিত্তিক MTTD/MTTR হিসাব ও ডিফ্যাংড পোস্ট-ইনসিডেন্ট রিপোর্ট তৈরি।" }
+      ],
+      "testingScenarios": [
+        { "en": "Attempt transitioning a case directly from New to Closed and verify the state guard rejects it cleanly.", "bn": "কেসকে New থেকে সরাসরি Closed-এ নেওয়ার চেষ্টা করে দেখুন স্টেট গার্ড তা প্রত্যাখ্যান করে কি না।" },
+        { "en": "Attach the same normalized IOC (one raw, one defanged) across two incidents and verify one IOC row links both cases.", "bn": "একই IOC (একটি স্বাভাবিক, একটি ডিফ্যাংড) দুটি কেসে যুক্ত করে ক্রস-কেস সংযোগ যাচাই করুন।" },
+        { "en": "Alter an attached evidence file after intake and confirm custody verification flags tampering immediately.", "bn": "সংগ্রহের পর প্রমাণ ফাইলে সামান্য পরিবর্তন করে দেখুন কাস্টডি যাচাই তা ধরে ফেলে কি না।" },
+        { "en": "Verify MTTD and MTTR math against known UTC timestamps and confirm zero unparameterized SQL exists.", "bn": "নির্দিষ্ট UTC টাইমস্ট্যাম্প দিয়ে MTTD ও MTTR গণনা ও প্যারামিটারাইজড SQL পরীক্ষা করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "SQLite enables PRAGMA foreign_keys = ON and uses parameterized queries across 5 normalized tables.", "bn": "PRAGMA foreign_keys = ON ও প্যারামিটারাইজড কোয়েরিসহ ৫-টেবিলের রিলেশনাল কাঠামো চলে।" },
+        { "en": "NIST lifecycle state transitions and append-only timeline/custody logs cannot be bypassed or deleted.", "bn": "NIST ধাপ পরিবর্তন ও অ্যাপেন্ড-ওনলি টাইমলাইন/কাস্টডি লগ এড়ানো বা মোছা যায় না।" },
+        { "en": "Canonical IOC normalization deduplicates indicators and correlates related cases accurately.", "bn": "IOC নরমালাইজেশন ডুপ্লিকেট এড়িয়ে সংশ্লিষ্ট কেসগুলোর সংযোগ নির্ভুলভাবে দেখায়।" },
+        { "en": "Reports export UTC SLA metrics and defanged IOCs using synthetic test data only.", "bn": "সিন্থেটিক ডেটা ব্যবহার করে UTC SLA ও ডিফ্যাংড IOC-সহ রিপোর্ট রপ্তানি করে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team completes incident_tracker with an ER schema and NIST workflow diagram in README, sample linked-case exports, and temporary-DB unit tests.",
+        "bn": "CST দলটি README-তে ER স্কিমা ও NIST ওয়ার্কফ্লো ডায়াগ্রাম, নমুনা কেস রিপোর্ট ও টেম্প-DB টেস্ট স্যুটসহ incident_tracker সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They realized that during high-pressure security incidents, disciplined relational data modeling and immutable evidence logs matter just as much as technical detection.",
+          "bn": "তারা উপলব্ধি করল জরুরি নিরাপত্তা ঘটনার সময় শনাক্তকরণের পাশাপাশি সুশৃঙ্খল রিলেশনাল ডেটা মডেলিং ও অপরিবর্তনীয় প্রমাণ লগ সমান গুরুত্বপূর্ণ।"
+        },
+        "bridgeToNext": {
+          "en": "Word of their Padma Cloud tools reached an engineering graduate from Bogura working at Surma FinPay, who invited Sajid's team to audit their sandbox OpenAPI specs and localhost test endpoints for missing auth, CORS bugs, and verbose error leaks—launching Project 18.",
+          "bn": "পদ্মা ক্লাউডের কাজের খ্যাতি পৌঁছে গেল 'সুরমা ফিনপে' (Surma FinPay)-তে কর্মরত বগুড়ার এক সিনিয়র প্রকৌশলীর কাছে—যিনি সাজিদের দলকে তাদের স্যান্ডবক্স OpenAPI স্পেক ও লোকাল টেস্ট এন্ডপয়েন্টে দুর্বল CORS, অথ-ফাঁক ও ত্রুটি-ফাঁস পরীক্ষার আমন্ত্রণ জানালেন; যেখান থেকে শুরু হলো প্রজেক্ট ১৮।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-18",
+      "previousConnection": {
+        "en": "Following their Padma Cloud DFIR tracker (Project 17), a Bogura Polytechnic alumnus working on Surma FinPay's fintech platform invited MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon to design a shift-left CI/CD API security baseline checker that could audit OpenAPI specs and isolated localhost test servers before staging APIs ever left developer machines.",
+        "bn": "প্রজেক্ট ১৭-এর DFIR ট্র্যাকারের পর 'সুরমা ফিনপে' ফিনটেক প্ল্যাটফর্মে কর্মরত বগুড়া পলিটেকনিকের এক প্রাক্তন শিক্ষার্থী মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধনকে আমন্ত্রণ জানালেন এমন একটি শিফট-লেফট CI/CD API সিকিউরিটি বেসলাইন চেকার তৈরি করতে, যা ডেভেলপারের মেশিন ছাড়ার আগেই OpenAPI স্পেক ও লোকাল টেস্ট সার্ভারের নিরাপত্তা ঘাটতি ধরে ফেলবে।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Reviewing Surma FinPay's sanitized sandbox OpenAPI schema inside CST Lab-01 at Bogura Polytechnic Institute, MD. MOJAHIDUR RAHMAN SAJID spotted a familiar disconnect between documentation and reality. Two endpoints in 'sample_openapi.json' were missing 'securitySchemes' declarations completely, while a test server URL used unencrypted 'http://' instead of 'https://'. Yet checking docs alone wasn't enough: live local test containers often drift away from what Swagger claims.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের CST ল্যাব-০১-এ সুরমা ফিনপের স্যানিটাইজড স্যান্ডবক্স OpenAPI স্কিমা পরীক্ষা করতে গিয়ে মোঃ মোজাহিদুর রহমান সাজিদ ডকুমেন্টেশন ও বাস্তবতার একটি চেনা অমিল ধরলেন। 'sample_openapi.json'-এর দুটি এন্ডপয়েন্টে 'securitySchemes' অনুপস্থিত ছিল এবং একটি সার্ভার URL এনক্রিপশনবিহীন 'http://' ব্যবহার করছিল। তবে কেবল ডকুমেন্ট দেখা যথেষ্ট নয়—অনেক সময় ডকুমেন্টে ঠিক থাকলেও লোকাল সার্ভারে কনফিগ বিচ্যুতি ঘটে।"
+        },
+        {
+          "en": "Sojib and Jihad teamed up to build a dual-engine assessor: a purely offline static OpenAPI linter paired with a policy-gated localhost HTTP observer. Testing CORS misconfigurations exposed a classic AppSec trap: many developers assume only wildcard '*' is dangerous, yet dynamically reflecting an untrusted 'Origin' header alongside 'Access-Control-Allow-Credentials: true' is even worse! Likewise, missing 'Cache-Control: no-store' on authenticated JSON responses leaves sensitive balances cached on shared computers.",
+          "bn": "সজীব ও জিহাদ মিলে দুটি ইঞ্জিন তৈরি করল: সম্পূর্ণ অফলাইন স্ট্যাটিক OpenAPI লিন্টার এবং নীতি-নিয়ন্ত্রিত লোকালহোস্ট HTTP অডিটর। CORS পরীক্ষা করতে গিয়ে দেখা গেল কেবল '*' ওয়াইল্ডকার্ড নয়, 'Access-Control-Allow-Credentials: true'-এর সাথে অবিশ্বস্ত 'Origin' রিফ্লেক্ট করা আরও ভয়ংকর! পাশাপাশি অথেনটিকেটেড উত্তরে 'Cache-Control: no-store' না থাকলে শেয়ারড কম্পিউটারে সংবেদনশীল তথ্য ক্যাশ থেকে ফাঁস হতে পারে।"
+        },
+        {
+          "en": "Badhon locked down safety boundaries before writing a single HTTP check: strict target allowlist validation blocking unapproved external hosts, non-destructive read-only GET/HEAD/OPTIONS probes (never mutating POST/DELETE state or sending exploit payloads), capped response body reads, disabled unsafe cross-origin redirects, case-insensitive header parsing, and redaction of any test Authorization headers from reports. Built with a tiny vulnerable-vs-hardened 127.0.0.1 test server inside tests, the four friends completed the API Security Assessment Tool.",
+          "bn": "বাঁধন নিরাপত্তা সীমানা কঠোরভাবে বেঁধে দিল: অননুমোদিত বাইরের ডোমেইন স্বয়ংক্রিয়ভাবে ব্লক, কেবল অক্ষতিকর GET/HEAD/OPTIONS পরীক্ষা (কোনো ক্ষতিকর POST/DELETE বা এক্সপ্লয়েট পেলোড নয়), রেসপন্স বডি পড়ার সীমা, কেস-ইনসেনসিটিভ হেডার তুলনা এবং রিপোর্টে Authorization হেডার গোপন রাখা। টেস্টের ভেতর দুর্বল বনাম সুরক্ষিত 127.0.0.1 মক API সার্ভার বসিয়ে চার বন্ধু সম্পন্ন করল API Security Assessment Tool।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & AppSec Baseline Architect", "bn": "টিম লিডার ও AppSec বেসলাইন আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Unifies static OpenAPI linting and dynamic local baseline checks under one OWASP-mapped Finding model while enforcing strict non-destructive target policies.",
+            "bn": "স্ট্যাটিক OpenAPI লিন্টিং ও ডায়নামিক লোকাল পরীক্ষাকে OWASP-ম্যাপড Finding মডেলে একত্র করেন এবং নন-ডেস্ট্রাক্টিভ নীতি নিশ্চিত করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Static OpenAPI Linter Developer", "bn": "স্ট্যাটিক OpenAPI লিন্টার ডেভেলপার" },
+          "responsibility": {
+            "en": "Walks OpenAPI paths, operations, global vs per-route security schemes, and server URLs offline to catch unauthenticated routes and cleartext servers.",
+            "bn": "অফলাইনেই OpenAPI paths, অপারেশন, গ্লোবাল বনাম রুট security ও সার্ভার URL পরীক্ষা করে সুরক্ষাহীন রুট ও HTTP সার্ভার চিহ্নিত করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Local HTTP Posture & Error Leak Analyst", "bn": "লোকাল HTTP ও এরর লিক বিশ্লেষক" },
+          "responsibility": {
+            "en": "Tests CORS Origin reflection, security and Cache-Control headers, rate-limit headers, unauthenticated 401/403 gating, and Python/SQL traceback leakage in 4xx/5xx bodies.",
+            "bn": "CORS অরিজিন রিফ্লেকশন, সিকিউরিটি ও Cache-Control হেডার, রেট-লিমিট, 401/403 গেটিং ও এরর বডিতে স্ট্যাক ট্রেস ফাঁস পরীক্ষা করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "TargetPolicy & Mock Lab Server Tester", "bn": "টার্গেটপলিসি ও মক ল্যাব সার্ভার টেস্টার" },
+          "responsibility": {
+            "en": "Implements external-domain blocking, header/token redaction in reports, and a 127.0.0.1 http.server fixture exposing misconfigured vs hardened endpoints.",
+            "bn": "অননুমোদিত বাইরের ডোমেইন ব্লক, রিপোর্টে টোকেন গোপন রাখা এবং 127.0.0.1-এ দুর্বল বনাম সুরক্ষিত মক সার্ভার দিয়ে পরীক্ষা চালায়।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Surma FinPay Sandbox — Pre-Release API CI Gate",
+          "bn": "সুরমা ফিনপে স্যান্ডবক্স — প্রি-রিলিজ API CI গেট"
+        },
+        "domain": {
+          "en": "Application Security (AppSec) & Shift-Left API Auditing",
+          "bn": "অ্যাপ্লিকেশন সিকিউরিটি (AppSec) ও শিফট-লেফট API অডিটিং"
+        },
+        "currentSystem": {
+          "en": "Manual Swagger spot checks that miss unauthenticated routes, CORS Origin-reflection bugs, missing Cache-Control headers, and exposed stack traces until late staging.",
+          "bn": "হাতে Swagger ফাইল দেখা, যেখানে অথেনটিকেশনহীন রুট, CORS অরিজিন রিফ্লেকশন, Cache-Control ঘাটতি ও স্ট্যাক ট্রেস ফাঁস সহজে চোখ এড়িয়ে যায়।"
+        },
+        "requirementsSummary": {
+          "en": "An allowlist-locked Python AppSec CLI combining offline OpenAPI JSON linting and non-destructive localhost HTTP baseline checks (CORS, security headers, 401/403 auth gating, error sanitization) with OWASP-mapped reporting.",
+          "bn": "অনুমোদন-লকড AppSec CLI যা অফলাইন OpenAPI লিন্টিং ও নন-ডেস্ট্রাক্টিভ লোকাল HTTP পরীক্ষা (CORS, হেডার, 401/403, এরর লিক) চালিয়ে OWASP-ম্যাপড রিপোর্ট দেয়।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Testing CORS reflection highlighted why automated header audits must check header names case-insensitively and disable cross-origin automatic redirects: an endpoint redirecting to an external URL or returning 'access-control-allow-origin' in lowercase breaks naive dictionary lookups.",
+          "bn": "CORS ও রিডাইরেক্ট পরীক্ষায় বোঝা গেল HTTP হেডার সবসময় কেস-ইনসেনসিটিভভাবে পড়া ও ক্রস-অরিজিন অটো-রিডাইরেক্ট নিয়ন্ত্রণ করা কতটা জরুরি—নইলে ছোট হাতের হেডার নামের কারণে প্রকৃত ত্রুটি চোখ এড়িয়ে যায়।"
+        },
+        {
+          "en": "Moreover, checking unauthenticated endpoints with read-only GET/OPTIONS preserves safety in CI pipelines, whereas firing state-mutating POST/DELETE calls could accidentally alter staging data.",
+          "bn": "তাছাড়া CI গেটে রাষ্ট্র পরিবর্তনকারী POST/DELETE-এর বদলে নিরাপদ GET/OPTIONS দিয়ে অডিট চালানোয় ডেটা নষ্ট হওয়ার কোনো ঝুঁকি থাকে না।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "TargetPolicy & Mock Tester", "bn": "টার্গেটপলিসি ও মক টেস্টার" },
+          "line": {
+            "en": "target_policy.py rejects any non-allowlisted external domain before urllib ever sends a single byte—and our test Authorization headers never appear unredacted in saved reports.",
+            "bn": "urllib একটি বাইটও পাঠানোর আগেই target_policy.py অনুমোদনের বাইরের যেকোনো ডোমেইন আটকে দেবে, আর রিপোর্টে কখনোই Authorization হেডার লেখা হবে না।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "OpenAPI Linter Developer", "bn": "OpenAPI লিন্টার ডেভেলপার" },
+          "line": {
+            "en": "Because OpenAPI routes inherit top-level 'security' unless overridden with an empty list or custom block, my linter inspects both global and per-operation security cleanly offline.",
+            "bn": "OpenAPI-তে প্রতিটি রুট গ্লোবাল 'security' উত্তরাধিকার সূত্রে পায় অথবা আলাদাভাবে ওভাররাইড করে—আমার লিন্টার অফলাইনেই উভয় স্তর সঠিকভাবে যাচাই করে।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Local HTTP & Error Analyst", "bn": "লোকাল HTTP ও এরর বিশ্লেষক" },
+          "line": {
+            "en": "On the localhost test server, probing with a custom untrusted Origin header catches dynamic reflection + Allow-Credentials: true, while capped body reads spot leaked Python tracebacks or SQL error text.",
+            "bn": "লোকালহোস্ট টেস্ট সার্ভারে অবিশ্বস্ত Origin হেডার পাঠিয়ে আমরা ডায়নামিক CORS রিফ্লেকশন ধরি এবং সীমিত বডি পড়ে ফাঁস হওয়া স্ট্যাক ট্রেস বা SQL ত্রুটি শনাক্ত করি।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Both engines emit normalized OWASP-mapped Findings so Surma FinPay developers get one crisp remediation checklist before code ever leaves localhost.",
+            "bn": "উভয় ইঞ্জিন থেকেই অভিন্ন OWASP-ম্যাপড ফাইন্ডিং তৈরি হবে, যাতে কোড লোকালহোস্ট ছাড়ার আগেই ডেভেলপাররা পরিষ্কার সমাধান তালিকা পান।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build an authorized Python API Security Assessment CLI combining an offline OpenAPI JSON linter and a strictly allowlist-gated, non-destructive localhost HTTP baseline checker that detects missing auth security, insecure CORS reflection, missing security/Cache-Control/rate-limit headers, and verbose traceback leaks, emitting OWASP-mapped reports without leaking test tokens.",
+        "bn": "অফলাইন OpenAPI JSON লিন্টার এবং কঠোরভাবে অনুমোদন-তালিকা নিয়ন্ত্রিত ও অক্ষতিকর লোকালহোস্ট HTTP বেসলাইন চেকার সমন্বয়ে একটি API সিকিউরিটি অ্যাসেসমেন্ট CLI তৈরি করুন, যা সুরক্ষাহীন রুট, অনিরাপদ CORS রিফ্লেকশন, সিকিউরিটি ও Cache-Control হেডার ঘাটতি এবং স্ট্যাক ট্রেস ফাঁস ধরে OWASP-ম্যাপড রিপোর্ট দেয়।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Reason through static spec governance, safe dynamic header probing, and non-destructive AppSec constraints before coding.",
+          "bn": "কোড লেখার আগে স্ট্যাটিক স্পেক যাচাই, নিরাপদ HTTP হেডার প্রোবিং ও অক্ষতিকর AppSec সীমাবদ্ধতা নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Policy Gate & Offline OpenAPI Linting", "bn": "ধাপ ১ — পলিসি গেট ও অফলাইন OpenAPI লিন্টিং" },
+            "guidingQuestions": [
+              { "en": "Why must target_policy block non-allowlisted external hosts prior to dynamic HTTP requests while letting OpenAPI linting work 100% offline?", "bn": "ডায়নামিক HTTP রিকোয়েস্টের আগেই target_policy কেন অননুমোদিত ডোমেইন আটকাবে এবং OpenAPI লিন্টার সম্পূর্ণ অফলাইনে চলবে?" },
+              { "en": "How do OpenAPI global security rules interact with per-endpoint security overrides?", "bn": "OpenAPI-র গ্লোবাল security এবং নির্দিষ্ট এন্ডপয়েন্টের security ওভাররাইড কীভাবে কাজ করে?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Non-Destructive HTTP & CORS Audits", "bn": "ধাপ ২ — অক্ষতিকর HTTP ও CORS অডিট" },
+            "guidingQuestions": [
+              { "en": "Why is reflecting an arbitrary Origin with Allow-Credentials: true more dangerous than wildcard '*', and how do you probe it safely with GET/OPTIONS?", "bn": "Allow-Credentials: true সহ অরিজিন রিফ্লেক্ট করা '*' থেকেও কেন বেশি বিপজ্জনক এবং GET/OPTIONS দিয়ে তা কীভাবে নিরাপদে পরীক্ষা করবেন?" },
+              { "en": "Why must HTTP header lookups be case-insensitive, and how do capped body reads protect the scanner from huge responses?", "bn": "HTTP হেডার লুকআপ কেস-ইনসেনসিটিভ হওয়া এবং রেসপন্স বডি পড়ার সীমা থাকা কেন জরুরি?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Error Leakage & Token Redaction", "bn": "ধাপ ৩ — এরর ফাঁস ও টোকেন গোপনীয়তা" },
+            "guidingQuestions": [
+              { "en": "What patterns in 4xx/5xx bodies indicate verbose Python tracebacks or internal SQL leakage?", "bn": "4xx/5xx উত্তরে কোন লক্ষণগুলো দেখে বোঝা যায় স্ট্যাক ট্রেস বা অভ্যন্তরীণ SQL তথ্য ফাঁস হয়েছে?" },
+              { "en": "How do you guarantee test Authorization headers and cookies are never written into saved JSON/Markdown findings?", "bn": "সংরক্ষিত JSON বা মার্কডাউন রিপোর্টে টেস্ট Authorization হেডার বা কুকি যেন কখনোই না লেখা হয় তা কীভাবে নিশ্চিত করবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Audit OpenAPI JSON specifications statically for auth and transport gaps.", "bn": "অথেনটিকেশন ও পরিবহন নিরাপত্তার জন্য OpenAPI JSON স্ট্যাটিকভাবে অডিট করা।" },
+        { "en": "Verify CORS, security headers, Cache-Control, and error sanitization safely on localhost fixtures.", "bn": "লোকালহোস্ট ফিক্সচারে CORS, সিকিউরিটি হেডার, Cache-Control ও এরর মাস্কিং যাচাই।" },
+        { "en": "Enforce strict allowlists, read caps, and credential redaction in AppSec automation.", "bn": "AppSec অটোমেশনে কঠোর অনুমোদন তালিকা, বডি সীমা ও ক্রেডেনশিয়াল গোপনীয়তা রক্ষা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Lint a sample OpenAPI spec containing unauthenticated routes and http:// servers and verify accurate static findings.", "bn": "অথেনটিকেশনহীন রুট ও http:// সার্ভারযুক্ত নমুনা OpenAPI স্পেক অডিট করে সঠিক ফাইন্ডিং যাচাই করুন।" },
+        { "en": "Start a 127.0.0.1 test server reflecting untrusted Origin + Allow-Credentials: true and confirm High CORS finding.", "bn": "অনিরাপদ CORS রিফ্লেকশন দেওয়া 127.0.0.1 টেস্ট সার্ভারে হাই রিস্ক ফাইন্ডিং আসে কি না দেখুন।" },
+        { "en": "Return a simulated Python/SQL exception message on a local 500 endpoint and confirm verbose-leakage detection fires.", "bn": "লোকাল 500 এন্ডপয়েন্টে নকল পাইথন/SQL ত্রুটি পাঠিয়ে তথ্য-ফাঁস শনাক্তকরণ পরীক্ষা করুন।" },
+        { "en": "Pass an unapproved external domain to the dynamic auditor and verify target_policy refuses it with zero outbound requests.", "bn": "অননুমোদিত বাইরের ডোমেইন দিলে target_policy কোনো রিকোয়েস্ট না পাঠিয়েই তা আটকে দেয় তা নিশ্চিত করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Static OpenAPI linter runs offline and dynamic probes stay locked strictly to localhost/allowlist targets.", "bn": "স্ট্যাটিক OpenAPI লিন্টার অফলাইনে চলে এবং ডায়নামিক প্রোব কেবল লোকালহোস্ট বা অনুমোদিত তালিকায় সীমাবদ্ধ থাকে।" },
+        { "en": "Non-destructive GET/HEAD/OPTIONS probes check CORS, security headers, 401/403 gating, and error leaks cleanly.", "bn": "অক্ষতিকর GET/HEAD/OPTIONS প্রোব CORS, হেডার, 401/403 ও ত্রুটি ফাঁস যাচাই করে।" },
+        { "en": "Header lookups are case-insensitive, body reads are capped, and test tokens never leak into reports.", "bn": "হেডার যাচাই কেস-ইনসেনসিটিভ, বডি সাইজ সীমিত এবং রিপোর্টে টেস্ট টোকেন ফাঁস হয় না।" },
+        { "en": "Built-in local mock test suite verifies both misconfigured and hardened endpoints reproducibly.", "bn": "অভ্যন্তরীণ মক টেস্ট স্যুট দুর্বল ও সুরক্ষিত উভয় এন্ডপয়েন্টের নির্ভুলতা প্রমাণ করে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team delivers api_security_assessor with allowlist.example.json, sample_openapi.json, vulnerable-vs-hardened 127.0.0.1 test servers, and OWASP-mapped CI/CD docs.",
+        "bn": "CST দলটি allowlist.example.json, sample_openapi.json, দুর্বল বনাম সুরক্ষিত 127.0.0.1 টেস্ট সার্ভার ও OWASP-ম্যাপড ডকুমেন্টেশনসহ api_security_assessor সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They learned how shift-left AppSec catches real production mistakes early when static contract linting meets safe, policy-gated local verification.",
+          "bn": "তারা শিখল স্ট্যাটিক স্পেক যাচাই ও নিরাপদ লোকাল পরীক্ষা একসাথে কাজ করলে প্রোডাকশনে যাওয়ার আগেই বেশিরভাগ API দুর্বলতা ধরা পড়ে।"
+        },
+        "bridgeToNext": {
+          "en": "Impressed by their API security gate, Surma FinPay's identity lead asked the team to review their legacy password policy, hash migration metadata, and MFA/lockout config—leading directly into Project 19.",
+          "bn": "API সিকিউরিটি গেটের কাজ দেখে সুরমা ফিনপের আইডেন্টিটি লিড দলটিকে তাদের পুরনো পাসওয়ার্ড নীতি, হ্যাশ মাইগ্রেশন মেটাডেটা এবং MFA ও লকআউট কনফিগারেশন অডিটের দায়িত্ব দিলেন—যা নিয়ে আসে প্রজেক্ট ১৯-এ।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-19",
+      "previousConnection": {
+        "en": "Continuing their collaboration with Surma FinPay from Project 18, MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon were asked to review a puzzling pattern in staging identity policies: legacy composition rules forced users into 'Summer2024!' style passwords that attackers guess effortlessly, while old migration records still contained unsalted hex hashes alongside missing MFA flags.",
+        "bn": "প্রজেক্ট ১৮-এর ধারাবাহিকতায় সুরমা ফিনপের সাথে কাজ করতে গিয়ে মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন একটি বিস্ময়কর সমস্যা দেখতে পেল: পুরনো জটিল নিয়মের কারণে ব্যবহারকারীরা 'Summer2024!'-এর মতো অনুমানযোগ্য পাসওয়ার্ড রাখছেন, আবার লিগ্যাসি মাইগ্রেশন ডেটায় দুর্বল সল্টহীন হ্যাশ ফরম্যাট ও MFA-র ঘাটতি রয়ে গেছে।"
+      },
+      "storyNarrative": [
+        {
+          "en": "At Bogura Polytechnic Institute's CST software lab, MD. MOJAHIDUR RAHMAN SAJID wrote two strings side by side on the board: 'P@ssw0rd2025!' and a random four-word passphrase like 'river-lamp-cloud-stone'. Standard naive character-pool math claims 'P@ssw0rd2025!' is ultra-strong because it mixes upper, lower, digits, and symbols. Yet in reality, keyboard walks ('qwerty'), l33tspeak substitutions ('@'->'a', '0'->'o'), and trailing four-digit years collapse its effective predictability dramatically—exactly why modern NIST SP 800-63B guidance favors length, pattern screening, slow KDFs, and rate limiting.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের CST ল্যাবে মোঃ মোজাহিদুর রহমান সাজিদ বোর্ডে দুটি উদাহরণ লিখলেন: 'P@ssw0rd2025!' এবং চার শব্দের একটি র‍্যান্ডম পাসফ্রেজ 'river-lamp-cloud-stone'। সাধারণ এনট্রপি সূত্র বড়-ছোট অক্ষর, সংখ্যা ও চিহ্ন দেখে 'P@ssw0rd2025!'-কে খুব শক্তিশালী বললেও বাস্তবে লিটস্পিক ('@'->'a', '0'->'o'), কিবোর্ড ওয়াক ('qwerty') ও সাল ব্যবহারের কারণে এটি সহজেই অনুমান করা যায়—আর সেজন্যই আধুনিক NIST SP 800-63B নির্দেশিকায় দৈর্ঘ্য, প্যাটার্ন পরীক্ষা, ধীর KDF ও রেট-লিমিটের ওপর জোর দেওয়া হয়।"
+        },
+        {
+          "en": "Jihad engineered the pattern-aware entropy engine carefully so overlapping weaknesses—such as a l33t word touching a trailing year—mark matched spans without double-counting, calculating honest penalized bits via 'math.log2'. Meanwhile, Sojib built the Modular Crypt Format auditor ('$argon2id$', '$2b$', '$pbkdf2-sha256$', versus raw 32-char hex MD5/NTLM ambiguity) that inspects algorithm family, salt presence, and iteration/cost adequacy strictly from metadata—never attempting password cracking or preimage recovery.",
+          "bn": "জিহাদ প্যাটার্ন-সচেতন এনট্রপি ইঞ্জিন তৈরি করল যাতে লিটস্পিক, কিবোর্ড ওয়াক, ক্রমিক সংখ্যা, পুনরাবৃত্তি ও সাল স্প্যান আকারে চিহ্নিত হয় ও ওভারল্যাপ ডাবল গণনা না হয় এবং 'math.log2' দিয়ে প্রকৃত কার্যকর এনট্রপি বের হয়। সজীব Modular Crypt Format অডিটর বানাল যা পাসওয়ার্ড ক্র্যাক না করেই কেবল হ্যাশ ফরম্যাটের মেটাডেটা থেকে দুর্বল MD5/SHA1 বনাম শক্তিশালী Argon2id, bcrypt ও PBKDF2 প্যারামিটার যাচাই করে।"
+        },
+        {
+          "en": "Badhon locked down zero-secret-leakage hygiene and policy scoring: using 'getpass' for interactive terminal testing, strictly forbidding plaintext passwords in saved JSON/Markdown reports or crash logs, and auditing authentication config JSONs for NIST SP 800-63B posture (MFA enforcement, exponential backoff instead of permanent DoS-prone account lockouts, and session TTLs). Operating 100% defensively with synthetic test patterns only, the team delivered the Password Security and Authentication Risk Analyzer.",
+          "bn": "বাঁধন জিরো-সিক্রেট-লিক ও পলিসি স্কোরিং নিশ্চিত করল: ইন্টার‍্যাক্টিভ ইনপুটে 'getpass', রিপোর্ট বা লগে কখনোই প্লেইনটেক্সট পাসওয়ার্ড না লেখা এবং অথেনটিকেশন পলিসি JSON-এ MFA, ব্যাকঅফ (স্থায়ী লকআউটের DoS ঝুঁকি এড়িয়ে) ও সেশন মেয়াদ অডিট। সিন্থেটিক ডেটা নিয়ে সম্পূর্ণ প্রতিরক্ষামূলকভাবে চার বন্ধু তৈরি করল Password Security and Authentication Risk Analyzer।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Identity Security Architect", "bn": "টিম লিডার ও আইডেন্টিটি সিকিউরিটি আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Defines the three-layer assessment model (Pattern Predictability, Storage Cryptography, Account Controls) and enforces zero-plaintext-retention guarantees.",
+            "bn": "তিন স্তরের ঝুঁকি মূল্যায়ন মডেল (প্যাটার্ন, স্টোরেজ ক্রিপ্টোগ্রাফি, অ্যাকাউন্ট কন্ট্রোল) এবং জিরো-প্লেইনটেক্সট-রিটেনশন নীতি নিশ্চিত করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "KDF Hash-Format & Policy Auditor", "bn": "KDF হ্যাশ-ফরম্যাট ও পলিসি অডিটর" },
+          "responsibility": {
+            "en": "Parses Modular Crypt Format strings ($argon2id$, $2b$, $pbkdf2-sha256$) and flags raw 32/40/64-hex legacy hashes and MFA/lockout policy gaps without cracking.",
+            "bn": "ক্র্যাকিং ছাড়াই Modular Crypt Format পার্স করে Argon2id, bcrypt, PBKDF2 ও দুর্বল হেক্স হ্যাশ এবং MFA/লকআউট নীতি অডিট করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Pattern-Aware Entropy & Normalization Engineer", "bn": "প্যাটার্ন-সচেতন এনট্রপি ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements l33tspeak normalization, keyboard-walk adjacency, sequence/repeat/year span detection, and non-overlapping math.log2 effective-bit scoring.",
+            "bn": "লিটস্পিক নরমালাইজেশন, কিবোর্ড ওয়াক, ক্রমিক/পুনরাবৃত্তি/সাল স্প্যান শনাক্তকরণ এবং নন-ওভারল্যাপিং math.log2 কার্যকর এনট্রপি গণনা করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Secret-Redaction & NIST Posture Tester", "bn": "সিক্রেট-রিড্যাকশন ও NIST টেস্টার" },
+          "responsibility": {
+            "en": "Verifies sharp penalties on 'P@ssw0rd123!' and 'qwertyuiop', validates hash-parameter grading, and proves saved reports never contain raw candidate strings.",
+            "bn": "'P@ssw0rd123!' ও কিবোর্ড ওয়াকে পেনাল্টি, হ্যাশ অডিট এবং সংরক্ষিত রিপোর্টে কখনোই কাঁচা পাসওয়ার্ড না থাকার নিশ্চয়তা পরীক্ষা করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Surma FinPay Identity Engineering Review",
+          "bn": "সুরমা ফিনপে আইডেন্টিটি ইঞ্জিনিয়ারিং রিভিউ"
+        },
+        "domain": {
+          "en": "Identity & Access Security / NIST SP 800-63B Posture",
+          "bn": "আইডেন্টিটি সিকিউরিটি ও NIST SP 800-63B নীতি"
+        },
+        "currentSystem": {
+          "en": "Outdated regex complexity rules encouraging predictable l33tspeak/year passwords alongside legacy unsalted hash formats and missing MFA/backoff policies.",
+          "bn": "পুরনো ক্যারেক্টার-ক্লাস নিয়ম যা অনুমানযোগ্য লিটস্পিক ও সালযুক্ত পাসওয়ার্ড বাড়ায়, সাথে দুর্বল হ্যাশ ও MFA ঘাটতি।"
+        },
+        "requirementsSummary": {
+          "en": "A strictly defensive offline Python analyzer offering span-based pattern-aware entropy scoring, non-cracking KDF format auditing, NIST SP 800-63B policy evaluation, and guaranteed zero plaintext secret retention.",
+          "bn": "সম্পূর্ণ প্রতিরক্ষামূলক অফলাইন বিশ্লেষক যা প্যাটার্ন-সমন্বিত এনট্রপি, ক্র্যাকিংহীন KDF ফরম্যাট অডিট, NIST SP 800-63B পলিসি স্কোরিং ও জিরো-প্লেইনটেক্সট সুরক্ষা দেয়।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "While testing hash-format detection, Sojib noted an honest cryptographic ambiguity: seeing 32 hexadecimal characters does not uniquely prove MD5—it could also be NTLM or a truncated random token. Reporting such strings honestly as 'ambiguous weak unsalted 32-hex format' prevents misleading engineers.",
+          "bn": "হ্যাশ-ফরম্যাট পরীক্ষায় সজীব একটি গুরুত্বপূর্ণ বাস্তবতা ধরল: ৩২ অক্ষরের হেক্স স্ট্রিং দেখেই শতভাগ MD5 বলা যায় না—এটি NTLM বা অন্য হেক্স টোকেনও হতে পারে; তাই অস্পষ্টতা স্বীকার করে 'সম্ভাব্য দুর্বল সল্টবিহীন ৩২-হেক্স ফরম্যাট' হিসেবে দেখানোই সৎ ইঞ্জিনিয়ারিং।"
+        },
+        {
+          "en": "Similarly, locking accounts permanently after 5 failed attempts invites attackers to lock out legitimate customers deliberately (Availability DoS); exponential temporary cooldowns paired with MFA balance security and availability cleanly.",
+          "bn": "একইভাবে ৫ বার ভুলের পর অ্যাকাউন্ট স্থায়ীভাবে লক করে দিলে আক্রমণকারীরা ইচ্ছে করেই বৈধ ব্যবহারকারীদের অ্যাকাউন্ট আটকে (DoS) দিতে পারে; তাই MFA-সহ অস্থায়ী এক্সপোনেনশিয়াল ব্যাকঅফই সঠিক সমাধান।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Pattern Entropy Engineer", "bn": "প্যাটার্ন এনট্রপি ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "If 'P@ssw0rd123!' matches both a l33t dictionary word, sequential digits, and '!', marking matched character spans first guarantees we penalize patterns fairly without false double-counting.",
+            "bn": "'P@ssw0rd123!'-তে লিটস্পিক শব্দ ও ক্রমিক সংখ্যা উভয়ই আছে—ক্যারেক্টার স্প্যান চিহ্নিত করে নিলে ওভারল্যাপ ছাড়াই নিখুঁত পেনাল্টি ও কার্যকর এনট্রপি বের হয়।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Hash & Policy Auditor", "bn": "হ্যাশ ও পলিসি অডিটর" },
+          "line": {
+            "en": "And hash_format_auditor.py inspects only Modular Crypt Format prefixes, salt lengths, and work factors—zero hash cracking, zero brute force, purely defensive architecture hygiene.",
+            "bn": "আর hash_format_auditor.py কেবল Modular Crypt Format প্রিফিক্স, সল্ট ও কস্ট ফ্যাক্টর পরীক্ষা করে—কোনো হ্যাশ ক্র্যাকিং নয়, সম্পূর্ণ প্রতিরক্ষামূলক অডিট।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Secret-Redaction Tester", "bn": "সিক্রেট-রিড্যাকশন টেস্টার" },
+          "line": {
+            "en": "In tests, I assert that generated JSON and Markdown reports NEVER contain the tested candidate password string—interactive runs read safely via getpass too.",
+            "bn": "টেস্টে নিশ্চিত করা হয়েছে রপ্তানিকৃত JSON ও মার্কডাউন রিপোর্টে পরীক্ষিত পাসওয়ার্ডের আসল টেক্সট কখনোই থাকে না, আর ইন্টার‍্যাক্টিভ ইনপুট নেওয়া হয় getpass দিয়ে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Every finding translates math into clear developer action: explain why fast SHA-256 fails for passwords, recommend Argon2id or high-work PBKDF2, and align auth configs with NIST SP 800-63B.",
+            "bn": "প্রতিটি রিপোর্টে ডেভেলপারের করণীয় স্পষ্ট থাকবে: পাসওয়ার্ডে দ্রুত SHA-256 কেন দুর্বল, কীভাবে Argon2id/PBKDF2 ব্যবহার করতে হবে এবং NIST SP 800-63B মেনে পলিসি সাজাতে হবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a strictly defensive offline Password Security and Authentication Risk Analyzer CLI that detects keyboard walks, sequences, years, repeats, and l33tspeak patterns over synthetic inputs using span-based effective entropy, audits Modular Crypt Format KDF metadata without cracking, grades auth policy JSONs against NIST SP 800-63B, and guarantees zero plaintext secret persistence.",
+        "bn": "সম্পূর্ণ প্রতিরক্ষামূলক অফলাইন পাসওয়ার্ড ও অথেনটিকেশন ঝুঁকি বিশ্লেষক CLI তৈরি করুন যা স্প্যানভিত্তিক কার্যকর এনট্রপি দিয়ে কিবোর্ড ওয়াক, ক্রমিক ধারা, সাল ও লিটস্পিক ধরে, ক্র্যাকিং ছাড়াই KDF হ্যাশ ফরম্যাট মেটাডেটা অডিট করে, NIST SP 800-63B অনুযায়ী পলিসি মূল্যায়ন করে এবং কখনোই প্লেইনটেক্সট পাসওয়ার্ড সংরক্ষণ করে না।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Think through pattern span merging, cryptographic KDF distinctions, and zero-leakage guarantees before coding.",
+          "bn": "কোড লেখার আগে প্যাটার্ন স্প্যান মার্জিং, KDF পার্থক্য ও গোপনীয়তা সুরক্ষা নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Span-Based Pattern & Entropy Math", "bn": "ধাপ ১ — স্প্যান-ভিত্তিক প্যাটার্ন ও এনট্রপি" },
+            "guidingQuestions": [
+              { "en": "Why does a 4-word random passphrase defeat 'P@ssw0rd123!' in effective entropy once l33tspeak, keyboard walks, and trailing years are penalized?", "bn": "লিটস্পিক, কিবোর্ড ওয়াক ও সাল বাদ দিলে 'P@ssw0rd123!'-এর চেয়ে ৪ শব্দের র‍্যান্ডম পাসফ্রেজ কেন অনেক বেশি শক্তিশালী?" },
+              { "en": "How do you merge overlapping matched pattern spans before calculating remaining unpredictable characters?", "bn": "অবশিষ্ট অজানা অক্ষরের এনট্রপি মাপার আগে ওভারল্যাপিং প্যাটার্ন স্প্যানগুলো কীভাবে একত্র করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Non-Cracking KDF Format Auditing", "bn": "ধাপ ২ — ক্র্যাকিংহীন KDF ফরম্যাট অডিট" },
+            "guidingQuestions": [
+              { "en": "Why is fast unsalted SHA-256 unsafe for password storage despite being collision-resistant, and what parameters matter in Argon2id/bcrypt/PBKDF2?", "bn": "কলিশন-রেজিস্ট্যান্ট হয়েও দ্রুত সল্টহীন SHA-256 পাসওয়ার্ডে অনিরাপদ কেন এবং Argon2id/bcrypt/PBKDF2-তে কোন প্যারামিটার গুরুত্বপূর্ণ?" },
+              { "en": "How should the auditor report an ambiguous 32-hex hash honestly without pretending certainty?", "bn": "অনিশ্চিত ৩২-হেক্স স্ট্রিংকে কীভাবে সৎভাবে সম্ভাব্য দুর্বল ফরম্যাট হিসেবে রিপোর্ট করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — NIST Posture & Zero-Secret Hygiene", "bn": "ধাপ ৩ — NIST নীতি ও জিরো-সিক্রেট সুরক্ষা" },
+            "guidingQuestions": [
+              { "en": "How do exponential backoff lockouts plus MFA mitigate brute-force attacks without enabling permanent lockout DoS?", "bn": "স্থায়ী লকআউট DoS ছাড়াই এক্সপোনেনশিয়াল ব্যাকঅফ ও MFA কীভাবে ব্রুট-ফোর্স ঠেকায়?" },
+              { "en": "Which architectural guards prevent candidate strings from leaking into logs, exceptions, or saved reports?", "bn": "লগ, এরর বার্তা বা সংরক্ষিত রিপোর্টে পরীক্ষিত পাসওয়ার্ড যেন কখনোই না যায় সেজন্য কী কী গার্ড রাখবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Model pattern-aware effective entropy rather than misleading character-pool math.", "bn": "বিভ্রান্তিকর ক্যারেক্টার-পুলের বদলে প্যাটার্ন-সমন্বিত কার্যকর এনট্রপি মডেলিং।" },
+        { "en": "Audit KDF algorithms, salts, and work factors purely from Modular Crypt Format metadata.", "bn": "ক্র্যাকিং ছাড়াই Modular Crypt Format মেটাডেটা থেকে KDF, সল্ট ও কস্ট ফ্যাক্টর অডিট।" },
+        { "en": "Evaluate authentication policies against NIST SP 800-63B with zero secret retention.", "bn": "গোপন ইনপুট সংরক্ষণ না করেই NIST SP 800-63B অনুযায়ী অথেনটিকেশন পলিসি যাচাই।" }
+      ],
+      "testingScenarios": [
+        { "en": "Evaluate 'P@ssw0rd123!' and verify sharp pattern penalties despite containing all 4 character classes.", "bn": "চার ধরনের অক্ষর থাকা সত্ত্বেও 'P@ssw0rd123!'-এ বড় প্যাটার্ন পেনাল্টি আসে কি না পরীক্ষা করুন।" },
+        { "en": "Test keyboard walks ('qwertyuiop') and sequential runs ('abcd1234') trigger accurate span penalties.", "bn": "কিবোর্ড ওয়াক ও ক্রমিক ধারা সঠিকভাবে শনাক্ত হয় কি না যাচাই করুন।" },
+        { "en": "Verify hash auditor flags raw 32-hex / low-iteration PBKDF2 while passing strong Argon2id/bcrypt configs.", "bn": "দুর্বল ৩২-হেক্স ও কম-ইটারেশন PBKDF2 ধরার পাশাপাশি শক্তিশালী Argon2id/bcrypt পাস হয় কি না দেখুন।" },
+        { "en": "Inspect saved JSON/Markdown output and confirm zero raw candidate password strings ever appear.", "bn": "সংরক্ষিত রিপোর্টে কোনো কাঁচা পাসওয়ার্ড স্ট্রিং অনুপস্থিত রয়েছে তা নিশ্চিত করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Strictly defensive posture tool with zero cracking, brute-force, or leaked-dump redistribution features.", "bn": "সম্পূর্ণ প্রতিরক্ষামূলক; কোনো হ্যাশ-ক্র্যাকিং বা লিকড ডেটাবেজ নেই।" },
+        { "en": "Detects l33t words, keyboard walks, sequences, repeats, and year suffixes via span-merged entropy math.", "bn": "লিটস্পিক, কিবোর্ড ওয়াক, ক্রমিক ধারা, পুনরাবৃত্তি ও সাল স্প্যান-মার্জিংসহ শনাক্ত করে।" },
+        { "en": "Audits Modular Crypt Format metadata and NIST 800-63B auth policy controls cleanly.", "bn": "Modular Crypt Format মেটাডেটা ও NIST 800-63B পলিসি অডিট সঠিকভাবে সম্পন্ন করে।" },
+        { "en": "Uses getpass for interactive input and masks/omits raw candidate secrets in all logs and saved reports.", "bn": "getpass ব্যবহার করে এবং কোনো লগ বা রিপোর্টে আসল পাসওয়ার্ড রাখে না।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team finishes auth_risk_analyzer with synthetic_common_patterns.txt, sample_auth_policies.json, zero-leakage unit tests, and an explicit defensive scope README.",
+        "bn": "CST দলটি synthetic_common_patterns.txt, sample_auth_policies.json, জিরো-লিকেজ টেস্ট ও স্পষ্ট প্রতিরক্ষামূলক নীতিসহ auth_risk_analyzer সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They realized that true authentication resilience combines human-centric password guidance, slow salted KDFs, MFA, and responsible zero-secret auditing.",
+          "bn": "তারা শিখল প্রকৃত অথেনটিকেশন সুরক্ষা নির্ভর করে মানববান্ধব পাসফ্রেজ নীতি, ধীর সল্টেড KDF, MFA এবং গোপনীয়তা-সচেতন অডিটিংয়ের ওপর।"
+        },
+        "bridgeToNext": {
+          "en": "Now came the moment their entire journey at Bogura Polytechnic Institute had been building toward: Bengal Shield Cyber Advisory invited MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon to unite dependency matching, Linux/API audit findings, contextual risk scoring, and SLA tracking inside one flagship Capstone Platform in Project 20.",
+          "bn": "এবার এল পুরো যাত্রার চূড়ান্ত মাইলফলক: 'বেঙ্গল শিল্ড সাইবার অ্যাডভাইজরি' (Bengal Shield Cyber Advisory) মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধনকে আমন্ত্রণ জানাল ডিপেন্ডেন্সি ম্যাচিং, লিনাক্স/API অডিট ফাইন্ডিং, প্রাসঙ্গিক রিস্ক স্কোরিং ও SLA ট্র্যাকিংকে এক প্ল্যাটফর্মে যুক্ত করার জন্য—প্রজেক্ট ২০-এর গ্র্যান্ড ক্যাপস্টোনে।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-20",
+      "previousConnection": {
+        "en": "Every project from Level 01 through Project 19 led up to this Capstone. Standing together at Bogura Polytechnic Institute during their final Computer Science & Technology (CST) capstone showcase week, MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon partnered with Bengal Shield Cyber Advisory to solve enterprise security's loudest problem: unifying raw dependency advisories and findings from tools like their own PRJ-16 and PRJ-18 into one contextual Vulnerability Assessment and Risk Prioritization Platform.",
+        "bn": "লেভেল ০১ থেকে প্রজেক্ট ১৯ পর্যন্ত প্রতিটি ধাপের অভিজ্ঞতা এসে মিলল এই ক্যাপস্টোনে। বগুড়া পলিটেকনিক ইনস্টিটিউটের CST চূড়ান্ত বর্ষের প্রদর্শনী সপ্তাহে মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন 'বেঙ্গল শিল্ড সাইবার অ্যাডভাইজরি'-র সাথে যুক্ত হলো এন্টারপ্রাইজ নিরাপত্তার সবচেয়ে বড় সমস্যার সমাধানে—তাদের নিজেদের PRJ-16 ও PRJ-18 ধরনের অডিট ফলাফল, ডিপেন্ডেন্সি অ্যাডভাইজরি, অ্যাসেটের গুরুত্ব ও SLA ট্র্যাকিংকে একটি সমন্বিত রিস্ক প্রাইওরিটাইজেশন প্ল্যাটফর্মে রূপান্তর করা।"
+      },
+      "storyNarrative": [
+        {
+          "en": "During their kickoff review, Bengal Shield's mentor dumped three realistic mock JSON exports onto the team's table: a multi-team asset inventory ('assets.json'), a list of software dependencies ('dependencies.json'), and offline vulnerability advisories ('offline_advisories.json') alongside sample outputs matching PRJ-16 Linux audits and PRJ-18 API posture scans. Engineering teams were drowning in two thousand raw 'High/Critical' CVSS rows—because raw CVSS cannot tell an internet-exposed Tier-1 payment API apart from an isolated Tier-3 classroom test sandbox!",
+          "bn": "শুরুর রিভিউয়ে বেঙ্গল শিল্ডের মেন্টর দলের সামনে তিনটি বাস্তবধর্মী মক JSON ফাইল রাখলেন: বহু-টিমের অ্যাসেট ইনভেন্টরি ('assets.json'), সফটওয়্যার ডিপেন্ডেন্সি তালিকা ('dependencies.json') এবং অফলাইন অ্যাডভাইজরি ('offline_advisories.json')—তার সাথে PRJ-16 ও PRJ-18 ধরনের স্ক্যান ফলাফল। সমস্যা হলো ইঞ্জিনিয়ারিং দল দুই হাজার 'High/Critical' CVSS সারির ভিড়ে দিশেহারা—কারণ কাঁচা CVSS জানে না কোনটি ইন্টারনেট-এক্সপোজড গুরুত্বপূর্ণ পেমেন্ট API আর কোনটি বিচ্ছিন্ন টেস্ট স্যান্ডবক্স!"
+        },
+        {
+          "en": "Each of the four Bogura Polytechnic friends stepped naturally into the exact specialty they had honed across nineteen projects. Sojib engineered the semantic version comparator and offline advisory matcher—ensuring '2.10.0' never loses to '2.9.5' in naive string comparisons and handling pre-release tags like '2.10.0rc1' cleanly. Jihad built the contextual risk engine combining Base CVSS, internet exposure, asset criticality tier, and KEV/Known-Exploited flags—storing a transparent JSON score breakdown beside every score.",
+          "bn": "উনিশটি প্রজেক্ট জুড়ে গড়ে তোলা নিজেদের সেরা দক্ষতা নিয়ে চার বন্ধু চারটি স্তরের দায়িত্ব নিল। সজীব সিম্যান্টিক ভার্সন তুলনাকারী ও অফলাইন অ্যাডভাইজরি ম্যাচিং ইঞ্জিন তৈরি করল—যেন সাধারণ স্ট্রিং তুলনার ভুলে '2.10.0' কখনো '2.9.5'-এর চেয়ে ছোট না দেখায় এবং প্রি-রিলিজ ট্যাগ ('2.10.0rc1') সঠিকভাবে চলে। জিহাদ গড়ে তুলল প্রাসঙ্গিক রিস্ক ইঞ্জিন—যা বেস CVSS, ইন্টারনেট এক্সপোজার, অ্যাসেটের স্তর ও KEV ফ্ল্যাগ মিলিয়ে স্বচ্ছ JSON স্কোর ব্রেকডাউনসহ প্রকৃত অগ্রাধিকার ঠিক করে।"
+        },
+        {
+          "en": "Badhon tackled deduplication, lifecycle governance, and SLA clocks inside parameterized SQLite: deterministic SHA-256 fingerprints over canonical '(asset_id, component, vuln_id)' ensured daily re-imports refresh 'last_seen' without duplicating open rows, auto-close vulnerabilities once fixed packages upgrade, and automatically resurface expired 'Risk Accepted' waivers so unexpiring exceptions never hide real risk. Guided by MD. MOJAHIDUR RAHMAN SAJID, the four friends watched their CLI distill chaotic findings into crisp per-team patching roadmaps—completing all 20 PYLOGIC projects as confident, collaborative engineers from Bogura Polytechnic Institute.",
+          "bn": "বাঁধন SQLite-এ ডিডুপ্লিকেশন, লাইফসাইকেল এবং SLA ঘড়ি সামলাল: '(asset_id, component, vuln_id)'-এর স্থির SHA-256 ফিঙ্গারপ্রিন্ট প্রতিদিনের পুনঃ-ইম্পোর্টে ডুপ্লিকেট না বানিয়ে কেবল 'last_seen' আপডেট করে, প্যাকেজ আপগ্রেড হলে স্বয়ংক্রিয়ভাবে ফাইন্ডিং সমাধান চিহ্নিত করে এবং মেয়াদোত্তীর্ণ 'Risk Accepted' ছাড়পত্র পুনরায় সক্রিয় করে তোলে। মোঃ মোজাহিদুর রহমান সাজিদের নেতৃত্বে চার বন্ধু দেখল তাদের CLI কীভাবে এলোমেলো অ্যালার্টকে টিমভিত্তিক সুস্পষ্ট প্যাচিং রোডম্যাপে পরিণত করছে—আর এর মাধ্যমেই বগুড়া পলিটেকনিক ইনস্টিটিউটের চার বন্ধুর ২০ প্রজেক্টের একীভূত যাত্রা পূর্ণতা পেল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Capstone Platform Architect", "bn": "টিম লিডার ও ক্যাপস্টোন প্ল্যাটফর্ম আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Unifies the four-layer architecture (Semver/Advisory Ingestion -> Contextual Risk Engine -> Parameterized SQLite Store -> Team Patching Roadmaps) and oversees governance rules.",
+            "bn": "চার-স্তরের ক্যাপস্টোন আর্কিটেকচার (সিমভার ম্যাচিং -> প্রাসঙ্গিক রিস্ক ইঞ্জিন -> SQLite স্টোর -> টিম রোডম্যাপ) সমন্বয় ও গভর্নেন্স পরিচালনা করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Semver & Offline Advisory Matcher Lead", "bn": "সিমভার ও অফলাইন অ্যাডভাইজরি ম্যাচিং লিড" },
+          "responsibility": {
+            "en": "Implements tuple-based semantic version parsing (handling compound bounds and prerelease tags cleanly) and offline JSON advisory matching without ReDoS risks.",
+            "bn": "টাপল-ভিত্তিক সিম্যান্টিক ভার্সন পার্সার (প্রি-রিলিজ ও কম্পাউন্ড রেঞ্জসহ) এবং ReDoS-নিরাপদ অফলাইন অ্যাডভাইজরি ম্যাচিং তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Contextual Risk & Roadmap Engineer", "bn": "প্রাসঙ্গিক রিস্ক ও রোডম্যাপ ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Designs the configurable weighted risk formula (CVSS + exposure + asset tier + KEV), stores JSON score breakdowns, and builds team-wise remediation roadmaps.",
+            "bn": "কনফিগারযোগ্য ওয়েটেড রিস্ক ফর্মুলা, প্রতিটি স্কোরের JSON ব্যাখ্যা এবং টিমভিত্তিক প্যাচিং রোডম্যাপ রিপোর্টার তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Deduplication, SLA & Waiver Governance Tester", "bn": "ডিডুপ্লিকেশন, SLA ও ওয়েভার টেস্টার" },
+          "responsibility": {
+            "en": "Verifies idempotent re-imports preserving original discovery/SLA clocks, auto-resolution on upgraded dependencies, and resurfacing of expired risk waivers.",
+            "bn": "আইডেমপোটেন্ট পুনঃ-ইম্পোর্ট, আপগ্রেডে অটো-রিজলভ, মেয়াদোত্তীর্ণ রিস্ক-ছাড় পুনরুত্থান ও টিয়ার-১ বনাম টিয়ার-৩ রিস্ক র‍্যাংকিং টেস্ট করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Bengal Shield Cyber Advisory — Enterprise RBVM Capstone",
+          "bn": "বেঙ্গল শিল্ড সাইবার অ্যাডভাইজরি — এন্টারপ্রাইজ RBVM ক্যাপস্টোন"
+        },
+        "domain": {
+          "en": "Risk-Based Vulnerability Management (RBVM) & SecOps Platforms",
+          "bn": "রিস্ক-ভিত্তিক ভালনারেবিলিটি ম্যানেজমেন্ট (RBVM) ও SecOps প্ল্যাটফর্ম"
+        },
+        "currentSystem": {
+          "en": "Disconnected scanner JSON dumps ranked purely by raw CVSS scores, duplicating identical findings across daily scans and letting unexpiring waivers hide overdue risks.",
+          "bn": "বিচ্ছিন্ন স্ক্যানার রিপোর্ট যেখানে কেবল কাঁচা CVSS অনুযায়ী সাজানো হয়, প্রতিদিনের স্ক্যানে ডুপ্লিকেট বাড়ে ও মেয়াদহীন ছাড়পত্রে ঝুঁকি চাপা পড়ে।"
+        },
+        "requirementsSummary": {
+          "en": "A complete offline Risk-Based Vulnerability Management platform featuring semver range matching, canonical SHA-256 deduplication, configurable contextual risk scoring with score breakdowns, time-bound waivers, SLA governance, and team remediation roadmaps.",
+          "bn": "সম্পূর্ণ অফলাইন RBVM প্ল্যাটফর্ম যাতে সিমভার রেঞ্জ ম্যাচিং, SHA-256 ডিডুপ্লিকেশন, ব্যাখ্যাযোগ্য প্রাসঙ্গিক রিস্ক স্কোরিং, মেয়াদবদ্ধ ওয়েভার, SLA নিয়ন্ত্রণ ও টিম প্যাচিং রোডম্যাপ রয়েছে।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "During integration testing, the team caught two critical stateful lifecycle bugs. First, naive re-import overwrites 'first_seen' with today's date, illegally resetting the SLA clock every time a daily scan runs! Preserving 'first_seen' while refreshing 'last_seen' keeps SLA deadlines honest.",
+          "bn": "ইন্টিগ্রেশন টেস্টে দুটি সূক্ষ্ম স্টেট বাগ ধরা পড়ল: প্রথমত, প্রতিদিনের স্ক্যানে 'first_seen' তারিখ আপডেট হয়ে গেলে SLA ঘড়ি অবৈধভাবে রিসেট হয়ে যায়—তাই মূল 'first_seen' অপরিবর্তিত রেখে কেবল 'last_seen' হালনাগাদ করতে হবে।"
+        },
+        {
+          "en": "Second, when an engineering team upgrades a vulnerable dependency in a later manifest import, the platform should automatically transition previously open findings on that component to Resolved while recording an immutable audit history entry—and any 'Risk Accepted' waiver missing an owner, reason, or non-expired deadline must be rejected or reopened.",
+          "bn": "দ্বিতীয়ত, পরবর্তী স্ক্যানে দুর্বল প্যাকেজটি আপগ্রেড হলে পূর্বের খোলা ফাইন্ডিং স্বয়ংক্রিয়ভাবে অডিট ইতিহাসসহ Resolved হতে হবে এবং মেয়াদ ফুরোনো 'Risk Accepted' ওয়েভার স্বয়ংক্রিয়ভাবে পুনরায় ওভারডিউ ঝুঁকি হিসেবে ফিরে আসতে হবে।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Semver & Matcher Lead", "bn": "সিমভার ও ম্যাচার লিড" },
+          "line": {
+            "en": "We parse version strings into numeric integer tuples plus ordered pre-release qualifiers—so '2.10.0' always beats '2.9.5' and '2.10.0rc1' sorts accurately before '2.10.0' without regex ReDoS risk.",
+            "bn": "ভার্সন স্ট্রিংকে সংখ্যাসূচক টাপল ও প্রি-রিলিজ ক্রমে ভাঙা হয়েছে—ফলে '2.10.0' কখনো '2.9.5'-এর চেয়ে ছোট হয় না এবং '2.10.0rc1' সঠিকভাবে আগে অবস্থান করে।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Contextual Risk Engineer", "bn": "প্রাসঙ্গিক রিস্ক ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "Identical CVSS 8.1 findings rank completely differently once risk_engine applies exposure, asset tier, and KEV multipliers—and saving score_breakdown JSON lets any engineer verify the exact math.",
+            "bn": "একই CVSS ৮.১ হলেও ইন্টারনেট এক্সপোজার, অ্যাসেট স্তর ও KEV গুণকের কারণে ঝুঁকি র‍্যাংকিং বদলে যায়—আর score_breakdown JSON দেখে যে কেউ গাণিতিক যুক্তি যাচাই করতে পারেন।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Deduplication & SLA Tester", "bn": "ডিডুপ্লিকেশন ও SLA টেস্টার" },
+          "line": {
+            "en": "Canonical SHA-256 over '(asset_id, component, vuln_id)' makes re-imports idempotent, preserves SLA start timestamps, auto-closes upgraded libs, and resurfaces expired waivers automatically.",
+            "bn": "canonical '(asset_id, component, vuln_id)' ফিঙ্গারপ্রিন্ট পুনঃ-ইম্পোর্টকে আইডেমপোটেন্ট রাখে, মূল SLA সময় অক্ষত রাখে, আপগ্রেড হওয়া লাইব্রেরি রিজলভ করে ও মেয়াদোত্তীর্ণ ওয়েভার আবার সামনে আনে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "From organizing chaotic lab folders in Project 01 to prioritizing enterprise security risk in Project 20, every principle we built—clean modules, parameterized SQLite, offline safety, and thorough tests—stands together right here.",
+            "bn": "প্রজেক্ট ০১-এ ল্যাবের এলোমেলো ফোল্ডার গোছানো থেকে শুরু করে প্রজেক্ট ২০-এ এন্টারপ্রাইজ সিকিউরিটি রিস্ক প্ল্যাটফর্ম—আমাদের শেখা মডুলারিটি, নিরাপদ SQLite, অফলাইন নিরাপত্তা ও নিখুঁত টেস্টিংয়ের সব নীতি আজ একসাথে পূর্ণতা পেল।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Architect and verify a complete offline Python Risk-Based Vulnerability Management platform backed by parameterized SQLite that ingests asset inventories, dependency manifests, and multi-source findings (including PRJ-16/18 outputs), matches semantic version ranges against offline advisories, deduplicates deterministically across re-imports while preserving SLA clocks, computes transparent contextual risk scores, enforces expiring Risk Acceptance waivers, and exports team-specific patching roadmaps.",
+        "bn": "প্যারামিটারাইজড SQLite-নির্ভর একটি সম্পূর্ণ অফলাইন রিস্ক-ভিত্তিক ভালনারেবিলিটি ম্যানেজমেন্ট প্ল্যাটফর্ম তৈরি ও যাচাই করুন যা অ্যাসেট ইনভেন্টরি, ডিপেন্ডেন্সি ও অডিট ফলাফল গ্রহণ করে, সিমভার রেঞ্জ মিলিয়ে অফলাইন অ্যাডভাইজরি শনাক্ত করে, SLA ঘড়ি অক্ষত রেখে ডিডুপ্লিকেশন ও অটো-রিজলভ পরিচালনা করে, স্বচ্ছ প্রাসঙ্গিক রিস্ক স্কোর হিসাব করে, মেয়াদবদ্ধ ওয়েভার যাচাই করে এবং টিমভিত্তিক প্যাচিং রোডম্যাপ রপ্তানি করে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Synthesize your full-stack and security engineering knowledge across version math, contextual risk scoring, and stateful lifecycle governance.",
+          "bn": "সিমভার গণিত, প্রাসঙ্গিক রিস্ক স্কোরিং ও স্টেটফুল লাইফসাইকেল পরিচালনা জুড়ে আপনার পূর্ণ প্রকৌশল জ্ঞান প্রয়োগ করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Semantic Versioning & Offline Advisory Matching", "bn": "ধাপ ১ — সিমভার ও অফলাইন অ্যাডভাইজরি ম্যাচিং" },
+            "guidingQuestions": [
+              { "en": "Why does string comparison say '2.9.5' > '2.10.0', and how must tuple parsing order pre-release qualifiers like '2.10.0rc1'?", "bn": "সাধারণ স্ট্রিং তুলনায় '2.9.5' > '2.10.0' দেখায় কেন এবং প্রি-রিলিজ ট্যাগ ('2.10.0rc1') কীভাবে সঠিকভাবে সাজাবেন?" },
+              { "en": "How do compound constraints ('>=1.2.0,<1.5.0') evaluate cleanly against parsed version tuples?", "bn": "কম্পাউন্ড ভার্সন সীমা ('>=1.2.0,<1.5.0') টাপল দিয়ে কীভাবে নির্ভুলভাবে যাচাই করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Contextual Risk Scoring & Explainability", "bn": "ধাপ ২ — প্রাসঙ্গিক রিস্ক স্কোরিং ও ব্যাখ্যাযোগ্যতা" },
+            "guidingQuestions": [
+              { "en": "How do exposure, asset criticality tier, and Known-Exploited (KEV) signals re-rank identical base CVSS scores cleanly?", "bn": "এক্সপোজার, অ্যাসেটের গুরুত্ব ও KEV সংকেত কীভাবে একই বেস CVSS-কে বাস্তবসম্মতভাবে পুনঃবিন্যাস করে?" },
+              { "en": "Why should risk_policy.json weights and stored score_breakdown dictionaries accompany every priority score?", "bn": "প্রতিটি প্রায়োরিটি স্কোরের সাথে risk_policy.json ওয়েট ও score_breakdown সংরক্ষণ করা কেন জরুরি?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Idempotency, Auto-Resolution & Expiring Waivers", "bn": "ধাপ ৩ — আইডেমপোটেন্সি, অটো-রিজলভ ও ওয়েভার" },
+            "guidingQuestions": [
+              { "en": "How does canonical fingerprinting preserve original 'first_seen' SLA dates across daily re-imports while updating 'last_seen'?", "bn": "প্রতিদিনের পুনঃ-ইম্পোর্টে 'last_seen' আপডেট করেও মূল 'first_seen' SLA ঘড়ি কীভাবে অপরিবর্তিত রাখবেন?" },
+              { "en": "How do you auto-resolve fixed dependencies on re-scan and automatically resurface expired 'Risk Accepted' waivers as overdue?", "bn": "আপগ্রেড হওয়া প্যাকেজ কীভাবে অটো-রিজলভ হবে এবং মেয়াদোত্তীর্ণ রিস্ক-ছাড় কীভাবে স্বয়ংক্রিয়ভাবে আবার ওভারডিউ দেখাবে?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Implement tuple-based semantic version range parsing including pre-release tags safely.", "bn": "প্রি-রিলিজ ট্যাগসহ নিরাপদ টাপল-ভিত্তিক সিম্যান্টিক ভার্সন রেঞ্জ পার্সিং।" },
+        { "en": "Build configurable contextual RBVM risk scoring with transparent mathematical breakdowns.", "bn": "স্বচ্ছ গাণিতিক ব্যাখ্যাসহ কনফিগারযোগ্য প্রাসঙ্গিক RBVM রিস্ক স্কোরিং তৈরি।" },
+        { "en": "Engineer idempotent SQLite ingestion, audit trails, SLA deadlines, and expiring governance waivers.", "bn": "আইডেমপোটেন্ট SQLite ইনজেশন, অডিট ট্রেইল, SLA ও মেয়াদবদ্ধ ওয়েভার গভর্নেন্স তৈরি।" }
+      ],
+      "testingScenarios": [
+        { "en": "Compare '2.10.0', '2.9.5', and '2.10.0rc1' across compound range constraints and confirm exact ordering.", "bn": "কম্পাউন্ড রেঞ্জের বিপরীতে '2.10.0', '2.9.5' ও '2.10.0rc1'-এর সঠিক ক্রম যাচাই করুন।" },
+        { "en": "Verify identical CVSS vulnerability ranks strictly higher on an internet-exposed Tier-1 payment API than an internal Tier-3 sandbox.", "bn": "একই CVSS দুর্বলতা বিচ্ছিন্ন টিয়ার-৩ স্যান্ডবক্সের চেয়ে ইন্টারনেট-এক্সপোজড টিয়ার-১ অ্যাসেটে বেশি স্কোর পায় তা পরীক্ষা করুন।" },
+        { "en": "Re-import identical scan fixtures and confirm 'last_seen' updates with zero duplicate rows while fixed packages auto-resolve.", "bn": "পুনঃ-ইম্পোর্টে ডুপ্লিকেট ছাড়া 'last_seen' আপডেট ও ঠিক হওয়া প্যাকেজ অটো-রিজলভ হয় কি না দেখুন।" },
+        { "en": "Set a Risk Accepted waiver with a past expiration date and verify the platform resurfaces it as overdue.", "bn": "অতীতের মেয়াদ দিয়ে রিস্ক-অ্যাক্সেপ্ট্যান্স পরীক্ষা করুন সেটি স্বয়ংক্রিয়ভাবে ওভারডিউ হিসেবে ফিরে আসে কি না।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Offline semver advisory engine compares numeric tuples and pre-release tags accurately without ReDoS.", "bn": "অফলাইন সিমভার ইঞ্জিন ReDoS ছাড়াই সংখ্যাসূচক টাপল ও প্রি-রিলিজ ট্যাগ নির্ভুলভাবে তুলনা করে।" },
+        { "en": "Contextual risk scorer applies policy JSON multipliers and stores explainable score_breakdown metadata.", "bn": "প্রাসঙ্গিক রিস্ক স্কোরার পলিসি গুণক প্রয়োগ করে ও ব্যাখ্যাযোগ্য score_breakdown সংরক্ষণ করে।" },
+        { "en": "Idempotent ingestion preserves original discovery/SLA timestamps, auto-resolves fixed dependencies, and tracks audit logs.", "bn": "আইডেমপোটেন্ট ইনজেশন মূল SLA সময় রক্ষা করে, ঠিক হওয়া প্যাকেজ সমাধান করে ও অডিট লগ রাখে।" },
+        { "en": "Risk acceptance waivers enforce reason, owner, and expiry date, automatically resurfacing expired exceptions.", "bn": "রিস্ক ওয়েভারে কারণ, অনুমোদনকারী ও মেয়াদ বাধ্যতামূলক থাকে এবং মেয়াদ ফুরোলে তা আবার সক্রিয় ঝুঁকি হয়।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon package vuln_risk_platform with risk_policy.json, synthetic assets/advisories, architecture diagrams in README, raw-CVSS vs contextual backlog proof, and comprehensive automated tests.",
+        "bn": "মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন risk_policy.json, সিন্থেটিক অ্যাসেট ও অ্যাডভাইজরি, README-তে পূর্ণ আর্কিটেকচার ডায়াগ্রাম, কাঁচা CVSS বনাম প্রাসঙ্গিক ব্যাকলগ তুলনা ও পূর্ণ টেস্ট স্যুটসহ vuln_risk_platform সম্পন্ন করেন।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "Across all twenty projects—starting from a cluttered student lab folder at Bogura Polytechnic Institute and culminating in an enterprise-grade Risk-Based Vulnerability Management platform—the four CST friends proved that great software engineering comes from clarity, patience, teamwork, testing discipline, and building systems that protect real people and real data.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের এক অগোছালো ল্যাব ফোল্ডার গোছানো থেকে শুরু করে এন্টারপ্রাইজ-মানের ভালনারেবিলিটি রিস্ক প্ল্যাটফর্ম পর্যন্ত বিশটি প্রজেক্ট জুড়ে চার CST বন্ধু প্রমাণ করল: প্রকৃত সফটওয়্যার প্রকৌশল আসে স্পষ্ট চিন্তা, ধৈর্য, দলগত সমন্বয়, কঠোর টেস্টিং এবং মানুষ ও ডেটাকে সুরক্ষিত রাখার দায়িত্ববোধ থেকে।"
+        },
+        "bridgeToNext": {
+          "en": "You have reached the capstone of the 20-project PYLOGIC journey alongside Sajid, Sojib, Jihad, and Badhon! Revisit any project to refine your architecture notes, link your completed GitHub repositories, and carry this engineering mindset into your own real-world career.",
+          "bn": "সাজিদ, সজীব, জিহাদ ও বাঁধনের সাথে ২০টি প্রজেক্টের ক্যাপস্টোন যাত্রা সফলভাবে সম্পন্ন হলো! আপনার গিটহাব রিপোজিটরি যুক্ত করুন, নিজস্ব আর্কিটেকচার নোট সমৃদ্ধ করুন এবং এই প্রকৌশল মানসিকতা আপনার বাস্তব ক্যারিয়ারে নিয়ে চলুন।"
+        }
+      }
+    }
+  ]
+}

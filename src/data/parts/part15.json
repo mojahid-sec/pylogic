@@ -1,0 +1,1283 @@
+{
+  "partId": "part-15",
+  "partNumber": 15,
+  "problems": [
+    {
+      "id": "P15-01",
+      "number": 1,
+      "title": {
+        "en": "`Rectangle` Class — Area, Perimeter & Square Check",
+        "bn": "`Rectangle` ক্লাস — ক্ষেত্রফল, পরিসীমা ও বর্গ যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "class, __init__, and self", "bn": "class, __init__ এবং self" },
+        { "en": "Instance methods operating on object state", "bn": "অবজেক্ট স্টেটের ওপর ইনস্ট্যান্স মেথড" }
+      ],
+      "description": {
+        "en": "Define a `Rectangle` class initialized with `width` and `height` (`__init__(self, width, height)`). Implement methods `area(self)`, `perimeter(self)`, and `is_square(self)` (returning `True` when `width == height`). Read two floats `w` and `h`, instantiate `Rectangle(w, h)`, and print:\n`Area: <area:.2f>`\n`Perimeter: <perimeter:.2f>`\n`Square: <YES|NO>`",
+        "bn": "`width` ও `height` দিয়ে একটি `Rectangle` ক্লাস তৈরি করুন (`__init__(self, width, height)`)। এতে `area(self)`, `perimeter(self)` এবং `is_square(self)` (`width == height` হলে `True`) মেথড লিখুন। দুটি ফ্লোট `w` ও `h` ইনপুট নিয়ে `Rectangle` অবজেক্ট তৈরি করে ক্ষেত্রফল, পরিসীমা (২ দশমিক স্থান) এবং `Square: YES/NO` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated positive numbers `width height`.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি ধনাত্মক সংখ্যা `width height`।"
+      },
+      "expectedOutput": {
+        "en": "Area (2 decimals), Perimeter (2 decimals), and Square (`YES`/`NO`).",
+        "bn": "Area (২ দশমিক), Perimeter (২ দশমিক) এবং Square (`YES`/`NO`)।"
+      },
+      "examples": [
+        {
+          "input": "5 5",
+          "output": "Area: 25.00\nPerimeter: 20.00\nSquare: YES",
+          "explanation": {
+            "en": "Equal width and height give Area=25.00, Perimeter=20.00, and is_square()=True.",
+            "bn": "দৈর্ঘ্য ও প্রস্থ সমান হওয়ায় ক্ষেত্রফল ২৫.০০, পরিসীমা ২০.০০ এবং বর্গ YES।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inside `__init__`, bind parameters to the object via `self.width = width` and `self.height = height`.",
+        "bn": "`__init__`-এর ভেতরে `self.width = width` এবং `self.height = height` দিয়ে অবজেক্টের বৈশিষ্ট্য সংরক্ষণ করুন।"
+      },
+      "hint2": {
+        "en": "Methods compute derived values directly from `self`: `self.width * self.height` and `2 * (self.width + self.height)`.",
+        "bn": "মেথডগুলোর ভেতরে `self.width` ও `self.height` ব্যবহার করে ক্ষেত্রফল ও পরিসীমা হিসাব করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Object-oriented design bundles related data (`width`, `height`) together with the behaviors that operate on that data (`area`, `perimeter`, `is_square`). `self` references the specific instance so multiple rectangles can coexist independently.",
+        "bn": "OOP-তে ডেটা (`width`, `height`) এবং সেই ডেটার ওপর কাজ করা মেথডগুলো (`area`, `perimeter`) একত্রে একটি ক্লাসে রাখা হয়।"
+      },
+      "algorithm": [
+        { "en": "Define `class Rectangle` with `__init__(self, width, height)`.", "bn": "`Rectangle` ক্লাসে `__init__(self, width, height)` লিখুন।" },
+        { "en": "Add `area()`, `perimeter()`, and `is_square()` methods.", "bn": "`area()`, `perimeter()`, ও `is_square()` মেথড যোগ করুন।" },
+        { "en": "Read `w, h` from input and instantiate `rect = Rectangle(w, h)`.", "bn": "ইনপুট থেকে `w, h` পড়ে `Rectangle(w, h)` অবজেক্ট তৈরি করুন।" },
+        { "en": "Print formatted area, perimeter, and square status.", "bn": "ক্ষেত্রফল, পরিসীমা এবং বর্গ অবস্থা প্রিন্ট করুন।" }
+      ],
+      "solution": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\n    def perimeter(self):\n        return 2 * (self.width + self.height)\n\n    def is_square(self):\n        return self.width == self.height\n\nw, h = [float(x) for x in input().split()]\nrect = Rectangle(w, h)\nprint(f\"Area: {rect.area():.2f}\")\nprint(f\"Perimeter: {rect.perimeter():.2f}\")\nprint(\"Square: \" + (\"YES\" if rect.is_square() else \"NO\"))",
+      "codeExplanation": {
+        "en": "Rectangle encapsulates dimensions in self.width and self.height, letting each method compute results cleanly without external globals.",
+        "bn": "Rectangle ক্লাস self.width ও self.height সংরক্ষণ করে এবং প্রতিটি মেথড অবজেক্টের নিজস্ব ডেটা থেকে হিসাব করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "5 5", "expectedOutput": "Area: 25.00\nPerimeter: 20.00\nSquare: YES", "note": { "en": "Square instance", "bn": "বর্গক্ষেত্র" } },
+        { "input": "4.5 2", "expectedOutput": "Area: 9.00\nPerimeter: 13.00\nSquare: NO", "note": { "en": "Float rectangle", "bn": "দশমিক আয়তক্ষেত্র" } },
+        { "input": "10 3", "expectedOutput": "Area: 30.00\nPerimeter: 26.00\nSquare: NO", "note": { "en": "Integer rectangle", "bn": "পূর্ণসংখ্যার আয়তক্ষেত্র" } }
+      ]
+    },
+    {
+      "id": "P15-02",
+      "number": 2,
+      "title": {
+        "en": "`Student` Class — Average Marks & Pass/Fail Evaluation",
+        "bn": "`Student` ক্লাস — গড় নম্বর ও পাস/ফেল মূল্যায়ন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Storing list attributes in an object", "bn": "অবজেক্টে তালিকা অ্যাট্রিবিউট সংরক্ষণ" },
+        { "en": "Class-level pass threshold constant", "bn": "ক্লাস-স্তরের পাস নম্বর ধ্রুবক" }
+      ],
+      "description": {
+        "en": "Define a `Student` class with class constant `PASS_MARK = 50.0`, `__init__(self, name, marks)`, `average(self)`, and `status(self)` returning `'PASS'` if `average() >= PASS_MARK` else `'FAIL'`. Read student name on line 1 and space-separated numeric marks on line 2. Print `<name>: Average <avg:.2f> (<PASS|FAIL>)`.",
+        "bn": "`PASS_MARK = 50.0` ক্লাস ধ্রুবকসহ `Student` ক্লাস তৈরি করুন যেখানে `__init__(self, name, marks)`, `average(self)` এবং `status(self)` (`PASS` বা `FAIL`) মেথড থাকবে। ১ম লাইনে নাম ও ২য় লাইনে নম্বরসমূহ পড়ে `<name>: Average <avg:.2f> (<PASS|FAIL>)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: student name. Line 2: space-separated numeric marks.",
+        "bn": "১ম লাইন: শিক্ষার্থীর নাম। ২য় লাইন: স্পেস-বিচ্ছিন্ন নম্বর।"
+      },
+      "expectedOutput": {
+        "en": "`<name>: Average <avg:.2f> (<PASS|FAIL>)`.",
+        "bn": "`<name>: Average <avg:.2f> (<PASS|FAIL>)` ফরম্যাটে ফলাফল।"
+      },
+      "examples": [
+        {
+          "input": "Amina\n80 75 90",
+          "output": "Amina: Average 81.67 (PASS)",
+          "explanation": {
+            "en": "(80 + 75 + 90) / 3 = 81.67 >= 50.0 -> PASS.",
+            "bn": "তিন বিষয়ের গড় ৮১.৬৭ যা ৫০.০-এর বেশি হওয়ায় PASS।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Define `PASS_MARK = 50.0` at the top of `class Student:` and reference it via `self.PASS_MARK`.",
+        "bn": "`class Student:`-এর শুরুতে `PASS_MARK = 50.0` রেখে `self.PASS_MARK` দিয়ে ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Inside `status(self)`, call `self.average()` directly instead of duplicating the average math.",
+        "bn": "`status(self)` মেথডের ভেতরে পুনরায় গড় হিসাব না করে সরাসরি `self.average()` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Calling `self.average()` inside `status(self)` demonstrates method reuse within an object, while placing `PASS_MARK` as a class attribute establishes a shared academic rule across all `Student` instances.",
+        "bn": "একই ক্লাসের এক মেথডের ভেতর থেকে অন্য মেথড (`self.average()`) কল করলে কোডের পুনরাবৃত্তি কমে এবং শর্ত বদলানো সহজ হয়।"
+      },
+      "algorithm": [
+        { "en": "Create `Student` with `PASS_MARK = 50.0` and `__init__(self, name, marks)`.", "bn": "`PASS_MARK = 50.0` ও `__init__`সহ `Student` ক্লাস তৈরি করুন।" },
+        { "en": "Implement `average()` returning `sum(self.marks) / len(self.marks)`.", "bn": "`average()` মেথডে নম্বরের গড় রিটার্ন করুন।" },
+        { "en": "Implement `status()` comparing `self.average() >= self.PASS_MARK`.", "bn": "`status()` মেথডে `PASS` বা `FAIL` রিটার্ন করুন।" },
+        { "en": "Instantiate `Student` from input and print formatted summary.", "bn": "অবজেক্ট তৈরি করে নির্ধারিত ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "class Student:\n    PASS_MARK = 50.0\n\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def average(self):\n        return sum(self.marks) / len(self.marks)\n\n    def status(self):\n        return \"PASS\" if self.average() >= self.PASS_MARK else \"FAIL\"\n\nname = input().strip()\nmarks = [float(x) for x in input().split()]\nst = Student(name, marks)\nprint(f\"{st.name}: Average {st.average():.2f} ({st.status()})\")",
+      "codeExplanation": {
+        "en": "status() delegates average calculation to self.average(), ensuring a single source of truth for grading.",
+        "bn": "status() নিজে হিসাব না করে self.average() ব্যবহার করে গ্রেড নির্ধারণ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Amina\n80 75 90", "expectedOutput": "Amina: Average 81.67 (PASS)", "note": { "en": "Passing average", "bn": "উত্তীর্ণ গড়" } },
+        { "input": "Hasan\n40 50 45", "expectedOutput": "Hasan: Average 45.00 (FAIL)", "note": { "en": "Failing average", "bn": "অকৃতকার্য গড়" } },
+        { "input": "Rina\n50 50", "expectedOutput": "Rina: Average 50.00 (PASS)", "note": { "en": "Exact boundary 50.00", "bn": "সীমান্ত ৫০.০০" } }
+      ]
+    },
+    {
+      "id": "P15-03",
+      "number": 3,
+      "title": {
+        "en": "`Circle` Class — Class Constant & Geometric Metrics",
+        "bn": "`Circle` ক্লাস — ক্লাস ধ্রুবক ও জ্যামিতিক পরিমাপ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Class attribute vs instance attribute", "bn": "ক্লাস অ্যাট্রিবিউট বনাম ইনস্ট্যান্স অ্যাট্রিবিউট" },
+        { "en": "State mutation via resize method", "bn": "মেথডের মাধ্যমে অবজেক্ট স্টেট পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Build a `Circle` class with class constant `PI = 3.14159`, `__init__(self, radius)`, `area(self)`, `circumference(self)`, and `scale(self, factor)` which multiplies `self.radius` by `factor`. Read initial `radius` and `factor`, print initial area/circumference, call `scale(factor)`, then print updated area/circumference (all to 2 decimals).",
+        "bn": "`PI = 3.14159` ক্লাস ধ্রুবকসহ `Circle` ক্লাস লিখুন যাতে `__init__(self, radius)`, `area()`, `circumference()` এবং `scale(factor)` (যা `self.radius`-কে `factor` দিয়ে গুণ করে) থাকবে। `radius` ও `factor` ইনপুট নিয়ে স্কেল করার আগে ও পরের ক্ষেত্রফল ও পরিধি ২ দশমিকে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated positive floats: `radius factor`.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি ধনাত্মক সংখ্যা: `radius factor`।"
+      },
+      "expectedOutput": {
+        "en": "`Before: Area=<a1:.2f> Circ=<c1:.2f>` and `After: Area=<a2:.2f> Circ=<c2:.2f>`.",
+        "bn": "`Before: Area=... Circ=...` এবং `After: Area=... Circ=...`।"
+      },
+      "examples": [
+        {
+          "input": "2 3",
+          "output": "Before: Area=12.57 Circ=12.57\nAfter: Area=113.10 Circ=37.70",
+          "explanation": {
+            "en": "With r=2, Area=12.57 and Circ=12.57. After scale(3), r=6 gives Area=113.10 and Circ=37.70.",
+            "bn": "ব্যাসার্ধ ২ থেকে ৩ গুণ হয়ে ৬ হলে পরিধি ৩ গুণ ও ক্ষেত্রফল ৯ গুণ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Store `PI = 3.14159` on the class (`Circle.PI` or `self.PI`) so every instance shares the exact constant.",
+        "bn": "`PI = 3.14159` ক্লাসের ভেতরে নির্ধারণ করলে প্রতিটি অবজেক্ট একই ধ্রুবক ব্যবহার করতে পারে।"
+      },
+      "hint2": {
+        "en": "`scale(self, factor)` mutates `self.radius *= factor` directly in place.",
+        "bn": "`scale(self, factor)` মেথডে `self.radius *= factor` করে অবজেক্টের অবস্থা পরিবর্তন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Objects hold mutable state over time: calling `c.scale(factor)` updates `c.radius` internally, so subsequent calls to `c.area()` and `c.circumference()` automatically reflect the resized geometry.",
+        "bn": "অবজেক্টের অবস্থা সময়ের সাথে পরিবর্তিত হতে পারে। `scale()` কল করলে `self.radius` বদলে যায় এবং পরের সব হিসাব স্বয়ংক্রিয়ভাবে নতুন ব্যাসার্ধে হয়।"
+      },
+      "algorithm": [
+        { "en": "Define `Circle` with `PI = 3.14159` and `self.radius = radius`.", "bn": "`PI = 3.14159`সহ `Circle` ক্লাস লিখুন।" },
+        { "en": "Implement `area()`, `circumference()`, and `scale(factor)`.", "bn": "`area()`, `circumference()`, ও `scale(factor)` মেথড লিখুন।" },
+        { "en": "Instantiate `Circle(r)`, print Before metrics, call `scale(factor)`, and print After metrics.", "bn": "স্কেল করার আগে ও পরের পরিমাপ প্রিন্ট করুন।" }
+      ],
+      "solution": "class Circle:\n    PI = 3.14159\n\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        return self.PI * (self.radius ** 2)\n\n    def circumference(self):\n        return 2 * self.PI * self.radius\n\n    def scale(self, factor):\n        self.radius *= factor\n\nr, factor = [float(x) for x in input().split()]\nc = Circle(r)\nprint(f\"Before: Area={c.area():.2f} Circ={c.circumference():.2f}\")\nc.scale(factor)\nprint(f\"After: Area={c.area():.2f} Circ={c.circumference():.2f}\")",
+      "codeExplanation": {
+        "en": "scale() updates self.radius on the existing Circle instance rather than creating a new object.",
+        "bn": "scale() নতুন অবজেক্ট না বানিয়ে বর্তমান বৃত্তের self.radius মানই আপডেট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2 3", "expectedOutput": "Before: Area=12.57 Circ=12.57\nAfter: Area=113.10 Circ=37.70", "note": { "en": "Scale up by 3", "bn": "৩ গুণ বৃদ্ধি" } },
+        { "input": "10 0.5", "expectedOutput": "Before: Area=314.16 Circ=62.83\nAfter: Area=78.54 Circ=31.42", "note": { "en": "Scale down by half", "bn": "অর্ধেক হ্রাস" } },
+        { "input": "1 1", "expectedOutput": "Before: Area=3.14 Circ=6.28\nAfter: Area=3.14 Circ=6.28", "note": { "en": "Identity scale", "bn": "অপরিবর্তিত স্কেল" } }
+      ]
+    },
+    {
+      "id": "P15-04",
+      "number": 4,
+      "title": {
+        "en": "`Counter` Class — Instance State vs Class-Level Object Tracker",
+        "bn": "`Counter` ক্লাস — ইনস্ট্যান্স স্টেট বনাম ক্লাস-স্তরের অবজেক্ট সংখ্যা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Shared class variable mutation (`Counter.total_counters`)", "bn": "শেয়ার্ড ক্লাস ভ্যারিয়েবল পরিবর্তন" },
+        { "en": "Independent instance values", "bn": "স্বতন্ত্র ইনস্ট্যান্স মান" }
+      ],
+      "description": {
+        "en": "Design a `Counter` class with class variable `total_counters = 0` incremented inside `__init__`, and instance attribute `self.value = start` (default 0) with methods `inc(step=1)` and `dec(step=1)`. Read integer K (number of counters to create), then create K named counters (values initialized to 0), execute M command lines (`<idx> inc <x>` or `<idx> dec <x>` on 0-based counter `idx`), and print `Total Counters: <Counter.total_counters>` followed by `Counter <i>: <val>` for each counter.",
+        "bn": "`Counter` ক্লাসে একটি ক্লাস ভ্যারিয়েবল `total_counters = 0` রাখুন যা প্রতিটি অবজেক্ট তৈরিতে ১ বাড়বে। ইনস্ট্যান্সে `self.value = 0`, `inc(step)` এবং `dec(step)` মেথড রাখুন। Kটি কাউন্টার তৈরি করে Mটি কমান্ড (`<idx> inc/dec <x>`) চালান এবং মোট কাউন্টার সংখ্যা ও প্রতিটি কাউন্টারের শেষ মান প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integers `K M`. Next M lines: `<idx> <inc|dec> <step>`.",
+        "bn": "১ম লাইন: `K M`। পরবর্তী M লাইন: `<idx> <inc|dec> <step>`।"
+      },
+      "expectedOutput": {
+        "en": "`Total Counters: <K>`, followed by `Counter <i>: <value>` for i in 0..K-1.",
+        "bn": "`Total Counters: <K>` এবং প্রতিটি কাউন্টারের চূড়ান্ত মান।"
+      },
+      "examples": [
+        {
+          "input": "2 3\n0 inc 5\n1 inc 10\n0 dec 2",
+          "output": "Total Counters: 2\nCounter 0: 3\nCounter 1: 10",
+          "explanation": {
+            "en": "2 instances update Counter.total_counters to 2 while maintaining separate self.value fields (3 and 10).",
+            "bn": "দুটি অবজেক্ট `total_counters` ২ করলেও প্রত্যেকের `self.value` আলাদাভাবে ৩ ও ১০ থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Always increment `Counter.total_counters += 1` (via class name, NOT `self.total_counters += 1`, which would shadow it on the instance!).",
+        "bn": "`self.total_counters += 1` লিখলে ইনস্ট্যান্সে নতুন ভ্যারিয়েবল তৈরি হয়; তাই অবশ্যই `Counter.total_counters += 1` লিখুন।"
+      },
+      "hint2": {
+        "en": "Store the K instances in a list `[Counter() for _ in range(k)]` and dispatch commands to `counters[idx]`.",
+        "bn": "`[Counter() for _ in range(k)]` লিস্টে কাউন্টারগুলো রেখে `counters[idx]`-এ কমান্ড প্রয়োগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A subtle Python OOP pitfall is assigning `self.class_var += 1`: Python reads the class attribute, adds 1, and writes a brand-new *instance* attribute shadowing the class attribute. Writing `Counter.total_counters += 1` updates the shared class counter cleanly.",
+        "bn": "`self.class_var += 1` করলে পাইথন সেটিকে ইনস্ট্যান্স ভ্যারিয়েবল বানিয়ে ফেলে। তাই ক্লাস-স্তরের ভ্যারিয়েবল বদলাতে `Counter.total_counters += 1` ব্যবহার করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Define `Counter` with `total_counters = 0` incremented via `Counter.total_counters += 1` in `__init__`.", "bn": "`Counter` ক্লাসে `Counter.total_counters += 1` সহ `__init__` লিখুন।" },
+        { "en": "Implement `inc(step)` and `dec(step)` modifying `self.value`.", "bn": "`inc(step)` ও `dec(step)` মেথড লিখুন।" },
+        { "en": "Create K counters and apply M commands.", "bn": "Kটি অবজেক্ট বানিয়ে Mটি কমান্ড প্রয়োগ করুন।" },
+        { "en": "Print `Counter.total_counters` and each counter's final value.", "bn": "মোট কাউন্টার ও প্রতিটির মান প্রিন্ট করুন।" }
+      ],
+      "solution": "class Counter:\n    total_counters = 0\n\n    def __init__(self, start=0):\n        self.value = start\n        Counter.total_counters += 1\n\n    def inc(self, step=1):\n        self.value += step\n\n    def dec(self, step=1):\n        self.value -= step\n\nk, m = [int(x) for x in input().split()]\ncounters = [Counter() for _ in range(k)]\nfor _ in range(m):\n    idx_s, op, step_s = input().split()\n    c = counters[int(idx_s)]\n    step = int(step_s)\n    if op == \"inc\":\n        c.inc(step)\n    else:\n        c.dec(step)\n\nprint(f\"Total Counters: {Counter.total_counters}\")\nfor i, c in enumerate(counters):\n    print(f\"Counter {i}: {c.value}\")",
+      "codeExplanation": {
+        "en": "Counter.total_counters lives once on the class while each Counter holds its own independent self.value.",
+        "bn": "Counter.total_counters সব অবজেক্টের মাঝে শেয়ার হয় এবং self.value প্রতিটি কাউন্টারে স্বতন্ত্র থাকে।"
+      },
+      "complexity": { "time": "O(K + M)", "space": "O(K)" },
+      "testCases": [
+        { "input": "2 3\n0 inc 5\n1 inc 10\n0 dec 2", "expectedOutput": "Total Counters: 2\nCounter 0: 3\nCounter 1: 10", "note": { "en": "Two counters updated", "bn": "দুটি কাউন্টার আপডেট" } },
+        { "input": "3 0", "expectedOutput": "Total Counters: 3\nCounter 0: 0\nCounter 1: 0\nCounter 2: 0", "note": { "en": "Zero operations", "bn": "কোনো কমান্ড নেই" } },
+        { "input": "1 2\n0 dec 4\n0 inc 1", "expectedOutput": "Total Counters: 1\nCounter 0: -3", "note": { "en": "Negative counter value allowed", "bn": "ঋণাত্মক মান সমর্থিত" } }
+      ]
+    },
+    {
+      "id": "P15-05",
+      "number": 5,
+      "title": {
+        "en": "`Book` Class — `__str__` Formatting & Borrow/Return State",
+        "bn": "`Book` ক্লাস — `__str__` ফরম্যাটিং ও ধার/ফেরত স্টেট"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Dunder __str__ representation", "bn": "__str__ ডান্ডার মেথড" },
+        { "en": "Boolean state transitions with guards", "bn": "শর্তসাপেক্ষ বুলিয়ান স্টেট পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Create a `Book` class with `title`, `author`, and `available = True`. Implement `borrow(self)` (sets `available = False` and returns `True` if available, else returns `False`), `return_book(self)` (sets `available = True` if borrowed and returns `True`, else `False`), and `__str__(self)` returning `\"<title> by <author> [Available|Borrowed]\"`. Read `<title>|<author>`, then Q operations (`BORROW` or `RETURN`), printing `OK`/`FAIL` per operation and finally `print(book)`.",
+        "bn": "`title`, `author` এবং `available = True`সহ `Book` ক্লাস তৈরি করুন। `borrow()`, `return_book()` এবং `__str__()` (`\"<title> by <author> [Available|Borrowed]\"`) মেথড লিখুন। বইয়ের তথ্য ও Qটি অপারেশন (`BORROW`/`RETURN`) নিয়ে প্রতিটি ধাপে `OK`/`FAIL` এবং শেষে `print(book)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `title|author`. Line 2: integer Q. Next Q lines: `BORROW` or `RETURN`.",
+        "bn": "১ম লাইন: `title|author`। ২য় লাইন: Q। পরবর্তী Q লাইন: `BORROW` বা `RETURN`।"
+      },
+      "expectedOutput": {
+        "en": "Q lines of `OK`/`FAIL`, followed by `str(book)`.",
+        "bn": "Qটি `OK`/`FAIL` লাইন এবং শেষে `str(book)`।"
+      },
+      "examples": [
+        {
+          "input": "Clean Code|Robert Martin\n3\nBORROW\nBORROW\nRETURN",
+          "output": "OK\nFAIL\nOK\nClean Code by Robert Martin [Available]",
+          "explanation": {
+            "en": "First BORROW succeeds (OK); second BORROW while already borrowed returns FAIL; RETURN succeeds (OK).",
+            "bn": "প্রথম BORROW সফল, দ্বিতীয়টি ব্যর্থ এবং RETURN সফল হওয়ায় বইটি শেষে Available অবস্থায় আছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Implementing `__str__(self)` lets `print(book)` format the object naturally without a helper function.",
+        "bn": "`__str__(self)` লিখলে সরাসরি `print(book)` কল করা যায়।"
+      },
+      "hint2": {
+        "en": "Return `False` without mutating state if `borrow()` is called when `not self.available` or `return_book()` when `self.available`.",
+        "bn": "ইতিমধ্যে ধার নেওয়া থাকলে `borrow()` বা আগে থেকেই থাকলে `return_book()` `False` রিটার্ন করবে।"
+      },
+      "logicBreakdown": {
+        "en": "Validating state transitions inside object methods guarantees an object can never enter an illegal state (such as double-borrowing an already checked-out book).",
+        "bn": "মেথডের ভেতরেই বৈধ অবস্থার শর্ত যাচাই করলে কোনো অবজেক্ট কখনো অবৈধ অবস্থায় যেতে পারে না।"
+      },
+      "algorithm": [
+        { "en": "Define `Book` with `__init__`, `borrow`, `return_book`, and `__str__`.", "bn": "`Book` ক্লাসে `__init__`, `borrow`, `return_book` ও `__str__` লিখুন।" },
+        { "en": "Instantiate `Book(title, author)` from line 1.", "bn": "১ম লাইন থেকে `Book` অবজেক্ট তৈরি করুন।" },
+        { "en": "Process Q commands, printing `OK` if method returns `True`, else `FAIL`.", "bn": "প্রতিটি কমান্ড চালিয়ে `OK` বা `FAIL` প্রিন্ট করুন।" },
+        { "en": "Call `print(book)` to display `__str__` output.", "bn": "শেষে `print(book)` করুন।" }
+      ],
+      "solution": "class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\n    def borrow(self):\n        if not self.available:\n            return False\n        self.available = False\n        return True\n\n    def return_book(self):\n        if self.available:\n            return False\n        self.available = True\n        return True\n\n    def __str__(self):\n        state = \"Available\" if self.available else \"Borrowed\"\n        return f\"{self.title} by {self.author} [{state}]\"\n\ntitle, author = input().split(\"|\", 1)\nbook = Book(title.strip(), author.strip())\nq = int(input())\nfor _ in range(q):\n    cmd = input().strip()\n    ok = book.borrow() if cmd == \"BORROW\" else book.return_book()\n    print(\"OK\" if ok else \"FAIL\")\nprint(book)",
+      "codeExplanation": {
+        "en": "borrow() and return_book() enforce legal boolean transitions, while __str__ defines human-readable printing.",
+        "bn": "borrow() ও return_book() বৈধ স্টেট পরিবর্তন নিশ্চিত করে এবং __str__ সুন্দর প্রিন্ট আউটপুট দেয়।"
+      },
+      "complexity": { "time": "O(Q)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Clean Code|Robert Martin\n3\nBORROW\nBORROW\nRETURN", "expectedOutput": "OK\nFAIL\nOK\nClean Code by Robert Martin [Available]", "note": { "en": "Double borrow blocked", "bn": "পুনরায় ধার প্রতিরোধ" } },
+        { "input": "Fluent Python|Luciano Ramalho\n2\nRETURN\nBORROW", "expectedOutput": "FAIL\nOK\nFluent Python by Luciano Ramalho [Borrowed]", "note": { "en": "Return before borrow fails", "bn": "ধার না নিয়ে ফেরত ব্যর্থ" } },
+        { "input": "SICPA|Abelson\n1\nBORROW", "expectedOutput": "OK\nSICPA by Abelson [Borrowed]", "note": { "en": "Single borrow", "bn": "একবার ধার" } }
+      ]
+    },
+    {
+      "id": "P15-06",
+      "number": 6,
+      "title": {
+        "en": "`BankAccount` Class — Deposits, Overdraft Guard & Ledger",
+        "bn": "`BankAccount` ক্লাস — জমা, উত্তোলন ও ওভারড্রাফট সুরক্ষা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Domain invariant enforcement", "bn": "ডোমেইন শর্ত রক্ষা" },
+        { "en": "Transaction validation in methods", "bn": "মেথডে লেনদেন যাচাইকরণ" }
+      ],
+      "description": {
+        "en": "Build a `BankAccount` class with `owner` and `balance` (default `0.0`). Implement `deposit(amount)` (ignores/returns `False` if `amount <= 0`), `withdraw(amount)` (returns `False` if `amount <= 0` or `amount > self.balance`), and `summary()` returning `\"<owner>: $<balance:.2f>\"`. Read `<owner> <initial_balance>`, then N transactions (`DEPOSIT <amt>` or `WITHDRAW <amt>`). Print `DECLINED` on failed withdrawals/deposits and print `summary()` at the end.",
+        "bn": "`owner` ও `balance`সহ `BankAccount` ক্লাস তৈরি করুন। `deposit(amount)` (`amount <= 0` হলে `False`), `withdraw(amount)` (`amount <= 0` বা অপর্যাপ্ত ব্যালেন্সে `False`) এবং `summary()` মেথড লিখুন। প্রারম্ভিক তথ্য ও Nটি লেনদেন চালিয়ে ব্যর্থ লেনদেনে `DECLINED` এবং শেষে অ্যাকাউন্ট সারাংশ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `<owner> <initial_balance>`. Line 2: integer N. Next N lines: `DEPOSIT <amt>` or `WITHDRAW <amt>`.",
+        "bn": "১ম লাইন: `<owner> <initial_balance>`। ২য় লাইন: N। পরবর্তী N লাইন: `DEPOSIT/WITHDRAW <amt>`।"
+      },
+      "expectedOutput": {
+        "en": "`DECLINED` for each invalid transaction, then `<owner>: $<balance:.2f>`.",
+        "bn": "প্রতিটি ব্যর্থ লেনদেনে `DECLINED` এবং শেষে `<owner>: $<balance:.2f>`।"
+      },
+      "examples": [
+        {
+          "input": "Sajid 100\n3\nDEPOSIT 50\nWITHDRAW 200\nWITHDRAW 30",
+          "output": "DECLINED\nSajid: $120.00",
+          "explanation": {
+            "en": "100 + 50 = 150; withdrawing 200 exceeds 150 (DECLINED); withdrawing 30 leaves 120.00.",
+            "bn": "১০০+৫০=১৫০; ২০০ উত্তোলন ব্যর্থ (DECLINED) ও ৩০ উত্তোলনের পর ১২০.০০ থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Reject negative or zero amounts in BOTH `deposit` and `withdraw`—never allow `deposit(-50)` to drain an account!",
+        "bn": "`deposit` ও `withdraw` উভয় ক্ষেত্রেই শূন্য বা ঋণাত্মক পরিমাণ প্রত্যাখ্যান করুন।"
+      },
+      "hint2": {
+        "en": "Only print `DECLINED` when a transaction method returns `False`.",
+        "bn": "লেনদেন মেথড `False` রিটার্ন করলেই কেবল `DECLINED` প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Financial objects must enforce invariants internally so no external caller can accidentally leave a negative balance or deposit a negative sum. Returning booleans separates business logic from I/O formatting.",
+        "bn": "আর্থিক ক্লাসগুলো অভ্যন্তরীণ শর্ত রক্ষা করলে কখনো ভুলক্রমে ব্যালেন্স ঋণাত্মক হতে পারে না।"
+      },
+      "algorithm": [
+        { "en": "Define `BankAccount(owner, balance)` with `deposit`, `withdraw`, `summary`.", "bn": "`deposit`, `withdraw` ও `summary`সহ `BankAccount` লিখুন।" },
+        { "en": "Instantiate account from line 1.", "bn": "১ম লাইন থেকে অ্যাকাউন্ট তৈরি করুন।" },
+        { "en": "For each operation, execute method and print `DECLINED` if False.", "bn": "প্রতিটি কমান্ড চালিয়ে ব্যর্থ হলে `DECLINED` প্রিন্ট করুন।" },
+        { "en": "Print `acc.summary()`.", "bn": "শেষে `acc.summary()` প্রিন্ট করুন।" }
+      ],
+      "solution": "class BankAccount:\n    def __init__(self, owner, balance=0.0):\n        self.owner = owner\n        self.balance = float(balance)\n\n    def deposit(self, amount):\n        if amount <= 0:\n            return False\n        self.balance += amount\n        return True\n\n    def withdraw(self, amount):\n        if amount <= 0 or amount > self.balance:\n            return False\n        self.balance -= amount\n        return True\n\n    def summary(self):\n        return f\"{self.owner}: ${self.balance:.2f}\"\n\nowner, bal_s = input().split()\nacc = BankAccount(owner, float(bal_s))\nn = int(input())\nfor _ in range(n):\n    op, amt_s = input().split()\n    amt = float(amt_s)\n    ok = acc.deposit(amt) if op == \"DEPOSIT\" else acc.withdraw(amt)\n    if not ok:\n        print(\"DECLINED\")\nprint(acc.summary())",
+      "codeExplanation": {
+        "en": "Both deposit and withdraw validate positive amounts and withdraw enforces sufficient balance before mutating self.balance.",
+        "bn": "deposit ও withdraw উভয়ই ধনাত্মক মান যাচাই করে এবং withdraw পর্যাপ্ত ব্যালেন্স ছাড়া টাকা কাটে না।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Sajid 100\n3\nDEPOSIT 50\nWITHDRAW 200\nWITHDRAW 30", "expectedOutput": "DECLINED\nSajid: $120.00", "note": { "en": "Overdraft rejected", "bn": "অতিরিক্ত উত্তোলন বাতিল" } },
+        { "input": "Maya 50\n2\nDEPOSIT -10\nWITHDRAW 50", "expectedOutput": "DECLINED\nMaya: $0.00", "note": { "en": "Negative deposit rejected, exact withdrawal allowed", "bn": "ঋণাত্মক জমা বাতিল, সম্পূর্ণ উত্তোলন বৈধ" } },
+        { "input": "Karim 0\n1\nDEPOSIT 75.5", "expectedOutput": "Karim: $75.50", "note": { "en": "Clean deposit", "bn": "সফল জমা" } }
+      ]
+    },
+    {
+      "id": "P15-07",
+      "number": 7,
+      "title": {
+        "en": "`Temperature` Class — `@staticmethod` & `@classmethod` Factory",
+        "bn": "`Temperature` ক্লাস — `@staticmethod` ও `@classmethod` ফ্যাক্টরি"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "@classmethod alternate constructors", "bn": "@classmethod বিকল্প কনস্ট্রাক্টর" },
+        { "en": "@staticmethod pure utility helpers", "bn": "@staticmethod স্বাধীন হেল্পার ফাংশন" }
+      ],
+      "description": {
+        "en": "Design a `Temperature` class storing `celsius` internally:\n- `@staticmethod` `c_to_f(c)` returning `(c * 9/5) + 32` and `f_to_c(f)` returning `(f - 32) * 5/9`.\n- `@classmethod` `from_fahrenheit(cls, f)` returning `cls(cls.f_to_c(f))`.\n- Instance method `is_freezing()` returning `self.celsius <= 0`.\nRead `<unit> <value>` (`C` or `F`). Construct via `Temperature(val)` or `Temperature.from_fahrenheit(val)` and print `C: <c:.2f> | F: <f:.2f> | Freezing: <YES|NO>`.",
+        "bn": "অভ্যন্তরীণভাবে `celsius` রাখা `Temperature` ক্লাস তৈরি করুন যাতে `@staticmethod` `c_to_f`, `f_to_c` এবং `@classmethod` `from_fahrenheit(cls, f)` থাকবে। `<C|F> <মান>` ইনপুট নিয়ে সঠিক কনস্ট্রাক্টর ব্যবহার করে সেলসিয়াস, ফারেনহাইট (২ দশমিকে) এবং `Freezing: YES/NO` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line `<C|F> <float_value>`.",
+        "bn": "এক লাইনে `<C|F> <float_value>`।"
+      },
+      "expectedOutput": {
+        "en": "`C: <c:.2f> | F: <f:.2f> | Freezing: <YES|NO>`.",
+        "bn": "`C: <c:.2f> | F: <f:.2f> | Freezing: <YES|NO>` ফরম্যাটে তাপমাত্রা।"
+      },
+      "examples": [
+        {
+          "input": "F 32",
+          "output": "C: 0.00 | F: 32.00 | Freezing: YES",
+          "explanation": {
+            "en": "`Temperature.from_fahrenheit(32)` builds a `Temperature(0.0)`, which is at freezing point (<= 0 C).",
+            "bn": "`from_fahrenheit(32)` দিয়ে ০.০০°C অবজেক্ট তৈরি হয় যা হিমাঙ্ক (Freezing: YES)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`@staticmethod` takes neither `self` nor `cls`; `@classmethod` receives `cls` so calling `cls(...)` creates an instance even for subclasses.",
+        "bn": "`@staticmethod`-এ `self` বা `cls` থাকে না; আর `@classmethod`-এ `cls` পেয়ে `cls(...)` দিয়ে নতুন অবজেক্ট তৈরি করা যায়।"
+      },
+      "hint2": {
+        "en": "Use `Temperature.c_to_f(temp.celsius)` to convert back for display.",
+        "bn": "প্রদর্শনের জন্য `Temperature.c_to_f(temp.celsius)` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "`@classmethod` provides clean named constructors (`from_fahrenheit`) when one canonical unit (`celsius`) is stored internally, while `@staticmethod` groups conversion formulas under the `Temperature` namespace without needing an instance.",
+        "bn": "`@classmethod` বিকল্প ইনপুট ফরম্যাট থেকে অবজেক্ট বানানোর পরিচ্ছন্ন উপায় এবং `@staticmethod` সম্পর্কিত সূত্রগুলোকে ক্লাসের ভেতরে সুশৃঙ্খলভাবে রাখে।"
+      },
+      "algorithm": [
+        { "en": "Define `Temperature` with `c_to_f` and `f_to_c` static methods.", "bn": "`c_to_f` ও `f_to_c` স্ট্যাটিক মেথড লিখুন।" },
+        { "en": "Add `@classmethod from_fahrenheit(cls, f)` calling `cls(cls.f_to_c(f))`.", "bn": "`@classmethod from_fahrenheit` যোগ করুন।" },
+        { "en": "Add `is_freezing(self)` checking `self.celsius <= 0`.", "bn": "`is_freezing()` মেথড যোগ করুন।" },
+        { "en": "Construct instance based on unit `C` or `F` and print formatted metrics.", "bn": "একক অনুযায়ী অবজেক্ট বানিয়ে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "class Temperature:\n    def __init__(self, celsius):\n        self.celsius = float(celsius)\n\n    @staticmethod\n    def c_to_f(c):\n        return (c * 9.0 / 5.0) + 32.0\n\n    @staticmethod\n    def f_to_c(f):\n        return (f - 32.0) * 5.0 / 9.0\n\n    @classmethod\n    def from_fahrenheit(cls, f):\n        return cls(cls.f_to_c(float(f)))\n\n    def is_freezing(self):\n        return self.celsius <= 0.0\n\nunit, val_s = input().split()\nval = float(val_s)\ntemp = Temperature(val) if unit == \"C\" else Temperature.from_fahrenheit(val)\nfreeze = \"YES\" if temp.is_freezing() else \"NO\"\nprint(f\"C: {temp.celsius:.2f} | F: {Temperature.c_to_f(temp.celsius):.2f} | Freezing: {freeze}\")",
+      "codeExplanation": {
+        "en": "Regardless of whether constructed directly in Celsius or via from_fahrenheit, internal state is always normalized to Celsius.",
+        "bn": "সেলসিয়াস বা ফারেনহাইট যেভাবেই তৈরি হোক, অভ্যন্তরীণ মান সর্বদা সেলসিয়াসে সংরক্ষিত থাকে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "F 32", "expectedOutput": "C: 0.00 | F: 32.00 | Freezing: YES", "note": { "en": "Factory constructor at freezing", "bn": "ফারেনহাইট ফ্যাক্টরি" } },
+        { "input": "C 100", "expectedOutput": "C: 100.00 | F: 212.00 | Freezing: NO", "note": { "en": "Boiling point", "bn": "স্ফুটনাঙ্ক" } },
+        { "input": "F 68", "expectedOutput": "C: 20.00 | F: 68.00 | Freezing: NO", "note": { "en": "Room temperature", "bn": "কক্ষ তাপমাত্রা" } }
+      ]
+    },
+    {
+      "id": "P15-08",
+      "number": 8,
+      "title": {
+        "en": "`Product` Class — `@property` Price Validation & Discount",
+        "bn": "`Product` ক্লাস — `@property` দিয়ে মূল্য যাচাই ও ছাড় প্রয়োগ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "@property getter and @price.setter", "bn": "@property গেটার ও সেটার" },
+        { "en": "ValueError validation on attribute assignment", "bn": "মান নির্ধারণে ValueError যাচাই" }
+      ],
+      "description": {
+        "en": "Create a `Product` class with `name` and validated `@property price` (backed by `_price`). Setting `price <= 0` MUST raise `ValueError`. Add `apply_discount(percent)` which rejects `percent < 0` or `percent >= 100` (raising `ValueError`) and otherwise lowers `self.price`. Read `<name> <initial_price>`, then apply Q updates (`SET <p>` or `DISCOUNT <pct>`), catching `ValueError` to print `INVALID`, and finish with `<name>: $<price:.2f>`.",
+        "bn": "`name` ও `@property price`সহ `Product` ক্লাস লিখুন। `price <= 0` বা `apply_discount(pct)`-এ `pct < 0` বা `pct >= 100` হলে `ValueError` তুলতে হবে। পণ্যের প্রারম্ভিক তথ্য ও Qটি অপারেশন (`SET`/`DISCOUNT`) চালিয়ে অবৈধ ক্ষেত্রে `INVALID` এবং শেষে `<name>: $<price:.2f>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `<name> <initial_price>`. Line 2: integer Q. Next Q lines: `SET <val>` or `DISCOUNT <pct>`.",
+        "bn": "১ম লাইন: `<name> <initial_price>`। ২য় লাইন: Q। পরবর্তী Q লাইন: `SET <val>` বা `DISCOUNT <pct>`।"
+      },
+      "expectedOutput": {
+        "en": "`INVALID` for each rejected update, then `<name>: $<price:.2f>`.",
+        "bn": "প্রতিটি ব্যর্থ আপডেটে `INVALID` এবং শেষে চূড়ান্ত মূল্য।"
+      },
+      "examples": [
+        {
+          "input": "Laptop 1000\n3\nDISCOUNT 10\nSET -50\nDISCOUNT 100",
+          "output": "INVALID\nINVALID\nLaptop: $900.00",
+          "explanation": {
+            "en": "10% discount reduces 1000 -> 900; SET -50 and DISCOUNT 100 raise ValueError (caught as INVALID) leaving price at 900.00.",
+            "bn": "১০% ছাড়ে মূল্য ৯০০ হয়; এরপর -৫০ সেট ও ১০০% ছাড় অবৈধ হওয়ায় ৯০০.০০ অপরিবর্তিত থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Assign `self.price = initial_price` inside `__init__` so the setter validates even initial construction!",
+        "bn": "`__init__`-এ `self._price`-এর বদলে `self.price = price` লিখলে শুরুতেই সেটারের যাচাইকরণ কাজ করে।"
+      },
+      "hint2": {
+        "en": "Use `@price.setter` to check `if value <= 0: raise ValueError(...)` before storing `self._price = float(value)`.",
+        "bn": "`@price.setter`-এ `value <= 0` হলে `ValueError` তুলুন, নতুবা `self._price` আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Python's `@property` lets callers use natural `product.price = new_val` syntax while secretly running validation logic inside the setter—combining clean API ergonomics with strict data integrity.",
+        "bn": "`@property` ব্যবহার করলে বাইরে থেকে সাধারণ ভ্যারিয়েবলের মতোই `product.price = ...` লেখা যায়, অথচ ভেতরে স্বয়ংক্রিয়ভাবে ভ্যালিডেশন চলে।"
+      },
+      "algorithm": [
+        { "en": "Define `Product` with `@property def price` and `@price.setter` raising `ValueError` if `<= 0`.", "bn": "`@property price` ও সেটারসহ `Product` লিখুন।" },
+        { "en": "Implement `apply_discount(pct)` checking `0 <= pct < 100`.", "bn": "`apply_discount(pct)` মেথডে `0 <= pct < 100` যাচাই করুন।" },
+        { "en": "Wrap each command in `try / except ValueError:` printing `INVALID`.", "bn": "প্রতিটি কমান্ড `try / except ValueError`-এ চালিয়ে ব্যর্থ হলে `INVALID` প্রিন্ট করুন।" },
+        { "en": "Print final `<name>: $<price:.2f>`.", "bn": "শেষে পণ্যের চূড়ান্ত মূল্য প্রিন্ট করুন।" }
+      ],
+      "solution": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    @property\n    def price(self):\n        return self._price\n\n    @price.setter\n    def price(self, value):\n        val = float(value)\n        if val <= 0:\n            raise ValueError(\"Price must be positive\")\n        self._price = val\n\n    def apply_discount(self, percent):\n        pct = float(percent)\n        if pct < 0 or pct >= 100:\n            raise ValueError(\"Invalid discount\")\n        self.price = self._price * (1.0 - pct / 100.0)\n\nname, p_s = input().split()\nprod = Product(name, float(p_s))\nq = int(input())\nfor _ in range(q):\n    op, v_s = input().split()\n    try:\n        if op == \"SET\":\n            prod.price = float(v_s)\n        else:\n            prod.apply_discount(float(v_s))\n    except ValueError:\n        print(\"INVALID\")\nprint(f\"{prod.name}: ${prod.price:.2f}\")",
+      "codeExplanation": {
+        "en": "Setting prod.price automatically triggers the @price.setter check, preventing negative or zero prices from corrupting object state.",
+        "bn": "prod.price সেট করার সময়ই @price.setter চালু হয়ে শূন্য বা ঋণাত্মক মূল্য আটকে দেয়।"
+      },
+      "complexity": { "time": "O(Q)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Laptop 1000\n3\nDISCOUNT 10\nSET -50\nDISCOUNT 100", "expectedOutput": "INVALID\nINVALID\nLaptop: $900.00", "note": { "en": "Invalid updates ignored", "bn": "অবৈধ আপডেট বাতিল" } },
+        { "input": "Mouse 50\n2\nSET 80\nDISCOUNT 25", "expectedOutput": "Mouse: $60.00", "note": { "en": "Valid price reset & discount", "bn": "বৈধ মূল্য পরিবর্তন ও ছাড়" } },
+        { "input": "Desk 200\n2\nSET 0\nDISCOUNT -5", "expectedOutput": "INVALID\nINVALID\nDesk: $200.00", "note": { "en": "Zero price and negative discount rejected", "bn": "শূন্য মূল্য ও ঋণাত্মক ছাড় বাতিল" } }
+      ]
+    },
+    {
+      "id": "P15-09",
+      "number": 9,
+      "title": {
+        "en": "`Employee` Class — Private `__salary` Encapsulation & Raise Policy",
+        "bn": "`Employee` ক্লাস — প্রাইভেট `__salary` এনক্যাপসুলেশন ও বেতন বৃদ্ধি"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Name-mangled private attributes (__salary)", "bn": "প্রাইভেট অ্যাট্রিবিউট (__salary)" },
+        { "en": "Controlled read-only getter and policy-bounded mutator", "bn": "গেটার ও নীতিমালাভিত্তিক আপডেট" }
+      ],
+      "description": {
+        "en": "Design an `Employee` class storing `name` and private `__salary` (via name mangling). Expose `get_salary()` for reading and `give_raise(percent)` which permits raises ONLY when `0 < percent <= 30` (returning `True` on success, `False` on violation). Read `<name> <salary>`, apply N raise attempts `<pct>`, print `APPROVED` or `REJECTED` each time, and finish with `<name>: $<salary:.2f>`.",
+        "bn": "`name` ও প্রাইভেট `__salary`সহ `Employee` ক্লাস লিখুন। `get_salary()` মেথড এবং `give_raise(percent)` (যা কেবল `0 < percent <= 30` হলে বেতন বাড়ায়) তৈরি করুন। প্রারম্ভিক তথ্য ও Nটি বেতন বৃদ্ধির অনুরোধ নিয়ে প্রতিবার `APPROVED`/`REJECTED` এবং শেষে `<name>: $<salary:.2f>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `<name> <initial_salary>`. Line 2: integer N. Next N lines: float raise percentage.",
+        "bn": "১ম লাইন: `<name> <initial_salary>`। ২য় লাইন: N। পরবর্তী N লাইন: বৃদ্ধির শতাংশ।"
+      },
+      "expectedOutput": {
+        "en": "N lines of `APPROVED`/`REJECTED`, then `<name>: $<salary:.2f>`.",
+        "bn": "Nটি `APPROVED`/`REJECTED` লাইন এবং শেষে চূড়ান্ত বেতন।"
+      },
+      "examples": [
+        {
+          "input": "Nadia 4000\n3\n10\n50\n5",
+          "output": "APPROVED\nREJECTED\nAPPROVED\nNadia: $4620.00",
+          "explanation": {
+            "en": "10% raise: 4000 -> 4400 (APPROVED); 50% exceeds 30% cap (REJECTED); 5% of 4400 = +220 -> 4620.00.",
+            "bn": "১০% বৃদ্ধিতে ৪৪০০; ৫০% সীমা অতিক্রম করায় বাতিল এবং ৫% বৃদ্ধিতে ৪৬২০.০০ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Attributes prefixed with double underscore (`self.__salary`) are name-mangled (`_Employee__salary`), signaling strict encapsulation behind public methods.",
+        "bn": "`self.__salary` লিখলে বাইরে থেকে সরাসরি পরিবর্তন আটকানো হয় এবং কেবল নির্দিষ্ট মেথডের মাধ্যমেই মান নিয়ন্ত্রণ করা যায়।"
+      },
+      "hint2": {
+        "en": "Multiply `self.__salary *= (1 + percent / 100.0)` only after confirming `0 < percent <= 30`.",
+        "bn": "`0 < percent <= 30` নিশ্চিত হয়ে তারপর `self.__salary *= (1 + percent / 100.0)` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Encapsulation hides sensitive internal state (`__salary`) behind controlled interfaces (`get_salary`, `give_raise`), guaranteeing business policies like maximum raise caps cannot be bypassed directly.",
+        "bn": "এনক্যাপসুলেশন সংবেদনশীল ডেটা লুকিয়ে রাখে যাতে নীতিমালা না মেনে সরাসরি মান পরিবর্তন করা না যায়।"
+      },
+      "algorithm": [
+        { "en": "Define `Employee` with `self.name` and `self.__salary`.", "bn": "`self.name` ও `self.__salary`সহ `Employee` লিখুন।" },
+        { "en": "Implement `get_salary()` and `give_raise(percent)` enforcing `0 < percent <= 30`.", "bn": "`get_salary()` ও `give_raise()` মেথড লিখুন।" },
+        { "en": "Read initial employee info and process N raise requests.", "bn": "প্রারম্ভিক ডেটা ও Nটি অনুরোধ প্রক্রিয়া করুন।" },
+        { "en": "Print `APPROVED`/`REJECTED` per step and final formatted salary.", "bn": "প্রতিটি ধাপের ফলাফল ও চূড়ান্ত বেতন প্রিন্ট করুন।" }
+      ],
+      "solution": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.__salary = float(salary)\n\n    def get_salary(self):\n        return self.__salary\n\n    def give_raise(self, percent):\n        if 0 < percent <= 30:\n            self.__salary *= (1.0 + percent / 100.0)\n            return True\n        return False\n\nname, sal_s = input().split()\nemp = Employee(name, float(sal_s))\nn = int(input())\nfor _ in range(n):\n    pct = float(input())\n    print(\"APPROVED\" if emp.give_raise(pct) else \"REJECTED\")\nprint(f\"{emp.name}: ${emp.get_salary():.2f}\")",
+      "codeExplanation": {
+        "en": "All reads and mutations of __salary go exclusively through get_salary() and give_raise(), enforcing the 30% policy uniformly.",
+        "bn": "__salary-এর সব পাঠ ও পরিবর্তন get_salary() ও give_raise() দিয়ে নিয়ন্ত্রিত হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Nadia 4000\n3\n10\n50\n5", "expectedOutput": "APPROVED\nREJECTED\nAPPROVED\nNadia: $4620.00", "note": { "en": "Compound valid raises with one rejected", "bn": "বৈধ ও অবৈধ বৃদ্ধির মিশ্রণ" } },
+        { "input": "Tariq 3000\n2\n0\n-10", "expectedOutput": "REJECTED\nREJECTED\nTariq: $3000.00", "note": { "en": "Non-positive raises rejected", "bn": "শূন্য ও ঋণাত্মক বৃদ্ধি বাতিল" } },
+        { "input": "Sara 5000\n1\n30", "expectedOutput": "APPROVED\nSara: $6500.00", "note": { "en": "Boundary 30% approved", "bn": "সর্বোচ্চ ৩০% অনুমোদিত" } }
+      ]
+    },
+    {
+      "id": "P15-10",
+      "number": 10,
+      "title": {
+        "en": "`Playlist` & `Song` — Object Composition & Duration Tracking",
+        "bn": "`Playlist` ও `Song` — অবজেক্ট কম্পোজিশন ও সময় হিসাব"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Composition (has-a relationship)", "bn": "কম্পোজিশন (has-a সম্পর্ক)" },
+        { "en": "Managing a collection of custom objects", "bn": "কাস্টম অবজেক্টের সংগ্রহ পরিচালনা" }
+      ],
+      "description": {
+        "en": "Design two classes using composition: `Song(title, seconds)` and `Playlist(name)` holding a list of `Song` objects. Implement `add_song(song)` (avoid adding duplicate titles; return `True` if added else `False`), `remove_song(title)` (returns `True` if removed else `False`), `total_duration()` (formatted `MM:SS`), and `count()`. Read playlist name, Q commands (`ADD <title> <sec>`, `REMOVE <title>`), and print `<playlist>: <count> songs, <MM:SS>`.",
+        "bn": "কম্পোজিশন ব্যবহার করে `Song(title, seconds)` ও `Playlist(name)` দুটি ক্লাস লিখুন। প্লেলিস্টে `add_song(song)` (ডুপ্লিকেট শিরোনাম বাদ), `remove_song(title)`, `total_duration()` (`MM:SS` ফরম্যাটে) এবং `count()` মেথড থাকবে। Qটি কমান্ড চালিয়ে শেষে `<playlist>: <count> songs, <MM:SS>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: playlist name. Line 2: integer Q. Next Q lines: `ADD <title> <seconds>` or `REMOVE <title>`.",
+        "bn": "১ম লাইন: প্লেলিস্টের নাম। ২য় লাইন: Q। পরবর্তী Q লাইন: `ADD <title> <seconds>` বা `REMOVE <title>`।"
+      },
+      "expectedOutput": {
+        "en": "`<name>: <count> songs, <MM:SS>`.",
+        "bn": "`<name>: <count> songs, <MM:SS>` ফরম্যাটে প্লেলিস্টের সারাংশ।"
+      },
+      "examples": [
+        {
+          "input": "FocusMix\n4\nADD Drift 185\nADD Echo 95\nADD Drift 185\nREMOVE Echo",
+          "output": "FocusMix: 1 songs, 03:05",
+          "explanation": {
+            "en": "Duplicate Drift is ignored; Echo is removed; 1 song remains with 185 seconds = 03:05.",
+            "bn": "ডুপ্লিকেট Drift বাদ পড়ে, Echo মুছে যায় এবং ১৮৫ সেকেন্ড (03:05)-এর ১টি গান থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`Playlist` does NOT inherit from `Song`—it *contains* `Song` objects (`self.songs = []`).",
+        "bn": "`Playlist` কখনো `Song`-কে ইনহেরিট করে না; বরং ভেতরে `Song` অবজেক্ট ধারণ করে (`has-a` সম্পর্ক)।"
+      },
+      "hint2": {
+        "en": "Format `total_sec` into `MM:SS` via `mins, secs = divmod(total_sec, 60)` and `f'{mins:02d}:{secs:02d}'`.",
+        "bn": "`divmod(total_sec, 60)` দিয়ে মিনিট-সেকেন্ড বের করে `f'{mins:02d}:{secs:02d}'` ফরম্যাটে দেখান।"
+      },
+      "logicBreakdown": {
+        "en": "Composition (`Playlist` *has* `Song` instances) is preferred over inheritance whenever one entity acts as a container or coordinator of distinct items. Keeping duration on `Song` and aggregation on `Playlist` yields clean separation of responsibilities.",
+        "bn": "একটি অবজেক্ট অন্য অবজেক্টের ধারক হলে ইনহেরিট্যান্সের চেয়ে কম্পোজিশন ব্যবহার করা সঠিক ডিজাইন।"
+      },
+      "algorithm": [
+        { "en": "Define `Song(title, seconds)` and `Playlist(name)` with `self.songs = []`.", "bn": "`Song` ও `Playlist` ক্লাস তৈরি করুন।" },
+        { "en": "In `add_song`, check if `song.title` already exists before appending.", "bn": "`add_song`-এ শিরোনাম আগে থেকেই থাকলে যোগ করা থেকে বিরত থাকুন।" },
+        { "en": "In `remove_song`, locate matching title and remove it.", "bn": "`remove_song`-এ শিরোনাম খুঁজে মুছে ফেলুন।" },
+        { "en": "Sum `s.seconds`, format `MM:SS` with `divmod`, and print playlist summary.", "bn": "মোট সেকেন্ড থেকে `MM:SS` বানিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "class Song:\n    def __init__(self, title, seconds):\n        self.title = title\n        self.seconds = int(seconds)\n\nclass Playlist:\n    def __init__(self, name):\n        self.name = name\n        self.songs = []\n\n    def add_song(self, song):\n        if any(s.title == song.title for s in self.songs):\n            return False\n        self.songs.append(song)\n        return True\n\n    def remove_song(self, title):\n        for i, s in enumerate(self.songs):\n            if s.title == title:\n                self.songs.pop(i)\n                return True\n        return False\n\n    def count(self):\n        return len(self.songs)\n\n    def total_duration(self):\n        total = sum(s.seconds for s in self.songs)\n        mins, secs = divmod(total, 60)\n        return f\"{mins:02d}:{secs:02d}\"\n\npl_name = input().strip()\npl = Playlist(pl_name)\nq = int(input())\nfor _ in range(q):\n    parts = input().split()\n    if parts[0] == \"ADD\":\n        pl.add_song(Song(parts[1], int(parts[2])))\n    elif parts[0] == \"REMOVE\":\n        pl.remove_song(parts[1])\nprint(f\"{pl.name}: {pl.count()} songs, {pl.total_duration()}\")",
+      "codeExplanation": {
+        "en": "Playlist manages a list of Song instances cleanly, enforcing uniqueness by title and delegating time calculation to Song.seconds.",
+        "bn": "Playlist অভ্যন্তরীণভাবে Song অবজেক্টের লিস্ট পরিচালনা করে এবং মোট সময় হিসাব করে।"
+      },
+      "complexity": { "time": "O(Q * S) where S = playlist size", "space": "O(S)" },
+      "testCases": [
+        { "input": "FocusMix\n4\nADD Drift 185\nADD Echo 95\nADD Drift 185\nREMOVE Echo", "expectedOutput": "FocusMix: 1 songs, 03:05", "note": { "en": "Duplicate blocked & one removed", "bn": "ডুপ্লিকেট বাদ ও অপসারণ" } },
+        { "input": "Study\n2\nADD Calm 120\nADD Rain 60", "expectedOutput": "Study: 2 songs, 03:00", "note": { "en": "Exact minute sum", "bn": "পূর্ণ মিনিটের যোগফল" } },
+        { "input": "EmptyMix\n1\nREMOVE Missing", "expectedOutput": "EmptyMix: 0 songs, 00:00", "note": { "en": "Empty playlist duration", "bn": "ফাঁকা প্লেলিস্ট" } }
+      ]
+    },
+    {
+      "id": "P15-11",
+      "number": 11,
+      "title": {
+        "en": "`Vehicle` -> `Car` -> `ElectricCar` Multilevel Inheritance & `super()`",
+        "bn": "`Vehicle` -> `Car` -> `ElectricCar` মাল্টিলেভেল ইনহেরিট্যান্স ও `super()`"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Multilevel inheritance chain", "bn": "মাল্টিলেভেল ইনহেরিট্যান্স চেইন" },
+        { "en": "Extending parent methods via super()", "bn": "super() দিয়ে প্যারেন্ট মেথড সম্প্রসারণ" }
+      ],
+      "description": {
+        "en": "Implement a 3-level class hierarchy:\n- `Vehicle(brand, year)` with `describe()` returning `\"<year> <brand>\"`.\n- `Car(brand, year, seats)` inheriting `Vehicle`, calling `super().__init__(brand, year)` and extending `describe()` to `\"<super> (<seats> seats)\"`.\n- `ElectricCar(brand, year, seats, battery_kwh)` inheriting `Car`, calling `super().__init__(brand, year, seats)` and extending `describe()` to `\"<super> [<battery_kwh> kWh]\"`.\nRead `<type> ...` (`VEHICLE brand year`, `CAR brand year seats`, or `EV brand year seats kwh`), construct the appropriate object, and print `obj.describe()`.",
+        "bn": "`Vehicle -> Car -> ElectricCar` ৩ স্তরের ইনহেরিট্যান্স চেইন তৈরি করুন যেখানে প্রতিটি সাবক্লাস `super().__init__` এবং `super().describe()` ব্যবহার করে প্যারেন্টের বর্ণনা বর্ধিত করবে। ইনপুট টাইপ (`VEHICLE`, `CAR`, বা `EV`) অনুযায়ী অবজেক্ট বানিয়ে `describe()` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line starting with `VEHICLE`, `CAR`, or `EV` followed by constructor fields.",
+        "bn": "এক লাইনে `VEHICLE`, `CAR`, বা `EV` এবং তার আর্গুমেন্টসমূহ।"
+      },
+      "expectedOutput": {
+        "en": "Formatted string returned by `describe()`.",
+        "bn": "`describe()` থেকে প্রাপ্ত ফরম্যাটেড স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "EV Tesla 2025 5 75",
+          "output": "2025 Tesla (5 seats) [75 kWh]",
+          "explanation": {
+            "en": "ElectricCar.describe() calls Car.describe(), which calls Vehicle.describe(), layering details cleanly.",
+            "bn": "প্রতিটি স্তর `super().describe()` কল করে নিজ নিজ তথ্য যুক্ত করেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never repeat `self.brand = brand` inside `Car` or `ElectricCar`; delegate to `super().__init__(...)`.",
+        "bn": "সাবক্লাসে প্যারেন্টের অ্যাট্রিবিউট নতুন করে সেট না করে `super().__init__(...)` কল করুন।"
+      },
+      "hint2": {
+        "en": "Inside `ElectricCar.describe()`, use `f\"{super().describe()} [{self.battery_kwh} kWh]\"`.",
+        "bn": "`ElectricCar.describe()`-এ `f\"{super().describe()} [{self.battery_kwh} kWh]\"` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "`super()` avoids hardcoding the parent class name and ensures each level in an inheritance chain initializes and augments only its own responsibility.",
+        "bn": "`super()` ব্যবহার করলে প্যারেন্ট ক্লাসের নাম হার্ডকোড না করেই প্রতিটি স্তর কেবল নিজের অতিরিক্ত বৈশিষ্ট্য যোগ করতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Define `Vehicle(brand, year)` with `describe()`.", "bn": "`Vehicle` ক্লাস ও `describe()` লিখুন।" },
+        { "en": "Subclass `Car(Vehicle)` adding `seats` via `super()`.", "bn": "`Car(Vehicle)`-এ `seats` যোগ করুন।" },
+        { "en": "Subclass `ElectricCar(Car)` adding `battery_kwh` via `super()`.", "bn": "`ElectricCar(Car)`-এ `battery_kwh` যোগ করুন।" },
+        { "en": "Instantiate matching class from input and print `obj.describe()`.", "bn": "ইনপুট অনুযায়ী অবজেক্ট তৈরি করে `describe()` প্রিন্ট করুন।" }
+      ],
+      "solution": "class Vehicle:\n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = int(year)\n\n    def describe(self):\n        return f\"{self.year} {self.brand}\"\n\nclass Car(Vehicle):\n    def __init__(self, brand, year, seats):\n        super().__init__(brand, year)\n        self.seats = int(seats)\n\n    def describe(self):\n        return f\"{super().describe()} ({self.seats} seats)\"\n\nclass ElectricCar(Car):\n    def __init__(self, brand, year, seats, battery_kwh):\n        super().__init__(brand, year, seats)\n        self.battery_kwh = int(battery_kwh)\n\n    def describe(self):\n        return f\"{super().describe()} [{self.battery_kwh} kWh]\"\n\nparts = input().split()\nkind = parts[0]\nif kind == \"VEHICLE\":\n    obj = Vehicle(parts[1], parts[2])\nelif kind == \"CAR\":\n    obj = Car(parts[1], parts[2], parts[3])\nelse:\n    obj = ElectricCar(parts[1], parts[2], parts[3], parts[4])\nprint(obj.describe())",
+      "codeExplanation": {
+        "en": "Each subclass overrides describe() while chaining super().describe(), building the final description incrementally up the hierarchy.",
+        "bn": "প্রতিটি সাবক্লাস super().describe() কল করে প্যারেন্টের আউটপুটের সাথে নিজের অংশ জুড়ে দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "EV Tesla 2025 5 75", "expectedOutput": "2025 Tesla (5 seats) [75 kWh]", "note": { "en": "3-level ElectricCar", "bn": "৩ স্তরের ElectricCar" } },
+        { "input": "CAR Toyota 2022 4", "expectedOutput": "2022 Toyota (4 seats)", "note": { "en": "2-level Car", "bn": "২ স্তরের Car" } },
+        { "input": "VEHICLE Honda 2020", "expectedOutput": "2020 Honda", "note": { "en": "Base Vehicle", "bn": "বেস Vehicle" } }
+      ]
+    },
+    {
+      "id": "P15-12",
+      "number": 12,
+      "title": {
+        "en": "Polymorphic `Shape` Hierarchy & Total Canvas Area",
+        "bn": "পলিমরফিক `Shape` হায়ারার্কি ও মোট ক্ষেত্রফল নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Polymorphism via shared method interface", "bn": "একই ইন্টারফেসে পলিমরফিজম" },
+        { "en": "Eliminating if/elif type checks during aggregation", "bn": "একত্রীকরণে টাইপ-ভিত্তিক শর্ত পরিহার" }
+      ],
+      "description": {
+        "en": "Create a base class `Shape` with `area()` raising `NotImplementedError`, and three subclasses: `Rect(w, h)`, `Tri(base, height)`, and `Circ(r)` (using `PI = 3.14159`). Read integer N and N shape lines (`RECT w h`, `TRI b h`, or `CIRC r`), store all created objects in one `shapes` list, and compute total area polymorphically (`sum(s.area() for s in shapes)`) without `isinstance` checks! Print `Total Area: <total:.2f>`.",
+        "bn": "`Shape` বেস ক্লাস ও তিনটি সাবক্লাস `Rect(w, h)`, `Tri(b, h)` এবং `Circ(r)` (`PI = 3.14159`) তৈরি করুন। Nটি আকৃতি পড়ে একটি `shapes` লিস্টে রাখুন এবং কোনো `isinstance` পরীক্ষা ছাড়াই পলিমরফিজম ব্যবহার করে `s.area()` দিয়ে মোট ক্ষেত্রফল ২ দশমিকে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: `RECT w h`, `TRI b h`, or `CIRC r`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `RECT w h`, `TRI b h`, অথবা `CIRC r`।"
+      },
+      "expectedOutput": {
+        "en": "`Total Area: <total:.2f>`.",
+        "bn": "`Total Area: <total:.2f>` ফরম্যাটে মোট ক্ষেত্রফল।"
+      },
+      "examples": [
+        {
+          "input": "3\nRECT 4 5\nTRI 6 4\nCIRC 1",
+          "output": "Total Area: 35.14",
+          "explanation": {
+            "en": "20.00 + 12.00 + 3.14159 = 35.14159 -> 35.14.",
+            "bn": "২০ + ১২ + ৩.১৪১৫৯ = ৩৫.১৪।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every subclass implements `def area(self):` with the exact same signature, so the summing loop treats every shape identically.",
+        "bn": "সব সাবক্লাসেই `area(self)` মেথড একই নামে থাকলে যোগ করার সময় আর আকৃতির ধরন জানতে হয় না।"
+      },
+      "hint2": {
+        "en": "Triangle area is `0.5 * base * height`, Rectangle is `w * h`, Circle is `3.14159 * r * r`.",
+        "bn": "ত্রিভুজ `0.5 * b * h`, আয়ত `w * h` এবং বৃত্ত `3.14159 * r * r`।"
+      },
+      "logicBreakdown": {
+        "en": "Polymorphism lets the aggregation loop (`sum(s.area() for s in shapes)`) remain untouched even when new shapes like `Pentagon` are added later—demonstrating the Open-Closed Principle cleanly.",
+        "bn": "পলিমরফিজমের ফলে ভবিষ্যতে নতুন আকৃতি যুক্ত হলেও মোট ক্ষেত্রফল হিসাবের মূল লুপটি এক লাইনও বদলাতে হয় না।"
+      },
+      "algorithm": [
+        { "en": "Define `Shape` base class and `Rect`, `Tri`, `Circ` subclasses each implementing `area()`.", "bn": "`Shape` এবং ৩টি সাবক্লাসে `area()` লিখুন।" },
+        { "en": "Parse N input lines into a single `shapes` list.", "bn": "Nটি লাইন থেকে অবজেক্ট বানিয়ে `shapes` লিস্টে রাখুন।" },
+        { "en": "Sum `s.area()` across `shapes` and print `Total Area: <val:.2f>`.", "bn": "সবগুলোর `s.area()` যোগ করে প্রিন্ট করুন।" }
+      ],
+      "solution": "class Shape:\n    def area(self):\n        raise NotImplementedError\n\nclass Rect(Shape):\n    def __init__(self, w, h):\n        self.w = float(w)\n        self.h = float(h)\n\n    def area(self):\n        return self.w * self.h\n\nclass Tri(Shape):\n    def __init__(self, b, h):\n        self.b = float(b)\n        self.h = float(h)\n\n    def area(self):\n        return 0.5 * self.b * self.h\n\nclass Circ(Shape):\n    PI = 3.14159\n\n    def __init__(self, r):\n        self.r = float(r)\n\n    def area(self):\n        return self.PI * (self.r ** 2)\n\nn = int(input())\nshapes = []\nfor _ in range(n):\n    parts = input().split()\n    kind = parts[0]\n    if kind == \"RECT\":\n        shapes.append(Rect(parts[1], parts[2]))\n    elif kind == \"TRI\":\n        shapes.append(Tri(parts[1], parts[2]))\n    else:\n        shapes.append(Circ(parts[1]))\n\ntotal = sum(s.area() for s in shapes)\nprint(f\"Total Area: {total:.2f}\")",
+      "codeExplanation": {
+        "en": "Python dispatches s.area() dynamically to whichever concrete Shape subclass s is at runtime.",
+        "bn": "রানটাইমে প্রতিটি অবজেক্টের নিজস্ব শ্রেণি অনুযায়ী স্বয়ংক্রিয়ভাবে সঠিক area() মেথড কল হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\nRECT 4 5\nTRI 6 4\nCIRC 1", "expectedOutput": "Total Area: 35.14", "note": { "en": "All three shapes combined", "bn": "তিন ধরনের আকৃতি" } },
+        { "input": "2\nRECT 2.5 4\nTRI 5 2", "expectedOutput": "Total Area: 15.00", "note": { "en": "Rect and Triangle", "bn": "আয়ত ও ত্রিভুজ" } },
+        { "input": "1\nCIRC 2", "expectedOutput": "Total Area: 12.57", "note": { "en": "Single circle", "bn": "একটি বৃত্ত" } }
+      ]
+    },
+    {
+      "id": "P15-13",
+      "number": 13,
+      "title": {
+        "en": "Polymorphic Notification Dispatcher (`Email`, `SMS`, `Push`)",
+        "bn": "পলিমরফিক নোটিফিকেশন ডিসপ্যাচার (`Email`, `SMS`, `Push`)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Uniform interface across service classes", "bn": "সার্ভিস ক্লাসজুড়ে অভিন্ন ইন্টারফেস" },
+        { "en": "Polymorphic dispatch function", "bn": "পলিমরফিক ডিসপ্যাচ ফাংশন" }
+      ],
+      "description": {
+        "en": "Build a base `Notifier` class with `send(recipient, msg)` and three subclasses overriding `send`:\n- `EmailNotifier`: returns `\"[EMAIL -> <recipient>] <msg>\"`\n- `SMSNotifier`: returns `\"[SMS -> <recipient>] <msg>\"` (truncating `msg` to max 15 chars with `'...'` appended ONLY if `len(msg) > 15` -> 12 chars + `'...'`)\n- `PushNotifier`: returns `\"[PUSH -> <recipient>] <msg>\"`\nWrite `dispatch(notifier, recipient, msg)` that calls `notifier.send(recipient, msg)`. Read N lines `<CHANNEL>|<recipient>|<msg>` and print every formatted notification.",
+        "bn": "`Notifier` বেস ক্লাস ও তিনটি সাবক্লাস (`EmailNotifier`, `SMSNotifier`, `PushNotifier`) লিখুন। `SMSNotifier`-এ মেসেজের দৈর্ঘ্য ১৫ অক্ষরের বেশি হলে প্রথম ১২ অক্ষর + `'...'` রাখুন। Nটি `<CHANNEL>|<recipient>|<msg>` ইনপুট নিয়ে `dispatch(notifier, ...)` দিয়ে প্রতিটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: `<EMAIL|SMS|PUSH>|<recipient>|<msg>`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `<EMAIL|SMS|PUSH>|<recipient>|<msg>`।"
+      },
+      "expectedOutput": {
+        "en": "N formatted notification lines.",
+        "bn": "Nটি ফরম্যাটেড নোটিফিকেশন লাইন।"
+      },
+      "examples": [
+        {
+          "input": "3\nEMAIL|a@b.com|Welcome aboard\nSMS|+8801700|Your verification code is 9941\nPUSH|user42|New login",
+          "output": "[EMAIL -> a@b.com] Welcome aboard\n[SMS -> +8801700] Your verific...\n[PUSH -> user42] New login",
+          "explanation": {
+            "en": "SMS message exceeds 15 chars so it truncates to 12 chars + '...' -> 'Your verific...'.",
+            "bn": "SMS ১৫ অক্ষরের বেশি হওয়ায় ১২ অক্ষর + '...' হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use a channel map `{'EMAIL': EmailNotifier(), 'SMS': SMSNotifier(), 'PUSH': PushNotifier()}` to look up the right object cleanly.",
+        "bn": "চ্যানেল অনুযায়ী অবজেক্ট বাছাই করতে একটি ডিকশনারি ম্যাপ ব্যবহার করতে পারেন।"
+      },
+      "hint2": {
+        "en": "In `SMSNotifier.send`, check `if len(msg) > 15: msg = msg[:12] + '...'`.",
+        "bn": "`SMSNotifier.send`-এ `len(msg) > 15` হলে `msg[:12] + '...'` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "`dispatch(notifier, recipient, msg)` depends only on the `Notifier` contract (`.send(recipient, msg)`), never on concrete channel rules—making channel-specific formatting like SMS truncation cleanly isolated.",
+        "bn": "`dispatch` ফাংশন শুধু `.send()` মেথডের ওপর নির্ভর করে; তাই SMS-এর অক্ষর সীমা বা Email ফরম্যাট আলাদা ক্লাসে নিরাপদ থাকে।"
+      },
+      "algorithm": [
+        { "en": "Define `Notifier`, `EmailNotifier`, `SMSNotifier`, and `PushNotifier`.", "bn": "`Notifier` ও তিনটি চ্যানেল সাবক্লাস তৈরি করুন।" },
+        { "en": "Define `dispatch(notifier, recipient, msg)` returning `notifier.send(recipient, msg)`.", "bn": "`dispatch()` ফাংশন লিখুন।" },
+        { "en": "Read N pipe-separated lines, look up notifier instance, and print `dispatch(...)`.", "bn": "প্রতিটি লাইন ভেঙে উপযুক্ত নোটিফায়ারসহ `dispatch()` প্রিন্ট করুন।" }
+      ],
+      "solution": "class Notifier:\n    def send(self, recipient, msg):\n        raise NotImplementedError\n\nclass EmailNotifier(Notifier):\n    def send(self, recipient, msg):\n        return f\"[EMAIL -> {recipient}] {msg}\"\n\nclass SMSNotifier(Notifier):\n    def send(self, recipient, msg):\n        text = msg[:12] + \"...\" if len(msg) > 15 else msg\n        return f\"[SMS -> {recipient}] {text}\"\n\nclass PushNotifier(Notifier):\n    def send(self, recipient, msg):\n        return f\"[PUSH -> {recipient}] {msg}\"\n\ndef dispatch(notifier, recipient, msg):\n    return notifier.send(recipient, msg)\n\nchannels = {\n    \"EMAIL\": EmailNotifier(),\n    \"SMS\": SMSNotifier(),\n    \"PUSH\": PushNotifier(),\n}\n\nn = int(input())\nfor _ in range(n):\n    ch, rec, msg = input().split(\"|\", 2)\n    print(dispatch(channels[ch.strip()], rec.strip(), msg))",
+      "codeExplanation": {
+        "en": "channels maps channel tags directly to polymorphic Notifier instances, letting dispatch invoke .send() uniformly.",
+        "bn": "channels ডিকশনারি ট্যাগ অনুযায়ী সঠিক অবজেক্ট দেয় এবং dispatch অভিন্নভাবে send() কল করে।"
+      },
+      "complexity": { "time": "O(N * L)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3\nEMAIL|a@b.com|Welcome aboard\nSMS|+8801700|Your verification code is 9941\nPUSH|user42|New login", "expectedOutput": "[EMAIL -> a@b.com] Welcome aboard\n[SMS -> +8801700] Your verific...\n[PUSH -> user42] New login", "note": { "en": "All three channels", "bn": "তিনটি চ্যানেল" } },
+        { "input": "2\nSMS|12345|Exact15Chars!!\nSMS|12345|FifteenCharExact", "expectedOutput": "[SMS -> 12345] Exact15Chars!!\n[SMS -> 12345] FifteenCharE...", "note": { "en": "SMS 14 vs 16 chars boundary", "bn": "SMS দৈর্ঘ্যের সীমান্ত" } },
+        { "input": "1\nPUSH|dev1|Build succeeded", "expectedOutput": "[PUSH -> dev1] Build succeeded", "note": { "en": "Single push alert", "bn": "একটি পুশ নোটিফিকেশন" } }
+      ]
+    },
+    {
+      "id": "P15-14",
+      "number": 14,
+      "title": {
+        "en": "`Vector2D` Class — Operator Overloading (`+`, `-`, `==`, `str`)",
+        "bn": "`Vector2D` ক্লাস — অপারেটর ওভারলোডিং (`+`, `-`, `==`, `str`)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Dunder operator methods (__add__, __sub__, __eq__)", "bn": "অপারেটর ডান্ডার মেথড (__add__, __sub__, __eq__)" },
+        { "en": "Immutable value-object semantics", "bn": "অপরিবর্তনীয় ভ্যালু-অবজেক্ট" }
+      ],
+      "description": {
+        "en": "Create a `Vector2D(x, y)` class supporting:\n- `__add__(self, other)`: returns a NEW `Vector2D(self.x + other.x, self.y + other.y)`\n- `__sub__(self, other)`: returns a NEW `Vector2D(self.x - other.x, self.y - other.y)`\n- `__eq__(self, other)`: `True` if `isinstance(other, Vector2D)` and both coordinates match\n- `magnitude(self)`: Euclidean length `(x^2 + y^2)^0.5`\n- `__str__(self)`: `\"(<x>, <y>)\"` (integers or floats formatted cleanly—read inputs as `int`).\nRead `x1 y1` and `x2 y2`, construct `v1`, `v2`, and print `Sum: <v1+v2>`, `Diff: <v1-v2>`, `Equal: <True|False>`, `MagSum: <(v1+v2).magnitude():.2f>`.",
+        "bn": "`Vector2D(x, y)` ক্লাসে `__add__`, `__sub__`, `__eq__`, `magnitude()` এবং `__str__` মেথড লিখুন। দুটি ভেক্টর `x1 y1` ও `x2 y2` পড়ে `v1 + v2`, `v1 - v2`, `v1 == v2` এবং যোগফলের দৈর্ঘ্য ২ দশমিকে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `x1 y1`. Line 2: `x2 y2` (integers).",
+        "bn": "১ম লাইন: `x1 y1`। ২য় লাইন: `x2 y2` (পূর্ণসংখ্যা)।"
+      },
+      "expectedOutput": {
+        "en": "4 lines: Sum, Diff, Equal, MagSum.",
+        "bn": "৪টি লাইন: Sum, Diff, Equal এবং MagSum।"
+      },
+      "examples": [
+        {
+          "input": "3 4\n0 0",
+          "output": "Sum: (3, 4)\nDiff: (3, 4)\nEqual: False\nMagSum: 5.00",
+          "explanation": {
+            "en": "(3,4)+(0,0) = (3,4) whose magnitude is sqrt(9+16) = 5.00.",
+            "bn": "(3,4)+(0,0) = (3,4), যার দৈর্ঘ্য √(৯+১৬) = ৫.০০।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`__add__` and `__sub__` should NEVER mutate `self`; return a brand-new `Vector2D` instance.",
+        "bn": "`__add__` বা `__sub__` কখনোই `self` পরিবর্তন করবে না—সর্বদা নতুন `Vector2D` অবজেক্ট রিটার্ন করবে।"
+      },
+      "hint2": {
+        "en": "In `__eq__`, check `if not isinstance(other, Vector2D): return NotImplemented` before comparing `self.x == other.x and self.y == other.y`.",
+        "bn": "`__eq__`-এ আগে `isinstance(other, Vector2D)` পরীক্ষা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Operator overloading (`__add__`, `__sub__`, `__eq__`) lets user-defined math classes integrate seamlessly with Python syntax (`v1 + v2`) while preserving value immutability so `v1` and `v2` remain safe for subsequent operations.",
+        "bn": "অপারেটর ওভারলোডিংয়ের ফলে কাস্টম ক্লাসেও সাধারণ গাণিতিক চিহ্ন (`+`, `-`, `==`) ব্যবহার করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Implement `Vector2D` with `__init__`, `__add__`, `__sub__`, `__eq__`, `magnitude`, `__str__`.", "bn": "সব ডান্ডার ও জ্যামিতিক মেথডসহ `Vector2D` লিখুন।" },
+        { "en": "Instantiate `v1` and `v2` from stdin.", "bn": "ইনপুট থেকে `v1` ও `v2` তৈরি করুন।" },
+        { "en": "Compute `s = v1 + v2` and `d = v1 - v2`.", "bn": "`s = v1 + v2` ও `d = v1 - v2` বের করুন।" },
+        { "en": "Print Sum, Diff, `v1 == v2`, and `s.magnitude():.2f`.", "bn": "চারটি ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "import math\n\nclass Vector2D:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, other):\n        return Vector2D(self.x + other.x, self.y + other.y)\n\n    def __sub__(self, other):\n        return Vector2D(self.x - other.x, self.y - other.y)\n\n    def __eq__(self, other):\n        if not isinstance(other, Vector2D):\n            return NotImplemented\n        return self.x == other.x and self.y == other.y\n\n    def magnitude(self):\n        return math.hypot(self.x, self.y)\n\n    def __str__(self):\n        return f\"({self.x}, {self.y})\"\n\nx1, y1 = [int(x) for x in input().split()]\nx2, y2 = [int(x) for x in input().split()]\nv1 = Vector2D(x1, y1)\nv2 = Vector2D(x2, y2)\ns = v1 + v2\nd = v1 - v2\nprint(f\"Sum: {s}\")\nprint(f\"Diff: {d}\")\nprint(f\"Equal: {v1 == v2}\")\nprint(f\"MagSum: {s.magnitude():.2f}\")",
+      "codeExplanation": {
+        "en": "Python translates v1 + v2 into v1.__add__(v2), creating a fresh Vector2D while keeping v1 and v2 untouched for v1 - v2 and v1 == v2.",
+        "bn": "v1 + v2 স্বয়ংক্রিয়ভাবে __add__ কল করে নতুন Vector2D দেয়; ফলে মূল v1 ও v2 অক্ষত থাকে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3 4\n0 0", "expectedOutput": "Sum: (3, 4)\nDiff: (3, 4)\nEqual: False\nMagSum: 5.00", "note": { "en": "3-4-5 vector triangle", "bn": "৩-৪-৫ সমকোণী ভেক্টর" } },
+        { "input": "2 -1\n2 -1", "expectedOutput": "Sum: (4, -2)\nDiff: (0, 0)\nEqual: True\nMagSum: 4.47", "note": { "en": "Equal vectors", "bn": "সমান ভেক্টর" } },
+        { "input": "-3 1\n3 -1", "expectedOutput": "Sum: (0, 0)\nDiff: (-6, 2)\nEqual: False\nMagSum: 0.00", "note": { "en": "Opposite vectors cancel", "bn": "বিপরীত ভেক্টরের যোগফল শূন্য" } }
+      ]
+    },
+    {
+      "id": "P15-15",
+      "number": 15,
+      "title": {
+        "en": "`Library` Management System — Stock, Member Limit & Checkout Rules",
+        "bn": "`Library` ম্যানেজমেন্ট সিস্টেম — মজুত, সদস্য সীমা ও ধার নীতি"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Multi-class domain modeling (`LibraryBook`, `Member`, `Library`)", "bn": "বহু-ক্লাস ডোমেইন মডেলিং" },
+        { "en": "Cross-entity validation rules", "bn": "একাধিক অবজেক্টের যৌথ শর্ত যাচাই" }
+      ],
+      "description": {
+        "en": "Model a library using `LibraryBook(isbn, title, copies)`, `Member(member_id, max_books=2)`, and `Library`. A member can borrow a book ONLY if: (1) the book exists and `copies > 0`, (2) the member hasn't already borrowed that `isbn`, and (3) `len(member.borrowed) < member.max_books`. Returning restores `copies += 1` if currently borrowed by that member. Process `ADD_BOOK <isbn> <copies>`, `ADD_MEMBER <id>`, `BORROW <id> <isbn>`, and `RETURN <id> <isbn>` commands; print `OK` or `DENIED` for every `BORROW`/`RETURN` and end with `Borrowed Total: <sum>` across all members.",
+        "bn": "`LibraryBook`, `Member` (সর্বোচ্চ ২টি বই) এবং `Library` ক্লাস দিয়ে একটি লাইব্রেরি সিস্টেম তৈরি করুন। বইয়ের কপি থাকলে, সদস্য আগে না নিয়ে থাকলে এবং সীমা পূর্ণ না হলেই কেবল `BORROW` অনুমোদিত (`OK`), নতুবা `DENIED`। প্রতি `BORROW`/`RETURN`-এ `OK`/`DENIED` এবং শেষে মোট ধারকৃত বইয়ের সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer Q. Next Q lines: `ADD_BOOK <isbn> <copies>`, `ADD_MEMBER <id>`, `BORROW <id> <isbn>`, or `RETURN <id> <isbn>`.",
+        "bn": "১ম লাইন: Q। পরবর্তী Q লাইন: চার ধরনের লাইব্রেরি কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "`OK`/`DENIED` for each `BORROW`/`RETURN`, then `Borrowed Total: <count>`.",
+        "bn": "প্রতিটি `BORROW`/`RETURN`-এর জন্য `OK`/`DENIED` এবং শেষে `Borrowed Total: <count>`।"
+      },
+      "examples": [
+        {
+          "input": "6\nADD_BOOK B1 1\nADD_MEMBER M1\nADD_MEMBER M2\nBORROW M1 B1\nBORROW M2 B1\nRETURN M1 B1",
+          "output": "OK\nDENIED\nOK\nBorrowed Total: 0",
+          "explanation": {
+            "en": "M1 takes the only copy of B1 (OK); M2 is denied (0 copies left); M1 returns B1 (OK) leaving 0 borrowed.",
+            "bn": "B1-এর একমাত্র কপি M1 নেওয়ায় M2 প্রত্যাখ্যাত হয়; M1 ফেরত দিলে মোট ধারকৃত বই ০ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep dictionaries `self.books[isbn] = LibraryBook(...)` and `self.members[mid] = Member(...)` inside `Library` for `O(1)` lookup.",
+        "bn": "`Library`-তে `self.books` ও `self.members` ডিকশনারি রাখলে `O(1)` সময়ে বই ও সদস্য খোঁজা যায়।"
+      },
+      "hint2": {
+        "en": "Track each member's borrowed ISBNs inside `member.borrowed = set()`.",
+        "bn": "সদস্যের ধার নেওয়া বইগুলোর ISBN `member.borrowed = set()`-এ রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Domain modeling divides state across cohesive classes: `LibraryBook` owns inventory count, `Member` owns borrowed set and quota, and `Library` coordinates multi-entity transactions cleanly.",
+        "bn": "প্রতিটি ক্লাস তার নিজস্ব দায়িত্ব পালন করে—`LibraryBook` কপি সংখ্যা, `Member` ধার সীমা এবং `Library` পুরো লেনদেনের সমন্বয় করে।"
+      },
+      "algorithm": [
+        { "en": "Define `LibraryBook`, `Member(max_books=2)`, and `Library` coordinator.", "bn": "`LibraryBook`, `Member` ও `Library` ক্লাস লিখুন।" },
+        { "en": "Implement `borrow_book(mid, isbn)` checking existence, copies, duplicate, and quota.", "bn": "অস্তিত্ব, কপি, ডুপ্লিকেট ও সীমা যাচাই করে `borrow_book` লিখুন।" },
+        { "en": "Implement `return_book(mid, isbn)` checking member actually holds `isbn`.", "bn": "বইটি সদস্যের কাছে থাকলে ফেরত নেওয়ার `return_book` লিখুন।" },
+        { "en": "Execute Q commands and print total borrowed count at end.", "bn": "Qটি কমান্ড চালিয়ে শেষে মোট ধার সংখ্যা প্রিন্ট করুন।" }
+      ],
+      "solution": "class LibraryBook:\n    def __init__(self, isbn, copies):\n        self.isbn = isbn\n        self.copies = int(copies)\n\nclass Member:\n    def __init__(self, member_id, max_books=2):\n        self.member_id = member_id\n        self.max_books = max_books\n        self.borrowed = set()\n\nclass Library:\n    def __init__(self):\n        self.books = {}\n        self.members = {}\n\n    def add_book(self, isbn, copies):\n        self.books[isbn] = LibraryBook(isbn, copies)\n\n    def add_member(self, member_id):\n        self.members[member_id] = Member(member_id)\n\n    def borrow_book(self, member_id, isbn):\n        book = self.books.get(isbn)\n        member = self.members.get(member_id)\n        if not book or not member:\n            return False\n        if book.copies <= 0 or isbn in member.borrowed or len(member.borrowed) >= member.max_books:\n            return False\n        book.copies -= 1\n        member.borrowed.add(isbn)\n        return True\n\n    def return_book(self, member_id, isbn):\n        book = self.books.get(isbn)\n        member = self.members.get(member_id)\n        if not book or not member or isbn not in member.borrowed:\n            return False\n        member.borrowed.remove(isbn)\n        book.copies += 1\n        return True\n\nlib = Library()\nq = int(input())\nfor _ in range(q):\n    parts = input().split()\n    cmd = parts[0]\n    if cmd == \"ADD_BOOK\":\n        lib.add_book(parts[1], int(parts[2]))\n    elif cmd == \"ADD_MEMBER\":\n        lib.add_member(parts[1])\n    elif cmd == \"BORROW\":\n        print(\"OK\" if lib.borrow_book(parts[1], parts[2]) else \"DENIED\")\n    elif cmd == \"RETURN\":\n        print(\"OK\" if lib.return_book(parts[1], parts[2]) else \"DENIED\")\n\ntotal_borrowed = sum(len(m.borrowed) for m in lib.members.values())\nprint(f\"Borrowed Total: {total_borrowed}\")",
+      "codeExplanation": {
+        "en": "Library coordinates state updates atomically between books and members so copy counts and borrowed sets always stay synchronized.",
+        "bn": "Library বইয়ের কপি ও সদস্যের ধার তালিকা একসাথে আপডেট করায় ডেটা সর্বদা সামঞ্জস্যপূর্ণ থাকে।"
+      },
+      "complexity": { "time": "O(Q + M)", "space": "O(B + M)" },
+      "testCases": [
+        { "input": "6\nADD_BOOK B1 1\nADD_MEMBER M1\nADD_MEMBER M2\nBORROW M1 B1\nBORROW M2 B1\nRETURN M1 B1", "expectedOutput": "OK\nDENIED\nOK\nBorrowed Total: 0", "note": { "en": "Stock exhaustion & return", "bn": "মজুত শেষ ও ফেরত" } },
+        { "input": "7\nADD_BOOK B1 2\nADD_BOOK B2 2\nADD_BOOK B3 2\nADD_MEMBER M1\nBORROW M1 B1\nBORROW M1 B2\nBORROW M1 B3", "expectedOutput": "OK\nOK\nDENIED\nBorrowed Total: 2", "note": { "en": "Member 2-book quota enforced", "bn": "সদস্যের ২টি বইয়ের সীমা" } },
+        { "input": "4\nADD_BOOK B1 3\nADD_MEMBER M1\nBORROW M1 B1\nBORROW M1 B1", "expectedOutput": "OK\nDENIED\nBorrowed Total: 1", "note": { "en": "Duplicate same-book borrow blocked", "bn": "একই বই দ্বিতীয়বার ধার বাতিল" } }
+      ]
+    },
+    {
+      "id": "P15-16",
+      "number": 16,
+      "title": {
+        "en": "Abstract Base Class `PaymentProcessor(ABC)` & Fee Engine",
+        "bn": "অ্যাবস্ট্র্যাক্ট বেস ক্লাস `PaymentProcessor(ABC)` ও ফি ইঞ্জিন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "abc.ABC and @abstractmethod contracts", "bn": "abc.ABC ও @abstractmethod" },
+        { "en": "Template method calling abstract fee()", "bn": "অ্যাবস্ট্র্যাক্ট মেথড ব্যবহার করে টেমপ্লেট মেথড" }
+      ],
+      "description": {
+        "en": "Using Python's `abc.ABC` and `@abstractmethod`, define an abstract `PaymentProcessor` with abstract method `fee(amount)` and concrete template method `process(amount)` returning `(amount, fee_amt, amount + fee_amt)`.\nImplement two concrete subclasses:\n- `CardProcessor`: fee = `amount * 0.025 + 0.30`\n- `WalletProcessor`: fee = `amount * 0.01` (capped at max `$5.00`)\nRead N transactions `<CARD|WALLET> <amount>`, print `<KIND> Base=<amt:.2f> Fee=<f:.2f> Total=<tot:.2f>`, and finally print `Total Fees: <sum:.2f>`.",
+        "bn": "`abc.ABC` ও `@abstractmethod` ব্যবহার করে `PaymentProcessor` অ্যাবস্ট্র্যাক্ট ক্লাস তৈরি করুন যেখানে `fee(amount)` হবে অ্যাবস্ট্র্যাক্ট এবং `process(amount)` হবে কংক্রিট মেথড। দুটি সাবক্লাস `CardProcessor` (`2.5% + 0.30`) ও `WalletProcessor` (`1%`, সর্বোচ্চ `5.00`) লিখে Nটি লেনদেনের বিবরণ ও মোট ফি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: `<CARD|WALLET> <amount>`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `<CARD|WALLET> <amount>`।"
+      },
+      "expectedOutput": {
+        "en": "N formatted payment breakdown lines followed by `Total Fees: <sum:.2f>`.",
+        "bn": "Nটি পেমেন্ট সারসংক্ষেপ ও শেষে `Total Fees: <sum:.2f>`।"
+      },
+      "examples": [
+        {
+          "input": "2\nCARD 100\nWALLET 800",
+          "output": "CARD Base=100.00 Fee=2.80 Total=102.80\nWALLET Base=800.00 Fee=5.00 Total=805.00\nTotal Fees: 7.80",
+          "explanation": {
+            "en": "CARD fee = 2.50 + 0.30 = 2.80; WALLET fee = min(8.00, 5.00) = 5.00; total fees = 7.80.",
+            "bn": "CARD ফি ২.৮০ এবং WALLET-এর ১% (৮.০০) সর্বোচ্চ ৫.০০ সীমায় আটকে ৫.০০ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inheriting from `ABC` and decorating `fee` with `@abstractmethod` prevents anyone from instantiating `PaymentProcessor()` directly or forgetting `fee()` in a subclass.",
+        "bn": "`@abstractmethod` ব্যবহার করলে কোনো সাবক্লাস `fee()` ইমপ্লিমেন্ট করতে ভুলে গেলে ইনস্ট্যান্স তৈরিতেই এরর ধরা পড়ে।"
+      },
+      "hint2": {
+        "en": "Notice `process(self, amount)` lives ONCE on `PaymentProcessor` and calls `self.fee(amount)` polymorphically!",
+        "bn": "`process()` মেথডটি শুধু বেস ক্লাসে লিখলেই চলে—এটি ভেতর থেকে `self.fee(amount)` কল করে।"
+      },
+      "logicBreakdown": {
+        "en": "Combining `ABC` contracts with the Template Method Pattern puts shared billing calculation (`process`) once in the base class while forcing subclasses to supply only their variable pricing strategy (`fee`).",
+        "bn": "টেমপ্লেট মেথড প্যাটার্নে সাধারণ লজিক বেস ক্লাসে থাকে এবং পরিবর্তনশীল অংশ (`fee`) প্রতিটি সাবক্লাস নিজ দায়িত্বে প্রদান করে।"
+      },
+      "algorithm": [
+        { "en": "Define `PaymentProcessor(ABC)` with `@abstractmethod fee(amount)` and concrete `process(amount)`.", "bn": "`PaymentProcessor(ABC)`-এ অ্যাবস্ট্র্যাক্ট `fee()` ও কংক্রিট `process()` লিখুন।" },
+        { "en": "Implement `CardProcessor` and `WalletProcessor` overriding `fee()`.", "bn": "`CardProcessor` ও `WalletProcessor` সাবক্লাস তৈরি করুন।" },
+        { "en": "Process N transactions using `process(amt)` and accumulate fees.", "bn": "Nটি লেনদেন চালিয়ে মোট ফি যোগ করুন।" },
+        { "en": "Print each breakdown line and `Total Fees`.", "bn": "প্রতিটি লাইন ও মোট ফি প্রিন্ট করুন।" }
+      ],
+      "solution": "from abc import ABC, abstractmethod\n\nclass PaymentProcessor(ABC):\n    @abstractmethod\n    def fee(self, amount):\n        pass\n\n    def process(self, amount):\n        f = self.fee(amount)\n        return amount, f, amount + f\n\nclass CardProcessor(PaymentProcessor):\n    def fee(self, amount):\n        return amount * 0.025 + 0.30\n\nclass WalletProcessor(PaymentProcessor):\n    def fee(self, amount):\n        return min(amount * 0.01, 5.00)\n\nprocessors = {\"CARD\": CardProcessor(), \"WALLET\": WalletProcessor()}\nn = int(input())\ntotal_fees = 0.0\nfor _ in range(n):\n    kind, amt_s = input().split()\n    base, f, tot = processors[kind].process(float(amt_s))\n    total_fees += f\n    print(f\"{kind} Base={base:.2f} Fee={f:.2f} Total={tot:.2f}\")\nprint(f\"Total Fees: {total_fees:.2f}\")",
+      "codeExplanation": {
+        "en": "PaymentProcessor.process() executes identically for every processor type while calling the concrete subclass's fee() implementation.",
+        "bn": "PaymentProcessor.process() সব সাবক্লাসের জন্য একইভাবে চলে কিন্তু ভেতরে নিজস্ব fee() মেথড কল করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2\nCARD 100\nWALLET 800", "expectedOutput": "CARD Base=100.00 Fee=2.80 Total=102.80\nWALLET Base=800.00 Fee=5.00 Total=805.00\nTotal Fees: 7.80", "note": { "en": "Cap reached on wallet", "bn": "ওয়ালেটে সর্বোচ্চ ফি সীমা" } },
+        { "input": "2\nWALLET 200\nCARD 40", "expectedOutput": "WALLET Base=200.00 Fee=2.00 Total=202.00\nCARD Base=40.00 Fee=1.30 Total=41.30\nTotal Fees: 3.30", "note": { "en": "Uncapped wallet fee", "bn": "সীমার নিচে ওয়ালেট ফি" } },
+        { "input": "1\nCARD 0", "expectedOutput": "CARD Base=0.00 Fee=0.30 Total=0.30\nTotal Fees: 0.30", "note": { "en": "Fixed card surcharge", "bn": "কার্ডের স্থির ফি" } }
+      ]
+    },
+    {
+      "id": "P15-17",
+      "number": 17,
+      "title": {
+        "en": "Multiple Inheritance Mixins & MRO (`UserAccount` Audit + RBAC)",
+        "bn": "মাল্টিপল ইনহেরিট্যান্স মিক্সিন ও MRO (`UserAccount` অডিট ও RBAC)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Cooperative mixins & super() MRO chain", "bn": "কোঅপারেটিভ মিক্সিন ও MRO চেইন" },
+        { "en": "Role-based permission check + audit trail", "bn": "ভূমিকাভিত্তিক অনুমতি ও অডিট লগ" }
+      ],
+      "description": {
+        "en": "Combine two cooperative mixins via multiple inheritance:\n- `PermissionMixin`: initialized with `roles` (a set), provides `has_role(role)`.\n- `AuditMixin`: initializes `self.logs = []`, provides `record(action)`.\n- `UserAccount(PermissionMixin, AuditMixin)` initialized with `(username, roles)` using cooperative `super().__init__(...)`, plus `perform(required_role, action)` which logs `\"ALLOW:<action>\"` and returns `True` if `has_role(required_role)` else logs `\"DENY:<action>\"` and returns `False`.\nRead `<username> <comma_roles>`, then N actions `<role> <action>`. Print `MRO: <class names>` (first 3 classes of `UserAccount.__mro__` joined by ` -> `) and every audit entry.",
+        "bn": "মাল্টিপল ইনহেরিট্যান্স দিয়ে `PermissionMixin` ও `AuditMixin` যুক্ত করে `UserAccount` ক্লাস তৈরি করুন। `perform(required_role, action)` মেথড অনুমতি থাকলে `ALLOW:<action>` ও না থাকলে `DENY:<action>` অডিট লগে সংরক্ষণ করবে। MRO-এর প্রথম ৩টি ক্লাস ও সব অডিট লগ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `<username> <role1,role2,...>`. Line 2: integer N. Next N lines: `<required_role> <action>`.",
+        "bn": "১ম লাইন: `<username> <role1,role2,...>`। ২য় লাইন: N। পরবর্তী N লাইন: `<required_role> <action>`।"
+      },
+      "expectedOutput": {
+        "en": "`MRO: UserAccount -> PermissionMixin -> AuditMixin`, followed by `<username>: <ALLOW|DENY>:<action>` lines.",
+        "bn": "প্রথমে MRO লাইন, এরপর প্রতিটি অডিট এন্ট্রি।"
+      },
+      "examples": [
+        {
+          "input": "sajid editor,viewer\n2\nviewer read_logs\nadmin delete_db",
+          "output": "MRO: UserAccount -> PermissionMixin -> AuditMixin\nsajid: ALLOW:read_logs\nsajid: DENY:delete_db",
+          "explanation": {
+            "en": "C3 linearization places UserAccount -> PermissionMixin -> AuditMixin; viewer passes while admin is denied and audited.",
+            "bn": "C3 MRO ক্রম UserAccount -> PermissionMixin -> AuditMixin; read_logs অনুমোদিত এবং delete_db অস্বীকৃত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In cooperative multiple inheritance (`super().__init__(**kwargs)`), both mixins call `super().__init__(**kwargs)` so EVERY mixin's `__init__` runs automatically!",
+        "bn": "উভয় মিক্সিনে `super().__init__(**kwargs)` রাখলে MRO অনুযায়ী দুটি মিক্সিনেরই `__init__` চালিত হয়।"
+      },
+      "hint2": {
+        "en": "`[cls.__name__ for cls in UserAccount.__mro__[:3]]` prints the first three classes in C3 resolution order.",
+        "bn": "`UserAccount.__mro__[:3]` থেকে প্রথম তিনটি ক্লাসের নাম বের করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Mixins add reusable orthogonal capabilities (authorization and audit logging) without deep inheritance hierarchies. Cooperative `super().__init__(**kwargs)` ensures C3 Method Resolution Order (MRO) initializes every mixin cleanly once.",
+        "bn": "মিক্সিন ক্লাসগুলো আলাদা সক্ষমতা (অনুমতি যাচাই ও অডিট লগ) যোগ করে এবং কোঅপারেটিভ `super()` নিশ্চিত করে যে MRO-র প্রতিটি ক্লাস একবার করে ইনিশিয়ালাইজ হয়।"
+      },
+      "algorithm": [
+        { "en": "Write `PermissionMixin` and `AuditMixin` with cooperative `super().__init__(**kwargs)`.", "bn": "`PermissionMixin` ও `AuditMixin` লিখুন।" },
+        { "en": "Define `UserAccount(PermissionMixin, AuditMixin)` calling `super().__init__(roles=roles)`.", "bn": "`UserAccount` ক্লাসে দুটি মিক্সিন যুক্ত করুন।" },
+        { "en": "Implement `perform(role, action)` logging ALLOW or DENY.", "bn": "`perform()` মেথডে ALLOW/DENY লগ করুন।" },
+        { "en": "Print MRO prefix and every logged audit string.", "bn": "MRO এবং প্রতিটি অডিট লগ প্রিন্ট করুন।" }
+      ],
+      "solution": "class PermissionMixin:\n    def __init__(self, roles=None, **kwargs):\n        super().__init__(**kwargs)\n        self.roles = set(roles or [])\n\n    def has_role(self, role):\n        return role in self.roles\n\nclass AuditMixin:\n    def __init__(self, **kwargs):\n        super().__init__(**kwargs)\n        self.logs = []\n\n    def record(self, entry):\n        self.logs.append(entry)\n\nclass UserAccount(PermissionMixin, AuditMixin):\n    def __init__(self, username, roles):\n        super().__init__(roles=roles)\n        self.username = username\n\n    def perform(self, required_role, action):\n        if self.has_role(required_role):\n            self.record(f\"{self.username}: ALLOW:{action}\")\n            return True\n        self.record(f\"{self.username}: DENY:{action}\")\n        return False\n\nuser, roles_s = input().split()\nacc = UserAccount(user, roles_s.split(\",\"))\nn = int(input())\nfor _ in range(n):\n    req_role, action = input().split()\n    acc.perform(req_role, action)\n\nmro_names = \" -> \".join(c.__name__ for c in UserAccount.__mro__[:3])\nprint(f\"MRO: {mro_names}\")\nfor log in acc.logs:\n    print(log)",
+      "codeExplanation": {
+        "en": "PermissionMixin consumes roles=roles and forwards remaining **kwargs up the MRO to AuditMixin, which initializes self.logs cleanly.",
+        "bn": "PermissionMixin roles নিয়ে বাকি **kwargs AuditMixin-এ পাঠায়, ফলে MRO চেইনের মাধ্যমে উভয়ই সঠিকভাবে শুরু হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N + R)" },
+      "testCases": [
+        { "input": "sajid editor,viewer\n2\nviewer read_logs\nadmin delete_db", "expectedOutput": "MRO: UserAccount -> PermissionMixin -> AuditMixin\nsajid: ALLOW:read_logs\nsajid: DENY:delete_db", "note": { "en": "Mixed allow/deny with MRO check", "bn": "অনুমতি ও প্রত্যাখ্যান লগ" } },
+        { "input": "root admin\n2\nadmin deploy\nadmin rotate_key", "expectedOutput": "MRO: UserAccount -> PermissionMixin -> AuditMixin\nroot: ALLOW:deploy\nroot: ALLOW:rotate_key", "note": { "en": "All allowed", "bn": "সব অনুমোদিত" } },
+        { "input": "guest none\n1\neditor publish", "expectedOutput": "MRO: UserAccount -> PermissionMixin -> AuditMixin\nguest: DENY:publish", "note": { "en": "All denied", "bn": "সব অস্বীকৃত" } }
+      ]
+    },
+    {
+      "id": "P15-18",
+      "number": 18,
+      "title": {
+        "en": "`ShoppingCart` & `Coupon` — Merging Quantities, Discounts & Tax",
+        "bn": "`ShoppingCart` ও `Coupon` — পরিমাণ সমন্বয়, কুপন ছাড় ও কর"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "E-commerce OOP composition (`CartItem`, `Coupon`, `ShoppingCart`)", "bn": "ই-কমার্স অবজেক্ট কম্পোজিশন" },
+        { "en": "Clamping discounts & layered checkout math", "bn": "ডিসকাউন্ট সীমাবদ্ধতা ও ধাপে ধাপে বিল হিসাব" }
+      ],
+      "description": {
+        "en": "Build an OOP checkout engine:\n- `CartItem(sku, price, qty)`\n- `Coupon(kind, value)` where `kind` is `'PCT'` (percentage off subtotal) or `'FLAT'` (flat dollar off subtotal, floored at `0.00`).\n- `ShoppingCart(tax_rate=0.05)`: `add(sku, price, qty)` merges quantities if `sku` already exists (updating price if needed, or keeping existing); `remove(sku, qty)` reduces quantity and deletes item if `qty <= 0`; `apply_coupon(coupon)`; `checkout()` computes `subtotal`, `discount` (capped at `subtotal`), `tax = (subtotal - discount) * tax_rate`, and `final = subtotal - discount + tax`.\nRead Q operations (`ADD sku price qty`, `REMOVE sku qty`, `COUPON PCT|FLAT val`) and print `Subtotal: ...`, `Discount: ...`, `Tax: ...`, `Total: ...` (2 decimals).",
+        "bn": "`CartItem`, `Coupon` (`PCT` বা `FLAT`) ও `ShoppingCart` (`tax_rate=0.05`) ক্লাস দিয়ে একটি চেকআউট ইঞ্জিন তৈরি করুন। একই SKU পুনরায় `ADD` করলে পরিমাণ যোগ হবে ও `REMOVE`-এ কমবে (০ বা কম হলে বাদ)। Qটি কমান্ড শেষে `Subtotal`, `Discount`, `Tax` ও `Total` ২ দশমিকে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer Q. Next Q lines: `ADD sku price qty`, `REMOVE sku qty`, or `COUPON PCT|FLAT val`.",
+        "bn": "১ম লাইন: Q। পরবর্তী Q লাইন: `ADD`, `REMOVE`, বা `COUPON` কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Four lines: `Subtotal`, `Discount`, `Tax`, and `Total` formatted to 2 decimals.",
+        "bn": "২ দশমিকে ৪টি লাইন: `Subtotal`, `Discount`, `Tax` এবং `Total`।"
+      },
+      "examples": [
+        {
+          "input": "4\nADD PEN 2.00 3\nADD PEN 2.00 2\nREMOVE PEN 1\nCOUPON PCT 25",
+          "output": "Subtotal: 8.00\nDiscount: 2.00\nTax: 0.30\nTotal: 6.30",
+          "explanation": {
+            "en": "PEN qty becomes 3 + 2 - 1 = 4 -> subtotal 8.00. 25% coupon = 2.00 discount. Tax = 5% of 6.00 = 0.30. Total = 6.30.",
+            "bn": "PEN-এর পরিমাণ ৪ হওয়ায় Subtotal ৮.০০, ২৫% ছাড়ে Discount ২.০০, ৬.০০-এর ওপর ৫% কর ০.৩০ এবং মোট ৬.৩০।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Store items in `self.items = {}` keyed by `sku` so quantity merges happen in `O(1)`.",
+        "bn": "`self.items` ডিকশনারিতে `sku` কী ধরে আইটেম রাখলে `O(1)` সময়ে পরিমাণ আপডেট করা যায়।"
+      },
+      "hint2": {
+        "en": "Never let `discount` exceed `subtotal`: `disc = min(subtotal, raw_disc)` ensures `Total` never goes negative on large flat coupons.",
+        "bn": "`min(subtotal, raw_disc)` ব্যবহার করলে ফ্ল্যাট কুপনের কারণে বিল কখনো ঋণাত্মক হবে না।"
+      },
+      "logicBreakdown": {
+        "en": "Applying tax *after* discount on `(subtotal - discount)` and clamping discount at `subtotal` avoids negative invoices—modeling real retail tax and coupon invariants inside clean OOP methods.",
+        "bn": "ছাড় বাদ দেওয়ার পর কর হিসাব করা এবং ছাড়কে `subtotal`-এর মধ্যে সীমাবদ্ধ রাখা বাস্তব ই-কমার্স বিলিংয়ের মূল নিয়ম।"
+      },
+      "algorithm": [
+        { "en": "Define `CartItem`, `Coupon`, and `ShoppingCart(tax_rate=0.05)`.", "bn": "`CartItem`, `Coupon` ও `ShoppingCart` তৈরি করুন।" },
+        { "en": "In `add`/`remove`, merge or decrement `self.items[sku].qty` (deleting if `<= 0`).", "bn": "`add`/`remove`-এ পরিমাণ সমন্বয় করুন।" },
+        { "en": "In `checkout()`, compute `subtotal`, clamped `discount`, `tax`, and `total`.", "bn": "`checkout()`-এ Subtotal, Discount, Tax ও Total হিসাব করুন।" },
+        { "en": "Print all 4 metrics to 2 decimal places.", "bn": "৪টি হিসাব ২ দশমিকে প্রিন্ট করুন।" }
+      ],
+      "solution": "class CartItem:\n    def __init__(self, sku, price, qty):\n        self.sku = sku\n        self.price = float(price)\n        self.qty = int(qty)\n\nclass Coupon:\n    def __init__(self, kind, value):\n        self.kind = kind\n        self.value = float(value)\n\n    def compute_discount(self, subtotal):\n        if self.kind == \"PCT\":\n            return subtotal * (self.value / 100.0)\n        return min(subtotal, self.value)\n\nclass ShoppingCart:\n    def __init__(self, tax_rate=0.05):\n        self.items = {}\n        self.coupon = None\n        self.tax_rate = tax_rate\n\n    def add(self, sku, price, qty):\n        if sku in self.items:\n            self.items[sku].qty += int(qty)\n        else:\n            self.items[sku] = CartItem(sku, price, qty)\n\n    def remove(self, sku, qty):\n        if sku not in self.items:\n            return\n        self.items[sku].qty -= int(qty)\n        if self.items[sku].qty <= 0:\n            del self.items[sku]\n\n    def apply_coupon(self, coupon):\n        self.coupon = coupon\n\n    def checkout(self):\n        subtotal = sum(it.price * it.qty for it in self.items.values())\n        discount = self.coupon.compute_discount(subtotal) if self.coupon else 0.0\n        taxable = subtotal - discount\n        tax = taxable * self.tax_rate\n        return subtotal, discount, tax, taxable + tax\n\ncart = ShoppingCart()\nq = int(input())\nfor _ in range(q):\n    parts = input().split()\n    if parts[0] == \"ADD\":\n        cart.add(parts[1], parts[2], parts[3])\n    elif parts[0] == \"REMOVE\":\n        cart.remove(parts[1], parts[2])\n    elif parts[0] == \"COUPON\":\n        cart.apply_coupon(Coupon(parts[1], parts[2]))\n\nsub, disc, tax, tot = cart.checkout()\nprint(f\"Subtotal: {sub:.2f}\")\nprint(f\"Discount: {disc:.2f}\")\nprint(f\"Tax: {tax:.2f}\")\nprint(f\"Total: {tot:.2f}\")",
+      "codeExplanation": {
+        "en": "Coupon delegates discount strategy cleanly, while ShoppingCart merges quantities and applies post-discount sales tax.",
+        "bn": "Coupon নিজের মেথডে ছাড় হিসাব করে এবং ShoppingCart পরিমাণ সমন্বয় করে ছাড়ের পর কর যোগ করে।"
+      },
+      "complexity": { "time": "O(Q + K) where K = distinct SKUs", "space": "O(K)" },
+      "testCases": [
+        { "input": "4\nADD PEN 2.00 3\nADD PEN 2.00 2\nREMOVE PEN 1\nCOUPON PCT 25", "expectedOutput": "Subtotal: 8.00\nDiscount: 2.00\nTax: 0.30\nTotal: 6.30", "note": { "en": "Merge, remove & percentage coupon", "bn": "পরিমাণ যোগ, বিয়োগ ও শতাংশ ছাড়" } },
+        { "input": "2\nADD BOOK 20.00 1\nCOUPON FLAT 50", "expectedOutput": "Subtotal: 20.00\nDiscount: 20.00\nTax: 0.00\nTotal: 0.00", "note": { "en": "Flat coupon capped at subtotal", "bn": "ফ্ল্যাট কুপন সাবটোটাল সীমায়" } },
+        { "input": "2\nADD MUG 10.00 2\nREMOVE MUG 5", "expectedOutput": "Subtotal: 0.00\nDiscount: 0.00\nTax: 0.00\nTotal: 0.00", "note": { "en": "Full item removal empties cart", "bn": "সব আইটেম বাদ" } }
+      ]
+    },
+    {
+      "id": "P15-19",
+      "number": 19,
+      "title": {
+        "en": "`TaskScheduler` OOP Engine — State Machine & Priority Dispatch",
+        "bn": "`TaskScheduler` ইঞ্জিন — স্টেট মেশিন ও প্রায়োরিটি ডিসপ্যাচ"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Finite state transitions inside Task class", "bn": "Task ক্লাসে ফাইনাইট স্টেট রূপান্তর" },
+        { "en": "Priority scheduling and assignee filtering", "bn": "প্রায়োরিটি শিডিউলিং ও ফিল্টারিং" }
+      ],
+      "description": {
+        "en": "Build `Task(task_id, priority, assignee)` and `TaskScheduler`:\n- Valid status transitions ONLY: `TODO -> IN_PROGRESS -> DONE` (`advance(task_id)` moves one step forward and returns `True`; if already `DONE` or missing, returns `False`).\n- `next_task(assignee)` picks the highest-priority (lowest integer `priority`, breaking ties by earliest creation order) task belonging to `assignee` whose status is NOT `DONE`, or `NONE` if none.\nRead Q commands (`ADD <id> <prio> <assignee>`, `ADVANCE <id>`, `NEXT <assignee>`). Print `OK`/`FAIL` for `ADVANCE`, `<id>:<status>` (or `NONE`) for `NEXT`, and finally `Pending: <count>` (tasks not `DONE`).",
+        "bn": "`Task` ও `TaskScheduler` ক্লাস তৈরি করুন যেখানে কেবল `TODO -> IN_PROGRESS -> DONE` ক্রমেই স্ট্যাটাস এগোতে পারবে (`advance`)। `next_task(assignee)` ওই ব্যক্তির এখনো শেষ না হওয়া কাজগুলোর মধ্যে সর্বোচ্চ গুরুত্বের (ক্ষুদ্রতম `priority`, সমান হলে আগে তৈরি হওয়া) কাজটি দেখাবে। Qটি কমান্ড চালিয়ে আউটপুট ও শেষে `Pending` সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer Q. Next Q lines: `ADD <id> <prio> <assignee>`, `ADVANCE <id>`, or `NEXT <assignee>`.",
+        "bn": "১ম লাইন: Q। পরবর্তী Q লাইন: `ADD`, `ADVANCE`, বা `NEXT` কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Responses for `ADVANCE` (`OK`/`FAIL`) and `NEXT` (`<id>:<status>` or `NONE`), ending with `Pending: <count>`.",
+        "bn": "`ADVANCE` ও `NEXT`-এর উত্তর এবং শেষে `Pending: <count>`।"
+      },
+      "examples": [
+        {
+          "input": "6\nADD T1 2 sajid\nADD T2 1 sajid\nADVANCE T2\nNEXT sajid\nADVANCE T2\nNEXT sajid",
+          "output": "OK\nT2:IN_PROGRESS\nOK\nT1:TODO\nPending: 1",
+          "explanation": {
+            "en": "T2 has priority 1 (< T1's 2): first ADVANCE moves T2 to IN_PROGRESS, second moves T2 to DONE so NEXT now returns T1.",
+            "bn": "T2-এর প্রায়োরিটি ১ হওয়ায় আগে এসেছে; T2 DONE হওয়ার পর NEXT-এ T1 আসে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Assign each added `Task` a monotonically increasing `seq` counter (`self.seq += 1`) so `(task.priority, task.seq)` breaks ties cleanly.",
+        "bn": "প্রতিটি টাস্কে ক্রমবর্ধমান `seq` নম্বর দিলে `(task.priority, task.seq)` দিয়ে সহজ টাই-ব্রেক করা যায়।"
+      },
+      "hint2": {
+        "en": "Define `NEXT_STATE = {'TODO': 'IN_PROGRESS', 'IN_PROGRESS': 'DONE'}` inside `Task` so `advance()` checks `if self.status not in self.NEXT_STATE: return False`.",
+        "bn": "`NEXT_STATE` ম্যাপ রাখলে অবৈধ বা `DONE` থেকে এগোনো স্বয়ংক্রিয়ভাবে `False` রিটার্ন করে।"
+      },
+      "logicBreakdown": {
+        "en": "Modeling workflow lifecycles as an explicit transition map inside `Task` guarantees illegal jumps (like `TODO -> DONE` directly or modifying completed items) are impossible, while `TaskScheduler` handles priority selection cleanly.",
+        "bn": "টাস্কের জীবনচক্র একটি স্টেট ট্রানজিশন ম্যাপ দিয়ে নিয়ন্ত্রণ করলে কোনো অবৈধ ধাপ-লাফ সম্ভব হয় না।"
+      },
+      "algorithm": [
+        { "en": "Define `Task` with `NEXT_STATE` transition map and `advance()` method.", "bn": "`NEXT_STATE` ম্যাপসহ `Task` ক্লাস লিখুন।" },
+        { "en": "Define `TaskScheduler` storing `tasks` dict and incremental `seq`.", "bn": "`TaskScheduler` তৈরি করুন।" },
+        { "en": "In `next_task(assignee)`, filter tasks with `t.assignee == assignee and t.status != 'DONE'` and take `min` by `(t.priority, t.seq)`.", "bn": "যোগ্য কাজগুলো থেকে `(t.priority, t.seq)`-এর সর্বনিম্নটি বাছাই করুন।" },
+        { "en": "Process commands and print remaining pending count.", "bn": "সব কমান্ড চালিয়ে শেষে `Pending` সংখ্যা প্রিন্ট করুন।" }
+      ],
+      "solution": "class Task:\n    NEXT_STATE = {\"TODO\": \"IN_PROGRESS\", \"IN_PROGRESS\": \"DONE\"}\n\n    def __init__(self, task_id, priority, assignee, seq):\n        self.task_id = task_id\n        self.priority = int(priority)\n        self.assignee = assignee\n        self.seq = seq\n        self.status = \"TODO\"\n\n    def advance(self):\n        if self.status not in self.NEXT_STATE:\n            return False\n        self.status = self.NEXT_STATE[self.status]\n        return True\n\nclass TaskScheduler:\n    def __init__(self):\n        self.tasks = {}\n        self._seq = 0\n\n    def add_task(self, task_id, priority, assignee):\n        self._seq += 1\n        self.tasks[task_id] = Task(task_id, priority, assignee, self._seq)\n\n    def advance(self, task_id):\n        t = self.tasks.get(task_id)\n        return t.advance() if t else False\n\n    def next_task(self, assignee):\n        candidates = [\n            t for t in self.tasks.values()\n            if t.assignee == assignee and t.status != \"DONE\"\n        ]\n        if not candidates:\n            return None\n        return min(candidates, key=lambda t: (t.priority, t.seq))\n\n    def pending_count(self):\n        return sum(1 for t in self.tasks.values() if t.status != \"DONE\")\n\nsched = TaskScheduler()\nq = int(input())\nfor _ in range(q):\n    parts = input().split()\n    if parts[0] == \"ADD\":\n        sched.add_task(parts[1], int(parts[2]), parts[3])\n    elif parts[0] == \"ADVANCE\":\n        print(\"OK\" if sched.advance(parts[1]) else \"FAIL\")\n    elif parts[0] == \"NEXT\":\n        t = sched.next_task(parts[1])\n        print(f\"{t.task_id}:{t.status}\" if t else \"NONE\")\nprint(f\"Pending: {sched.pending_count()}\")",
+      "codeExplanation": {
+        "en": "Task enforces state transition validity internally via NEXT_STATE while TaskScheduler handles priority and creation-sequence tie breaking.",
+        "bn": "Task নিজস্ব NEXT_STATE দিয়ে বৈধ ধাপ নিশ্চিত করে এবং TaskScheduler প্রায়োরিটি ও ক্রম অনুযায়ী পরের কাজ বাছাই করে।"
+      },
+      "complexity": { "time": "O(Q * T) where T = total tasks", "space": "O(T)" },
+      "testCases": [
+        { "input": "6\nADD T1 2 sajid\nADD T2 1 sajid\nADVANCE T2\nNEXT sajid\nADVANCE T2\nNEXT sajid", "expectedOutput": "OK\nT2:IN_PROGRESS\nOK\nT1:TODO\nPending: 1", "note": { "en": "Priority dispatch & completion", "bn": "প্রায়োরিটি ডিসপ্যাচ" } },
+        { "input": "5\nADD A 3 ali\nADVANCE A\nADVANCE A\nADVANCE A\nNEXT ali", "expectedOutput": "OK\nOK\nFAIL\nNONE\nPending: 0", "note": { "en": "Cannot advance past DONE", "bn": "DONE-এর পর আর এগোনো যায় না" } },
+        { "input": "4\nADD X 1 sara\nADD Y 1 sara\nNEXT sara\nNEXT unknown", "expectedOutput": "X:TODO\nNONE\nPending: 2", "note": { "en": "Creation order breaks priority tie", "bn": "সমান প্রায়োরিটিতে প্রথম কাজ" } }
+      ]
+    },
+    {
+      "id": "P15-20",
+      "number": 20,
+      "title": {
+        "en": "Polymorphic Multi-Account Banking System & Atomic Transfers",
+        "bn": "পলিমরফিক মাল্টি-অ্যাকাউন্ট ব্যাংকিং সিস্টেম ও অ্যাটমিক ট্রান্সফার"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Polymorphic account subclasses (`SavingsAccount`, `CheckingAccount`)", "bn": "পলিমরফিক অ্যাকাউন্ট সাবক্লাস" },
+        { "en": "Atomic transfer rollbacks & unified ledger", "bn": "অ্যাটমিক ট্রান্সফার ও রোলব্যাক নিরাপত্তা" }
+      ],
+      "description": {
+        "en": "Design an extensible OOP banking engine:\n- Base `Account(acc_id, balance)` with `deposit(amt)` and polymorphic `withdraw(amt)`.\n- `SavingsAccount(acc_id, balance, rate=0.05)`: forbids balance below `0`, and adds `apply_interest()` (`balance *= (1 + rate)`).\n- `CheckingAccount(acc_id, balance, overdraft=100.0)`: allows balance down to `-overdraft` (`balance - amt >= -overdraft`).\n- `Bank`: manages accounts, handles `TRANSFER <from> <to> <amt>` atomically (only credits receiver if sender's `withdraw` succeeds!), and runs `INTEREST` across all `SavingsAccount` instances via `isinstance` or polymorphic `end_of_month()`.\nProcess Q commands (`CREATE SAVINGS|CHECKING <id> <bal>`, `DEPOSIT <id> <amt>`, `WITHDRAW <id> <amt>`, `TRANSFER <src> <dst> <amt>`, `INTEREST`), printing `FAIL` on failed withdrawals/transfers, and end by printing `<id>: <bal:.2f>` sorted alphabetically by `acc_id`.",
+        "bn": "`SavingsAccount` (ন্যূনতম ব্যালেন্স ০ ও সুদ যোগ) এবং `CheckingAccount` (`overdraft=100` সীমা পর্যন্ত ঋণাত্মক ব্যালেন্স অনুমোদিত) নিয়ে একটি `Bank` সিস্টেম তৈরি করুন। `TRANSFER` অ্যাটমিক হতে হবে (প্রেরক থেকে না কাটলে প্রাপক টাকা পাবে না)। Qটি কমান্ড চালিয়ে ব্যর্থ উত্তোলন/ট্রান্সফারে `FAIL` ও শেষে বর্ণানুক্রমে সব অ্যাকাউন্টের ব্যালেন্স প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer Q. Next Q lines: banking commands (`CREATE`, `DEPOSIT`, `WITHDRAW`, `TRANSFER`, `INTEREST`).",
+        "bn": "১ম লাইন: Q। পরবর্তী Q লাইন: ব্যাংকিং কমান্ডসমূহ।"
+      },
+      "expectedOutput": {
+        "en": "`FAIL` for rejected withdrawals/transfers, followed by sorted `<acc_id>: <balance:.2f>` lines.",
+        "bn": "ব্যর্থ লেনদেনে `FAIL` ও শেষে সাজানো `<acc_id>: <balance:.2f>`।"
+      },
+      "examples": [
+        {
+          "input": "6\nCREATE SAVINGS S1 200\nCREATE CHECKING C1 50\nTRANSFER C1 S1 120\nWITHDRAW S1 400\nINTEREST\nTRANSFER C1 S1 100",
+          "output": "FAIL\nFAIL\nC1: -70.00\nS1: 336.00",
+          "explanation": {
+            "en": "C1 (50, overdraft 100) transfers 120 -> C1=-70, S1=320. S1 withdraw 400 fails. INTEREST gives S1 5% -> 336.00. C1 transfer 100 fails (-170 < -100).",
+            "bn": "C1 থেকে ১২০ ট্রান্সফারে C1=-৭০ ও S1=৩২০ হয়; S1 থেকে ৪০০ উত্তোলন ব্যর্থ; ৫% সুদে S1=৩৩৬.০০ এবং C1 থেকে আরও ১০০ ট্রান্সফার ওভারড্রাফট সীমায় বাতিল।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Give base `Account` a no-op `end_of_month()` hook overridden by `SavingsAccount` (`self.balance *= (1 + self.rate)`) so `Bank.apply_interest()` calls `acc.end_of_month()` polymorphically!",
+        "bn": "বেস ক্লাসে `end_of_month()` রাখলে `Bank` সব অ্যাকাউন্টে পলিমরফিকভাবে মেথডটি চালাতে পারে।"
+      },
+      "hint2": {
+        "en": "In `Bank.transfer(src, dst, amt)`, verify both accounts exist AND `amt > 0` AND `src.withdraw(amt)` succeeds BEFORE calling `dst.deposit(amt)`.",
+        "bn": "`transfer()`-এ আগে প্রেরকের `withdraw(amt)` সফল হলেই কেবল প্রাপকের `deposit(amt)` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "This capstone OOP system unites inheritance (`Account -> SavingsAccount / CheckingAccount`), polymorphic dispatch (`withdraw` & `end_of_month`), and transactional atomicity (`transfer` never creates or destroys money on partial failure).",
+        "bn": "এই চ্যালেঞ্জে ইনহেরিট্যান্স, পলিমরফিজম ও অ্যাটমিক ট্রান্সফার লেনদেন একত্রে প্রয়োগ করা হয়েছে যাতে কখনো অর্থের অসামঞ্জস্য না ঘটে।"
+      },
+      "algorithm": [
+        { "en": "Define `Account`, `SavingsAccount` (min 0, 5% interest), and `CheckingAccount` (overdraft 100).", "bn": "`Account`, `SavingsAccount` ও `CheckingAccount` লিখুন।" },
+        { "en": "Implement `Bank` managing `accounts` dict and atomic `transfer(src_id, dst_id, amt)`.", "bn": "অ্যাটমিক `transfer`সহ `Bank` ক্লাস লিখুন।" },
+        { "en": "Run Q commands, printing `FAIL` on failed `WITHDRAW` or `TRANSFER`.", "bn": "Qটি কমান্ড চালিয়ে ব্যর্থ ক্ষেত্রে `FAIL` প্রিন্ট করুন।" },
+        { "en": "Print sorted `<id>: <balance:.2f>` across all accounts.", "bn": "সব অ্যাকাউন্টের চূড়ান্ত ব্যালেন্স বর্ণানুক্রমে প্রিন্ট করুন।" }
+      ],
+      "solution": "class Account:\n    def __init__(self, acc_id, balance):\n        self.acc_id = acc_id\n        self.balance = float(balance)\n\n    def deposit(self, amt):\n        if amt <= 0:\n            return False\n        self.balance += amt\n        return True\n\n    def withdraw(self, amt):\n        if amt <= 0 or amt > self.balance:\n            return False\n        self.balance -= amt\n        return True\n\n    def end_of_month(self):\n        pass\n\nclass SavingsAccount(Account):\n    def __init__(self, acc_id, balance, rate=0.05):\n        super().__init__(acc_id, balance)\n        self.rate = rate\n\n    def end_of_month(self):\n        self.balance *= (1.0 + self.rate)\n\nclass CheckingAccount(Account):\n    def __init__(self, acc_id, balance, overdraft=100.0):\n        super().__init__(acc_id, balance)\n        self.overdraft = overdraft\n\n    def withdraw(self, amt):\n        if amt <= 0 or (self.balance - amt) < -self.overdraft:\n            return False\n        self.balance -= amt\n        return True\n\nclass Bank:\n    def __init__(self):\n        self.accounts = {}\n\n    def create(self, kind, acc_id, balance):\n        if kind == \"SAVINGS\":\n            self.accounts[acc_id] = SavingsAccount(acc_id, balance)\n        else:\n            self.accounts[acc_id] = CheckingAccount(acc_id, balance)\n\n    def deposit(self, acc_id, amt):\n        acc = self.accounts.get(acc_id)\n        return acc.deposit(amt) if acc else False\n\n    def withdraw(self, acc_id, amt):\n        acc = self.accounts.get(acc_id)\n        return acc.withdraw(amt) if acc else False\n\n    def transfer(self, src_id, dst_id, amt):\n        src = self.accounts.get(src_id)\n        dst = self.accounts.get(dst_id)\n        if not src or not dst or src_id == dst_id or amt <= 0:\n            return False\n        if not src.withdraw(amt):\n            return False\n        dst.deposit(amt)\n        return True\n\n    def apply_interest(self):\n        for acc in self.accounts.values():\n            acc.end_of_month()\n\nbank = Bank()\nq = int(input())\nfor _ in range(q):\n    parts = input().split()\n    cmd = parts[0]\n    if cmd == \"CREATE\":\n        bank.create(parts[1], parts[2], float(parts[3]))\n    elif cmd == \"DEPOSIT\":\n        bank.deposit(parts[1], float(parts[2]))\n    elif cmd == \"WITHDRAW\":\n        if not bank.withdraw(parts[1], float(parts[2])):\n            print(\"FAIL\")\n    elif cmd == \"TRANSFER\":\n        if not bank.transfer(parts[1], parts[2], float(parts[3])):\n            print(\"FAIL\")\n    elif cmd == \"INTEREST\":\n        bank.apply_interest()\n\nfor acc_id in sorted(bank.accounts):\n    print(f\"{acc_id}: {bank.accounts[acc_id].balance:.2f}\")",
+      "codeExplanation": {
+        "en": "CheckingAccount overrides withdraw to permit bounded overdraft while SavingsAccount overrides end_of_month for 5% interest. transfer() guarantees money only moves if withdraw succeeds.",
+        "bn": "CheckingAccount ওভারড্রাফট অনুমোদন করে ও SavingsAccount সুদ যোগ করে; transfer() কেবল প্রেরকের ব্যালেন্স কাটা সফল হলেই টাকা পাঠায়।"
+      },
+      "complexity": { "time": "O(Q + A log A) where A = accounts", "space": "O(A)" },
+      "testCases": [
+        { "input": "6\nCREATE SAVINGS S1 200\nCREATE CHECKING C1 50\nTRANSFER C1 S1 120\nWITHDRAW S1 400\nINTEREST\nTRANSFER C1 S1 100", "expectedOutput": "FAIL\nFAIL\nC1: -70.00\nS1: 336.00", "note": { "en": "Overdraft transfer, interest, and limit guard", "bn": "ওভারড্রাফট ট্রান্সফার ও সুদ হিসাব" } },
+        { "input": "4\nCREATE SAVINGS A1 100\nCREATE SAVINGS A2 100\nTRANSFER A1 A2 150\nINTEREST", "expectedOutput": "FAIL\nA1: 105.00\nA2: 105.00", "note": { "en": "Atomic failed transfer preserves balances", "bn": "ব্যর্থ ট্রান্সফারে ব্যালেন্স অপরিবর্তিত" } },
+        { "input": "4\nCREATE CHECKING C1 0\nWITHDRAW C1 100\nDEPOSIT C1 40\nWITHDRAW C1 50", "expectedOutput": "FAIL\nC1: -60.00", "note": { "en": "Exact overdraft boundary -100 then rejected -110", "bn": "সঠিক -১০০ ওভারড্রাফট সীমা" } }
+      ]
+    }
+  ]
+}

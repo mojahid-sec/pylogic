@@ -1,0 +1,574 @@
+{
+  "platform": {
+    "name": "PYLOGIC",
+    "phaseLabel": {
+      "en": "Content Stage 04",
+      "bn": "কনটেন্ট ধাপ ০৪"
+    },
+    "totalParts": 20,
+    "totalProblems": 400
+  },
+  "roadmapStages": [
+    {
+      "id": "stage-1",
+      "stageNumber": "01",
+      "title": {
+        "en": "Foundational Logic & Patterns",
+        "bn": "মৌলিক লজিক ও প্যাটার্ন"
+      },
+      "partRange": {
+        "en": "Parts 01–05",
+        "bn": "পার্ট ০১–০৫"
+      },
+      "phase": "Foundations",
+      "totalProblems": 100,
+      "description": {
+        "en": "Basic logic, variables, operators, conditional branching, loops, and nested pattern construction.",
+        "bn": "মৌলিক যুক্তি, ভ্যারিয়েবল, অপারেটর, শর্তসাপেক্ষ সিদ্ধান্ত, লুপ এবং নেস্টেড প্যাটার্ন গঠন।"
+      }
+    },
+    {
+      "id": "stage-2",
+      "stageNumber": "02",
+      "title": {
+        "en": "Math, Collections & Functions",
+        "bn": "গণিত, কালেকশন ও ফাংশন"
+      },
+      "partRange": {
+        "en": "Parts 06–10",
+        "bn": "পার্ট ০৬–১০"
+      },
+      "phase": "Core Logic",
+      "totalProblems": 100,
+      "description": {
+        "en": "Mathematical challenges, string analysis, lists, dictionaries, sets, tuples, and modular function design.",
+        "bn": "গাণিতিক চ্যালেঞ্জ, স্ট্রিং বিশ্লেষণ, লিস্ট, ডিকশনারি, সেট, টাপল এবং মডুলার ফাংশন ডিজাইন।"
+      }
+    },
+    {
+      "id": "stage-3",
+      "stageNumber": "03",
+      "title": {
+        "en": "Algorithms, Files & OOP",
+        "bn": "অ্যালগরিদম, ফাইল ও OOP"
+      },
+      "partRange": {
+        "en": "Parts 11–15",
+        "bn": "পার্ট ১১–১৫"
+      },
+      "phase": "Algorithms",
+      "totalProblems": 100,
+      "description": {
+        "en": "Searching, sorting, recursion, CSV/JSON/log file processing, and object-oriented problem solving.",
+        "bn": "সার্চিং, সর্টিং, রিকার্শন, CSV/JSON/লগ ফাইল প্রসেসিং এবং অবজেক্ট-ওরিয়েন্টেড সমস্যা সমাধান।"
+      }
+    },
+    {
+      "id": "stage-4",
+      "stageNumber": "04",
+      "title": {
+        "en": "Systems, Security & Interviews",
+        "bn": "সিস্টেমস, সিকিউরিটি ও ইন্টারভিউ"
+      },
+      "partRange": {
+        "en": "Parts 16–20",
+        "bn": "পার্ট ১৬–২০"
+      },
+      "phase": "Systems & Security",
+      "totalProblems": 100,
+      "description": {
+        "en": "Bitwise logic, data structures, networking, cyber security programming, and technical interview mastery.",
+        "bn": "বিটওয়াইজ লজিক, ডেটা স্ট্রাকচার, নেটওয়ার্কিং, সাইবার সিকিউরিটি প্রোগ্রামিং ও টেকনিক্যাল ইন্টারভিউ প্রস্তুতি।"
+      }
+    }
+  ],
+  "parts": [
+    {
+      "id": "part-01",
+      "number": 1,
+      "title": {
+        "en": "Basic Programming Logic",
+        "bn": "বেসিক প্রোগ্রামিং লজিক"
+      },
+      "phase": "Foundations",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Build step-by-step clarity with input/output, variables, arithmetic expressions, value swapping, and foundational mathematical reasoning.",
+        "bn": "ইনপুট-আউটপুট, ভ্যারিয়েবল, গাণিতিক এক্সপ্রেশন, মান অদলবদল এবং মৌলিক গাণিতিক চিন্তাশক্তিতে ধাপে ধাপে দক্ষতা গড়ে তুলুন।"
+      },
+      "concepts": [
+        { "en": "Input & Output", "bn": "ইনপুট ও আউটপুট" },
+        { "en": "Variables & Swapping", "bn": "ভ্যারিয়েবল ও সোয়্যাপিং" },
+        { "en": "Basic Arithmetic", "bn": "মৌলিক পাটিগণিত" },
+        { "en": "Mathematical Thinking", "bn": "গাণিতিক চিন্তা" }
+      ]
+    },
+    {
+      "id": "part-02",
+      "number": 2,
+      "title": {
+        "en": "Variables, Data Types & Operators",
+        "bn": "ভ্যারিয়েবল, ডেটা টাইপ ও অপারেটর"
+      },
+      "phase": "Foundations",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Master integer and float precision, type conversion, string operations, modulus arithmetic, operator precedence, and basic bitwise logic.",
+        "bn": "ইন্টিজার ও ফ্লোট নির্ভুলতা, টাইপ রূপান্তর, স্ট্রিং অপারেশন, মডুলাস গণিত, অপারেটর অগ্রাধিকার এবং প্রাথমিক বিটওয়াইজ লজিক আয়ত্ত করুন।"
+      },
+      "concepts": [
+        { "en": "Int, Float & Type Conversion", "bn": "ইন্টিজার, ফ্লোট ও টাইপ রূপান্তর" },
+        { "en": "Comparison & Logical Operators", "bn": "তুলনামূলক ও লজিক্যাল অপারেটর" },
+        { "en": "Modulus & Precedence", "bn": "মডুলাস ও অগ্রাধিকার" },
+        { "en": "Basic Bitwise Operations", "bn": "মৌলিক বিটওয়াইজ অপারেশন" }
+      ]
+    },
+    {
+      "id": "part-03",
+      "number": 3,
+      "title": {
+        "en": "Conditional Logic",
+        "bn": "কন্ডিশনাল লজিক"
+      },
+      "phase": "Foundations",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Design accurate decision trees using if, elif, else, nested branches, multi-condition rules, and range validation.",
+        "bn": "if, elif, else, নেস্টেড শর্ত, একাধিক শর্তের সমন্বয় এবং সীমা যাচাই ব্যবহার করে নির্ভুল সিদ্ধান্ত কাঠামো তৈরি করুন।"
+      },
+      "concepts": [
+        { "en": "if / elif / else Branches", "bn": "if / elif / else শাখা" },
+        { "en": "Nested Conditions", "bn": "নেস্টেড কন্ডিশন" },
+        { "en": "Range Checking", "bn": "রেঞ্জ যাচাই" },
+        { "en": "Decision Modeling", "bn": "সিদ্ধান্ত মডেলিং" }
+      ]
+    },
+    {
+      "id": "part-04",
+      "number": 4,
+      "title": {
+        "en": "Loop & Iteration",
+        "bn": "লুপ ও ইটারেশন"
+      },
+      "phase": "Foundations",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Control repetition with for and while loops, range(), counters, accumulators, break, continue, and termination conditions.",
+        "bn": "for ও while লুপ, range(), কাউন্টার, অ্যাকিউমুলেটর, break, continue এবং সমাপ্তি শর্তের মাধ্যমে পুনরাবৃত্তি নিয়ন্ত্রণ করুন।"
+      },
+      "concepts": [
+        { "en": "for & while Loops", "bn": "for ও while লুপ" },
+        { "en": "Counting & Accumulation", "bn": "গণনা ও সমষ্টি নির্ণয়" },
+        { "en": "break & continue", "bn": "break ও continue" },
+        { "en": "Loop Invariants", "bn": "লুপ শর্ত ও নিয়ন্ত্রণ" }
+      ]
+    },
+    {
+      "id": "part-05",
+      "number": 5,
+      "title": {
+        "en": "Nested Loop & Pattern",
+        "bn": "নেস্টেড লুপ ও প্যাটার্ন"
+      },
+      "phase": "Foundations",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Translate two-dimensional row and column relationships into number patterns, star geometry, reverse triangles, and multiplication grids.",
+        "bn": "সারি ও কলামের গাণিতিক সম্পর্ককে সংখ্যা প্যাটার্ন, তারা জ্যামিতি, উল্টো ত্রিভুজ এবং গুণের নামতা গ্রিডে রূপান্তর করুন।"
+      },
+      "concepts": [
+        { "en": "Row & Column Logic", "bn": "সারি ও কলাম লজিক" },
+        { "en": "Star & Number Patterns", "bn": "স্টার ও সংখ্যা প্যাটার্ন" },
+        { "en": "Reverse & Hollow Shapes", "bn": "উল্টো ও ফাঁপা আকৃতি" },
+        { "en": "Nested Iteration Analysis", "bn": "নেস্টেড ইটারেশন বিশ্লেষণ" }
+      ]
+    },
+    {
+      "id": "part-06",
+      "number": 6,
+      "title": {
+        "en": "Mathematical & Number Logic",
+        "bn": "গাণিতিক ও সংখ্যাভিত্তিক লজিক"
+      },
+      "phase": "Core Logic",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Solve classic number theory problems: primes, factorials, Fibonacci, GCD, LCM, divisors, perfect, Armstrong, and palindrome numbers.",
+        "bn": "মৌলিক সংখ্যা, ফ্যাক্টোরিয়াল, ফিবোনাচ্চি, গসাগু, লসাগু, ভাজক, পারফেক্ট, আর্মস্ট্রং ও প্যালিনড্রোম সংখ্যা সমাধান করুন।"
+      },
+      "concepts": [
+        { "en": "Primes, GCD & LCM", "bn": "মৌলিক সংখ্যা, গসাগু ও লসাগু" },
+        { "en": "Factorial & Fibonacci", "bn": "ফ্যাক্টোরিয়াল ও ফিবোনাচ্চি" },
+        { "en": "Divisors & Perfect Numbers", "bn": "ভাজক ও পারফেক্ট সংখ্যা" },
+        { "en": "Armstrong & Palindromes", "bn": "আর্মস্ট্রং ও প্যালিনড্রোম" }
+      ]
+    },
+    {
+      "id": "part-07",
+      "number": 7,
+      "title": {
+        "en": "String Manipulation & Analysis",
+        "bn": "স্ট্রিং ম্যানিপুলেশন ও বিশ্লেষণ"
+      },
+      "phase": "Core Logic",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Analyze and transform text through character traversal, vowel/consonant checks, palindromes, frequency counting, and word parsing.",
+        "bn": "ক্যারেক্টার ট্রাভার্সাল, স্বরবর্ণ-ব্যঞ্জনবর্ণ বিশ্লেষণ, প্যালিনড্রোম, ফ্রিকোয়েন্সি গণনা ও শব্দ বিশ্লেষণ আয়ত্ত করুন।"
+      },
+      "concepts": [
+        { "en": "String Traversal", "bn": "স্ট্রিং ট্রাভার্সাল" },
+        { "en": "Character Frequency", "bn": "ক্যারেক্টার ফ্রিকোয়েন্সি" },
+        { "en": "Palindrome & Duplicates", "bn": "প্যালিনড্রোম ও ডুপ্লিকেট" },
+        { "en": "Text Transformation", "bn": "টেক্সট রূপান্তর" }
+      ]
+    },
+    {
+      "id": "part-08",
+      "number": 8,
+      "title": {
+        "en": "List & Data Processing",
+        "bn": "লিস্ট ও ডেটা প্রসেসিং"
+      },
+      "phase": "Core Logic",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Process sequential collections: extrema, second largest values, deduplication, reversal, comparison, searching, and nested lists.",
+        "bn": "সর্বোচ্চ ও সর্বনিম্ন, দ্বিতীয় বৃহত্তম, ডুপ্লিকেট অপসারণ, রিভার্সাল, তুলনা এবং নেস্টেড লিস্ট প্রক্রিয়াকরণ শিখুন।"
+      },
+      "concepts": [
+        { "en": "Extrema & Second Largest", "bn": "সর্বোচ্চ ও দ্বিতীয় বৃহত্তম" },
+        { "en": "Deduplication & Reversal", "bn": "ডুপ্লিকেট অপসারণ ও রিভার্সাল" },
+        { "en": "List Comparison", "bn": "লিস্ট তুলনা" },
+        { "en": "Nested Lists", "bn": "নেস্টেড লিস্ট" }
+      ]
+    },
+    {
+      "id": "part-09",
+      "number": 9,
+      "title": {
+        "en": "Dictionary, Tuple & Set",
+        "bn": "ডিকশনারি, টাপল ও সেট"
+      },
+      "phase": "Core Logic",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Model key-value mappings, frequency dictionaries, immutable tuples, set algebra, duplicate detection, and structured data grouping.",
+        "bn": "কী-ভ্যালু ম্যাপিং, ফ্রিকোয়েন্সি ডিকশনারি, টাপল, সেট অপারেশন, ডুপ্লিকেট শনাক্তকরণ ও ডেটা গ্রুপিং অনুশীলন করুন।"
+      },
+      "concepts": [
+        { "en": "Key-Value Analysis", "bn": "কী-ভ্যালু বিশ্লেষণ" },
+        { "en": "Frequency Dictionaries", "bn": "ফ্রিকোয়েন্সি ডিকশনারি" },
+        { "en": "Set Operations", "bn": "সেট অপারেশন" },
+        { "en": "Data Grouping", "bn": "ডেটা গ্রুপিং" }
+      ]
+    },
+    {
+      "id": "part-10",
+      "number": 10,
+      "title": {
+        "en": "Function & Mixed Problem Solving",
+        "bn": "ফাংশন ও মিশ্র সমস্যা সমাধান"
+      },
+      "phase": "Core Logic",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Decompose complex problems into clean, reusable Python functions with clear parameters, return values, scope control, and lambdas.",
+        "bn": "প্যারামিটার, রিটার্ন ভ্যালু, স্কোপ নিয়ন্ত্রণ, ল্যামডা এবং পুনর্ব্যবহারযোগ্য ফাংশনের মাধ্যমে জটিল সমস্যাকে ছোট অংশে ভাগ করুন।"
+      },
+      "concepts": [
+        { "en": "Function Decomposition", "bn": "ফাংশন বিভাজন" },
+        { "en": "Parameters & Return Values", "bn": "প্যারামিটার ও রিটার্ন ভ্যালু" },
+        { "en": "Variable Scope", "bn": "ভ্যারিয়েবল স্কোপ" },
+        { "en": "Lambda Basics", "bn": "ল্যামডা বেসিকস" }
+      ]
+    },
+    {
+      "id": "part-11",
+      "number": 11,
+      "title": {
+        "en": "Searching Algorithms",
+        "bn": "সার্চিং অ্যালগরিদম"
+      },
+      "phase": "Algorithms",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Implement linear and binary search patterns, locate missing or duplicate elements, and optimize search boundaries.",
+        "bn": "লিনিয়ার ও বাইনারি সার্চ, হারানো বা ডুপ্লিকেট উপাদান নির্ণয় এবং সার্চ অপটিমাইজেশন অনুশীলন করুন।"
+      },
+      "concepts": [
+        { "en": "Linear Search", "bn": "লিনিয়ার সার্চ" },
+        { "en": "Binary Search", "bn": "বাইনারি সার্চ" },
+        { "en": "Missing & Duplicates", "bn": "হারানো ও ডুপ্লিকেট উপাদান" },
+        { "en": "Search Optimization", "bn": "সার্চ অপটিমাইজেশন" }
+      ]
+    },
+    {
+      "id": "part-12",
+      "number": 12,
+      "title": {
+        "en": "Sorting Algorithms",
+        "bn": "সর্টিং অ্যালগরিদম"
+      },
+      "phase": "Algorithms",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Understand and implement bubble, selection, and insertion sort alongside custom comparators, conditional sorting, and efficiency analysis.",
+        "bn": "বাবল, সিলেকশন ও ইনসার্শন সর্ট, কাস্টম সর্টিং, শর্তসাপেক্ষ সর্টিং এবং অ্যালগরিদম বিশ্লেষণ শিখুন।"
+      },
+      "concepts": [
+        { "en": "Bubble, Selection & Insertion", "bn": "বাবল, সিলেকশন ও ইনসার্শন" },
+        { "en": "Custom Sorting Keys", "bn": "কাস্টম সর্টিং কী" },
+        { "en": "Conditional Sorting", "bn": "শর্তসাপেক্ষ সর্টিং" },
+        { "en": "Stability & Complexity", "bn": "স্ট্যাবিলিটি ও কমপ্লেক্সিটি" }
+      ]
+    },
+    {
+      "id": "part-13",
+      "number": 13,
+      "title": {
+        "en": "Recursion & Advanced Logic",
+        "bn": "রিকার্শন ও অ্যাডভান্সড লজিক"
+      },
+      "phase": "Algorithms",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Master base cases, recursive numeric and string transformations, recursive list processing, and introductory backtracking.",
+        "bn": "বেস কেস, রিকার্সিভ সংখ্যা ও স্ট্রিং সমস্যা, রিকার্সিভ লিস্ট প্রসেসিং এবং ব্যাকট্র্যাকিংয়ের ভিত্তি আয়ত্ত করুন।"
+      },
+      "concepts": [
+        { "en": "Base Cases & Call Stack", "bn": "বেস কেস ও কল স্ট্যাক" },
+        { "en": "Recursive Math & Strings", "bn": "রিকার্সিভ গণিত ও স্ট্রিং" },
+        { "en": "Recursive Lists", "bn": "রিকার্সিভ লিস্ট" },
+        { "en": "Backtracking Basics", "bn": "ব্যাকট্র্যাকিং বেসিকস" }
+      ]
+    },
+    {
+      "id": "part-14",
+      "number": 14,
+      "title": {
+        "en": "File Handling & Data Processing",
+        "bn": "ফাইল হ্যান্ডলিং ও ডেটা প্রসেসিং"
+      },
+      "phase": "Algorithms",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Read, write, append, and search files safely while processing structured CSV, JSON, and server log datasets.",
+        "bn": "ফাইল পড়া, লেখা, সংযোজন, অনুসন্ধান এবং CSV, JSON ও লগ ডেটা প্রক্রিয়াকরণ শিখুন।"
+      },
+      "concepts": [
+        { "en": "File Read, Write & Append", "bn": "ফাইল রিড, রাইট ও অ্যাপেন্ড" },
+        { "en": "Text & Log Search", "bn": "টেক্সট ও লগ অনুসন্ধান" },
+        { "en": "CSV Processing", "bn": "CSV প্রসেসিং" },
+        { "en": "JSON Processing", "bn": "JSON প্রসেসিং" }
+      ]
+    },
+    {
+      "id": "part-15",
+      "number": 15,
+      "title": {
+        "en": "OOP Problem Solving",
+        "bn": "OOP সমস্যা সমাধান"
+      },
+      "phase": "Algorithms",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Model real-world entities cleanly with Python classes, constructors, methods, encapsulation, inheritance, and polymorphism.",
+        "bn": "ক্লাস, অবজেক্ট, কনস্ট্রাক্টর, মেথড, এনক্যাপসুলেশন, ইনহেরিট্যান্স ও পলিমরফিজমের মাধ্যমে বাস্তব মডেল তৈরি করুন।"
+      },
+      "concepts": [
+        { "en": "Classes, Objects & Methods", "bn": "ক্লাস, অবজেক্ট ও মেথড" },
+        { "en": "Encapsulation", "bn": "এনক্যাপসুলেশন" },
+        { "en": "Inheritance", "bn": "ইনহেরিট্যান্স" },
+        { "en": "Polymorphism", "bn": "পলিমরফিজম" }
+      ]
+    },
+    {
+      "id": "part-16",
+      "number": 16,
+      "title": {
+        "en": "Binary, Boolean & Bitwise Logic",
+        "bn": "বাইনারি, বুলিয়ান ও বিটওয়াইজ লজিক"
+      },
+      "phase": "Systems & Security",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Convert between decimal and binary bases and solve low-level logic problems with AND, OR, XOR, bit shifts, and Boolean algebra.",
+        "bn": "দশমিক ও বাইনারি রূপান্তর, AND, OR, XOR, বিট শিফটিং এবং বুলিয়ান অ্যালজেব্রা ভিত্তিক সমস্যা সমাধান করুন।"
+      },
+      "concepts": [
+        { "en": "Base Conversions", "bn": "বেস রূপান্তর" },
+        { "en": "AND, OR & XOR", "bn": "AND, OR ও XOR" },
+        { "en": "Bit Shifting", "bn": "বিট শিফটিং" },
+        { "en": "Boolean Algebra", "bn": "বুলিয়ান অ্যালজেব্রা" }
+      ]
+    },
+    {
+      "id": "part-17",
+      "number": 17,
+      "title": {
+        "en": "Data Structures & Algorithms",
+        "bn": "ডেটা স্ট্রাকচার ও অ্যালগরিদম"
+      },
+      "phase": "Systems & Security",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Implement stacks, queues, linked lists, hash tables, trees, and graph traversals with asymptotic efficiency analysis.",
+        "bn": "স্ট্যাক, কিউ, লিঙ্কড লিস্ট, হ্যাশ টেবিল, ট্রি এবং গ্রাফের পাশাপাশি অ্যালগরিদমের দক্ষতা বিশ্লেষণ করুন।"
+      },
+      "concepts": [
+        { "en": "Stacks, Queues & Linked Lists", "bn": "স্ট্যাক, কিউ ও লিঙ্কড লিস্ট" },
+        { "en": "Hash Tables", "bn": "হ্যাশ টেবিল" },
+        { "en": "Trees & Graphs", "bn": "ট্রি ও গ্রাফ" },
+        { "en": "Algorithm Efficiency", "bn": "অ্যালগরিদম দক্ষতা" }
+      ]
+    },
+    {
+      "id": "part-18",
+      "number": 18,
+      "title": {
+        "en": "Networking & Internet Programming",
+        "bn": "নেটওয়ার্কিং ও ইন্টারনেট প্রোগ্রামিং"
+      },
+      "phase": "Systems & Security",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Validate IPv4/IPv6 addresses, compute CIDR subnets, inspect TCP flags and HTTP payloads, and build safe localhost-only socket diagnostics.",
+        "bn": "IPv4/IPv6 যাচাই, CIDR সাবনেট গণনা, TCP/HTTP বিশ্লেষণ এবং নিরাপদ লোকালহোস্ট সকেট প্রোগ্রামিং অনুশীলন করুন।"
+      },
+      "concepts": [
+        { "en": "IPv4, IPv6 & Ports", "bn": "IPv4, IPv6 ও পোর্ট" },
+        { "en": "CIDR & Subnets", "bn": "CIDR ও সাবনেট" },
+        { "en": "HTTP & URL Parsing", "bn": "HTTP ও URL পার্সিং" },
+        { "en": "Localhost Sockets", "bn": "লোকালহোস্ট সকেট" }
+      ]
+    },
+    {
+      "id": "part-19",
+      "number": 19,
+      "title": {
+        "en": "Cyber Security Programming",
+        "bn": "সাইবার সিকিউরিটি প্রোগ্রামিং"
+      },
+      "phase": "Systems & Security",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Build defensive security logic for password policies, PBKDF2 hashing, SHA-256 integrity, path-traversal defense, and log anomaly detection.",
+        "bn": "পাসওয়ার্ড নীতি, PBKDF2 হ্যাশিং, SHA-256 অখণ্ডতা, পাথ ট্র্যাভার্সাল প্রতিরোধ এবং লগ অসঙ্গতি শনাক্তকরণ অনুশীলন করুন।"
+      },
+      "concepts": [
+        { "en": "Password Policy & PBKDF2", "bn": "পাসওয়ার্ড ও PBKDF2" },
+        { "en": "SHA-256 & File Integrity", "bn": "SHA-256 ও ফাইল অখণ্ডতা" },
+        { "en": "Traversal & XSS Defense", "bn": "পাথ ও XSS প্রতিরক্ষা" },
+        { "en": "Log & Config Auditing", "bn": "লগ ও কনফিগ অডিট" }
+      ]
+    },
+    {
+      "id": "part-20",
+      "number": 20,
+      "title": {
+        "en": "AI-Era Job Interview & Real-World Challenges",
+        "bn": "AI-যুগের জব ইন্টারভিউ ও বাস্তব চ্যালেঞ্জ"
+      },
+      "phase": "Systems & Security",
+      "problemCount": 20,
+      "contentReady": true,
+      "summary": {
+        "en": "Synthesize optimization, debugging, refactoring, ETL pipelines, resilient APIs, unittest suites, AI-code auditing, and security workflows.",
+        "bn": "অপটিমাইজেশন, ডিবাগিং, রিফ্যাক্টরিং, ETL পাইপলাইন, রেজিলিয়েন্ট API, unittest ও AI-কোড অডিটিং অনুশীলন করুন।"
+      },
+      "concepts": [
+        { "en": "Optimize, Debug & Refactor", "bn": "অপটিমাইজ ও ডিবাগিং" },
+        { "en": "ETL, CSV & Resilient APIs", "bn": "ETL, CSV ও API" },
+        { "en": "Unit & Differential Tests", "bn": "ইউনিট ও ডিফারেনশিয়াল টেস্ট" },
+        { "en": "AI Code & Prompt Safety", "bn": "AI কোড ও সুরক্ষা অডিট" }
+      ]
+    }
+  ],
+  "defaultActivity": [
+    {
+      "id": "act-seed-3",
+      "timestamp": { "en": "Today · 09:00", "bn": "আজ · ০৯:০০" },
+      "reference": { "en": "Part 01 · P01-03", "bn": "পার্ট ০১ · P01-03" },
+      "description": {
+        "en": "Completed Swap Two Numbers Without Temp Variable using tuple unpacking.",
+        "bn": "টাপল আনপ্যাকিং ব্যবহার করে অতিরিক্ত ভ্যারিয়েবল ছাড়াই দুটি সংখ্যা অদলবদল সমাধান সম্পন্ন।"
+      },
+      "type": "Solved"
+    },
+    {
+      "id": "act-seed-2",
+      "timestamp": { "en": "Today · 08:40", "bn": "আজ · ০৮:৪০" },
+      "reference": { "en": "Part 01 · P01-02", "bn": "পার্ট ০১ · P01-02" },
+      "description": {
+        "en": "Solved Personalized Greeting & Birth Year Echo with integer input parsing.",
+        "bn": "ইন্টিজার ইনপুট পার্সিংসহ ব্যক্তিগত শুভেচ্ছা ও জন্মসাল প্রিন্ট সমস্যা সমাধান।"
+      },
+      "type": "Solved"
+    },
+    {
+      "id": "act-seed-1",
+      "timestamp": { "en": "Today · 08:15", "bn": "আজ · ০৮:১৫" },
+      "reference": { "en": "Part 01 · P01-01", "bn": "পার্ট ০১ · P01-01" },
+      "description": {
+        "en": "Started Part 01 — Basic Programming Logic and solved Sum & Difference of Two Integers.",
+        "bn": "পার্ট ০১ — বেসিক প্রোগ্রামিং লজিক শুরু করে দুটি পূর্ণসংখ্যার যোগফল ও বিয়োগফল সমাধান সম্পন্ন।"
+      },
+      "type": "Started"
+    }
+  ],
+  "developer": {
+    "name": {
+      "en": "MD. MOJAHIDUR RAHMAN SAJID",
+      "bn": "মোঃ মোজাহিদুর রহমান সাজিদ"
+    },
+    "role": {
+      "en": "Creator & Curriculum Architect",
+      "bn": "নির্মাতা ও কারিকুলাম আর্কিটেক্ট"
+    },
+    "department": {
+      "en": "Computer Science & Technology",
+      "bn": "কম্পিউটার সায়েন্স অ্যান্ড টেকনোলজি"
+    },
+    "institute": {
+      "en": "Bogura Polytechnic Institute",
+      "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউট"
+    },
+    "introduction": {
+      "en": "I am a Computer Science & Technology student dedicated to mastering Python from first principles. PYLOGIC was architected as a disciplined personal environment to strengthen mathematical reasoning, algorithmic clarity, and problem-solving rigor on the path toward cybersecurity engineering and technical interviews.",
+      "bn": "আমি কম্পিউটার সায়েন্স অ্যান্ড টেকনোলজি বিভাগের একজন শিক্ষার্থী, যিনি মৌলিক ভিত্তি থেকে পাইথন দক্ষতা অর্জনে নিবেদিত। গাণিতিক চিন্তাশক্তি, অ্যালগরিদমিক স্বচ্ছতা এবং সাইবার সিকিউরিটি ইঞ্জিনিয়ারিং ও টেকনিক্যাল ইন্টারভিউয়ের প্রস্তুতি সুদৃঢ় করার লক্ষ্যে একটি সুশৃঙ্খল ব্যক্তিগত পরিবেশ হিসেবে PYLOGIC নির্মিত হয়েছে।"
+    },
+    "vision": {
+      "en": "Every problem is approached with clarity before code—prioritizing invariant thinking, clean abstractions, and bilingual accessibility.",
+      "bn": "প্রতিটি সমস্যার সমাধানে কোড লেখার আগে যুক্তি ও স্বচ্ছতাকে প্রাধান্য দেওয়া—যেখানে ইনভ্যারিয়েন্ট চিন্তা, পরিচ্ছন্ন কাঠামো ও দ্বিভাষিক সহজলভ্যতা মূল ভিত্তি।"
+    },
+    "githubUsername": "mojahid-sec",
+    "githubUrl": "https://github.com/mojahid-sec",
+    "photoPath": "/src/assets/developer/profile.jpeg",
+    "interests": [
+      { "en": "Programming", "bn": "প্রোগ্রামিং" },
+      { "en": "Cyber Security", "bn": "সাইবার সিকিউরিটি" },
+      { "en": "Artificial Intelligence", "bn": "কৃত্রিম বুদ্ধিমত্তা (AI)" },
+      { "en": "Modern Technology", "bn": "আধুনিক প্রযুক্তি" }
+    ]
+  }
+}

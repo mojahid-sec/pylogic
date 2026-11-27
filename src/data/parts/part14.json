@@ -1,0 +1,1286 @@
+{
+  "partId": "part-14",
+  "partNumber": 14,
+  "problems": [
+    {
+      "id": "P14-01",
+      "number": 1,
+      "title": {
+        "en": "Write and Read Back a Text File Using Context Managers",
+        "bn": "কনটেক্সট ম্যানেজার দিয়ে টেক্সট ফাইল লেখা ও পড়া"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "with open(..., 'w') & 'r' file modes", "bn": "with open(..., 'w') ও 'r' ফাইল মোড" },
+        { "en": "Context manager auto-closing", "bn": "স্বয়ংক্রিয় ফাইল ক্লোজিং" }
+      ],
+      "description": {
+        "en": "Read an integer N followed by N lines of text from standard input. Inside a temporary workspace directory, open `notes.txt` in write mode (`'w'`) using a `with` statement, write all N lines, then reopen `notes.txt` in read mode (`'r'`), read each line back, strip its trailing newline, and print `Read: <line>`.",
+        "bn": "প্রথমে একটি পূর্ণসংখ্যা N এবং এরপর N লাইন টেক্সট ইনপুট নিন। একটি টেম্পোরারি ডিরেক্টরির ভেতরে `with open(..., 'w')` ব্যবহার করে `notes.txt` ফাইলে লাইনগুলো লিখুন, এরপর `'r'` মোডে ফাইলটি পুনরায় খুলে প্রতিটি লাইন পড়ে শেষে থাকা নিউলাইন সরিয়ে `Read: <line>` আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: text strings to persist into `notes.txt`.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা N। পরবর্তী N লাইন: `notes.txt`-এ সংরক্ষণের জন্য টেক্সট।"
+      },
+      "expectedOutput": {
+        "en": "N lines formatted as `Read: <line>` read back from `notes.txt`.",
+        "bn": "`notes.txt` থেকে পড়া Nটি লাইন `Read: <line>` আকারে।"
+      },
+      "examples": [
+        {
+          "input": "2\nReview file modes\nClose files safely",
+          "output": "Read: Review file modes\nRead: Close files safely",
+          "explanation": {
+            "en": "Both lines are written to `notes.txt` on disk and read back cleanly via `with open`.",
+            "bn": "দুটি লাইন `notes.txt`-এ সংরক্ষিত হয় এবং পুনরায় পড়া হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Always pair `with open(path, 'w', encoding='utf-8') as f:` so Python closes and flushes buffers automatically when exiting the block.",
+        "bn": "`with open(path, 'w', encoding='utf-8')` ব্যবহার করলে ব্লক শেষ হওয়া মাত্র ফাইল নিরাপদে ফ্লাশ ও বন্ধ হয়।"
+      },
+      "hint2": {
+        "en": "When reading lines with `for line in f:`, remember each line ends with `\\n`, so call `line.rstrip('\\n')` before printing.",
+        "bn": "`for line in f:` দিয়ে পড়ার সময় প্রতিটি লাইনের শেষে `\\n` থাকে; তাই প্রিন্টের আগে `line.rstrip('\\n')` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using `with open(...)` guarantees deterministic file closure even if an exception occurs, preventing buffer loss where written text stays unwritten in memory. Writing inside `tempfile.TemporaryDirectory()` keeps real OS file I/O self-contained without leaving test files behind.",
+        "bn": "`with` কনটেক্সট ম্যানেজার যেকোনো অবস্থাতেই ফাইল বন্ধ করে এবং ডেটা ডিস্কে লেখা নিশ্চিত করে। `TemporaryDirectory()` ব্যবহার করলে আসল ফাইল অপারেশন কোনো স্থায়ী আবর্জনা তৈরি না করেই পরীক্ষা করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and n input lines.", "bn": "n এবং nটি ইনপুট লাইন পড়ুন।" },
+        { "en": "Create temporary directory and build path to `notes.txt`.", "bn": "টেম্পোরারি ডিরেক্টরিতে `notes.txt` পাথ তৈরি করুন।" },
+        { "en": "Open `notes.txt` in `'w'` mode and write each line + '\\n'.", "bn": "'w' মোডে `notes.txt` খুলে প্রতিটি লাইন + '\\n' লিখুন।" },
+        { "en": "Reopen `notes.txt` in `'r'` mode, iterate lines, strip '\\n', and print `Read: <line>`.", "bn": "'r' মোডে খুলে প্রতিটি লাইন পড়ে `Read: <line>` প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nlines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"notes.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        for item in lines:\n            f.write(item + \"\\n\")\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            clean = raw.rstrip(\"\\n\")\n            print(f\"Read: {clean}\")",
+      "codeExplanation": {
+        "en": "The first `with open(..., 'w')` block creates and flushes `notes.txt`; the second `with open(..., 'r')` streams each written line directly from disk.",
+        "bn": "প্রথম `with` ব্লক `notes.txt` তৈরি করে ডেটা লেখে ও ফ্লাশ করে; দ্বিতীয় ব্লক ডিস্ক থেকে লাইনগুলো পড়ে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "2\nReview file modes\nClose files safely", "expectedOutput": "Read: Review file modes\nRead: Close files safely", "note": { "en": "Standard write and read", "bn": "সাধারণ লেখা ও পড়া" } },
+        { "input": "1\nHello File IO", "expectedOutput": "Read: Hello File IO", "note": { "en": "Single line", "bn": "এক লাইন" } },
+        { "input": "3\nAlpha\nBeta\nGamma", "expectedOutput": "Read: Alpha\nRead: Beta\nRead: Gamma", "note": { "en": "Three lines", "bn": "তিন লাইন" } }
+      ]
+    },
+    {
+      "id": "P14-02",
+      "number": 2,
+      "title": {
+        "en": "Append New Entries Without Overwriting (`'a'` Mode)",
+        "bn": "পূর্বের তথ্য অক্ষুণ্ণ রেখে ফাইলে নতুন লাইন সংযোজন (`'a'` মোড)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Append mode ('a') vs write mode ('w')", "bn": "অ্যাপেন্ড মোড ('a') বনাম রাইট মোড ('w')" },
+        { "en": "Preserving existing file contents", "bn": "পূর্বের ফাইল ডেটা সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read initial lines for `events.txt`, followed by a separator line `---`, followed by new log lines to append. Write the initial lines to `events.txt` (`'w'`), then open `events.txt` in append mode (`'a'`) to add the new lines without erasing old ones. Finally read `events.txt` and print `Total: <count>` followed by every line in order.",
+        "bn": "`events.txt`-এর প্রাথমিক লাইনগুলো, এরপর `---` বিভাজক এবং শেষে সংযোজনের জন্য নতুন লাইন ইনপুট নিন। প্রথমে `'w'` মোডে প্রাথমিক লাইন লিখুন, তারপর `'a'` মোডে নতুন লাইন যুক্ত করুন। শেষে ফাইল পড়ে `Total: <সংখ্যা>` ও সব লাইন প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Initial lines, then `---`, then lines to append (read until EOF).",
+        "bn": "প্রাথমিক লাইনসমূহ, এরপর `---`, এরপর সংযোজনযোগ্য লাইন (EOF পর্যন্ত)।"
+      },
+      "expectedOutput": {
+        "en": "`Total: <count>` on line 1, then all file lines in order.",
+        "bn": "প্রথম লাইনে `Total: <সংখ্যা>`, এরপর ফাইলের সব লাইন।"
+      },
+      "examples": [
+        {
+          "input": "boot\ninit\n---\nlogin\nlogout",
+          "output": "Total: 4\nboot\ninit\nlogin\nlogout",
+          "explanation": {
+            "en": "Opening in `'a'` mode places the write cursor at the end of `events.txt`, preserving `boot` and `init`.",
+            "bn": "`'a'` মোডে ফাইল খুললে লেখা শেষের দিক থেকে শুরু হয়, তাই `boot` ও `init` মুছে যায় না।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Opening an existing file with `'w'` truncates it to 0 bytes! Use `'a'` when you want to keep previous records.",
+        "bn": "`'w'` মোডে ফাইল খুললে পুরোনো সব তথ্য মুছে যায়; তাই পূর্বের ডেটা রাখতে `'a'` মোড ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Split the stdin lines around `---` into `initial` and `extra`, then write `initial` with `'w'` and `extra` with `'a'`.",
+        "bn": "ইনপুটকে `---` দিয়ে ভাগ করে প্রথম অংশ `'w'` এবং দ্বিতীয় অংশ `'a'` মোডে লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Write (`'w'`) truncates and replaces, whereas append (`'a'`) seeks directly to EOF before every write. Mastering `'a'` vs `'w'` prevents accidental log or database destruction.",
+        "bn": "`'w'` মোড পুরো ফাইল নতুন করে তৈরি করে, কিন্তু `'a'` মোড ফাইলের শেষে কার্সর রেখে সংযোজন করে—লগ ও রেকর্ডের নিরাপত্তা রক্ষায় এটি অপরিহার্য।"
+      },
+      "algorithm": [
+        { "en": "Read all stdin lines and split at `---`.", "bn": "সব ইনপুট লাইন পড়ে `---` স্থানে বিভক্ত করুন।" },
+        { "en": "Write initial lines to `events.txt` with mode `'w'`.", "bn": "`'w'` মোডে প্রাথমিক লাইনগুলো `events.txt`-এ লিখুন।" },
+        { "en": "Open `events.txt` with mode `'a'` and write extra lines.", "bn": "`'a'` মোডে খুলে নতুন লাইনগুলো যোগ করুন।" },
+        { "en": "Read all lines back with `'r'`, print `Total: <count>` and each line.", "bn": "`'r'` মোডে পড়ে মোট সংখ্যা ও প্রতিটি লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport sys\nimport tempfile\n\nall_lines = [line.rstrip(\"\\n\") for line in sys.stdin.read().splitlines()]\nsep = all_lines.index(\"---\")\ninitial = all_lines[:sep]\nextra = all_lines[sep + 1:]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"events.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        for item in initial:\n            f.write(item + \"\\n\")\n    with open(path, \"a\", encoding=\"utf-8\") as f:\n        for item in extra:\n            f.write(item + \"\\n\")\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        final_lines = [line.rstrip(\"\\n\") for line in f]\n\nprint(f\"Total: {len(final_lines)}\")\nfor line in final_lines:\n    print(line)",
+      "codeExplanation": {
+        "en": "The file starts with `initial` entries, gains `extra` entries via `'a'`, and is verified by reading back from disk.",
+        "bn": "ফাইলটি প্রথমে `initial` পায়, পরে `'a'` মোডে `extra` যুক্ত হয় এবং শেষে ডিস্ক থেকে পড়ে যাচাই হয়।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "boot\ninit\n---\nlogin\nlogout", "expectedOutput": "Total: 4\nboot\ninit\nlogin\nlogout", "note": { "en": "Two initial + two appended", "bn": "২টি প্রাথমিক + ২টি সংযোজিত" } },
+        { "input": "start\n---\nend", "expectedOutput": "Total: 2\nstart\nend", "note": { "en": "Single append", "bn": "একটি লাইন সংযোজন" } },
+        { "input": "alpha\nbeta\n---\n", "expectedOutput": "Total: 2\nalpha\nbeta", "note": { "en": "Zero lines appended", "bn": "শূন্য সংযোজন" } }
+      ]
+    },
+    {
+      "id": "P14-03",
+      "number": 3,
+      "title": {
+        "en": "Line, Word, and Character Counter From a File",
+        "bn": "ফাইল থেকে লাইন, শব্দ ও অক্ষর গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Streaming file line by line", "bn": "লাইন-বাই-লাইন ফাইল পড়া" },
+        { "en": "Token splitting and character counting", "bn": "শব্দ বিভাজন ও অক্ষর গণনা" }
+      ],
+      "description": {
+        "en": "Read an integer N followed by N lines of text, and write them to `essay.txt`. Reopen `essay.txt` and stream it line-by-line to compute total lines, total whitespace-separated words, and total non-newline characters (`len(line.rstrip('\\n'))`). Print three lines: `Lines: <L>`, `Words: <W>`, and `Chars: <C>`.",
+        "bn": "একটি পূর্ণসংখ্যা N ও N লাইন টেক্সট নিয়ে `essay.txt`-এ সংরক্ষণ করুন। এরপর ফাইলটি লাইন-বাই-লাইন পড়ে মোট লাইন, স্পেস-বিচ্ছিন্ন শব্দ এবং নিউলাইন বাদে মোট অক্ষর (`len(line.rstrip('\\n'))`) গণনা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: text for `essay.txt`.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা N। পরবর্তী N লাইন: `essay.txt`-এর টেক্সট।"
+      },
+      "expectedOutput": {
+        "en": "Three lines: `Lines: <L>`, `Words: <W>`, `Chars: <C>`.",
+        "bn": "তিনটি লাইন: `Lines: <L>`, `Words: <W>`, `Chars: <C>`।"
+      },
+      "examples": [
+        {
+          "input": "2\nPython reads files\ncleanly",
+          "output": "Lines: 2\nWords: 4\nChars: 25",
+          "explanation": {
+            "en": "2 lines; words: Python, reads, files, cleanly (4); characters without newlines: 18 + 7 = 25.",
+            "bn": "২টি লাইন; ৪টি শব্দ এবং নিউলাইন ছাড়া মোট ২৫টি অক্ষর।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Iterating `for raw in f:` reads one line at a time using O(1) memory instead of loading huge files via `.read()`.",
+        "bn": "`for raw in f:` একবারে পুরো ফাইল র‍্যামে না তুলে এক লাইন করে পড়ে, যা বড় ফাইলের জন্য নিরাপদ।"
+      },
+      "hint2": {
+        "en": "Strip `'\\n'` from each line (`clean = raw.rstrip('\\n')`), then increment `lines += 1`, `words += len(clean.split())`, and `chars += len(clean)`.",
+        "bn": "`clean = raw.rstrip('\\n')` করে `lines += 1`, `words += len(clean.split())` এবং `chars += len(clean)` যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Streaming line-by-line behaves like Unix `wc`: each line updates line, word, and character accumulators incrementally without keeping the whole file in memory.",
+        "bn": "লাইন-বাই-লাইন স্ট্রিমিং ইউনিক্সের `wc` কমান্ডের মতো কাজ করে এবং মেমরি খরচ সর্বনিম্ন রাখে।"
+      },
+      "algorithm": [
+        { "en": "Read n and write n lines into `essay.txt`.", "bn": "n পড়ে nটি লাইন `essay.txt`-এ লিখুন।" },
+        { "en": "Initialize line_cnt = word_cnt = char_cnt = 0.", "bn": "line_cnt, word_cnt, char_cnt = 0 ধরুন।" },
+        { "en": "Stream `essay.txt`: strip '\\n', increment line_cnt, add len(clean.split()) and len(clean).", "bn": "ফাইল স্ট্রিম করে লাইন, শব্দ ও অক্ষর গণনা বাড়ান।" },
+        { "en": "Print Lines, Words, and Chars.", "bn": "তিনটি মান নির্ধারিত ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\ncontent = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"essay.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        for line in content:\n            f.write(line + \"\\n\")\n    line_cnt = word_cnt = char_cnt = 0\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            clean = raw.rstrip(\"\\n\")\n            line_cnt += 1\n            word_cnt += len(clean.split())\n            char_cnt += len(clean)\n\nprint(f\"Lines: {line_cnt}\")\nprint(f\"Words: {word_cnt}\")\nprint(f\"Chars: {char_cnt}\")",
+      "codeExplanation": {
+        "en": "clean.split() handles multiple spaces cleanly and yields 0 words on blank lines, while len(clean) counts characters excluding newline terminators.",
+        "bn": "clean.split() ফাঁকা লাইনে ০টি শব্দ এবং একাধিক স্পেস সঠিকভাবে সামলায়।"
+      },
+      "complexity": { "time": "O(total characters)", "space": "O(max line length) while streaming" },
+      "testCases": [
+        { "input": "2\nPython reads files\ncleanly", "expectedOutput": "Lines: 2\nWords: 4\nChars: 25", "note": { "en": "Standard multi-line count", "bn": "বহু-লাইন গণনা" } },
+        { "input": "3\none\n\ntwo three", "expectedOutput": "Lines: 3\nWords: 3\nChars: 12", "note": { "en": "Includes empty line", "bn": "ফাঁকা লাইনসহ" } },
+        { "input": "1\nabc", "expectedOutput": "Lines: 1\nWords: 1\nChars: 3", "note": { "en": "Single word", "bn": "একক শব্দ" } }
+      ]
+    },
+    {
+      "id": "P14-04",
+      "number": 4,
+      "title": {
+        "en": "Safe File Reader With `FileNotFoundError` Exception Handling",
+        "bn": "`FileNotFoundError` নিয়ন্ত্রণসহ নিরাপদ ফাইল রিডার"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "try / except FileNotFoundError", "bn": "try / except FileNotFoundError" },
+        { "en": "Preventing unhandled I/O crashes", "bn": "অপ্রত্যাশিত I/O ক্র্যাশ প্রতিরোধ" }
+      ],
+      "description": {
+        "en": "Read `<existing_file>|<content>` on line 1 (which is created inside the workspace directory) and `<requested_file>` on line 2. Attempt to open `<requested_file>` inside a `try / except FileNotFoundError:` block. If found, print its exact content; if missing, catch `FileNotFoundError` and print `ERROR: File '<requested_file>' not found`.",
+        "bn": "১ম লাইনে `<বিদ্যমান_ফাইল>|<বিষয়বস্তু>` (যা ডিরেক্টরিতে তৈরি হবে) এবং ২য় লাইনে `<অনুরোধকৃত_ফাইল>` ইনপুট নিন। `try / except FileNotFoundError:` ব্লকের ভেতরে অনুরোধকৃত ফাইলটি খোলার চেষ্টা করুন; পাওয়া গেলে তার বিষয়বস্তু, না পাওয়া গেলে `ERROR: File '<নাম>' not found` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: `filename|text`. Line 2: `target_filename`.",
+        "bn": "১ম লাইন: `filename|text`। ২য় লাইন: `target_filename`।"
+      },
+      "expectedOutput": {
+        "en": "The file contents if present, or `ERROR: File '<target_filename>' not found`.",
+        "bn": "ফাইল পাওয়া গেলে তার টেক্সট, নতুবা `ERROR: File '<নাম>' not found`।"
+      },
+      "examples": [
+        {
+          "input": "data.txt|hello world\nmissing.txt",
+          "output": "ERROR: File 'missing.txt' not found",
+          "explanation": {
+            "en": "`missing.txt` does not exist in the directory, so `open()` raises `FileNotFoundError`, which the handler catches cleanly.",
+            "bn": "`missing.txt` তৈরি না থাকায় `FileNotFoundError` ধরা পড়ে এবং পরিচ্ছন্ন বার্তা প্রিন্ট হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Also sanitize `<requested_file>` with `os.path.basename` or keep paths inside the workspace directory before calling `open()`.",
+        "bn": "`os.path.join(tmpdir, os.path.basename(target))` ব্যবহার করলে ফাইল খোঁজা নিরাপদভাবে ডিরেক্টরির ভেতরেই সীমাবদ্ধ থাকে।"
+      },
+      "hint2": {
+        "en": "Place `with open(target_path, 'r') as f:` inside `try:` and handle `except FileNotFoundError:`.",
+        "bn": "`try:` ব্লকের ভেতরে `with open(...)` চালিয়ে `except FileNotFoundError:`-এ ত্রুটি বার্তা দেখান।"
+      },
+      "logicBreakdown": {
+        "en": "In real systems, files may be deleted, renamed, or mistyped between checks. Pythonic EAFP (Easier to Ask for Forgiveness than Permission) wraps `open()` directly in `try / except FileNotFoundError`, avoiding race conditions and unhandled tracebacks.",
+        "bn": "বাস্তব সফটওয়্যারে ফাইল না থাকলে প্রোগ্রাম যেন ক্র্যাশ না করে, সেজন্য `open()`-কে `try / except FileNotFoundError` ব্লকে রাখা পাইথনের মানসম্মত নিরাপদ নিয়ম।"
+      },
+      "algorithm": [
+        { "en": "Split line 1 on `|` into existing_name and content; read target_name.", "bn": "১ম লাইনকে `|` দিয়ে ভাগ করে existing_name ও content এবং ২য় লাইন থেকে target_name নিন।" },
+        { "en": "Write existing_name inside temp directory.", "bn": "টেম্প ডিরেক্টরিতে existing_name তৈরি করে content লিখুন।" },
+        { "en": "Inside `try:`, open target_name and print `.read()`.", "bn": "`try:` ব্লকে target_name খুলে `.read()` প্রিন্ট করুন।" },
+        { "en": "Inside `except FileNotFoundError:`, print the error message.", "bn": "`except FileNotFoundError:` ব্লকে ত্রুটি বার্তা প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nexisting_name, content = input().split(\"|\", 1)\ntarget_name = input().strip()\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    with open(os.path.join(tmpdir, existing_name), \"w\", encoding=\"utf-8\") as f:\n        f.write(content)\n    target_path = os.path.join(tmpdir, os.path.basename(target_name))\n    try:\n        with open(target_path, \"r\", encoding=\"utf-8\") as f:\n            print(f.read())\n    except FileNotFoundError:\n        print(f\"ERROR: File '{target_name}' not found\")",
+      "codeExplanation": {
+        "en": "os.path.basename keeps lookups confined inside tmpdir. When target_path does not exist, FileNotFoundError prevents a crash and prints a clear diagnostic.",
+        "bn": "os.path.basename ডিরেক্টরির ভেতরে লুকআপ সীমাবদ্ধ রাখে এবং ফাইল না পেলে except ব্লক ক্র্যাশ ছাড়াই বার্তা প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(file size)", "space": "O(file size)" },
+      "testCases": [
+        { "input": "data.txt|hello world\nmissing.txt", "expectedOutput": "ERROR: File 'missing.txt' not found", "note": { "en": "Missing file caught safely", "bn": "অনুপস্থিত ফাইল" } },
+        { "input": "config.txt|mode=prod\nconfig.txt", "expectedOutput": "mode=prod", "note": { "en": "Existing file read", "bn": "বিদ্যমান ফাইল পাঠ" } },
+        { "input": "readme.md|PYLOGIC\nREADME.txt", "expectedOutput": "ERROR: File 'README.txt' not found", "note": { "en": "Wrong filename", "bn": "ভুল ফাইলনাম" } }
+      ]
+    },
+    {
+      "id": "P14-05",
+      "number": 5,
+      "title": {
+        "en": "Copy File With 1-Based Line Numbering",
+        "bn": "১-ভিত্তিক লাইন নম্বরসহ ফাইল কপি"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Dual open() streams (source & destination)", "bn": "একসাথে উৎস ও গন্তব্য ফাইল খোলা" },
+        { "en": "enumerate(..., start=1)", "bn": "enumerate(..., start=1)" }
+      ],
+      "description": {
+        "en": "Read integer N followed by N lines for `source.txt`. Open `source.txt` for reading and `numbered.txt` for writing simultaneously, copy every line prefixed with `<line_number>: ` (starting at 1), and then read `numbered.txt` back to print its contents.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইন নিয়ে `source.txt` তৈরি করুন। এরপর একসাথে `source.txt` পড়ে `numbered.txt`-এ প্রতিটি লাইনের শুরুতে `<নম্বর>: ` (১ থেকে শুরু) যোগ করে কপি করুন এবং `numbered.txt` পড়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: lines for `source.txt`.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা N। পরবর্তী N লাইন: `source.txt`-এর বিষয়বস্তু।"
+      },
+      "expectedOutput": {
+        "en": "Contents of `numbered.txt`, one numbered line per line.",
+        "bn": "`numbered.txt`-এর নম্বরযুক্ত প্রতিটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "3\nimport os\nopen file\nclose file",
+          "output": "1: import os\n2: open file\n3: close file",
+          "explanation": {
+            "en": "`enumerate(src, start=1)` streams each source line directly into `numbered.txt` with its 1-based index.",
+            "bn": "`enumerate(src, start=1)` দিয়ে সোর্সের প্রতিটি লাইন সরাসরি নম্বরসহ নতুন ফাইলে লেখা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Python lets you open two files in one `with` statement: `with open(src, 'r') as fin, open(dst, 'w') as fout:`.",
+        "bn": "পাইথনে একটি `with` স্টেটমেন্টেই দুটি ফাইল খোলা যায়: `with open(src, 'r') as fin, open(dst, 'w') as fout:`।"
+      },
+      "hint2": {
+        "en": "Use `for idx, line in enumerate(fin, start=1): fout.write(f'{idx}: {line}')` (keeping `line` as-is if it already ends with `'\\n'`).",
+        "bn": "`enumerate(fin, start=1)` ব্যবহার করে `fout.write(f'{idx}: {line}')` লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Simultaneous read-write streaming transforms arbitrarily large files in `O(1)` memory, copying one formatted line at a time from `source.txt` into `numbered.txt`.",
+        "bn": "একসাথে ইনপুট ও আউটপুট স্ট্রিম খুললে পুরো ফাইল মেমরিতে লোড না করেই লাইন নম্বরসহ কপি করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n lines and write `source.txt`.", "bn": "nটি লাইন `source.txt`-এ লিখুন।" },
+        { "en": "Open `source.txt` (`'r'`) and `numbered.txt` (`'w'`) together.", "bn": "একসাথে `source.txt` ও `numbered.txt` খুলুন।" },
+        { "en": "Enumerate lines from 1 and write `f\"{idx}: {line}\"` to `numbered.txt`.", "bn": "১ থেকে গুনে প্রতিটি লাইন নম্বরসহ `numbered.txt`-এ লিখুন।" },
+        { "en": "Reopen `numbered.txt` and print each line.", "bn": "`numbered.txt` পড়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nlines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    src = os.path.join(tmpdir, \"source.txt\")\n    dst = os.path.join(tmpdir, \"numbered.txt\")\n    with open(src, \"w\", encoding=\"utf-8\") as f:\n        for item in lines:\n            f.write(item + \"\\n\")\n    with open(src, \"r\", encoding=\"utf-8\") as fin, open(dst, \"w\", encoding=\"utf-8\") as fout:\n        for idx, raw in enumerate(fin, start=1):\n            fout.write(f\"{idx}: {raw}\")\n    with open(dst, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            print(raw.rstrip(\"\\n\"))",
+      "codeExplanation": {
+        "en": "Because raw already ends with '\\n' from source.txt, f\"{idx}: {raw}\" writes cleanly to numbered.txt in a single streaming pass.",
+        "bn": "source.txt থেকে পড়া raw লাইনে '\\n' থাকায় সরাসরি f\"{idx}: {raw}\" ফরম্যাটে numbered.txt-এ লেখা হয়ে যায়।"
+      },
+      "complexity": { "time": "O(total characters)", "space": "O(max line length)" },
+      "testCases": [
+        { "input": "3\nimport os\nopen file\nclose file", "expectedOutput": "1: import os\n2: open file\n3: close file", "note": { "en": "3 lines numbered", "bn": "৩ লাইন নম্বরসহ" } },
+        { "input": "1\nsingle", "expectedOutput": "1: single", "note": { "en": "Single line", "bn": "১ লাইন" } },
+        { "input": "2\nfirst\nsecond", "expectedOutput": "1: first\n2: second", "note": { "en": "Two lines", "bn": "২ লাইন" } }
+      ]
+    },
+    {
+      "id": "P14-06",
+      "number": 6,
+      "title": {
+        "en": "Case-Insensitive Keyword Search Inside a Text File",
+        "bn": "টেক্সট ফাইলে কেস-ইনসেন্সিটিভ কীওয়ার্ড অনুসন্ধান"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Line-indexed file searching", "bn": "লাইন-সূচকসহ ফাইল সার্চ" },
+        { "en": "Case folding with .lower()", "bn": ".lower() দিয়ে কেস-নিরপেক্ষ তুলনা" }
+      ],
+      "description": {
+        "en": "Read a search keyword on line 1, integer N on line 2, and N lines of text for `document.txt`. Stream `document.txt` line-by-line, find all lines containing the keyword (case-insensitive), and print `Line <num>: <line>` for each match. If no lines match, print `NO_MATCHES`.",
+        "bn": "১ম লাইনে একটি অনুসন্ধান কীওয়ার্ড, ২য় লাইনে পূর্ণসংখ্যা N এবং এরপর N লাইন টেক্সট `document.txt`-এ সংরক্ষণ করুন। ফাইলটি লাইন-বাই-লাইন পড়ে কীওয়ার্ডযুক্ত লাইনগুলো (বড়-ছোট হাতের অক্ষর নির্বিশেষে) `Line <নম্বর>: <লাইন>` আকারে প্রিন্ট করুন; না মিললে `NO_MATCHES` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: keyword. Line 2: integer N. Next N lines: lines for `document.txt`.",
+        "bn": "১ম লাইন: কীওয়ার্ড। ২য় লাইন: N। পরবর্তী N লাইন: `document.txt`।"
+      },
+      "expectedOutput": {
+        "en": "Matching lines as `Line <num>: <line>`, or `NO_MATCHES`.",
+        "bn": "মিলে যাওয়া লাইন `Line <num>: <line>` অথবা `NO_MATCHES`।"
+      },
+      "examples": [
+        {
+          "input": "error\n3\nSystem started\nDisk ERROR on sda1\nAll checks passed",
+          "output": "Line 2: Disk ERROR on sda1",
+          "explanation": {
+            "en": "Line 2 matches `error` case-insensitively while preserving the original line casing in output.",
+            "bn": "২ নম্বর লাইনে `ERROR` বড় হাতের হলেও `error`-এর সাথে মিলেছে এবং মূল লাইনটিই প্রিন্ট হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize `kw = keyword.lower()` once before opening the file, then check `if kw in clean.lower():` while printing the original `clean` line.",
+        "bn": "তুলনার সময় `kw in clean.lower()` দেখুন, কিন্তু প্রিন্ট করার সময় মূল `clean` লাইনটিই রাখুন।"
+      },
+      "hint2": {
+        "en": "Track a list or boolean `found = False` so you can print `NO_MATCHES` if the loop finishes without hits.",
+        "bn": "`found` ফ্ল্যাগ রাখুন যাতে কোনো মিল না পেলে লুপ শেষে `NO_MATCHES` প্রিন্ট করা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "This implements `grep -in` in pure Python: streaming line numbers via `enumerate(f, 1)` keeps memory `O(1)` regardless of document size while `lower()` ensures reliable case-insensitive matching.",
+        "bn": "এটি বিশুদ্ধ পাইথনে `grep -in` কমান্ডের কাজ করে—`enumerate(f, 1)` লাইন নম্বর দেয় এবং `.lower()` কেস-নিরপেক্ষ অনুসন্ধান নিশ্চিত করে।"
+      },
+      "algorithm": [
+        { "en": "Read keyword, n, and write n lines to `document.txt`.", "bn": "keyword, n পড়ে `document.txt` তৈরি করুন।" },
+        { "en": "Open `document.txt` and iterate `enumerate(f, start=1)`.", "bn": "`document.txt` খুলে ১ থেকে লাইন নম্বরসহ পড়ুন।" },
+        { "en": "Check `keyword.lower() in clean.lower()`; print matches and mark found = True.", "bn": "`keyword.lower() in clean.lower()` মিললে প্রিন্ট করুন ও found = True রাখুন।" },
+        { "en": "If not found, print `NO_MATCHES`.", "bn": "কোনো মিল না থাকলে `NO_MATCHES` প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nkeyword = input().strip().lower()\nn = int(input())\nlines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"document.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        for item in lines:\n            f.write(item + \"\\n\")\n    found = False\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        for idx, raw in enumerate(f, start=1):\n            clean = raw.rstrip(\"\\n\")\n            if keyword in clean.lower():\n                print(f\"Line {idx}: {clean}\")\n                found = True\n    if not found:\n        print(\"NO_MATCHES\")",
+      "codeExplanation": {
+        "en": "clean preserves original capitalization for display, while clean.lower() performs the case-insensitive substring test.",
+        "bn": "clean মূল অক্ষরের ধরন ধরে রাখে আর clean.lower() দিয়ে কেস-নিরপেক্ষ খোঁজা হয়।"
+      },
+      "complexity": { "time": "O(total characters)", "space": "O(max line length)" },
+      "testCases": [
+        { "input": "error\n3\nSystem started\nDisk ERROR on sda1\nAll checks passed", "expectedOutput": "Line 2: Disk ERROR on sda1", "note": { "en": "Case-insensitive single hit", "bn": "একটি মিল" } },
+        { "input": "python\n2\nJava guide\nC basics", "expectedOutput": "NO_MATCHES", "note": { "en": "No matching lines", "bn": "কোনো মিল নেই" } },
+        { "input": "py\n3\nPyLogic\nHappy coding\nPython 3", "expectedOutput": "Line 1: PyLogic\nLine 2: Happy coding\nLine 3: Python 3", "note": { "en": "Substring across all lines", "bn": "সব লাইনে উপ-স্ট্রিং মিল" } }
+      ]
+    },
+    {
+      "id": "P14-07",
+      "number": 7,
+      "title": {
+        "en": "Strip Blank Lines & `#` Comments Into a Clean Config File",
+        "bn": "ফাঁকা লাইন ও `#` মন্তব্য বাদ দিয়ে কনফিগ ফাইল পরিষ্কারকরণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Whitespace & prefix filtering", "bn": "হোয়াইটস্পেস ও `#` প্রিফিক্স ফিল্টারিং" },
+        { "en": "Transforming raw file to clean file", "bn": "র ফাইল থেকে পরিচ্ছন্ন ফাইল তৈরি" }
+      ],
+      "description": {
+        "en": "Read integer N and N lines written to `raw.conf`. Filter `raw.conf` into `clean.conf` by skipping empty/whitespace-only lines and any line whose stripped text begins with `#`. Preserve the stripped text of all remaining lines. Finally read `clean.conf` and print `Kept: <count>` followed by every line in `clean.conf`.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইন নিয়ে `raw.conf` তৈরি করুন। ফাইলটি পড়ে খালি/স্পেস-মাত্র লাইন এবং যেগুলোর শুরুতে `#` মন্তব্য আছে সেগুলো বাদ দিয়ে বাকি লাইনগুলোর পরিচ্ছন্ন রূপ `clean.conf`-এ লিখুন। শেষে `clean.conf` পড়ে `Kept: <সংখ্যা>` ও লাইনগুলো প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: lines for `raw.conf`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `raw.conf`-এর লাইন।"
+      },
+      "expectedOutput": {
+        "en": "`Kept: <count>`, followed by each kept line from `clean.conf`.",
+        "bn": "`Kept: <সংখ্যা>` এবং `clean.conf`-এর প্রতিটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "5\n# Server settings\n\nhost=localhost\n  # port setting\nport=3000",
+          "output": "Kept: 2\nhost=localhost\nport=3000",
+          "explanation": {
+            "en": "Both `#` comments (even indented `  #`) and the blank line are skipped, keeping only active settings.",
+            "bn": "মন্তব্য লাইন ও ফাঁকা লাইন বাদ পড়ে এবং কেবল সক্রিয় দুটি সেটিং `clean.conf`-এ থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Call `s = raw.strip()` first! Then an indented comment like `'  # note'` still satisfies `s.startswith('#')`.",
+        "bn": "প্রথমে `s = raw.strip()` করুন, যাতে শুরুতে স্পেস থাকা মন্তব্য (`  # note`)-ও সঠিকভাবে ধরা পড়ে।"
+      },
+      "hint2": {
+        "en": "Skip the line whenever `not s or s.startswith('#')`.",
+        "bn": "`not s or s.startswith('#')` হলে লাইনটি এড়িয়ে যান।"
+      },
+      "logicBreakdown": {
+        "en": "Configuration parsers ignore whitespace-only lines and comment lines before parsing `key=value` tokens. Stripping first handles indented comments reliably before writing `clean.conf`.",
+        "bn": "কনফিগ পার্সার আগে ফাঁকা ও `#` মন্তব্য লাইন ছেঁকে ফেলে। `strip()` আগে করলে ইনডেন্টেড মন্তব্যও সহজে বাদ দেওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Write n lines to `raw.conf`.", "bn": "nটি লাইন `raw.conf`-এ লিখুন।" },
+        { "en": "Read `raw.conf` and open `clean.conf` for writing.", "bn": "`raw.conf` পড়ে `clean.conf` লিখার জন্য খুলুন।" },
+        { "en": "For each line, strip whitespace; if non-empty and not starting with `#`, write it.", "bn": "strip() করার পর খালি না হলে এবং `#` দিয়ে শুরু না হলে লিখুন।" },
+        { "en": "Read `clean.conf` back, print `Kept: <count>` and all lines.", "bn": "`clean.conf` পড়ে সংখ্যা ও লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nlines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    raw_p = os.path.join(tmpdir, \"raw.conf\")\n    clean_p = os.path.join(tmpdir, \"clean.conf\")\n    with open(raw_p, \"w\", encoding=\"utf-8\") as f:\n        for item in lines:\n            f.write(item + \"\\n\")\n    with open(raw_p, \"r\", encoding=\"utf-8\") as fin, open(clean_p, \"w\", encoding=\"utf-8\") as fout:\n        for raw in fin:\n            s = raw.strip()\n            if not s or s.startswith(\"#\"):\n                continue\n            fout.write(s + \"\\n\")\n    with open(clean_p, \"r\", encoding=\"utf-8\") as f:\n        kept = [line.rstrip(\"\\n\") for line in f]\n\nprint(f\"Kept: {len(kept)}\")\nfor line in kept:\n    print(line)",
+      "codeExplanation": {
+        "en": "s = raw.strip() normalizes whitespace so both blank lines (empty s) and indented `#` comments are filtered cleanly.",
+        "bn": "s = raw.strip() ফাঁকা লাইন ও ইনডেন্টেড `#` উভয়ই বাদ দিতে সাহায্য করে।"
+      },
+      "complexity": { "time": "O(total characters)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5\n# Server settings\n\nhost=localhost\n  # port setting\nport=3000", "expectedOutput": "Kept: 2\nhost=localhost\nport=3000", "note": { "en": "Comments and blanks removed", "bn": "মন্তব্য ও ফাঁকা লাইন অপসারণ" } },
+        { "input": "2\n# only comment\n   ", "expectedOutput": "Kept: 0", "note": { "en": "All lines filtered", "bn": "সব লাইন বাদ" } },
+        { "input": "2\ndebug=false\ntimeout=30", "expectedOutput": "Kept: 2\ndebug=false\ntimeout=30", "note": { "en": "No comments", "bn": "মন্তব্যহীন কনফিগ" } }
+      ]
+    },
+    {
+      "id": "P14-08",
+      "number": 8,
+      "title": {
+        "en": "Student Marks File Aggregator & Top Scorer",
+        "bn": "ফাইল থেকে শিক্ষার্থীদের নম্বরের গড় ও শীর্ষ নম্বরধারী নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Record parsing from text files", "bn": "টেক্সট ফাইল থেকে রেকর্ড পার্সিং" },
+        { "en": "Streaming sum, average, and maximum tracking", "bn": "সমষ্টি, গড় ও সর্বোচ্চ মান ট্র্যাকিং" }
+      ],
+      "description": {
+        "en": "Read integer N (N >= 1) followed by N lines formatted as `<Name> <Score>` (integer score) and write them to `marks.txt`. Read `marks.txt` line-by-line, parse each student name and score, and print:\n`Total: <sum>`\n`Average: <avg:.2f>`\n`Top: <name> (<score>)` (if tied, keep the first student seen).",
+        "bn": "পূর্ণসংখ্যা N এবং এরপর `<নাম> <নম্বর>` আকারে N লাইন নিয়ে `marks.txt`-এ লিখুন। ফাইলটি পড়ে মোট নম্বর, ২ দশমিক স্থান পর্যন্ত গড় এবং সর্বোচ্চ নম্বরধারীর নাম প্রিন্ট করুন (সমান নম্বরে প্রথমজনকে রাখুন)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: `<Name> <Score>`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `<নাম> <নম্বর>`।"
+      },
+      "expectedOutput": {
+        "en": "Three lines: Total, Average (2 decimals), and Top student.",
+        "bn": "তিনটি লাইন: Total, Average (২ দশমিক), এবং Top শিক্ষার্থী।"
+      },
+      "examples": [
+        {
+          "input": "3\nAmina 88\nTariq 94\nNadia 91",
+          "output": "Total: 273\nAverage: 91.00\nTop: Tariq (94)",
+          "explanation": {
+            "en": "88 + 94 + 91 = 273; average = 91.00; Tariq has the highest score 94.",
+            "bn": "মোট ২৭৩, গড় ৯১.০০ এবং সর্বোচ্চ ৯৪ পেয়েছেন Tariq।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `name, score_str = line.split()` and convert `score = int(score_str)`.",
+        "bn": "`name, score_str = line.split()` ব্যবহার করে `int(score_str)`-এ রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Initialize `best_score = -1` (or update whenever `top_name is None or score > best_score`) so strict `>` keeps the earliest student on ties.",
+        "bn": "`top_name is None or score > best_score` শর্ত দিলে সমান স্কোরে প্রথমজনই বজায় থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "Structured plain-text records store fields separated by spaces. Splitting each parsed line converts textual digits back to integers so arithmetic aggregation and extremum tracking stay accurate.",
+        "bn": "টেক্সট ফাইল থেকে পড়া সব মান স্ট্রিং হিসেবে আসে; তাই হিসাব করার আগে `int()` রূপান্তর জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Write N `<Name> <Score>` records to `marks.txt`.", "bn": "Nটি রেকর্ড `marks.txt`-এ লিখুন।" },
+        { "en": "Open `marks.txt`, initialize total = 0, count = 0, top_name = None, best_score = 0.", "bn": "ফাইল খুলে total, count ও top ট্র্যাকার সেট করুন।" },
+        { "en": "Split each non-empty line, parse score, add to total, update top if score > best_score.", "bn": "প্রতি লাইন ভেঙে total যোগ করুন ও সর্বোচ্চ হলে top আপডেট করুন।" },
+        { "en": "Print Total, Average formatted to 2 decimal places, and Top.", "bn": "Total, Average ও Top প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nrecords = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"marks.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        for r in records:\n            f.write(r + \"\\n\")\n    total = 0\n    count = 0\n    top_name = None\n    best_score = 0\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            s = raw.strip()\n            if not s:\n                continue\n            name, score_str = s.split()\n            score = int(score_str)\n            total += score\n            count += 1\n            if top_name is None or score > best_score:\n                best_score = score\n                top_name = name\n\nprint(f\"Total: {total}\")\nprint(f\"Average: {total / count:.2f}\")\nprint(f\"Top: {top_name} ({best_score})\")",
+      "codeExplanation": {
+        "en": "Using `top_name is None or score > best_score` guarantees the first student wins ties and works even if scores were 0 or negative.",
+        "bn": "`top_name is None or score > best_score` ব্যবহার করায় প্রথমজন প্রাধান্য পায় এবং শূন্য বা ঋণাত্মক স্কোরও সঠিকভাবে কাজ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) streaming" },
+      "testCases": [
+        { "input": "3\nAmina 88\nTariq 94\nNadia 91", "expectedOutput": "Total: 273\nAverage: 91.00\nTop: Tariq (94)", "note": { "en": "Distinct scores", "bn": "ভিন্ন ভিন্ন নম্বর" } },
+        { "input": "2\nRafi 80\nSadia 80", "expectedOutput": "Total: 160\nAverage: 80.00\nTop: Rafi (80)", "note": { "en": "Tie keeps first student", "bn": "সমান নম্বরে প্রথমজন" } },
+        { "input": "1\nZara 100", "expectedOutput": "Total: 100\nAverage: 100.00\nTop: Zara (100)", "note": { "en": "Single student", "bn": "একজন শিক্ষার্থী" } }
+      ]
+    },
+    {
+      "id": "P14-09",
+      "number": 9,
+      "title": {
+        "en": "File Cursor Control With `tell()` and `seek()`",
+        "bn": "`tell()` ও `seek()` দিয়ে ফাইল কার্সর নিয়ন্ত্রণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "f.read(k) partial reading", "bn": "f.read(k) আংশিক পড়া" },
+        { "en": "Cursor inspection with tell() & seek()", "bn": "tell() ও seek() দিয়ে অবস্থান পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Read an ASCII string on line 1 (written to `stream.txt`), integer `k` on line 2, and integer `offset` on line 3. Open `stream.txt`, read the first `k` characters, record the cursor position using `f.tell()`, call `f.seek(offset)`, and read the rest of the file. Print:\n`Chunk: <first_k>`\n`Tell: <pos>`\n`AfterSeek: <rest>`",
+        "bn": "১ম লাইনে একটি ASCII টেক্সট (`stream.txt`-এ লেখার জন্য), ২য় লাইনে পূর্ণসংখ্যা `k` এবং ৩য় লাইনে `offset` নিন। ফাইলটি খুলে প্রথম `k` অক্ষর পড়ুন, `f.tell()` দিয়ে কার্সরের অবস্থান নিন, এরপর `f.seek(offset)` দিয়ে সেখানে গিয়ে বাকি অংশ পড়ুন এবং প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: ASCII string. Line 2: integer k. Line 3: integer offset.",
+        "bn": "১ম লাইন: ASCII টেক্সট। ২য় লাইন: k। ৩য় লাইন: offset।"
+      },
+      "expectedOutput": {
+        "en": "Three lines showing `Chunk`, `Tell`, and `AfterSeek`.",
+        "bn": "`Chunk`, `Tell` এবং `AfterSeek` প্রদর্শনকারী ৩টি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "PYLOGIC-FILE-IO\n7\n8",
+          "output": "Chunk: PYLOGIC\nTell: 7\nAfterSeek: FILE-IO",
+          "explanation": {
+            "en": "Reading 7 ASCII bytes advances cursor to tell() = 7; seeking to byte 8 skips '-' and reads 'FILE-IO'.",
+            "bn": "৭ বাইট পড়ায় tell() = 7 হয়; seek(8) '-' এড়িয়ে 'FILE-IO' পড়ে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In ASCII text mode (`'r'`, UTF-8), each ASCII character is 1 byte, so `f.read(k)` places `f.tell()` right at `k`.",
+        "bn": "ASCII টেক্সটে প্রতিটি অক্ষর ১ বাইট, তাই `f.read(k)`-এর পর `f.tell()` হয় `k`।"
+      },
+      "hint2": {
+        "en": "Calling `f.seek(0)` rewinds to the start; calling `f.seek(offset)` jumps directly to byte `offset` before `f.read()`.",
+        "bn": "`f.seek(offset)` নির্দিষ্ট বাইটে নিয়ে যায়, তারপর `f.read()` শেষ পর্যন্ত পড়ে নেয়।"
+      },
+      "logicBreakdown": {
+        "en": "Files maintain an internal byte offset cursor. `tell()` reports where the next read/write will occur, and `seek(offset)` moves that cursor in O(1) time without reading intermediate bytes—essential for binary headers and indexed log files.",
+        "bn": "ফাইল হ্যান্ডেল একটি অভ্যন্তরীণ বাইট পজিশন রাখে। `tell()` বর্তমান অবস্থান জানায় এবং `seek(offset)` মাঝের ডেটা না পড়েই সরাসরি সেখানে লাফ দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read text, k, and offset; write text to `stream.txt`.", "bn": "text, k, offset পড়ে text-কে `stream.txt`-এ লিখুন।" },
+        { "en": "Open `stream.txt` in `'r'` mode.", "bn": "'r' মোডে `stream.txt` খুলুন।" },
+        { "en": "Read `chunk = f.read(k)` and capture `pos = f.tell()`.", "bn": "chunk = f.read(k) এবং pos = f.tell() নিন।" },
+        { "en": "Call `f.seek(offset)`, read `rest = f.read()`, and print all three.", "bn": "f.seek(offset) করে বাকি অংশ পড়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\ntext = input()\nk = int(input())\noffset = int(input())\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"stream.txt\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        f.write(text)\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        chunk = f.read(k)\n        pos = f.tell()\n        f.seek(offset)\n        rest = f.read()\n\nprint(f\"Chunk: {chunk}\")\nprint(f\"Tell: {pos}\")\nprint(f\"AfterSeek: {rest}\")",
+      "codeExplanation": {
+        "en": "f.read(k) consumes k characters and moves the cursor forward. f.seek(offset) repositions the cursor arbitrarily before f.read() reads to EOF.",
+        "bn": "f.read(k) kটি অক্ষর পড়ে কার্সর এগিয়ে নেয় এবং f.seek(offset) নির্দিষ্ট অবস্থানে নিয়ে বাকি অংশ পড়তে সাহায্য করে।"
+      },
+      "complexity": { "time": "O(file size)", "space": "O(file size)" },
+      "testCases": [
+        { "input": "PYLOGIC-FILE-IO\n7\n8", "expectedOutput": "Chunk: PYLOGIC\nTell: 7\nAfterSeek: FILE-IO", "note": { "en": "Jump forward past delimiter", "bn": "সামনে লাফ দেওয়া" } },
+        { "input": "ABCDEF\n3\n0", "expectedOutput": "Chunk: ABC\nTell: 3\nAfterSeek: ABCDEF", "note": { "en": "Rewind to byte 0", "bn": "০ বাইটে ফিরে যাওয়া" } },
+        { "input": "HEADER:BODY\n6\n7", "expectedOutput": "Chunk: HEADER\nTell: 6\nAfterSeek: BODY", "note": { "en": "Header/body split", "bn": "হেডার ও বডি পৃথকীকরণ" } }
+      ]
+    },
+    {
+      "id": "P14-10",
+      "number": 10,
+      "title": {
+        "en": "Sequential Merge of Two Text Files Without Blank Gaps",
+        "bn": "ফাঁকা লাইন ছাড়া দুটি টেক্সট ফাইল একত্রীকরণ (Merge)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Multi-file sequential reading", "bn": "একাধিক ফাইল ক্রমানুসারে পড়া" },
+        { "en": "Sanitizing blank lines during merge", "bn": "একত্র করার সময় ফাঁকা লাইন অপসারণ" }
+      ],
+      "description": {
+        "en": "Read lines for `part_a.txt`, a `---` divider line, and lines for `part_b.txt`. Write both files, then merge all non-empty stripped lines from `part_a.txt` followed by `part_b.txt` into `merged.txt`. Finally read `merged.txt` and print `Merged Lines: <count>` followed by each line.",
+        "bn": "`part_a.txt`-এর লাইন, `---` বিভাজক এবং `part_b.txt`-এর লাইন ইনপুট নিন। দুটি ফাইল তৈরি করে তাদের ফাঁকা নয় এমন পরিচ্ছন্ন লাইনগুলো `merged.txt`-এ একত্র করুন। শেষে `merged.txt` পড়ে `Merged Lines: <সংখ্যা>` ও লাইনগুলো প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Lines for `part_a.txt`, `---`, then lines for `part_b.txt` (to EOF).",
+        "bn": "`part_a.txt`-এর লাইন, `---`, এরপর `part_b.txt`-এর লাইন।"
+      },
+      "expectedOutput": {
+        "en": "`Merged Lines: <count>` followed by each line from `merged.txt`.",
+        "bn": "`Merged Lines: <সংখ্যা>` এবং `merged.txt`-এর প্রতিটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "red\n\ngreen\n---\nblue\n  ",
+          "output": "Merged Lines: 3\nred\ngreen\nblue",
+          "explanation": {
+            "en": "Blank and space-only lines in both source files are omitted so `merged.txt` contains 3 clean lines.",
+            "bn": "উভয় ফাইলের ফাঁকা লাইন বাদ পড়ে এবং ৩টি পরিচ্ছন্ন লাইন `merged.txt`-এ সংরক্ষিত হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Loop over `(path_a, path_b)` in a helper loop inside `with open(merged_path, 'w') as fout:` to avoid duplicating code.",
+        "bn": "কোড পুনরাবৃত্তি এড়াতে `[path_a, path_b]` তালিকার ওপর লুপ চালিয়ে উভয় ফাইল থেকে `fout`-এ লিখুন।"
+      },
+      "hint2": {
+        "en": "Check `s = raw.strip()`; write `s + '\\n'` only when `s` is non-empty.",
+        "bn": "`s = raw.strip()` করে কেবল `if s:` সত্য হলে `fout.write(s + '\\n')` লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Combining log shards or report fragments is a daily file-engineering task. Iterating through an ordered tuple of source paths streams all files into one normalized output file cleanly.",
+        "bn": "বিভিন্ন অংশের লগ বা ফাইল একসাথে জোড়া দেওয়ার সময় ক্রমানুসারে প্রতিটি ফাইল স্ট্রিম করলে মেমরি কম লাগে এবং ফাঁকা লাইনও পরিষ্কার হয়।"
+      },
+      "algorithm": [
+        { "en": "Split stdin around `---` and write `part_a.txt` and `part_b.txt`.", "bn": "`---` দিয়ে ভাগ করে `part_a.txt` ও `part_b.txt` লিখুন।" },
+        { "en": "Open `merged.txt` for writing and loop over `[path_a, path_b]`.", "bn": "`merged.txt` খুলে `[path_a, path_b]`-এর ওপর লুপ চালান।" },
+        { "en": "Strip each line and write non-empty lines to `merged.txt`.", "bn": "প্রতি লাইন strip করে অ-শূন্য হলে `merged.txt`-এ লিখুন।" },
+        { "en": "Read `merged.txt` back and print count + lines.", "bn": "`merged.txt` পড়ে সংখ্যা ও লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport sys\nimport tempfile\n\nlines = [l.rstrip(\"\\n\") for l in sys.stdin.read().splitlines()]\nsep = lines.index(\"---\")\na_lines, b_lines = lines[:sep], lines[sep + 1:]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    pa = os.path.join(tmpdir, \"part_a.txt\")\n    pb = os.path.join(tmpdir, \"part_b.txt\")\n    pm = os.path.join(tmpdir, \"merged.txt\")\n    for p, content in ((pa, a_lines), (pb, b_lines)):\n        with open(p, \"w\", encoding=\"utf-8\") as f:\n            for item in content:\n                f.write(item + \"\\n\")\n    with open(pm, \"w\", encoding=\"utf-8\") as fout:\n        for src in (pa, pb):\n            with open(src, \"r\", encoding=\"utf-8\") as fin:\n                for raw in fin:\n                    s = raw.strip()\n                    if s:\n                        fout.write(s + \"\\n\")\n    with open(pm, \"r\", encoding=\"utf-8\") as f:\n        merged = [line.rstrip(\"\\n\") for line in f]\n\nprint(f\"Merged Lines: {len(merged)}\")\nfor item in merged:\n    print(item)",
+      "codeExplanation": {
+        "en": "Both source files are written first, then merged in order through a single streaming loop that skips blank lines.",
+        "bn": "প্রথমে দুটি সোর্স ফাইল ডিস্কে লেখা হয়, এরপর একটি লুপ ফাঁকা লাইন বাদ দিয়ে ক্রমানুসারে মার্জ করে।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "red\n\ngreen\n---\nblue\n  ", "expectedOutput": "Merged Lines: 3\nred\ngreen\nblue", "note": { "en": "Blank lines skipped", "bn": "ফাঁকা লাইন বাদ" } },
+        { "input": "one\n---\ntwo\nthree", "expectedOutput": "Merged Lines: 3\none\ntwo\nthree", "note": { "en": "Clean merge", "bn": "সাধারণ মার্জ" } },
+        { "input": "\n---\n", "expectedOutput": "Merged Lines: 0", "note": { "en": "Both files empty", "bn": "উভয় ফাইল ফাঁকা" } }
+      ]
+    },
+    {
+      "id": "P14-11",
+      "number": 11,
+      "title": {
+        "en": "CSV Honor Roll Filter Using `csv.DictReader`",
+        "bn": "`csv.DictReader` দিয়ে CSV ফাইল থেকে সম্মাননা তালিকা ফিল্টার"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "csv.DictReader column access", "bn": "csv.DictReader দিয়ে কলাম পড়া" },
+        { "en": "Filtering & multi-key sorting of CSV records", "bn": "CSV রেকর্ড ফিল্টার ও সর্টিং" }
+      ],
+      "description": {
+        "en": "Read integer N followed by N CSV lines (header `name,dept,gpa` + student rows) written to `students.csv`. Open `students.csv` with `newline=''` and parse rows via `csv.DictReader`. Filter students with `GPA >= 3.50`, sort them by GPA descending and then name ascending, and print `<name> (<dept>): <gpa:.2f>` (or `NONE` if no student qualifies).",
+        "bn": "পূর্ণসংখ্যা N ও Nটি CSV লাইন (হেডার `name,dept,gpa`সহ) নিয়ে `students.csv` তৈরি করুন। `csv.DictReader` দিয়ে ফাইলটি পড়ে `GPA >= 3.50` প্রাপ্ত শিক্ষার্থীদের GPA বড় থেকে ছোট এবং সমান হলে নাম অনুযায়ী বর্ণানুক্রমে সাজিয়ে `<name> (<dept>): <gpa:.2f>` আকারে প্রিন্ট করুন (কেউ না থাকলে `NONE`)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: CSV header `name,dept,gpa` followed by student rows.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `name,dept,gpa` হেডারসহ CSV সারি।"
+      },
+      "expectedOutput": {
+        "en": "Qualified students sorted by (-gpa, name), or `NONE`.",
+        "bn": "যোগ্য শিক্ষার্থীদের তালিকা, অথবা `NONE`।"
+      },
+      "examples": [
+        {
+          "input": "4\nname,dept,gpa\nRafi,CST,3.45\nNadia,CST,3.85\nArif,EEE,3.85",
+          "output": "Arif (EEE): 3.85\nNadia (CST): 3.85",
+          "explanation": {
+            "en": "Rafi (3.45) is excluded; Arif and Nadia tie at 3.85 so Arif precedes Nadia alphabetically.",
+            "bn": "Rafi (3.45) বাদ পড়ে; Arif ও Nadia দুজনেরই ৩.৮৫ হওয়ায় নামে Arif আগে এসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In Python's `csv` module, always open CSV files with `newline=''` so embedded newlines are handled properly.",
+        "bn": "`csv` মডিউলে সর্বদা `newline=''` প্যারামিটার দিয়ে ফাইল খুলতে হয়।"
+      },
+      "hint2": {
+        "en": "`csv.DictReader` yields every value as a `str`, so convert `gpa = float(row['gpa'])` before comparing `>= 3.50` and sorting by `(-gpa, name)`.",
+        "bn": "`DictReader` সব মান স্ট্রিং দেয়; তাই তুলনার আগে `float(row['gpa'])` রূপান্তর করে `(-gpa, name)` দিয়ে সাজান।"
+      },
+      "logicBreakdown": {
+        "en": "Manual `.split(',')` breaks on quoted fields and couples logic to column positions. `csv.DictReader` reads the header row automatically and lets you reference fields cleanly by name (`row['gpa']`).",
+        "bn": "সাধারণ `.split(',')` কলামের ক্রম বদলালে বা উদ্ধৃত কমা থাকলে ভেঙে যায়। `csv.DictReader` হেডার দেখে কলামের নামে নির্ভুল অ্যাক্সেস দেয়।"
+      },
+      "algorithm": [
+        { "en": "Write N CSV lines to `students.csv`.", "bn": "Nটি CSV লাইন `students.csv`-এ লিখুন।" },
+        { "en": "Open `students.csv` (`newline=''`) with `csv.DictReader`.", "bn": "`csv.DictReader` দিয়ে `students.csv` পড়ুন।" },
+        { "en": "Filter rows where `float(row['gpa']) >= 3.50`.", "bn": "`float(row['gpa']) >= 3.50` শর্তে ফিল্টার করুন।" },
+        { "en": "Sort by `(-gpa, name)` and print each or `NONE`.", "bn": "`(-gpa, name)` অনুযায়ী সাজিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "import csv\nimport os\nimport tempfile\n\nn = int(input())\ncsv_lines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"students.csv\")\n    with open(path, \"w\", encoding=\"utf-8\", newline=\"\") as f:\n        for line in csv_lines:\n            f.write(line + \"\\n\")\n    honors = []\n    with open(path, \"r\", encoding=\"utf-8\", newline=\"\") as f:\n        reader = csv.DictReader(f)\n        for row in reader:\n            gpa = float(row[\"gpa\"])\n            if gpa >= 3.50:\n                honors.append((row[\"name\"].strip(), row[\"dept\"].strip(), gpa))\n\nhonors.sort(key=lambda item: (-item[2], item[0]))\nif not honors:\n    print(\"NONE\")\nelse:\n    for name, dept, gpa in honors:\n        print(f\"{name} ({dept}): {gpa:.2f}\")",
+      "codeExplanation": {
+        "en": "DictReader maps header keys directly onto each row dictionary. Negating GPA in (-item[2], item[0]) sorts descending by GPA and ascending by name.",
+        "bn": "DictReader হেডার থেকে প্রতিটি সারিকে ডিকশনারিতে রূপান্তর করে এবং (-item[2], item[0]) দিয়ে GPA ও নাম অনুযায়ী সর্ট হয়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nname,dept,gpa\nRafi,CST,3.45\nNadia,CST,3.85\nArif,EEE,3.85", "expectedOutput": "Arif (EEE): 3.85\nNadia (CST): 3.85", "note": { "en": "GPA tie broken alphabetically", "bn": "সমান GPA-তে নামের ক্রম" } },
+        { "input": "3\nname,dept,gpa\nSam,CST,3.10\nLina,EEE,3.49", "expectedOutput": "NONE", "note": { "en": "No qualifying students", "bn": "যোগ্য শিক্ষার্থী নেই" } },
+        { "input": "3\nname,dept,gpa\nZoya,CST,3.50\nMaya,CST,3.92", "expectedOutput": "Maya (CST): 3.92\nZoya (CST): 3.50", "note": { "en": "Boundary 3.50 included", "bn": "সীমান্ত মান ৩.৫০ অন্তর্ভুক্ত" } }
+      ]
+    },
+    {
+      "id": "P14-12",
+      "number": 12,
+      "title": {
+        "en": "CSV Category Expense Aggregator",
+        "bn": "CSV থেকে খাতভিত্তিক খরচের হিসাব একত্রীকরণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "CSV parsing into accumulator dictionary", "bn": "CSV ডেটা ডিকশনারিতে যোগ" },
+        { "en": "Alphabetical category reporting", "bn": "বর্ণানুক্রমিক খাত রিপোর্ট" }
+      ],
+      "description": {
+        "en": "Read integer N followed by N CSV lines (header `date,category,amount` + expense rows) written to `expenses.csv`. Read `expenses.csv` via `csv.DictReader`, sum amounts per category, and print `<category>: <total:.2f>` in alphabetical order of category, ending with `Grand Total: <sum:.2f>`.",
+        "bn": "পূর্ণসংখ্যা N ও Nটি CSV লাইন (`date,category,amount` হেডারসহ) `expenses.csv`-এ সংরক্ষণ করুন। `csv.DictReader` দিয়ে ফাইলটি পড়ে প্রতিটি খাতের মোট খরচ বর্ণানুক্রমে `<category>: <total:.2f>` এবং শেষে `Grand Total: <sum:.2f>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: CSV header `date,category,amount` + rows.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: হেডারসহ CSV সারি।"
+      },
+      "expectedOutput": {
+        "en": "Sorted `<category>: <total:.2f>` lines followed by `Grand Total: <sum:.2f>`.",
+        "bn": "বর্ণানুক্রমিক খাতভিত্তিক খরচ ও শেষে `Grand Total`।"
+      },
+      "examples": [
+        {
+          "input": "5\ndate,category,amount\n2026-01-01,Food,12.50\n2026-01-02,Travel,30.00\n2026-01-03,Food,7.50\n2026-01-04,Books,15.00",
+          "output": "Books: 15.00\nFood: 20.00\nTravel: 30.00\nGrand Total: 65.00",
+          "explanation": {
+            "en": "Food totals 12.50 + 7.50 = 20.00; sorted keys Books, Food, Travel print before Grand Total 65.00.",
+            "bn": "Food খাতে ১২.৫০+৭.৫০=২০.০০ এবং বর্ণানুক্রমে খাতগুলোর পর Grand Total প্রিন্ট হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `totals[cat] = totals.get(cat, 0.0) + amt` inside the `csv.DictReader` loop.",
+        "bn": "`totals[cat] = totals.get(cat, 0.0) + amt` ব্যবহার করে খাত অনুযায়ী যোগ করুন।"
+      },
+      "hint2": {
+        "en": "Iterate over `sorted(totals)` to print categories alphabetically.",
+        "bn": "বর্ণানুক্রমে প্রিন্ট করতে `sorted(totals)`-এর ওপর লুপ চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Combining file streaming (`csv.DictReader`) with a hash-map accumulator processes thousands of expense rows in `O(N)` without loading redundant copies, producing clean financial summaries.",
+        "bn": "`DictReader`-এর সাথে ডিকশনারি অ্যাকিউমুলেটর ব্যবহার করলে O(N) সময়ে সব খাতের হিসাব একত্র করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Write CSV rows to `expenses.csv`.", "bn": "CSV সারিগুলো `expenses.csv`-এ লিখুন।" },
+        { "en": "Read via `csv.DictReader`, summing `float(row['amount'])` into `totals[category]` and `grand`.", "bn": "`csv.DictReader` দিয়ে প্রতিটি খাত ও মোট যোগফল নির্ণয় করুন।" },
+        { "en": "Print each `cat` in `sorted(totals)` formatted to 2 decimals.", "bn": "`sorted(totals)` অনুযায়ী প্রতিটি খাত ২ দশমিকে প্রিন্ট করুন।" },
+        { "en": "Print `Grand Total: <grand:.2f>`.", "bn": "`Grand Total: <grand:.2f>` প্রিন্ট করুন।" }
+      ],
+      "solution": "import csv\nimport os\nimport tempfile\n\nn = int(input())\nrows = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"expenses.csv\")\n    with open(path, \"w\", encoding=\"utf-8\", newline=\"\") as f:\n        for line in rows:\n            f.write(line + \"\\n\")\n    totals = {}\n    grand = 0.0\n    with open(path, \"r\", encoding=\"utf-8\", newline=\"\") as f:\n        for row in csv.DictReader(f):\n            cat = row[\"category\"].strip()\n            amt = float(row[\"amount\"])\n            totals[cat] = totals.get(cat, 0.0) + amt\n            grand += amt\n\nfor cat in sorted(totals):\n    print(f\"{cat}: {totals[cat]:.2f}\")\nprint(f\"Grand Total: {grand:.2f}\")",
+      "codeExplanation": {
+        "en": "totals.get(cat, 0.0) initializes unseen categories automatically while grand accumulates every transaction.",
+        "bn": "totals.get(cat, 0.0) নতুন খাতের জন্য স্বয়ংক্রিয়ভাবে ০.০ ধরে নেয় এবং grand মোট খরচ যোগ রাখে।"
+      },
+      "complexity": { "time": "O(N + K log K) where K = categories", "space": "O(K)" },
+      "testCases": [
+        { "input": "5\ndate,category,amount\n2026-01-01,Food,12.50\n2026-01-02,Travel,30.00\n2026-01-03,Food,7.50\n2026-01-04,Books,15.00", "expectedOutput": "Books: 15.00\nFood: 20.00\nTravel: 30.00\nGrand Total: 65.00", "note": { "en": "Multiple categories", "bn": "একাধিক খাত" } },
+        { "input": "2\ndate,category,amount\n2026-02-10,Utilities,45", "expectedOutput": "Utilities: 45.00\nGrand Total: 45.00", "note": { "en": "Single integer expense", "bn": "একটি পূর্ণসংখ্যার খরচ" } },
+        { "input": "1\ndate,category,amount", "expectedOutput": "Grand Total: 0.00", "note": { "en": "Header-only empty CSV", "bn": "কেবল হেডারসহ ফাঁকা CSV" } }
+      ]
+    },
+    {
+      "id": "P14-13",
+      "number": 13,
+      "title": {
+        "en": "JSON Configuration File Reader, Updater & Serializer",
+        "bn": "JSON কনফিগারেশন ফাইল পড়া, হালনাগাদ ও সংরক্ষণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "json.load() & json.dump()", "bn": "json.load() ও json.dump()" },
+        { "en": "Typed value parsing for config updates", "bn": "কনফিগ মানের ধরন রূপান্তর" }
+      ],
+      "description": {
+        "en": "Read a valid JSON object string on line 1 (written into `config.json`), integer U on line 2, and U update lines formatted as `key=value` (where `'true'`/`'false'` become booleans, digit strings become `int`, otherwise strings). Load `config.json` with `json.load()`, apply updates, write back with `json.dump()`, then reload `config.json` and print `key: value` lines sorted alphabetically by key (lowercase `true`/`false` for booleans).",
+        "bn": "১ম লাইনে একটি JSON অবজেক্ট স্ট্রিং (`config.json`-এ লেখার জন্য), ২য় লাইনে পূর্ণসংখ্যা U এবং এরপর U লাইন `key=value` আপডেট ইনপুট নিন। `json.load()` দিয়ে `config.json` পড়ে আপডেট প্রয়োগ করে `json.dump()` দিয়ে পুনরায় সেভ করুন। শেষে ফাইলটি আবার পড়ে বর্ণানুক্রমে `key: value` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: JSON object string. Line 2: integer U. Next U lines: `key=value`.",
+        "bn": "১ম লাইন: JSON স্ট্রিং। ২য় লাইন: U। পরবর্তী U লাইন: `key=value`।"
+      },
+      "expectedOutput": {
+        "en": "Sorted `key: value` lines read back from updated `config.json`.",
+        "bn": "হালনাগাদ `config.json` থেকে পড়া `key: value` লাইন।"
+      },
+      "examples": [
+        {
+          "input": "{\"port\": 8000, \"debug\": true, \"mode\": \"dev\"}\n2\nport=3000\ndebug=false",
+          "output": "debug: false\nmode: dev\nport: 3000",
+          "explanation": {
+            "en": "`port` updates to integer 3000, `debug` updates to boolean false, and `mode` stays 'dev'.",
+            "bn": "`port` ৩০০০ এবং `debug` false হিসেবে `config.json`-এ সেভ ও পুনরায় লোড হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice `isinstance(v, bool)` MUST be checked BEFORE `isinstance(v, int)` in Python because `bool` subclasses `int`!",
+        "bn": "পাইথনে `bool` হলো `int`-এর সাবক্লাস, তাই ফরম্যাটিংয়ের সময় আগে `isinstance(v, bool)` পরীক্ষা করতে হবে।"
+      },
+      "hint2": {
+        "en": "Write a tiny `parse_val(s)` helper: `'true' -> True`, `'false' -> False`, `s.isdigit() -> int(s)`, else `s`.",
+        "bn": "`parse_val(s)` হেল্পারে `'true'`/`'false'`, পূর্ণসংখ্যা এবং সাধারণ স্ট্রিং আলাদা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "JSON is the standard configuration exchange format. Always load via `json.load(f)`, mutate the Python dictionary in memory, and serialize atomically via `json.dump(cfg, f, indent=2)` rather than string-replacing raw JSON text.",
+        "bn": "স্ট্রিং রিপ্লেস করলে JSON সিনট্যাক্স নষ্ট হতে পারে; তাই `json.load` দিয়ে ডিকশনারি তৈরি করে `json.dump` দিয়ে লেখা নিরাপদ।"
+      },
+      "algorithm": [
+        { "en": "Write initial JSON text to `config.json`.", "bn": "প্রাথমিক JSON টেক্সট `config.json`-এ লিখুন।" },
+        { "en": "Load dictionary via `json.load`, parse each `key=value` update, and assign into dictionary.", "bn": "`json.load` দিয়ে পড়ে প্রতিটি `key=value` আপডেট করুন।" },
+        { "en": "Write updated dictionary back using `json.dump`.", "bn": "`json.dump` ব্যবহার করে আপডেট করা ডিকশনারি সেভ করুন।" },
+        { "en": "Reload `config.json` and print sorted `key: value` entries.", "bn": "ফাইলটি আবার পড়ে `key: value` প্রিন্ট করুন।" }
+      ],
+      "solution": "import json\nimport os\nimport tempfile\n\ndef parse_val(s):\n    if s == \"true\":\n        return True\n    if s == \"false\":\n        return False\n    if s.isdigit():\n        return int(s)\n    return s\n\ndef fmt_val(v):\n    if isinstance(v, bool):\n        return \"true\" if v else \"false\"\n    return str(v)\n\nraw_json = input()\nu = int(input())\nupdates = [input().split(\"=\", 1) for _ in range(u)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"config.json\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        f.write(raw_json)\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        cfg = json.load(f)\n    for k, v in updates:\n        cfg[k.strip()] = parse_val(v.strip())\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        json.dump(cfg, f, indent=2)\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        final_cfg = json.load(f)\n\nfor k in sorted(final_cfg):\n    print(f\"{k}: {fmt_val(final_cfg[k])}\")",
+      "codeExplanation": {
+        "en": "The file undergoes a real write -> load -> mutate -> dump -> reload cycle so the printed configuration reflects what actually persisted as JSON.",
+        "bn": "প্রকৃত write -> load -> dump -> reload চক্র সম্পন্ন হওয়ার পর ডিস্ক থেকে পড়া কনফিগারেশন প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(K log K)", "space": "O(K)" },
+      "testCases": [
+        { "input": "{\"port\": 8000, \"debug\": true, \"mode\": \"dev\"}\n2\nport=3000\ndebug=false", "expectedOutput": "debug: false\nmode: dev\nport: 3000", "note": { "en": "Update int and bool keys", "bn": "int ও bool হালনাগাদ" } },
+        { "input": "{\"host\": \"localhost\"}\n2\nworkers=4\ntls=true", "expectedOutput": "host: localhost\ntls: true\nworkers: 4", "note": { "en": "Add new keys", "bn": "নতুন কী সংযোজন" } },
+        { "input": "{\"name\": \"pylogic\"}\n0", "expectedOutput": "name: pylogic", "note": { "en": "Zero updates", "bn": "কোনো পরিবর্তন নেই" } }
+      ]
+    },
+    {
+      "id": "P14-14",
+      "number": 14,
+      "title": {
+        "en": "Server Log Severity Summary & `errors.log` Extractor",
+        "bn": "সার্ভার লগ বিশ্লেষণ ও `errors.log` পৃথকীকরণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Log level parsing from files", "bn": "লগ ফাইল থেকে লেভেল পার্সিং" },
+        { "en": "Selective extraction to secondary log file", "bn": "গুরুত্বপূর্ণ ত্রুটি আলাদা ফাইলে সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read integer N and N log lines formatted as `[LEVEL] message` (where LEVEL is `INFO`, `WARN`, or `ERROR`), writing them to `server.log`. Stream `server.log` to count each level AND write all `[ERROR]` lines to `errors.log`. Print `INFO:<c1> WARN:<c2> ERROR:<c3>`, then read `errors.log` and print its lines (or `NO_ERRORS` if empty).",
+        "bn": "পূর্ণসংখ্যা N ও `[LEVEL] message` ফরম্যাটের Nটি লগ লাইন `server.log`-এ লিখুন। ফাইলটি পড়ে `INFO`, `WARN` ও `ERROR` গণনা করুন এবং কেবল `[ERROR]` লাইনগুলো `errors.log`-এ সংরক্ষণ করুন। প্রথম লাইনে `INFO:<c1> WARN:<c2> ERROR:<c3>` এবং এরপর `errors.log`-এর লাইনগুলো (না থাকলে `NO_ERRORS`) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: `[INFO|WARN|ERROR] message`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `[INFO|WARN|ERROR] message`।"
+      },
+      "expectedOutput": {
+        "en": "Summary counts on line 1, followed by extracted error lines or `NO_ERRORS`.",
+        "bn": "১ম লাইনে পরিসংখ্যান, এরপর এরর লাইন বা `NO_ERRORS`।"
+      },
+      "examples": [
+        {
+          "input": "4\n[INFO] Boot ok\n[WARN] High latency\n[ERROR] DB timeout\n[ERROR] Auth failed",
+          "output": "INFO:1 WARN:1 ERROR:2\n[ERROR] DB timeout\n[ERROR] Auth failed",
+          "explanation": {
+            "en": "Only the two `[ERROR]` lines are written to `errors.log` while counts summarize all 4 entries.",
+            "bn": "সব লগের সংখ্যা গুনে কেবল দুটি `[ERROR]` লাইন `errors.log`-এ লেখা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inspect prefixes (`line.startswith('[INFO]')`, `'[WARN]'`, `'[ERROR]'`) while keeping `errors.log` open simultaneously.",
+        "bn": "`server.log` পড়ার সাথেই `errors.log` খোলা রেখে `[ERROR]` লাইনগুলো সরাসরি লিখুন।"
+      },
+      "hint2": {
+        "en": "After closing `errors.log`, reopen it in `'r'` mode to verify and print either its lines or `NO_ERRORS`.",
+        "bn": "লেখা শেষে `errors.log` খুলে লাইন থাকলে প্রিন্ট করুন, নতুবা `NO_ERRORS` দেখান।"
+      },
+      "logicBreakdown": {
+        "en": "Production log pipelines separate noisy `INFO` traffic from actionable `ERROR` lines in a single O(N) streaming pass, making incident triage fast without keeping massive logs in RAM.",
+        "bn": "একটি একক স্ট্রিমিং পাসে অসংখ্য লগের মধ্য থেকে কেবল `ERROR` লাইন আলাদা ফাইলে রাখলে সমস্যা শনাক্তকরণ সহজ হয়।"
+      },
+      "algorithm": [
+        { "en": "Write N log entries to `server.log`.", "bn": "Nটি লগ `server.log`-এ লিখুন।" },
+        { "en": "Open `server.log` (`'r'`) and `errors.log` (`'w'`) together.", "bn": "একসাথে `server.log` ও `errors.log` খুলুন।" },
+        { "en": "Count INFO/WARN/ERROR and write ERROR lines to `errors.log`.", "bn": "তিনটি লেভেল গণনা করে ERROR লাইন `errors.log`-এ লিখুন।" },
+        { "en": "Print summary line, then read & print `errors.log` or `NO_ERRORS`.", "bn": "সারাংশ ও `errors.log`-এর তথ্য প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nlogs = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    srv_p = os.path.join(tmpdir, \"server.log\")\n    err_p = os.path.join(tmpdir, \"errors.log\")\n    with open(srv_p, \"w\", encoding=\"utf-8\") as f:\n        for line in logs:\n            f.write(line + \"\\n\")\n    counts = {\"INFO\": 0, \"WARN\": 0, \"ERROR\": 0}\n    with open(srv_p, \"r\", encoding=\"utf-8\") as fin, open(err_p, \"w\", encoding=\"utf-8\") as ferr:\n        for raw in fin:\n            line = raw.rstrip(\"\\n\")\n            if line.startswith(\"[INFO]\"):\n                counts[\"INFO\"] += 1\n            elif line.startswith(\"[WARN]\"):\n                counts[\"WARN\"] += 1\n            elif line.startswith(\"[ERROR]\"):\n                counts[\"ERROR\"] += 1\n                ferr.write(line + \"\\n\")\n    with open(err_p, \"r\", encoding=\"utf-8\") as f:\n        errors = [l.rstrip(\"\\n\") for l in f]\n\nprint(f\"INFO:{counts['INFO']} WARN:{counts['WARN']} ERROR:{counts['ERROR']}\")\nif not errors:\n    print(\"NO_ERRORS\")\nelse:\n    for e in errors:\n        print(e)",
+      "codeExplanation": {
+        "en": "Single-pass classification updates the three severity counters and routes only [ERROR] entries to errors.log.",
+        "bn": "এক পাসে তিনটি কাউন্টার আপডেট হয় এবং কেবল [ERROR] লাইন errors.log-এ লেখা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(E) where E = error lines" },
+      "testCases": [
+        { "input": "4\n[INFO] Boot ok\n[WARN] High latency\n[ERROR] DB timeout\n[ERROR] Auth failed", "expectedOutput": "INFO:1 WARN:1 ERROR:2\n[ERROR] DB timeout\n[ERROR] Auth failed", "note": { "en": "Mixed severities", "bn": "মিশ্র লগ" } },
+        { "input": "2\n[INFO] Healthy\n[WARN] Slow disk", "expectedOutput": "INFO:1 WARN:1 ERROR:0\nNO_ERRORS", "note": { "en": "Zero errors", "bn": "কোনো ত্রুটি নেই" } },
+        { "input": "2\n[ERROR] Crash\n[ERROR] Restart", "expectedOutput": "INFO:0 WARN:0 ERROR:2\n[ERROR] Crash\n[ERROR] Restart", "note": { "en": "Only errors", "bn": "কেবল ত্রুটি" } }
+      ]
+    },
+    {
+      "id": "P14-15",
+      "number": 15,
+      "title": {
+        "en": "Order-Preserving Line Deduplication Across Files",
+        "bn": "ক্রম বজায় রেখে ফাইলের ডুপ্লিকেট লাইন অপসারণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Set-assisted streaming deduplication", "bn": "সেট ব্যবহার করে ডুপ্লিকেট অপসারণ" },
+        { "en": "Order preservation", "bn": "মূল ক্রম সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read integer N and N lines written to `raw_items.txt`. Stream `raw_items.txt` line-by-line, strip outer whitespace, and write each unique non-empty line to `unique_items.txt` preserving first-seen order. Print `Unique: <u> | Removed: <r>` (where `r` counts skipped duplicates), followed by all lines read back from `unique_items.txt`.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইন নিয়ে `raw_items.txt` তৈরি করুন। ফাইলটি পড়ে প্রথম উপস্থিতির ক্রম বজায় রেখে ডুপ্লিকেট বাদ দিয়ে `unique_items.txt`-এ লিখুন। শেষে `Unique: <u> | Removed: <r>` এবং `unique_items.txt`-এর প্রতিটি লাইন প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: items for `raw_items.txt`.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: `raw_items.txt`-এর আইটেম।"
+      },
+      "expectedOutput": {
+        "en": "Summary line `Unique: <u> | Removed: <r>`, followed by unique lines.",
+        "bn": "`Unique: <u> | Removed: <r>` ও অনন্য লাইনগুলো।"
+      },
+      "examples": [
+        {
+          "input": "5\napple\nbanana\napple\ncherry\nbanana",
+          "output": "Unique: 3 | Removed: 2\napple\nbanana\ncherry",
+          "explanation": {
+            "en": "3 unique lines remain in original order and 2 duplicate occurrences are skipped.",
+            "bn": "আগের ক্রমে ৩টি অনন্য আইটেম থাকে এবং ২টি ডুপ্লিকেট বাদ পড়ে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Do NOT turn the whole file into `set(lines)`, because sets lose original line ordering!",
+        "bn": "পুরো লিস্টকে সরাসরি `set()` বানাবেন না, নইলে লাইনের মূল ক্রম হারিয়ে যাবে।"
+      },
+      "hint2": {
+        "en": "Maintain a `seen = set()`: if `s not in seen`, call `seen.add(s)` and write `s` to `unique_items.txt`; else `removed += 1`.",
+        "bn": "`seen = set()` রেখে `s not in seen` হলে ফাইলে লিখুন ও সেটে যোগ করুন; নতুবা `removed += 1` বাড়ান।"
+      },
+      "logicBreakdown": {
+        "en": "Sorting before deduplicating scrambles chronology, and converting directly to a `set` yields arbitrary hash order. Pairing `seen = set()` with streaming writes preserves exact first-seen order in O(N) time.",
+        "bn": "`seen` সেট ব্যবহার করে লাইন-বাই-লাইন যাচাই করলে সর্টিং ছাড়াই O(N) সময়ে মূল ক্রম অক্ষুণ্ণ রেখে ডুপ্লিকেট ছাঁটাই হয়।"
+      },
+      "algorithm": [
+        { "en": "Write N items into `raw_items.txt`.", "bn": "Nটি আইটেম `raw_items.txt`-এ লিখুন।" },
+        { "en": "Open `raw_items.txt` (`'r'`) and `unique_items.txt` (`'w'`); set `seen = set()`, `removed = 0`.", "bn": "উভয় ফাইল খুলে `seen` সেট ও `removed = 0` নিন।" },
+        { "en": "For each stripped non-empty line: if in `seen`, `removed += 1`; else add to `seen` and write.", "bn": "সেটে থাকলে removed বাড়ান, না থাকলে সেটে ও ফাইলে লিখুন।" },
+        { "en": "Read `unique_items.txt` back and print stats + lines.", "bn": "`unique_items.txt` পড়ে পরিসংখ্যান ও লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport tempfile\n\nn = int(input())\nitems = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    raw_p = os.path.join(tmpdir, \"raw_items.txt\")\n    uniq_p = os.path.join(tmpdir, \"unique_items.txt\")\n    with open(raw_p, \"w\", encoding=\"utf-8\") as f:\n        for it in items:\n            f.write(it + \"\\n\")\n    seen = set()\n    removed = 0\n    with open(raw_p, \"r\", encoding=\"utf-8\") as fin, open(uniq_p, \"w\", encoding=\"utf-8\") as fout:\n        for raw in fin:\n            s = raw.strip()\n            if not s:\n                continue\n            if s in seen:\n                removed += 1\n            else:\n                seen.add(s)\n                fout.write(s + \"\\n\")\n    with open(uniq_p, \"r\", encoding=\"utf-8\") as f:\n        unique_lines = [l.rstrip(\"\\n\") for l in f]\n\nprint(f\"Unique: {len(unique_lines)} | Removed: {removed}\")\nfor line in unique_lines:\n    print(line)",
+      "codeExplanation": {
+        "en": "O(1) hash-set lookups detect repeated items immediately while writing only first occurrences to unique_items.txt.",
+        "bn": "O(1) সেট লুকআপ পুনরাবৃত্তি শনাক্ত করে এবং কেবল প্রথম উপস্থিতিই unique_items.txt-এ লিখে রাখে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(U) where U = unique items" },
+      "testCases": [
+        { "input": "5\napple\nbanana\napple\ncherry\nbanana", "expectedOutput": "Unique: 3 | Removed: 2\napple\nbanana\ncherry", "note": { "en": "Duplicates removed preserving order", "bn": "ক্রম বজায় রেখে ডুপ্লিকেট বাদ" } },
+        { "input": "3\none\ntwo\nthree", "expectedOutput": "Unique: 3 | Removed: 0\none\ntwo\nthree", "note": { "en": "Already unique", "bn": "সবাই অনন্য" } },
+        { "input": "4\nx\nx\nx\nx", "expectedOutput": "Unique: 1 | Removed: 3\nx", "note": { "en": "All identical", "bn": "সব সমান লাইন" } }
+      ]
+    },
+    {
+      "id": "P14-16",
+      "number": 16,
+      "title": {
+        "en": "CSV Inventory Valuation & Low-Stock File Exporter",
+        "bn": "CSV ইনভেন্টরি মূল্যায়ন ও কম স্টকের ফাইল তৈরি"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "csv.DictReader + csv.writer pipeline", "bn": "csv.DictReader ও csv.writer পাইপলাইন" },
+        { "en": "Derived financial totals and threshold export", "bn": "মোট মূল্য হিসাব ও শর্তসাপেক্ষ CSV রপ্তানি" }
+      ],
+      "description": {
+        "en": "Read integer `threshold` on line 1, integer N on line 2, and N CSV lines (header `sku,name,qty,price` + product rows) written to `inventory.csv`. Compute total stock value (`sum(qty * price)`), and export all items with `qty < threshold` (sorted by `sku` ascending) into `restock.csv` using `csv.writer` with header `sku,name,deficit` (`deficit = threshold - qty`). Print `Total Value: <val:.2f>` and `Restock Count: <k>`, followed by the lines of `restock.csv`.",
+        "bn": "১ম লাইনে `threshold`, ২য় লাইনে N এবং এরপর `sku,name,qty,price` হেডারসহ Nটি CSV সারি `inventory.csv`-এ লিখুন। মোট পণ্যের মূল্য (`sum(qty * price)`) নির্ণয় করুন এবং `qty < threshold` পণ্যগুলো `sku` অনুযায়ী সাজিয়ে `sku,name,deficit` আকারে `restock.csv`-এ রপ্তানি করুন। শেষে মোট মূল্য, সংখ্যা ও `restock.csv`-এর লাইনগুলো প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer threshold. Line 2: integer N. Next N lines: CSV header `sku,name,qty,price` + rows.",
+        "bn": "১ম লাইন: threshold। ২য় লাইন: N। পরবর্তী N লাইন: হেডারসহ CSV সারি।"
+      },
+      "expectedOutput": {
+        "en": "`Total Value: <val:.2f>`, `Restock Count: <k>`, and every line from `restock.csv`.",
+        "bn": "`Total Value`, `Restock Count` ও `restock.csv`-এর সব লাইন।"
+      },
+      "examples": [
+        {
+          "input": "10\n4\nsku,name,qty,price\nA2,Mouse,4,15.00\nA1,Cable,2,5.00\nB1,Keyboard,12,40.00",
+          "output": "Total Value: 550.00\nRestock Count: 2\nsku,name,deficit\nA1,Cable,8\nA2,Mouse,6",
+          "explanation": {
+            "en": "Value = 4*15 + 2*5 + 12*40 = 550.00. A1 (deficit 8) and A2 (deficit 6) are exported sorted by SKU.",
+            "bn": "মোট মূল্য ৫৫০.০০ এবং ১০-এর কম স্টক থাকা A1 ও A2 ঘাটতিসহ `restock.csv`-এ রপ্তানি হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `csv.writer(fout, lineterminator='\\n')` so `restock.csv` uses clean Unix newlines across platforms.",
+        "bn": "`csv.writer(fout, lineterminator='\\n')` দিলে সব অপারেটিং সিস্টেমেই পরিষ্কার নিউলাইন থাকে।"
+      },
+      "hint2": {
+        "en": "Always write the header `['sku', 'name', 'deficit']` to `restock.csv` before writing sorted low-stock tuples.",
+        "bn": "`restock.csv`-এ ডেটা লেখার আগে `['sku', 'name', 'deficit']` হেডার সারি লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Real inventory pipelines read transactional CSVs with `DictReader`, calculate aggregate KPIs (`qty * price`), and emit actionable downstream CSV exports (`csv.writer`) for procurement teams.",
+        "bn": "বাস্তব ইনভেন্টরি সিস্টেমে এভাবেই এক CSV থেকে হিসাব করে অন্য CSV রিপোর্ট তৈরি করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Write `inventory.csv` from input rows.", "bn": "ইনপুট সারিগুলো `inventory.csv`-এ লিখুন।" },
+        { "en": "Read via `csv.DictReader`: add `qty * price` to `total_val`, collect `(sku, name, threshold - qty)` if `qty < threshold`.", "bn": "`DictReader` দিয়ে মোট মূল্য ও কম স্টক পণ্য সংগ্রহ করুন।" },
+        { "en": "Sort low-stock rows by `sku` and write header + rows to `restock.csv` via `csv.writer`.", "bn": "`sku` অনুযায়ী সাজিয়ে `csv.writer` দিয়ে `restock.csv`-এ লিখুন।" },
+        { "en": "Print Total Value, Restock Count, and lines read from `restock.csv`.", "bn": "মোট মূল্য, সংখ্যা ও `restock.csv`-এর লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "import csv\nimport os\nimport tempfile\n\nthreshold = int(input())\nn = int(input())\ncsv_lines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    inv_p = os.path.join(tmpdir, \"inventory.csv\")\n    res_p = os.path.join(tmpdir, \"restock.csv\")\n    with open(inv_p, \"w\", encoding=\"utf-8\", newline=\"\") as f:\n        for line in csv_lines:\n            f.write(line + \"\\n\")\n    total_val = 0.0\n    low_stock = []\n    with open(inv_p, \"r\", encoding=\"utf-8\", newline=\"\") as f:\n        for row in csv.DictReader(f):\n            qty = int(row[\"qty\"])\n            price = float(row[\"price\"])\n            total_val += qty * price\n            if qty < threshold:\n                low_stock.append((row[\"sku\"].strip(), row[\"name\"].strip(), threshold - qty))\n    low_stock.sort(key=lambda x: x[0])\n    with open(res_p, \"w\", encoding=\"utf-8\", newline=\"\") as f:\n        writer = csv.writer(f, lineterminator=\"\\n\")\n        writer.writerow([\"sku\", \"name\", \"deficit\"])\n        writer.writerows(low_stock)\n    with open(res_p, \"r\", encoding=\"utf-8\") as f:\n        exported = [l.rstrip(\"\\n\") for l in f]\n\nprint(f\"Total Value: {total_val:.2f}\")\nprint(f\"Restock Count: {len(low_stock)}\")\nfor line in exported:\n    print(line)",
+      "codeExplanation": {
+        "en": "DictReader reads typed qty/price metrics while csv.writer produces valid CSV output to restock.csv, which is then verified by reading back.",
+        "bn": "DictReader ডেটা বিশ্লেষণ করে এবং csv.writer `restock.csv` তৈরি করে, যা শেষে পড়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "10\n4\nsku,name,qty,price\nA2,Mouse,4,15.00\nA1,Cable,2,5.00\nB1,Keyboard,12,40.00", "expectedOutput": "Total Value: 550.00\nRestock Count: 2\nsku,name,deficit\nA1,Cable,8\nA2,Mouse,6", "note": { "en": "Two items need restock", "bn": "২টি পণ্যে ঘাটতি" } },
+        { "input": "5\n3\nsku,name,qty,price\nS1,Pen,10,1.50\nS2,Book,5,10.00", "expectedOutput": "Total Value: 65.00\nRestock Count: 0\nsku,name,deficit", "note": { "en": "Stock exactly at threshold", "bn": "সব স্টক পর্যাপ্ত" } },
+        { "input": "8\n3\nsku,name,qty,price\nP9,Monitor,3,200.00\nP2,Hub,1,25.50", "expectedOutput": "Total Value: 625.50\nRestock Count: 2\nsku,name,deficit\nP2,Hub,7\nP9,Monitor,5", "note": { "en": "All items low", "bn": "সব পণ্যেই ঘাটতি" } }
+      ]
+    },
+    {
+      "id": "P14-17",
+      "number": 17,
+      "title": {
+        "en": "JSON Nested Orders Revenue & Customer Ranking",
+        "bn": "নেস্টেড JSON অর্ডার থেকে গ্রাহকভিত্তিক আয় নির্ণয়"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Nested JSON list/dict traversal", "bn": "নেস্টেড JSON লিস্ট-ডিকশনারি প্রসেসিং" },
+        { "en": "Status filtering and revenue ranking", "bn": "স্ট্যাটাস ফিল্টার ও আয় অনুযায়ী র‍্যাঙ্কিং" }
+      ],
+      "description": {
+        "en": "Read a single-line JSON array representing order records (`[{\"customer\": str, \"status\": str, \"items\": [{\"price\": num, \"qty\": int}]}]`) and write it to `orders.json`. Load `orders.json` via `json.load()`, consider ONLY orders where `status == \"PAID\"`, compute each customer's total revenue (`sum(price * qty)`), and print `<customer>: <rev:.2f>` sorted by revenue descending then customer name ascending (or `NO_PAID_ORDERS` if none).",
+        "bn": "এক লাইনে অর্ডার রেকর্ডের একটি নেস্টেড JSON অ্যারে নিয়ে `orders.json`-এ লিখুন। `json.load()` দিয়ে ফাইলটি পড়ে কেবল `status == \"PAID\"` অর্ডারগুলো থেকে প্রতিটি গ্রাহকের মোট আয় (`price * qty`) হিসাব করুন এবং আয় বড় থেকে ছোট (সমান হলে নামের ক্রমে) সাজিয়ে প্রিন্ট করুন (না থাকলে `NO_PAID_ORDERS`)।"
+      },
+      "inputDescription": {
+        "en": "A single-line JSON array of order objects.",
+        "bn": "এক লাইনের অর্ডার অবজেক্টযুক্ত JSON অ্যারে।"
+      },
+      "expectedOutput": {
+        "en": "Customer revenue lines sorted by (-revenue, customer), or `NO_PAID_ORDERS`.",
+        "bn": "আয় অনুযায়ী সাজানো গ্রাহক তালিকা, অথবা `NO_PAID_ORDERS`।"
+      },
+      "examples": [
+        {
+          "input": "[{\"customer\":\"Ali\",\"status\":\"PAID\",\"items\":[{\"price\":10,\"qty\":2}]},{\"customer\":\"Bina\",\"status\":\"PENDING\",\"items\":[{\"price\":50,\"qty\":1}]},{\"customer\":\"Ali\",\"status\":\"PAID\",\"items\":[{\"price\":5.5,\"qty\":2}]}]",
+          "output": "Ali: 31.00",
+          "explanation": {
+            "en": "Bina's PENDING order is ignored; Ali's two PAID orders sum to 20 + 11 = 31.00.",
+            "bn": "Bina-র PENDING অর্ডার বাদ পড়েছে; Ali-র দুটি PAID অর্ডারের যোগফল ৩১.০০।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Nested iteration: outer loop over `orders`, guard `if order.get('status') != 'PAID': continue`, inner loop over `order['items']`.",
+        "bn": "বাইরের লুপ `orders`-এর ওপর চালিয়ে `status == 'PAID'` যাচাই করে ভেতরের লুপ `order['items']`-এর ওপর চালান।"
+      },
+      "hint2": {
+        "en": "Sort `revenue.items()` with `key=lambda kv: (-kv[1], kv[0])`.",
+        "bn": "`key=lambda kv: (-kv[1], kv[0])` দিয়ে আয় ও নাম অনুযায়ী সর্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Real API exports and NoSQL dumps store deeply nested records. Decoupling filtering (`status == 'PAID'`), line-item aggregation, and final ranking keeps nested JSON parsing modular and readable.",
+        "bn": "নেস্টেড JSON প্রসেসিংয়ে ফিল্টার, আইটেম যোগফল ও সর্টিং ধাপ আলাদা রাখলে কোড পরিচ্ছন্ন ও ত্রুটিমুক্ত থাকে।"
+      },
+      "algorithm": [
+        { "en": "Write JSON payload to `orders.json` and read via `json.load`.", "bn": "`orders.json`-এ লিখে `json.load` দিয়ে পড়ুন।" },
+        { "en": "Loop through orders; skip if `status != 'PAID'`.", "bn": "`status != 'PAID'` হলে এড়িয়ে যান।" },
+        { "en": "Sum `item['price'] * item['qty']` into `totals[customer]`.", "bn": "`price * qty` যোগ করে গ্রাহকের মোট আয় বাড়ান।" },
+        { "en": "Print sorted customer revenues or `NO_PAID_ORDERS`.", "bn": "সাজানো ফলাফল বা `NO_PAID_ORDERS` প্রিন্ট করুন।" }
+      ],
+      "solution": "import json\nimport os\nimport tempfile\n\npayload = input()\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    path = os.path.join(tmpdir, \"orders.json\")\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        f.write(payload)\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        orders = json.load(f)\n\nrevenue = {}\nfor order in orders:\n    if order.get(\"status\") != \"PAID\":\n        continue\n    cust = order[\"customer\"]\n    order_sum = sum(item[\"price\"] * item[\"qty\"] for item in order.get(\"items\", []))\n    revenue[cust] = revenue.get(cust, 0.0) + order_sum\n\nif not revenue:\n    print(\"NO_PAID_ORDERS\")\nelse:\n    for cust, total in sorted(revenue.items(), key=lambda kv: (-kv[1], kv[0])):\n        print(f\"{cust}: {total:.2f}\")",
+      "codeExplanation": {
+        "en": "Only orders marked PAID contribute to customer totals. Sorting by (-kv[1], kv[0]) ranks highest spenders first and breaks ties alphabetically.",
+        "bn": "শুধু PAID অর্ডারগুলোই আয়ে যুক্ত হয় এবং (-kv[1], kv[0]) দ্বারা শীর্ষ ক্রেতা আগে আসে।"
+      },
+      "complexity": { "time": "O(total items + C log C)", "space": "O(total orders)" },
+      "testCases": [
+        { "input": "[{\"customer\":\"Ali\",\"status\":\"PAID\",\"items\":[{\"price\":10,\"qty\":2}]},{\"customer\":\"Bina\",\"status\":\"PENDING\",\"items\":[{\"price\":50,\"qty\":1}]},{\"customer\":\"Ali\",\"status\":\"PAID\",\"items\":[{\"price\":5.5,\"qty\":2}]}]", "expectedOutput": "Ali: 31.00", "note": { "en": "Filters out pending order", "bn": "PENDING অর্ডার বাদ" } },
+        { "input": "[{\"customer\":\"Zara\",\"status\":\"PAID\",\"items\":[{\"price\":25,\"qty\":2}]},{\"customer\":\"Arif\",\"status\":\"PAID\",\"items\":[{\"price\":50,\"qty\":1}]}]", "expectedOutput": "Arif: 50.00\nZara: 50.00", "note": { "en": "Revenue tie broken alphabetically", "bn": "সমান আয়ে নামের ক্রম" } },
+        { "input": "[{\"customer\":\"K\", \"status\":\"CANCELLED\", \"items\":[{\"price\":99,\"qty\":1}]}]", "expectedOutput": "NO_PAID_ORDERS", "note": { "en": "No paid orders", "bn": "কোনো পরিশোধিত অর্ডার নেই" } }
+      ]
+    },
+    {
+      "id": "P14-18",
+      "number": 18,
+      "title": {
+        "en": "Two-File Account Reconciliation Auditor",
+        "bn": "দুটি অ্যাকাউন্ট ফাইলের তুলনামূলক নিরীক্ষা (Diff Auditor)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Set difference across two files", "bn": "দুটি ফাইলের মাঝে সেট পার্থক্য" },
+        { "en": "Reconciling expected vs active records", "bn": "প্রত্যাশিত বনাম সক্রিয় রেকর্ড তুলনা" }
+      ],
+      "description": {
+        "en": "Read usernames for `expected.txt`, a `---` separator, and usernames for `active.txt`. Write both files, then read each file into a set of stripped non-empty usernames. Identify `Missing` accounts (in `expected.txt` but not `active.txt`) and `Extra` accounts (in `active.txt` but not `expected.txt`), each sorted alphabetically. Print:\n`Missing: <comma-space list or NONE>`\n`Extra: <comma-space list or NONE>`",
+        "bn": "`expected.txt`-এর ইউজারনেম, `---` বিভাজক এবং `active.txt`-এর ইউজারনেম ইনপুট নিন। দুটি ফাইল তৈরি করে পড়ে বের করুন কোন ইউজারনেমগুলো `expected.txt`-এ থাকলেও `active.txt`-এ নেই (`Missing`) এবং কোনগুলো `active.txt`-এ অতিরিক্ত আছে (`Extra`)। উভয় তালিকা বর্ণানুক্রমে কমা-স্পেস দিয়ে (না থাকলে `NONE`) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Usernames for `expected.txt`, `---`, then usernames for `active.txt` (to EOF).",
+        "bn": "`expected.txt`-এর নাম, `---`, এরপর `active.txt`-এর নাম।"
+      },
+      "expectedOutput": {
+        "en": "`Missing: ...` and `Extra: ...`.",
+        "bn": "`Missing: ...` ও `Extra: ...`।"
+      },
+      "examples": [
+        {
+          "input": "alice\nbob\ncarol\n---\nbob\ncarol\ndave",
+          "output": "Missing: alice\nExtra: dave",
+          "explanation": {
+            "en": "`alice` is missing from `active.txt` (`expected - active`); `dave` is unexpected (`active - expected`).",
+            "bn": "`alice` সক্রিয় তালিকায় অনুপস্থিত এবং `dave` অতিরিক্ত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Write a small `load_set(path)` helper that reads lines, strips whitespace, skips blanks, and returns a `set`.",
+        "bn": "`load_set(path)` ফাংশন লিখুন যা ফাইল পড়ে ফাঁকা লাইন বাদ দিয়ে একটি সেট রিটার্ন করে।"
+      },
+      "hint2": {
+        "en": "`missing = sorted(expected - active)` and `extra = sorted(active - expected)`.",
+        "bn": "`expected - active` এবং `active - expected` বের করে `sorted()` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Comparing two text files with nested loops costs `O(N * M)`. Loading stripped records into Python sets performs exact symmetric difference in `O(N + M)`, turning account reconciliation and drift checks instantaneous.",
+        "bn": "নেস্টেড লুপে O(N*M) সময় লাগত; কিন্তু দুটি ফাইল থেকে সেট তৈরি করে `expected - active` ও `active - expected` করলে O(N + M) সময়েই পার্থক্য পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Write `expected.txt` and `active.txt`.", "bn": "`expected.txt` ও `active.txt` লিখুন।" },
+        { "en": "Read both files into sets `exp_set` and `act_set`.", "bn": "উভয় ফাইল পড়ে `exp_set` ও `act_set` তৈরি করুন।" },
+        { "en": "Compute `sorted(exp_set - act_set)` and `sorted(act_set - exp_set)`.", "bn": "Missing ও Extra সেট পার্থক্য বের করে সাজান।" },
+        { "en": "Print comma-joined lists or `NONE`.", "bn": "কমা-বিচ্ছিন্ন তালিকা বা `NONE` প্রিন্ট করুন।" }
+      ],
+      "solution": "import os\nimport sys\nimport tempfile\n\ndef load_set(path):\n    s = set()\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            val = raw.strip()\n            if val:\n                s.add(val)\n    return s\n\nlines = [l.rstrip(\"\\n\") for l in sys.stdin.read().splitlines()]\nsep = lines.index(\"---\")\nexp_lines, act_lines = lines[:sep], lines[sep + 1:]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    p_exp = os.path.join(tmpdir, \"expected.txt\")\n    p_act = os.path.join(tmpdir, \"active.txt\")\n    for p, content in ((p_exp, exp_lines), (p_act, act_lines)):\n        with open(p, \"w\", encoding=\"utf-8\") as f:\n            for item in content:\n                f.write(item + \"\\n\")\n    exp_set = load_set(p_exp)\n    act_set = load_set(p_act)\n\nmissing = sorted(exp_set - act_set)\nextra = sorted(act_set - exp_set)\nprint(\"Missing: \" + (\", \".join(missing) if missing else \"NONE\"))\nprint(\"Extra: \" + (\", \".join(extra) if extra else \"NONE\"))",
+      "codeExplanation": {
+        "en": "Set subtraction handles arbitrary ordering and duplicates inside either file cleanly in linear time.",
+        "bn": "সেট বিয়োগ উভয় ফাইলের ক্রম বা ডুপ্লিকেট থাকা সত্ত্বেও লিনিয়ার সময়ে নির্ভুল পার্থক্য দেয়।"
+      },
+      "complexity": { "time": "O(N log N + M log M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "alice\nbob\ncarol\n---\nbob\ncarol\ndave", "expectedOutput": "Missing: alice\nExtra: dave", "note": { "en": "One missing, one extra", "bn": "১টি অনুপস্থিত ও ১টি অতিরিক্ত" } },
+        { "input": "u1\nu2\n---\nu2\nu1", "expectedOutput": "Missing: NONE\nExtra: NONE", "note": { "en": "Reordered exact match", "bn": "ভিন্ন ক্রমে সম্পূর্ণ মিল" } },
+        { "input": "admin\n---\nguest\nroot", "expectedOutput": "Missing: admin\nExtra: guest, root", "note": { "en": "Multiple extra accounts", "bn": "একাধিক অতিরিক্ত অ্যাকাউন্ট" } }
+      ]
+    },
+    {
+      "id": "P14-19",
+      "number": 19,
+      "title": {
+        "en": "CSV Schema Validator & Quarantine File Splitter",
+        "bn": "CSV ডেটা যাচাইকরণ ও কোয়ারেন্টাইন ফাইল পৃথকীকরণ"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "ETL validation pipeline across 3 files", "bn": "৩টি ফাইলের ETL যাচাই পাইপলাইন" },
+        { "en": "Error isolation into quarantine.log", "bn": "ত্রুটিপূর্ণ ডেটা quarantine.log-এ সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read integer N followed by N CSV lines (`id,email,age` header + applicant rows) written to `applicants.csv`. Validate every row in order:\n1) `id` must be non-empty digits (`id.isdigit()`).\n2) `email` must contain `@` with at least one `.` in the domain part after `@` and no spaces.\n3) `age` must parse as an integer with `18 <= age <= 65`.\nRoute valid rows to `valid.csv` (keeping header) and invalid rows to `quarantine.log` formatted as `Row <num>: <id> -> <reason>` (`num` starts at 1 for the first data row; report the FIRST failing rule: `INVALID_ID`, `INVALID_EMAIL`, or `INVALID_AGE`). Print `Valid: <v> | Quarantined: <q>` followed by lines from `quarantine.log`.",
+        "bn": "পূর্ণসংখ্যা N ও `id,email,age` হেডারসহ Nটি CSV লাইন `applicants.csv`-এ লিখুন। প্রতিটি ডেটা সারি যাচাই করুন: (১) `id` শুধু অঙ্ক হবে, (২) `email`-এ স্পেস থাকবে না এবং `@`-এর পরে অন্তত একটি `.` থাকবে, (৩) `age` ১৮ থেকে ৬৫-এর মধ্যে পূর্ণসংখ্যা হবে। বৈধ সারি `valid.csv`-এ এবং অবৈধ সারি কারণসহ (`INVALID_ID`, `INVALID_EMAIL`, `INVALID_AGE`) `quarantine.log`-এ লিখুন। শেষে পরিসংখ্যান ও `quarantine.log` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: CSV header `id,email,age` + applicant rows.",
+        "bn": "১ম লাইন: N। পরবর্তী N লাইন: হেডারসহ CSV সারি।"
+      },
+      "expectedOutput": {
+        "en": "`Valid: <v> | Quarantined: <q>`, followed by lines from `quarantine.log`.",
+        "bn": "`Valid: <v> | Quarantined: <q>` ও `quarantine.log`-এর লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4\nid,email,age\n101,a@b.com,22\n102,bad-email,25\n103,c@d.org,16",
+          "output": "Valid: 1 | Quarantined: 2\nRow 2: 102 -> INVALID_EMAIL\nRow 3: 103 -> INVALID_AGE",
+          "explanation": {
+            "en": "Row 1 is valid; Row 2 fails email domain check; Row 3 has age 16 < 18.",
+            "bn": "১ম সারি বৈধ; ২য় সারিতে ইমেইল ভুল এবং ৩য় সারিতে বয়স ১৮-এর নিচে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Open `applicants.csv` for reading and `valid.csv` + `quarantine.log` for writing simultaneously in one `with` block.",
+        "bn": "একটি `with` ব্লকে ইনপুট ও দুটি আউটপুট ফাইল একসাথে খুলে স্ট্রিম করুন।"
+      },
+      "hint2": {
+        "en": "Validate in priority order: ID -> Email -> Age. Wrap `int(age_str)` in `try / except ValueError:` to catch non-numeric ages.",
+        "bn": "ID -> Email -> Age ক্রমে যাচাই করুন এবং `int(age)` রূপান্তরে `ValueError` ধরতে `try/except` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Instead of crashing an entire batch ETL job on one bad row, production ingestion splits clean records into `valid.csv` while logging exact row numbers and diagnostic codes into `quarantine.log` for human review.",
+        "bn": "একটি ত্রুটিপূর্ণ সারির জন্য পুরো ব্যাচ বন্ধ না করে বৈধ ও অবৈধ রেকর্ড দুটি আলাদা ফাইলে ভাগ করে রাখাই বাস্তব ETL পাইপলাইনের মূল কৌশল।"
+      },
+      "algorithm": [
+        { "en": "Write `applicants.csv`.", "bn": "`applicants.csv` লিখুন।" },
+        { "en": "Open `applicants.csv`, `valid.csv`, and `quarantine.log`; write header to `valid.csv`.", "bn": "তিনটি ফাইল খুলে `valid.csv`-এ হেডার লিখুন।" },
+        { "en": "For each data row (1-based): run ID, Email, Age checks in order.", "bn": "প্রতিটি সারিতে ক্রমানুসারে ID, Email ও Age যাচাই করুন।" },
+        { "en": "Route to `valid.csv` or `quarantine.log`; then read `quarantine.log` and print summary + quarantined rows.", "bn": "বৈধ হলে `valid.csv` এবং অবৈধ হলে `quarantine.log`-এ লিখে শেষে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "import csv\nimport os\nimport tempfile\n\ndef validate_row(row):\n    uid = row[\"id\"].strip()\n    email = row[\"email\"].strip()\n    age_s = row[\"age\"].strip()\n    if not uid.isdigit():\n        return \"INVALID_ID\"\n    if \" \" in email or email.count(\"@\") != 1:\n        return \"INVALID_EMAIL\"\n    local, domain = email.split(\"@\")\n    if not local or \".\" not in domain:\n        return \"INVALID_EMAIL\"\n    try:\n        age = int(age_s)\n    except ValueError:\n        return \"INVALID_AGE\"\n    if not (18 <= age <= 65):\n        return \"INVALID_AGE\"\n    return None\n\nn = int(input())\ncsv_lines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    app_p = os.path.join(tmpdir, \"applicants.csv\")\n    val_p = os.path.join(tmpdir, \"valid.csv\")\n    qur_p = os.path.join(tmpdir, \"quarantine.log\")\n    with open(app_p, \"w\", encoding=\"utf-8\", newline=\"\") as f:\n        for line in csv_lines:\n            f.write(line + \"\\n\")\n    valid_cnt = 0\n    quar_cnt = 0\n    with open(app_p, \"r\", encoding=\"utf-8\", newline=\"\") as fin, \\\n         open(val_p, \"w\", encoding=\"utf-8\", newline=\"\") as fval, \\\n         open(qur_p, \"w\", encoding=\"utf-8\") as fqur:\n        writer = csv.writer(fval, lineterminator=\"\\n\")\n        writer.writerow([\"id\", \"email\", \"age\"])\n        for idx, row in enumerate(csv.DictReader(fin), start=1):\n            err = validate_row(row)\n            if err is None:\n                writer.writerow([row[\"id\"].strip(), row[\"email\"].strip(), row[\"age\"].strip()])\n                valid_cnt += 1\n            else:\n                fqur.write(f\"Row {idx}: {row['id'].strip()} -> {err}\\n\")\n                quar_cnt += 1\n    with open(qur_p, \"r\", encoding=\"utf-8\") as f:\n        q_lines = [l.rstrip(\"\\n\") for l in f]\n\nprint(f\"Valid: {valid_cnt} | Quarantined: {quar_cnt}\")\nfor line in q_lines:\n    print(line)",
+      "codeExplanation": {
+        "en": "validate_row returns either None (valid) or the first rule violation code. Valid and invalid rows stream simultaneously into separate files.",
+        "bn": "validate_row বৈধ সারির জন্য None এবং ত্রুটির জন্য প্রথম নিয়ম-ভঙ্গ কোড রিটার্ন করে, যা আলাদা দুটি ফাইলে চলে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(Q) output log" },
+      "testCases": [
+        { "input": "4\nid,email,age\n101,a@b.com,22\n102,bad-email,25\n103,c@d.org,16", "expectedOutput": "Valid: 1 | Quarantined: 2\nRow 2: 102 -> INVALID_EMAIL\nRow 3: 103 -> INVALID_AGE", "note": { "en": "Mixed valid and quarantined rows", "bn": "বৈধ ও ত্রুটিপূর্ণ সারি" } },
+        { "input": "3\nid,email,age\nAB,user@site.io,30\n12,ok@mail.net,abc", "expectedOutput": "Valid: 0 | Quarantined: 2\nRow 1: AB -> INVALID_ID\nRow 2: 12 -> INVALID_AGE", "note": { "en": "Non-digit ID and non-numeric age", "bn": "অবৈধ ID ও বয়স" } },
+        { "input": "3\nid,email,age\n1,u1@x.com,18\n2,u2@y.edu,65", "expectedOutput": "Valid: 2 | Quarantined: 0", "note": { "en": "Boundary ages 18 and 65 valid", "bn": "সীমান্ত বয়স ১৮ ও ৬৫ বৈধ" } }
+      ]
+    },
+    {
+      "id": "P14-20",
+      "number": 20,
+      "title": {
+        "en": "Auth Log Brute-Force IP Detector & JSON Incident Export",
+        "bn": "অথেনটিকেশন লগ থেকে ব্রুট-ফোর্স আইপি শনাক্তকরণ ও JSON রিপোর্ট"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Security log parsing + threshold detection", "bn": "সিকিউরিটি লগ বিশ্লেষণ ও থ্রেশহোল্ড নির্ণয়" },
+        { "en": "Cross-format pipeline (Text log -> JSON report)", "bn": "লগ ফাইল থেকে JSON রিপোর্ট তৈরি" }
+      ],
+      "description": {
+        "en": "Read integer `threshold` on line 1, integer N on line 2, and N log lines formatted as `<ip> <FAIL|SUCCESS> <username>` written to `auth.log`. Stream `auth.log`, count total `FAIL` attempts per IP, select all IPs with `fails >= threshold`, sort them by fail count descending and IP string ascending, and write them to `incidents.json` as `[{\"ip\": ip, \"fails\": count}, ...]`. Finally load `incidents.json` and print `<ip>: <fails> failed attempts` (or `CLEAN` if empty).",
+        "bn": "১ম লাইনে `threshold`, ২য় লাইনে N এবং এরপর `<ip> <FAIL|SUCCESS> <username>` আকারে Nটি লগ `auth.log`-এ লিখুন। ফাইলটি পড়ে প্রতিটি IP-এর মোট `FAIL` চেষ্টা গণনা করুন এবং `fails >= threshold` হলে ব্যর্থতার সংখ্যা বড় থেকে ছোট (সমান হলে IP ক্রমে) সাজিয়ে `incidents.json`-এ সেভ করুন। শেষে `incidents.json` পড়ে `<ip>: <fails> failed attempts` বা ফাঁকা হলে `CLEAN` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer threshold. Line 2: integer N. Next N lines: `<ip> <FAIL|SUCCESS> <username>`.",
+        "bn": "১ম লাইন: threshold। ২য় লাইন: N। পরবর্তী N লাইন: `<ip> <FAIL|SUCCESS> <username>`।"
+      },
+      "expectedOutput": {
+        "en": "Flagged incident lines read from `incidents.json`, or `CLEAN`.",
+        "bn": "`incidents.json` থেকে পড়া সতর্কবার্তা, অথবা `CLEAN`।"
+      },
+      "examples": [
+        {
+          "input": "3\n6\n192.168.1.5 FAIL admin\n10.0.0.2 SUCCESS alice\n192.168.1.5 FAIL root\n192.168.1.5 FAIL admin\n10.0.0.9 FAIL bob\n10.0.0.9 FAIL bob",
+          "output": "192.168.1.5: 3 failed attempts",
+          "explanation": {
+            "en": "`192.168.1.5` hit 3 failures (>= threshold 3); `10.0.0.9` had only 2 failures so it is not flagged.",
+            "bn": "`192.168.1.5` ৩টি ব্যর্থ চেষ্টায় সীমা অতিক্রম করেছে; `10.0.0.9` ২টি থাকায় বাদ পড়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split each log line into `ip, status, user = line.split()` and only increment `fail_counts[ip]` when `status == 'FAIL'`.",
+        "bn": "প্রতি লাইন ভেঙে `status == 'FAIL'` হলেই কেবল `fail_counts[ip]` ১ করে বাড়ান।"
+      },
+      "hint2": {
+        "en": "Sort flagged tuples with `key=lambda x: (-x['fails'], x['ip'])` before calling `json.dump`.",
+        "bn": "`json.dump` করার আগে `(-x['fails'], x['ip'])` অনুযায়ী সাজিয়ে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "Security log analysis bridges Part 14 file I/O with cybersecurity engineering: streaming raw authentication logs in O(N), aggregating per-IP anomalies with dictionaries, and persisting structured JSON alerts for downstream SIEM dashboards.",
+        "bn": "লগ ফাইল প্রসেসিং থেকে সাইবার সিকিউরিটি: লিনিয়ার সময়ে `auth.log` বিশ্লেষণ করে সন্দেহজনক IP শনাক্ত ও JSON ইনসিডেন্ট রিপোর্টে রূপান্তর করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Write N entries to `auth.log`.", "bn": "Nটি লগ `auth.log`-এ লিখুন।" },
+        { "en": "Stream `auth.log`, counting `FAIL` events per IP.", "bn": "`auth.log` স্ট্রিম করে প্রতিটি IP-এর `FAIL` সংখ্যা গুনুন।" },
+        { "en": "Filter IPs with `count >= threshold`, sort by `(-fails, ip)`, and serialize to `incidents.json`.", "bn": "সীমা পার হওয়া IP সাজিয়ে `incidents.json`-এ সংরক্ষণ করুন।" },
+        { "en": "Load `incidents.json` and print alerts or `CLEAN`.", "bn": "`incidents.json` পড়ে রিপোর্ট বা `CLEAN` প্রিন্ট করুন।" }
+      ],
+      "solution": "import json\nimport os\nimport tempfile\n\nthreshold = int(input())\nn = int(input())\nlines = [input() for _ in range(n)]\n\nwith tempfile.TemporaryDirectory() as tmpdir:\n    log_p = os.path.join(tmpdir, \"auth.log\")\n    inc_p = os.path.join(tmpdir, \"incidents.json\")\n    with open(log_p, \"w\", encoding=\"utf-8\") as f:\n        for line in lines:\n            f.write(line + \"\\n\")\n    fail_counts = {}\n    with open(log_p, \"r\", encoding=\"utf-8\") as f:\n        for raw in f:\n            s = raw.strip()\n            if not s:\n                continue\n            ip, status, _user = s.split()\n            if status == \"FAIL\":\n                fail_counts[ip] = fail_counts.get(ip, 0) + 1\n    incidents = [\n        {\"ip\": ip, \"fails\": cnt}\n        for ip, cnt in fail_counts.items()\n        if cnt >= threshold\n    ]\n    incidents.sort(key=lambda x: (-x[\"fails\"], x[\"ip\"]))\n    with open(inc_p, \"w\", encoding=\"utf-8\") as f:\n        json.dump(incidents, f, indent=2)\n    with open(inc_p, \"r\", encoding=\"utf-8\") as f:\n        loaded = json.load(f)\n\nif not loaded:\n    print(\"CLEAN\")\nelse:\n    for item in loaded:\n        print(f\"{item['ip']}: {item['fails']} failed attempts\")",
+      "codeExplanation": {
+        "en": "Raw text logs are converted into structured JSON incidents and verified by reading incidents.json back from disk before outputting alerts.",
+        "bn": "কাঁচা টেক্সট লগ থেকে কাঠামোবদ্ধ JSON রিপোর্ট তৈরি হয়ে ডিস্ক থেকে পুনরায় লোড করে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N + I log I) where I = flagged IPs", "space": "O(total distinct IPs)" },
+      "testCases": [
+        { "input": "3\n6\n192.168.1.5 FAIL admin\n10.0.0.2 SUCCESS alice\n192.168.1.5 FAIL root\n192.168.1.5 FAIL admin\n10.0.0.9 FAIL bob\n10.0.0.9 FAIL bob", "expectedOutput": "192.168.1.5: 3 failed attempts", "note": { "en": "Single flagged IP", "bn": "১টি সন্দেহজনক IP" } },
+        { "input": "2\n5\n10.0.0.5 FAIL root\n10.0.0.1 FAIL admin\n10.0.0.5 FAIL root\n10.0.0.1 FAIL guest\n10.0.0.1 FAIL root", "expectedOutput": "10.0.0.1: 3 failed attempts\n10.0.0.5: 2 failed attempts", "note": { "en": "Multiple IPs ranked descending", "bn": "একাধিক সন্দেহজনক IP" } },
+        { "input": "4\n3\n1.1.1.1 FAIL a\n1.1.1.1 FAIL b\n1.1.1.1 SUCCESS a", "expectedOutput": "CLEAN", "note": { "en": "Below brute-force threshold", "bn": "সীমার নিচে থাকায় CLEAN" } }
+      ]
+    }
+  ]
+}

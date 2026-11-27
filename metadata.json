@@ -1,0 +1,6 @@
+{
+  "name": "PYLOGIC",
+  "description": "A personal Python logic building, mathematical reasoning, and problem-solving curriculum platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

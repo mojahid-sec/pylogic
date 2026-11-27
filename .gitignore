@@ -1,0 +1,20 @@
+# Dependencies & Build Artifacts
+node_modules/
+dist/
+build/
+coverage/
+.vercel/
+.cache/
+
+# Environment & Local Secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# OS & Logs
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp

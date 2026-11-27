@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>PYLOGIC — Think Better. Code Smarter. Build Stronger.</title>
+    <meta
+      name="description"
+      content="PYLOGIC: Think Better. Code Smarter. Build Stronger. A Python logic-building and real-world software & cybersecurity engineering curriculum platform."
+    />
+    <meta property="og:title" content="PYLOGIC — Think Better. Code Smarter. Build Stronger." />
+    <meta
+      property="og:description"
+      content="A structured Python logic-building (20 Parts · 400 Problems) and real-world projects (20 Engineering Briefs) learning platform."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var prefRaw = localStorage.getItem('pylogic-preferences');
+          var prefs = prefRaw ? JSON.parse(prefRaw) : null;
+          var savedPrefTheme =
+            prefs &&
+            (prefs.themePreference === 'light' ||
+              prefs.themePreference === 'dark' ||
+              prefs.themePreference === 'system')
+              ? prefs.themePreference
+              : null;
+          var legacyTheme = localStorage.getItem('pylogic-theme');
+          var effectivePref =
+            savedPrefTheme ||
+            (legacyTheme === 'dark' || legacyTheme === 'light' ? legacyTheme : 'system');
+          var prefersDark =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme =
+            effectivePref === 'dark' || effectivePref === 'light'
+              ? effectivePref
+              : prefersDark
+                ? 'dark'
+                : 'light';
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-theme-preference', effectivePref);
+
+          var savedLang =
+            prefs && (prefs.language === 'bn' || prefs.language === 'en')
+              ? prefs.language
+              : localStorage.getItem('pylogic-lang');
+          var lang = savedLang === 'bn' ? 'bn' : 'en';
+          document.documentElement.setAttribute('lang', lang);
+
+          var density =
+            prefs && prefs.readingDensity === 'compact' ? 'compact' : 'comfortable';
+          document.documentElement.setAttribute('data-density', density);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

@@ -1,0 +1,1282 @@
+{
+  "partId": "part-09",
+  "partNumber": 9,
+  "problems": [
+    {
+      "id": "P09-01",
+      "number": 1,
+      "title": {
+        "en": "Construct Dictionary from Parallel Lists",
+        "bn": "সমান্তরাল লিস্ট থেকে ডিকশনারি তৈরি"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Dictionary creation & zip()", "bn": "ডিকশনারি গঠন ও zip()" },
+        { "en": "Key-value traversal (.items())", "bn": ".items() দিয়ে কী-ভ্যালু পরিদর্শন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated string keys on line 1 and an equal number of space-separated integer values on line 2. Build a dictionary pairing each key with its corresponding integer value and print each pair on its own line as '<key>: <value>'.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন স্ট্রিং কী (keys) এবং ২য় লাইনে সমসংখ্যক স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা মান (values) ইনপুট নিন। প্রতিটি কী-কে তার মানের সাথে যুক্ত করে একটি ডিকশনারি তৈরি করুন এবং প্রতিটি লাইনে '<key>: <value>' আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated keys. Line 2: equal count of space-separated integers.",
+        "bn": "১ম লাইন: স্ট্রিং কী-সমূহ। ২য় লাইন: সমসংখ্যক পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "One line per dictionary entry formatted as '<key>: <value>'.",
+        "bn": "প্রতিটি এন্ট্রির জন্য '<key>: <value>' লাইন।"
+      },
+      "examples": [
+        {
+          "input": "math physics python\n92 85 98",
+          "output": "math: 92\nphysics: 85\npython: 98",
+          "explanation": {
+            "en": "Each key maps to the integer at the matching position.",
+            "bn": "প্রতিটি বিষয় তার সমান্তরাল অবস্থানের নম্বরের সাথে যুক্ত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split line 1 into `keys = input().split()` and convert line 2 into `values = [int(x) for x in input().split()]`.",
+        "bn": "১ম লাইন `input().split()` এবং ২য় লাইন `[int(x) for x in input().split()]` দিয়ে আলাদা করুন।"
+      },
+      "hint2": {
+        "en": "Pair them using `for k, v in zip(keys, values): mapping[k] = v`.",
+        "bn": "`for k, v in zip(keys, values): mapping[k] = v` দিয়ে ডিকশনারিতে যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Dictionaries store associative key-to-value mappings rather than positional indices. Python's `zip(keys, values)` walks two parallel lists together cleanly without manual index arithmetic `i`. If a key appears more than once in `keys`, assigning `mapping[k] = v` naturally keeps its latest value.",
+        "bn": "ডিকশনারি অবস্থানের বদলে সরাসরি নামের (key) মাধ্যমে মান (value) সংরক্ষণ করে। `zip(keys, values)` ব্যবহার করলে সূচক `i` ছাড়াই সমান্তরাল দুটি লিস্ট জোড়া লাগানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read keys as strings and values as integers.", "bn": "কী-সমূহ স্ট্রিংয়ে এবং মানসমূহ পূর্ণসংখ্যায় পড়ুন।" },
+        { "en": "Create empty dict mapping = {}.", "bn": "খালি ডিকশনারি mapping = {} নিন।" },
+        { "en": "Loop k, v in zip(keys, values) and set mapping[k] = v.", "bn": "zip(keys, values) দিয়ে প্রতিটি k, v-এর জন্য mapping[k] = v করুন।" },
+        { "en": "Iterate over mapping.items() and print f'{k}: {v}'.", "bn": "mapping.items() থেকে প্রতিটি জোড়া f'{k}: {v}' আকারে প্রিন্ট করুন।" }
+      ],
+      "solution": "keys = input().split()\nvalues = [int(x) for x in input().split()]\nmapping = {}\nfor k, v in zip(keys, values):\n    mapping[k] = v\nfor k, v in mapping.items():\n    print(f\"{k}: {v}\")",
+      "codeExplanation": {
+        "en": "zip pairs keys[i] with values[i] safely. Assigning mapping[k] = v populates the dictionary in insertion order, and mapping.items() prints each key-value pair cleanly.",
+        "bn": "zip পাশাপাশি উপাদানগুলো জোড়া লাগায়। mapping[k] = v ডিকশনারিতে মান বসায় এবং mapping.items() ক্রমানুসারে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "math physics python\n92 85 98", "expectedOutput": "math: 92\nphysics: 85\npython: 98", "note": { "en": "Three distinct entries", "bn": "তিনটি এন্ট্রি" } },
+        { "input": "pen\n15", "expectedOutput": "pen: 15", "note": { "en": "Single entry", "bn": "একটি এন্ট্রি" } },
+        { "input": "a b a\n1 2 5", "expectedOutput": "a: 5\nb: 2", "note": { "en": "Duplicate key updates value", "bn": "একই কী-তে মান হালনাগাদ" } }
+      ]
+    },
+    {
+      "id": "P09-02",
+      "number": 2,
+      "title": {
+        "en": "Safe Dictionary Query With Default Fallback",
+        "bn": "ডিফল্ট মানসহ নিরাপদ ডিকশনারি অনুসন্ধান"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Safe lookup using .get(key, default)", "bn": ".get(key, default) ব্যবহার করে নিরাপদ খোঁজ" },
+        { "en": "Avoiding KeyError", "bn": "KeyError এড়ানো" }
+      ],
+      "description": {
+        "en": "Read an integer N on line 1, followed by N lines each containing a '<key> <value>' pair. Then read a query key Q on the last line. Print the corresponding value if Q exists in the dictionary, or 'Not Found' if Q is missing—without risking a KeyError.",
+        "bn": "১ম লাইনে পূর্ণসংখ্যা N, পরের N লাইনে প্রতিটি '<key> <value>' জোড়া এবং শেষ লাইনে একটি অনুসন্ধান কী Q ইনপুট নিন। ডিকশনারিতে Q থাকলে তার মান প্রিন্ট করুন, নতুবা KeyError ছাড়াই 'Not Found' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: key and value separated by space. Final line: query key Q.",
+        "bn": "১ম লাইন: N। পরের N লাইনে কী ও মান। শেষ লাইনে অনুসন্ধান কী Q।"
+      },
+      "expectedOutput": {
+        "en": "The value for key Q, or 'Not Found'.",
+        "bn": "Q-এর মান অথবা 'Not Found'।"
+      },
+      "examples": [
+        {
+          "input": "3\nhttp 80\nhttps 443\nssh 22\nssh",
+          "output": "22",
+          "explanation": {
+            "en": "'ssh' maps to '22' in the dictionary.",
+            "bn": "'ssh'-এর বিপরীতে মান '22' রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Using `records[query]` directly crashes with KeyError if `query` was never inserted!",
+        "bn": "কী না থাকলে সরাসরি `records[query]` লিখলে KeyError হয়ে প্রোগ্রাম থেমে যায়!"
+      },
+      "hint2": {
+        "en": "Use `records.get(query, 'Not Found')` to return a fallback cleanly.",
+        "bn": "`records.get(query, 'Not Found')` ব্যবহার করলে কী না থাকলেও নিরাপদ উত্তর পাওয়া যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Dictionary bracket indexing `d[k]` raises `KeyError` on missing keys. Using `.get(k, 'Not Found')` performs an O(1) hash lookup and returns the fallback string cleanly when `k` is absent.",
+        "bn": "ব্র্যাকেট `d[k]` অনুপস্থিত কী-তে KeyError ছোঁড়ে। `.get(k, 'Not Found')` O(1) সময়ে কী খুঁজে বের করে এবং না পেলে ডিফল্ট বার্তা রিটার্ন করে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize dict records.", "bn": "n পড়ুন এবং খালি ডিকশনারি records নিন।" },
+        { "en": "Repeat n times: read k, v = input().split() and store records[k] = v.", "bn": "n বার ইনপুট নিয়ে records[k] = v সংরক্ষণ করুন।" },
+        { "en": "Read query = input().strip().", "bn": "query পড়ুন।" },
+        { "en": "Print records.get(query, 'Not Found').", "bn": "records.get(query, 'Not Found') প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nrecords = {}\nfor _ in range(n):\n    k, v = input().split()\n    records[k] = v\nquery = input().strip()\nprint(records.get(query, \"Not Found\"))",
+      "codeExplanation": {
+        "en": "Each of the n lines splits into key k and string value v. records.get(query, 'Not Found') looks up query in constant average time without throwing an exception.",
+        "bn": "প্রতিটি লাইন থেকে k ও v নিয়ে ডিকশনারিতে রাখা হয়। শেষে records.get(query, 'Not Found') কোনো ত্রুটি ছাড়াই ফলাফল দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\nhttp 80\nhttps 443\nssh 22\nssh", "expectedOutput": "22", "note": { "en": "Existing key lookup", "bn": "বিদ্যমান কী খোঁজা" } },
+        { "input": "2\nhttp 80\nftp 21\nsmtp", "expectedOutput": "Not Found", "note": { "en": "Missing key fallback", "bn": "অনুপস্থিত কী" } },
+        { "input": "0\nany", "expectedOutput": "Not Found", "note": { "en": "Empty dictionary edge case", "bn": "খালি ডিকশনারি" } }
+      ]
+    },
+    {
+      "id": "P09-03",
+      "number": 3,
+      "title": {
+        "en": "Set Union, Intersection & Difference",
+        "bn": "সেটের সংযোগ, ছেদ ও অন্তর নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Set algebra (|, &, -)", "bn": "সেট অপারেশন (|, &, -)" },
+        { "en": "Sorted deterministic output", "bn": "সাজানো আউটপুট" }
+      ],
+      "description": {
+        "en": "Read two lines of space-separated integers representing set A and set B. Compute their Union (A | B), Intersection (A & B), and Difference (A - B). Print three lines prefixed with 'Union: ', 'Intersection: ', and 'Difference: ', with each set's elements sorted in ascending order (or 'Empty' if empty).",
+        "bn": "দুটি লাইনে সেট A ও সেট B-এর পূর্ণসংখ্যা ইনপুট নিন। এদের সংযোগ (A | B), ছেদ (A & B) এবং অন্তর (A - B) বের করুন। প্রতিটি লাইন যথাক্রমে 'Union: ', 'Intersection: ', 'Difference: ' দিয়ে শুরু করে ছোট থেকে বড় ক্রমে উপাদানগুলো প্রিন্ট করুন (খালি হলে 'Empty')।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers for A. Line 2: space-separated integers for B.",
+        "bn": "১ম লাইন: A-এর পূর্ণসংখ্যা। ২য় লাইন: B-এর পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Three lines showing sorted Union, Intersection, and Difference.",
+        "bn": "সাজানো Union, Intersection এবং Difference-এর তিনটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 4\n3 4 5 6",
+          "output": "Union: 1 2 3 4 5 6\nIntersection: 3 4\nDifference: 1 2",
+          "explanation": {
+            "en": "Combined unique values are 1..6, shared are 3 and 4, and only-in-A are 1 and 2.",
+            "bn": "মোট উপাদান ১..৬, সাধারণ উপাদান ৩ ও ৪, কেবল A-তে আছে ১ ও ২।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sets in Python are unordered—always sort the result with `sorted(...)` before printing so output order is predictable!",
+        "bn": "পাইথনের সেট অগোছালো থাকে—তাই প্রিন্ট করার আগে অবশ্যই `sorted(...)` দিয়ে সাজিয়ে নিন!"
+      },
+      "hint2": {
+        "en": "Write a tiny helper format_set(s) that returns ' '.join(str(x) for x in sorted(s)) if s else 'Empty'.",
+        "bn": "একটি ছোট হেল্পার ফাংশন লিখুন যা খালি সেটের জন্য 'Empty' এবং অন্যথায় সাজানো মান রিটার্ন করবে।"
+      },
+      "logicBreakdown": {
+        "en": "Python sets support mathematical set operators directly: `a | b` (union), `a & b` (intersection), and `a - b` (elements in A not in B). Because set iteration order depends on internal hash slots, sorting before formatting ensures consistent output and cleanly handles empty results.",
+        "bn": "পাইথন সেটে `|`, `&` এবং `-` দিয়ে সরাসরি সংযোগ, ছেদ ও অন্তর বের করা যায়। যেহেতু সেটের ভেতরের ক্রম নির্দিষ্ট নয়, তাই `sorted()` ব্যবহার করে প্রিন্ট করা ভালো অভ্যাস।"
+      },
+      "algorithm": [
+        { "en": "Read lines 1 and 2 into sets a and b.", "bn": "১ম ও ২য় লাইন থেকে সেট a এবং b তৈরি করুন।" },
+        { "en": "Define formatter returning sorted space-joined elements or 'Empty'.", "bn": "সেট খালি হলে 'Empty', নতুবা সাজিয়ে প্রিন্ট করার হেল্পার লিখুন।" },
+        { "en": "Print Union (a | b), Intersection (a & b), and Difference (a - b).", "bn": "Union (a | b), Intersection (a & b) ও Difference (a - b) প্রিন্ট করুন।" }
+      ],
+      "solution": "def fmt(s):\n    return \" \".join(str(x) for x in sorted(s)) if s else \"Empty\"\n\na = {int(x) for x in input().split()}\nb = {int(x) for x in input().split()}\nprint(f\"Union: {fmt(a | b)}\")\nprint(f\"Intersection: {fmt(a & b)}\")\nprint(f\"Difference: {fmt(a - b)}\")",
+      "codeExplanation": {
+        "en": "Set comprehensions deduplicate each input line immediately. Operators |, &, and - compute the three set relations, and fmt() sorts each set or substitutes 'Empty'.",
+        "bn": "সেট কম্প্রিহেনশন ডুপ্লিকেট বাদ দিয়ে সেট গঠন করে। এরপর |, & এবং - দিয়ে হিসাব করে fmt() দিয়ে সাজিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O((N + M) log(N + M))", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "1 2 3 4\n3 4 5 6", "expectedOutput": "Union: 1 2 3 4 5 6\nIntersection: 3 4\nDifference: 1 2", "note": { "en": "Partial overlap", "bn": "আংশিক মিল" } },
+        { "input": "1 2\n3 4", "expectedOutput": "Union: 1 2 3 4\nIntersection: Empty\nDifference: 1 2", "note": { "en": "Disjoint sets", "bn": "নিশ্ছেদ সেট" } },
+        { "input": "5 5\n5 6", "expectedOutput": "Union: 5 6\nIntersection: 5\nDifference: Empty", "note": { "en": "A subset of B gives Empty difference", "bn": "অন্তর খালি" } }
+      ]
+    },
+    {
+      "id": "P09-04",
+      "number": 4,
+      "title": {
+        "en": "Count Distinct Words Using a Set",
+        "bn": "সেট ব্যবহার করে স্বতন্ত্র শব্দ গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Set deduplication", "bn": "সেট দিয়ে ডুপ্লিকেট বাদ দেওয়া" },
+        { "en": "Case normalization", "bn": "ছোট হাতের রূপান্তর" }
+      ],
+      "description": {
+        "en": "Read a line of text S containing space-separated words. Count how many DISTINCT words appear in S, treating uppercase and lowercase versions of the same word (e.g., 'Python' and 'python') as identical. Print the integer count.",
+        "bn": "স্পেস-বিচ্ছিন্ন শব্দের একটি টেক্সট S ইনপুট নিন। ছোট ও বড় হাতের পার্থক্য উপেক্ষা করে (যেমন 'Python' এবং 'python' একই শব্দ) S-এ মোট কতটি স্বতন্ত্র (distinct) শব্দ আছে তা গণনা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "An integer count of unique case-insensitive words.",
+        "bn": "স্বতন্ত্র শব্দের মোট সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "Logic builds code and CODE builds logic",
+          "output": "4",
+          "explanation": {
+            "en": "Distinct lowercased words are {'logic', 'builds', 'code', 'and'}.",
+            "bn": "স্বতন্ত্র শব্দ ৪টি: 'logic', 'builds', 'code' এবং 'and'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize the whole sentence to lowercase BEFORE or right after splitting into words.",
+        "bn": "শব্দে ভাগ করার আগে বা পরে পুরো লেখাটি ছোট হাতে (lower) রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Put all lowercased words into a `set` and print `len(unique_words)`.",
+        "bn": "সব শব্দ একটি `set`-এ রেখে `len(unique_words)` প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because sets automatically reject duplicate keys, inserting every lowercased token from `input().lower().split()` collapses repeated appearances into one entry per unique word, returning the exact count in O(N) time.",
+        "bn": "সেট কখনোই একই মান দুবার রাখে না। তাই `input().lower().split()` থেকে পাওয়া শব্দগুলো সেটে রাখলে স্বয়ংক্রিয়ভাবে পুনরাবৃত্ত শব্দ বাদ গিয়ে সঠিক সংখ্যা মেলে।"
+      },
+      "algorithm": [
+        { "en": "Read input, convert to lowercase, and split on whitespace.", "bn": "ইনপুট নিয়ে lower() ও split() করুন।" },
+        { "en": "Convert the word list into a set.", "bn": "শব্দের তালিকাটি সেটে রূপান্তর করুন।" },
+        { "en": "Print len(unique_words).", "bn": "len(unique_words) প্রিন্ট করুন।" }
+      ],
+      "solution": "unique_words = set(input().lower().split())\nprint(len(unique_words))",
+      "codeExplanation": {
+        "en": "input().lower().split() lowercases all text and splits on any whitespace. Wrapping it in set(...) deduplicates case-insensitively, and len(...) returns the distinct count.",
+        "bn": "input().lower().split() সব শব্দ ছোট হাতে এনে আলাদা করে। set(...) অনন্য শব্দগুলো রাখে এবং len(...) মোট সংখ্যা দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Logic builds code and CODE builds logic", "expectedOutput": "4", "note": { "en": "Repeated mixed-case words", "bn": "ছোট-বড় মিশ্র পুনরাবৃত্তি" } },
+        { "input": "   ", "expectedOutput": "0", "note": { "en": "Whitespace only", "bn": "শুধুমাত্র স্পেস" } },
+        { "input": "one two three", "expectedOutput": "3", "note": { "en": "All distinct", "bn": "সব স্বতন্ত্র" } }
+      ]
+    },
+    {
+      "id": "P09-05",
+      "number": 5,
+      "title": {
+        "en": "2D Coordinate Squared Distance via Tuples",
+        "bn": "টাপল ব্যবহার করে দ্বিমাত্রিক দূরত্বের বর্গ নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Tuple creation & unpacking", "bn": "টাপল তৈরি ও আনপ্যাকিং" },
+        { "en": "Euclidean distance squared", "bn": "ইউক্লিডীয় দূরত্বের বর্গ" }
+      ],
+      "description": {
+        "en": "Read two 2D integer points (x1, y1) on line 1 and (x2, y2) on line 2, storing each point as an immutable tuple. Unpack the tuples to compute and print the squared Euclidean distance: (x2 - x1)^2 + (y2 - y1)^2.",
+        "bn": "১ম লাইনে (x1, y1) এবং ২য় লাইনে (x2, y2) দুটি দ্বিমাত্রিক পূর্ণসংখ্যার বিন্দু ইনপুট নিয়ে প্রতিটি বিন্দুকে একটি করে টাপলে সংরক্ষণ করুন। টাপল আনপ্যাক করে তাদের মধ্যকার ইউক্লিডীয় দূরত্বের বর্গ (x2 - x1)^2 + (y2 - y1)^2 নির্ণয় ও প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: x1 y1. Line 2: x2 y2.",
+        "bn": "১ম লাইন: x1 y1। ২য় লাইন: x2 y2।"
+      },
+      "expectedOutput": {
+        "en": "An integer equal to (x2 - x1)^2 + (y2 - y1)^2.",
+        "bn": "(x2 - x1)^2 + (y2 - y1)^2-এর পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "1 2\n4 6",
+          "output": "25",
+          "explanation": {
+            "en": "(4 - 1)^2 + (6 - 2)^2 = 9 + 16 = 25.",
+            "bn": "(4 - 1)^2 + (6 - 2)^2 = 9 + 16 = 25।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Create tuples like `p1 = (int(parts[0]), int(parts[1]))` or `tuple(int(v) for v in input().split())`.",
+        "bn": "`p1 = tuple(int(v) for v in input().split())` দিয়ে বিন্দুগুলো টাপল হিসেবে নিন।"
+      },
+      "hint2": {
+        "en": "Unpack directly into named coordinates: `x1, y1 = p1` and `x2, y2 = p2`.",
+        "bn": "`x1, y1 = p1` এবং `x2, y2 = p2` দিয়ে সরাসরি আনপ্যাক করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Tuples model fixed-structure records like `(x, y)` coordinates where field count never changes. Computing squared distance avoids floating-point square-root precision issues while preserving exact integer ordering and arithmetic.",
+        "bn": "স্থানাঙ্ক (x, y)-এর মতো নির্দিষ্ট আকারের তথ্যের জন্য টাপল আদর্শ। দূরত্বের বর্গ নির্ণয় করলে বর্গমূলের দশমিক ত্রুটি ছাড়াই নিখুঁত পূর্ণসংখ্যা উত্তর পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read line 1 and line 2 into coordinate tuples p1 and p2.", "bn": "১ম ও ২য় লাইন থেকে দুটি টাপল p1 এবং p2 তৈরি করুন।" },
+        { "en": "Unpack x1, y1 = p1 and x2, y2 = p2.", "bn": "x1, y1 = p1 এবং x2, y2 = p2 আনপ্যাক করুন।" },
+        { "en": "Compute dx = x2 - x1, dy = y2 - y1, and print dx * dx + dy * dy.", "bn": "dx = x2 - x1 ও dy = y2 - y1 বের করে dx * dx + dy * dy প্রিন্ট করুন।" }
+      ],
+      "solution": "p1 = tuple(int(v) for v in input().split())\np2 = tuple(int(v) for v in input().split())\nx1, y1 = p1\nx2, y2 = p2\ndx = x2 - x1\ndy = y2 - y1\nprint(dx * dx + dy * dy)",
+      "codeExplanation": {
+        "en": "tuple(...) packs each pair of coordinates into an immutable 2-tuple. Unpacking extracts x1, y1, x2, y2 cleanly without fragile index numbers like p1[0] or p1[1].",
+        "bn": "tuple(...) প্রতিটি বিন্দুকে অপরিবর্তনীয় টাপলে সংরক্ষণ করে। আনপ্যাকিংয়ের মাধ্যমে কোড আরও পঠনযোগ্য ও ত্রুটিমুক্ত হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1 2\n4 6", "expectedOutput": "25", "note": { "en": "3-4-5 triangle", "bn": "৩-৪-৫ ত্রিভুজ" } },
+        { "input": "-3 5\n-3 5", "expectedOutput": "0", "note": { "en": "Identical points", "bn": "একই বিন্দু" } },
+        { "input": "-2 -4\n1 0", "expectedOutput": "25", "note": { "en": "Negative coordinates", "bn": "ঋণাত্মক স্থানাঙ্ক" } }
+      ]
+    },
+    {
+      "id": "P09-06",
+      "number": 6,
+      "title": {
+        "en": "Alphabetical Word Frequency Dictionary",
+        "bn": "বর্ণানুক্রমিক শব্দ ফ্রিকোয়েন্সি ডিকশনারি"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Word frequency dictionary", "bn": "শব্দ ফ্রিকোয়েন্সি ডিকশনারি" },
+        { "en": "Sorted dictionary key iteration", "bn": "সাজানো ডিকশনারি কী দিয়ে প্রিন্ট" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated words (may contain mixed case). Count the frequency of each lowercased word using a dictionary. Print each word and its count sorted alphabetically by word, one per line as '<word>: <count>'.",
+        "bn": "স্পেস-বিচ্ছিন্ন শব্দের একটি লাইন ইনপুট নিন। সব শব্দকে ছোট হাতে রূপান্তর করে একটি ডিকশনারিতে প্রতিটি শব্দের উপস্থিতির সংখ্যা গণনা করুন। শব্দগুলোর ইংরেজি বর্ণানুক্রম অনুযায়ী প্রতি লাইনে '<word>: <count>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single non-empty line of space-separated words.",
+        "bn": "শব্দযুক্ত একটি লাইন।"
+      },
+      "expectedOutput": {
+        "en": "Alphabetically sorted lines of '<word>: <count>'.",
+        "bn": "বর্ণানুক্রমে সাজানো '<word>: <count>' লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "Apple banana apple Cherry banana apple",
+          "output": "apple: 3\nbanana: 2\ncherry: 1",
+          "explanation": {
+            "en": "Normalized words sorted alphabetically: apple (3), banana (2), cherry (1).",
+            "bn": "ছোট হাতে সাজালে: apple (3), banana (2), cherry (1)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Build the counts dictionary first using `freq[w] = freq.get(w, 0) + 1`.",
+        "bn": "প্রথমে `freq[w] = freq.get(w, 0) + 1` দিয়ে ডিকশনারি তৈরি করুন।"
+      },
+      "hint2": {
+        "en": "Iterate over `sorted(freq.keys())` to print entries in alphabetical order.",
+        "bn": "বর্ণানুক্রমে প্রিন্ট করতে `sorted(freq.keys())`-এর ওপর লুপ চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Separating counting from sorting keeps the frequency tally O(N) while only sorting the K distinct keys in O(K log K). Normalizing `.lower()` before counting merges `'Apple'` and `'apple'` into one dictionary key.",
+        "bn": "আগে ডিকশনারিতে গণনা করে শেষে কেবল স্বতন্ত্র কী-গুলো `sorted(freq.keys())` দিয়ে সাজালে অপ্রয়োজনীয় কাজ কমে এবং `'Apple'` ও `'apple'` একই কী হিসেবে গোনা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read words with input().lower().split().", "bn": "input().lower().split() দিয়ে শব্দ তালিকা পড়ুন।" },
+        { "en": "Count occurrences into dict freq.", "bn": "freq ডিকশনারিতে প্রতিটি শব্দের সংখ্যা গুনুন।" },
+        { "en": "For w in sorted(freq): print f'{w}: {freq[w]}'.", "bn": "sorted(freq)-এর প্রতিটি w-এর জন্য f'{w}: {freq[w]}' প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().lower().split()\nfreq = {}\nfor w in words:\n    freq[w] = freq.get(w, 0) + 1\nfor w in sorted(freq):\n    print(f\"{w}: {freq[w]}\")",
+      "codeExplanation": {
+        "en": "sorted(freq) returns a sorted list of dictionary keys without modifying freq. Each key looks up its frequency in O(1) time.",
+        "bn": "sorted(freq) ডিকশনারির কী-গুলো বর্ণানুক্রমে সাজিয়ে দেয় এবং freq[w] থেকে সরাসরি সংখ্যা প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N + K log K)", "space": "O(K)" },
+      "testCases": [
+        { "input": "Apple banana apple Cherry banana apple", "expectedOutput": "apple: 3\nbanana: 2\ncherry: 1", "note": { "en": "Case-insensitive + alphabetical", "bn": "বর্ণানুক্রমিক ফ্রিকোয়েন্সি" } },
+        { "input": "python", "expectedOutput": "python: 1", "note": { "en": "Single word", "bn": "একটি শব্দ" } },
+        { "input": "z a m a z", "expectedOutput": "a: 2\nm: 1\nz: 2", "note": { "en": "Alphabetical order check", "bn": "বর্ণক্রম পরীক্ষা" } }
+      ]
+    },
+    {
+      "id": "P09-07",
+      "number": 7,
+      "title": {
+        "en": "Dictionary Maximum & Minimum Value Keys",
+        "bn": "ডিকশনারির সর্বোচ্চ ও সর্বনিম্ন মানের কী নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Comparing dictionary values via .items()", "bn": ".items() দিয়ে ডিকশনারির মান তুলনা" },
+        { "en": "Single-pass extrema search", "bn": "এক পাসে সর্বোচ্চ-সর্বনিম্ন খোঁজা" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N lines of '<item> <price>' (integer price). Find the items with the highest and lowest price (if tied, keep the one entered earliest). Print 'Max: <item> (<price>), Min: <item> (<price>)'.",
+        "bn": "প্রথমে N (N >= 1) এবং পরের N লাইনে '<item> <price>' (পূর্ণসংখ্যা দাম) ইনপুট নিন। ডিকশনারি থেকে সবচেয়ে বেশি ও সবচেয়ে কম দামের আইটেম খুঁজুন (সমান দাম হলে যেটি আগে এসেছে সেটি রাখুন)। আউটপুট: 'Max: <item> (<price>), Min: <item> (<price>)'।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: string item and integer price.",
+        "bn": "১ম লাইন: N। পরের N লাইনে আইটেমের নাম ও পূর্ণসংখ্যা দাম।"
+      },
+      "expectedOutput": {
+        "en": "Formatted line: Max: <item> (<price>), Min: <item> (<price>)",
+        "bn": "ফরম্যাট করা লাইন: Max: <item> (<price>), Min: <item> (<price>)"
+      },
+      "examples": [
+        {
+          "input": "3\nbook 250\npen 20\nlamp 800",
+          "output": "Max: lamp (800), Min: pen (20)",
+          "explanation": {
+            "en": "lamp has the highest value (800) and pen has the lowest (20).",
+            "bn": "lamp-এর দাম সর্বোচ্চ (800) এবং pen-এর দাম সর্বনিম্ন (20)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Calling `max(d)` on a dictionary compares KEYS alphabetically instead of VALUES!",
+        "bn": "ডিকশনারির ওপর সরাসরি `max(d)` দিলে সেটি মানের বদলে কী-গুলোর (নাম) তুলনা করে!"
+      },
+      "hint2": {
+        "en": "Iterate over `d.items()` tracking `max_key, max_val` and `min_key, min_val` starting from the first pair.",
+        "bn": "`d.items()` লুপ চালিয়ে প্রথম জোড়া দিয়ে শুরু করে `max_key, max_val` এবং `min_key, min_val` আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A common pitfall with dictionaries is forgetting that `max(d)` operates on keys, not values. Iterating `for k, v in prices.items()` inspects both simultaneously, initializes from the first entry (`max_k = None`), and uses strict `>` and `<` so ties preserve the first inserted key.",
+        "bn": "ডিকশনারিতে `max(d)` চালালে কী-এর তুলনা হয়, ভ্যালুর নয়। তাই `prices.items()` দিয়ে ভ্যালু v তুলনা করতে হয় এবং strict `>` ও `<` ব্যবহার করলে সমান মানে প্রথম আইটেমটিই থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read n and populate dictionary prices[name] = int(cost).", "bn": "n পড়ে prices[name] = int(cost) ডিকশনারি তৈরি করুন।" },
+        { "en": "Initialize max_k = min_k = None, max_v = min_v = 0.", "bn": "max_k = min_k = None নিন।" },
+        { "en": "Loop k, v in prices.items(): initialize on first pass, then update strictly on v > max_v or v < min_v.", "bn": "prices.items() ঘুরে প্রথম ধাপে মান বসিয়ে পরে v > max_v বা v < min_v হলে আপডেট করুন।" },
+        { "en": "Print formatted Max and Min.", "bn": "নির্দিষ্ট ফরম্যাটে Max ও Min প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nprices = {}\nfor _ in range(n):\n    name, cost = input().split()\n    prices[name] = int(cost)\nmax_k = min_k = None\nmax_v = min_v = 0\nfor k, v in prices.items():\n    if max_k is None or v > max_v:\n        max_k, max_v = k, v\n    if min_k is None or v < min_v:\n        min_k, min_v = k, v\nprint(f\"Max: {max_k} ({max_v}), Min: {min_k} ({min_v})\")",
+      "codeExplanation": {
+        "en": "Checking max_k is None initializes both bounds safely from the very first entry regardless of negative or huge values. Strict inequalities ensure earliest keys win ties.",
+        "bn": "max_k is None দিয়ে প্রথম এন্ট্রি থেকেই শুরুর মান নেওয়া হয়। এরপর কেবল কড়াকড়ি বড় বা ছোট হলেই বদলায় বলে সমান মানে প্রথম এন্ট্রি বজায় থাকে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\nbook 250\npen 20\nlamp 800", "expectedOutput": "Max: lamp (800), Min: pen (20)", "note": { "en": "Distinct prices", "bn": "ভিন্ন দাম" } },
+        { "input": "3\na 100\nb 100\nc 50", "expectedOutput": "Max: a (100), Min: c (50)", "note": { "en": "Tie for max keeps earliest", "bn": "সর্বোচ্চ দামে সমতা" } },
+        { "input": "1\nbread 45", "expectedOutput": "Max: bread (45), Min: bread (45)", "note": { "en": "Single item", "bn": "একটি আইটেম" } }
+      ]
+    },
+    {
+      "id": "P09-08",
+      "number": 8,
+      "title": {
+        "en": "Merge Two Dictionaries Summing Shared Keys",
+        "bn": "সাধারণ কী-এর মান যোগ করে দুটি ডিকশনারি একত্রীকরণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Additive dictionary merging", "bn": "মান যোগ করে ডিকশনারি মার্জ" },
+        { "en": "Sorted output formatting", "bn": "সাজানো আউটপুট" }
+      ],
+      "description": {
+        "en": "Read two dictionaries representing two warehouse inventories: N1 followed by N1 '<item> <qty>' lines, then N2 followed by N2 '<item> <qty>' lines. Merge both dictionaries so that quantities of identical items are summed. Print sorted by item name as '<item>: <total>'.",
+        "bn": "দুটি গুদামের মজুদের ডিকশনারি ইনপুট নিন: প্রথমে N1 ও N1টি '<item> <qty>' লাইন, তারপর N2 ও N2টি '<item> <qty>' লাইন। উভয় ডিকশনারি এমনভাবে একত্রিত করুন যেন একই আইটেমের পরিমাণ যোগ হয়ে যায়। আইটেমের নাম অনুযায়ী সাজিয়ে '<item>: <total>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "N1, then N1 lines of item qty; then N2, then N2 lines of item qty.",
+        "bn": "N1 এবং N1টি লাইন; এরপর N2 এবং N2টি লাইন।"
+      },
+      "expectedOutput": {
+        "en": "Alphabetically sorted '<item>: <total>' lines.",
+        "bn": "বর্ণানুক্রমে সাজানো '<item>: <total>' লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "2\napple 10\nbanana 5\n2\nbanana 7\norange 4",
+          "output": "apple: 10\nbanana: 12\norange: 4",
+          "explanation": {
+            "en": "'banana' exists in both, so 5 + 7 = 12.",
+            "bn": "'banana' উভয় গুদামে থাকায় 5 + 7 = 12 হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Using `d1.update(d2)` or `d1 | d2` OVERWRITES shared keys instead of summing their values!",
+        "bn": "`d1.update(d2)` বা `d1 | d2` ব্যবহার করলে সাধারণ কী-এর আগের মান মুছে নতুন মান বসে যায়—যোগ হয় না!"
+      },
+      "hint2": {
+        "en": "Start with a copy of `d1`, then loop `for k, v in d2.items(): merged[k] = merged.get(k, 0) + v`.",
+        "bn": "`d1`-এর একটি কপি নিয়ে `d2.items()`-এর ওপর লুপ চালিয়ে `merged[k] = merged.get(k, 0) + v` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Built-in dictionary union (`|`) or `.update()` replaces overlapping values with the second dictionary's entry. Additive merging explicitly combines values with `.get(k, 0) + v`, preserving unique keys from both dictionaries while accumulating shared keys.",
+        "bn": "পাইথনের `|` বা `.update()` সাধারণ কী-এর মান ওভাররাইট করে। মান যোগ করতে হলে `merged.get(k, 0) + v` দিয়ে প্রতিটি আইটেমের পরিমাণ যোগ করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read N1 entries into d1 and N2 entries into d2.", "bn": "N1টি এন্ট্রি d1-এ এবং N2টি এন্ট্রি d2-এ নিন।" },
+        { "en": "Initialize merged = dict(d1).", "bn": "merged = dict(d1) তৈরি করুন।" },
+        { "en": "For k, v in d2.items(): merged[k] = merged.get(k, 0) + v.", "bn": "d2-এর প্রতিটি k, v-এর জন্য merged[k] = merged.get(k, 0) + v করুন।" },
+        { "en": "For k in sorted(merged): print f'{k}: {merged[k]}'.", "bn": "sorted(merged) অনুযায়ী প্রতিটি '<k>: <merged[k]>' প্রিন্ট করুন।" }
+      ],
+      "solution": "def read_dict():\n    count = int(input())\n    d = {}\n    for _ in range(count):\n        k, v = input().split()\n        d[k] = d.get(k, 0) + int(v)\n    return d\n\nd1 = read_dict()\nd2 = read_dict()\nmerged = dict(d1)\nfor k, v in d2.items():\n    merged[k] = merged.get(k, 0) + v\nfor k in sorted(merged):\n    print(f\"{k}: {merged[k]}\")",
+      "codeExplanation": {
+        "en": "read_dict cleanly parses each inventory block without repeating code. merged starts from d1 and adds every quantity from d2 via .get(k, 0) + v, then prints sorted keys.",
+        "bn": "read_dict ফাংশন ইনপুটের পুনরাবৃত্তি এড়ায়। merged-এ d1 কপি করে d2-এর মানগুলো যোগ করা হয় এবং শেষে সাজিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N + K log K)", "space": "O(K)" },
+      "testCases": [
+        { "input": "2\napple 10\nbanana 5\n2\nbanana 7\norange 4", "expectedOutput": "apple: 10\nbanana: 12\norange: 4", "note": { "en": "Overlapping key summed", "bn": "সাধারণ কী যোগ হয়েছে" } },
+        { "input": "1\na 3\n1\nb 4", "expectedOutput": "a: 3\nb: 4", "note": { "en": "Disjoint dictionaries", "bn": "কোনো সাধারণ কী নেই" } },
+        { "input": "1\nx 5\n0", "expectedOutput": "x: 5", "note": { "en": "Second dictionary empty", "bn": "দ্বিতীয় ডিকশনারি খালি" } }
+      ]
+    },
+    {
+      "id": "P09-09",
+      "number": 9,
+      "title": {
+        "en": "Detect All Duplicate Elements Using Sets",
+        "bn": "সেট ব্যবহার করে সব ডুপ্লিকেট উপাদান শনাক্তকরণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Two-set duplicate tracking (seen, duplicates)", "bn": "দুটি সেট (seen, duplicates) দিয়ে ডুপ্লিকেট ধরা" },
+        { "en": "O(N) detection", "bn": "O(N) শনাক্তকরণ" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Using sets, find all distinct integers that appear MORE THAN ONCE in the list. Print them sorted in ascending order separated by spaces, or 'None' if every integer is unique.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। সেট ব্যবহার করে লিস্টে ১ বারের বেশি উপস্থিত হয়েছে এমন সব স্বতন্ত্র সংখ্যা খুঁজে বের করুন। সংখ্যাগুলো ছোট থেকে বড় ক্রমে স্পেস দিয়ে প্রিন্ট করুন, অথবা কোনো ডুপ্লিকেট না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Sorted duplicate integers separated by spaces, or 'None'.",
+        "bn": "সাজানো ডুপ্লিকেট সংখ্যাগুলো অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "4 3 2 7 8 2 3 1 3",
+          "output": "2 3",
+          "explanation": {
+            "en": "2 appears twice and 3 appears three times; each duplicate is listed once.",
+            "bn": "2 এসেছে দুইবার এবং 3 এসেছে তিনবার; প্রতিটি ডুপ্লিকেট সংখ্যা একবার করে দেখানো হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Maintain two sets: `seen` for numbers encountered at least once, and `dups` for numbers encountered 2+ times.",
+        "bn": "দুটি সেট রাখুন: অন্তত একবার দেখা সংখ্যার জন্য `seen` এবং ২ বা ততোধিক বার দেখা সংখ্যার জন্য `dups`।"
+      },
+      "hint2": {
+        "en": "For each `x`: if `x in seen`, add `x` to `dups`; else add `x` to `seen`.",
+        "bn": "প্রতিটি `x`-এর জন্য: `x in seen` হলে `dups.add(x)`, নতুবা `seen.add(x)` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using two sets (`seen` and `dups`) solves duplicate detection cleanly in one pass without storing frequency integers. Even if a number appears 3 or 5 times, `dups` is a set so it only records the repeated value once.",
+        "bn": "আলাদাভাবে প্রতিটি উপাদানের সংখ্যা না গুনেও দুটি সেট (`seen` ও `dups`) দিয়েই এক পাসে ডুপ্লিকেট ধরা যায়। একটি সংখ্যা ৩ বা ৫ বার এলেও `dups` সেটে সেটি কেবল একবারই থাকবে।"
+      },
+      "algorithm": [
+        { "en": "Parse list nums and initialize seen = set(), dups = set().", "bn": "nums পড়ুন এবং seen = set(), dups = set() নিন।" },
+        { "en": "For x in nums: if x in seen, dups.add(x); else seen.add(x).", "bn": "x আগে seen-এ থাকলে dups-এ যোগ করুন, নতুবা seen-এ যোগ করুন।" },
+        { "en": "If dups is empty print 'None', else print sorted(dups) space-separated.", "bn": "dups খালি হলে 'None', নতুবা sorted(dups) স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nseen = set()\ndups = set()\nfor x in nums:\n    if x in seen:\n        dups.add(x)\n    else:\n        seen.add(x)\nif not dups:\n    print(\"None\")\nelse:\n    print(\" \".join(str(x) for x in sorted(dups)))",
+      "codeExplanation": {
+        "en": "First occurrence of x goes into seen. Second and later occurrences match x in seen and enter dups. Sorting dups yields deterministic ascending output.",
+        "bn": "কোনো সংখ্যা প্রথমবার এলে seen-এ যায়; পরের বার দেখা মিললেই সেটি dups সেটে ঢোকে। শেষে dups সাজিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N + D log D)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 3 2 7 8 2 3 1 3", "expectedOutput": "2 3", "note": { "en": "Multiple repeats", "bn": "একাধিক ডুপ্লিকেট" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "None", "note": { "en": "All distinct", "bn": "কোনো ডুপ্লিকেট নেই" } },
+        { "input": "9 9 9", "expectedOutput": "9", "note": { "en": "Single value repeated thrice", "bn": "একটি মান তিনবার" } }
+      ]
+    },
+    {
+      "id": "P09-10",
+      "number": 10,
+      "title": {
+        "en": "Classify Set Relationship (Subset / Disjoint / Overlap)",
+        "bn": "সেটের সম্পর্ক নির্ণয় (Subset / Disjoint / Overlap)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "issubset() & isdisjoint()", "bn": "issubset() এবং isdisjoint() মেথড" },
+        { "en": "Set relationship classification", "bn": "সেটের পারস্পরিক সম্পর্ক নির্ণয়" }
+      ],
+      "description": {
+        "en": "Read two non-empty lines of space-separated integers representing set A and set B. Classify their relationship in priority order: print 'Equal' if A == B, else 'A Subset of B' if A <= B, else 'B Subset of A' if B <= A, else 'Disjoint' if A and B share no elements, else 'Partial Overlap'.",
+        "bn": "দুটি লাইনে সেট A ও সেট B-এর পূর্ণসংখ্যা ইনপুট নিন। অগ্রাধিকার ক্রমে এদের সম্পর্ক নির্ণয় করুন: A == B হলে 'Equal', নতুবা A <= B হলে 'A Subset of B', নতুবা B <= A হলে 'B Subset of A', নতুবা কোনো সাধারণ উপাদান না থাকলে 'Disjoint', আর অন্যথায় 'Partial Overlap' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: elements of A. Line 2: elements of B.",
+        "bn": "১ম লাইন: A-এর উপাদান। ২য় লাইন: B-এর উপাদান।"
+      },
+      "expectedOutput": {
+        "en": "One of: 'Equal', 'A Subset of B', 'B Subset of A', 'Disjoint', or 'Partial Overlap'.",
+        "bn": "পাঁচটি সম্পর্কের যেকোনো একটি।"
+      },
+      "examples": [
+        {
+          "input": "2 4\n1 2 3 4 5",
+          "output": "A Subset of B",
+          "explanation": {
+            "en": "Every element of A is in B, and B has additional elements.",
+            "bn": "A-এর সব উপাদান B-তে আছে এবং B-তে বাড়তি উপাদানও রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `a == b` BEFORE `a <= b` (subset), because equal sets are also subsets of each other!",
+        "bn": "`a <= b` যাচাই করার আগেই `a == b` পরীক্ষা করুন, কারণ সমান সেটও একে অপরের উপসেট!"
+      },
+      "hint2": {
+        "en": "Python sets support `a.issubset(b)` (or `a <= b`) and `a.isdisjoint(b)` directly.",
+        "bn": "পাইথন সেটে সরাসরি `a.issubset(b)` এবং `a.isdisjoint(b)` মেথড রয়েছে।"
+      },
+      "logicBreakdown": {
+        "en": "Branch ordering matters here: since A == B implies both A.issubset(B) and B.issubset(A), equality must be tested first. Next come strict containment checks (`a.issubset(b)` and `b.issubset(a)`), followed by `a.isdisjoint(b)` and finally partial overlap.",
+        "bn": "সঠিক শর্তের ক্রম অত্যন্ত গুরুত্বপূর্ণ: যেহেতু দুটি সমান সেট একে অপরের উপসেট, তাই আগে `a == b` যাচাই না করলে কখনোই 'Equal' আউটপুট আসবে না। এরপর উপসেট, তারপর নিশ্ছেদ (`isdisjoint`) এবং শেষে আংশিক মিল।"
+      },
+      "algorithm": [
+        { "en": "Parse sets a and b.", "bn": "সেট a এবং b পড়ুন।" },
+        { "en": "If a == b -> 'Equal'.", "bn": "a == b হলে 'Equal'।" },
+        { "en": "Elif a.issubset(b) -> 'A Subset of B'; elif b.issubset(a) -> 'B Subset of A'.", "bn": "উপসেট শর্তগুলো পরীক্ষা করুন।" },
+        { "en": "Elif a.isdisjoint(b) -> 'Disjoint'; else 'Partial Overlap'.", "bn": "isdisjoint হলে 'Disjoint', নতুবা 'Partial Overlap' প্রিন্ট করুন।" }
+      ],
+      "solution": "a = {int(x) for x in input().split()}\nb = {int(x) for x in input().split()}\nif a == b:\n    print(\"Equal\")\nelif a.issubset(b):\n    print(\"A Subset of B\")\nelif b.issubset(a):\n    print(\"B Subset of A\")\nelif a.isdisjoint(b):\n    print(\"Disjoint\")\nelse:\n    print(\"Partial Overlap\")",
+      "codeExplanation": {
+        "en": "The if-elif-else ladder tests exact equality first, then one-way subset inclusion, then disjointness, leaving partial overlap as the remaining case.",
+        "bn": "if-elif-else ক্রমটি প্রথমে সমতা, তারপর একমুখী উপসেট, তারপর নিশ্ছেদ এবং অবশেষে আংশিক ওভারল্যাপ শনাক্ত করে।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "2 4\n1 2 3 4 5", "expectedOutput": "A Subset of B", "note": { "en": "Proper subset", "bn": "প্রকৃত উপসেট" } },
+        { "input": "3 1 2\n1 2 3 2", "expectedOutput": "Equal", "note": { "en": "Duplicates ignored, order ignored", "bn": "অভিন্ন সেট" } },
+        { "input": "10 20 30\n20", "expectedOutput": "B Subset of A", "note": { "en": "B inside A", "bn": "B হলো A-এর উপসেট" } },
+        { "input": "1 2\n3 4", "expectedOutput": "Disjoint", "note": { "en": "No common items", "bn": "নিশ্ছেদ সেট" } },
+        { "input": "1 2 3\n2 3 4", "expectedOutput": "Partial Overlap", "note": { "en": "Shared and unique items in both", "bn": "আংশিক মিল" } }
+      ]
+    },
+    {
+      "id": "P09-11",
+      "number": 11,
+      "title": {
+        "en": "Invert Dictionary Grouping Keys by Value",
+        "bn": "মান অনুযায়ী কী-গুলোকে দলবদ্ধ করে ডিকশনারি উল্টানো"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Grouping with dict of lists", "bn": "লিস্ট-ভ্যালু ডিকশনারিতে গ্রুপিং" },
+        { "en": "setdefault() / key grouping", "bn": "setdefault() দিয়ে দলবদ্ধ করা" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N lines of '<student> <grade>' (e.g., 'Alice A'). Invert the mapping so each grade maps to the list of students who earned it. Print grades in alphabetical order, one per line as '<grade>: <student1>, <student2>' with students sorted alphabetically.",
+        "bn": "প্রথমে N (N >= 1) এবং পরের N লাইনে '<student> <grade>' (যেমন 'Alice A') ইনপুট নিন। ডিকশনারিটি উল্টে এমনভাবে তৈরি করুন যাতে প্রতিটি গ্রেডের বিপরীতে সেই গ্রেড পাওয়া শিক্ষার্থীদের তালিকা থাকে। গ্রেডের বর্ণানুক্রমে প্রতি লাইনে '<grade>: <student1>, <student2>' (শিক্ষার্থীর নামও বর্ণানুক্রমে) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: student name and grade separated by space.",
+        "bn": "১ম লাইন: N। পরের N লাইনে শিক্ষার্থীর নাম ও গ্রেড।"
+      },
+      "expectedOutput": {
+        "en": "Sorted grade lines with sorted comma-separated student names.",
+        "bn": "বর্ণানুক্রমিক গ্রেড ও কমা-বিচ্ছিন্ন শিক্ষার্থীর নাম।"
+      },
+      "examples": [
+        {
+          "input": "4\nRafi A\nNila B\nTariq A\nMina B",
+          "output": "A: Rafi, Tariq\nB: Mina, Nila",
+          "explanation": {
+            "en": "Grade A maps to Rafi and Tariq; Grade B maps to Mina and Nila.",
+            "bn": "A গ্রেডে Rafi ও Tariq এবং B গ্রেডে Mina ও Nila দলবদ্ধ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Naive inversion `inv[val] = key` overwrites earlier students who share the same grade!",
+        "bn": "সরাসরি `inv[val] = key` করলে একই গ্রেডের আগের শিক্ষার্থীর নাম মুছে যাবে!"
+      },
+      "hint2": {
+        "en": "Map each grade to a LIST of names using `groups.setdefault(grade, []).append(name)`.",
+        "bn": "`groups.setdefault(grade, []).append(name)` ব্যবহার করে প্রতিটি গ্রেডের বিপরীতে একটি নামের লিস্ট রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because multiple keys can share the same value (a many-to-one mapping), inverting a dictionary produces a one-to-many mapping (`value -> list of keys`). Using `.setdefault(grade, [])` initializes an empty list only on a grade's first occurrence and appends cleanly thereafter.",
+        "bn": "একাধিক শিক্ষার্থীর একই গ্রেড থাকতে পারে বলে ডিকশনারি উল্টালে প্রতিটি মানের বিপরীতে একটি লিস্ট রাখতে হয়। `.setdefault(grade, [])` প্রথমবার খালি লিস্ট তৈরি করে এবং পরেরবার সরাসরি নাম যোগ করে।"
+      },
+      "algorithm": [
+        { "en": "Read n and initialize groups = {}.", "bn": "n পড়ুন এবং groups = {} নিন।" },
+        { "en": "For each line: split name, grade and call groups.setdefault(grade, []).append(name).", "bn": "প্রতিটি লাইনে name ও grade নিয়ে groups.setdefault(grade, []).append(name) করুন।" },
+        { "en": "Loop g in sorted(groups): sort groups[g] and print f'{g}: ' + ', '.join(sorted(groups[g])).", "bn": "গ্রেড ও নাম বর্ণানুক্রমে সাজিয়ে '<grade>: <names>' আকারে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ngroups = {}\nfor _ in range(n):\n    name, grade = input().split()\n    groups.setdefault(grade, []).append(name)\nfor grade in sorted(groups):\n    names = \", \".join(sorted(groups[grade]))\n    print(f\"{grade}: {names}\")",
+      "codeExplanation": {
+        "en": "groups maps each grade string to a list of student names. Sorting both the outer keys (grades) and each inner list produces deterministic formatted output.",
+        "bn": "groups প্রতিটি গ্রেডকে একটি নাম-তালিকার সাথে যুক্ত করে। গ্রেড এবং প্রতিটি গ্রেডের নামগুলো বর্ণানুক্রমে সাজিয়ে প্রিন্ট করা হয়েছে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nRafi A\nNila B\nTariq A\nMina B", "expectedOutput": "A: Rafi, Tariq\nB: Mina, Nila", "note": { "en": "Multiple students per grade", "bn": "প্রতি গ্রেডে একাধিক শিক্ষার্থী" } },
+        { "input": "2\nZara C\nAnik A", "expectedOutput": "A: Anik\nC: Zara", "note": { "en": "Grade sorting", "bn": "গ্রেড অনুযায়ী সাজানো" } },
+        { "input": "3\nLima A\nBabu A\nKona A", "expectedOutput": "A: Babu, Kona, Lima", "note": { "en": "All in one grade sorted", "bn": "সবাই একই গ্রেডে সাজানো" } },
+        { "input": "1\nSajid A+", "expectedOutput": "A+: Sajid", "note": { "en": "Single student boundary", "bn": "একজন শিক্ষার্থী" } }
+      ]
+    },
+    {
+      "id": "P09-12",
+      "number": 12,
+      "title": {
+        "en": "Student Scoreboard Analytics",
+        "bn": "শিক্ষার্থীদের নম্বর বিশ্লেষণ (Scoreboard Analytics)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "List of tuples/dicts aggregation", "bn": "রেকর্ড তালিকা থেকে সমষ্টিগত বিশ্লেষণ" },
+        { "en": "Top scorer, average & threshold count", "bn": "সর্বোচ্চ, গড় ও গড়ের উপরের সংখ্যা" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N lines of '<name> <score>' (integer score). Compute: (1) top scorer's name (first entered on tie), (2) class average formatted to 2 decimals, and (3) how many students scored strictly above the average. Print three lines: 'Top: <name> (<score>)', 'Average: <avg>', and 'Above Average: <count>'.",
+        "bn": "প্রথমে N (N >= 1) এবং পরের N লাইনে '<name> <score>' ইনপুট নিন। নির্ণয় করুন: (১) সর্বোচ্চ নম্বরপ্রাপ্ত শিক্ষার্থীর নাম (সমান নম্বরে প্রথমজন), (২) শ্রেণির গড় নম্বর (২ দশমিক স্থান পর্যন্ত), এবং (৩) গড়ের চেয়ে বেশি (strictly > average) নম্বর পাওয়া শিক্ষার্থীর সংখ্যা। তিনটি লাইনে আউটপুট দিন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: student name and integer score.",
+        "bn": "১ম লাইন: N। পরের N লাইনে নাম ও পূর্ণসংখ্যা নম্বর।"
+      },
+      "expectedOutput": {
+        "en": "Three lines: Top: <name> (<score>), Average: <avg>, Above Average: <count>",
+        "bn": "তিনটি লাইন: Top, Average এবং Above Average।"
+      },
+      "examples": [
+        {
+          "input": "4\nAmina 85\nKarim 92\nSadia 78\nHasan 65",
+          "output": "Top: Karim (92)\nAverage: 80.00\nAbove Average: 2",
+          "explanation": {
+            "en": "Average = (85+92+78+65)/4 = 80.00. Amina (85) and Karim (92) are > 80.00.",
+            "bn": "গড় 80.00; এর চেয়ে বেশি নম্বর পেয়েছে ২ জন (Amina ও Karim)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Store records as a list of `(name, score)` tuples so you can pass over them a second time once the average is known.",
+        "bn": "গড় বের করার পর আবার তুলনা করতে রেকর্ডগুলো `(name, score)` টাপলের লিস্টে সংরক্ষণ করুন।"
+      },
+      "hint2": {
+        "en": "Only count `score > avg` strictly (NOT >=) when checking above-average students.",
+        "bn": "গড়ের সমান নম্বর যেন গণনায় না আসে সেজন্য `score > avg` (strictly greater) যাচাই করুন।"
+      },
+      "logicBreakdown": {
+        "en": "You cannot know who scored above average until all N records have been summed. Storing each student as a `(name, score)` tuple in a list allows Pass 1 to find the top scorer and sum scores, and Pass 2 to count `score > avg` cleanly.",
+        "bn": "সব শিক্ষার্থীর নম্বর না পাওয়া পর্যন্ত গড় বের হয় না। তাই `(name, score)` টাপলের লিস্টে সব তথ্য রাখলে প্রথম পাসে শীর্ষ ও গড় বের করে দ্বিতীয় পাসে গড়ের বেশি সংখ্যা গোনা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n and build list records of (name, int(score)).", "bn": "n পড়ে (name, int(score)) টাপলের লিস্ট records তৈরি করুন।" },
+        { "en": "Scan records to compute total and track first maximum (top_name, top_score).", "bn": "মোট নম্বর ও প্রথম সর্বোচ্চ স্কোরকারী নির্ণয় করুন।" },
+        { "en": "Compute avg = total / n and count records where score > avg.", "bn": "avg = total / n বের করে score > avg সংখ্যা গুনুন।" },
+        { "en": "Print the three formatted summary lines.", "bn": "তিনটি ফরম্যাট করা লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nrecords = []\ntotal = 0\ntop_name = \"\"\ntop_score = -1\nfor i in range(n):\n    name, s = input().split()\n    score = int(s)\n    records.append((name, score))\n    total += score\n    if i == 0 or score > top_score:\n        top_name = name\n        top_score = score\navg = total / n\nabove = sum(1 for _, score in records if score > avg)\nprint(f\"Top: {top_name} ({top_score})\")\nprint(f\"Average: {avg:.2f}\")\nprint(f\"Above Average: {above}\")",
+      "codeExplanation": {
+        "en": "Each student is stored as an immutable (name, score) tuple. i == 0 initializes the top scorer without assuming non-negative scores, and a generator expression counts scores strictly above avg.",
+        "bn": "প্রতিটি শিক্ষার্থীর তথ্য (name, score) টাপলে থাকে। i == 0 দিয়ে শুরু করায় যেকোনো পূর্ণসংখ্যার স্কোরেই শীর্ষ মান ঠিক থাকে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nAmina 85\nKarim 92\nSadia 78\nHasan 65", "expectedOutput": "Top: Karim (92)\nAverage: 80.00\nAbove Average: 2", "note": { "en": "4 students", "bn": "৪ শিক্ষার্থী" } },
+        { "input": "3\nA 80\nB 80\nC 80", "expectedOutput": "Top: A (80)\nAverage: 80.00\nAbove Average: 0", "note": { "en": "All equal to average -> 0 strictly above", "bn": "সবার নম্বর গড়ের সমান" } },
+        { "input": "1\nSajid 95", "expectedOutput": "Top: Sajid (95)\nAverage: 95.00\nAbove Average: 0", "note": { "en": "Single student", "bn": "একজন শিক্ষার্থী" } }
+      ]
+    },
+    {
+      "id": "P09-13",
+      "number": 13,
+      "title": {
+        "en": "Multi-Key Tuple Sorting (Score Desc, Name Asc)",
+        "bn": "একাধিক শর্তে টাপল সর্টিং (নম্বর অবরোহী, নাম আরোহী)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Tuple sort keys (-score, name)", "bn": "টাপল সর্ট কী (-score, name)" },
+        { "en": "Custom key functions with lambda", "bn": "lambda দিয়ে কাস্টম সর্টিং কী" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N lines of '<name> <score>' (integer score). Sort the records by score DESCENDING (highest first). If two records have the same score, break ties by name ASCENDING alphabetically. Print each sorted record as '<name> <score>'.",
+        "bn": "প্রথমে N (N >= 1) এবং পরের N লাইনে '<name> <score>' ইনপুট নিন। রেকর্ডগুলোকে নম্বরের বড় থেকে ছোট (descending) ক্রমে সাজান; নম্বর সমান হলে নামের বর্ণানুক্রমে (ascending) সাজান। প্রতিটি রেকর্ড '<name> <score>' আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: string name and integer score.",
+        "bn": "১ম লাইন: N। পরের N লাইনে নাম ও নম্বর।"
+      },
+      "expectedOutput": {
+        "en": "N sorted lines formatted as '<name> <score>'.",
+        "bn": "সাজানো Nটি লাইন '<name> <score>' আকারে।"
+      },
+      "examples": [
+        {
+          "input": "4\nZarif 88\nAnika 95\nFarhan 88\nBithi 95",
+          "output": "Anika 95\nBithi 95\nFarhan 88\nZarif 88",
+          "explanation": {
+            "en": "95s come before 88s; within 95, 'Anika' precedes 'Bithi'; within 88, 'Farhan' precedes 'Zarif'.",
+            "bn": "95 নম্বরগুলো 88-এর আগে এবং সমান নম্বরে নাম বর্ণানুক্রমে বসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Using `reverse=True` reverses BOTH score and name—putting 'Zarif' before 'Farhan'!",
+        "bn": "সরাসরি `reverse=True` দিলে স্কোরের সাথে নামও উল্টো হয়ে যাবে!"
+      },
+      "hint2": {
+        "en": "Use `key=lambda item: (-item[1], item[0])`! Negating the numeric score reverses score order while keeping alphabetical order for names.",
+        "bn": "`key=lambda item: (-item[1], item[0])` ব্যবহার করুন! স্কোরের আগে বিয়োগ (-) দিলে কেবল স্কোর বড় থেকে ছোট হবে এবং নাম ছোট থেকে বড় থাকবে।"
+      },
+      "logicBreakdown": {
+        "en": "Multi-criteria sorting with mixed directions (one descending, one ascending) is a classic tuple-key pattern in Python. Returning `(-score, name)` from the `key` lambda instructs Python's Timsort to compare `-score` first (so higher scores give smaller `-score` and come first) and break ties by `name` in ascending lexicographical order.",
+        "bn": "একটি মান অবরোহী ও অপরটি আরোহী রাখতে চাইলে সর্ট কী-তে একটি টাপল `(-score, name)` ব্যবহার করাই সবচেয়ে পরিচ্ছন্ন কৌশল। এতে বেশি স্কোরের ঋণাত্মক মান ছোট হয়ে সামনে আসে এবং সমান স্কোরে নাম বর্ণানুক্রমে সাজানো হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and collect (name, int(score)) tuples.", "bn": "n পড়ে (name, int(score)) টাপল সংগ্রহ করুন।" },
+        { "en": "Sort using records.sort(key=lambda r: (-r[1], r[0])).", "bn": "records.sort(key=lambda r: (-r[1], r[0])) দিয়ে সাজান।" },
+        { "en": "Print each name and score.", "bn": "প্রতিটি নাম ও নম্বর প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nrecords = []\nfor _ in range(n):\n    name, s = input().split()\n    records.append((name, int(s)))\nrecords.sort(key=lambda r: (-r[1], r[0]))\nfor name, score in records:\n    print(f\"{name} {score}\")",
+      "codeExplanation": {
+        "en": "Python compares tuples element-by-element. -r[1] orders scores from highest to lowest, while r[0] breaks any equal-score tie alphabetically.",
+        "bn": "পাইথন টাপলের উপাদানগুলো বাম থেকে ডানে তুলনা করে। -r[1] নম্বর বড় থেকে ছোট এবং r[0] সমান নম্বরে নাম বর্ণানুক্রমে সাজায়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nZarif 88\nAnika 95\nFarhan 88\nBithi 95", "expectedOutput": "Anika 95\nBithi 95\nFarhan 88\nZarif 88", "note": { "en": "Multiple score ties", "bn": "একাধিক সমান নম্বর" } },
+        { "input": "2\nAlpha 10\nBeta 20", "expectedOutput": "Beta 20\nAlpha 10", "note": { "en": "Distinct scores", "bn": "ভিন্ন নম্বর" } },
+        { "input": "1\nSolo 50", "expectedOutput": "Solo 50", "note": { "en": "Single record", "bn": "একক রেকর্ড" } }
+      ]
+    },
+    {
+      "id": "P09-14",
+      "number": 14,
+      "title": {
+        "en": "Symmetric Difference Without ^ Operator",
+        "bn": "^ অপারেটর ছাড়া প্রতিসম অন্তর (Symmetric Difference)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Set algebra equivalence (A - B) | (B - A)", "bn": "(A - B) | (B - A) সমতুল্যতা" },
+        { "en": "Exclusive membership", "bn": "কেবল একটি সেটে থাকার শর্ত" }
+      ],
+      "description": {
+        "en": "Read two lines of space-separated integers representing sets A and B. Find all elements that belong to EITHER A OR B, but NOT both (the symmetric difference), without using `^` or `.symmetric_difference()`. Print the sorted result separated by spaces, or 'Empty' if none.",
+        "bn": "দুটি লাইনে সেট A ও সেট B-এর পূর্ণসংখ্যা ইনপুট নিন। `^` বা `.symmetric_difference()` ব্যবহার না করে এমন সব উপাদান বের করুন যা কেবল A অথবা কেবল B-তে আছে কিন্তু উভয়ে নেই (Symmetric Difference)। ছোট থেকে বড় ক্রমে স্পেস দিয়ে প্রিন্ট করুন, না থাকলে 'Empty'।"
+      },
+      "inputDescription": {
+        "en": "Line 1: elements of A. Line 2: elements of B.",
+        "bn": "১ম লাইন: A-এর উপাদান। ২য় লাইন: B-এর উপাদান।"
+      },
+      "expectedOutput": {
+        "en": "Sorted space-separated integers, or 'Empty'.",
+        "bn": "সাজানো উপাদানসমূহ অথবা 'Empty'।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 4\n3 4 5 6",
+          "output": "1 2 5 6",
+          "explanation": {
+            "en": "3 and 4 are in both so excluded; 1, 2 (only A) and 5, 6 (only B) remain.",
+            "bn": "3 ও 4 উভয়ে থাকায় বাদ পড়েছে; কেবল এক সেটে থাকা 1, 2, 5, 6 রয়ে গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Elements in A but not B are `a - b`; elements in B but not A are `b - a`.",
+        "bn": "কেবল A-তে থাকা উপাদান হলো `a - b` এবং কেবল B-তে থাকা উপাদান হলো `b - a`।"
+      },
+      "hint2": {
+        "en": "Equivalently, `(a | b) - (a & b)` takes the union and removes the intersection!",
+        "bn": "বিকল্পভাবে `(a | b) - (a & b)` করলেও সংযোগ থেকে সাধারণ অংশ বাদ পড়ে!"
+      },
+      "logicBreakdown": {
+        "en": "Set symmetric difference obeys two equivalent algebraic identities: `(A - B) | (B - A)` and `(A | B) - (A & B)`. Expressing it directly with elementary operations builds mastery over set identities rather than relying blindly on syntax.",
+        "bn": "প্রতিসম অন্তর দুটি মৌলিক সূত্রে প্রকাশ করা যায়: `(A - B) | (B - A)` অথবা `(A | B) - (A & B)`। এ ধরনের রূপান্তর সেট লজিকের ভিত্তি মজবুত করে।"
+      },
+      "algorithm": [
+        { "en": "Parse input lines into sets a and b.", "bn": "ইনপুট থেকে সেট a এবং b তৈরি করুন।" },
+        { "en": "Compute sym = (a - b) | (b - a).", "bn": "sym = (a - b) | (b - a) হিসাব করুন।" },
+        { "en": "If sym is non-empty, print sorted elements joined by space; else print 'Empty'.", "bn": "sym খালি না হলে সাজিয়ে প্রিন্ট করুন, নতুবা 'Empty'।" }
+      ],
+      "solution": "a = {int(x) for x in input().split()}\nb = {int(x) for x in input().split()}\nsym = (a - b) | (b - a)\nif sym:\n    print(\" \".join(str(x) for x in sorted(sym)))\nelse:\n    print(\"Empty\")",
+      "codeExplanation": {
+        "en": "(a - b) captures elements exclusive to a, and (b - a) captures elements exclusive to b. Their union yields the exact symmetric difference.",
+        "bn": "(a - b) কেবল a-এর এবং (b - a) কেবল b-এর উপাদান নেয়। এদের সংযোগে উভয় সেটের ভিন্ন উপাদানগুলো পাওয়া যায়।"
+      },
+      "complexity": { "time": "O((N + M) log(N + M))", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "1 2 3 4\n3 4 5 6", "expectedOutput": "1 2 5 6", "note": { "en": "Overlapping sets", "bn": "আংশিক মিল" } },
+        { "input": "7 8\n8 7 7", "expectedOutput": "Empty", "note": { "en": "Equal sets give Empty", "bn": "সমান সেটে Empty" } },
+        { "input": "1 3\n2 4", "expectedOutput": "1 2 3 4", "note": { "en": "Disjoint sets keep all", "bn": "নিশ্ছেদ সেটে সব থাকে" } }
+      ]
+    },
+    {
+      "id": "P09-15",
+      "number": 15,
+      "title": {
+        "en": "Group Unique Words by Starting Letter",
+        "bn": "প্রথম অক্ষর অনুযায়ী অনন্য শব্দ দলবদ্ধ করা"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Dictionary of sets", "bn": "সেট-ভ্যালু ডিকশনারি" },
+        { "en": "Normalized indexing", "bn": "ছোট হাতে সূচীকরণ" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated words. Convert words to lowercase, deduplicate them, and group them into a dictionary keyed by their first letter. Print each letter in alphabetical order as '<letter>: <word1> <word2> ...' with words inside each group also sorted alphabetically.",
+        "bn": "স্পেস-বিচ্ছিন্ন শব্দের একটি লাইন ইনপুট নিন। সব শব্দকে ছোট হাতে এনে ডুপ্লিকেট বাদ দিন এবং প্রতিটি শব্দের প্রথম অক্ষরকে কী ধরে একটি ডিকশনারিতে দলবদ্ধ করুন। বর্ণানুক্রমে প্রতিটি লাইনে '<letter>: <word1> <word2> ...' (প্রতি দলের শব্দগুলোও সাজানো) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single non-empty line of space-separated words.",
+        "bn": "শব্দযুক্ত একটি লাইন।"
+      },
+      "expectedOutput": {
+        "en": "Sorted '<letter>: <sorted unique words>' lines.",
+        "bn": "সাজানো '<letter>: <sorted unique words>' লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "Cat apple ant ball Apple car",
+          "output": "a: ant apple\nb: ball\nc: car cat",
+          "explanation": {
+            "en": "Unique words grouped by initial: a -> ant apple, b -> ball, c -> car cat.",
+            "bn": "প্রথম অক্ষর অনুযায়ী অনন্য শব্দগুলো সাজানো হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Combine a dictionary with sets: `index.setdefault(w[0], set()).add(w)` handles grouping and deduplication together!",
+        "bn": "`index.setdefault(w[0], set()).add(w)` ব্যবহার করলে একইসাথে দলবদ্ধ ও ডুপ্লিকেটমুক্ত হয়!"
+      },
+      "hint2": {
+        "en": "Sort both the outer dictionary keys (`sorted(index)`) and each group's set (`sorted(index[ch])`).",
+        "bn": "আউটপুটের সময় ডিকশনারির কী এবং প্রতিটি সেট উভয়ই `sorted()` দিয়ে সাজিয়ে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "Combining nested data structures—a `dict` mapping `first_char -> set of words`—lets you normalize, deduplicate, and categorize in one clean loop. Sorting both dimensions guarantees predictable dictionary index output.",
+        "bn": "একটি ডিকশনারির ভেতরে ভ্যালু হিসেবে সেট ব্যবহার করলে এক লুপেই ডুপ্লিকেট বাদ দিয়ে প্রথম অক্ষর অনুযায়ী বিভাগ তৈরি করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read lowercased words via input().lower().split().", "bn": "input().lower().split() দিয়ে ছোট হাতের শব্দ তালিকা নিন।" },
+        { "en": "Initialize index = {}. For each w: index.setdefault(w[0], set()).add(w).", "bn": "প্রতিটি শব্দের প্রথম অক্ষরের সেটে w যোগ করুন।" },
+        { "en": "For ch in sorted(index): print f'{ch}: ' + ' '.join(sorted(index[ch])).", "bn": "অক্ষর ও শব্দ সাজিয়ে '<letter>: <words>' প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().lower().split()\nindex = {}\nfor w in words:\n    index.setdefault(w[0], set()).add(w)\nfor ch in sorted(index):\n    print(f\"{ch}: {' '.join(sorted(index[ch]))}\")",
+      "codeExplanation": {
+        "en": "w[0] extracts the initial character of each lowercased word. index.setdefault(w[0], set()) creates a set if absent, and .add(w) automatically ignores duplicate words.",
+        "bn": "w[0] প্রথম অক্ষর দেয়। setdefault দিয়ে সেট তৈরি করে .add(w) করলে ডুপ্লিকেট শব্দ আপনিই বাদ পড়ে।"
+      },
+      "complexity": { "time": "O(W log W)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Cat apple ant ball Apple car", "expectedOutput": "a: ant apple\nb: ball\nc: car cat", "note": { "en": "Case-insensitive dedup + sort", "bn": "ডুপ্লিকেট বাদ দিয়ে সাজানো" } },
+        { "input": "zebra", "expectedOutput": "z: zebra", "note": { "en": "Single word", "bn": "একটি শব্দ" } },
+        { "input": "sun star sky", "expectedOutput": "s: sky star sun", "note": { "en": "All share one letter", "bn": "সব একই অক্ষরের" } }
+      ]
+    },
+    {
+      "id": "P09-16",
+      "number": 16,
+      "title": {
+        "en": "Group Anagrams Using Canonical Tuple Keys",
+        "bn": "ক্যানোনিক্যাল টাপল কী দিয়ে অ্যানাগ্রাম দলবদ্ধ করা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Immutable tuple as dictionary key", "bn": "ডিকশনারির কী হিসেবে অপরিবর্তনীয় টাপল" },
+        { "en": "Canonical signature representation", "bn": "অ্যানাগ্রামের ক্যানোনিক্যাল চিহ্ন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated lowercase words. Group words that are anagrams of each other. Print each anagram group on its own line (with words within a group sorted alphabetically and separated by spaces), ordering groups by when their first word appeared in input.",
+        "bn": "স্পেস-বিচ্ছিন্ন ছোট হাতের শব্দের একটি লাইন ইনপুট নিন। একে অপরের অ্যানাগ্রাম শব্দগুলোকে একসাথে দলবদ্ধ করুন। প্রতিটি দলকে আলাদা লাইনে প্রিন্ট করুন (দলের ভেতরের শব্দগুলো বর্ণানুক্রমে সাজানো থাকবে), এবং দলগুলোর ক্রম ইনপুটে প্রথম উপস্থিতি অনুযায়ী থাকবে।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated lowercase words.",
+        "bn": "এক লাইনে ছোট হাতের স্পেস-বিচ্ছিন্ন শব্দ।"
+      },
+      "expectedOutput": {
+        "en": "One line per anagram group with alphabetically sorted words.",
+        "bn": "প্রতি লাইনে একটি করে অ্যানাগ্রাম দল।"
+      },
+      "examples": [
+        {
+          "input": "eat tea tan ate nat bat",
+          "output": "ate eat tea\nnat tan\nbat",
+          "explanation": {
+            "en": "'eat', 'tea', 'ate' share signature ('a','e','t'); 'tan', 'nat' share ('a','n','t'); 'bat' is alone.",
+            "bn": "'eat', 'tea', 'ate'-এর বর্ণ দল একই হওয়ায় এক লাইনে; 'tan', 'nat' এক লাইনে এবং 'bat' আলাদা।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Remember: lists are unhashable so `sorted(w)` CANNOT be used as a dictionary key directly—it raises TypeError!",
+        "bn": "লিস্ট হ্যাশেবল নয় বলে `sorted(w)` সরাসরি ডিকশনারির কী হিসেবে ব্যবহার করা যায় না—এতে TypeError আসে!"
+      },
+      "hint2": {
+        "en": "Convert `sorted(w)` to an immutable `tuple(sorted(w))` (or `''.join(sorted(w))`) as the dictionary key!",
+        "bn": "`tuple(sorted(w))` তৈরি করে সেটিকে ডিকশনারির কী হিসেবে ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Two words are anagrams if and only if sorting their characters yields the exact same sequence. Because Python `list` objects are mutable and unhashable, wrapping `sorted(w)` in `tuple(...)` makes it a valid dictionary key. Python preserves insertion order on `groups`, so groups naturally appear in order of first encounter.",
+        "bn": "দুটি শব্দ অ্যানাগ্রাম হলে তাদের বর্ণগুলো সাজালে একই রূপ পাওয়া যায়। লিস্ট পরিবর্তনশীল হওয়ায় ডিকশনারির কী হতে পারে না, কিন্তু `tuple(sorted(w))` অপরিবর্তনীয় হওয়ায় কী হিসেবে ব্যবহার করা যায়। ডিকশনারির ক্রম অনুযায়ী দলগুলো প্রথম উপস্থিতির ক্রমেই থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read words = input().split() and initialize groups = {}.", "bn": "words পড়ুন এবং groups = {} নিন।" },
+        { "en": "For w in words: key = tuple(sorted(w)); groups.setdefault(key, []).append(w).", "bn": "প্রতিটি শব্দের জন্য key = tuple(sorted(w)) বানিয়ে groups-এ যোগ করুন।" },
+        { "en": "For g in groups.values(): print ' '.join(sorted(g)).", "bn": "প্রতিটি দলের শব্দগুলো সাজিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\ngroups = {}\nfor w in words:\n    sig = tuple(sorted(w))\n    groups.setdefault(sig, []).append(w)\nfor group in groups.values():\n    print(\" \".join(sorted(group)))",
+      "codeExplanation": {
+        "en": "tuple(sorted(w)) produces an immutable canonical signature for every anagram family. groups.setdefault collects all matching words, and sorted(group) formats each output line.",
+        "bn": "tuple(sorted(w)) প্রতিটি অ্যানাগ্রাম পরিবারের অভিন্ন কী তৈরি করে। groups.setdefault একই কী-এর শব্দগুলো জমা করে এবং শেষে sorted(group) প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N * L log L)", "space": "O(N * L)" },
+      "testCases": [
+        { "input": "eat tea tan ate nat bat", "expectedOutput": "ate eat tea\nnat tan\nbat", "note": { "en": "3 anagram groups", "bn": "৩টি অ্যানাগ্রাম দল" } },
+        { "input": "abc def ghi", "expectedOutput": "abc\ndef\nghi", "note": { "en": "No anagrams", "bn": "কোনো অ্যানাগ্রাম নেই" } },
+        { "input": "loop pool polo", "expectedOutput": "loop polo pool", "note": { "en": "Single group", "bn": "একটি দল" } }
+      ]
+    },
+    {
+      "id": "P09-17",
+      "number": 17,
+      "title": {
+        "en": "Top K Most Frequent Integers",
+        "bn": "সর্বাধিক পুনরাবৃত্ত শীর্ষ Kটি পূর্ণসংখ্যা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Frequency dictionary + multi-key sort", "bn": "ফ্রিকোয়েন্সি ডিকশনারি ও মাল্টি-কী সর্ট" },
+        { "en": "Deterministic tie-breaking", "bn": "সমান সংখ্যায় ছোট মানের অগ্রাধিকার" }
+      ],
+      "description": {
+        "en": "Read space-separated integers on line 1 and a positive integer K on line 2 (K <= number of distinct integers). Find the K most frequent integers. Order by frequency DESCENDING; if two integers have equal frequency, place the smaller integer first. Print the top K integers separated by spaces.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং ২য় লাইনে ধনাত্মক পূর্ণসংখ্যা K ইনপুট নিন। সর্বাধিকবার উপস্থিত শীর্ষ Kটি স্বতন্ত্র সংখ্যা বের করুন। বেশি ফ্রিকোয়েন্সি আগে থাকবে; ফ্রিকোয়েন্সি সমান হলে ছোট সংখ্যাটি আগে বসবে। শীর্ষ Kটি সংখ্যা স্পেস দিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer K.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা তালিকা। ২য় লাইন: K।"
+      },
+      "expectedOutput": {
+        "en": "K space-separated integers ranked by frequency (then ascending value).",
+        "bn": "ফ্রিকোয়েন্সি (ও সমান হলে মান) অনুযায়ী শীর্ষ Kটি সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "1 1 1 2 2 3 4 4\n2",
+          "output": "1 2",
+          "explanation": {
+            "en": "1 appears 3 times; 2 and 4 both appear 2 times, so smaller value 2 wins second spot.",
+            "bn": "1 আছে ৩ বার; 2 ও 4 উভয়ই ২ বার থাকায় ছোট সংখ্যা 2 দ্বিতীয় স্থান পেয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First count occurrences into `freq` dictionary.",
+        "bn": "প্রথমে `freq` ডিকশনারিতে প্রতিটি সংখ্যার উপস্থিতি গুনুন।"
+      },
+      "hint2": {
+        "en": "Sort `freq.items()` with `key=lambda item: (-item[1], item[0])`, then slice the first `k` keys!",
+        "bn": "`freq.items()`-কে `key=lambda item: (-item[1], item[0])` দিয়ে সাজিয়ে প্রথম `k`টি কী নিন!"
+      },
+      "logicBreakdown": {
+        "en": "Ranking distinct items by frequency combines dictionary aggregation with custom tuple sorting. Using `(-count, value)` ranks highest counts first and breaks equal-frequency ties cleanly by smaller integer value.",
+        "bn": "ফ্রিকোয়েন্সি ডিকশনারির সাথে `(-count, value)` টাপল কী ব্যবহার করে সর্ট করলে বেশি ফ্রিকোয়েন্সি সামনে আসে এবং সমান ফ্রিকোয়েন্সির ক্ষেত্রে ছোট সংখ্যা আগে বসে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and integer k.", "bn": "nums এবং k পড়ুন।" },
+        { "en": "Count frequencies in dict freq.", "bn": "freq ডিকশনারিতে সংখ্যাগুলোর পুনরাবৃত্তি গুনুন।" },
+        { "en": "Sort freq.items() using key=lambda pair: (-pair[1], pair[0]).", "bn": "(-pair[1], pair[0]) কী দিয়ে freq.items() সাজান।" },
+        { "en": "Take the first k keys and print space-separated.", "bn": "প্রথম kটি কী স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nk = int(input())\nfreq = {}\nfor x in nums:\n    freq[x] = freq.get(x, 0) + 1\nranked = sorted(freq.items(), key=lambda p: (-p[1], p[0]))\ntop_k = [str(ranked[i][0]) for i in range(k)]\nprint(\" \".join(top_k))",
+      "codeExplanation": {
+        "en": "freq tallies occurrences in O(N). sorted(freq.items(), ...) ranks (value, count) pairs by descending count and ascending value, and the first k keys are printed.",
+        "bn": "freq প্রতিটি সংখ্যার গণনা বের করে। এরপর (-count, value) দিয়ে সাজিয়ে প্রথম kটি সংখ্যা প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N + D log D)", "space": "O(D)" },
+      "testCases": [
+        { "input": "1 1 1 2 2 3 4 4\n2", "expectedOutput": "1 2", "note": { "en": "Frequency tie-break test", "bn": "সমান ফ্রিকোয়েন্সি পরীক্ষা" } },
+        { "input": "5 5 10 10 1\n3", "expectedOutput": "5 10 1", "note": { "en": "K equals all distinct items", "bn": "K = সব স্বতন্ত্র সংখ্যা" } },
+        { "input": "42\n1", "expectedOutput": "42", "note": { "en": "Single element", "bn": "একটি উপাদান" } }
+      ]
+    },
+    {
+      "id": "P09-18",
+      "number": 18,
+      "title": {
+        "en": "Inventory Stock Transaction Manager",
+        "bn": "মজুদ (Inventory) লেনদেন ব্যবস্থাপক"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "State management with dictionaries", "bn": "ডিকশনারির মাধ্যমে অবস্থা পরিচালনা" },
+        { "en": "Validation before mutation", "bn": "পরিবর্তনের আগে বৈধতা যাচাই" }
+      ],
+      "description": {
+        "en": "Read N initial items ('<item> <qty>'), followed by M transaction commands ('ADD <item> <qty>' or 'SELL <item> <qty>'). 'ADD' increases stock (adding new item if unseen). 'SELL' decreases stock ONLY if current stock >= qty; otherwise ignore the invalid SELL. Print the final inventory sorted alphabetically as '<item>: <qty>'.",
+        "bn": "প্রথমে Nটি প্রারম্ভিক আইটেম ('<item> <qty>') এবং পরে Mটি লেনদেন কমান্ড ('ADD <item> <qty>' বা 'SELL <item> <qty>') ইনপুট নিন। 'ADD' মজুদ বাড়ায় (নতুন আইটেম হলে যোগ করে)। 'SELL' কেবল তখনই মজুদ কমায় যখন বর্তমান মজুদ >= qty; নতুবা অবৈধ SELL উপেক্ষা করে। শেষে নামানুসারে সাজিয়ে '<item>: <qty>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "N, then N item qty lines; then M, then M command lines.",
+        "bn": "N ও Nটি আইটেম; তারপর M ও Mটি কমান্ড লাইন।"
+      },
+      "expectedOutput": {
+        "en": "Sorted '<item>: <qty>' lines for final inventory.",
+        "bn": "বর্ণানুক্রমে চূড়ান্ত মজুদের '<item>: <qty>' লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "2\nlaptop 5\nmouse 10\n3\nSELL laptop 2\nSELL laptop 10\nADD keyboard 4",
+          "output": "keyboard: 4\nlaptop: 3\nmouse: 10",
+          "explanation": {
+            "en": "laptop: 5-2=3 (selling 10 ignored because 3 < 10); keyboard added with 4.",
+            "bn": "laptop ৫ থেকে ২ কমে ৩ হয়েছে (১০ বিক্রির কমান্ড ৩ < ১০ হওয়ায় বাতিল); keyboard ৪ যুক্ত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `stock.get(item, 0) >= qty` BEFORE subtracting for SELL so unknown items or overdrafts never go negative.",
+        "bn": "SELL-এর আগে `stock.get(item, 0) >= qty` যাচাই করুন যাতে মজুদ ঋণাত্মক না হয় বা অনুপস্থিত আইটেমে ত্রুটি না ঘটে।"
+      },
+      "hint2": {
+        "en": "Keep items with 0 remaining stock in the dictionary if they were already present.",
+        "bn": "বিক্রির পর কোনো আইটেমের মজুদ 0 হলেও সেটি ডিকশনারিতে রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Transactional systems must guard invariants before mutating state: stock must never drop below zero. Using `stock.get(item, 0)` safely checks availability even if someone attempts to sell an item that was never stocked.",
+        "bn": "বাস্তব সফটওয়্যারে ডেটা পরিবর্তনের আগে শর্ত যাচাই (guard invariant) করা জরুরি। `stock.get(item, 0) >= qty` দেখলে অনুপস্থিত আইটেম বিক্রির চেষ্টাও নিরাপদে উপেক্ষা করা যায় এবং মজুদ কখনোই ঋণাত্মক হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read n initial entries into dict stock.", "bn": "nটি প্রারম্ভিক আইটেম stock ডিকশনারিতে নিন।" },
+        { "en": "Read m and loop m commands: split cmd, item, q_str; qty = int(q_str).", "bn": "mটি কমান্ড পড়ে cmd, item, qty আলাদা করুন।" },
+        { "en": "If cmd == 'ADD': stock[item] = stock.get(item, 0) + qty.", "bn": "cmd == 'ADD' হলে stock[item] বাড়ান।" },
+        { "en": "Elif cmd == 'SELL' and stock.get(item, 0) >= qty: stock[item] -= qty.", "bn": "cmd == 'SELL' এবং মজুদ পর্যাপ্ত হলে stock[item] -= qty করুন।" },
+        { "en": "Print sorted stock as '<item>: <qty>'.", "bn": "বর্ণানুক্রমে চূড়ান্ত stock প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nstock = {}\nfor _ in range(n):\n    item, q = input().split()\n    stock[item] = stock.get(item, 0) + int(q)\n\nm = int(input())\nfor _ in range(m):\n    cmd, item, q = input().split()\n    qty = int(q)\n    if cmd == \"ADD\":\n        stock[item] = stock.get(item, 0) + qty\n    elif cmd == \"SELL\":\n        if stock.get(item, 0) >= qty:\n            stock[item] -= qty\n\nfor item in sorted(stock):\n    print(f\"{item}: {stock[item]}\")",
+      "codeExplanation": {
+        "en": "ADD safely inserts or increments any item. SELL guards against missing keys and insufficient stock using stock.get(item, 0) >= qty before decrementing.",
+        "bn": "ADD নতুন বা পুরোনো যেকোনো আইটেমের মজুদ বাড়ায়, আর SELL পর্যাপ্ত মজুদ থাকলেই কেবল কমায়। শেষে বর্ণানুক্রমে প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N + M + K log K)", "space": "O(K)" },
+      "testCases": [
+        { "input": "2\nlaptop 5\nmouse 10\n3\nSELL laptop 2\nSELL laptop 10\nADD keyboard 4", "expectedOutput": "keyboard: 4\nlaptop: 3\nmouse: 10", "note": { "en": "Valid & invalid sell + add", "bn": "বৈধ ও অবৈধ বিক্রি এবং যোগ" } },
+        { "input": "1\ncable 3\n2\nSELL missing 1\nSELL cable 3", "expectedOutput": "cable: 0", "note": { "en": "Missing sell ignored, exact sell reaches 0", "bn": "অজানা আইটেম উপেক্ষা ও ০ মজুদ" } },
+        { "input": "1\npen 2\n2\nADD pen 5\nSELL pen 4", "expectedOutput": "pen: 3", "note": { "en": "Restock existing item then sell", "bn": "মজুদ বাড়িয়ে বিক্রি" } }
+      ]
+    },
+    {
+      "id": "P09-19",
+      "number": 19,
+      "title": {
+        "en": "Longest Consecutive Sequence Length in O(N)",
+        "bn": "সেট দিয়ে O(N) সময়ে দীর্ঘতম ধারাবাহিক অনুক্রম"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Set-based sequence start detection", "bn": "সেট দিয়ে অনুক্রমের শুরু শনাক্তকরণ" },
+        { "en": "Amortized O(N) complexity", "bn": "গড় O(N) সময় জটিলতা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (unsorted, may contain duplicates). Find the length of the longest sequence of consecutive integers (e.g., 1, 2, 3, 4 has length 4) in O(N) average time WITHOUT sorting.",
+        "bn": "অসাজানো স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন (ডুপ্লিকেট থাকতে পারে)। সর্টিং না করে গড় O(N) সময়ে পরপর ক্রমিক পূর্ণসংখ্যার দীর্ঘতম অনুক্রমের (যেমন 1, 2, 3, 4-এর দৈর্ঘ্য 4) দৈর্ঘ্য নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "An integer representing the longest consecutive sequence length.",
+        "bn": "দীর্ঘতম ধারাবাহিক অনুক্রমের দৈর্ঘ্য।"
+      },
+      "examples": [
+        {
+          "input": "100 4 200 1 3 2",
+          "output": "4",
+          "explanation": {
+            "en": "The longest consecutive integer sequence is [1, 2, 3, 4], length 4.",
+            "bn": "দীর্ঘতম ধারাবাহিক অনুক্রম হলো [1, 2, 3, 4], দৈর্ঘ্য ৪।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Put all integers into `num_set = set(nums)` for O(1) lookups.",
+        "bn": "O(1) খোঁজের জন্য সব সংখ্যাকে `num_set = set(nums)`-এ রাখুন।"
+      },
+      "hint2": {
+        "en": "Only count upward from `x` if `(x - 1) not in num_set`! That ensures we ONLY walk each streak once from its true starting number.",
+        "bn": "কেবল তখনই `x` থেকে উপরদিকে গুনুন যখন `(x - 1) not in num_set`—তাহলে প্রতিটি অনুক্রম কেবল একবারই শুরু থেকে গণনা হবে!"
+      },
+      "logicBreakdown": {
+        "en": "Sorting takes O(N log N). Putting numbers into a `set` lets us check `x - 1 in num_set` in O(1). If `x - 1` exists, `x` is inside the middle of a streak so we skip it; ONLY when `x - 1` is absent is `x` the true head of a streak, so we advance `cur += 1` while `cur + 1 in num_set`. Across the entire algorithm, every distinct element is visited at most twice—giving true O(N) runtime!",
+        "bn": "সর্টিং ছাড়া O(N) সময়ে সমাধানের চাবিকাঠি হলো: কোনো সংখ্যা `x`-এর আগের সংখ্যা `x - 1` যদি সেটে না থাকে, তবেই কেবল `x` একটি নতুন ধারার শুরু! ফলে প্রতিটি সংখ্যা সর্বোচ্চ দুবার পরিদর্শিত হয় এবং পুরো সমাধান O(N) সময়ে শেষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse nums and create num_set = set(nums).", "bn": "nums পড়ুন এবং num_set = set(nums) তৈরি করুন।" },
+        { "en": "Initialize best = 0.", "bn": "best = 0 নির্ধারণ করুন।" },
+        { "en": "For x in num_set: if x - 1 not in num_set, set cur = x and while cur + 1 in num_set advance cur += 1; update best = max(best, cur - x + 1).", "bn": "x - 1 সেটে না থাকলে cur = x থেকে পরপর সংখ্যা গুনে best আপডেট করুন।" },
+        { "en": "Print best.", "bn": "best প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nnum_set = set(nums)\nbest = 0\nfor x in num_set:\n    if (x - 1) not in num_set:\n        cur = x\n        while (cur + 1) in num_set:\n            cur += 1\n        length = cur - x + 1\n        if length > best:\n            best = length\nprint(best)",
+      "codeExplanation": {
+        "en": "Iterating over num_set eliminates duplicates immediately. Skipping any x whose predecessor x - 1 exists guarantees the inner while loop only fires once per maximal consecutive run.",
+        "bn": "num_set-এর ওপর লুপ চলায় ডুপ্লিকেট বাদ পড়ে এবং x - 1 থাকলে এড়িয়ে যাওয়ায় প্রতিটি ধারা কেবল তার শুরু থেকেই গণনা করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "100 4 200 1 3 2", "expectedOutput": "4", "note": { "en": "Consecutive 1..4", "bn": "১..৪ ধারা" } },
+        { "input": "0 3 7 2 5 8 4 6 0 1", "expectedOutput": "9", "note": { "en": "0..8 with duplicate 0", "bn": "০..৮ ডুপ্লিকেটসহ" } },
+        { "input": "10 30 50", "expectedOutput": "1", "note": { "en": "No adjacent integers", "bn": "কোনো ক্রমিক জোড়া নেই" } },
+        { "input": "-2 -1 0 1 5", "expectedOutput": "4", "note": { "en": "Negative to positive streak", "bn": "ঋণাত্মক থেকে ধনাত্মক ধারা" } }
+      ]
+    },
+    {
+      "id": "P09-20",
+      "number": 20,
+      "title": {
+        "en": "Subarray Sum Equals K (Prefix Sum + Dict)",
+        "bn": "প্রিফিক্স সাম ও ডিকশনারিতে K-যোগফলের সাব-অ্যারে গণনা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Prefix sum frequency map", "bn": "প্রিফিক্স সাম ফ্রিকোয়েন্সি ম্যাপ" },
+        { "en": "Handling negative numbers in subarrays", "bn": "ঋণাত্মক সংখ্যাসহ সাব-অ্যারে গণনা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (may include negative numbers and zeros) on line 1, and an integer target K on line 2. Count the total number of contiguous subarrays whose sum equals K in O(N) time.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা (ঋণাত্মক সংখ্যা ও শূন্য থাকতে পারে) এবং ২য় লাইনে লক্ষ্য পূর্ণসংখ্যা K ইনপুট নিন। O(N) সময়ে এমন মোট কতটি অবিচ্ছিন্ন সাব-অ্যারে আছে যাদের যোগফল ঠিক K তা গণনা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer K.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা তালিকা। ২য় লাইন: পূর্ণসংখ্যা K।"
+      },
+      "expectedOutput": {
+        "en": "An integer count of contiguous subarrays summing to K.",
+        "bn": "K যোগফলবিশিষ্ট সাব-অ্যারের মোট সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "1 1 1\n2",
+          "output": "2",
+          "explanation": {
+            "en": "Subarrays [1, 1] at indices 0..1 and [1, 1] at indices 1..2 both sum to 2.",
+            "bn": "সূচক ০..১ এবং ১..২-এর দুটি [1, 1] সাব-অ্যারের যোগফল ২।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sliding window fails when negative numbers exist because shrinking the window doesn't guarantee a smaller sum!",
+        "bn": "ঋণাত্মক সংখ্যা থাকলে সাধারণ স্লাইডিং উইন্ডো কাজ করে না!"
+      },
+      "hint2": {
+        "en": "Let `prefix` be the running sum from index 0. A subarray ending here sums to K whenever an earlier prefix equaled `prefix - K`! Track `{0: 1}` initially in `prefix_counts`.",
+        "bn": "চলমান যোগফল `prefix` হলে এখানে শেষ হওয়া কোনো সাব-অ্যারের যোগফল K হবে যখন আগে `prefix - K` পাওয়া গিয়েছিল! তাই শুরুতে `prefix_counts = {0: 1}` রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "The sum of elements from index `i + 1` to `j` equals `prefix[j] - prefix[i]`. Thus, finding subarrays summing to `K` reduces to asking how many prior prefixes equal `prefix - K`. Storing counts of every prefix sum seen so far in a dictionary (seeded with `{0: 1}` for subarrays starting at index 0) handles negatives, zeros, and overlapping zero-sum runs in O(N) time.",
+        "bn": "যেহেতু `subarray_sum(i+1..j) = prefix[j] - prefix[i]`, তাই বর্তমান চলমান যোগফল `prefix` হলে আগে কতবার `prefix - K` পাওয়া গেছে সেটিই উত্তর যোগ করে! শুরুতে `{0: 1}` রাখলে সূচক ০ থেকে শুরু হওয়া সাব-অ্যারেও সঠিকভাবে গণনা হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and target k.", "bn": "nums এবং k পড়ুন।" },
+        { "en": "Initialize prefix = 0, count = 0, and prefix_counts = {0: 1}.", "bn": "prefix = 0, count = 0 এবং prefix_counts = {0: 1} নিন।" },
+        { "en": "For x in nums: prefix += x; count += prefix_counts.get(prefix - k, 0); prefix_counts[prefix] = prefix_counts.get(prefix, 0) + 1.", "bn": "প্রতিটি x-এ prefix বাড়ান, prefix - k-এর সংখ্যা count-এ যোগ করুন এবং prefix_counts হালনাগাদ করুন।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nk = int(input())\nprefix = 0\ncount = 0\nprefix_counts = {0: 1}\nfor x in nums:\n    prefix += x\n    count += prefix_counts.get(prefix - k, 0)\n    prefix_counts[prefix] = prefix_counts.get(prefix, 0) + 1\nprint(count)",
+      "codeExplanation": {
+        "en": "Seeding prefix_counts with {0: 1} accounts for prefixes that equal k directly from index 0. Checking prefix - k BEFORE recording prefix ensures empty subarrays are never counted when k == 0.",
+        "bn": "শুরুতে {0: 1} রাখায় ০ সূচক থেকে শুরু হওয়া সাব-অ্যারে গণনা হয়, আর নতুন prefix যোগ করার আগেই prefix - k পরীক্ষা করায় k = 0 হলেও খালি সাব-অ্যারে ভুল করে গোনা হয় না।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "1 1 1\n2", "expectedOutput": "2", "note": { "en": "Overlapping subarrays", "bn": "একাধিক সাব-অ্যারে" } },
+        { "input": "1 2 3\n3", "expectedOutput": "2", "note": { "en": "[1, 2] and [3]", "bn": "[1, 2] এবং [3]" } },
+        { "input": "1 -1 0\n0", "expectedOutput": "3", "note": { "en": "Negatives and zero target: [1,-1], [0], [1,-1,0]", "bn": "ঋণাত্মক ও শূন্য যোগফল" } },
+        { "input": "0 0 0\n0", "expectedOutput": "6", "note": { "en": "All zero subarrays (3*4//2)", "bn": "সব শূন্যের সাব-অ্যারে" } }
+      ]
+    }
+  ]
+}

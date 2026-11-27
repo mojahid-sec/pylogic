@@ -1,0 +1,1287 @@
+{
+  "partId": "part-13",
+  "partNumber": 13,
+  "problems": [
+    {
+      "id": "P13-01",
+      "number": 1,
+      "title": {
+        "en": "Recursive Call Stack Mirror (N Down to 1 and Back Up)",
+        "bn": "রিকার্সিভ কল স্ট্যাক মিরর (N থেকে ১ ও পুনরায় N)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Base case & call stack unwinding", "bn": "বেস কেস ও কল স্ট্যাক আনওয়াইন্ডিং" },
+        { "en": "Pre-recursion vs post-recursion work", "bn": "রিকার্সনের আগে ও পরের কাজ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Write a recursive function that builds and prints a symmetric mirror sequence going down from N to 1 and back up to N (with a single 1 at the center), space-separated on one line, without using any loops.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। কোনো লুপ ব্যবহার না করে একটি রিকার্সিভ ফাংশনের মাধ্যমে N থেকে ১ পর্যন্ত নেমে পুনরায় N পর্যন্ত ফিরে আসার প্রতিসম (mirror) ধারা তৈরি করে স্পেস-বিচ্ছিন্নভাবে প্রিন্ট করুন (মাঝে একটিমাত্র ১ থাকবে)।"
+      },
+      "inputDescription": {
+        "en": "A single positive integer N (N >= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated mirror sequence: N N-1 ... 1 ... N-1 N.",
+        "bn": "স্পেস-বিচ্ছিন্ন মিরর ধারা: N N-1 ... 1 ... N-1 N।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "3 2 1 2 3",
+          "explanation": {
+            "en": "Entering mirror(3) emits 3 before recursing, reaches base case 1, then emits 2 and 3 while unwinding the stack.",
+            "bn": "mirror(3) কল হওয়ার সময় 3 যোগ হয়, ১-এ পৌঁছে বেস কেস ফিরে আসে এবং স্ট্যাক ফেরত আসার সময় 2 ও 3 যোগ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Think about what happens BEFORE the recursive call versus AFTER the recursive call returns.",
+        "bn": "রিকার্সিভ কলের আগে কী ঘটে এবং কলটি ফিরে আসার পরে কী ঘটে তা আলাদা করে ভাবুন।"
+      },
+      "hint2": {
+        "en": "Base case: if n == 1, return ['1']. Recursive step: return [str(n)] + mirror(n - 1) + [str(n)].",
+        "bn": "বেস কেস: n == 1 হলে ['1'] রিটার্ন করুন। রিকার্সিভ ধাপ: [str(n)] + mirror(n - 1) + [str(n)] রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Recursion naturally models a stack: every frame pauses at its recursive call until the inner frame finishes. Placing `str(n)` both before and after `mirror(n - 1)` produces the descending leg on stack push and the ascending leg on stack pop, with `n == 1` acting as the single turning point.",
+        "bn": "রিকার্শন স্বয়ংক্রিয়ভাবে কল স্ট্যাক ব্যবহার করে। প্রতিটি ফাংশন কল ভেতরের কল শেষ না হওয়া পর্যন্ত অপেক্ষা করে। `mirror(n - 1)`-এর আগে ও পরে `str(n)` যুক্ত করলে নেমে যাওয়া ও উঠে আসার প্রতিসম ধারা পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n ইনপুট নিন।" },
+        { "en": "Define mirror(x): if x == 1, return ['1'].", "bn": "mirror(x) ফাংশন লিখুন: x == 1 হলে ['1'] রিটার্ন করুন।" },
+        { "en": "Otherwise return [str(x)] + mirror(x - 1) + [str(x)].", "bn": "অন্যথায় [str(x)] + mirror(x - 1) + [str(x)] রিটার্ন করুন।" },
+        { "en": "Join the returned list with spaces and print.", "bn": "প্রাপ্ত লিস্ট স্পেস দিয়ে যুক্ত করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def mirror(x):\n    if x == 1:\n        return [\"1\"]\n    return [str(x)] + mirror(x - 1) + [str(x)]\n\nn = int(input())\nprint(\" \".join(mirror(n)))",
+      "codeExplanation": {
+        "en": "When x reaches 1, the base case returns ['1'] without making another call. Each suspended caller wraps that result with str(x) on both ends as the call stack unwinds.",
+        "bn": "x এর মান ১-এ পৌঁছালে বেস কেস আর কোনো কল না করে ['1'] রিটার্ন করে। এরপর স্ট্যাক ফেরত আসার সময় প্রতিটি ধাপ দুপাশে str(x) বসিয়ে দেয়।"
+      },
+      "complexity": { "time": "O(N^2) due to list concatenation, or O(N) with accumulator", "space": "O(N) recursion stack" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "3 2 1 2 3", "note": { "en": "Standard mirror", "bn": "সাধারণ মিরর ধারা" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Immediate base case", "bn": "সরাসরি বেস কেস" } },
+        { "input": "4", "expectedOutput": "4 3 2 1 2 3 4", "note": { "en": "Four-level call stack", "bn": "চার স্তরের কল স্ট্যাক" } }
+      ]
+    },
+    {
+      "id": "P13-02",
+      "number": 2,
+      "title": {
+        "en": "Recursive Factorial With Zero Base Case",
+        "bn": "শূন্য বেস কেসসহ রিকার্সিভ ফ্যাক্টোরিয়াল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Mathematical recurrence N! = N * (N-1)!", "bn": "গাণিতিক পুনরাবৃত্তি N! = N * (N-1)!" },
+        { "en": "Base case guard (0! = 1)", "bn": "বেস কেস (0! = 1)" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N (0 <= N <= 20). Compute and print N! (factorial of N) using a pure recursive function without loops or `math.factorial`.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (0 <= N <= 20) ইনপুট নিন। লুপ বা `math.factorial` ব্যবহার না করে রিকার্সিভ ফাংশনের সাহায্যে N! (ফ্যাক্টোরিয়াল) নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (0 <= N <= 20).",
+        "bn": "একটি পূর্ণসংখ্যা N (0 <= N <= 20)।"
+      },
+      "expectedOutput": {
+        "en": "The integer value of N!.",
+        "bn": "N!-এর পূর্ণসংখ্যার মান।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "120",
+          "explanation": {
+            "en": "5! = 5 * 4 * 3 * 2 * 1 = 120.",
+            "bn": "5! = 5 * 4 * 3 * 2 * 1 = 120।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Remember that by mathematical definition, 0! equals 1.",
+        "bn": "গাণিতিক সংজ্ঞা অনুযায়ী 0!-এর মান 1।"
+      },
+      "hint2": {
+        "en": "If n <= 1: return 1; else return n * fact(n - 1).",
+        "bn": "n <= 1 হলে 1 রিটার্ন করুন; অন্যথায় n * fact(n - 1) রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Factorial is the textbook self-similar relation: `fact(n) = n * fact(n - 1)`. Handling `n <= 1` as the base case prevents infinite recursion down into negative numbers and naturally returns `1` for both `0` and `1`.",
+        "bn": "ফ্যাক্টোরিয়াল একটি আদর্শ রিকার্সিভ সম্পর্ক: `fact(n) = n * fact(n - 1)`। `n <= 1` বেস কেস দিলে ঋণাত্মক সংখ্যায় অসীম রিকার্শন ঠেকানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read non-negative integer n.", "bn": "অ-ঋণাত্মক পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "If n <= 1, return 1.", "bn": "n <= 1 হলে 1 রিটার্ন করুন।" },
+        { "en": "Otherwise return n * factorial(n - 1).", "bn": "অন্যথায় n * factorial(n - 1) রিটার্ন করুন।" },
+        { "en": "Print the returned result.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nn = int(input())\nprint(factorial(n))",
+      "codeExplanation": {
+        "en": "Each call reduces n by 1 until reaching 1 (or 0 directly), then multiplies values back up the call chain.",
+        "bn": "প্রতিটি কলের সাথে n এর মান ১ করে কমে ১-এ পৌঁছায় এবং ফেরত আসার পথে গুণ হয়ে চূড়ান্ত উত্তর তৈরি করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "0", "expectedOutput": "1", "note": { "en": "Zero factorial base case", "bn": "শূন্যের ফ্যাক্টোরিয়াল" } },
+        { "input": "5", "expectedOutput": "120", "note": { "en": "Standard factorial", "bn": "সাধারণ মান" } },
+        { "input": "10", "expectedOutput": "3628800", "note": { "en": "Larger input", "bn": "বড় ইনপুট" } }
+      ]
+    },
+    {
+      "id": "P13-03",
+      "number": 3,
+      "title": {
+        "en": "Recursive String Reversal",
+        "bn": "রিকার্সিভ স্ট্রিং রিভার্সাল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "String slicing in recursive calls", "bn": "রিকার্সনে স্ট্রিং স্লাইসিং" },
+        { "en": "Subproblem reduction", "bn": "উপ-সমস্যা সংকোচন" }
+      ],
+      "description": {
+        "en": "Read a single-line string S. Reverse S using a recursive function WITHOUT using slicing `S[::-1]`, `reversed()`, or loops, and print the reversed string.",
+        "bn": "এক লাইনের একটি স্ট্রিং S ইনপুট নিন। `S[::-1]`, `reversed()` বা কোনো লুপ ছাড়া রিকার্সিভ ফাংশন ব্যবহার করে S উল্টে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single-line non-empty string S.",
+        "bn": "এক লাইনের একটি অ-শূন্য স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The reversed string.",
+        "bn": "উল্টানো স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "pylogic",
+          "output": "cigolyp",
+          "explanation": {
+            "en": "reverse('pylogic') = reverse('ylogic') + 'p', continuing until 1 character remains.",
+            "bn": "প্রথম অক্ষরকে বাকি উল্টানো অংশের শেষে বসিয়ে ধাপে ধাপে পুরো স্ট্রিং উল্টে যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "What is the reverse of a 0- or 1-character string? It is the string itself.",
+        "bn": "০ বা ১ অক্ষরের স্ট্রিংয়ের উল্টো রূপ সেই স্ট্রিংটি নিজেই।"
+      },
+      "hint2": {
+        "en": "For longer strings, reverse(s[1:]) + s[0] moves the first character to the very end.",
+        "bn": "বড় স্ট্রিংয়ের জন্য reverse(s[1:]) + s[0] প্রথম অক্ষরটিকে সবার শেষে পাঠায়।"
+      },
+      "logicBreakdown": {
+        "en": "Any non-empty string splits into its head character `s[0]` and tail `s[1:]`. Reversing the tail recursively and appending `s[0]` at the end swaps every outer character into its mirrored position.",
+        "bn": "প্রতিটি স্ট্রিংকে প্রথম অক্ষর `s[0]` এবং বাকি অংশ `s[1:]`-এ ভাগ করা যায়। বাকি অংশকে রিকার্সিভভাবে উল্টে শেষে `s[0]` যোগ করলেই পুরো স্ট্রিং উল্টে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read input string s.", "bn": "ইনপুট স্ট্রিং s পড়ুন।" },
+        { "en": "Base case: if len(s) <= 1, return s.", "bn": "বেস কেস: len(s) <= 1 হলে s রিটার্ন করুন।" },
+        { "en": "Recursive step: return rev_str(s[1:]) + s[0].", "bn": "রিকার্সিভ ধাপ: rev_str(s[1:]) + s[0] রিটার্ন করুন।" },
+        { "en": "Print the returned string.", "bn": "প্রত্যাবর্তিত স্ট্রিং প্রিন্ট করুন।" }
+      ],
+      "solution": "def rev_str(s):\n    if len(s) <= 1:\n        return s\n    return rev_str(s[1:]) + s[0]\n\ntext = input()\nprint(rev_str(text))",
+      "codeExplanation": {
+        "en": "Each call peels off s[0], recurses on s[1:], and concatenates s[0] after the recursive result returns.",
+        "bn": "প্রতিটি কল s[0] আলাদা করে s[1:] নিয়ে কল করে এবং ফেরত পাওয়া ফলের শেষে s[0] যোগ করে।"
+      },
+      "complexity": { "time": "O(N^2) due to slicing & concatenation", "space": "O(N) stack & slices" },
+      "testCases": [
+        { "input": "pylogic", "expectedOutput": "cigolyp", "note": { "en": "Word reversal", "bn": "শব্দ উল্টানো" } },
+        { "input": "A", "expectedOutput": "A", "note": { "en": "Single character base case", "bn": "একক অক্ষর" } },
+        { "input": "12345", "expectedOutput": "54321", "note": { "en": "Numeric string", "bn": "সংখ্যার স্ট্রিং" } }
+      ]
+    },
+    {
+      "id": "P13-04",
+      "number": 4,
+      "title": {
+        "en": "Recursive Character Frequency Counter",
+        "bn": "রিকার্সিভ ক্যারেক্টার পুনরাবৃত্তি গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Index-based recursion (avoiding slicing copies)", "bn": "ইনডেক্স-ভিত্তিক রিকার্শন" },
+        { "en": "Conditional contribution (1 or 0)", "bn": "শর্তসাপেক্ষ যোগফল (১ বা ০)" }
+      ],
+      "description": {
+        "en": "Read a string S on line 1 and a single target character C on line 2. Count how many times C appears in S (case-sensitive) using a recursive function with an index parameter, without using `.count()` or loops.",
+        "bn": "১ম লাইনে একটি স্ট্রিং S এবং ২য় লাইনে একটি অক্ষর C ইনপুট নিন। `.count()` বা কোনো লুপ ছাড়া ইনডেক্স প্যারামিটারযুক্ত রিকার্সিভ ফাংশনের মাধ্যমে S-এ C অক্ষরটি (case-sensitive) কতবার আছে তা গণনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string S. Line 2: single character C.",
+        "bn": "১ম লাইন: স্ট্রিং S। ২য় লাইন: একক অক্ষর C।"
+      },
+      "expectedOutput": {
+        "en": "An integer representing the exact count of C in S.",
+        "bn": "S-এ C-এর উপস্থিতির মোট সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "mississippi\ns",
+          "output": "4",
+          "explanation": {
+            "en": "'s' appears at indices 2, 3, 5, and 6 -> total 4.",
+            "bn": "'s' মোট ৪টি অবস্থানে রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Passing an index `i` (starting at 0) avoids copying string slices on every recursive call.",
+        "bn": "প্রতিটি কলে নতুন স্লাইস তৈরি না করে ইনডেক্স `i` (০ থেকে শুরু) পাস করা বেশি কার্যকর।"
+      },
+      "hint2": {
+        "en": "When `i == len(s)`, return 0. Otherwise return `(1 if s[i] == ch else 0) + count_char(s, ch, i + 1)`.",
+        "bn": "`i == len(s)` হলে 0 রিটার্ন করুন; অন্যথায় `(1 যদি s[i] == ch হয় নতুবা 0) + count_char(s, ch, i + 1)`।"
+      },
+      "logicBreakdown": {
+        "en": "Using an advancing index `i` transforms linear traversal into O(N) recursion without O(N^2) string slicing overhead. Each frame inspects exactly one character `s[i]`, contributes `1` on match or `0` on mismatch, and delegates the remaining suffix `[i + 1:]`.",
+        "bn": "ইনডেক্স `i` ব্যবহার করলে স্ট্রিং কপি ছাড়াই O(N) সময়ে রিকার্সিভ গণনা করা যায়। প্রতিটি কল একটি অক্ষর পরীক্ষা করে ১ বা ০ যোগ করে পরের ইনডেক্সে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and character ch.", "bn": "স্ট্রিং s এবং অক্ষর ch পড়ুন।" },
+        { "en": "Define count_char(s, ch, i): if i == len(s), return 0.", "bn": "count_char(s, ch, i)-এ i == len(s) হলে 0 রিটার্ন করুন।" },
+        { "en": "Let match = 1 if s[i] == ch else 0.", "bn": "s[i] == ch হলে match = 1 নতুবা 0 ধরুন।" },
+        { "en": "Return match + count_char(s, ch, i + 1) and print result.", "bn": "match + count_char(s, ch, i + 1) রিটার্ন করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def count_char(s, ch, i=0):\n    if i == len(s):\n        return 0\n    match = 1 if s[i] == ch else 0\n    return match + count_char(s, ch, i + 1)\n\ns = input()\nch = input()\nprint(count_char(s, ch))",
+      "codeExplanation": {
+        "en": "Default parameter i=0 starts at index 0. Base case i == len(s) terminates cleanly once all indices are checked.",
+        "bn": "ডিফল্ট প্যারামিটার i=0 দিয়ে প্রথম অক্ষর থেকে শুরু হয় এবং i == len(s) হলে বেস কেস থেমে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "mississippi\ns", "expectedOutput": "4", "note": { "en": "Multiple occurrences", "bn": "একাধিক মিল" } },
+        { "input": "banana\nz", "expectedOutput": "0", "note": { "en": "Zero matches", "bn": "কোনো মিল নেই" } },
+        { "input": "Recursion\nr", "expectedOutput": "1", "note": { "en": "Case-sensitive check", "bn": "বড় ও ছোট হাতের অক্ষর পার্থক্য" } }
+      ]
+    },
+    {
+      "id": "P13-05",
+      "number": 5,
+      "title": {
+        "en": "Recursive Digit Counter (Including Zero Edge Case)",
+        "bn": "রিকার্সিভ অঙ্ক গণনা (শূন্য এজ-কেসসহ)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Integer floor division (// 10)", "bn": "পূর্ণসংখ্যার ভাগ (// 10)" },
+        { "en": "Handling n = 0 cleanly", "bn": "n = 0 শর্ত সামলানো" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N. Count how many decimal digits N has using a recursive function without converting N to a string or using loops.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N ইনপুট নিন। স্ট্রিংয়ে রূপান্তর বা লুপ ব্যবহার না করে রিকার্সিভ ফাংশনের মাধ্যমে N-এ মোট কয়টি অঙ্ক (digit) আছে তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A single non-negative integer N (N >= 0).",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "The total number of digits in N.",
+        "bn": "N-এর মোট অঙ্ক সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "1024",
+          "output": "4",
+          "explanation": {
+            "en": "1024 -> 102 -> 10 -> 1 (single-digit base case returns 1), summing 1+1+1+1 = 4.",
+            "bn": "প্রতিবার // 10 করে ১ অঙ্কে পৌঁছালে বেস কেস ১ দেয়, মোট ৪টি অঙ্ক।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `n < 10` as the base case returning 1! That automatically handles `n == 0` AND any 1-digit number.",
+        "bn": "`n < 10` হলে 1 রিটার্ন করলে একইসাথে 0 এবং সকল এক-অঙ্কের সংখ্যা সঠিকভাবে ১ রিটার্ন করে।"
+      },
+      "hint2": {
+        "en": "For `n >= 10`, return `1 + count_digits(n // 10)`.",
+        "bn": "`n >= 10` হলে `1 + count_digits(n // 10)` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A classic recursion trap is using `if n == 0: return 0`, which wrongly outputs `0` when the user inputs `0` itself. Choosing `if n < 10: return 1` treats every single-digit number (`0..9`) cleanly as 1 digit while peeling off one digit per `// 10` call.",
+        "bn": "`n == 0` হলে 0 রিটার্ন করলে ইনপুট 0 দিলে ভুল উত্তর আসে। তাই `n < 10` হলে 1 রিটার্ন করাই সবচেয়ে পরিচ্ছন্ন বেস কেস।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "In count_digits(n): if n < 10, return 1.", "bn": "count_digits(n)-এ n < 10 হলে 1 রিটার্ন করুন।" },
+        { "en": "Otherwise return 1 + count_digits(n // 10).", "bn": "অন্যথায় 1 + count_digits(n // 10) রিটার্ন করুন।" },
+        { "en": "Print the digit count.", "bn": "অঙ্ক সংখ্যা প্রিন্ট করুন।" }
+      ],
+      "solution": "def count_digits(n):\n    if n < 10:\n        return 1\n    return 1 + count_digits(n // 10)\n\nn = int(input())\nprint(count_digits(n))",
+      "codeExplanation": {
+        "en": "n // 10 drops the rightmost digit each call until n is strictly below 10, where base case returns 1.",
+        "bn": "n // 10 প্রতিটি কলে শেষ অঙ্ক বাদ দেয় এবং ১০-এর নিচে নামলে ১ রিটার্ন করে।"
+      },
+      "complexity": { "time": "O(log10 N)", "space": "O(log10 N) call stack" },
+      "testCases": [
+        { "input": "0", "expectedOutput": "1", "note": { "en": "Zero has 1 digit", "bn": "০-এর ১টি অঙ্ক" } },
+        { "input": "1024", "expectedOutput": "4", "note": { "en": "Four digits", "bn": "চার অঙ্ক" } },
+        { "input": "987654", "expectedOutput": "6", "note": { "en": "Six digits", "bn": "ছয় অঙ্ক" } }
+      ]
+    },
+    {
+      "id": "P13-06",
+      "number": 6,
+      "title": {
+        "en": "Recursive Maximum Element in an Array",
+        "bn": "অ্যারের সর্বোচ্চ উপাদান নির্ণয় (রিকার্সিভ)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Post-order comparison across recursive return", "bn": "রিকার্সিভ ফলের সাথে তুলনা" },
+        { "en": "Negative number safety (no 0 sentinel)", "bn": "ঋণাত্মক সংখ্যার নিরাপত্তা" }
+      ],
+      "description": {
+        "en": "Read a line of one or more space-separated integers (which may all be negative). Find and print the maximum integer using a recursive function without `max()` or loops.",
+        "bn": "এক লাইনে এক বা একাধিক স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা ইনপুট নিন (সব সংখ্যা ঋণাত্মকও হতে পারে)। `max()` বা কোনো লুপ ছাড়া রিকার্সিভ ফাংশনের মাধ্যমে সর্বোচ্চ সংখ্যাটি নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers (at least 1 integer).",
+        "bn": "এক লাইনে কমপক্ষে ১টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The maximum integer in the list.",
+        "bn": "তালিকার সর্বোচ্চ পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "-10 -3 -25 -1",
+          "output": "-1",
+          "explanation": {
+            "en": "Comparing from right to left returns -1 as the greatest among negative integers.",
+            "bn": "ঋণাত্মক সংখ্যাগুলোর মধ্যে -1 সবচেয়ে বড়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Stop at the last element (`idx == len(arr) - 1`) and return `arr[idx]`—never initialize a default maximum to 0.",
+        "bn": "শেষ উপাদানে (`idx == len(arr) - 1`) পৌঁছে `arr[idx]` রিটার্ন করুন—কখনোই ০ কে প্রাথমিক সর্বোচ্চ ধরবেন না।"
+      },
+      "hint2": {
+        "en": "Compute `sub_max = rec_max(arr, idx + 1)` and return `arr[idx]` if `arr[idx] > sub_max` else `sub_max`.",
+        "bn": "`sub_max = rec_max(arr, idx + 1)` বের করে `arr[idx]` ও `sub_max`-এর মধ্যে বড়টি রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because the base case returns an actual list element (`arr[-1]`), all values—including all-negative arrays—are compared fairly. The subproblem shrinks from `[idx:]` to `[idx + 1:]` until a single element remains.",
+        "bn": "বেস কেসে তালিকার বাস্তব উপাদান `arr[-1]` রিটার্ন করায় ঋণাত্মক সংখ্যার তালিকাও নিখুঁতভাবে তুলনা হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse input into integer list arr.", "bn": "ইনপুট থেকে পূর্ণসংখ্যার লিস্ট arr তৈরি করুন।" },
+        { "en": "Base case: if idx == len(arr) - 1, return arr[idx].", "bn": "বেস কেস: idx == len(arr) - 1 হলে arr[idx] রিটার্ন করুন।" },
+        { "en": "Compute sub_max = rec_max(arr, idx + 1).", "bn": "sub_max = rec_max(arr, idx + 1) নির্ণয় করুন।" },
+        { "en": "Return arr[idx] if arr[idx] > sub_max else sub_max, and print.", "bn": "বড় মানটি রিটার্ন করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def rec_max(arr, idx=0):\n    if idx == len(arr) - 1:\n        return arr[idx]\n    sub_max = rec_max(arr, idx + 1)\n    return arr[idx] if arr[idx] > sub_max else sub_max\n\narr = [int(x) for x in input().split()]\nprint(rec_max(arr))",
+      "codeExplanation": {
+        "en": "The recursion bottoms out at the final element and compares each preceding element against the maximum of its suffix.",
+        "bn": "শেষ উপাদানে থেমে পেছনের দিকে ফেরত আসার সময় প্রতিটি উপাদানকে ডানদিকের অংশের সর্বোচ্চের সাথে তুলনা করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "-10 -3 -25 -1", "expectedOutput": "-1", "note": { "en": "All negative numbers", "bn": "সব ঋণাত্মক সংখ্যা" } },
+        { "input": "4 9 2 15 6", "expectedOutput": "15", "note": { "en": "General positive list", "bn": "সাধারণ ধনাত্মক লিস্ট" } },
+        { "input": "-42", "expectedOutput": "-42", "note": { "en": "Single element", "bn": "একক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P13-07",
+      "number": 7,
+      "title": {
+        "en": "Recursive Euclidean GCD With Call Depth Count",
+        "bn": "রিকার্সিভ ইউক্লিডীয় গসাগু ও কল সংখ্যা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Euclidean algorithm gcd(a, b) = gcd(b, a % b)", "bn": "ইউক্লিডীয় সূত্র gcd(a, b) = gcd(b, a % b)" },
+        { "en": "Returning multiple values from recursion", "bn": "রিকার্শন থেকে একাধিক মান রিটার্ন" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers A and B (not both zero) on one line. Using recursive Euclidean GCD (`gcd(a, b) -> gcd(b, a % b)` stopping when `b == 0`), print two space-separated integers: the GCD and the total number of calls made to the recursive function (including the base-case call where `b == 0`).",
+        "bn": "এক লাইনে দুটি অ-ঋণাত্মক পূর্ণসংখ্যা A ও B (উভয়ই শূন্য নয়) ইনপুট নিন। রিকার্সিভ ইউক্লিডীয় পদ্ধতিতে (`b == 0` না হওয়া পর্যন্ত `gcd(b, a % b)`) গসাগু নির্ণয় করুন এবং স্পেস দিয়ে দুটি সংখ্যা প্রিন্ট করুন: গসাগু ও মোট ফাংশন কল সংখ্যা (বেস কেস কলসহ)।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated non-negative integers A and B.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি অ-ঋণাত্মক পূর্ণসংখ্যা A ও B।"
+      },
+      "expectedOutput": {
+        "en": "Two space-separated integers: `<gcd> <call_count>`.",
+        "bn": "দুটি সংখ্যা: `<গসাগু> <কল_সংখ্যা>`।"
+      },
+      "examples": [
+        {
+          "input": "48 18",
+          "output": "6 4",
+          "explanation": {
+            "en": "Calls: (48, 18) -> (18, 12) -> (12, 6) -> (6, 0). GCD is 6 across 4 calls.",
+            "bn": "(48, 18) -> (18, 12) -> (12, 6) -> (6, 0) মোট ৪টি কলে গসাগু ৬ পাওয়া যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Have your recursive function return a tuple `(gcd_value, calls)`.",
+        "bn": "ফাংশন থেকে `(gcd_value, calls)` টাপল রিটার্ন করুন।"
+      },
+      "hint2": {
+        "en": "When `b == 0`, return `(a, 1)`. Otherwise call `g, c = gcd_calls(b, a % b)` and return `(g, c + 1)`.",
+        "bn": "`b == 0` হলে `(a, 1)` রিটার্ন করুন; অন্যথায় `(g, c + 1)` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Euclid's insight is that any divisor of both `a` and `b` also divides `a % b`. Because `a % b < b`, the second argument shrinks rapidly—typically in O(log min(A, B)) steps—and counting `1 + child_calls` measures the exact recursion depth.",
+        "bn": "`a` ও `b`-এর যেকোনো সাধারণ ভাজক `a % b`-কেও ভাগ করে। প্রতিটি ধাপে ভাগশেষ ছোট হওয়ায় মাত্র O(log min(A, B)) ধাপে গসাগু বের হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "পূর্ণসংখ্যা a এবং b পড়ুন।" },
+        { "en": "In gcd_calls(a, b): if b == 0, return a, 1.", "bn": "b == 0 হলে a, 1 রিটার্ন করুন।" },
+        { "en": "Otherwise g, c = gcd_calls(b, a % b) and return g, c + 1.", "bn": "অন্যথায় g, c = gcd_calls(b, a % b) নিয়ে g, c + 1 রিটার্ন করুন।" },
+        { "en": "Print g and c.", "bn": "g ও c প্রিন্ট করুন।" }
+      ],
+      "solution": "def gcd_calls(a, b):\n    if b == 0:\n        return a, 1\n    g, c = gcd_calls(b, a % b)\n    return g, c + 1\n\na, b = [int(x) for x in input().split()]\ng, c = gcd_calls(a, b)\nprint(f\"{g} {c}\")",
+      "codeExplanation": {
+        "en": "Each stack frame counts itself (+1) onto the call count returned by its child until reaching b == 0.",
+        "bn": "প্রতিটি রিকার্সিভ ফ্রেম নিচের কলের সংখ্যার সাথে +1 যোগ করে মোট কল সংখ্যা হিসাব করে।"
+      },
+      "complexity": { "time": "O(log(min(A, B)))", "space": "O(log(min(A, B)))" },
+      "testCases": [
+        { "input": "48 18", "expectedOutput": "6 4", "note": { "en": "Standard Euclidean chain", "bn": "সাধারণ ইউক্লিডীয় ধারা" } },
+        { "input": "17 13", "expectedOutput": "1 4", "note": { "en": "Coprime numbers", "bn": "সহমৌলিক সংখ্যা" } },
+        { "input": "10 0", "expectedOutput": "10 1", "note": { "en": "Immediate base case", "bn": "প্রথম কলেই বেস কেস" } }
+      ]
+    },
+    {
+      "id": "P13-08",
+      "number": 8,
+      "title": {
+        "en": "Recursive Decimal to Binary Conversion",
+        "bn": "রিকার্সিভ দশমিক থেকে বাইনারি রূপান্তর"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Post-order bit ordering via recursion", "bn": "রিকার্সনের মাধ্যমে সঠিক বিট ক্রম" },
+        { "en": "Base-2 remainder extraction", "bn": "বেস-২ ভাগশেষ সংগ্রহ" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N. Convert N to its binary representation string using a recursive function WITHOUT using `bin()`, `format()`, f-string `:b`, or loops.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N ইনপুট নিন। `bin()`, `format()`, `:b` বা কোনো লুপ ব্যবহার না করে রিকার্সিভ ফাংশনের মাধ্যমে N-এর বাইনারি রূপ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single non-negative integer N (N >= 0).",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Binary string representation of N (no '0b' prefix).",
+        "bn": "N-এর বাইনারি স্ট্রিং ('0b' ছাড়া)।"
+      },
+      "examples": [
+        {
+          "input": "13",
+          "output": "1101",
+          "explanation": {
+            "en": "to_bin(13) -> to_bin(6)+'1' -> to_bin(3)+'0'+'1' -> to_bin(1)+'1'+'0'+'1' = '1101'.",
+            "bn": "প্রথমে n // 2-এর বাইনারি বের করে শেষে n % 2 বসালে বিটগুলো স্বাভাবিকভাবেই সঠিক ক্রমে সাজানো হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Repeated division produces the LEAST significant bit (`n % 2`) first, but we need the MOST significant bit printed first—recursion reverses that automatically!",
+        "bn": "ভাগশেষ আগে ছোট বিট দেয়, কিন্তু প্রিন্টে বড় বিট আগে দরকার—রিকার্সিভ কলের পরে বিট যোগ করলেই ক্রম ঠিক হয়ে যায়।"
+      },
+      "hint2": {
+        "en": "Handle `n < 2` by returning `str(n)`, and otherwise return `to_bin(n // 2) + str(n % 2)`.",
+        "bn": "`n < 2` হলে `str(n)` রিটার্ন করুন, অন্যথায় `to_bin(n // 2) + str(n % 2)` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Iterative division collects remainders backward and requires reversing a list. Recursion eliminates the extra reversal step because `to_bin(n // 2)` evaluates all higher-order bits before appending the current remainder `str(n % 2)`.",
+        "bn": "লুপে ভাগশেষ উল্টো দিক থেকে আসে বলে শেষে রিভার্স করতে হয়। রিকার্শনে `to_bin(n // 2)` আগে নির্ণয় হয়ে আসায় অতিরিক্ত রিভার্স ছাড়াই সঠিক বাইনারি স্ট্রিং পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "If n < 2, return str(n).", "bn": "n < 2 হলে str(n) রিটার্ন করুন।" },
+        { "en": "Else return to_bin(n // 2) + str(n % 2).", "bn": "অন্যথায় to_bin(n // 2) + str(n % 2) রিটার্ন করুন।" },
+        { "en": "Print the resulting binary string.", "bn": "প্রাপ্ত বাইনারি স্ট্রিং প্রিন্ট করুন।" }
+      ],
+      "solution": "def to_bin(n):\n    if n < 2:\n        return str(n)\n    return to_bin(n // 2) + str(n % 2)\n\nn = int(input())\nprint(to_bin(n))",
+      "codeExplanation": {
+        "en": "For n=0 or n=1, n < 2 returns '0' or '1' directly. Larger inputs recurse down to the highest 1 bit and append each remainder on return.",
+        "bn": "n=0 বা ১ হলে সরাসরি '0' বা '1' রিটার্ন হয়; বড় সংখ্যায় সর্বাধিক গুরুত্বপূর্ণ বিট থেকে শুরু হয়ে বাকি ভাগশেষগুলো ডানে বসে।"
+      },
+      "complexity": { "time": "O((log2 N)^2) string concat, or O(log N) depth", "space": "O(log2 N)" },
+      "testCases": [
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero edge case", "bn": "শূন্যের বাইনারি" } },
+        { "input": "13", "expectedOutput": "1101", "note": { "en": "Mixed bits", "bn": "মিশ্র বিট" } },
+        { "input": "32", "expectedOutput": "100000", "note": { "en": "Power of two", "bn": "২-এর ঘাত" } }
+      ]
+    },
+    {
+      "id": "P13-09",
+      "number": 9,
+      "title": {
+        "en": "Recursive Strictly Increasing Sequence Verifier",
+        "bn": "রিকার্সিভ কঠোরভাবে বর্ধমান ধারা যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Adjacent pair invariant via recursion", "bn": "রিকার্সনে পাশাপাশি তুলনা" },
+        { "en": "Short-circuit failure return", "bn": "শর্ত ভঙ্গ হলে দ্রুত ফেরা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Using a recursive function (no loops or `sorted()`), verify whether the list is STRICTLY increasing (`arr[i] < arr[i+1]` for every adjacent pair). Print `YES` or `NO`. Note that a single-element list is strictly increasing.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা ইনপুট নিন। লুপ বা `sorted()` ছাড়া রিকার্সিভ ফাংশনের মাধ্যমে যাচাই করুন তালিকাটি কঠোরভাবে বর্ধমান (`arr[i] < arr[i+1]`) কি না। উত্তর `YES` বা `NO` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers (at least 1 integer).",
+        "bn": "এক লাইনে কমপক্ষে ১টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "`YES` if strictly increasing, otherwise `NO`.",
+        "bn": "কঠোরভাবে বর্ধমান হলে `YES`, অন্যথায় `NO`।"
+      },
+      "examples": [
+        {
+          "input": "1 3 3 5",
+          "output": "NO",
+          "explanation": {
+            "en": "At indices 1 and 2, 3 is not strictly less than 3, so it returns NO.",
+            "bn": "দুটি ৩ সমান হওয়ায় কঠোরভাবে বড় শর্ত ভঙ্গ হয়েছে, তাই NO।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "If `idx >= len(arr) - 1`, there are no remaining pairs to fail, so return `True`.",
+        "bn": "`idx >= len(arr) - 1` হলে কোনো জোড়া বাকি নেই, তাই `True` রিটার্ন করুন।"
+      },
+      "hint2": {
+        "en": "Check `if arr[idx] >= arr[idx + 1]: return False` BEFORE recursing to `idx + 1` for instant short-circuiting.",
+        "bn": "পরের ধাপে যাওয়ার আগেই `arr[idx] >= arr[idx + 1]` হলে `False` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Checking `arr[idx] >= arr[idx + 1]` first guarantees early termination on the earliest violation instead of scanning the entire array unnecessarily. When `idx` reaches `len(arr) - 1`, every prior adjacent pair has passed.",
+        "bn": "শুরুতেই `arr[idx] >= arr[idx + 1]` পরীক্ষা করলে প্রথম ভঙ্গ পাওয়ামাত্র `False` ফিরে আসে এবং শেষ উপাদানে পৌঁছালে `True` প্রমাণিত হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer list arr.", "bn": "পূর্ণসংখ্যার লিস্ট arr পড়ুন।" },
+        { "en": "If idx >= len(arr) - 1, return True.", "bn": "idx >= len(arr) - 1 হলে True রিটার্ন করুন।" },
+        { "en": "If arr[idx] >= arr[idx + 1], return False.", "bn": "arr[idx] >= arr[idx + 1] হলে False রিটার্ন করুন।" },
+        { "en": "Return is_strictly_increasing(arr, idx + 1) and print YES/NO.", "bn": "বাকি অংশ যাচাই করে YES বা NO প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_strict(arr, idx=0):\n    if idx >= len(arr) - 1:\n        return True\n    if arr[idx] >= arr[idx + 1]:\n        return False\n    return is_strict(arr, idx + 1)\n\narr = [int(x) for x in input().split()]\nprint(\"YES\" if is_strict(arr) else \"NO\")",
+      "codeExplanation": {
+        "en": "Base case handles length-1 arrays and successful completion. Any equal or decreasing adjacent pair immediately returns False.",
+        "bn": "বেস কেস ১-উপাদানের লিস্ট ও সফল সমাপ্তি সামলায়; সমান বা ছোট জোড়া পেলেই False রিটার্ন করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "1 3 5 9", "expectedOutput": "YES", "note": { "en": "Strictly increasing", "bn": "কঠোরভাবে বর্ধমান" } },
+        { "input": "1 3 3 5", "expectedOutput": "NO", "note": { "en": "Equal neighbors fail strict check", "bn": "সমান মান ব্যর্থ হয়" } },
+        { "input": "42", "expectedOutput": "YES", "note": { "en": "Single element is trivially sorted", "bn": "একক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P13-10",
+      "number": 10,
+      "title": {
+        "en": "Recursive Character Filter (Remove Target Character)",
+        "bn": "রিকার্সিভ ক্যারেক্টার ফিল্টার (নির্দিষ্ট অক্ষর অপসারণ)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Recursive string transformation", "bn": "রিকার্সিভ স্ট্রিং রূপান্তর" },
+        { "en": "Selective inclusion on unwind", "bn": "শর্তসাপেক্ষ অক্ষর সংযোজন" }
+      ],
+      "description": {
+        "en": "Read a string S on line 1 and a single character C on line 2. Using a recursive function WITHOUT `.replace()` or loops, construct and print a new string containing all characters of S except C (preserving order).",
+        "bn": "১ম লাইনে একটি স্ট্রিং S এবং ২য় লাইনে একটি অক্ষর C ইনপুট নিন। `.replace()` বা লুপ ব্যবহার না করে রিকার্সিভ ফাংশনের মাধ্যমে S থেকে C অক্ষরের সব উপস্থিতি বাদ দিয়ে নতুন স্ট্রিং প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string S. Line 2: single character C (at least one character remains after removal).",
+        "bn": "১ম লাইন: স্ট্রিং S। ২য় লাইন: অক্ষর C।"
+      },
+      "expectedOutput": {
+        "en": "S with all exact matches of C removed.",
+        "bn": "C বাদ দিয়ে বাকি স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "abracadabra\na",
+          "output": "brcdbr",
+          "explanation": {
+            "en": "Every 'a' is skipped while other characters remain in order.",
+            "bn": "প্রতিটি 'a' বাদ পড়ে এবং বাকি অক্ষরগুলো ক্রমানুসারে থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Advance index `i` from 0 to `len(s)`; when `i == len(s)`, return `\"\"`.",
+        "bn": "ইনডেক্স `i` কে ০ থেকে `len(s)` পর্যন্ত বাড়ান; `i == len(s)` হলে `\"\"` রিটার্ন করুন।"
+      },
+      "hint2": {
+        "en": "If `s[i] == ch`, skip it (`return strip_char(s, ch, i + 1)`); else return `s[i] + strip_char(s, ch, i + 1)`.",
+        "bn": "`s[i] == ch` হলে বাদ দিয়ে পরের ধাপে যান, নতুবা `s[i] + strip_char(s, ch, i + 1)` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Filtering via recursion models each index as a binary decision: keep `s[i]` or drop `s[i]`. Delegating the rest of the string `[i+1:]` keeps the logic clean and free of mutating buffers.",
+        "bn": "রিকার্সিভ ফিল্টারিংয়ে প্রতিটি অক্ষরের জন্য দুটি সিদ্ধান্ত থাকে—অক্ষরটি রাখা অথবা বাদ দেওয়া। বাকি অংশ পরের কলের ওপর ছেড়ে দিলে সমাধান অত্যন্ত পরিষ্কার হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and character ch.", "bn": "স্ট্রিং s ও অক্ষর ch পড়ুন।" },
+        { "en": "If i == len(s), return ''.", "bn": "i == len(s) হলে '' রিটার্ন করুন।" },
+        { "en": "Recurse rest = strip_char(s, ch, i + 1).", "bn": "বাকি অংশের জন্য rest = strip_char(s, ch, i + 1) বের করুন।" },
+        { "en": "Return rest if s[i] == ch else s[i] + rest, then print.", "bn": "s[i] == ch হলে rest, নতুবা s[i] + rest রিটার্ন করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def strip_char(s, ch, i=0):\n    if i == len(s):\n        return \"\"\n    rest = strip_char(s, ch, i + 1)\n    return rest if s[i] == ch else s[i] + rest\n\ns = input()\nch = input()\nprint(strip_char(s, ch))",
+      "codeExplanation": {
+        "en": "Building from right to left as the stack unwinds skips s[i] whenever it equals ch and prepends it otherwise.",
+        "bn": "স্ট্যাক ফেরত আসার সময় s[i] == ch হলে সেটিকে বাদ দেওয়া হয় এবং অন্য অক্ষরগুলো সামনে যুক্ত হয়।"
+      },
+      "complexity": { "time": "O(N^2) string concat, O(N) calls", "space": "O(N)" },
+      "testCases": [
+        { "input": "abracadabra\na", "expectedOutput": "brcdbr", "note": { "en": "Frequent target character", "bn": "একাধিক স্থানে লক্ষ্য অক্ষর" } },
+        { "input": "hello world\nl", "expectedOutput": "heo word", "note": { "en": "Spaces preserved", "bn": "স্পেস অপরিবর্তিত" } },
+        { "input": "python\nz", "expectedOutput": "python", "note": { "en": "Target absent", "bn": "লক্ষ্য অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P13-11",
+      "number": 11,
+      "title": {
+        "en": "Recursive Binary Search With Probe Count",
+        "bn": "প্রোব গণনাসহ রিকার্সিভ বাইনারি সার্চ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Divide-and-conquer recursion (O(log N))", "bn": "ডিভাইড-অ্যান্ড-কনকোয়ার রিকার্শন (O(log N))" },
+        { "en": "Interval midpoint halving", "bn": "মধ্যবিন্দু অর্ধেক করা" }
+      ],
+      "description": {
+        "en": "Read a sorted line of unique ascending integers on line 1 and an integer target on line 2. Implement RECURSIVE Binary Search (no loops) to find target and count how many midpoint probes were evaluated. Print `<index> <probes>` (`-1 <probes>` if absent).",
+        "bn": "১ম লাইনে ছোট থেকে বড় ক্রমে সাজানো অনন্য পূর্ণসংখ্যা এবং ২য় লাইনে target ইনপুট নিন। লুপ ছাড়া রিকার্সিভ বাইনারি সার্চ ব্যবহার করে target-এর সূচক এবং কয়টি মধ্যবিন্দু (mid) পরীক্ষা করা হয়েছে তা `<সূচক> <প্রোব_সংখ্যা>` আকারে প্রিন্ট করুন (না পেলে `-1 <প্রোব_সংখ্যা>`)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: strictly increasing integers. Line 2: integer target.",
+        "bn": "১ম লাইন: বর্ধমান পূর্ণসংখ্যা। ২য় লাইন: target।"
+      },
+      "expectedOutput": {
+        "en": "Two space-separated integers: index (or -1) and midpoint probe count.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি সংখ্যা: সূচক (অথবা -1) এবং প্রোব সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "2 5 8 12 16 23\n16",
+          "output": "4 2",
+          "explanation": {
+            "en": "Probe 1 checks mid=2 (val 8 < 16); Probe 2 checks mid=4 (val 16 == 16). Found at index 4 in 2 probes.",
+            "bn": "১ম প্রোবে mid=2 (মান 8), ২য় প্রোবে mid=4 (মান 16)-এ লক্ষ্য পাওয়া যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Base case for failure: `if lo > hi: return -1, probes` where `probes` tracks midpoints inspected so far.",
+        "bn": "ব্যর্থতার বেস কেস: `lo > hi` হলে `-1, probes` রিটার্ন করুন।"
+      },
+      "hint2": {
+        "en": "Compute `mid = (lo + hi) // 2` and increment `probes + 1` before deciding left (`lo, mid - 1`) or right (`mid + 1, hi`).",
+        "bn": "`mid = (lo + hi) // 2` পরীক্ষা করার সময় `probes + 1` করে ডান বা বাম অর্ধে যান।"
+      },
+      "logicBreakdown": {
+        "en": "Each recursive call eliminates half the remaining search interval `[lo, hi]`. Unlike slicing `arr[:mid]`, passing `lo` and `hi` indices keeps original 0-based indices intact and runs in true `O(log N)` time and `O(log N)` stack space.",
+        "bn": "স্লাইসিং করলে সূচক বদলে যায় ও O(N) খরচ হয়; তাই `lo` ও `hi` ইনডেক্স পাস করে রিকার্সিভ বাইনারি সার্চ প্রকৃত `O(log N)` দক্ষতা বজায় রাখে।"
+      },
+      "algorithm": [
+        { "en": "Read sorted arr and target.", "bn": "সাজানো arr ও target পড়ুন।" },
+        { "en": "Define rec_bs(lo, hi, probes): if lo > hi, return -1, probes.", "bn": "lo > hi হলে -1, probes রিটার্ন করুন।" },
+        { "en": "Compute mid = (lo + hi) // 2 and probes += 1.", "bn": "mid = (lo + hi) // 2 ও probes += 1 করুন।" },
+        { "en": "If arr[mid] == target return mid, probes; elif arr[mid] < target recurse on (mid + 1, hi, probes); else recurse on (lo, mid - 1, probes).", "bn": "মিললে mid রিটার্ন করুন, নতুবা বড়/ছোট অনুযায়ী ডান বা বাম অংশে রিকার্শন করুন।" }
+      ],
+      "solution": "def rec_bs(arr, target, lo, hi, probes=0):\n    if lo > hi:\n        return -1, probes\n    mid = (lo + hi) // 2\n    probes += 1\n    if arr[mid] == target:\n        return mid, probes\n    if arr[mid] < target:\n        return rec_bs(arr, target, mid + 1, hi, probes)\n    return rec_bs(arr, target, lo, mid - 1, probes)\n\narr = [int(x) for x in input().split()]\ntarget = int(input())\nidx, count = rec_bs(arr, target, 0, len(arr) - 1)\nprint(f\"{idx} {count}\")",
+      "codeExplanation": {
+        "en": "Tail-recursive search narrows [lo, hi] around mid while carrying the exact probe counter down to match or exhaustion.",
+        "bn": "টেল-রিকার্সিভ সার্চ প্রতিটি ধাপে probes গণনাসহ [lo, hi] পরিসর অর্ধেক করে।"
+      },
+      "complexity": { "time": "O(log N)", "space": "O(log N) call stack" },
+      "testCases": [
+        { "input": "2 5 8 12 16 23\n16", "expectedOutput": "4 2", "note": { "en": "Found in two probes", "bn": "দুই প্রোবে সন্ধান" } },
+        { "input": "2 5 8 12 16 23\n10", "expectedOutput": "-1 3", "note": { "en": "Absent target after 3 probes", "bn": "৩ প্রোবে অনুপস্থিত" } },
+        { "input": "10 20 30 40 50\n30", "expectedOutput": "2 1", "note": { "en": "Found immediately at initial mid", "bn": "প্রথম মধ্যবিন্দুতেই মিল" } }
+      ]
+    },
+    {
+      "id": "P13-12",
+      "number": 12,
+      "title": {
+        "en": "Fibonacci Recursion Tree Call Counter",
+        "bn": "ফিবোনাচ্চি রিকার্শন ট্রি কল গণনা"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Branching (tree) recursion cost", "bn": "শাখায়িত রিকার্শন ট্রির খরচ" },
+        { "en": "Aggregating left + right subtree call counts", "bn": "বাম ও ডান সাবট্রির কল যোগ" }
+      ],
+      "description": {
+        "en": "Read an integer N (0 <= N <= 20). Implement naive branching recursion for `F(n)` (`F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2)`) and measure why unmemoized tree recursion blows up exponentially: print `F(N)` and the EXACT total number of function calls in the recursion tree, space-separated.",
+        "bn": "একটি পূর্ণসংখ্যা N (0 <= N <= 20) ইনপুট নিন। মেমোইজেশন ছাড়া সাধারণ শাখায়িত রিকার্সিভ ফিবোনাচ্চি (`F(0)=0, F(1)=1`) চালিয়ে ফিবোনাচ্চি মান `F(N)` এবং পুরো রিকার্শন ট্রিতে মোট কয়টি ফাংশন কল ঘটেছে তা স্পেস দিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer N (0 <= N <= 20).",
+        "bn": "একটি পূর্ণসংখ্যা N (0 <= N <= 20)।"
+      },
+      "expectedOutput": {
+        "en": "Two space-separated integers: `<F(N)> <total_calls>`.",
+        "bn": "দুটি সংখ্যা: `<F(N)> <মোট_কল>`।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "3 9",
+          "explanation": {
+            "en": "F(4)=3; tree calls F(4), F(3), F(2), F(1), F(0), F(1), F(2), F(1), F(0) = 9 total calls.",
+            "bn": "F(4)=3 এবং পুরো ট্রিতে মোট ৯টি ফাংশন কল হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Each leaf (`n <= 1`) contributes `1` call; each internal node contributes `1 + left_calls + right_calls`.",
+        "bn": "বেস কেস `n <= 1` ১টি কল যোগ করে; অন্য প্রতিটি নোড `1 + বাম_কল + ডান_কল` যোগ করে।"
+      },
+      "hint2": {
+        "en": "Notice `calls(n) = 2 * F(n + 1) - 1`, matching why naive Fibonacci is `O(2^N)`!",
+        "bn": "মোট কল `2 * F(n + 1) - 1`-এর সমান হয়, যা সূচকীয় (O(2^N)) বৃদ্ধির প্রমাণ।"
+      },
+      "logicBreakdown": {
+        "en": "When a function spawns two recursive branches on overlapping subproblems (`F(n-1)` and `F(n-2)`), the call tree duplicates work exponentially (`O(1.618^N)`). Counting `1 + c1 + c2` gives students concrete numerical proof of why memoization or DP is needed for larger N.",
+        "bn": "দুটি শাখায় রিকার্শন করলে একই মান বারবার হিসাব হয়, ফলে কলের সংখ্যা সূচকীয়ভাবে বাড়ে। `1 + c1 + c2` গুনে শিক্ষার্থী সরাসরি দেখতে পায় কেন মেমোইজেশন জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "In fib_calls(n): if n <= 1, return n, 1.", "bn": "n <= 1 হলে n, 1 রিটার্ন করুন।" },
+        { "en": "Compute v1, c1 = fib_calls(n - 1) and v2, c2 = fib_calls(n - 2).", "bn": "n - 1 ও n - 2 থেকে মান ও কল সংখ্যা বের করুন।" },
+        { "en": "Return v1 + v2, 1 + c1 + c2 and print both.", "bn": "যোগফল ও মোট কল প্রিন্ট করুন।" }
+      ],
+      "solution": "def fib_calls(n):\n    if n <= 1:\n        return n, 1\n    v1, c1 = fib_calls(n - 1)\n    v2, c2 = fib_calls(n - 2)\n    return v1 + v2, 1 + c1 + c2\n\nn = int(input())\nval, calls = fib_calls(n)\nprint(f\"{val} {calls}\")",
+      "codeExplanation": {
+        "en": "Every invocation adds 1 to the sum of both child subtree call counts while simultaneously summing F(n-1) and F(n-2).",
+        "bn": "প্রতিটি কল নিজের জন্য ১ এবং দুই সাবট্রির কল সংখ্যা যোগ করে ফিবোনাচ্চি মানের সাথে রিটার্ন করে।"
+      },
+      "complexity": { "time": "O(2^N)", "space": "O(N) max stack depth" },
+      "testCases": [
+        { "input": "0", "expectedOutput": "0 1", "note": { "en": "Single base call", "bn": "একক বেস কল" } },
+        { "input": "4", "expectedOutput": "3 9", "note": { "en": "9 tree invocations", "bn": "৯টি ট্রি কল" } },
+        { "input": "6", "expectedOutput": "8 25", "note": { "en": "Rapid tree growth", "bn": "দ্রুত কল বৃদ্ধি" } }
+      ]
+    },
+    {
+      "id": "P13-13",
+      "number": 13,
+      "title": {
+        "en": "Recursive Merge of Two Sorted Lists",
+        "bn": "দুটি সাজানো লিস্টের রিকার্সিভ মার্জ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Two-pointer advancement via recursion", "bn": "রিকার্শনে দুই-পয়েন্টার অগ্রগতি" },
+        { "en": "Exhaustion base cases", "bn": "একটি লিস্ট শেষ হওয়ার বেস কেস" }
+      ],
+      "description": {
+        "en": "Read two lines of sorted (ascending) space-separated integers. Merge them into one sorted ascending list using a RECURSIVE function (no loops and no `sorted()`), and print the merged integers space-separated.",
+        "bn": "দুটি লাইনে ছোট থেকে বড় ক্রমে সাজানো স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার দুটি তালিকা ইনপুট নিন। লুপ বা `sorted()` ছাড়া রিকার্সিভ ফাংশন ব্যবহার করে তালিকা দুটিকে একটি সাজানো তালিকায় একত্র করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted integers A. Line 2: sorted integers B.",
+        "bn": "১ম লাইন: সাজানো পূর্ণসংখ্যা A। ২য় লাইন: সাজানো পূর্ণসংখ্যা B।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated merged sorted integers.",
+        "bn": "স্পেস-বিচ্ছিন্ন মার্জ করা সাজানো সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "1 4 7\n2 4 6 8",
+          "output": "1 2 4 4 6 7 8",
+          "explanation": {
+            "en": "At each step the smaller front element (a[i] or b[j]) is picked and followed recursively by the remaining suffix.",
+            "bn": "প্রতি ধাপে দুটি তালিকার সামনের ছোট উপাদানটি নিয়ে বাকি অংশের ওপর রিকার্শন চালানো হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Pass two indices `i` and `j` rather than slicing `a[1:]` repeatedly.",
+        "bn": "বারবার `a[1:]` স্লাইস না করে দুটি ইনডেক্স `i` ও `j` পাস করুন।"
+      },
+      "hint2": {
+        "en": "If `i == len(a)`, return `b[j:]`; if `j == len(b)`, return `a[i:]`. Otherwise compare `a[i] <= b[j]`.",
+        "bn": "`i == len(a)` হলে `b[j:]` এবং `j == len(b)` হলে `a[i:]` রিটার্ন করুন; অন্যথায় `a[i] <= b[j]` তুলনা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because both arrays are already sorted, the global smallest remaining element MUST be either `a[i]` or `b[j]`. Picking the smaller element (`<=` preserves stability) reduces `(len(a)-i) + (len(b)-j)` by 1 per call until one list is exhausted.",
+        "bn": "উভয় তালিকা সাজানো থাকায় পরবর্তী সবচেয়ে ছোট উপাদান অবশ্যই `a[i]` অথবা `b[j]` হবে। একটি তালিকা শেষ হয়ে গেলে অন্যটির বাকি অংশ সরাসরি জুড়ে দেওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse lines into sorted lists a and b.", "bn": "উভয় লাইন থেকে সাজানো লিস্ট a ও b পড়ুন।" },
+        { "en": "Base cases: if i == len(a), return b[j:]; if j == len(b), return a[i:].", "bn": "একটি লিস্ট শেষ হলে অন্যটির অবশিষ্ট অংশ রিটার্ন করুন।" },
+        { "en": "If a[i] <= b[j], return [a[i]] + rec_merge(a, i + 1, b, j).", "bn": "a[i] <= b[j] হলে a[i] নিয়ে i + 1 ধাপে যান।" },
+        { "en": "Else return [b[j]] + rec_merge(a, i, b, j + 1) and print.", "bn": "অন্যথায় b[j] নিয়ে j + 1 ধাপে যান এবং ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def rec_merge(a, i, b, j):\n    if i == len(a):\n        return b[j:]\n    if j == len(b):\n        return a[i:]\n    if a[i] <= b[j]:\n        return [a[i]] + rec_merge(a, i + 1, b, j)\n    return [b[j]] + rec_merge(a, i, b, j + 1)\n\na = [int(x) for x in input().split()]\nb = [int(x) for x in input().split()]\nmerged = rec_merge(a, 0, b, 0)\nprint(\" \".join(str(x) for x in merged))",
+      "codeExplanation": {
+        "en": "Recursion ends immediately as soon as either index reaches the end of its list, returning the remaining sorted tail intact.",
+        "bn": "যে কোনো একটি ইনডেক্স লিস্টের শেষে পৌঁছানোমাত্র অপর লিস্টের অবশিষ্ট অংশ সরাসরি যুক্ত হয়ে ফিরে আসে।"
+      },
+      "complexity": { "time": "O((N + M)^2) list concat (O(N+M) with shared out list)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "1 4 7\n2 4 6 8", "expectedOutput": "1 2 4 4 6 7 8", "note": { "en": "Interleaved lists with tie", "bn": "সমান উপাদানসহ মিশ্র মার্জ" } },
+        { "input": "1 2 3\n10 20", "expectedOutput": "1 2 3 10 20", "note": { "en": "Disjoint ranges", "bn": "পৃথক পরিসর" } },
+        { "input": "5\n1 9", "expectedOutput": "1 5 9", "note": { "en": "Unequal lengths", "bn": "অসমান দৈর্ঘ্য" } }
+      ]
+    },
+    {
+      "id": "P13-14",
+      "number": 14,
+      "title": {
+        "en": "Tower of Hanoi — Exact Move Trace & Total Moves",
+        "bn": "টাওয়ার অব হ্যানয় — প্রতিটি চাল ও মোট চাল সংখ্যা"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "3-step structural recursion", "bn": "৩-ধাপের কাঠামোগত রিকার্শন" },
+        { "en": "Auxiliary peg decomposition", "bn": "সহায়ক খুঁটি ব্যবহার করে বিভাজন" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (1 <= N <= 5) representing the number of disks on peg `A`. Move all N disks to peg `C` using auxiliary peg `B` following Tower of Hanoi rules (only 1 disk moved at a time, never placing a larger disk onto a smaller one). Print every move as `Move disk <k> from <src> to <dst>` and finish with `Total moves: <count>`.",
+        "bn": "`A` খুঁটিতে থাকা ডিস্কের সংখ্যা N (1 <= N <= 5) ইনপুট নিন। `B` খুঁটিকে সহায়ক হিসেবে ব্যবহার করে `C` খুঁটিতে সব ডিস্ক সরান (একবারে ১টি ডিস্ক, বড় ডিস্ক কখনো ছোটটির ওপর নয়)। প্রতিটি চাল `Move disk <k> from <src> to <dst>` এবং শেষে `Total moves: <সংখ্যা>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer N (1 <= N <= 5).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 5)।"
+      },
+      "expectedOutput": {
+        "en": "One line per move, followed by `Total moves: <count>`.",
+        "bn": "প্রতিটি চালের লাইন এবং শেষে `Total moves: <সংখ্যা>`।"
+      },
+      "examples": [
+        {
+          "input": "2",
+          "output": "Move disk 1 from A to B\nMove disk 2 from A to C\nMove disk 1 from B to C\nTotal moves: 3",
+          "explanation": {
+            "en": "Move top 1 disk A->B, largest disk 2 A->C, then disk 1 B->C. Total = 2^2 - 1 = 3 moves.",
+            "bn": "ডিস্ক ১ কে A->B, ডিস্ক ২ কে A->C এবং ডিস্ক ১ কে B->C-তে নিলে ৩ চালে সমাধান হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "To move N disks from `src` to `dst` using `aux`, first move `N - 1` disks from `src` to `aux` (using `dst` as helper).",
+        "bn": "`src` থেকে `dst`-এ Nটি ডিস্ক নিতে আগে `N - 1`টি ডিস্ক `src` থেকে `aux`-এ নিন।"
+      },
+      "hint2": {
+        "en": "Next move disk `N` directly from `src` to `dst`, then move the `N - 1` disks from `aux` to `dst`.",
+        "bn": "তারপর ডিস্ক `N` সরাসরি `src` থেকে `dst`-এ নিয়ে `aux` থেকে `N - 1`টি ডিস্ক `dst`-এ আনুন।"
+      },
+      "logicBreakdown": {
+        "en": "Tower of Hanoi cannot easily be guessed with simple loops, yet becomes 5 lines via recursion because moving `N` disks reduces symmetrically to two `N - 1` subproblems around moving disk `N`. The recurrence `M(N) = 2*M(N-1) + 1` always produces `2^N - 1` optimal moves.",
+        "bn": "লুপ দিয়ে সমাধান করা কঠিন হলেও রিকার্শনে এটি মাত্র ৩টি স্পষ্ট ধাপ: `N-1` ডিস্ক `aux`-এ সরানো, ডিস্ক `N` গন্তব্যে নেওয়া এবং `N-1` ডিস্ক গন্তব্যে আনা। এতে সর্বনিম্ন `2^N - 1` চাল লাগে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize moves = [].", "bn": "n পড়ুন ও moves = [] রাখুন।" },
+        { "en": "Define hanoi(k, src, aux, dst): if k == 0, return.", "bn": "k == 0 হলে রিটার্ন করুন।" },
+        { "en": "Call hanoi(k - 1, src, dst, aux), append move k from src to dst, then call hanoi(k - 1, aux, src, dst).", "bn": "k-1 কে aux-এ পাঠান, k কে dst-এ নিন এবং k-1 কে aux থেকে dst-এ আনুন।" },
+        { "en": "Print each move and Total moves: len(moves).", "bn": "সব চাল ও মোট চাল সংখ্যা প্রিন্ট করুন।" }
+      ],
+      "solution": "def hanoi(k, src, aux, dst, moves):\n    if k == 0:\n        return\n    hanoi(k - 1, src, dst, aux, moves)\n    moves.append(f\"Move disk {k} from {src} to {dst}\")\n    hanoi(k - 1, aux, src, dst, moves)\n\nn = int(input())\nmoves = []\nhanoi(n, \"A\", \"B\", \"C\", moves)\nfor m in moves:\n    print(m)\nprint(f\"Total moves: {len(moves)}\")",
+      "codeExplanation": {
+        "en": "Peg roles swap cleanly across recursive calls: the destination of the first subproblem is aux, and the source of the second is aux.",
+        "bn": "দুটি রিকার্সিভ কলে সহায়ক ও গন্তব্য খুঁটির ভূমিকা অদলবদল হয়ে পুরো স্থানান্তর সম্পন্ন হয়।"
+      },
+      "complexity": { "time": "O(2^N)", "space": "O(N) call stack + O(2^N) output" },
+      "testCases": [
+        { "input": "1", "expectedOutput": "Move disk 1 from A to C\nTotal moves: 1", "note": { "en": "Single disk", "bn": "১টি ডিস্ক" } },
+        { "input": "2", "expectedOutput": "Move disk 1 from A to B\nMove disk 2 from A to C\nMove disk 1 from B to C\nTotal moves: 3", "note": { "en": "Two disks", "bn": "২টি ডিস্ক" } },
+        { "input": "3", "expectedOutput": "Move disk 1 from A to C\nMove disk 2 from A to B\nMove disk 1 from C to B\nMove disk 3 from A to C\nMove disk 1 from B to A\nMove disk 2 from B to C\nMove disk 1 from A to C\nTotal moves: 7", "note": { "en": "Three disks (7 moves)", "bn": "৩টি ডিস্ক (৭ চাল)" } }
+      ]
+    },
+    {
+      "id": "P13-15",
+      "number": 15,
+      "title": {
+        "en": "Binary Strings of Length N Without Consecutive 1s",
+        "bn": "পাশাপাশি দুটি ১ ছাড়া N দৈর্ঘ্যের বাইনারি স্ট্রিং"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Constrained recursive generation", "bn": "শর্তসাপেক্ষ রিকার্সিভ গঠন" },
+        { "en": "Lexicographical branching order", "bn": "অভিধানক্রমিক (lexicographical) শাখা" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (1 <= N <= 8). Recursively generate and print (space-separated on one line, in lexicographical order) all binary strings of length N that do NOT contain two adjacent `1`s (`'11'`).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (1 <= N <= 8) ইনপুট নিন। পাশাপাশি দুটি `1` (`'11'`) নেই এমন N দৈর্ঘ্যের সবগুলো বাইনারি স্ট্রিং রিকার্শনের মাধ্যমে অভিধানক্রমিকভাবে (lexicographical order) তৈরি করে স্পেস দিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer N (1 <= N <= 8).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 8)।"
+      },
+      "expectedOutput": {
+        "en": "All valid binary strings in lexicographical order, space-separated.",
+        "bn": "সব বৈধ বাইনারি স্ট্রিং অভিধানক্রমিক ক্রমে।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "000 001 010 100 101",
+          "explanation": {
+            "en": "Strings '011', '110', and '111' are excluded because they contain '11'.",
+            "bn": "'011', '110' ও '111'-এ পাশাপাশি দুটি ১ থাকায় বাদ পড়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Always try appending `'0'` first so results automatically appear in lexicographical order (`'0' < '1'`).",
+        "bn": "সর্বদা আগে `'0'` যোগ করে কল করলে ফলাফল স্বাভাবিকভাবেই অভিধানক্রমে তৈরি হয়।"
+      },
+      "hint2": {
+        "en": "Pass `prev_bit` (initially `'0'`). You may append `'1'` only if `prev_bit != '1'`.",
+        "bn": "`prev_bit` ট্র্যাক করুন এবং কেবল `prev_bit != '1'` হলেই `'1'` যোগ করার শাখায় যান।"
+      },
+      "logicBreakdown": {
+        "en": "Rather than generating all `2^N` strings and filtering out `'11'`, pruning invalid branches early ensures we only explore valid Fibonacci-many prefixes (`F(N+2)` strings total). Trying `'0'` before `'1'` guarantees sorted output without needing `.sort()`.",
+        "bn": "সব `2^N` স্ট্রিং বানিয়ে ফিল্টার করার চেয়ে `prev_bit == '1'` হলে `'1'` শাখা বাদ দেওয়া অনেক দ্রুত—এতে কেবল বৈধ ফিবোনাচ্চি সংখ্যক স্ট্রিং তৈরি হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize results = [].", "bn": "n পড়ুন ও results = [] রাখুন।" },
+        { "en": "In gen(prefix, prev): if len(prefix) == n, append prefix and return.", "bn": "len(prefix) == n হলে prefix যোগ করে রিটার্ন করুন।" },
+        { "en": "Call gen(prefix + '0', '0').", "bn": "আগে gen(prefix + '0', '0') কল করুন।" },
+        { "en": "If prev != '1', call gen(prefix + '1', '1'). Print space-separated results.", "bn": "prev != '1' হলে gen(prefix + '1', '1') কল করে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def gen(n, prefix, prev, out):\n    if len(prefix) == n:\n        out.append(prefix)\n        return\n    gen(n, prefix + \"0\", \"0\", out)\n    if prev != \"1\":\n        gen(n, prefix + \"1\", \"1\", out)\n\nn = int(input())\nout = []\ngen(n, \"\", \"0\", out)\nprint(\" \".join(out))",
+      "codeExplanation": {
+        "en": "Starting with prev='0' lets position 0 choose either '0' or '1'. Any '1' placed forbids another '1' in the immediately following position.",
+        "bn": "শুরুতে prev='0' থাকায় প্রথম ঘরে ০ বা ১ উভয়ই বসতে পারে; তবে ১ বসালে পরের ঘরে কেবল ০-ই বসবে।"
+      },
+      "complexity": { "time": "O(F(N+2) * N)", "space": "O(F(N+2) * N) output + O(N) stack" },
+      "testCases": [
+        { "input": "1", "expectedOutput": "0 1", "note": { "en": "Length 1", "bn": "দৈর্ঘ্য ১" } },
+        { "input": "3", "expectedOutput": "000 001 010 100 101", "note": { "en": "5 valid strings", "bn": "৫টি বৈধ স্ট্রিং" } },
+        { "input": "4", "expectedOutput": "0000 0001 0010 0100 0101 1000 1001 1010", "note": { "en": "8 valid strings (F(6))", "bn": "৮টি বৈধ স্ট্রিং" } }
+      ]
+    },
+    {
+      "id": "P13-16",
+      "number": 16,
+      "title": {
+        "en": "Power Set — Lexicographical Subsets via Backtracking",
+        "bn": "পাওয়ার সেট — ব্যাকট্র্যাকিংয়ে সব সাবসেট"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Backtracking choose-and-undo pattern", "bn": "ব্যাকট্র্যাকিং (যোগ ও অপসারণ)" },
+        { "en": "Subset enumeration in lexicographical order", "bn": "অভিধানক্রমিক সাবসেট তৈরি" }
+      ],
+      "description": {
+        "en": "Read a line of distinct ascending integers (1 to 5 integers). Generate all subsets (the power set) in lexicographical backtracking order using recursion. Print one subset per line (space-separated integers), printing `EMPTY` for the empty subset.",
+        "bn": "এক লাইনে ১ থেকে ৫টি ছোট থেকে বড় ক্রমে সাজানো অনন্য পূর্ণসংখ্যা ইনপুট নিন। ব্যাকট্র্যাকিং রিকার্শনের মাধ্যমে অভিধানক্রমিকভাবে সবগুলো সাবসেট (পাওয়ার সেট) প্রতি লাইনে একটি করে প্রিন্ট করুন (ফাঁকা সাবসেটের জন্য `EMPTY` প্রিন্ট করুন)।"
+      },
+      "inputDescription": {
+        "en": "One line of distinct space-separated integers in ascending order.",
+        "bn": "এক লাইনে বর্ধমান ক্রমে অনন্য পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "2^N lines; `EMPTY` first, then each subset in lexicographical DFS order.",
+        "bn": "2^N লাইন; প্রথমে `EMPTY`, এরপর প্রতিটি সাবসেট।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3",
+          "output": "EMPTY\n1\n1 2\n1 2 3\n1 3\n2\n2 3\n3",
+          "explanation": {
+            "en": "Backtracking records current path, then iterates i from start..N-1 appending nums[i], recursing to i+1, and popping nums[i].",
+            "bn": "ব্যাকট্র্যাকিং বর্তমান path সংরক্ষণ করে একেকটি উপাদান যোগ ও pop করে সব সাবসেট তৈরি করে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Record a snapshot (`list(path)`) at the top of every `backtrack(start)` call before looping `for i in range(start, len(nums))`.",
+        "bn": "`backtrack(start)`-এর শুরুতেই `path` সংরক্ষণ করে তারপর `start` থেকে শেষ পর্যন্ত লুপ চালান।"
+      },
+      "hint2": {
+        "en": "Always `path.pop()` right after the recursive call returns so sibling branches start clean.",
+        "bn": "রিকার্সিভ কল ফেরার পর অবশ্যই `path.pop()` করুন যাতে পরের শাখা পরিষ্কার থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "Standard backtracking builds a mutable `path` list: `path.append(nums[i])` enters a branch, `backtrack(i + 1)` explores extensions using strictly later elements (preventing duplicates), and `path.pop()` restores state upon exit.",
+        "bn": "ব্যাকট্র্যাকিংয়ে একটি `path` লিস্টে উপাদান যোগ (`append`) করে নিচে নামা হয় এবং ফিরে এসে `pop()` করে পূর্বের অবস্থায় ফেরা হয়। `i + 1` থেকে শুরু করায় কোনো উপাদান দুবার আসে না।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted distinct integers nums.", "bn": "সাজানো অনন্য পূর্ণসংখ্যা nums পড়ুন।" },
+        { "en": "In dfs(start, path): output 'EMPTY' if path is empty else space-joined path.", "bn": "dfs(start, path)-এর শুরুতে path খালি হলে 'EMPTY' নতুবা মানগুলো যুক্ত করুন।" },
+        { "en": "For i in range(start, len(nums)): path.append(nums[i]); dfs(i + 1, path); path.pop().", "bn": "start থেকে শেষ পর্যন্ত প্রতিটি উপাদান নিয়ে dfs(i + 1) কল করে শেষে pop() করুন।" },
+        { "en": "Print every subset line.", "bn": "প্রতিটি সাবসেট লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "def subsets(nums):\n    lines = []\n    path = []\n\n    def dfs(start):\n        lines.append(\" \".join(str(x) for x in path) if path else \"EMPTY\")\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            dfs(i + 1)\n            path.pop()\n\n    dfs(0)\n    return lines\n\nnums = [int(x) for x in input().split()]\nfor line in subsets(nums):\n    print(line)",
+      "codeExplanation": {
+        "en": "Recording path on entry naturally yields EMPTY first, followed by lexicographical extensions before moving to larger starting indices.",
+        "bn": "ফাংশনে ঢুকেই path সংরক্ষণ করায় প্রথমে EMPTY আসে এবং পরে অভিধানক্রমে সব সাবসেট উৎপন্ন হয়।"
+      },
+      "complexity": { "time": "O(N * 2^N)", "space": "O(N) stack + O(N * 2^N) output" },
+      "testCases": [
+        { "input": "1 2 3", "expectedOutput": "EMPTY\n1\n1 2\n1 2 3\n1 3\n2\n2 3\n3", "note": { "en": "8 subsets", "bn": "৮টি সাবসেট" } },
+        { "input": "7", "expectedOutput": "EMPTY\n7", "note": { "en": "Single element", "bn": "১টি উপাদান" } },
+        { "input": "4 9", "expectedOutput": "EMPTY\n4\n4 9\n9", "note": { "en": "Two elements", "bn": "২টি উপাদান" } }
+      ]
+    },
+    {
+      "id": "P13-17",
+      "number": 17,
+      "title": {
+        "en": "Generate All Balanced Parentheses Pairs",
+        "bn": "সবগুলো ভারসাম্যপূর্ণ বন্ধনী (Parentheses) বিন্যাস তৈরি"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Pruning invariant (close_count <= open_count)", "bn": "ছাঁটাই শর্ত (close_count <= open_count)" },
+        { "en": "Backtracking string builder", "bn": "ব্যাকট্র্যাকিং স্ট্রিং গঠন" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (1 <= N <= 4). Generate all valid balanced parentheses combinations of N pairs in lexicographical order (`'('` before `')'`), printed space-separated on one line.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (1 <= N <= 4) ইনপুট নিন। N জোড়া বন্ধনীর সবগুলো বৈধ ও ভারসাম্যপূর্ণ (balanced) বিন্যাস অভিধানক্রমে (`'('` আগে) তৈরি করে স্পেস-বিচ্ছিন্নভাবে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer N (1 <= N <= 4).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 4)।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated valid parentheses strings in lexicographical order.",
+        "bn": "অভিধানক্রমিক ক্রমে স্পেস-বিচ্ছিন্ন বৈধ বন্ধনী স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "((())) (()()) (())() ()(()) ()()()",
+          "explanation": {
+            "en": "There are Catalan(3) = 5 valid combinations of 3 pairs.",
+            "bn": "৩ জোড়ার জন্য ক্যাটালান(৩) = ৫টি বৈধ বিন্যাস রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Track two counts: `open_used` and `close_used`.",
+        "bn": "`open_used` এবং `close_used` দুটি কাউন্টার রাখুন।"
+      },
+      "hint2": {
+        "en": "You can add `'('` whenever `open_used < n`, and you can add `')'` ONLY when `close_used < open_used`.",
+        "bn": "`open_used < n` হলে `'('` বসান এবং কেবল `close_used < open_used` হলেই `')'` বসান।"
+      },
+      "logicBreakdown": {
+        "en": "A prefix can still grow into a balanced string if and only if total `'('` never exceeds `N` and `')'` never outnumbers `'('` at any prefix. Enforcing those two guards directly prunes every invalid Catalan branch before it forms.",
+        "bn": "যেকোনো অংশে `'('`-এর সংখ্যা `N`-এর বেশি না হলে এবং `')'` কখনো `'('`-কে ছাড়িয়ে না গেলে কেবল তখনই বিন্যাস বৈধ থাকে। এই দুটি শর্তে ভুল পথ আগেই বাদ পড়ে।"
+      },
+      "algorithm": [
+        { "en": "Read n and initialize res = [].", "bn": "n পড়ুন ও res = [] নিন।" },
+        { "en": "In backtrack(s, o, c): if len(s) == 2 * n, res.append(s); return.", "bn": "len(s) == 2 * n হলে res-এ যোগ করে রিটার্ন করুন।" },
+        { "en": "If o < n, call backtrack(s + '(', o + 1, c).", "bn": "o < n হলে '(' যোগ করে রিকার্শন করুন।" },
+        { "en": "If c < o, call backtrack(s + ')', o, c + 1). Print space-joined res.", "bn": "c < o হলে ')' যোগ করে রিকার্শন করুন ও ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def generate_parens(n):\n    res = []\n\n    def backtrack(s, open_cnt, close_cnt):\n        if len(s) == 2 * n:\n            res.append(s)\n            return\n        if open_cnt < n:\n            backtrack(s + \"(\", open_cnt + 1, close_cnt)\n        if close_cnt < open_cnt:\n            backtrack(s + \")\", open_cnt, close_cnt + 1)\n\n    backtrack(\"\", 0, 0)\n    return res\n\nn = int(input())\nprint(\" \".join(generate_parens(n)))",
+      "codeExplanation": {
+        "en": "Because '(' has ASCII 40 and ')' has ASCII 41, checking open_cnt < n before close_cnt < open_cnt automatically yields lexicographical order.",
+        "bn": "'('-কে ')'-এর আগে পরীক্ষা করায় ফলাফল স্বয়ংক্রিয়ভাবেই অভিধানক্রমে তৈরি হয়।"
+      },
+      "complexity": { "time": "O(Catalan(N) * N)", "space": "O(N) stack + O(Catalan(N) * N) output" },
+      "testCases": [
+        { "input": "1", "expectedOutput": "()", "note": { "en": "Catalan(1) = 1", "bn": "১টি বিন্যাস" } },
+        { "input": "2", "expectedOutput": "(()) ()()", "note": { "en": "Catalan(2) = 2", "bn": "২টি বিন্যাস" } },
+        { "input": "3", "expectedOutput": "((())) (()()) (())() ()(()) ()()()", "note": { "en": "Catalan(3) = 5", "bn": "৫টি বিন্যাস" } }
+      ]
+    },
+    {
+      "id": "P13-18",
+      "number": 18,
+      "title": {
+        "en": "Unique Permutations in Lexicographical Order",
+        "bn": "অভিধানক্রমিক অনন্য পারমিউটেশন (Unique Permutations)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Sorting + used-array backtracking", "bn": "সর্টিং ও used-অ্যারে ব্যাকট্র্যাকিং" },
+        { "en": "Duplicate branch pruning", "bn": "ডুপ্লিকেট শাখা ছাঁটাই" }
+      ],
+      "description": {
+        "en": "Read a line of 1 to 5 space-separated integers (duplicates MAY exist). Generate all UNIQUE permutations in lexicographical order using backtracking WITHOUT using `itertools.permutations`, and print each permutation on its own line (space-separated).",
+        "bn": "এক লাইনে ১ থেকে ৫টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা ইনপুট নিন (ডুপ্লিকেট থাকতে পারে)। `itertools.permutations` ছাড়া ব্যাকট্র্যাকিংয়ের মাধ্যমে সবগুলো অনন্য (unique) পারমিউটেশন অভিধানক্রমে প্রতি লাইনে একটি করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of 1 to 5 space-separated integers.",
+        "bn": "এক লাইনে ১ থেকে ৫টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Each unique permutation on its own line, in lexicographical order.",
+        "bn": "প্রতি লাইনে একটি করে অনন্য পারমিউটেশন, অভিধানক্রমে।"
+      },
+      "examples": [
+        {
+          "input": "1 1 2",
+          "output": "1 1 2\n1 2 1\n2 1 1",
+          "explanation": {
+            "en": "Only 3 unique permutations exist because swapping identical 1s produces the same arrangement.",
+            "bn": "দুটি ১-এর স্থান বদলালে একই বিন্যাস হয়, তাই অনন্য পারমিউটেশন ৩টি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sort `nums` first so equal elements sit adjacent to each other and DFS yields lexicographical order.",
+        "bn": "প্রথমে `nums` সাজিয়ে নিন যাতে সমান উপাদান পাশাপাশি থাকে।"
+      },
+      "hint2": {
+        "en": "Skip `nums[i]` if `used[i]` is True OR (`i > 0 and nums[i] == nums[i - 1] and not used[i - 1]`).",
+        "bn": "`used[i]` সত্য হলে অথবা `nums[i] == nums[i - 1]` অথচ `used[i - 1]` ব্যবহার না হয়ে থাকলে `continue` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "After sorting `nums`, identical numbers appear together. The rule `nums[i] == nums[i - 1] and not used[i - 1]` means at the SAME tree depth, we never pick the second copy of a value after having already explored and popped the first copy—preventing duplicate subtrees cleanly in O(1) check.",
+        "bn": "সাজানোর পর সমান সংখ্যা পাশাপাশি আসে। একই স্তরে প্রথম কপি বাদ দিয়ে দ্বিতীয় কপি নেওয়া নিষিদ্ধ করলে (`not used[i - 1]`) কোনো ডুপ্লিকেট শাখা জন্মায় না।"
+      },
+      "algorithm": [
+        { "en": "Read and sort nums; create used = [False] * len(nums).", "bn": "nums পড়ে sort করুন এবং used অ্যারে নিন।" },
+        { "en": "If len(path) == len(nums), record path copy and return.", "bn": "len(path) == len(nums) হলে path সংরক্ষণ করে রিটার্ন করুন।" },
+        { "en": "For i in 0..n-1: skip if used[i] or (i > 0 and nums[i] == nums[i-1] and not used[i-1]).", "bn": "ব্যবহৃত বা ডুপ্লিকেট-স্তরের উপাদান বাদ দিন।" },
+        { "en": "Mark used[i]=True, append nums[i], recurse, pop, and unmark used[i]=False.", "bn": "used[i]=True করে রিকার্শন শেষে pop ও False করুন।" }
+      ],
+      "solution": "def unique_perms(nums):\n    nums.sort()\n    n = len(nums)\n    used = [False] * n\n    path = []\n    out = []\n\n    def dfs():\n        if len(path) == n:\n            out.append(\" \".join(str(x) for x in path))\n            return\n        for i in range(n):\n            if used[i]:\n                continue\n            if i > 0 and nums[i] == nums[i - 1] and not used[i - 1]:\n                continue\n            used[i] = True\n            path.append(nums[i])\n            dfs()\n            path.pop()\n            used[i] = False\n\n    dfs()\n    return out\n\nnums = [int(x) for x in input().split()]\nfor line in unique_perms(nums):\n    print(line)",
+      "codeExplanation": {
+        "en": "Sorting puts identical items next to each other. Backtracking pops and unmarks used[i] when returning so later positions can reuse indices legitimately.",
+        "bn": "সর্টিং সমান উপাদান পাশাপাশি আনে এবং ব্যাকট্র্যাকিং শেষে used[i] False করে দেয় যাতে পরবর্তী স্তরে বৈধভাবে ব্যবহার করা যায়।"
+      },
+      "complexity": { "time": "O(N * N!)", "space": "O(N) stack + O(N * N!) output" },
+      "testCases": [
+        { "input": "1 1 2", "expectedOutput": "1 1 2\n1 2 1\n2 1 1", "note": { "en": "Duplicate values", "bn": "ডুপ্লিকেট উপাদান" } },
+        { "input": "3 1 2", "expectedOutput": "1 2 3\n1 3 2\n2 1 3\n2 3 1\n3 1 2\n3 2 1", "note": { "en": "Unsorted distinct inputs", "bn": "অসাজানো অনন্য ইনপুট" } },
+        { "input": "5 5", "expectedOutput": "5 5", "note": { "en": "All identical", "bn": "সব সমান মান" } }
+      ]
+    },
+    {
+      "id": "P13-19",
+      "number": 19,
+      "title": {
+        "en": "Combination Sum (Unlimited Reuse Backtracking)",
+        "bn": "কম্বিনেশন সাম (পুনঃব্যবহারসহ ব্যাকট্র্যাকিং)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Target-remaining backtracking with pruning", "bn": "অবশিষ্ট যোগফলভিত্তিক ব্যাকট্র্যাকিং" },
+        { "en": "Non-decreasing index choice to avoid permutations", "bn": "পুনরাবৃত্তি এড়াতে সূচক নিয়ন্ত্রণ" }
+      ],
+      "description": {
+        "en": "Read distinct positive integers `candidates` on line 1 and a positive integer `target` on line 2. Find all unique combinations of `candidates` summing exactly to `target`, where each candidate may be chosen ANY number of times. Print each combination in ascending/lexicographical order (one per line, space-separated), or `NONE` if no combination exists.",
+        "bn": "১ম লাইনে ধনাত্মক অনন্য পূর্ণসংখ্যা `candidates` এবং ২য় লাইনে `target` ইনপুট নিন। প্রতিটি সংখ্যা যতবার খুশি ব্যবহার করে `target`-এর সমান যোগফল তৈরি করে এমন সব অনন্য কম্বিনেশন অভিধানক্রমে প্রতি লাইনে একটি করে প্রিন্ট করুন; সম্ভব না হলে `NONE` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: distinct positive integers. Line 2: positive integer target.",
+        "bn": "১ম লাইন: অনন্য ধনাত্মক পূর্ণসংখ্যা। ২য় লাইন: লক্ষ্য যোগফল target।"
+      },
+      "expectedOutput": {
+        "en": "Sorted unique combinations (one per line), or `NONE`.",
+        "bn": "সাজানো অনন্য কম্বিনেশন (প্রতি লাইনে একটি), অথবা `NONE`।"
+      },
+      "examples": [
+        {
+          "input": "2 3 6 7\n7",
+          "output": "2 2 3\n7",
+          "explanation": {
+            "en": "2+2+3 = 7 and 7 = 7; permutations like 2+3+2 are prevented by not moving backward in index.",
+            "bn": "২+২+৩=৭ এবং ৭=৭; ইনডেক্স পেছনে না যাওয়ায় ২+৩+২-এর মতো ডুপ্লিকেট হয় না।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sort `candidates` first! Then whenever `candidates[i] > remaining`, you can `break` out of the loop early.",
+        "bn": "প্রথমে `candidates` সাজিয়ে নিন; তাহলে `candidates[i] > remaining` হলেই `break` করা যায়।"
+      },
+      "hint2": {
+        "en": "Recurse with `start = i` (NOT `i + 1`) to allow reusing the same number, while preventing earlier indices from creating duplicate permutations.",
+        "bn": "একই সংখ্যা পুনরায় নিতে `dfs(i, ...)` দিন (অর্থাৎ `i + 1` নয়, `i`), তবে পূর্বের ইনডেক্সে আর ফিরবেন না।"
+      },
+      "logicBreakdown": {
+        "en": "Sorting `candidates` enables two optimizations at once: lexicographical output order and instant loop pruning via `break` once `candidates[i] > remaining`. Recursing from `i` instead of `0` allows unlimited reuse of `candidates[i]` without generating `[2, 3, 2]` alongside `[2, 2, 3]`.",
+        "bn": "`candidates` সাজালে অপ্রয়োজনীয় বড় সংখ্যার জন্য `break` করে শাখা ছাঁটাই করা যায় এবং `i` থেকে রিকার্শন চালালে একই সংখ্যার পুনর্ব্যবহার সম্ভব হয় অথচ পারমিউটেশন ডুপ্লিকেট হয় না।"
+      },
+      "algorithm": [
+        { "en": "Sort candidates and read target.", "bn": "candidates সাজিয়ে নিন এবং target পড়ুন।" },
+        { "en": "In dfs(start, rem): if rem == 0, record path copy and return.", "bn": "rem == 0 হলে path সংরক্ষণ করে রিটার্ন করুন।" },
+        { "en": "For i in range(start, len(candidates)): if candidates[i] > rem, break.", "bn": "candidates[i] > rem হলে লুপ break করুন।" },
+        { "en": "Append candidates[i], call dfs(i, rem - candidates[i]), pop. Print lines or NONE.", "bn": "যোগ করে dfs(i, rem - candidates[i]) শেষে pop করুন; ফলাফল বা NONE প্রিন্ট করুন।" }
+      ],
+      "solution": "def combination_sum(candidates, target):\n    candidates.sort()\n    out = []\n    path = []\n\n    def dfs(start, rem):\n        if rem == 0:\n            out.append(\" \".join(str(x) for x in path))\n            return\n        for i in range(start, len(candidates)):\n            val = candidates[i]\n            if val > rem:\n                break\n            path.append(val)\n            dfs(i, rem - val)\n            path.pop()\n\n    dfs(0, target)\n    return out\n\ncandidates = [int(x) for x in input().split()]\ntarget = int(input())\nans = combination_sum(candidates, target)\nif not ans:\n    print(\"NONE\")\nelse:\n    for line in ans:\n        print(line)",
+      "codeExplanation": {
+        "en": "Break pruning cuts dead subtrees immediately because candidates is sorted. Reusing index i permits repeated selections monotonically.",
+        "bn": "সাজানো লিস্ট হওয়ায় val > rem শর্তে সাথে সাথেই break করা যায় এবং dfs(i, ...) একই সংখ্যা বারবার নেওয়ার সুযোগ দেয়।"
+      },
+      "complexity": { "time": "O(N^(T/M + 1)) worst-case search tree", "space": "O(T/M) recursion depth" },
+      "testCases": [
+        { "input": "2 3 6 7\n7", "expectedOutput": "2 2 3\n7", "note": { "en": "Single and multi-element combinations", "bn": "একক ও একাধিক সংখ্যার কম্বিনেশন" } },
+        { "input": "2 3 5\n8", "expectedOutput": "2 2 2 2\n2 3 3\n3 5", "note": { "en": "Multiple valid combinations", "bn": "একাধিক সমাধান" } },
+        { "input": "4 6\n5", "expectedOutput": "NONE", "note": { "en": "No valid combination", "bn": "কোনো সমাধান নেই" } }
+      ]
+    },
+    {
+      "id": "P13-20",
+      "number": 20,
+      "title": {
+        "en": "N-Queens Problem — Count Valid Board Configurations",
+        "bn": "এন-কুইন্স (N-Queens) সমস্যা — বৈধ বিন্যাস গণনা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Row-by-row constraint backtracking", "bn": "সারি-ভিত্তিক শর্তাধীন ব্যাকট্র্যাকিং" },
+        { "en": "O(1) diagonal tracking via (r - c) and (r + c)", "bn": "(r - c) ও (r + c) দিয়ে O(1) কোণাকুণি পরীক্ষা" }
+      ],
+      "description": {
+        "en": "Read an integer N (1 <= N <= 10). Count the total number of distinct ways to place N chess queens on an N x N chessboard so that no two queens attack each other (sharing no row, column, or diagonal). Print the total number of valid configurations.",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 10) ইনপুট নিন। N x N দাবার বোর্ডে এমনভাবে Nটি রানী (queen) বসানোর মোট কয়টি বৈধ উপায় আছে যেখানে কোনো দুটি রানী একে অপরকে আক্রমণ করবে না (একই সারি, কলাম বা কর্ণে থাকবে না)? মোট বৈধ বিন্যাসের সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (1 <= N <= 10).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 10)।"
+      },
+      "expectedOutput": {
+        "en": "An integer giving the total count of distinct N-Queens solutions.",
+        "bn": "মোট বৈধ N-কুইন্স বিন্যাসের সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "2",
+          "explanation": {
+            "en": "On a 4x4 board, exactly 2 distinct non-attacking queen placements exist (columns [1,3,0,2] and [2,0,3,1]).",
+            "bn": "৪x৪ বোর্ডে পরস্পরকে আক্রমণ না করে রানী বসানোর ঠিক ২টি বৈধ উপায় রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Place exactly 1 queen per row `r` (0 to N-1), so row conflicts are automatically impossible.",
+        "bn": "প্রতিটি সারিতে (`r = 0..N-1`) ঠিক ১টি করে রানী বসালে সারি সংঘর্ষের ভয় আর থাকে না।"
+      },
+      "hint2": {
+        "en": "Every cell `(r, c)` on the same main diagonal shares `r - c`, and on the same anti-diagonal shares `r + c`. Track occupied `cols`, `diag1`, and `diag2` in sets for O(1) safety checks!",
+        "bn": "একই প্রধান কর্ণে `r - c` এবং বিপরীত কর্ণে `r + c` সর্বদা সমান থাকে—সেট ব্যবহার করলে O(1) সময়ে নিরাপত্তা পরীক্ষা করা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Instead of scanning a 2D board in O(N) per candidate square, maintaining three sets—`cols`, `diag1` (`r - c`), and `diag2` (`r + c`)—checks attack safety in `O(1)`. Placing one queen per row reduces the search space from `C(N^2, N)` down to `N!` with heavy early pruning.",
+        "bn": "প্রতিবার পুরো বোর্ড স্ক্যান না করে `cols`, `r - c` (`diag1`) এবং `r + c` (`diag2`) তিনটি সেট রাখলে প্রতিটি ঘরের নিরাপত্তা O(1) সময়ে যাচাই করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n and initialize empty sets cols, d1, d2.", "bn": "n পড়ুন এবং cols, d1, d2 তিনটি ফাঁকা সেট নিন।" },
+        { "en": "In solve(r): if r == n, return 1 (all N queens placed safely).", "bn": "solve(r)-এ r == n হলে ১ রিটার্ন করুন।" },
+        { "en": "Initialize ways = 0. Loop c in range(n): if c in cols or (r - c) in d1 or (r + c) in d2, continue.", "bn": "কলাম বা কোনো কর্ণে সংঘর্ষ হলে পরের কলামে যান।" },
+        { "en": "Add c, r-c, r+c to sets; ways += solve(r + 1); remove them (backtrack). Print solve(0).", "bn": "সেটে যোগ করে solve(r + 1) শেষে সরিয়ে ফেলুন এবং solve(0) প্রিন্ট করুন।" }
+      ],
+      "solution": "def total_n_queens(n):\n    cols = set()\n    diag1 = set()  # r - c\n    diag2 = set()  # r + c\n\n    def solve(r):\n        if r == n:\n            return 1\n        ways = 0\n        for c in range(n):\n            if c in cols or (r - c) in diag1 or (r + c) in diag2:\n                continue\n            cols.add(c)\n            diag1.add(r - c)\n            diag2.add(r + c)\n            ways += solve(r + 1)\n            cols.remove(c)\n            diag1.remove(r - c)\n            diag2.remove(r + c)\n        return ways\n\n    return solve(0)\n\nn = int(input())\nprint(total_n_queens(n))",
+      "codeExplanation": {
+        "en": "Sets record active queen threats in O(1). Removing keys immediately after solve(r + 1) restores clean board state before trying the next column.",
+        "bn": "তিনটি সেট O(1) সময়ে আক্রমণ যাচাই করে এবং পরের কলাম পরীক্ষার আগে সেট থেকে মান সরিয়ে পূর্বাবস্থায় ফিরে আসে।"
+      },
+      "complexity": { "time": "O(N!)", "space": "O(N) sets & recursion stack" },
+      "testCases": [
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Trivial 1x1 board", "bn": "১x১ বোর্ড" } },
+        { "input": "3", "expectedOutput": "0", "note": { "en": "Impossible board size", "bn": "অসম্ভব বোর্ড" } },
+        { "input": "4", "expectedOutput": "2", "note": { "en": "2 solutions", "bn": "২টি সমাধান" } },
+        { "input": "8", "expectedOutput": "92", "note": { "en": "Classic 8-Queens problem", "bn": "বিখ্যাত ৮-কুইন্স সমস্যা" } }
+      ]
+    }
+  ]
+}

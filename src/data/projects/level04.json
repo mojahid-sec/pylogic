@@ -1,0 +1,830 @@
+{
+  "level": "Level 04",
+  "levelNumber": 4,
+  "projects": [
+    {
+      "id": "PRJ-16",
+      "number": 16,
+      "title": {
+        "en": "Linux Security Configuration Auditor",
+        "bn": "লিনাক্স সিকিউরিটি কনফিগারেশন অডিটর"
+      },
+      "level": "Level 04",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "14–16 hours",
+        "bn": "১৪–১৬ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Build a read-only Linux hardening auditor that evaluates simulated or authorized local host configurations (SSH daemon configs, file permissions on sensitive files, sudoers/user privilege settings, password aging policies, and open-listener baselines) against a declarative CIS-inspired rulebook and outputs actionable remediation guidance.",
+        "bn": "সিমুলেটেড বা অনুমোদিত লোকাল লিনাক্স সিস্টেমের SSH কনফিগ, সংবেদনশীল ফাইলের পারমিশন, ব্যবহারকারী ও sudo নীতি, পাসওয়ার্ড মেয়াদ এবং পোর্ট বেসলাইন যাচাই করে CIS-ধাঁচের নিয়ম অনুযায়ী সংশোধন নির্দেশনাসহ একটি রিড-ওনলি সিকিউরিটি অডিটর তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Misconfigured SSH settings (PasswordAuthentication yes, PermitRootLogin yes), world-writable config scripts, and stale accounts account for far more breaches than exotic zero-day exploits.",
+        "bn": "অ্যাডভান্সড জিরো-ডে আক্রমণের চেয়েও ভুল SSH কনফিগারেশন, অতিরিক্ত ফাইল পারমিশন এবং পুরনো অ্যাকাউন্টের কারণেই বেশি সিস্টেম কম্প্রোমাইজ হয়।"
+      },
+      "whyItMatters": {
+        "en": "DevSecOps and Linux security engineers continuously audit baseline hardening compliance and automate remediation checklists across fleet servers.",
+        "bn": "DevSecOps ও লিনাক্স সিকিউরিটি ইঞ্জিনিয়াররা নিয়মিত সার্ভার হার্ডেনিং কমপ্লায়েন্স অডিট করেন ও সংশোধন তালিকা তৈরি করেন।"
+      },
+      "realWorldUseCases": [
+        { "en": "Auditing golden Linux container/VM images before production release", "bn": "প্রোডাকশনে পাঠানোর আগে লিনাক্স কন্টেইনার বা VM ইমেজ হার্ডেনিং যাচাই" },
+        { "en": "Offline configuration review of exported sshd_config and sysctl snapshots", "bn": "রপ্তানি করা sshd_config ও sysctl স্ন্যাপশটের অফলাইন নিরাপত্তা পর্যালোচনা" },
+        { "en": "Generating Pass/Fail/Warning compliance scorecards for internal reviews", "bn": "অভ্যন্তরীণ রিভিউয়ের জন্য পাস/ফেইল কমপ্লায়েন্স স্কোরকার্ড তৈরি" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Linux hardening & CIS-style policy checks", "bn": "লিনাক্স হার্ডেনিং ও CIS-ধাঁচের নীতি যাচাই" },
+        { "en": "POSIX permissions & privilege auditing", "bn": "POSIX পারমিশন ও প্রিভিলেজ অডিটিং" },
+        { "en": "Read-only configuration parsing & remediation reporting", "bn": "রিড-ওনলি কনফিগ পার্সিং ও সংশোধন রিপোর্ট" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "Modular Check registry & structured AuditResult objects", "bn": "মডুলার চেক রেজিস্ট্রি ও AuditResult মডেল" },
+        { "en": "os.stat / stat permission bitmask evaluation", "bn": "os.stat ও stat বিটমাস্ক দিয়ে পারমিশন যাচাই" },
+        { "en": "Comment-aware config parser for sshd_config and sysctl fixtures", "bn": "কমেন্ট-সচেতন sshd_config ও sysctl কনফিগ পার্সার" },
+        { "en": "Weighted compliance percentage & severity scoring", "bn": "গুরুত্ব অনুযায়ী কমপ্লায়েন্স শতাংশ ও স্কোর গণনা" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (os, stat, pathlib, re, json, csv, platform)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (os, stat, pathlib, re, json, csv, platform)" },
+        { "en": "Mock/sandbox Linux config fixtures for cross-platform safe testing", "bn": "যেকোনো OS-এ নিরাপদে পরীক্ষার জন্য মক লিনাক্স কনফিগ ফিক্সচার" }
+      ],
+      "functionalRequirements": [
+        { "en": "Support auditing against either an explicit local root/sandbox fixture directory (so all checks run safely anywhere) or authorized local host read-only inspection.", "bn": "যেকোনো পরিবেশে নিরাপদে পরীক্ষার জন্য স্যান্ডবক্স কনফিগ ডিরেক্টরি অথবা অনুমোদিত লোকাল হোস্টে রিড-ওনলি অডিট সমর্থন করা।" },
+        { "en": "Evaluate at least 12 distinct hardening checks across SSH configuration, sensitive file ownership/mode, password policies, sysctl network hardening, and sticky/world-writable directories.", "bn": "SSH কনফিগ, সংবেদনশীল ফাইল পারমিশন, পাসওয়ার্ড নীতি ও sysctl নেটওয়ার্ক হার্ডেনিং জুড়ে অন্তত ১২টি ভিন্ন অডিট চেক চালানো।" },
+        { "en": "Classify every check result as PASS, FAIL, WARN, or NOT_APPLICABLE with observed value, expected baseline, severity, and remediation guidance.", "bn": "প্রতিটি ফলাফল PASS, FAIL, WARN বা NOT_APPLICABLE হিসেবে বর্তমান মান, প্রত্যাশিত মান ও সমাধানসহ দেখানো।" },
+        { "en": "Compute an overall hardening compliance score and export JSON + human-readable Markdown checklists.", "bn": "সামগ্রিক হার্ডেনিং স্কোর হিসাব করে JSON ও মার্কডাউন চেকলিস্ট রপ্তানি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Strictly read-only—never mutate host files, restart services, or require elevated privileges to run fixture audits.", "bn": "সম্পূর্ণ রিড-ওনলি—কখনোই সিস্টেম ফাইল পরিবর্তন বা সার্ভিস রিস্টার্ট করবে না।" },
+        { "en": "Handle missing files or permission-denied paths gracefully as WARN/SKIP instead of crashing.", "bn": "ফাইল না থাকলে বা অনুমতি না মিললে ক্র্যাশ না করে স্পষ্ট WARN/SKIP দেখানো।" },
+        { "en": "Respect SSH config precedence (first matching directive vs Match blocks).", "bn": "SSH কনফিগের অগ্রাধিকার (প্রথম ডিরেক্টিভ ও Match ব্লক) সঠিকভাবে বিবেচনা করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Declarative hardening rule catalog with severity weights", "bn": "তীব্রতা ওয়েটসহ ডিক্লারেটিভ হার্ডেনিং রুল ক্যাটালগ" },
+        { "en": "Sandbox fixture mode enabling reliable automated tests on any OS", "bn": "যেকোনো OS-এ নির্ভরযোগ্য অটোমেটেড টেস্টের জন্য স্যান্ডবক্স ফিক্সচার মোড" },
+        { "en": "Baseline comparison diff highlighting security regressions since last audit", "bn": "আগের অডিটের সাথে তুলনা করে নতুন দুর্বলতা চিহ্নিতকরণ" },
+        { "en": "Actionable remediation hints per failed control", "bn": "প্রতিটি ব্যর্থ নিয়মের জন্য সুনির্দিষ্ট সংশোধন পরামর্শ" }
+      ],
+      "constraints": [
+        { "en": "Read-only auditing only; never automatically apply destructive chmod/sysctl changes or require root on user machines.", "bn": "কেবল রিড-ওনলি অডিটিং; স্বয়ংক্রিয়ভাবে সিস্টেম কনফিগ বা পারমিশন পরিবর্তন করবেন না।" },
+        { "en": "Use mock configuration snapshots in the repository rather than real host secrets or /etc/shadow values.", "bn": "রিপোজিটরিতে আসল হোস্টের গোপন তথ্যের বদলে মক কনফিগারেশন স্ন্যাপশট রাখুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "linux_security_auditor/",
+        "├── README.md",
+        "├── policies/",
+        "│   └── baseline_policy.json",
+        "├── sample_sysroot/",
+        "│   └── etc/ssh/sshd_config",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── sysroot_context.py",
+        "│   ├── parsers.py",
+        "│   ├── checks.py",
+        "│   └── report.py",
+        "└── tests/",
+        "    ├── test_ssh_audit.py",
+        "    └── test_permissions_audit.py"
+      ],
+      "folderStructureNote": {
+        "en": "Inject a SysrootContext abstraction (mapping paths relative to a sandbox root or '/') so every check is 100% testable without touching real OS files.",
+        "bn": "সব চেকের জন্য একটি SysrootContext বিমূর্ততা রাখুন যাতে আসল সিস্টেম স্পর্শ না করেই স্যান্ডবক্স রুটে ১০০% পরীক্ষা করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store baseline rules in JSON policy files and persist audit reports with rule IDs, compliance score, and timestamps in JSON/Markdown.",
+        "bn": "বেসলাইন নীতি JSON ফাইলে রাখুন এবং অডিট ফলাফল, স্কোর ও সময়চিহ্ন JSON/Markdown রিপোর্টে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test weak vs hardened sshd_config fixtures (PermitRootLogin, PasswordAuthentication, MaxAuthTries).", "bn": "দুর্বল বনাম হার্ডেন্ড sshd_config ফিক্সচার পরীক্ষা করা।" },
+        { "en": "Test permission audit detects overly permissive modes (e.g., 0644 on private key or 0777 config).", "bn": "প্রাইভেট কী বা কনফিগে অতিরিক্ত পারমিশন থাকলে তা ধরা পড়ে কি না যাচাই করা।" },
+        { "en": "Test graceful handling when a file is absent or unreadable.", "bn": "অনুপস্থিত বা অপঠনযোগ্য ফাইলে টুল নিরাপদভাবে WARN দেয় কি না পরীক্ষা করা।" },
+        { "en": "Test audit score calculation and regression diffing between two JSON reports.", "bn": "অডিট স্কোর গণনা ও দুটি রিপোর্টের মধ্যে তুলনামূলক ডিফ পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Never execute shell commands from untrusted config values; parse files directly in Python.", "bn": "অবিশ্বস্ত কনফিগ মান দিয়ে কখনোই শেল কমান্ড চালাবেন না; সরাসরি পাইথনে পার্স করুন।" },
+        { "en": "Avoid reading actual secret contents (like password hashes or key material) when metadata checks suffice.", "bn": "যেখানে কেবল মেটাডেটা যথেষ্ট সেখানে গোপন ফাইলের আসল কনটেন্ট পড়া এড়িয়ে চলুন।" },
+        { "en": "Sanitize path traversal inside --sysroot inputs.", "bn": "--sysroot ইনপুটে পাথ ট্র্যাভার্সাল যাচাই করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Read-only Linux hardening auditor supporting custom sysroot fixtures", "bn": "কাস্টম সিসরুট ফিক্সচার সমর্থনকারী রিড-ওনলি লিনাক্স হার্ডেনিং অডিটর" },
+        { "en": "Declarative policy baseline + 12+ automated security checks", "bn": "ডিক্লারেটিভ নীতি বেসলাইন ও ১২টির বেশি স্বয়ংক্রিয় নিরাপত্তা চেক" },
+        { "en": "Clean test suite and sample hardening scorecard report", "bn": "টেস্ট স্যুট ও নমুনা হার্ডেনিং স্কোরকার্ড রিপোর্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Sample hardened vs non-hardened audit comparison in README", "bn": "README-তে দুর্বল বনাম সুরক্ষিত সিস্টেমের নমুনা অডিট তুলনা" },
+        { "en": "Documented control table mapping each check to defensive rationale", "bn": "প্রতিটি চেকের প্রতিরক্ষামূলক যুক্তিসহ নথিভুক্ত কন্ট্রোল টেবিল" },
+        { "en": "Cross-platform test run proof using sandbox fixtures", "bn": "স্যান্ডবক্স ফিক্সচারে টেস্ট পাসের প্রমাণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does OpenSSH evaluate the first matching value of a directive in sshd_config rather than the last?", "bn": "OpenSSH-এ sshd_config ডিরেক্টিভের শেষ মানের বদলে প্রথম মানটি কেন কার্যকর হয়?" },
+        { "en": "Why is passing '--sysroot' to a virtual root directory vastly safer and cleaner for automated testing than inspecting live /etc?", "bn": "অটোমেটেড টেস্টিংয়ে সরাসরি আসল /etc পড়ার চেয়ে ভার্চুয়াল '--sysroot' ব্যবহার করা কেন অনেক বেশি নিরাপদ ও নির্ভরযোগ্য?" },
+        { "en": "What is the security difference between world-writable mode (0o002) and the sticky bit (0o1000) on /tmp?", "bn": "ওয়ার্ল্ড-রাইটেবল মোড (0o002) এবং স্টিকি বিট (0o1000)-এর মধ্যে নিরাপত্তায় কী পার্থক্য রয়েছে?" },
+        { "en": "How should your auditor score a control when a host intentionally omits an optional subsystem?", "bn": "কোনো ঐচ্ছিক সার্ভিস হোস্টে না থাকলে অডিটর কীভাবে ফেইল ও নট-অ্যাপ্লিকেবল আলাদা করবে?" },
+        { "en": "Why should remediation output explain impact (e.g., locking yourself out if SSH keys aren't tested first)?", "bn": "সমাধানের পরামর্শে সম্ভাব্য ঝুঁকি (যেমন কী ছাড়া পাসওয়ার্ড বন্ধ করলে লকআউট হওয়া) উল্লেখ করা কেন জরুরি?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Design an abstraction around host path access so checks ask a Context object for files/metadata instead of hardcoding '/etc/...', making testing completely deterministic.",
+          "bn": "হার্ডকোডেড '/etc/...' পাথের বদলে একটি Context অবজেক্টের মাধ্যমে ফাইল ও মেটাডেটা পড়ুন যাতে যেকোনো পরিবেশে নির্ভুল টেস্ট করা যায়।"
+        },
+        "level2": {
+          "en": "Extract POSIX permission mode bits via stat.S_IMODE over os.stat results, parse key-value configuration lines while stripping comments and preserving directive order, and represent rules as typed check definitions.",
+          "bn": "os.stat ফলাফলে stat.S_IMODE দিয়ে POSIX পারমিশন বিট বের করুন, কমেন্ট বাদ দিয়ে কনফিগের ক্রম বজায় রেখে পার্স করুন এবং প্রতিটি নিয়মকে টাইপড চেক হিসেবে সাজান।"
+        },
+        "level3": {
+          "en": "Maintain a registry of check functions grouped by domain (SSH, Filesystem, Auth, Kernel), returning normalized CheckResult objects aggregated by report.py.",
+          "bn": "SSH, ফাইলসিস্টেম, অথেনটিকেশন ও কার্নেল ডোমেইন অনুযায়ী চেক ফাংশন নিবন্ধন করে report.py দিয়ে অভিন্ন ফলাফল সংকলন করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add baseline drift diffing showing newly introduced PASS -> FAIL regressions.", "bn": "আগের রিপোর্টের তুলনায় নতুন PASS থেকে FAIL হওয়া কন্ট্রোল আলাদাভাবে দেখান।" },
+        { "en": "Support Match User/Address conditional block awareness in sshd_config parsing.", "bn": "sshd_config পার্সিংয়ে Match ব্লক সচেতনতা যুক্ত করুন।" },
+        { "en": "Generate a standalone printable HTML/Markdown compliance executive summary.", "bn": "একটি গোছানো মার্কডাউন বা প্রিন্টযোগ্য কমপ্লায়েন্স সারাংশ তৈরি করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "DevSecOps Engineer", "bn": "DevSecOps ইঞ্জিনিয়ার" },
+          { "en": "Linux Security & Infrastructure Engineer", "bn": "লিনাক্স সিকিউরিটি ও অবকাঠামো ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Mirrors Lynis/CIS-CAT/OpenSCAP baseline auditing workflows—highly valued across cloud infrastructure, compliance automation, and hardening roles.",
+          "bn": "Lynis বা CIS-CAT-এর মতো বাস্তব কমপ্লায়েন্স ও সার্ভার হার্ডেনিং অটোমেশনের ধারণা প্রদর্শন করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "CIS-style configuration policy auditing", "bn": "CIS-ধাঁচের কনফিগারেশন নীতি অডিটিং" },
+          { "en": "POSIX permission bitmask verification", "bn": "POSIX পারমিশন বিটমাস্ক যাচাইকরণ" },
+          { "en": "Testable sysroot architecture", "bn": "টেস্টযোগ্য সিসরুট আর্কিটেকচার" }
+        ],
+        "interviewTopics": [
+          { "en": "Hardening SSH, sudo, and sensitive system file permissions", "bn": "SSH, sudo ও সংবেদনশীল ফাইল পারমিশন হার্ডেনিং" },
+          { "en": "How automated compliance-as-code reduces configuration drift", "bn": "কমপ্লায়েন্স-অ্যাজ-কোড কীভাবে কনফিগারেশন বিচ্যুতি কমায়" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Shows mature engineering taste—safe read-only design, testable virtual sysroot abstraction, and practical Linux defense knowledge.",
+          "bn": "রিড-ওনলি নিরাপত্তা, ভার্চুয়াল সিসরুট আর্কিটেকচার ও বাস্তব লিনাক্স প্রতিরক্ষা জ্ঞান প্রদর্শনকারী শক্তিশালী প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-17",
+      "number": 17,
+      "title": {
+        "en": "Security Incident Investigation and Response Tracker",
+        "bn": "সিকিউরিটি ইনসিডেন্ট তদন্ত ও রেসপন্স ট্র্যাকার"
+      },
+      "level": "Level 04",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "14–16 hours",
+        "bn": "১৪–১৬ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Build a DFIR & SOC case-management application backed by SQLite that tracks security incidents through structured NIST-inspired lifecycle stages, links normalized IOCs (IPs, domains, file hashes) across cases, computes chain-of-custody evidence hashes, tracks SLA response times (MTTD/MTTR), and exports audit-ready post-incident reports.",
+        "bn": "SQLite-ভিত্তিক একটি DFIR ও SOC কেস-ম্যানেজমেন্ট সিস্টেম তৈরি করুন যা NIST-ধাঁচের ধাপ অনুযায়ী ইনসিডেন্ট পরিচালনা করে, বিভিন্ন কেসের মধ্যে IOC (IP, ডোমেইন, ফাইল হ্যাশ) যুক্ত করে, প্রমাণপত্রের চেইন-অব-কাস্টডি হ্যাশ রাখে, MTTD/MTTR হিসাব করে এবং পোস্ট-ইনসিডেন্ট রিপোর্ট রপ্তানি করে।"
+      },
+      "realWorldProblem": {
+        "en": "During active security incidents, analysts lose critical context across scattered chat threads and spreadsheets—missing shared IOCs between tickets, breaking evidence chain-of-custody, or overlooking containment SLAs.",
+        "bn": "সিকিউরিটি ইনসিডেন্টের সময় ছড়িয়ে-ছিটিয়ে থাকা নোট ও স্প্রেডশিটের কারণে বিশ্লেষকরা কেসগুলোর পারস্পরিক IOC সংযোগ, প্রমাণের চেইন-অব-কাস্টডি ও SLA সময়সীমা হারিয়ে ফেলেন।"
+      },
+      "whyItMatters": {
+        "en": "Incident Response teams rely on disciplined ticketing, IOC cross-referencing, immutable evidence logs, and timeline reconstruction to contain threats and satisfy regulatory reporting.",
+        "bn": "ইনসিডেন্ট রেসপন্স টিমের জন্য সুশৃঙ্খল কেস ট্র্যাকিং, IOC ক্রস-রেফারেন্সিং, অপরিবর্তনীয় প্রমাণ লগ এবং টাইমলাইন পুনর্গঠন অপরিহার্য।"
+      },
+      "realWorldUseCases": [
+        { "en": "Managing phishing, unauthorized access, or malware lab investigations end-to-end", "bn": "ফিশিং বা অননুমোদিত অ্যাক্সেস তদন্ত শুরু থেকে শেষ পর্যন্ত পরিচালনা" },
+        { "en": "Detecting when a new incident shares an IOC hash or domain with an older closed case", "bn": "পুরনো কেসের সাথে নতুন ইনসিডেন্টের IOC মিল শনাক্তকরণ" },
+        { "en": "Calculating team MTTD (Mean Time to Detect) and MTTR (Mean Time to Contain/Resolve)", "bn": "টিমের MTTD ও MTTR মেট্রিক্স হিসাব করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Incident lifecycle state modeling", "bn": "ইনসিডেন্ট লাইফসাইকেল স্টেট মডেলিং" },
+        { "en": "Relational IOC & evidence schema design", "bn": "রিলেশনাল IOC ও প্রমাণপত্র ডেটাবেজ ডিজাইন" },
+        { "en": "Chain-of-custody integrity & SLA metrics", "bn": "চেইন-অব-কাস্টডি অখণ্ডতা ও SLA মেট্রিক্স" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "sqlite3 relational schema with foreign keys & many-to-many IOC links", "bn": "ফরেইন-কী ও মেনি-টু-মেনি IOC লিংকসহ sqlite3 স্কিমা" },
+        { "en": "State-machine transition guards (New -> Triage -> Containment -> Eradication -> Recovery -> Post-Incident)", "bn": "কেস স্টেট পরিবর্তনের কঠোর নিয়ম ও গার্ড" },
+        { "en": "hashlib SHA-256 verification for attached evidence artifacts", "bn": "প্রমাণ ফাইলের SHA-256 চেইন-অব-কাস্টডি যাচাই" },
+        { "en": "Timestamp arithmetic for MTTD / MTTR SLA reporting", "bn": "MTTD/MTTR SLA হিসাবের জন্য সময় গণনা" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "SQLite3 & Standard Library (sqlite3, hashlib, datetime, json, uuid)", "bn": "SQLite3 ও স্ট্যান্ডার্ড লাইব্রেরি (sqlite3, hashlib, datetime, json, uuid)" },
+        { "en": "unittest / pytest using temporary SQLite DBs", "bn": "টেম্প SQLite ডেটাবেজসহ টেস্ট স্যুট" }
+      ],
+      "functionalRequirements": [
+        { "en": "Create and update incident cases with severity (P1–P4), category, assigned responder, detected_at, contained_at, and lifecycle stage.", "bn": "তীব্রতা (P1–P4), ধরন, দায়িত্বপ্রাপ্ত বিশ্লেষক ও সময়চিহ্নসহ ইনসিডেন্ট কেস তৈরি ও হালনাগাদ করা।" },
+        { "en": "Enforce valid lifecycle transitions and record every state change, analyst note, and containment action in an append-only timeline table.", "bn": "বৈধ স্টেট পরিবর্তন যাচাই করে প্রতিটি পদক্ষেপ ও নোট অ্যাপেন্ড-ওনলি টাইমলাইন টেবিলে সংরক্ষণ করা।" },
+        { "en": "Normalize and attach IOCs (defanged IP/domain/URL/SHA-256) with automatic cross-case correlation query showing related cases.", "bn": "IOC (IP, ডোমেইন, SHA-256) যুক্ত করে পূর্ববর্তী সংশ্লিষ্ট কেসের সাথে স্বয়ংক্রিয় ক্রস-রেফারেন্স দেখানো।" },
+        { "en": "Register evidence files with SHA-256 hash + custodian log and compute SLA metrics plus exportable post-incident Markdown/JSON case reports.", "bn": "প্রমাণ ফাইলের SHA-256 নিবন্ধন, SLA হিসাব ও পোস্ট-ইনসিডেন্ট JSON/Markdown রিপোর্ট রপ্তানি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Never delete timeline entries or custody logs silently; keep audit trail append-only.", "bn": "টাইমলাইন বা কাস্টডি লগ কখনোই নিঃশব্দে মুছে না ফেলে অ্যাপেন্ড-ওনলি রাখা।" },
+        { "en": "Validate IOC formats cleanly (e.g., valid 64-hex SHA-256, valid IP) before storing.", "bn": "সংরক্ষণের আগে IOC ফরম্যাট (যেমন ৬৪-হেক্স SHA-256 বা বৈধ IP) যাচাই করা।" },
+        { "en": "Enforce foreign key constraints across cases, timeline events, IOCs, and evidence tables.", "bn": "কেস, টাইমলাইন, IOC ও প্রমাণ টেবিলের মধ্যে ফরেইন-কী অখণ্ডতা বজায় রাখা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Strict NIST-aligned incident workflow with SLA breach warnings", "bn": "SLA সতর্কতাসহ NIST-অনুযায়ী ইনসিডেন্ট ওয়ার্কফ্লো" },
+        { "en": "Cross-case IOC intelligence graph/table lookup", "bn": "একাধিক কেসের মধ্যে অভিন্ন IOC অনুসন্ধান" },
+        { "en": "Evidence integrity verifier checking current evidence file hash vs intake hash", "bn": "প্রমাণ ফাইলের বর্তমান হ্যাশ বনাম সংগ্রহকালীন হ্যাশ যাচাই" },
+        { "en": "One-command executive & technical Post-Incident Report generator", "bn": "এক কমান্ডেই প্রযুক্তিগত পোস্ট-ইনসিডেন্ট রিপোর্ট তৈরি" }
+      ],
+      "constraints": [
+        { "en": "Use synthetic incident fixtures and safe placeholder IOCs (RFC 5737 test IPs / .test domains); never store real malware binaries or victim PII.", "bn": "কেবল সিন্থেটিক কেস ও নিরাপদ টেস্ট IOC ব্যবহার করুন; কোনো আসল ম্যালওয়্যার বা ভিকটিমের ব্যক্তিগত তথ্য রাখবেন না।" },
+        { "en": "Use parameterized SQL queries throughout.", "bn": "সর্বত্র প্যারামিটারাইজড SQL কোয়েরি ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "incident_tracker/",
+        "├── README.md",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── db.py",
+        "│   ├── workflow.py",
+        "│   ├── ioc_manager.py",
+        "│   ├── custody.py",
+        "│   └── reporting.py",
+        "└── tests/",
+        "    ├── test_workflow_sla.py",
+        "    └── test_ioc_correlation.py"
+      ],
+      "folderStructureNote": {
+        "en": "Keep workflow state rules and SLA calculations independent of CLI formatting so every state guard is cleanly unit-tested.",
+        "bn": "ওয়ার্কফ্লো স্টেট নিয়ম ও SLA গণনা CLI থেকে আলাদা রাখুন যাতে সহজেই ইউনিট টেস্ট করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "SQLite relational database with tables for incidents, timeline_events, iocs, incident_iocs, and evidence_custody; export case dossiers as JSON or Markdown.",
+        "bn": "incidents, timeline_events, iocs, incident_iocs এবং evidence_custody টেবিলসহ SQLite ডেটাবেজ এবং JSON/Markdown কেস ডসিয়ার রপ্তানি।"
+      },
+      "testingRequirements": [
+        { "en": "Test invalid lifecycle transitions (e.g., jumping directly from New to Closed without Containment/Review) are rejected.", "bn": "অবৈধ লাইফসাইকেল ধাপ পরিবর্তন প্রত্যাখ্যাত হয় কি না পরীক্ষা করা।" },
+        { "en": "Test attaching the same normalized IOC to two incidents links them cleanly without duplicating the IOC row.", "bn": "দুটি ভিন্ন কেসে একই IOC যুক্ত করলে ডুপ্লিকেট রো তৈরি না হয়ে ক্রস-লিংক হয় কি না দেখা।" },
+        { "en": "Test evidence hash mismatch flags custody tampering immediately.", "bn": "প্রমাণ ফাইলের হ্যাশ না মিললে কাস্টডি ত্রুটি ধরা পড়ে কি না যাচাই করা।" },
+        { "en": "Test MTTD and MTTR calculations with known UTC timestamps.", "bn": "নির্দিষ্ট UTC টাইমস্ট্যাম্প দিয়ে MTTD ও MTTR গণনা পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Use parameterized SQL everywhere and enforce PRAGMA foreign_keys = ON.", "bn": "সর্বত্র প্যারামিটারাইজড SQL ও PRAGMA foreign_keys = ON ব্যবহার করুন।" },
+        { "en": "Defang malicious-looking IOC URLs/IPs in Markdown exports so reviewers cannot click them accidentally.", "bn": "রিপোর্টে ভুল ক্লিক ঠেকাতে IOC লিংক ডিফ্যাং করে রাখুন।" },
+        { "en": "Protect incident database files with restrictive permissions.", "bn": "ইনসিডেন্ট ডেটাবেজ ফাইলের পারমিশন সীমাবদ্ধ রাখুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "SQLite-backed DFIR/SOC incident tracker CLI with IOC correlation & evidence custody", "bn": "IOC কোরিলেশন ও চেইন-অব-কাস্টডিসহ SQLite ইনসিডেন্ট ট্র্যাকার" },
+        { "en": "Sample multi-case dataset demonstrating linked IOCs and SLA metrics", "bn": "যুক্ত IOC ও SLA মেট্রিক্স প্রদর্শনকারী নমুনা ডেটাসেট" },
+        { "en": "Automated tests for state transitions, SQL integrity, and custody verification", "bn": "স্টেট নিয়ম, SQL ও কাস্টডি যাচাইকারী টেস্ট স্যুট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Entity-relationship schema diagram and NIST workflow state diagram in README", "bn": "README-তে ER স্কিমা ও NIST ওয়ার্কফ্লো স্টেট ডায়াগ্রাম" },
+        { "en": "Generated sample Post-Incident Report Markdown file", "bn": "নমুনা পোস্ট-ইনসিডেন্ট মার্কডাউন রিপোর্ট" },
+        { "en": "Proof of unit tests passing against temporary databases", "bn": "টেম্পোরারি ডেটাবেজে ইউনিট টেস্ট পাসের প্রমাণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why is an incident_iocs join table better than storing comma-separated IOC strings inside the incidents table?", "bn": "ইনসিডেন্ট টেবিলে কমা-সেপারেটেড টেক্সটের বদলে incident_iocs জয়েন টেবিল ব্যবহার করা কেন উত্তম?" },
+        { "en": "How do you normalize IOCs so '192.0.2.10' and '192[.]0[.]2[.]10' match as the exact same indicator?", "bn": "'192.0.2.10' এবং '192[.]0[.]2[.]10' একই IOC হিসেবে চিহ্নিত করতে কীভাবে নরমালাইজ করবেন?" },
+        { "en": "What distinguishes Detection Timestamp, Triage Timestamp, Containment Timestamp, and Closure Timestamp in SLA math?", "bn": "SLA হিসাবের ক্ষেত্রে শনাক্তকরণ, ট্রায়াজ, কনটেইনমেন্ট এবং ক্লোজার সময়ের পার্থক্য কী?" },
+        { "en": "Why must an evidence custody table record both 'acquired_hash' and each custody handoff event?", "bn": "চেইন-অব-কাস্টডিতে সংগ্রহের সময়ের হ্যাশ ও প্রতিটি হস্তান্তর লগ সংরক্ষণ কেন বাধ্যতামূলক?" },
+        { "en": "How should the tracker handle a reopened incident without overwriting historical containment metrics?", "bn": "পূর্বের কনটেইনমেন্ট মেট্রিক নষ্ট না করে পুনরায় খোলা ইনসিডেন্ট কীভাবে পরিচালনা করবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Separate Case State Management (incidents + immutable timeline log) from Intelligence Normalization (IOCs + join table) and Evidence Custody.",
+          "bn": "কেস স্টেট ব্যবস্থাপনা, IOC নরমালাইজেশন ও এভিডেন্স কাস্টডিকে আলাদা দায়িত্ব হিসেবে ভাগ করুন।"
+        },
+        "level2": {
+          "en": "Define an explicit ALLOWED_TRANSITIONS map per lifecycle state, normalize/canonicalize IOC strings before upserting into a unique (type, value) table, and enforce SQLite foreign keys inside transactions.",
+          "bn": "বৈধ স্টেট পরিবর্তনের ALLOWED_TRANSITIONS ম্যাপ তৈরি করুন, ইউনিক (type, value) টেবিলে IOC আপসার্ট করুন এবং ফরেইন-কী চালু রাখুন।"
+        },
+        "level3": {
+          "en": "Store all timestamps in ISO-8601 UTC inside SQLite so MTTD/MTTR deltas and SLA breach flags compute reliably regardless of local timezone.",
+          "bn": "যেকোনো টাইমজোনে নির্ভুল MTTD/MTTR হিসাবের জন্য ডেটাবেজে সব সময় ISO-8601 UTC ফরম্যাটে সংরক্ষণ করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Import alerts directly from PRJ-13's JSON alert output into new incident cases automatically.", "bn": "PRJ-13-এর JSON অ্যালার্ট থেকে স্বয়ংক্রিয়ভাবে নতুন ইনসিডেন্ট তৈরি করার ইম্পোর্টার যোগ করুন।" },
+        { "en": "Generate a timeline merging analyst actions and IOC sighting timestamps chronologically.", "bn": "বিশ্লেষকের পদক্ষেপ ও IOC সময়চিহ্ন মিলিয়ে একীভূত টাইমলাইন তৈরি করুন।" },
+        { "en": "Add playbook checklist templates per incident category (Phishing vs Account Compromise).", "bn": "ইনসিডেন্টের ধরন অনুযায়ী প্লেবুক চেকলিস্ট টেমপ্লেট যুক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Incident Response Analyst (DFIR)", "bn": "ইনসিডেন্ট রেসপন্স বিশ্লেষক (DFIR)" },
+          { "en": "SOC Lead / Security Tooling Developer", "bn": "SOC লিড / সিকিউরিটি টুলিং ডেভেলপার" }
+        ],
+        "industryRelevance": {
+          "en": "Bridges relational software architecture with real SOAR/IR case-management workflows (similar to TheHive), showing strong system design.",
+          "bn": "রিলেশনাল ডেটাবেজ আর্কিটেকচারের সাথে বাস্তব SOAR ও IR কেস-ম্যানেজমেন্ট (TheHive-ধাঁচের) দক্ষতার সমন্বয় প্রদর্শন করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Incident lifecycle & SLA engineering", "bn": "ইনসিডেন্ট লাইফসাইকেল ও SLA ইঞ্জিনিয়ারিং" },
+          { "en": "Relational IOC correlation modeling", "bn": "রিলেশনাল IOC কোরিলেশন মডেলিং" },
+          { "en": "Forensic chain-of-custody verification", "bn": "ফরেনসিক চেইন-অব-কাস্টডি যাচাইকরণ" }
+        ],
+        "interviewTopics": [
+          { "en": "NIST incident response lifecycle and MTTD/MTTR metrics", "bn": "NIST ইনসিডেন্ট রেসপন্স ধাপ ও MTTD/MTTR মেট্রিক্স" },
+          { "en": "Chain-of-custody principles and IOC normalization", "bn": "চেইন-অব-কাস্টডি নীতি ও IOC স্বাভাবিকীকরণ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Substantial backend + security-operations capstone demonstrating database design, state machines, and operational DFIR thinking.",
+          "bn": "ডেটাবেজ ডিজাইন, স্টেট মেশিন এবং বাস্তব DFIR চিন্তাধারার প্রমাণ হিসেবে অসাধারণ পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-18",
+      "number": 18,
+      "title": {
+        "en": "API Security Assessment Tool",
+        "bn": "API সিকিউরিটি অ্যাসেসমেন্ট টুল"
+      },
+      "level": "Level 04",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "14–16 hours",
+        "bn": "১৪–১৬ ঘণ্টা"
+      },
+      "category": "AppSec & Risk",
+      "overview": {
+        "en": "Build an authorized defensive API security baseline checker that inspects OpenAPI/Swagger specs alongside local/lab HTTP test endpoints to verify authentication enforcement, CORS policy safety, HTTP security headers, TLS/HTTPS usage, rate-limit header presence, and sensitive-data leakage in error responses.",
+        "bn": "অনুমোদিত লোকাল বা ল্যাব API ও OpenAPI স্পেক বিশ্লেষণ করে অথেনটিকেশন প্রয়োগ, নিরাপদ CORS নীতি, HTTP সিকিউরিটি হেডার, রেট-লিমিট হেডার এবং ত্রুটি বার্তায় সংবেদনশীল তথ্য ফাঁস যাচাইকারী একটি প্রতিরক্ষামূলক API সিকিউরিটি অ্যাসেসমেন্ট টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Modern web and mobile apps expose dozens of REST endpoints; forgotten unauthenticated routes, wildcard CORS with credentials, verbose stack traces, or missing rate-limit headers routinely slip into production.",
+        "bn": "আধুনিক অ্যাপে অসংখ্য REST এন্ডপয়েন্ট থাকে; অনেক সময় অথেনটিকেশনবিহীন রুট, অনিরাপদ ওয়াইল্ডকার্ড CORS, স্ট্যাক ট্রেস ফাঁস বা রেট-লিমিটের অভাব প্রোডাকশনে চলে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Application Security (AppSec) engineers automate shift-left API posture checks inside CI/CD pipelines against staging/local containers before code reaches production.",
+        "bn": "AppSec ইঞ্জিনিয়াররা কোড প্রোডাকশনে যাওয়ার আগেই CI/CD-তে স্টেজিং বা লোকাল কন্টেইনারের বিরুদ্ধে স্বয়ংক্রিয় API নিরাপত্তা পরীক্ষা চালান।"
+      },
+      "realWorldUseCases": [
+        { "en": "CI/CD pre-release security gate auditing OpenAPI schemas & local test servers", "bn": "রিলিজের আগে CI/CD-তে OpenAPI স্পেক ও লোকাল সার্ভারের নিরাপত্তা যাচাই" },
+        { "en": "Detecting overly permissive CORS configurations on owned microservices", "bn": "নিজস্ব মাইক্রোসার্ভিসে অতিরিক্ত উদার CORS কনফিগারেশন শনাক্তকরণ" },
+        { "en": "Auditing error responses to confirm stack traces and internal DB details are masked", "bn": "ত্রুটির উত্তরে স্ট্যাক ট্রেস বা ডেটাবেজ তথ্য লুকানো আছে কি না পরীক্ষা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "OWASP API Security Top 10 defensive awareness", "bn": "OWASP API সিকিউরিটি টপ ১০ প্রতিরক্ষামূলক ধারণা" },
+        { "en": "OpenAPI spec linting & HTTP header auditing", "bn": "OpenAPI স্পেক বিশ্লেষণ ও HTTP হেডার অডিট" },
+        { "en": "Controlled local-target AppSec reporting", "bn": "নিয়ন্ত্রিত লোকাল-টার্গেট AppSec রিপোর্টিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "OpenAPI JSON parsing for endpoints, methods, and securitySchemes", "bn": "এন্ডপয়েন্ট ও securitySchemes-এর জন্য OpenAPI JSON পার্সিং" },
+        { "en": "urllib.request safe HTTP inspection with strict allowlist & read limits", "bn": "কঠোর অনুমোদন তালিকা ও সাইজ সীমাসহ urllib.request পরিদর্শন" },
+        { "en": "Regex redaction/detection for verbose tracebacks & leaked keys in responses", "bn": "রেসপন্সে স্ট্যাক ট্রেস বা ফাঁস হওয়া টোকেন প্যাটার্ন শনাক্তকরণ" },
+        { "en": "http.server vulnerable-vs-hardened local lab test fixture", "bn": "হোস্টেড পরীক্ষার জন্য http.server দুর্বল বনাম সুরক্ষিত ল্যাব সার্ভার" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (urllib.request, http.server, json, re, urllib.parse)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (urllib.request, http.server, json, re, urllib.parse)" },
+        { "en": "Local mock OpenAPI spec + intentional vulnerable vs hardened test server", "bn": "নমুনা OpenAPI স্পেক ও লোকাল টেস্ট সার্ভার ফিক্সচার" }
+      ],
+      "functionalRequirements": [
+        { "en": "Audit OpenAPI JSON specs statically for endpoints missing security definitions, HTTP (non-HTTPS) servers, or wildcard methods.", "bn": "অথেনটিকেশন অনুপস্থিত এন্ডপয়েন্ট বা অনিরাপদ সার্ভার URL-এর জন্য OpenAPI JSON স্ট্যাটিকভাবে অডিট করা।" },
+        { "en": "Probe strictly localhost or allowlisted lab endpoints using safe, non-destructive OPTIONS/GET/HEAD checks for CORS misconfigurations, security headers, and rate-limit headers.", "bn": "কেবল লোকালহোস্ট বা অনুমোদিত ল্যাবে নিরাপদ GET/OPTIONS পরীক্ষায় CORS, সিকিউরিটি হেডার ও রেট-লিমিট যাচাই করা।" },
+        { "en": "Check whether unauthenticated requests to declared protected routes properly return 401/403 and whether 4xx/5xx payloads expose stack traces or SQL errors.", "bn": "সুরক্ষিত রুটে টোকেন ছাড়া ৪01/403 আসে কি না এবং এরর বডিতে স্ট্যাক ট্রেস ফাঁস হয় কি না পরীক্ষা করা।" },
+        { "en": "Generate an OWASP-mapped findings report with severity, evidence, and remediation advice.", "bn": "OWASP ম্যাপড ফাইন্ডিংস, প্রমাণ ও সমাধান নির্দেশনাসহ রিপোর্ট তৈরি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Enforce strict non-destructive mode—never send destructive DELETE/POST state mutations or exploit payloads.", "bn": "ক্ষতিকর বা পরিবর্তনকারী রিকোয়েস্ট ছাড়া কেবল নিরাপদ নন-ডেস্ট্রাক্টিভ পরীক্ষা চালানো।" },
+        { "en": "Refuse non-allowlisted external targets automatically.", "bn": "অনুমোদন তালিকার বাইরের কোনো বহিঃস্থ টার্গেট স্বয়ংক্রিয়ভাবে প্রত্যাখ্যান করা।" },
+        { "en": "Cap HTTP response body reads to prevent memory issues.", "bn": "মেমোরি সুরক্ষায় HTTP রেসপন্স বডি পড়ার সর্বোচ্চ সীমা রাখা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Dual-engine analysis: Static OpenAPI Spec Linter + Dynamic Local Baseline Checker", "bn": "স্ট্যাটিক OpenAPI লিন্টার ও ডায়নামিক লোকাল বেসলাইন চেকার" },
+        { "en": "CORS Origin reflection & Allow-Credentials misconfiguration detector", "bn": "CORS অরিজিন রিফ্লেকশন ও ক্রেডেনশিয়াল ভুল-কনফিগ শনাক্তকারী" },
+        { "en": "Security header & verbose-error disclosure audit", "bn": "সিকিউরিটি হেডার ও ত্রুটি তথ্য ফাঁস অডিট" },
+        { "en": "Built-in local mock API server in tests proving detection accuracy", "bn": "টেস্টে বিল্ট-ইন মক API সার্ভার দিয়ে যাচাই" }
+      ],
+      "constraints": [
+        { "en": "Authorized local/lab targets only—strictly disallow external unauthorized API scanning and exploitation payloads.", "bn": "কেবল অনুমোদিত লোকাল বা ল্যাব টার্গেট; কোনো অননুমোদিত বাইরের API স্ক্যান বা এক্সপ্লয়েট পেলোড নয়।" },
+        { "en": "Keep checks passive/baseline-focused (spec, headers, auth gating, CORS, error sanitization).", "bn": "পরীক্ষাগুলো প্যাসিভ ও বেসলাইন-কেন্দ্রিক (স্পেক, হেডার, অথেনটিকেশন, CORS, এরর স্যানিটাইজেশন) রাখুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "api_security_assessor/",
+        "├── README.md",
+        "├── allowlist.example.json",
+        "├── samples/",
+        "│   └── sample_openapi.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── target_policy.py",
+        "│   ├── openapi_auditor.py",
+        "│   ├── http_auditor.py",
+        "│   └── reporter.py",
+        "└── tests/",
+        "    ├── test_openapi_auditor.py",
+        "    └── test_local_http_auditor.py"
+      ],
+      "folderStructureNote": {
+        "en": "Run target_policy verification before any dynamic HTTP request and keep static OpenAPI checks usable completely offline.",
+        "bn": "যেকোনো ডায়নামিক HTTP পরীক্ষার আগে target_policy যাচাই করুন এবং স্ট্যাটিক OpenAPI অডিটকে সম্পূর্ণ অফলাইন রাখুন।"
+      },
+      "dataStorageRequirements": {
+        "en": "Read OpenAPI JSON specifications and target allowlist configs; write structured AppSec findings and remediation checklists to JSON/Markdown.",
+        "bn": "OpenAPI JSON ও অনুমোদিত টার্গেট কনফিগ পড়ে AppSec ফাইন্ডিংস ও সমাধান চেকলিস্ট JSON/Markdown-এ সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test OpenAPI auditor catches routes missing security blocks and cleartext server URLs.", "bn": "সিকিউরিটি ব্লকহীন রুট ও HTTP সার্ভার URL OpenAPI অডিটর ধরে কি না পরীক্ষা করা।" },
+        { "en": "Spin up a localhost test server returning insecure CORS ('*' + Allow-Credentials: true) and verify High finding.", "bn": "অনিরাপদ CORS ফেরত দেওয়া লোকালহোস্ট টেস্ট সার্ভারে হাই রিস্ক ফাইন্ডিং ধরা পড়ে কি না যাচাই করা।" },
+        { "en": "Test verbose traceback leakage check detects exposed Python/SQL exception messages.", "bn": "এরর রেসপন্সে স্ট্যাক ট্রেস বা SQL ত্রুটি ফাঁস শনাক্ত হয় কি না দেখা।" },
+        { "en": "Verify target_policy blocks external unapproved domains.", "bn": "অননুমোদিত বাইরের ডোমেইন target_policy আটকে দেয় কি না পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Redacted token/header handling: never write test Authorization headers or cookies into report files.", "bn": "রিপোর্ট ফাইলে কখনোই টেস্ট Authorization হেডার বা কুকি লিখবেন না।" },
+        { "en": "Disable automatic HTTP redirects across origin boundaries during header audits.", "bn": "হেডার অডিটের সময় স্বয়ংক্রিয় ক্রস-অরিজিন রিডাইরেক্ট নিয়ন্ত্রণ করুন।" },
+        { "en": "Enforce strict allowlists before dynamic probing.", "bn": "ডায়নামিক প্রোবের আগে কঠোর অনুমোদন তালিকা প্রয়োগ করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Static OpenAPI + dynamic local HTTP security posture checker CLI", "bn": "স্ট্যাটিক OpenAPI ও ডায়নামিক লোকাল HTTP নিরাপত্তা পরীক্ষক CLI" },
+        { "en": "Local test fixtures comparing misconfigured vs hardened API endpoints", "bn": "ভুল কনফিগার বনাম সুরক্ষিত API তুলনাকারী লোকাল টেস্ট ফিক্সচার" },
+        { "en": "OWASP-referenced JSON/Markdown audit report output", "bn": "OWASP রেফারেন্সসহ JSON/Markdown অডিট রিপোর্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Sample CI/CD pipeline gate workflow instructions in README", "bn": "README-তে CI/CD সিকিউরিটি গেট ব্যবহারের নির্দেশনা" },
+        { "en": "Clear mapping of findings to OWASP API Security concepts", "bn": "OWASP API সিকিউরিটি ধারণার সাথে প্রতিটি ফাইন্ডিংয়ের ম্যাপিং" },
+        { "en": "Strict authorized-only testing policy documented clearly", "bn": "অনুমোদিত টেস্টিং নীতির স্পষ্ট বিবরণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why is returning 'Access-Control-Allow-Origin: https://untrusted.example' dynamically even more dangerous than '*' when 'Allow-Credentials: true' is set?", "bn": "'Allow-Credentials: true' থাকা অবস্থায় অরিজিন রিফ্লেক্ট করা '*' ব্যবহারের চেয়েও কেন বেশি ঝুঁকিপূর্ণ?" },
+        { "en": "Why must an API auditor inspect OpenAPI specs AND live local responses rather than trusting documentation alone?", "bn": "কেবল OpenAPI ডকুমেন্টেশনের ওপর নির্ভর না করে লোকাল রেসপন্সও কেন পরীক্ষা করা প্রয়োজন?" },
+        { "en": "How do missing 'Cache-Control: no-store' headers on authenticated JSON endpoints create privacy risks on shared systems?", "bn": "অথেনটিকেটেড API উত্তরে 'Cache-Control: no-store' না থাকলে শেয়ারড ডিভাইসে কী ঝুঁকি তৈরি হয়?" },
+        { "en": "Why is checking unauthenticated behavior with a read-only GET safer than mutating POST endpoints in automated CI gates?", "bn": "CI অটোমেশনে POST/DELETE পরিবর্তনের চেয়ে নিরাপদ GET/OPTIONS যাচাই কেন নিরাপদ?" },
+        { "en": "How should the auditor normalize case-insensitive HTTP header names reliably?", "bn": "কেস-ইনসেনসিটিভ HTTP হেডার নামগুলো নির্ভরযোগ্যভাবে কীভাবে তুলনা করবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Combine two safe analyzers under one shared Finding schema: a purely offline OpenAPI spec analyzer and a policy-gated localhost HTTP header/error observer.",
+          "bn": "একই Finding মডেলের অধীনে দুটি নিরাপদ অংশ রাখুন: অফলাইন OpenAPI স্পেক বিশ্লেষক এবং নীতি-নিয়ন্ত্রিত লোকালহোস্ট HTTP অডিটর।"
+        },
+        "level2": {
+          "en": "Walk OpenAPI 'paths' -> methods verifying global vs per-operation 'security', use urllib.request with custom Origin headers to test CORS reflection, and inspect response headers via case-insensitive Message lookup.",
+          "bn": "OpenAPI paths ও security যাচাই করুন, কাস্টম Origin হেডার দিয়ে নিরাপদ CORS পরীক্ষা করুন এবং কেস-ইনসেনসিটিভভাবে রেসপন্স হেডার পড়ুন।"
+        },
+        "level3": {
+          "en": "Build a tiny http.server fixture inside tests/ that exposes both vulnerable and hardened endpoints on 127.0.0.1 so every AppSec check runs reproducibly offline.",
+          "bn": "টেস্টের ভেতরেই 127.0.0.1-এ দুর্বল ও সুরক্ষিত এন্ডপয়েন্টসহ ছোট http.server ফিক্সচার চালু করে পুনরুৎপাদনযোগ্য পরীক্ষা নিশ্চিত করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Detect JWT header/alg:none risks when auditing sample Bearer token configurations.", "bn": "নমুনা JWT টোকেন হেডারে 'alg: none' বা দুর্বল অ্যালগরিদম সতর্কতা যোগ করুন।" },
+        { "en": "Flag undocumented 'shadow endpoints' discovered during local check diffs vs OpenAPI.", "bn": "OpenAPI স্পেকের বাইরে থাকা শ্যাডো এন্ডপয়েন্ট পার্থক্য চিহ্নিত করুন।" },
+        { "en": "Emit SARIF-compatible JSON output for GitHub Code Scanning integration.", "bn": "গিটহাব কোড স্ক্যানিংয়ের উপযোগী SARIF JSON আউটপুট যুক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Application Security (AppSec) Engineer", "bn": "অ্যাপ্লিকেশন সিকিউরিটি (AppSec) ইঞ্জিনিয়ার" },
+          { "en": "Backend Security Engineer", "bn": "ব্যাকএন্ড সিকিউরিটি ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Combines OpenAPI contract governance with OWASP API defensive auditing—highly sought after by SaaS and fintech AppSec teams.",
+          "bn": "OpenAPI কনট্র্যাক্ট যাচাই ও OWASP API প্রতিরক্ষামূলক অডিটিংয়ের সমন্বয় প্রদর্শন করে যা আধুনিক AppSec টিমে অত্যন্ত চাহিদাসম্পন্ন।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "OWASP API defensive posture checking", "bn": "OWASP API প্রতিরক্ষামূলক অবস্থান যাচাই" },
+          { "en": "CORS & HTTP security header auditing", "bn": "CORS ও HTTP সিকিউরিটি হেডার অডিটিং" },
+          { "en": "Shift-left CI/CD security gating", "bn": "শিফট-লেফট CI/CD সিকিউরিটি গেটিং" }
+        ],
+        "interviewTopics": [
+          { "en": "CORS misconfigurations, security headers, and error masking", "bn": "CORS ভুল কনফিগারেশন, সিকিউরিটি হেডার ও এরর মাস্কিং" },
+          { "en": "Broken Function/Object Level Authorization safeguards", "bn": "অথরাইজেশন নিয়ন্ত্রণ ও API হার্ডেনিং" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Practical AppSec automation project proving you understand how APIs fail in production and how to catch those gaps cleanly.",
+          "bn": "প্রোডাকশনে API নিরাপত্তা দুর্বলতা কীভাবে তৈরি হয় এবং তা স্বয়ংক্রিয়ভাবে কীভাবে ধরা যায় তার চমৎকার প্রমাণ।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-19",
+      "number": 19,
+      "title": {
+        "en": "Password Security and Authentication Risk Analyzer",
+        "bn": "পাসওয়ার্ড সিকিউরিটি ও অথেনটিকেশন ঝুঁকি বিশ্লেষক"
+      },
+      "level": "Level 04",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "12–15 hours",
+        "bn": "১২–১৫ ঘণ্টা"
+      },
+      "category": "AppSec & Risk",
+      "overview": {
+        "en": "Build a defensive password-policy and authentication-architecture analyzer that estimates pattern-aware entropy (detecting keyboard walks, years, l33tspeak substitutions, and common dictionary patterns), audits password storage scheme strength (MD5/SHA1 vs salted PBKDF2/Argon2 parameters), and evaluates MFA/lockout policy posture.",
+        "bn": "কিবোর্ড প্যাটার্ন, সাল, লিটস্পিক ও সাধারণ অভিধান শব্দ শনাক্ত করে পাসওয়ার্ডের প্রকৃত এনট্রপি নির্ণয়, পাসওয়ার্ড হ্যাশিং স্কিমের শক্তি (দুর্বল MD5/SHA1 বনাম সল্টেড PBKDF2/Argon2) অডিট এবং MFA/লকআউট নীতি মূল্যায়নকারী একটি প্রতিরক্ষামূলক ঝুঁকি বিশ্লেষক তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Legacy composition rules ('must contain 1 uppercase + 1 symbol') push users toward predictable passwords like 'Summer2024!', while developers still accidentally deploy unsalted hashes or lack brute-force rate limiting.",
+        "bn": "পুরনো জটিল নিয়মের ফলে ব্যবহারকারীরা 'Summer2024!'-এর মতো অনুমানযোগ্য পাসওয়ার্ড বেছে নেন, আর অনেক অ্যাপে দুর্বল হ্যাশ বা রেট-লিমিটের ঘাটতি থেকে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Modern NIST SP 800-63B guidance shifts focus from naive regex complexity toward length, breached-pattern screening, slow salted KDFs, and authentication rate-limiting.",
+        "bn": "আধুনিক NIST SP 800-63B নির্দেশিকায় কেবল অক্ষরের নিয়মের বদলে দৈর্ঘ্য, কমন প্যাটার্ন প্রতিরোধ, ধীর সল্টেড KDF ও রেট-লিমিটিংয়ের ওপর গুরুত্ব দেওয়া হয়।"
+      },
+      "realWorldUseCases": [
+        { "en": "Auditing an application's registration password policy against NIST SP 800-63B best practices", "bn": "NIST SP 800-63B অনুযায়ী অ্যাপ্লিকেশনের পাসওয়ার্ড নীতি যাচাই" },
+        { "en": "Identifying weak hash formats or low iteration counts in legacy migration audits (synthetic hashes only)", "bn": "লিগ্যাসি সিস্টেম মাইগ্রেশনে দুর্বল হ্যাশ ফরম্যাট বা কম ইটারেশন শনাক্তকরণ" },
+        { "en": "Evaluating authentication system config JSONs for lockout, MFA, and session expiry gaps", "bn": "অথেনটিকেশন কনফিগে MFA, লকআউট ও সেশন মেয়াদ দুর্বলতা মূল্যায়ন" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Pattern-aware entropy & crack-resistance estimation", "bn": "প্যাটার্ন-সচেতন এনট্রপি ও ঝুঁকি বিশ্লেষণ" },
+        { "en": "Cryptographic KDF & hash-format auditing", "bn": "ক্রিপ্টোগ্রাফিক KDF ও হ্যাশ-ফরম্যাট অডিটিং" },
+        { "en": "Authentication posture scoring (NIST 800-63B)", "bn": "অথেনটিকেশন নিরাপত্তা স্কোরিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "math.log2 character-space vs pattern-penalty calculations", "bn": "math.log2 এনট্রপি ও প্যাটার্ন পেনাল্টি হিসাব" },
+        { "en": "Sequence/keyboard adjacency & l33t normalization algorithms", "bn": "কিবোর্ড সিকোয়েন্স ও লিটস্পিক স্বাভাবিকীকরণ অ্যালগরিদম" },
+        { "en": "Modular hash-prefix recognizer ($2b$, $argon2id$, $pbkdf2-sha256$, raw hex)", "bn": "হ্যাশ-স্ট্রিং ফরম্যাট ও প্যারামিটার শনাক্তকরণ" },
+        { "en": "Zero-leakage memory/logging hygiene (never logging raw secret inputs)", "bn": "ইনপুট পাসওয়ার্ড কখনোই লগ বা রিপোর্টে সংরক্ষণ না করার নিরাপত্তা" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (math, re, hashlib, hmac, json, getpass)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (math, re, hashlib, hmac, json, getpass)" },
+        { "en": "Bundled small synthetic weak-word fixture list for offline checks", "bn": "অফলাইন পরীক্ষার জন্য ছোট সিন্থেটিক দুর্বল শব্দ তালিকা" }
+      ],
+      "functionalRequirements": [
+        { "en": "Analyze synthetic candidate passwords completely offline without storing or echoing raw secrets in output reports.", "bn": "আসল পাসওয়ার্ড আউটপুট বা লগে না রেখে সম্পূর্ণ অফলাইনে পরীক্ষামূলক পাসওয়ার্ড বিশ্লেষণ করা।" },
+        { "en": "Detect predictable weaknesses: keyboard walks ('qwerty', 'asdf'), sequential digits/letters, repeated characters, date/year suffixes, l33t substitutions ('P@ssw0rd'), and fixture dictionary matches.", "bn": "কিবোর্ড ওয়াক, ক্রমিক অক্ষর/সংখ্যা, পুনরাবৃত্তি, সাল ও লিটস্পিক শব্দ শনাক্ত করে কার্যকর এনট্রপি কমানো।" },
+        { "en": "Audit sample encoded hash strings (metadata only—never cracking passwords!) to classify algorithm strength, salt presence, and iteration/cost adequacy.", "bn": "পাসওয়ার্ড ক্র্যাক না করেই কেবল হ্যাশ ফরম্যাটের মেটাডেটা থেকে অ্যালগরিদম, সল্ট ও কস্ট ফ্যাক্টর অডিট করা।" },
+        { "en": "Audit an authentication policy JSON (lockout threshold, MFA enforcement, session idle/max TTL, password min-length) and produce NIST-aligned recommendations.", "bn": "অথেনটিকেশন পলিসি JSON বিশ্লেষণ করে লকআউট, MFA ও সেশন মেয়াদ বিষয়ে পরামর্শ দেওয়া।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Strictly defensive: NEVER perform password cracking, dictionary attacks against real hashes, or credential stuffing.", "bn": "সম্পূর্ণ প্রতিরক্ষামূলক: কখনোই আসল হ্যাশ ক্র্যাকিং বা ক্রেডেনশিয়াল আক্রমণ করবে না।" },
+        { "en": "Mask or omit evaluated candidate strings in saved reports.", "bn": "সংরক্ষিত রিপোর্টে পরীক্ষিত পাসওয়ার্ড স্ট্রিং মাস্ক বা বাদ রাখা।" },
+        { "en": "Explain clearly why naive character-pool entropy overstates strength when patterns exist.", "bn": "প্যাটার্ন থাকলে সাধারণ এনট্রপি কেন বিভ্রান্তিকর হয় তা স্পষ্টভাবে ব্যাখ্যা করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Pattern-aware strength scorer comparing naive vs penalized effective bits", "bn": "সাধারণ বনাম প্যাটার্ন-সমন্বিত কার্যকর এনট্রপি স্কোরার" },
+        { "en": "KDF/Hash format auditor ($argon2id$, $2b$ bcrypt, pbkdf2, legacy MD5/SHA1 flags)", "bn": "KDF ও হ্যাশ ফরম্যাট অডিটর" },
+        { "en": "Auth configuration posture analyzer checking MFA, rate-limiting, and cookie/session flags", "bn": "MFA, রেট-লিমিট ও সেশন ফ্ল্যাগ বিশ্লেষক" },
+        { "en": "Interactive safe passphrase feedback generator (explaining improvements without prescribing a single secret)", "bn": "নিরাপদ পাসফ্রেজ উন্নতির ব্যাখ্যামূলক পরামর্শ" }
+      ],
+      "constraints": [
+        { "en": "Defensive auditing and posture education only—no hash-cracking engine, GPU/CPU brute-force runner, or leaked password dump redistribution.", "bn": "কেবল প্রতিরক্ষামূলক অডিট ও শিক্ষা; কোনো হ্যাশ-ক্র্যাকিং বা লিকড পাসওয়ার্ড ডেটাবেজ নয়।" },
+        { "en": "Never persist plaintext passwords to disk, logs, or JSON reports.", "bn": "ডিস্ক, লগ বা রিপোর্টে কখনোই প্লেইনটেক্সট পাসওয়ার্ড সংরক্ষণ করবেন না।" }
+      ],
+      "suggestedFolderStructure": [
+        "auth_risk_analyzer/",
+        "├── README.md",
+        "├── data/",
+        "│   ├── synthetic_common_patterns.txt",
+        "│   └── sample_auth_policies.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── pattern_detector.py",
+        "│   ├── entropy_estimator.py",
+        "│   ├── hash_format_auditor.py",
+        "│   └── policy_auditor.py",
+        "└── tests/",
+        "    ├── test_pattern_entropy.py",
+        "    └── test_hash_and_policy_audit.py"
+      ],
+      "folderStructureNote": {
+        "en": "Keep pattern detection separate from entropy math and hash-string parsing so each rule can be tuned independently.",
+        "bn": "প্যাটার্ন শনাক্তকরণ, এনট্রপি গণনা ও হ্যাশ-ফরম্যাট পার্সিং আলাদা মডিউলে রাখুন।"
+      },
+      "dataStorageRequirements": {
+        "en": "Read synthetic common-pattern lists and auth policy JSON configs; store anonymized posture reports (with masked secrets) in JSON/Markdown.",
+        "bn": "সিন্থেটিক প্যাটার্ন তালিকা ও অথ পলিসি JSON পড়ে গোপন ইনপুট ছাড়াই ঝুঁকি রিপোর্ট JSON/Markdown-এ সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test 'P@ssw0rd123!' receives a sharp penalty despite containing upper, lower, digit, and symbol classes.", "bn": "বড়-ছোট অক্ষর, সংখ্যা ও চিহ্ন থাকা সত্ত্বেও 'P@ssw0rd123!'-তে প্যাটার্ন পেনাল্টি কাজ করে কি না পরীক্ষা করা।" },
+        { "en": "Test keyboard walk ('qwertyuiop') and sequential runs ('abcd1234') are flagged accurately.", "bn": "কিবোর্ড ওয়াক ও ক্রমিক ধারা সঠিকভাবে শনাক্ত হয় কি না যাচাই করা।" },
+        { "en": "Test hash auditor flags unsalted 32-char MD5 / low-iteration PBKDF2 while passing strong Argon2id/bcrypt parameters.", "bn": "দুর্বল MD5 বনাম শক্তিশালী Argon2id/bcrypt প্যারামিটার অডিট যাচাই করা।" },
+        { "en": "Test saved report output never contains raw candidate password strings.", "bn": "রপ্তানিকৃত রিপোর্টে কখনোই কাঁচা পাসওয়ার্ড থাকে না তা নিশ্চিত করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Use getpass for interactive terminal testing so shoulder-surfing or shell history cannot capture inputs.", "bn": "শেল হিস্ট্রিতে পাসওয়ার্ড জমা হওয়া ঠেকাতে ইন্টার‍্যাক্টিভ টেস্টে getpass ব্যবহার করুন।" },
+        { "en": "Redact/hash-truncate or completely omit secret samples in logs and crash messages.", "bn": "লগ ও এরর বার্তায় কোনো সংবেদনশীল ইনপুট প্রকাশ করবেন না।" },
+        { "en": "Keep hash auditing strictly at format/parameter inspection (never attempt preimage recovery).", "bn": "হ্যাশ অডিটিং কেবল ফরম্যাট ও প্যারামিটার যাচাইয়ে সীমাবদ্ধ রাখুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Offline pattern-aware password & auth policy risk analyzer CLI", "bn": "অফলাইন প্যাটার্ন-সচেতন পাসওয়ার্ড ও অথ পলিসি বিশ্লেষক CLI" },
+        { "en": "KDF/hash-parameter auditor and NIST SP 800-63B policy scorecard", "bn": "KDF/হ্যাশ অডিটর ও NIST SP 800-63B স্কোরকার্ড" },
+        { "en": "Unit tests verifying pattern penalties and secret-redaction guarantees", "bn": "প্যাটার্ন পেনাল্টি ও গোপনীয়তা সুরক্ষা যাচাইকারী ইউনিট টেস্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Clear explanation comparing naive character-pool entropy vs realistic pattern-penalized entropy", "bn": "সাধারণ এনট্রপি বনাম প্যাটার্ন-সমন্বিত এনট্রপির তুলনামূলক ব্যাখ্যা" },
+        { "en": "Sample JSON policy audit output with actionable developer fixes", "bn": "ডেভেলপারের করণীয়সহ নমুনা অথ পলিসি অডিট রিপোর্ট" },
+        { "en": "Explicit ethical defensive scope statement", "bn": "স্পষ্ট প্রতিরক্ষামূলক ব্যবহার নীতি বিবৃতি" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does 'Tr0ub4dor&3' have far less real-world strength than a 4-word random passphrase like 'correct-horse-battery-staple'?", "bn": "'Tr0ub4dor&3'-এর তুলনায় ৪ শব্দের র‍্যান্ডম পাসফ্রেজ বাস্তবে কেন অনেক বেশি শক্তিশালী?" },
+        { "en": "How do you normalize l33tspeak substitutions ('@' -> 'a', '0' -> 'o', '$' -> 's') before matching dictionary patterns without missing mixed digits?", "bn": "শব্দ মেলানোর আগে লিটস্পিক ('@' -> 'a', '0' -> 'o') কীভাবে নরমালাইজ করবেন?" },
+        { "en": "Why is an unsalted SHA-256 hash still unsafe for password storage even though SHA-256 is collision-resistant?", "bn": "SHA-256 শক্তিশালী হওয়া সত্ত্বেও পাসওয়ার্ড সংরক্ষণে দ্রুত ও সল্টবিহীন SHA-256 কেন অনিরাপদ?" },
+        { "en": "Why can two short hashes of length 32 hex chars both represent MD5 or an NTLM/raw token—how should the auditor report ambiguity honestly?", "bn": "৩২ হেক্স অক্ষরের স্ট্রিং দেখে হ্যাশ ধরন শতভাগ নিশ্চিত না হয়ে সম্ভাব্য দুর্বল ফরম্যাট হিসেবে কেন জানানো উচিত?" },
+        { "en": "What happens if an authentication system locks accounts forever after 5 failed attempts without backoff or recovery controls?", "bn": "৫ বার ভুলের পর অ্যাকাউন্ট স্থায়ীভাবে লক করলে কী ধরনের অ্যাভেইলেবিলিটি/DoS ঝুঁকি তৈরি হয়?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Treat authentication risk across three layers: Secret Predictability (patterns & length), Storage Cryptography (KDF family, salt, cost factor), and Account Controls (MFA, rate-limit, session TTL).",
+          "bn": "অথেনটিকেশন ঝুঁকিকে তিনটি স্তরে ভাগ করুন: পাসওয়ার্ড অনুমানযোগ্যতা, স্টোরেজ ক্রিপ্টোগ্রাফি (KDF/সল্ট/কস্ট) এবং অ্যাকাউন্ট নিয়ন্ত্রণ (MFA/রেট-লিমিট)।"
+        },
+        "level2": {
+          "en": "Build a pattern scanner that marks matched spans (dictionary, l33t, keyboard adjacency, year/date, repeats) so overlapping spans aren't double-counted, then compute effective entropy from remaining unpredictable tokens.",
+          "bn": "ডিকশনারি, লিটস্পিক, কিবোর্ড সিকোয়েন্স ও সাল স্প্যানগুলো চিহ্নিত করুন যাতে ওভারল্যাপ ডাবল গণনা না হয় এবং অবশিষ্ট অংশ থেকে কার্যকর এনট্রপি হিসাব করুন।"
+        },
+        "level3": {
+          "en": "Parse Modular Crypt Format strings ('$id$params$salt$hash') cleanly in hash_format_auditor.py to extract PBKDF2 iterations, bcrypt work factor, or Argon2 memory/time costs without decrypting anything.",
+          "bn": "Modular Crypt Format ('$id$params$...') পার্স করে কোনোরূপ ডিক্রিপ্ট ছাড়াই PBKDF2 ইটারেশন, bcrypt কস্ট বা Argon2 প্যারামিটার যাচাই করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Check password storage code patterns (static AST scan of sample Python snippets) for insecure hashlib.md5/sha1 password calls.", "bn": "নমুনা পাইথন কোডের AST স্ক্যান করে অনিরাপদ MD5/SHA1 পাসওয়ার্ড হ্যাশিং চিহ্নিত করুন।" },
+        { "en": "Support spatial keyboard graphs (QWERTY rows & diagonals) for walk detection.", "bn": "কিবোর্ড রো ও কোণাকুণি ওয়াক শনাক্ত করতে স্পেশাল গ্রাফ যোগ করুন।" },
+        { "en": "Estimate offline cracking cost tiers conceptually across GPU vs KDF work factors.", "bn": "KDF কস্ট ফ্যাক্টর অনুযায়ী ধারণাগত অফলাইন রেজিলিয়েন্স স্তর প্রদর্শন করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Product Security Engineer", "bn": "প্রোডাক্ট সিকিউরিটি ইঞ্জিনিয়ার" },
+          { "en": "Identity & Access Management (IAM) Engineer", "bn": "IAM ও অথেনটিকেশন ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Identity and authentication weaknesses remain the #1 root cause of cloud breaches; proving mastery over KDFs, NIST 800-63B, and policy auditing sets candidates apart.",
+          "bn": "পরিচয় ও অথেনটিকেশন দুর্বলতা ক্লাউড ব্রিচের প্রধান কারণ; KDF, NIST 800-63B ও পলিসি অডিটিংয়ে দক্ষতা প্রার্থীদের আলাদা করে তোলে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Pattern-aware entropy modeling", "bn": "প্যাটার্ন-সচেতন এনট্রপি মডেলিং" },
+          { "en": "KDF & Modular Crypt Format auditing", "bn": "KDF ও হ্যাশ ফরম্যাট অডিটিং" },
+          { "en": "NIST SP 800-63B authentication review", "bn": "NIST SP 800-63B অথেনটিকেশন পর্যালোচনা" }
+        ],
+        "interviewTopics": [
+          { "en": "Memory-hard KDFs (Argon2id) vs fast hashes (SHA-256)", "bn": "মেমোরি-হার্ড KDF (Argon2id) বনাম দ্রুত হ্যাশ (SHA-256)" },
+          { "en": "Designing safe account lockout, MFA, and password policies", "bn": "নিরাপদ লকআউট, MFA ও পাসওয়ার্ড নীতি ডিজাইন" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Clean, responsible AppSec utility emphasizing cryptography hygiene and zero-secret leakage.",
+          "bn": "ক্রিপ্টোগ্রাফিক সুরক্ষা ও জিরো-সিক্রেট লিক নীতি প্রদর্শনকারী দায়িত্বশীল AppSec প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-20",
+      "number": 20,
+      "title": {
+        "en": "Vulnerability Assessment and Risk Prioritization Platform",
+        "bn": "ভালনারেবিলিটি অ্যাসেসমেন্ট ও রিস্ক প্রাইওরিটাইজেশন প্ল্যাটফর্ম"
+      },
+      "level": "Level 04",
+      "difficulty": "Capstone",
+      "estimatedTime": {
+        "en": "18–22 hours",
+        "bn": "১৮–২২ ঘণ্টা"
+      },
+      "category": "AppSec & Risk",
+      "overview": {
+        "en": "Build a capstone vulnerability management and risk-prioritization platform that ingests software dependency inventories/SBOM-like asset manifests and scanner JSON feeds, matches versions against a local offline vulnerability advisory database, enriches findings with exploitability, asset criticality, and exposure context, deduplicates cross-scanner noise, and produces remediation roadmaps and SLA tracking.",
+        "bn": "সফটওয়্যার ডিপেন্ডেন্সি ও অ্যাসেট ইনভেন্টরি এবং স্ক্যানার JSON রিপোর্ট গ্রহণ করে অফলাইন অ্যাডভাইজরি ডেটাবেজের সাথে ভার্সন মিলানো, অ্যাসেটের গুরুত্ব ও এক্সপোজার অনুযায়ী প্রকৃত ঝুঁকি স্কোর করা, ডুপ্লিকেট কমানো এবং সংশোধন রোডম্যাপ ও SLA ট্র্যাকিং প্রদানকারী একটি ক্যাপস্টোন প্ল্যাটফর্ম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Security teams are buried under thousands of raw CVSS 'High/Critical' scanner findings, yet most are unreachable, internal-only, or lacking context—causing teams to patch trivial issues before truly exposed vulnerabilities.",
+        "bn": "স্ক্যানারের হাজারো কাঁচা 'High/Critical' তালিকায় কোনটি ইন্টারনেট-এক্সপোজড ও কোনটি অভ্যন্তরীণ বা রিমেডিয়েবল তা আলাদা করতে না পারায় গুরুত্বপূর্ণ ঝুঁকি সমাধানে দেরি হয়।"
+      },
+      "whyItMatters": {
+        "en": "Risk-based Vulnerability Management (RBVM)—combining severity, asset business criticality, network exposure, and remediation SLAs—is a flagship enterprise AppSec & SecOps discipline.",
+        "bn": "তীব্রতা, অ্যাসেটের ব্যবসায়িক গুরুত্ব, নেটওয়ার্ক এক্সপোজার ও SLA মিলিয়ে Risk-Based Vulnerability Management (RBVM) আধুনিক এন্টারপ্রাইজ সিকিউরিটির শীর্ষ দক্ষতা।"
+      },
+      "realWorldUseCases": [
+        { "en": "Consolidating dependency audit results and configuration findings into one prioritized sprint backlog", "bn": "ডিপেন্ডেন্সি অডিট ও কনফিগারেশন ফাইন্ডিং একত্র করে অগ্রাধিকারভিত্তিক স্প্রিন্ট ব্যাকলগ তৈরি" },
+        { "en": "Matching offline package versions (semver) against local advisory records in air-gapped environments", "bn": "এয়ার-গ্যাপড বা অফলাইন পরিবেশে প্যাকেজ ভার্সনের সাথে অ্যাডভাইজরি মিলিয়ে দেখা" },
+        { "en": "Tracking patch SLAs across Engineering owners and generating executive risk-reduction reports", "bn": "টিম অনুযায়ী প্যাচ SLA ট্র্যাকিং ও এক্সিকিউটিভ রিস্ক রিপোর্ট তৈরি" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Semantic version comparison & advisory matching", "bn": "সিম্যান্টিক ভার্সন তুলনা ও অ্যাডভাইজরি ম্যাচিং" },
+        { "en": "Contextual risk-scoring & finding deduplication", "bn": "প্রাসঙ্গিক রিস্ক স্কোরিং ও ডিডুপ্লিকেশন" },
+        { "en": "SQLite asset/finding lifecycle & SLA tracking", "bn": "SQLite অ্যাসেট/ফাইন্ডিং লাইফসাইকেল ও SLA ট্র্যাকিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "Tuple-based semantic version parser supporting '<', '<=', '>=', '==' constraints", "bn": "সীমা শর্তসহ সিম্যান্টিক ভার্সন পার্সার ও তুলনাকারী" },
+        { "en": "sqlite3 normalized tables (assets, findings, advisories, remediations, exceptions)", "bn": "assets, findings, advisories, remediations ও exceptions-সহ sqlite3 স্কিমা" },
+        { "en": "Deterministic finding fingerprinting for cross-feed deduplication", "bn": "ক্রস-ফিড ডিডুপ্লিকেশনের জন্য স্থির ফাইন্ডিং ফিঙ্গারপ্রিন্টিং" },
+        { "en": "Weighted risk model combining base severity, exposure, criticality & known-exploited flags", "bn": "বেস স্কোর, এক্সপোজার, গুরুত্ব ও এক্সপ্লয়েট ফ্ল্যাগভিত্তিক ওয়েটেড রিস্ক মডেল" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "SQLite3 & Standard Library (sqlite3, json, csv, hashlib, datetime, re)", "bn": "SQLite3 ও স্ট্যান্ডার্ড লাইব্রেরি (sqlite3, json, csv, hashlib, datetime, re)" },
+        { "en": "Sample SBOM/package manifests, local advisory JSON, and asset inventory fixtures", "bn": "নমুনা প্যাকেজ ম্যানিফেস্ট, লোকাল অ্যাডভাইজরি JSON ও অ্যাসেট ইনভেন্টরি" }
+      ],
+      "functionalRequirements": [
+        { "en": "Ingest asset inventory (tier, internet_exposed flag, owner team), package dependency manifests, and normalized scanner findings (including outputs from PRJ-16/PRJ-18 style audits).", "bn": "অ্যাসেট ইনভেন্টরি, প্যাকেজ ডিপেন্ডেন্সি তালিকা ও নমুনা স্ক্যানার ফাইন্ডিংস একত্রে গ্রহণ করা।" },
+        { "en": "Compare installed package versions against an offline JSON advisory catalog using semantic version range matching.", "bn": "সিম্যান্টিক ভার্সন রেঞ্জ মিলিয়ে অফলাইন JSON অ্যাডভাইজরি ক্যাটালগের সাথে ইনস্টল করা প্যাকেজ যাচাই করা।" },
+        { "en": "Deduplicate findings across imports by canonical fingerprint (asset_id + component + vuln_id) and compute a contextual Risk Score combining Base CVSS, Internet Exposure, Asset Criticality, and KEV/Exploit flag.", "bn": "ফিঙ্গারপ্রিন্ট দিয়ে ডুপ্লিকেট বাদ দিয়ে CVSS, এক্সপোজার, গুরুত্ব ও KEV ফ্ল্যাগের ভিত্তিতে প্রকৃত রিস্ক স্কোর গণনা করা।" },
+        { "en": "Manage finding workflow (Open -> In Remediation -> Risk Accepted with expiry -> Resolved), flag overdue SLAs, and export team-specific patching roadmaps.", "bn": "ফাইন্ডিংয়ের অবস্থা ও মেয়াদোত্তীর্ণ ঝুঁকি-গ্রহণ পরিচালনা, ওভারডিউ SLA শনাক্ত ও টিমভিত্তিক প্যাচ রোডম্যাপ রপ্তানি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Keep risk-scoring weights and SLA days configurable via policy JSON with full score-breakdown explainability.", "bn": "রিস্ক ওয়েট ও SLA দিন কনফিগারযোগ্য রাখা এবং প্রতিটি স্কোরের গাণিতিক ব্যাখ্যা দেখানো।" },
+        { "en": "Handle idempotent re-imports cleanly—re-importing the same scan refreshes 'last_seen' rather than duplicating rows.", "bn": "একই স্ক্যান পুনরায় ইম্পোর্ট করলে নতুন ডুপ্লিকেট না তৈরি করে 'last_seen' আপডেট করা।" },
+        { "en": "Operate completely offline with synthetic advisory and asset datasets.", "bn": "সিন্থেটিক অ্যাডভাইজরি ও অ্যাসেট ডেটা নিয়ে সম্পূর্ণ অফলাইনে কাজ করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Offline Semver Advisory Engine matching vulnerable package ranges cleanly", "bn": "সিমভার অ্যাডভাইজরি ইঞ্জিন যা দুর্বল প্যাকেজ রেঞ্জ শনাক্ত করে" },
+        { "en": "Contextual Risk Prioritizer distinguishing exposed crown-jewel assets from internal dev boxes", "bn": "এক্সপোজার ও গুরুত্ব অনুযায়ী প্রাসঙ্গিক রিস্ক প্রাইওরিটাইজার" },
+        { "en": "Time-bound Risk Acceptance workflow requiring owner approval and expiration date", "bn": "অনুমোদন ও মেয়াদসহ সময়-সীমাবদ্ধ রিস্ক-অ্যাক্সেপ্ট্যান্স ব্যবস্থা" },
+        { "en": "Executive Risk Posture Summary + Team Patching Roadmap exporter", "bn": "টিমভিত্তিক প্যাচিং রোডম্যাপ ও এক্সিকিউটিভ রিস্ক সারাংশ" }
+      ],
+      "constraints": [
+        { "en": "Use synthetic advisories, mock asset inventories, and safe package fixtures—no live active exploitation or unauthorized network scanning.", "bn": "কেবল সিন্থেটিক অ্যাডভাইজরি ও মক অ্যাসেট ইনভেন্টরি ব্যবহার করুন; কোনো অননুমোদিত স্ক্যানিং নয়।" },
+        { "en": "Use parameterized SQL queries and preserve full audit trail of status/exception changes.", "bn": "প্যারামিটারাইজড SQL ও প্রতিটি স্টেটাস পরিবর্তনের অডিট লগ বজায় রাখুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "vuln_risk_platform/",
+        "├── README.md",
+        "├── config/",
+        "│   └── risk_policy.json",
+        "├── sample_data/",
+        "│   ├── assets.json",
+        "│   ├── dependencies.json",
+        "│   └── offline_advisories.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── semver.py",
+        "│   ├── advisory_matcher.py",
+        "│   ├── risk_engine.py",
+        "│   ├── store.py",
+        "│   └── roadmap_reporter.py",
+        "└── tests/",
+        "    ├── test_semver_and_matcher.py",
+        "    ├── test_risk_prioritization.py",
+        "    └── test_dedup_and_sla.py"
+      ],
+      "folderStructureNote": {
+        "en": "Treat the platform as clean domain layers: Version/Advisory Matching, Contextual Risk Calculation, SQLite Persistence, and Roadmap Reporting.",
+        "bn": "প্ল্যাটফর্মটিকে স্পষ্ট চারটি স্তরে ভাগ করুন: ভার্সন ম্যাচিং, প্রাসঙ্গিক রিস্ক গণনা, SQLite সংরক্ষণ এবং রোডম্যাপ রিপোর্টিং।"
+      },
+      "dataStorageRequirements": {
+        "en": "SQLite database managing assets, normalized findings, audit history, and time-bound risk exceptions; policy weights in JSON; team roadmaps exported as CSV/JSON/Markdown.",
+        "bn": "অ্যাসেট, ফাইন্ডিং, অডিট লগ ও ঝুঁকি-ছাড়ের জন্য SQLite ডেটাবেজ; পলিসি ওয়েট JSON-এ এবং টিম রোডম্যাপ CSV/JSON/Markdown-এ।"
+      },
+      "testingRequirements": [
+        { "en": "Test semantic version range matching across prerelease tags, patch versions, and compound upper/lower bounds.", "bn": "প্রি-রিলিজ ও কম্পাউন্ড রেঞ্জসহ সিম্যান্টিক ভার্সন ম্যাচিং পরীক্ষা করা।" },
+        { "en": "Test identical vulnerability ranks strictly higher on an internet-exposed Tier-1 payment API than on an isolated Tier-3 sandbox.", "bn": "একই দুর্বলতা ইন্টারনেট-এক্সপোজড গুরুত্বপূর্ণ অ্যাসেটে বিচ্ছিন্ন স্যান্ডবক্সের চেয়ে বেশি ঝুঁকি স্কোর পায় কি না যাচাই করা।" },
+        { "en": "Test idempotent re-import updates last_seen without duplicating open findings, and auto-resolves absent fixed dependencies cleanly.", "bn": "পুনঃ-ইম্পোর্টে ডুপ্লিকেট তৈরি না হয়ে last_seen আপডেট ও ঠিক হওয়া প্যাকেজ সমাধান চিহ্নিত হয় কি না পরীক্ষা করা।" },
+        { "en": "Test expired risk-acceptance waivers automatically resurface findings as overdue.", "bn": "মেয়াদোত্তীর্ণ রিস্ক-অ্যাক্সেপ্ট্যান্স স্বয়ংক্রিয়ভাবে ঝুঁকি হিসেবে আবার প্রদর্শিত হয় কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Ensure risk-acceptance waivers always require a reason, owner, and hard expiration date.", "bn": "ঝুঁকি-ছাড় (Risk Acceptance)-এর জন্য সর্বদা কারণ, অনুমোদনকারী ও মেয়াদ বাধ্যতামূলক রাখুন।" },
+        { "en": "Parameterize all database operations and validate JSON import schemas rigorously.", "bn": "সব ডেটাবেজ কোয়েরি প্যারামিটারাইজ করুন এবং JSON ইম্পোর্ট স্কিমা কঠোরভাবে যাচাই করুন।" },
+        { "en": "Keep advisory matching safe from ReDoS or unbounded version parsing on untrusted manifests.", "bn": "অবিশ্বস্ত ম্যানিফেস্টে নিরাপদ ভার্সন পার্সিং ও সীমাবদ্ধ ইনপুট যাচাই বজায় রাখুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Full offline Risk-Based Vulnerability Management CLI & SQLite platform", "bn": "সম্পূর্ণ অফলাইন রিস্ক-ভিত্তিক ভালনারেবিলিটি ম্যানেজমেন্ট CLI ও SQLite প্ল্যাটফর্ম" },
+        { "en": "Semver matching engine, deduplication, SLA tracker, and risk-waiver expiry detector", "bn": "সিমভার ম্যাচিং ইঞ্জিন, ডিডুপ্লিকেশন, SLA ট্র্যাকার ও মেয়াদ পরীক্ষক" },
+        { "en": "End-to-end automated tests and sample multi-team remediation roadmap", "bn": "সম্পূর্ণ অটোমেটেড টেস্ট স্যুট ও নমুনা টিম রোডম্যাপ" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Architecture diagram showing ingestion -> deduplication -> contextual risk scoring -> SLA roadmap", "bn": "ইনজেশন থেকে ডিডুপ্লিকেশন, রিস্ক স্কোরিং ও SLA রোডম্যাপের পূর্ণ আর্কিটেকচার ডায়াগ্রাম" },
+        { "en": "Clear documentation of your contextual risk formula and trade-offs", "bn": "প্রাসঙ্গিক রিস্ক ফর্মুলা ও ডিজাইন সিদ্ধান্তের স্পষ্ট বিবরণ" },
+        { "en": "Sample prioritized engineering backlog contrasting raw CVSS vs contextual ranking", "bn": "কাঁচা CVSS বনাম প্রাসঙ্গিক র‍্যাংকিংয়ের পার্থক্য দেখানো নমুনা ব্যাকলগ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does ranking purely by raw CVSS score fail large engineering teams?", "bn": "কেবল কাঁচা CVSS স্কোর অনুযায়ী অগ্রাধিকার ঠিক করলে বড় ইঞ্জিনিয়ারিং টিমে কেন সমস্যা হয়?" },
+        { "en": "How do you compare semantic versions like '2.10.0' vs '2.9.5' and handle pre-releases like '2.10.0rc1' without naive string comparison bugs?", "bn": "'2.10.0' বনাম '2.9.5' এবং '2.10.0rc1' প্রি-রিলিজ সাধারণ স্ট্রিং তুলনার ভুল ছাড়া কীভাবে সঠিকভাবে তুলনা করবেন?" },
+        { "en": "What happens if Asset A upgrades a vulnerable library to a fixed version—how should re-scanning automatically close the finding?", "bn": "কোনো অ্যাসেটে দুর্বল লাইব্রেরি আপগ্রেড করলে পরবর্তী স্ক্যানে ফাইন্ডিংটি স্বয়ংক্রিয়ভাবে কীভাবে রিজলভ হবে?" },
+        { "en": "How do you preserve a finding's original discovery timestamp and SLA clock during repeated daily scans?", "bn": "প্রতিদিনের স্ক্যানে ফাইন্ডিংয়ের মূল শনাক্তের সময় ও SLA ঘড়ি কীভাবে অপরিবর্তিত রাখবেন?" },
+        { "en": "Why is an unexpiring 'Risk Accepted' status an anti-pattern in security governance?", "bn": "মেয়াদহীন 'Risk Accepted' ব্যবস্থা নিরাপত্তা শাসনব্যবস্থায় কেন ঝুঁকিপূর্ণ?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think of the platform as transforming noisy raw observations into contextual, deduplicated, SLA-tracked engineering tasks anchored to specific assets and owners.",
+          "bn": "প্ল্যাটফর্মটিকে এমন একটি ব্যবস্থা হিসেবে ভাবুন যা এলোমেলো কাঁচা অ্যালার্টকে অ্যাসেট ও দায়িত্বপ্রাপ্ত টিমের সাথে যুক্ত SLA-ভিত্তিক প্রকৌশল কাজে রূপান্তর করে।"
+        },
+        "level2": {
+          "en": "Parse version strings into numeric integer tuples (with separate pre-release ordering) before checking range predicates; fingerprint findings deterministically via SHA-256 over canonical '(asset_id, component, vuln_id)' for idempotent SQLite upserts.",
+          "bn": "ভার্সন স্ট্রিংকে সংখ্যাসূচক টাপলে ভেঙে রেঞ্জ যাচাই করুন এবং পুনঃ-ইম্পোর্টে ডুপ্লিকেট রোধে canonical '(asset_id, component, vuln_id)' ফিঙ্গারপ্রিন্ট ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Keep the risk formula transparent by storing both the final priority_score and a JSON score_breakdown dictionary explaining exact multipliers (exposure, asset_tier, kev_bonus), and drive CLI views directly from indexed SQLite queries.",
+          "bn": "চূড়ান্ত স্কোরের পাশাপাশি প্রতিটি গুণকের (এক্সপোজার, অ্যাসেট স্তর, KEV বোনাস) JSON ব্যাখ্যা সংরক্ষণ করুন এবং ইনডেক্সড SQLite কোয়েরি থেকে রোডম্যাপ তৈরি করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Build direct adapters to ingest JSON outputs from your PRJ-16 (Linux Audit) and PRJ-18 (API Assessment) tools into PRJ-20.", "bn": "আপনার PRJ-16 ও PRJ-18 টুলের JSON আউটপুট সরাসরি PRJ-20-তে ইম্পোর্ট করার অ্যাডাপ্টার তৈরি করুন।" },
+        { "en": "Add remediation efficiency analytics (which single library upgrade resolves the most total risk across assets).", "bn": "কোন একটি লাইব্রেরি আপগ্রেডে সবচেয়ে বেশি অ্যাসেটের ঝুঁকি কমবে তা বিশ্লেষণের সুবিধা যোগ করুন।" },
+        { "en": "Generate per-team Slack/Markdown digest summaries of upcoming 7-day SLA expirations.", "bn": "আগামী ৭ দিনে মেয়াদ ফুরোতে যাওয়া SLA তালিকা নিয়ে টিমভিত্তিক ডাইজেস্ট তৈরি করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Vulnerability Management & AppSec Engineer", "bn": "ভালনারেবিলিটি ম্যানেজমেন্ট ও AppSec ইঞ্জিনিয়ার" },
+          { "en": "Security Platform Software Engineer", "bn": "সিকিউরিটি প্ল্যাটফর্ম সফটওয়্যার ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Capstone-level synthesis of software engineering, relational modeling, semantic versioning, and enterprise Risk-Based Vulnerability Management (DefectDojo / Wiz / Snyk concepts).",
+          "bn": "সফটওয়্যার ইঞ্জিনিয়ারিং, রিলেশনাল ডেটা মডেলিং ও এন্টারপ্রাইজ রিস্ক-ভিত্তিক ভালনারেবিলিটি ম্যানেজমেন্টের সমন্বিত ক্যাপস্টোন দক্ষতা প্রদর্শন করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Risk-based vulnerability prioritization", "bn": "রিস্ক-ভিত্তিক ভালনারেবিলিটি প্রাইওরিটাইজেশন" },
+          { "en": "Idempotent finding ingestion & deduplication", "bn": "আইডেমপোটেন্ট ইনজেশন ও ডিডুপ্লিকেশন" },
+          { "en": "SLA governance & executive reporting", "bn": "SLA পরিচালনা ও এক্সিকিউটিভ রিপোর্টিং" }
+        ],
+        "interviewTopics": [
+          { "en": "CVSS limitations vs contextual risk prioritization (EPSS, KEV, exposure)", "bn": "CVSS-এর সীমাবদ্ধতা বনাম প্রাসঙ্গিক ঝুঁকি নির্ণয়" },
+          { "en": "Designing idempotent vulnerability ingestion and lifecycle state tracking", "bn": "আইডেমপোটেন্ট ফাইন্ডিং ইনজেশন ও লাইফসাইকেল ডিজাইন" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Flagship GitHub capstone proving you can architect full security engineering platforms—not just standalone scripts.",
+          "bn": "একক স্ক্রিপ্টের বদলে পূর্ণাঙ্গ সিকিউরিটি প্ল্যাটফর্ম আর্কিটেক্ট করার সক্ষমতা প্রমাণকারী সেরা ক্যাপস্টোন প্রজেক্ট।"
+        }
+      }
+    }
+  ]
+}

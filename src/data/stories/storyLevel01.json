@@ -1,0 +1,928 @@
+{
+  "level": "Level 01",
+  "levelNumber": 1,
+  "stories": [
+    {
+      "projectId": "PRJ-01",
+      "previousConnection": {
+        "en": "Every engineering journey begins somewhere ordinary. Ours starts inside the Computer Science & Technology (CST) software lab at Bogura Polytechnic Institute, where MD. MOJAHIDUR RAHMAN SAJID and his three close classmates—Sojib, Jihad, and Badhon—decide to stop treating Python as isolated syntax exercises and start building real tools that solve everyday campus problems.",
+        "bn": "প্রতিটি ইঞ্জিনিয়ারিং যাত্রাই কোনো না কোনো বাস্তব পরিস্থিতি থেকে শুরু হয়। আমাদের গল্প শুরু হয় বগুড়া পলিটেকনিক ইনস্টিটিউটের কম্পিউটার সায়েন্স অ্যান্ড টেকনোলজি (CST) বিভাগের সফটওয়্যার ল্যাব থেকে—যেখানে মোঃ মোজাহিদুর রহমান সাজিদ এবং তার তিন ঘনিষ্ঠ বন্ধু সজীব, জিহাদ ও বাঁধন সিদ্ধান্ত নেয় যে তারা শুধু পাইথনের সিনট্যাক্স মুখস্থ না করে বাস্তব সমস্যা সমাধানের উপযোগী সফটওয়্যার তৈরি শুরু করবে।"
+      },
+      "storyNarrative": [
+        {
+          "en": "It was a humid Thursday afternoon at Bogura Polytechnic Institute, two weeks before the fourth-semester practical assessments. Inside CST Lab-02, students were sharing notes, lab sheets, Python scripts, and compressed project folders across shared desktop computers and USB flash drives. When MD. MOJAHIDUR RAHMAN SAJID tried to locate his team's verified algorithm notes on Lab PC-14, he opened the Downloads and Desktop folders only to find a wall of chaos: more than two thousand unsorted files named 'assignment_final.pdf', 'assignment_final(1).pdf', 'code_test.py', blurry screenshots, and half-broken zip archives.",
+          "bn": "সেমিস্টারের প্র্যাকটিক্যাল পরীক্ষার মাত্র দুই সপ্তাহ আগে এক গরম বৃহস্পতিবার বিকেলে বগুড়া পলিটেকনিক ইনস্টিটিউটের CST ল্যাব-০২-এ শিক্ষার্থীরা শেয়ার করা কম্পিউটার ও পেনড্রাইভে নোট, ল্যাব শিট, পাইথন স্ক্রিপ্ট আর জিপ ফাইল আদান-প্রদান করছিল। মোঃ মোজাহিদুর রহমান সাজিদ যখন ল্যাব পিসি-১৪-তে তাদের দলের যাচাইকৃত অ্যালগরিদম নোট খুঁজতে গেলেন, তখন ডাউনলোডস ও ডেস্কটপ ফোল্ডার খুলে রীতিমতো চমকে গেলেন। সেখানে দুই হাজারের বেশি এলোমেলো ফাইল—'assignment_final.pdf', 'assignment_final(1).pdf', 'code_test.py', অস্পষ্ট স্ক্রিনশট আর অসম্পূর্ণ জিপ ফাইল স্তূপ হয়ে আছে।"
+        },
+        {
+          "en": "Sojib leaned over the monitor and sighed. Just yesterday, another batch accidentally deleted the wrong folder while trying to free disk space manually, losing an entire week's lab diagrams. Meanwhile, Jihad noticed three identical copies of a heavy 45 MB documentation PDF stored under three completely different filenames, silently eating up precious space on the shared drive. Badhon immediately tried dragging files into manually created folders, only to pause when Windows warned about overwriting an older 'report.pdf' with a newer one that shared the exact same filename.",
+          "bn": "সজীব মনিটরের দিকে ঝুঁকে দীর্ঘশ্বাস ফেলল। ঠিক আগের দিনই আরেকটি ব্যাচ ম্যানুয়ালি জায়গা খালি করতে গিয়ে ভুল ফোল্ডার মুছে ফেলেছিল এবং পুরো এক সপ্তাহের ল্যাব ডায়াগ্রাম হারিয়েছিল। এদিকে জিহাদ লক্ষ করল, ৪৫ মেগাবাইটের একই ডকুমেন্টেশন পিডিএফ তিনটি সম্পূর্ণ আলাদা নামে সংরক্ষিত হয়ে মূল্যবান ডিস্ক স্পেস নষ্ট করছে। বাঁধন হাত দিয়ে টেনে ফাইল সাজাতে শুরু করতেই থমকে গেল, কারণ ভিন্ন কনটেন্টের দুটি ফাইলের নামই ছিল 'report.pdf'—একটি আরেকটির ওপর ওভাররাইট হয়ে যাওয়ার ঝুঁকি তৈরি হয়েছে।"
+        },
+        {
+          "en": "That evening, sitting together near the Bogura Polytechnic campus canteen with four cups of tea and a single notebook, the four friends made a quiet commitment. As students of the Department of Computer Science & Technology, memorizing loops and functions for exams was not enough. They formed a four-person study and engineering team led by Sajid, promising to learn real software design by solving genuine problems around them—starting with a safe, deterministic, reversible Intelligent File Management and Organization System that could clean cluttered directories without ever losing a single byte of data.",
+          "bn": "সেদিন সন্ধ্যায় বগুড়া পলিটেকনিক ক্যাম্পাসের ক্যান্টিনের পাশে চার কাপ চা আর একটি খাতা নিয়ে বসে চার বন্ধু একটি গুরুত্বপূর্ণ সিদ্ধান্ত নিল। CST বিভাগের শিক্ষার্থী হিসেবে কেবল পরীক্ষার জন্য লুপ বা ফাংশন মুখস্থ করাই যথেষ্ট নয়। সাজিদের নেতৃত্বে তারা চারজনের একটি টিম গঠন করল—যারা চারপাশের বাস্তব প্রযুক্তিগত সমস্যা সমাধানের মাধ্যমে পেশাদার সফটওয়্যার ডিজাইন শিখবে। তাদের প্রথম দায়িত্ব হলো এমন একটি নিরাপদ, অনুমানযোগ্য এবং রোলব্যাকযোগ্য Intelligent File Management and Organization System তৈরি করা, যা একটি বাইটও না হারিয়ে অগোছালো ফোল্ডার গুছিয়ে দিতে পারে।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Systems Architect", "bn": "টিম লিডার ও সিস্টেম আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Defines the two-phase dry-run-first architecture, designs the JSON transaction manifest format, and coordinates module boundaries across the team.",
+            "bn": "ড্রাই-রান-ফার্স্ট দুই ধাপের আর্কিটেকচার নির্ধারণ করেন, JSON ট্রানজ্যাকশন ম্যানিফেস্ট কাঠামো ডিজাইন করেন এবং টিমের কাজের সমন্বয় করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Classification & CLI Developer", "bn": "ক্লাসিফিকেশন ও CLI ডেভেলপার" },
+          "responsibility": {
+            "en": "Designs the configurable JSON rule loader, maps file extensions cleanly into Documents, Media, Archives, and Code, and builds readable terminal summary tables.",
+            "bn": "কনফিগারযোগ্য JSON রুল লোডার ডিজাইন করে, এক্সটেনশন অনুযায়ী ফাইল শ্রেণিবিন্যাস করে এবং পরিচ্ছন্ন টার্মিনাল সারাংশ তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Hashing & Performance Analyst", "bn": "হ্যাশিং ও পারফরম্যান্স বিশ্লেষক" },
+          "responsibility": {
+            "en": "Analyzes why hashing every file blindly is slow, implements size pre-filtering before chunked SHA-256 verification, and audits symlink edge cases.",
+            "bn": "সব ফাইল হ্যাশ করা কেন ধীরগতির তা বিশ্লেষণ করে, সাইজ প্রি-ফিল্টারিংসহ চাংকড SHA-256 যাচাই এবং সিমলিংক এজ কেস পরীক্ষা করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Implementation & Safety Tester", "bn": "বাস্তবায়ন ও সেফটি টেস্টার" },
+          "responsibility": {
+            "en": "Builds automated temporary-directory test suites covering dry-run safety, filename collisions, locked files, and full --undo recovery verification.",
+            "bn": "ড্রাই-রান নিরাপত্তা, একই নামের সংঘাত, লকড ফাইল এবং সম্পূর্ণ --undo রিকভারি যাচাইয়ের জন্য স্বয়ংক্রিয় টেম্প-ডিরেক্টরি টেস্ট তৈরি করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Bogura Polytechnic Institute — CST Student Resource Lab",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউট — CST স্টুডেন্ট রিসোর্স ল্যাব"
+        },
+        "domain": {
+          "en": "Academic Computing Lab & Shared Student Workspace",
+          "bn": "শিক্ষামূলক কম্পিউটিং ল্যাব ও শেয়ারড স্টুডেন্ট ওয়ার্কস্পেস"
+        },
+        "currentSystem": {
+          "en": "Students drop lab notes, PDFs, code samples, and archives into shared Downloads and Project folders manually with no naming rules, no duplicate detection, and no undo history.",
+          "bn": "শিক্ষার্থীরা কোনো নামকরণের নিয়ম, ডুপ্লিকেট শনাক্তকরণ বা আনডু ইতিহাস ছাড়াই ম্যানুয়ালি শেয়ারড ডাউনলোডস ও প্রজেক্ট ফোল্ডারে ফাইল জমা রাখে।"
+        },
+        "requirementsSummary": {
+          "en": "A safe command-line Python utility using standard library modules only, featuring rule-based categorization, content-hash duplicate quarantine, dry-run preview, collision-safe renaming, and reversible JSON undo manifests.",
+          "bn": "কেবল পাইথন স্ট্যান্ডার্ড লাইব্রেরি ব্যবহার করে নিয়মভিত্তিক ফাইল বিন্যাস, হ্যাশভিত্তিক ডুপ্লিকেট কোয়ারেন্টাইন, ড্রাই-রান প্রিভিউ, সংঘাত-নিরাপদ রিনেমিং এবং JSON আনডু লগসমৃদ্ধ একটি নিরাপদ CLI টুল।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Manual folder cleanup fails for two structural reasons: humans trust filenames instead of file bytes, and manual drag-and-drop operations cannot safely reverse mistakes once hundreds of files are moved. Two files both named 'lab_report.pdf' may hold completely different semester reports, while 'copy_of_notes.pdf' and 'final_notes.pdf' may be byte-for-byte identical duplicates.",
+          "bn": "হাতে ফোল্ডার গোছানো দুটি মৌলিক কারণে ব্যর্থ হয়: মানুষ ফাইলের কনটেন্টের বদলে শুধু নাম বিশ্বাস করে, আর শত শত ফাইল সরানোর পর ভুল হলে সহজে আগের অবস্থায় ফেরা যায় না। 'lab_report.pdf' নামের দুটি ফাইলে সম্পূর্ণ ভিন্ন তথ্য থাকতে পারে, আবার সম্পূর্ণ ভিন্ন নামের দুটি ফাইল ভেতরে হুবহু এক হতে পারে।"
+        },
+        {
+          "en": "The technical difficulty goes deeper than calling shutil.move(). If a script computes SHA-256 hashes on 3,000 files sequentially without filtering by size first, it wastes huge disk I/O. If it follows symbolic links blindly or accepts '/' or 'C:\\' as a target path, it could damage the operating system. And if a collision occurs at the destination path, naive moving silently overwrites user work.",
+          "bn": "কারিগরি জটিলতা শুধু shutil.move() কল করার চেয়ে অনেক গভীর। সাইজ অনুযায়ী আগে না ছেঁকে ৩,০০০ ফাইলের SHA-256 হিসাব করলে প্রচুর ডিস্ক I/O নষ্ট হয়। সিমলিংক বা সিস্টেমের রুট ডিরেক্টরি আটকাতে না পারলে অপারেটিং সিস্টেম ক্ষতিগ্রস্ত হতে পারে। আর গন্তব্যে একই নামের ফাইল থাকলে অসতর্ক মুভ আগের ফাইল ওভাররাইট করে ফেলবে।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Implementation & Safety Tester", "bn": "বাস্তবায়ন ও সেফটি টেস্টার" },
+          "line": {
+            "en": "Sajid, if I move a second 'assignment.pdf' into the Documents folder, shutil.move might replace the older file if we target the exact filename. How do we make sure zero files ever get overwritten?",
+            "bn": "সাজিদ, Documents ফোল্ডারে আগে থেকেই 'assignment.pdf' থাকলে নতুন আরেকটি 'assignment.pdf' সরালে পুরনোটা মুছে যেতে পারে। কীভাবে নিশ্চিত করব একটি ফাইলও যেন কখনো ওভাররাইট না হয়?"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Good catch, Badhon. Before any move, we check whether the destination path exists. If it does and the hashes differ, we generate a deterministic suffix like 'assignment (1).pdf'. And more importantly, we build a --dry-run preview first so the user sees every planned move before a single file touches the disk.",
+            "bn": "দারুণ পয়েন্ট বাঁধন। কোনো ফাইল সরানোর আগেই গন্তব্যে ওই নামে ফাইল আছে কি না দেখতে হবে। থাকলে এবং হ্যাশ ভিন্ন হলে 'assignment (1).pdf'-এর মতো নিরাপদ নাম তৈরি করব। তার আগে অবশ্যই --dry-run প্রিভিউ দেখাব যেন ব্যবহারকারী ডিস্কে পরিবর্তনের আগেই সব পরিকল্পনা দেখতে পায়।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Hashing & Performance Analyst", "bn": "হ্যাশিং ও পারফরম্যান্স বিশ্লেষক" },
+          "line": {
+            "en": "I timed SHA-256 on large videos and ISO files. If we group files by byte size using stat().st_size first, any file with a unique size cannot possibly have an exact duplicate—we skip hashing it completely and read large candidates in 64 KB chunks.",
+            "bn": "আমি বড় ভিডিও ও ISO ফাইলে SHA-256 চালিয়ে সময় মেপেছি। আগে stat().st_size দিয়ে ফাইল সাইজ অনুযায়ী গ্রুপ করলে যার সাইজ অনন্য তার কোনো ডুপ্লিকেট থাকা অসম্ভব—ফলে সেগুলো হ্যাশ করারই দরকার নেই। কেবল সমান সাইজের ফাইলগুলো ৬৪ KB চাংকে হ্যাশ করব।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Classification & CLI Developer", "bn": "ক্লাসিফিকেশন ও CLI ডেভেলপার" },
+          "line": {
+            "en": "And for peace of mind, every actual move writes the original source path and destination path into a timestamped JSON manifest inside '.organizer_logs/'. If someone runs '--undo', we walk that log in reverse and put everything right back where it started.",
+            "bn": "আর নিশ্চিন্ত থাকার জন্য প্রতিটি আসল মুভের উৎস ও গন্তব্য পাথ '.organizer_logs/'-এর ভেতর একটি সময়চিহ্নিত JSON ম্যানিফেস্টে লিখে রাখব। কেউ '--undo' চালালেই লগটি উল্টো দিক থেকে পড়ে সব ফাইল আগের জায়গায় ফিরিয়ে দেব।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Design and build a standard-library Python CLI tool that scans a user-specified sandbox directory, filters out unsafe symlinks and critical OS roots, groups potential duplicates by size before streaming SHA-256 comparison, categorizes unique files using JSON extension rules, previews changes in --dry-run mode, safely renames colliding filenames, and logs every change for exact --undo reversal.",
+        "bn": "পাইথনের স্ট্যান্ডার্ড লাইব্রেরি ব্যবহার করে এমন একটি CLI টুল তৈরি করুন যা নির্ধারিত স্যান্ডবক্স ডিরেক্টরি স্ক্যান করে, অনিরাপদ সিমলিংক ও সিস্টেম রুট পাথ প্রত্যাখ্যান করে, সাইজ ফিল্টারিং ও চাংকড SHA-256 দিয়ে ডুপ্লিকেট আলাদা করে, JSON নিয়ম অনুযায়ী ফাইল সাজায়, --dry-run প্রিভিউ দেয়, নামের সংঘাত এড়ায় এবং নির্ভুল --undo রোলব্যাক সমর্থন করে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Before writing Python code, walk through these reasoning questions with Sajid's team to verify your mental model of safe filesystem automation.",
+          "bn": "পাইথন কোড লেখার আগে নিরাপদ ফাইলসিস্টেম অটোমেশন সম্পর্কে আপনার যুক্তি যাচাই করতে এই ধাপগুলোর প্রশ্নগুলো নিয়ে নিজে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Inputs & Boundary Guards", "bn": "ধাপ ১ — ইনপুট ও নিরাপত্তা সীমানা" },
+            "guidingQuestions": [
+              { "en": "What CLI flags and rule-config fields does the program need before scanning begins?", "bn": "স্ক্যান শুরুর আগে প্রোগ্রামের কী কী CLI ফ্ল্যাগ ও কনফিগ তথ্য প্রয়োজন?" },
+              { "en": "Which directory paths must be rejected immediately to protect the host OS?", "bn": "অপারেটিং সিস্টেম সুরক্ষিত রাখতে কোন কোন ডিরেক্টরি পাথ শুরুতেই বাতিল করতে হবে?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Duplicate & Category Processing", "bn": "ধাপ ২ — ডুপ্লিকেট ও ক্যাটাগরি বিশ্লেষণ" },
+            "guidingQuestions": [
+              { "en": "Why should byte-size grouping happen before opening any file for SHA-256 hashing?", "bn": "SHA-256 হ্যাশ করার আগেই ফাইল সাইজ অনুযায়ী গ্রুপিং করা কেন জরুরি?" },
+              { "en": "If two identical files exist, how do you decide which copy stays primary and which goes to Quarantine?", "bn": "দুটি হুবহু এক ফাইল থাকলে কোনটিকে মূল কপি রাখবেন এবং কোনটিকে কোয়ারেন্টাইনে পাঠাবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Collision, Error Handling & Undo", "bn": "ধাপ ৩ — সংঘাত, ত্রুটি নিয়ন্ত্রণ ও আনডু" },
+            "guidingQuestions": [
+              { "en": "What conditions must hold before moving a file, and how do you handle PermissionError on a locked file without aborting the entire run?", "bn": "ফাইল সরানোর আগে কী কী শর্ত যাচাই করবেন এবং কোনো ফাইল লক থাকলে পুরো প্রোগ্রাম বন্ধ না করে কীভাবে সামলাবেন?" },
+              { "en": "How should the JSON undo log be structured so '--undo' reverses operations safely even when directories were created during organization?", "bn": "JSON আনডু লগের গঠন কেমন হলে '--undo' সব ফাইল নিরাপদে আগের স্থানে ফিরিয়ে আনতে পারবে?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Master pathlib.Path path resolution, relative traversal safety, and stat metadata checks.", "bn": "pathlib.Path দিয়ে পাথ যাচাই, সিমলিংক নিরাপত্তা ও stat মেটাডেটা পড়া শেখা।" },
+        { "en": "Apply constant-memory chunked file reading for hashlib.sha256 hashing.", "bn": "বড় ফাইলের জন্য নির্দিষ্ট মেমরি বাফারে hashlib.sha256 গণনা করা।" },
+        { "en": "Separate planning logic from disk mutation so dry-run previews and unit tests stay predictable.", "bn": "ডিস্ক পরিবর্তনের আগে পরিকল্পনা লজিক আলাদা রেখে ড্রাই-রান ও ইউনিট টেস্ট সহজ করা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Run --dry-run on a populated test folder and assert zero files moved, created, or deleted.", "bn": "ভর্তি টেস্ট ফোল্ডারে --dry-run চালিয়ে নিশ্চিত করুন ডিস্কে কোনো ফাইল সরেনি বা তৈরি হয়নি।" },
+        { "en": "Place two different-content files named 'notes.txt' in separate subfolders and verify both survive in Documents/ without overwriting.", "bn": "দুটি ভিন্ন ফোল্ডারে ভিন্ন কনটেন্টের 'notes.txt' রেখে দেখুন কোনোটাই ওভাররাইট না হয়ে নিরাপদে থাকে কি না।" },
+        { "en": "Create two differently named files with identical bytes and verify the duplicate moves to Quarantine/.", "bn": "ভিন্ন নামে দুটি হুবহু এক ফাইল তৈরি করে দেখুন ডুপ্লিকেটটি কোয়ারেন্টাইনে যায় কি না।" },
+        { "en": "Run --undo immediately after organizing and confirm every file returns to its exact original path.", "bn": "সাজানোর পর --undo চালিয়ে যাচাই করুন প্রতিটি ফাইল হুবহু আগের পাথে ফিরে এসেছে কি না।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Dry-run prints a complete source-to-destination plan while leaving the filesystem 100% untouched.", "bn": "ড্রাই-রান সম্পূর্ণ উৎস-থেকে-গন্তব্য তালিকা দেখাবে এবং ফাইলসিস্টেম ১০০% অপরিবর্তিত রাখবে।" },
+        { "en": "Size pre-filtering skips hashing on unique-sized files and detects byte-identical duplicates via chunked SHA-256.", "bn": "অনন্য সাইজের ফাইলে হ্যাশ এড়িয়ে সমান সাইজের ফাইলে চাংকড SHA-256 দিয়ে ডুপ্লিকেট শনাক্ত করবে।" },
+        { "en": "Every move is logged to a timestamped JSON manifest and '--undo' cleanly restores the original directory tree.", "bn": "প্রতিটি পরিবর্তন JSON ম্যানিফেস্টে সংরক্ষিত থাকবে এবং '--undo' মূল কাঠামো ফিরিয়ে আনবে।" },
+        { "en": "Critical system paths and symlinks pointing outside the target directory are safely refused or skipped.", "bn": "গুরুত্বপূর্ণ সিস্টেম পাথ ও টার্গেটের বাইরের সিমলিংক নিরাপদে প্রত্যাখ্যাত বা উপেক্ষিত হবে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Before presenting the tool to the CST lab coordinator, Sajid's team packages a clean CLI module layout, an editable rules.example.json file, automated pytest/unittest tests using temporary directories, and a clear README showing before-and-after directory trees.",
+        "bn": "CST ল্যাব কো-অর্ডিনেটরের সামনে প্রদর্শনের আগে সাজিদের দল একটি পরিচ্ছন্ন CLI মডিউল কাঠামো, নমুনা rules.example.json, টেম্প ডিরেক্টরিভিত্তিক টেস্ট স্যুট এবং ব্যবহার-পূর্ব ও পরবর্তী ডিরেক্টরি ট্রিসহ একটি স্পষ্ট README প্রস্তুত করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "The four friends learned that trustworthy automation is never about writing the shortest script—it is about protecting user data through dry-run previews, size-filtered cryptographic verification, collision prevention, and reversible audit logs.",
+          "bn": "চার বন্ধু শিখল যে নির্ভরযোগ্য অটোমেশন মানে সবচেয়ে ছোট স্ক্রিপ্ট লেখা নয়—বরং ড্রাই-রান প্রিভিউ, সাইজ-ফিল্টারকৃত হ্যাশ যাচাই, নামের সংঘাত রোধ ও আনডু লগের মাধ্যমে ব্যবহারকারীর ডেটা সুরক্ষিত রাখা।"
+        },
+        "bridgeToNext": {
+          "en": "With their lab files organized and verified, the team suddenly noticed another mess lurking inside their campus notebook and student hostel folders: scattered expense sheets and broken floating-point budget totals—leading directly into Project 02.",
+          "bn": "ল্যাবের ফাইলগুলো গোছানোর পর পরই তারা নিজেদের মেস ও পড়াশোনার হিসাবের ফাইলগুলোতে আরেকটি সমস্যা লক্ষ করল: এলোমেলো খরচের শিট এবং দশমিকের হিসাবে গোলমাল—যা তাদের নিয়ে গেল প্রজেক্ট ০২-এ।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-02",
+      "previousConnection": {
+        "en": "After organizing CST Lab-02's cluttered folders in Project 01, Sajid, Sojib, Jihad, and Badhon grouped dozens of loose CSV bank exports and student mess expense sheets into a neat Documents folder. Opening those files revealed a new puzzle: floating-point rounding discrepancies and duplicate rows whenever someone re-imported a statement.",
+        "bn": "প্রজেক্ট ০১-এ CST ল্যাব-০২-এর এলোমেলো ফাইল গোছানোর পর সাজিদ, সজীব, জিহাদ ও বাঁধন প্রচুর CSV স্টেটমেন্ট ও মেসের খরচের ফাইল এক জায়গায় পেল। সেই ফাইলগুলো খুলতেই নতুন এক সমস্যা ধরা পড়ল: ফ্লোটিং-পয়েন্ট হিসাবের সূক্ষ্ম ভুল এবং একই স্টেটমেন্ট পুনরায় ইম্পোর্ট করলে ডুপ্লিকেট লেনদেন যোগ হয়ে যাওয়া।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Two weeks after launching their file organizer for classmates, Sojib came to the Bogura Polytechnic library looking frustrated. He managed the shared monthly expense sheet for four student friends sharing book printing, internet bills, lab components, and hostel snacks. Using a quick Python script someone had written with regular float numbers, the total balance was off by small fractions—sometimes showing 0.00000000000045 or losing a paisa across fifty transactions.",
+          "bn": "ক্লাসমেটদের জন্য ফাইল অর্গানাইজার তৈরির দুই সপ্তাহ পর সজীব বেশ বিরক্ত মুখে বগুড়া পলিটেকনিক লাইব্রেরিতে এল। চার বন্ধুর বই প্রিন্টিং, ইন্টারনেট বিল, ল্যাব যন্ত্রাংশ ও মেসের নাস্তার যৌথ মাসিক হিসাব রাখত সজীব। সাধারণ float সংখ্যা দিয়ে লেখা একটি ছোট স্ক্রিপ্ট ব্যবহার করায় পঞ্চাশটি লেনদেন শেষে মোট হিসেবে সূক্ষ্ম পয়সার গরমিল দেখা যাচ্ছিল এবং কখনো কখনো 0.00000000000045-এর মতো অদ্ভুত সংখ্যা আসছিল।"
+        },
+        {
+          "en": "When Jihad inspected the exported CSV statements alongside Sajid, they found an even bigger operational trap. Every time Sojib downloaded a fresh mid-month CSV file and ran the script again, all earlier rows from the first ten days of the month were inserted a second time into the ledger, making it look like they had spent twice as much on lab kits. Worse, a single malformed date row in one CSV caused the entire script to crash halfway.",
+          "bn": "জিহাদ ও সাজিদ যখন রপ্তানি করা CSV স্টেটমেন্ট পরীক্ষা করল, তখন আরও বড় একটি সমস্যা পাওয়া গেল। সজীব মাসের মাঝামাঝি নতুন CSV ডাউনলোড করে আবার রান করলেই মাসের প্রথম দশ দিনের লেনদেনগুলো দ্বিতীয়বার যোগ হয়ে যেত—মনে হতো ল্যাব কিটে দ্বিগুণ খরচ হয়েছে! তার ওপর একটি ফাইলের কোনো এক সারিতে ভুল তারিখ থাকায় পুরো প্রোগ্রাম মাঝপথে ক্র্যাশ করছিল।"
+        },
+        {
+          "en": "Badhon sketched a clear budget monitor idea on the back of a lab sheet: what if their system used exact Decimal arithmetic, generated deterministic fingerprints for every row so duplicate CSV imports were always ignored safely, quarantined malformed lines with clear error reasons, and warned them whenever monthly category spending hit 80% or 100% of their student budget? That afternoon, Project 02 became their official mission.",
+          "bn": "বাঁধন একটি ল্যাব শিটের পেছনে বাজেট মনিটরের নকশা এঁকে ফেলল: এমন একটি সিস্টেম হলে কেমন হয় যেখানে Decimal দিয়ে নিখুঁত আর্থিক হিসাব হবে, প্রতিটি সারির ফিঙ্গারপ্রিন্ট রেখে পুনরায় ইম্পোর্টে ডুপ্লিকেট এড়ানো যাবে, ভুল সারিগুলো ক্র্যাশ না করে আলাদা রিপোর্টে দেখাবে এবং কোনো খাতে ৮০% বা ১০০% বাজেট পূর্ণ হলেই সতর্ক করবে? সেই বিকেলেই প্রজেক্ট ০২ তাদের আনুষ্ঠানিক মিশন হয়ে উঠল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Financial Data Modeler", "bn": "টিম লিডার ও ডেটা মডেলার" },
+          "responsibility": {
+            "en": "Defines exact Decimal arithmetic rules, designs the parameterized SQLite schema, and oversees monthly analytics reporting.",
+            "bn": "নিখুঁত Decimal হিসাবের নিয়ম নির্ধারণ করেন, প্যারামিটারাইজড SQLite স্কিমা তৈরি করেন এবং মাসিক বিশ্লেষণ রিপোর্ট সমন্বয় করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "User Workflow & Budget Logic Lead", "bn": "ইউজার ওয়ার্কফ্লো ও বাজেট লজিক লিড" },
+          "responsibility": {
+            "en": "Designs category budget thresholds (80% warning and 100% overrun alerts) and builds clean CLI filtering by month and category.",
+            "bn": "ক্যাটাগরিভিত্তিক বাজেট সীমা (৮০% সতর্কতা ও ১০০% অতিক্রম) ডিজাইন করে এবং মাস ও খাত অনুযায়ী ফিল্টারিং যোগ করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "CSV Normalization & Deduplication Engineer", "bn": "CSV নর্মালাইজেশন ও ডিডুপ্লিকেশন ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Designs idempotent transaction fingerprinting using normalized date, amount, category, and merchant so repeat CSV imports never double-count.",
+            "bn": "তারিখ, পরিমাণ, ক্যাটাগরি ও মার্চেন্ট থেকে আইডেমপোটেন্ট ফিঙ্গারপ্রিন্ট তৈরি করে যাতে পুনরায় CSV ইম্পোর্টে একই হিসাব দুবার না ওঠে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Edge-Case Validation & Test Engineer", "bn": "এজ-কেস ভ্যালিডেশন ও টেস্ট ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Writes unit tests verifying IEEE-754 float traps (0.1 + 0.2), malformed ISO dates, negative amounts, and quarantined bad-row logging.",
+            "bn": "ফ্লোটিং-পয়েন্ট ত্রুটি (0.1 + 0.2), ভুল তারিখ ও নেতিবাচক ইনপুট পরীক্ষা করে এবং ত্রুটিপূর্ণ সারি কোয়ারেন্টাইন লগ যাচাই করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Bogura Campus Study Group & Student Mess Ledger",
+          "bn": "বগুড়া ক্যাম্পাস স্টাডি গ্রুপ ও স্টুডেন্ট মেস লেজার"
+        },
+        "domain": {
+          "en": "Personal Finance & Shared Student Budgeting",
+          "bn": "ব্যক্তিগত অর্থব্যবস্থাপনা ও যৌথ শিক্ষার্থী বাজেট"
+        },
+        "currentSystem": {
+          "en": "Manually edited spreadsheets and naive float-based scripts that double-count overlapping CSV exports and fail completely on a single dirty row.",
+          "bn": "ম্যানুয়াল স্প্রেডশিট ও float-ভিত্তিক স্ক্রিপ্ট, যেখানে একই CSV আবার তুললে ডাবল হিসাব হয় এবং একটি ভুল সারিতেই প্রোগ্রাম বন্ধ হয়ে যায়।"
+        },
+        "requirementsSummary": {
+          "en": "A Decimal-exact financial CLI backed by SQLite, supporting idempotent CSV batch imports, quarantined error rows, monthly category budget alerts, and savings analytics.",
+          "bn": "SQLite-চালিত ও Decimal-নির্ভুল আর্থিক CLI, যেখানে আইডেমপোটেন্ট CSV ইম্পোর্ট, ত্রুটিপূর্ণ সারি আলাদা করা, বাজেট সতর্কতা ও সঞ্চয় বিশ্লেষণ থাকবে।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Binary floating-point arithmetic represents base-10 fractions like 0.1 and 0.2 approximately in binary. Over hundreds of entries and tax/split calculations, rounding drift corrupts ledgers and fails reconciliation checks against real bank statements.",
+          "bn": "বাইনারি ফ্লোটিং-পয়েন্ট সংখ্যা ০.১ বা ০.২-এর মতো দশমিক ভগ্নাংশকে কম্পিউটারের বাইনারিতে নিখুঁতভাবে প্রকাশ করতে পারে না। শত শত লেনদেনে এই ক্ষুদ্র ত্রুটি জমে মূল ব্যালেন্স নষ্ট করে এবং ব্যাংক স্টেটমেন্টের সাথে মেলে না।"
+        },
+        {
+          "en": "Furthermore, real bank CSV exports overlap across billing cycles and frequently contain inconsistent whitespace, missing values, or malformed timestamps. Treating imports as all-or-nothing or lacking a unique transaction fingerprint leads either to silent duplicate expenses or complete import failure.",
+          "bn": "এছাড়াও বাস্তব ব্যাংক CSV এক্সপোর্টগুলোতে প্রায়ই আগের সপ্তাহের সাথে তারিখ মিলে যায় এবং খালি ঘর বা ভুল তারিখের সারি থাকে। অনন্য ফিঙ্গারপ্রিন্ট না থাকলে একই খরচ দুবার যোগ হয়, আর একটি ভুল সারিতে পুরো ফাইল বাতিল হলে ব্যবহারকারীর কাজ আটকে যায়।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "CSV Normalization Engineer", "bn": "CSV নর্মালাইজেশন ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "Look at this bug: `0.1 + 0.2` in Python float evaluates to `0.30000000000000004`. If we use `decimal.Decimal` parsed directly from strings and store minor units or exact strings in SQLite, our ledger matches the bank down to the last cent.",
+            "bn": "এই বাগটা দেখো: পাইথনের সাধারণ float-এ `0.1 + 0.2` মানে `0.30000000000000004`। আমরা যদি স্ট্রিং থেকে সরাসরি `decimal.Decimal` ব্যবহার করি আর SQLite-এ নির্ভুলভাবে রাখি, তবে ব্যাংকের সাথে এক পয়সাও অমিল হবে না।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Budget Logic Lead", "bn": "বাজেট লজিক লিড" },
+          "line": {
+            "en": "What happens when I download March's statement on March 15 and again on March 31? Both files contain March 1 through 15.",
+            "bn": "আমি যদি ১৫ মার্চ একবার এবং ৩১ মার্চ আবার পুরো মার্চ মাসের CSV ডাউনলোড করি, তবে ১ থেকে ১৫ তারিখের হিসাব দুই ফাইলেই থাকবে—তখন কী হবে?"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "We compute a deterministic SHA-256 fingerprint from the normalized date, exact Decimal amount, normalized merchant, and row index within the same day—then enforce a `UNIQUE` constraint in SQLite so re-importing skips duplicates gracefully and reports how many were skipped.",
+            "bn": "আমরা তারিখ, নিখুঁত Decimal পরিমাণ, মার্চেন্টের নাম ও একই দিনের ক্রম মিলিয়ে একটি নির্ধারিত SHA-256 ফিঙ্গারপ্রিন্ট বানাব এবং SQLite-এ `UNIQUE` রাখব। ফলে পুনরায় ইম্পোর্টে ডুপ্লিকেটগুলো আপনা-আপনি বাদ পড়বে এবং কয়টি বাদ পড়েছে তা জানাবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Test Engineer", "bn": "টেস্ট ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "And remember: never store real bank account numbers or credentials in our test CSVs. I'll create synthetic sample statements with deliberate malformed dates and NaN strings so we verify our bad-row quarantine report thoroughly.",
+            "bn": "আর মনে রাখবেন: টেস্ট CSV-তে কখনোই কারও আসল ব্যাংক অ্যাকাউন্ট নম্বর রাখা যাবে না। আমি কৃত্রিম নমুনা ডেটায় ইচ্ছাকৃত ভুল তারিখ ও অকার্যকর লেখা দিয়ে পরীক্ষা করব যেন ভুল সারিগুলো নিরাপদে কোয়ারেন্টাইন হয়।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build an exact Decimal financial ledger and analytics CLI backed by SQLite that supports manual income/expense entry, idempotent CSV statement importing with bad-row quarantine, configurable monthly category budgets with 80%/100% alerts, and month-over-month spending & savings reports.",
+        "bn": "SQLite-সমর্থিত ও Decimal-নির্ভুল একটি আর্থিক লেজার ও বিশ্লেষণ CLI তৈরি করুন যা হাতে আয়-ব্যয় যোগ করা, ডুপ্লিকেট-নিরাপদ ও ত্রুটি-পৃথককারী CSV ইম্পোর্ট, ৮০%/১০০% সতর্কতাসহ মাসিক বাজেট এবং মাস-ভিত্তিক ব্যয় ও সঞ্চয় রিপোর্ট তৈরি করতে পারে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Break down the financial pipeline step by step before writing code.",
+          "bn": "কোড লেখার আগে আর্থিক ডেটা প্রবাহটি ধাপে ধাপে চিন্তা করে সাজান।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Input Validation & Precision", "bn": "ধাপ ১ — ইনপুট যাচাই ও নির্ভুলতা" },
+            "guidingQuestions": [
+              { "en": "Why must numeric strings be converted directly to Decimal instead of float-then-Decimal?", "bn": "সংখ্যার স্ট্রিংকে কেন সরাসরি Decimal-এ রূপান্তর করা উচিত, আগে float করে পরে Decimal নয়?" },
+              { "en": "What makes a transaction amount or ISO date invalid (such as NaN, Infinity, or month 13)?", "bn": "কোন কোন ক্ষেত্রে পরিমাণ বা তারিখ অবৈধ হিসেবে বাতিল হওয়া উচিত (যেমন NaN, Infinity বা ১৩ নম্বর মাস)?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Deduplication & Quarantine", "bn": "ধাপ ২ — ডিডুপ্লিকেশন ও কোয়ারেন্টাইন" },
+            "guidingQuestions": [
+              { "en": "How do you distinguish two genuinely separate coffee purchases on the same day from an accidental duplicate CSV re-import?", "bn": "একই দিনে দুটি সত্যিকারের আলাদা লেনদেন এবং একই CSV আবার ইম্পোর্টের ডুপ্লিকেটের মধ্যে পার্থক্য করবেন কীভাবে?" },
+              { "en": "If row 14 in a 100-row CSV fails validation, what should happen to the other 99 valid rows?", "bn": "১০০ সারির CSV-তে ১৪ নম্বর সারি ভুল হলে বাকি ৯৯টি সঠিক সারির কী হওয়া উচিত?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Aggregation & Budget Alerts", "bn": "ধাপ ৩ — সমষ্টি ও বাজেট সতর্কতা" },
+            "guidingQuestions": [
+              { "en": "How do you compute net savings rate safely when total monthly income is zero?", "bn": "মাসিক মোট আয় শূন্য হলে সঞ্চয় হার গণনায় ভাগজনিত ত্রুটি এড়াবেন কীভাবে?" },
+              { "en": "What inputs and SQL queries are needed to compare this month's category totals against the previous month?", "bn": "আগের মাসের সাথে বর্তমান মাসের খাতওয়ারি ব্যয়ের পার্থক্য বের করতে কী কী তথ্য ও গ্রুপিং লাগবে?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Use decimal.Decimal with explicit quantization and ROUND_HALF_UP for exact financial math.", "bn": "নির্ভুল আর্থিক গণনার জন্য decimal.Decimal ও স্পষ্ট রাউন্ডিং নীতি ব্যবহার শেখা।" },
+        { "en": "Design parameterized SQLite queries with UNIQUE constraints to ensure safe idempotent ingestion.", "bn": "নিরাপদ ও পুনরাবৃত্তিযোগ্য ডেটা ইম্পোর্টের জন্য প্যারামিটারাইজড SQLite এবং UNIQUE কনস্ট্রেইন্ট ব্যবহার করা।" },
+        { "en": "Keep analytical calculations in pure functions independent of database I/O.", "bn": "ডেটাবেস I/O থেকে বিশ্লেষণ ফাংশন আলাদা রেখে সহজ ইউনিট টেস্টিং নিশ্চিত করা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Sum 1,000 entries of '0.01' and verify the total equals exact Decimal('10.00') with zero float drift.", "bn": "১,০০০টি '0.01' এন্ট্রি যোগ করে যাচাই করুন মোট ঠিক Decimal('10.00') হয় কি না।" },
+        { "en": "Import the exact same CSV twice and verify the second run inserts 0 new rows and skips all duplicates.", "bn": "একই CSV ফাইল পরপর দুবার ইম্পোর্ট করে দেখুন দ্বিতীয়বার ০টি সারি যোগ হয় কি না।" },
+        { "en": "Include invalid amounts ('abc', 'NaN') and bad dates in a CSV and confirm valid rows import while invalid rows appear in the error report.", "bn": "CSV-তে ভুল পরিমাণ ও ভুল তারিখ দিয়ে দেখুন সঠিক সারি সংরক্ষিত হয়ে ভুলগুলো রিপোর্টে আসে কি না।" },
+        { "en": "Trigger 80% warning and 100% exceeded states on a category budget and verify alert thresholds.", "bn": "কোনো ক্যাটাগরিতে ৮০% ও ১০০% ব্যয় অতিক্রম করে বাজেট সতর্কতা যাচাই করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Zero float arithmetic anywhere in monetary storage or reporting.", "bn": "অর্থ হিসাব বা রিপোর্টের কোথাও float ব্যবহার থাকবে না।" },
+        { "en": "Repeated imports of identical CSV batches produce zero duplicate rows in SQLite.", "bn": "একই CSV বারবার ইম্পোর্ট করলেও SQLite-এ ডুপ্লিকেট সারি তৈরি হবে না।" },
+        { "en": "Malformed CSV lines are skipped safely with line-numbered quarantine feedback.", "bn": "ভুল CSV সারি প্রোগ্রাম না ভেঙে লাইন নম্বরসহ আলাদা রিপোর্টে দেখাবে।" },
+        { "en": "Monthly summaries display exact totals, savings rate, top spending categories, and budget alerts.", "bn": "মাসিক সারাংশে সঠিক মোট ব্যয়, সঞ্চয়ের হার, শীর্ষ খাত ও বাজেট সতর্কতা প্রদর্শিত হবে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Deliver a modular Python package separating models, SQLite storage, CSV importer, and pure analytics functions, paired with sanitized sample CSVs and automated precision/idempotency tests.",
+        "bn": "মডেল, SQLite স্টোরেজ, CSV ইম্পোর্টার এবং বিশ্লেষণ মডিউল আলাদা রেখে নমুনা CSV ও নির্ভুলতা পরীক্ষার টেস্ট স্যুটসহ সম্পূর্ণ প্যাকেজ জমা দিন।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "Sajid, Sojib, Jihad, and Badhon realized why production systems treat data types seriously: a tiny `float` shortcut creates subtle financial bugs, while explicit `Decimal` types, idempotent fingerprints, and row-level quarantine keep real-world data pipelines reliable.",
+          "bn": "চার বন্ধু বুঝতে পারল কেন পেশাদার সফটওয়্যারে ডেটা টাইপ এত গুরুত্বপূর্ণ: সামান্য `float` ব্যবহারে আর্থিক হিসাব নষ্ট হয়, আর `Decimal`, আইডেমপোটেন্ট ফিঙ্গারপ্রিন্ট ও ত্রুটি-পৃথকীকরণ ডেটা পাইপলাইনকে নির্ভরযোগ্য রাখে।"
+        },
+        "bridgeToNext": {
+          "en": "Word of their clean analytics reports reached one of their CST instructors at Bogura Polytechnic Institute, who asked whether the four friends could build an academic analytics system for multi-subject student grades and attendance—opening Project 03.",
+          "bn": "তাদের গোছানো বিশ্লেষণ রিপোর্টের কথা বগুড়া পলিটেকনিক ইনস্টিটিউটের CST বিভাগের এক শিক্ষকের কানে পৌঁছাল, যিনি শিক্ষার্থীদের একাধিক বিষয়ের নম্বর ও উপস্থিতি বিশ্লেষণের জন্য একটি টুল তৈরির প্রস্তাব দিলেন—যেখান থেকে শুরু হলো প্রজেক্ট ০৩।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-03",
+      "previousConnection": {
+        "en": "After building the exact Decimal expense analyzer in Project 02, Sajid's team gained confidence in CSV validation, mathematical accuracy, and grouping summaries. When a CST Department course coordinator saw how cleanly their CLI produced monthly trend tables, he invited the four friends to tackle an academic challenge at Bogura Polytechnic Institute.",
+        "bn": "প্রজেক্ট ০২-এ Decimal-নির্ভুল ব্যয় বিশ্লেষক তৈরি করার পর CSV ভ্যালিডেশন, গাণিতিক হিসাব ও সামারি রিপোর্টে দলের আত্মবিশ্বাস অনেক বেড়ে গেল। তাদের পরিচ্ছন্ন রিপোর্ট দেখে CST বিভাগের এক কোর্স কো-অর্ডিনেটর বগুড়া পলিটেকনিক ইনস্টিটিউটের একাডেমিক ডেটা বিশ্লেষণের একটি বাস্তব কাজ নিয়ে এগিয়ে এলেন।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Mid-semester evaluations at Bogura Polytechnic Institute involved hundreds of individual marks across theory quizzes, mid-term tests, lab practicals, and attendance logs for multiple sections of the Computer Science & Technology department. Previously, teaching assistants merged several exported spreadsheets manually, averaging numbers together with inconsistent weights and missing absent students until right before final board exams.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটে মিড-সেমিস্টার মূল্যায়নে CST বিভাগের একাধিক সেকশনের থিওরি কুইজ, মিড-টার্ম পরীক্ষা, ল্যাব প্র্যাকটিক্যাল ও উপস্থিতি মিলিয়ে শত শত নম্বর একত্র করতে হতো। আগে শিক্ষক সহকারীরা হাতে কয়েকটি স্প্রেডশিট জোড়া দিতেন; ফলে ভুল ওয়েটে গড় বের করা হতো এবং ফাইনাল পরীক্ষার আগ পর্যন্ত দুর্বল শিক্ষার্থীদের সমস্যা বোঝা যেত না।"
+        },
+        {
+          "en": "When the coordinator showed Sajid, Sojib, Jihad, and Badhon an anonymized sample roster from a prior year, anomalies jumped off the screen. One student had 'N/A' in a lab column, another had an impossible score of 108 out of 100 from a typing mistake, and two learners with identical 72% raw averages had completely different risk profiles—one attended 95% of labs while the other had dropped to 58% attendance.",
+          "bn": "কোর্স কো-অর্ডিনেটর যখন সাজিদ, সজীব, জিহাদ ও বাঁধনকে আগের বছরের নাম-গোপন করা নমুনা ডেটা দেখালেন, তখনই নানা অসঙ্গতি চোখে পড়ল। একজনের ল্যাব ঘরে 'N/A' লেখা, একজনের ১০০-র মধ্যে ভুল টাইপে ১০৮ নম্বর, আবার সমান ৭২% গড় পাওয়া দুজন শিক্ষার্থীর মধ্যে একজনের উপস্থিতি ৯৫% হলেও অন্যজনের উপস্থিতি নেমে গেছে ৫৮%-এ।"
+        },
+        {
+          "en": "Jihad noticed that relying on simple averages hid both outliers and sharp drops between assessments. What the department truly needed was a Student Performance Analytics System using configurable rubric weights, median and percentile statistics, Pearson-style or simple attendance-vs-score correlation insights, and early at-risk flags—all built cleanly without hardcoding any grading rules.",
+          "bn": "জিহাদ লক্ষ করল, শুধু সাধারণ গড় হিসাব করলে আউটলায়ার বা হঠাৎ নম্বরের পতন ধরা পড়ে না। বিভাগের আসল প্রয়োজন হলো একটি Student Performance Analytics System—যেখানে কনফিগারযোগ্য রুব্রিক ওয়েট, মিডিয়ান ও পারসেন্টাইল পরিসংখ্যান, উপস্থিতির সাথে ফলাফলের সম্পর্ক এবং ঝুঁকিপূর্ণ শিক্ষার্থী দ্রুত শনাক্ত করার ব্যবস্থা থাকবে।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Rubric Engine Designer", "bn": "টিম লিডার ও রুব্রিক ইঞ্জিন ডিজাইনার" },
+          "responsibility": {
+            "en": "Designs the configurable JSON grading rubric (quiz, midterm, practical, final weights summing to 1.0) and structures cohort summary outputs.",
+            "bn": "কনফিগারযোগ্য JSON গ্রেডিং রুব্রিক (কুইজ, মিডটার্ম, প্র্যাকটিক্যাল, ফাইনালের ওয়েট যোগফল ১.০) ও কোহর্ট রিপোর্ট কাঠামো ডিজাইন করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Data Validation & Roster Ingestion Lead", "bn": "ডেটা ভ্যালিডেশন ও রোস্টার ইনজেশন লিড" },
+          "responsibility": {
+            "en": "Builds strict CSV schema checks catching out-of-range scores (< 0 or > max), missing IDs, duplicate student rows, and non-numeric strings.",
+            "bn": "সীমার বাইরের নম্বর (< ০ বা > সর্বোচ্চ), অনুপস্থিত আইডি, ডুপ্লিকেট সারি এবং অকার্যকর টেক্সট ধরার কঠোর CSV যাচাই ব্যবস্থা তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Statistical & Percentile Analyst", "bn": "পরিসংখ্যান ও পারসেন্টাইল বিশ্লেষক" },
+          "responsibility": {
+            "en": "Implements mean, median, standard deviation, deterministic percentile ranks, and attendance-score correlation metrics.",
+            "bn": "গড়, মিডিয়ান, স্ট্যান্ডার্ড ডেভিয়েশন, পারসেন্টাইল র‍্যাংক এবং উপস্থিতি-নম্বরের কোরিলেশন হিসাব বাস্তবায়ন করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "At-Risk Rule Tester & Report QA", "bn": "ঝুঁকি শনাক্তকরণ ও রিপোর্ট QA" },
+          "responsibility": {
+            "en": "Validates early-warning rules (e.g., low attendance, failing weighted average, or steep score drop) and tests single-student cohort edge cases.",
+            "bn": "প্রাথমিক সতর্কতা নিয়ম (কম উপস্থিতি, কম ওয়েটেড নম্বর বা হঠাৎ পতন) এবং একজন শিক্ষার্থীর মতো এজ কেসগুলো পরীক্ষা করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Department of CST — Academic Advising Cell, Bogura Polytechnic Institute",
+          "bn": "CST বিভাগ — একাডেমিক অ্যাডভাইজিং সেল, বগুড়া পলিটেকনিক ইনস্টিটিউট"
+        },
+        "domain": {
+          "en": "Educational Assessment & Academic Analytics",
+          "bn": "শিক্ষামূলক মূল্যায়ন ও একাডেমিক ডেটা বিশ্লেষণ"
+        },
+        "currentSystem": {
+          "en": "Disconnected CSV score sheets merged manually without range validation, rubric consistency, or early-warning filters for attendance drops.",
+          "bn": "বিচ্ছিন্ন CSV নম্বর তালিকা কোনো সীমা যাচাই, অভিন্ন রুব্রিক বা উপস্থিতি-হ্রাস সতর্কতা ছাড়াই হাতে একত্র করা হতো।"
+        },
+        "requirementsSummary": {
+          "en": "An offline Python analytics CLI using CSV rosters and JSON grading rubrics to compute weighted GPAs, cohort distributions, percentiles, and explainable at-risk flags using synthetic student IDs only.",
+          "bn": "কেবল কৃত্রিম শিক্ষার্থী আইডি ব্যবহার করে CSV তালিকা ও JSON রুব্রিক থেকে ওয়েটেড GPA, পারসেন্টাইল, পরিসংখ্যান ও ব্যাখ্যাযোগ্য ঝুঁকি সতর্কতা তৈরির অফলাইন CLI সিস্টেম।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Grading spreadsheets break silently when weights fail to sum cleanly to 100%, when an absent exam cell is stored as empty string vs '0', or when a typo enters 150/100 into a quiz column and inflates the class average for everyone else.",
+          "bn": "রুব্রিকের ওয়েটগুলো ঠিক ১০০% না হলে, অনুপস্থিত ছাত্রের ঘরে শূন্যের বদলে খালি বা লেখা থাকলে, অথবা টাইপিং ভুলে ১০০-র জায়গায় ১৫০ উঠলে পুরো ক্লাসের গড় নম্বর বিকৃত হয়ে যায়।"
+        },
+        {
+          "en": "Even when raw numbers are valid, ranking students fairly requires careful tie handling in percentiles and avoiding division-by-zero when a cohort has only one student or identical scores (zero standard deviation). Moreover, at-risk flags must state exact reasons—not opaque labels—so advisors know whether a student needs attendance support or lab mentoring.",
+          "bn": "সঠিক সংখ্যা থাকার পরও সমান নম্বরে পারসেন্টাইল র‍্যাংক নির্ণয় এবং মাত্র একজন শিক্ষার্থী বা সবার সমান নম্বরে শূন্য দ্বারা ভাগ এড়ানো জরুরি। তাছাড়া ঝুঁকি ফ্ল্যাগের সাথে স্পষ্ট কারণ উল্লেখ থাকতে হবে যেন শিক্ষক বুঝতে পারেন কার উপস্থিতি বাড়ানো দরকার আর কার ল্যাব সহায়তা প্রয়োজন।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Course Coordinator", "bn": "কোর্স কো-অর্ডিনেটর" },
+          "role": { "en": "Faculty Advisor, CST", "bn": "শিক্ষক উপদেষ্টা, CST" },
+          "line": {
+            "en": "Last semester, a student passed quizzes cleanly but skipped half the practical labs and fell behind before finals. Can your system flag risk factors with clear reasons?",
+            "bn": "গত সেমিস্টারে এক শিক্ষার্থী কুইজে ভালো করলেও অর্ধেক প্র্যাকটিক্যাল ল্যাব করেনি এবং ফাইনালে পিছিয়ে পড়ে। তোমাদের টুল কি স্পষ্ট কারণসহ ঝুঁকির বিষয়টি চিহ্নিত করতে পারবে?"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Yes, Sir. We'll separate each student's evaluation into weighted score, attendance percentage, and assessment trend, then attach explicit reason codes like LOW_ATTENDANCE or FAILING_PRACTICAL.",
+            "bn": "জি স্যার। আমরা প্রতিটি শিক্ষার্থীর মূল্যায়নকে ওয়েটেড নম্বর, উপস্থিতির হার এবং পরীক্ষার ধারাবাহিকতায় ভাগ করব, আর ঝুঁকির পাশে LOW_ATTENDANCE বা FAILING_PRACTICAL-এর মতো স্পষ্ট কারণ লিখে দেব।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Statistical Analyst", "bn": "পরিসংখ্যান বিশ্লেষক" },
+          "line": {
+            "en": "Also, what if two subjects use different weightings? If we put the rubric weights inside a JSON config file and validate that weights sum to 1.0 before processing, teachers won't need to touch Python code.",
+            "bn": "আবার দুটি বিষয়ের নম্বরের বণ্টন আলাদা হতে পারে। তাই ওয়েটগুলো JSON কনফিগ ফাইলে রেখে প্রসেসিংয়ের আগে যোগফল ১.০ হচ্ছে কি না যাচাই করলে শিক্ষকদের কখনোই কোড বদলাতে হবে না।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Validation Lead", "bn": "ভ্যালিডেশন লিড" },
+          "line": {
+            "en": "And let's make sure we only test with synthetic student IDs like STU-001 so no real student personal information ever goes into our GitHub repository.",
+            "bn": "এবং আমরা যেন কেবল STU-001 ধরনের কৃত্রিম শিক্ষার্থী আইডি দিয়ে টেস্ট করি, যাতে গিটহাব রিপোজিটরিতে কোনো শিক্ষার্থীর আসল ব্যক্তিগত তথ্য না যায়।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Create a Student Performance Analytics System that validates JSON grading rubrics and CSV rosters, computes weighted GPAs, medians, percentiles, and attendance correlations safely, flags at-risk learners with transparent reasons, and exports cohort and individual summary reports.",
+        "bn": "JSON গ্রেডিং রুব্রিক ও CSV রোস্টার যাচাই করে ওয়েটেড GPA, মিডিয়ান, পারসেন্টাইল ও উপস্থিতির সম্পর্ক নির্ণয়, স্পষ্ট কারণসহ ঝুঁকিপূর্ণ শিক্ষার্থী শনাক্ত এবং দলগত ও ব্যক্তিগত রিপোর্ট রপ্তানিকারী একটি সিস্টেম তৈরি করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Reason through rubric math, anomaly rules, and statistical edge cases before implementing.",
+          "bn": "বাস্তবায়নের আগে রুব্রিক গণনা, অসঙ্গতি যাচাই এবং পরিসংখ্যানের এজ কেসগুলো নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Rubric & Input Validation", "bn": "ধাপ ১ — রুব্রিক ও ইনপুট যাচাই" },
+            "guidingQuestions": [
+              { "en": "How much tolerance (if any) should exist when checking whether rubric weights sum to 1.0?", "bn": "রুব্রিক ওয়েটের যোগফল ১.০ যাচাইয়ে কতটুকু দশমিক সহনশীলতা থাকা উচিত?" },
+              { "en": "How should an explicit 'ABSENT' cell be treated differently from an unexpected string like 'xyz'?", "bn": "'ABSENT' লেখা এবং 'xyz'-এর মতো অপ্রত্যাশিত লেখার মধ্যে পার্থক্য কীভাবে সামলাবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Distribution & Correlation Math", "bn": "ধাপ ২ — বণ্টন ও কোরিলেশন গণনা" },
+            "guidingQuestions": [
+              { "en": "What happens in percentile and standard-deviation formulas when every student has the exact same score?", "bn": "সব শিক্ষার্থীর নম্বর হুবহু সমান হলে স্ট্যান্ডার্ড ডেভিয়েশন বা কোরিলেশন সূত্রে কী ঘটে?" },
+              { "en": "How will tied scores receive fair percentile ranks?", "bn": "একাধিক শিক্ষার্থী সমান নম্বর পেলে তাদের পারসেন্টাইল র‍্যাংক কীভাবে ন্যায্যভাবে নির্ণয় করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Actionable Output & Privacy", "bn": "ধাপ ৩ — কার্যকর আউটপুট ও গোপনীয়তা" },
+            "guidingQuestions": [
+              { "en": "What criteria separate a 'Healthy' student from 'Watch' or 'At-Risk', and what fields must appear in exported reports?", "bn": "'Healthy', 'Watch' ও 'At-Risk' স্তরের সীমারেখা কীভাবে নির্ধারণ করবেন এবং রিপোর্টে কী কী তথ্য থাকবে?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Use Python's statistics module and clean custom percentile/correlation algorithms safely.", "bn": "পাইথনের statistics মডিউল ও নির্ভুল পারসেন্টাইল/কোরিলেশন অ্যালগরিদম প্রয়োগ করা।" },
+        { "en": "Validate JSON configuration contracts before running batch data pipelines.", "bn": "ডেটা প্রসেসিংয়ের আগেই JSON কনফিগ কনট্র্যাক্ট যাচাই করা।" },
+        { "en": "Protect student privacy using synthetic identifiers in fixtures and tests.", "bn": "টেস্ট ও নমুনা ডেটায় কৃত্রিম আইডি ব্যবহার করে ব্যক্তিগত তথ্যের সুরক্ষা বজায় রাখা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Reject a rubric JSON whose weights sum to 0.90 instead of 1.00 with a clear validation message.", "bn": "ওয়েটের যোগফল ১.০০ না হয়ে ০.৯০ হলে স্পষ্ট ত্রুটি বার্তা দিয়ে রুব্রিক প্রত্যাখ্যান পরীক্ষা করা।" },
+        { "en": "Run cohort analytics on a 1-student dataset and an all-identical-score dataset with zero ZeroDivisionError.", "bn": "১ জন শিক্ষার্থীর ও সবার সমান নম্বরের ডেটাসেটে ভাগজনিত ত্রুটি ছাড়াই বিশ্লেষণ পরীক্ষা করা।" },
+        { "en": "Verify out-of-range marks (115 or -5) are caught and reported without corrupting cohort stats.", "bn": "সীমার বাইরের নম্বর (১১৫ বা -৫) ক্লাস পরিসংখ্যান নষ্ট না করেই ধরা পড়ে কি না যাচাই করা।" },
+        { "en": "Confirm students below attendance or score thresholds trigger exact explainable risk flags.", "bn": "উপস্থিতি বা নম্বরের সীমার নিচে থাকা শিক্ষার্থীরা সঠিক ঝুঁকি ফ্ল্যাগ পায় কি না পরীক্ষা করা।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Invalid rubric sums and malformed CSV score cells are caught with clear row/field diagnostics.", "bn": "ভুল রুব্রিক যোগফল ও ত্রুটিপূর্ণ CSV নম্বর সারি ও কলামসহ চিহ্নিত হবে।" },
+        { "en": "Weighted averages, letter grades, medians, and percentiles are verified across multiple subjects.", "bn": "একাধিক বিষয়ের ওয়েটেড গড়, গ্রেড, মিডিয়ান ও পারসেন্টাইল যাচাইকৃত থাকবে।" },
+        { "en": "At-risk learner detection outputs clear reasons without crashing on tiny or uniform cohorts.", "bn": "ছোট বা অভিন্ন ডেটাসেটেও ক্র্যাশ না করে স্পষ্ট কারণসহ ঝুঁকি সতর্কতা দেখাবে।" },
+        { "en": "All sample data and test reports use synthetic student identifiers only.", "bn": "সব নমুনা ডেটা ও রিপোর্টে কেবল কৃত্রিম শিক্ষার্থী আইডি ব্যবহৃত হবে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Submit the analytics package with separate ingestion, rubric, stats, and reporting modules, a sample rubric JSON, synthetic roster fixtures, and edge-case tests.",
+        "bn": "ইনজেশন, রুব্রিক, পরিসংখ্যান ও রিপোর্টিং মডিউল আলাদা রেখে নমুনা রুব্রিক, কৃত্রিম রোস্টার ও এজ-কেস টেস্টসহ প্রজেক্টটি প্রস্তুত করুন।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "The team discovered that data analytics is 70% careful validation and edge-case defense and 30% formulas. Without checking zero-variance cohorts or bad rubric sums, clean-looking dashboards quickly tell misleading stories.",
+          "bn": "দলটি উপলব্ধি করল যে ডেটা বিশ্লেষণের ৭০%-ই হলো নিখুঁত ভ্যালিডেশন ও এজ-কেস সামলানো, আর বাকি ৩০% সূত্র। ছোট ডেটাসেট বা ভুল রুব্রিক না আটকালে সুন্দর রিপোর্টও ভুল বার্তা দেয়।"
+        },
+        "bridgeToNext": {
+          "en": "Right after delivering their analytics tool, a frightening morning incident inside the CST study lab—a failing hard drive nearly wiping out weeks of student project files—forced Sajid's team to prioritize automated backups in Project 04.",
+          "bn": "বিশ্লেষণ টুলটি জমা দেওয়ার ঠিক পরদিনই CST ল্যাবের এক পিসির হার্ড ড্রাইভে ত্রুটি দেখা দেওয়ায় কয়েক সপ্তাহের প্রজেক্ট ফাইল হারানোর উপক্রম হয়—যা তাদের প্রজেক্ট ০৪-এ স্বয়ংক্রিয় ব্যাকআপ সিস্টেম গড়তে বাধ্য করে।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-04",
+      "previousConnection": {
+        "en": "While testing their Student Performance Analytics System from Project 03 on a lab workstation, an unexpected disk read error froze the PC. Although the team recovered their files from a half-updated USB stick, the scare proved that organizing and analyzing files means nothing without reliable, verified backups.",
+        "bn": "প্রজেক্ট ০৩-এর পারফরম্যান্স বিশ্লেষণ টুলটি ল্যাবের এক পিসিতে পরীক্ষা করার সময় হঠাৎ হার্ড ড্রাইভের রিড এররে কম্পিউটার আটকে যায়। কোনোমতে আংশিক পুরনো পেনড্রাইভ থেকে ফাইল উদ্ধার করা গেলেও তারা বুঝল, নির্ভরযোগ্য ও যাচাইকৃত ব্যাকআপ ছাড়া সব পরিশ্রম ঝুঁকির মুখে।"
+      },
+      "storyNarrative": [
+        {
+          "en": "The morning after the drive scare at Bogura Polytechnic Institute, Badhon arrived at the lab twenty minutes early with a list of every folder the team could not afford to lose: Python source trees, JSON rubrics, lab diagrams, and semester documentation. Previously, whenever students remembered to back up, they simply copied the entire 1.2 GB project folder manually to a USB drive named 'Backup_Final_2'—wasting gigabytes and never checking whether the copied files were actually readable.",
+          "bn": "হার্ড ড্রাইভের ওই ঘটনার পরদিন সকালে বাঁধন নির্ধারিত সময়ের বিশ মিনিট আগেই বগুড়া পলিটেকনিকের ল্যাবে পৌঁছে গুরুত্বপূর্ণ সব ফোল্ডারের তালিকা করে ফেলল। আগে শিক্ষার্থীরা যখন মনে পড়ত তখন পুরো ১.২ গিগাবাইট প্রজেক্ট ফোল্ডার সরাসরি 'Backup_Final_2' নামে পেনড্রাইভে কপি করত—এতে প্রচুর জায়গা নষ্ট হতো, আর কপি করা ফাইলগুলো আদৌ অক্ষত আছে কি না তা কেউ যাচাই করত না।"
+        },
+        {
+          "en": "Sajid pointed out two fatal weaknesses in manual full-copy backups. First, copying unchanged files every day slows down work and fills storage quickly. Second, a silently truncated zip file looks completely normal in a file explorer until the exact emergency day you try to restore it.",
+          "bn": "সাজিদ ম্যানুয়াল কপির দুটি মারাত্মক দুর্বলতা তুলে ধরল। প্রথমত, প্রতিদিন অপরিবর্তিত ফাইলও নতুন করে কপি করায় সময় ও স্টোরেজ নষ্ট হয়। দ্বিতীয়ত, আংশিক নষ্ট বা অসম্পূর্ণ জিপ ফাইল বাইরে থেকে ঠিকঠাক মনে হয়, কিন্তু বিপদের দিনে রিস্টোর করতে গেলেই সেটি আর খোলে না।"
+        },
+        {
+          "en": "Together, the four friends designed an Automated Backup and Recovery System. Instead of blind copying, it would scan file sizes, timestamps, and SHA-256 hashes against the previous snapshot, package only new or modified files into compressed archives with complete manifests, prune old snapshots safely according to a retention rule, and prove every restore by recalculating SHA-256 checksums afterward.",
+          "bn": "চার বন্ধু মিলে তখন একটি Automated Backup and Recovery System ডিজাইন করল। অন্ধভাবে কপি না করে এটি আগের স্ন্যাপশটের সাথে ফাইল সাইজ, মডিফিকেশন সময় ও SHA-256 হ্যাশ মিলিয়ে কেবল নতুন বা পরিবর্তিত ফাইলগুলো কমপ্রেসড আর্কাইভে রাখবে, রিটেনশন নীতি অনুযায়ী পুরনো ব্যাকআপ ছাঁটাই করবে এবং রিস্টোরের পর প্রতিটি ফাইলের SHA-256 চেকসাম মিলিয়ে সুস্থতা প্রমাণ করবে।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Snapshot Manifest Architect", "bn": "টিম লিডার ও স্ন্যাপশট আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Designs the incremental manifest schema linking unchanged files to earlier snapshots and governs safe restore verification workflows.",
+            "bn": "অপরিবর্তিত ফাইলগুলো আগের স্ন্যাপশটের সাথে যুক্ত রাখার ইনক্রিমেন্টাল ম্যানিফেস্ট স্কিমা এবং নিরাপদ রিস্টোর যাচাই প্রক্রিয়া ডিজাইন করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Incremental Diff & Retention Engineer", "bn": "ইনক্রিমেন্টাল ডিফ ও রিটেনশন ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements mtime/size fast diffing backed by SHA-256 confirmation plus keep-last-N retention pruning that never breaks dependent incremental chains.",
+            "bn": "সময় ও সাইজভিত্তিক দ্রুত পরিবর্তন শনাক্তকরণ, SHA-256 নিশ্চিতকরণ এবং নিরাপদ রিটেনশন প্রুনিং তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Archive Security & Traversal Guard", "bn": "আর্কাইভ নিরাপত্তা ও ট্র্যাভার্সাল গার্ড" },
+          "responsibility": {
+            "en": "Analyzes Zip Slip / path-traversal extraction vulnerabilities and enforces strict canonical destination boundary checks during restore.",
+            "bn": "Zip Slip বা পাথ-ট্র্যাভার্সাল দুর্বলতা বিশ্লেষণ করে এবং রিস্টোরের সময় কঠোর গন্তব্য পাথ যাচাই নিশ্চিত করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Disaster-Drill & Corruption Tester", "bn": "ডিজাস্টার-ড্রিল ও কোরাপশন টেস্টার" },
+          "responsibility": {
+            "en": "Simulates corrupted archive bytes, deleted files, and clean-folder restores to verify post-restore checksum validation fails loudly when tampered.",
+            "bn": "ইচ্ছাকৃতভাবে নষ্ট করা আর্কাইভ বাইট, মুছে ফেলা ফাইল ও নতুন ফোল্ডারে রিস্টোর পরীক্ষা করে যেন অখণ্ডতা ভঙ্গ হলেই প্রোগ্রাম সতর্ক করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "CST Study & Project Archive, Bogura Polytechnic Institute",
+          "bn": "CST স্টাডি ও প্রজেক্ট আর্কাইভ, বগুড়া পলিটেকনিক ইনস্টিটিউট"
+        },
+        "domain": {
+          "en": "Systems Operations & Data Resilience",
+          "bn": "সিস্টেম অপারেশনস ও ডেটা রিসিলিয়েন্স"
+        },
+        "currentSystem": {
+          "en": "Ad-hoc manual copies to USB folders without compression manifests, change detection, retention limits, or restore checksum verification.",
+          "bn": "কম্প্রেশন ম্যানিফেস্ট, পরিবর্তন শনাক্তকরণ, রিটেনশন সীমা বা রিস্টোর চেকসাম যাচাই ছাড়াই হাতে পেনড্রাইভে কপি করা।"
+        },
+        "requirementsSummary": {
+          "en": "A Python CLI backup manager supporting full and incremental compressed snapshots, path-safe archive extraction, retention pruning, and mandatory SHA-256 post-restore verification.",
+          "bn": "পূর্ণ ও ইনক্রিমেন্টাল কমপ্রেসড স্ন্যাপশট, পাথ-নিরাপদ এক্সট্র্যাকশন, রিটেনশন প্রুনিং ও বাধ্যতামূলক SHA-256 রিস্টোর যাচাইসহ একটি পাইথন ব্যাকআপ ম্যানেজার।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Incremental backups introduce a subtle dependency problem: if Snapshot 02 only stores files that changed since Snapshot 01, blindly deleting Snapshot 01 during retention cleanup renders Snapshot 02 incomplete and unrecoverable. Either retention must keep baseline ancestors intact or consolidate into a new self-contained snapshot.",
+          "bn": "ইনক্রিমেন্টাল ব্যাকআপে একটি সূক্ষ্ম নির্ভরতার সমস্যা থাকে: স্ন্যাপশট ০২ যদি কেবল স্ন্যাপশট ০১-এর পরের পরিবর্তিত ফাইল রাখে, তবে রিটেনশন ক্লিনআপে স্ন্যাপশট ০১ মুছে দিলে স্ন্যাপশট ০২ আর সম্পূর্ণভাবে রিস্টোর করা যাবে না।"
+        },
+        {
+          "en": "Equally critical is restore safety. Archives downloaded or moved across machines can contain malicious relative paths like '../../etc/file' (known as Zip Slip), or single-bit storage corruption. A trustworthy backup tool is only half finished when it writes an archive—it proves itself during verified restoration.",
+          "bn": "রিস্টোর নিরাপত্তাও সমান গুরুত্বপূর্ণ। আর্কাইভের ভেতরে '../../'-এর মতো অনিরাপদ পাথ (Zip Slip) থাকতে পারে কিংবা ডিস্কের ত্রুটিতে একটি বাইট নষ্ট হতে পারে। প্রকৃত ব্যাকআপ টুল শুধু আর্কাইভ বানিয়েই শেষ হয় না—রিস্টোরের পর প্রতিটি ফাইলের হ্যাশ মিলিয়ে সফলতা প্রমাণ করে।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Disaster-Drill Tester", "bn": "ডিজাস্টার-ড্রিল টেস্টার" },
+          "line": {
+            "en": "If I modify just one line in `notes.txt` out of 400 files, our second snapshot should only pack that one file—but when we restore to an empty recovery folder, all 400 files must return accurately.",
+            "bn": "৪০০টি ফাইলের মধ্যে শুধু `notes.txt`-এর এক লাইন বদলালে দ্বিতীয় স্ন্যাপশট কেবল ওই একটি ফাইলই প্যাক করবে—কিন্তু খালি ফোল্ডারে রিস্টোর দিলে যেন ৪০০টি ফাইলই নিখুঁতভাবে ফিরে আসে।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Incremental Diff Engineer", "bn": "ইনক্রিমেন্টাল ডিফ ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "Exactly! Each snapshot stores a complete manifest listing every file's relative path, expected SHA-256 hash, and which archive snapshot ID actually holds its bytes. So restoring Snapshot 03 walks the manifest and pulls each file from its referenced archive.",
+            "bn": "একদম ঠিক! প্রতিটি স্ন্যাপশটের ম্যানিফেস্টে সব ফাইলের আপেক্ষিক পাথ, কাঙ্ক্ষিত SHA-256 এবং কোন আর্কাইভে তার আসল বাইট আছে তা লেখা থাকবে। ফলে রিস্টোরের সময় সঠিক আর্কাইভ থেকে প্রতিটি ফাইল সংগ্রহ করা যাবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Archive Security Guard", "bn": "আর্কাইভ নিরাপত্তা গার্ড" },
+          "line": {
+            "en": "What if a corrupted or crafted archive contains an entry trying to escape the destination folder like `../outside.txt`? Before extracting any member, we must resolve its canonical target path and verify it stays strictly inside the restore directory.",
+            "bn": "কোনো নষ্ট বা কারসাজি করা আর্কাইভে যদি `../outside.txt`-এর মতো পাথ থাকে যা রিস্টোর ফোল্ডারের বাইরে যেতে চায়? তাই এক্সট্র্যাক্ট করার আগেই প্রতিটি মেম্বারের চূড়ান্ত পাথ গন্তব্য ফোল্ডারের ভেতরে আছে কি না যাচাই করতে হবে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "And once files are extracted into the target folder, our verifier hashes every restored file and compares it against the snapshot manifest. If even one byte differs, the restore exits with a clear integrity failure warning.",
+            "bn": "আর ফাইল এক্সট্র্যাক্ট হওয়ার পর আমাদের ভেরিফায়ার প্রতিটি পুনরুদ্ধার করা ফাইল আবার হ্যাশ করে ম্যানিফেস্টের সাথে মেলাবে। একটি বাইটও না মিললে স্পষ্ট অখণ্ডতা ব্যর্থতার সতর্কতা দেখাবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Engineer an Automated Backup and Recovery System that captures incremental compressed snapshots using SHA-256 manifests, safeguards extraction against path traversal, manages retention chains safely without orphaning incremental files, and verifies restored files against original hashes.",
+        "bn": "SHA-256 ম্যানিফেস্ট ব্যবহার করে ইনক্রিমেন্টাল কমপ্রেসড স্ন্যাপশট তৈরি, পাথ-ট্র্যাভার্সাল প্রতিরোধী এক্সট্র্যাকশন, নির্ভরশীল চেইন অক্ষত রেখে রিটেনশন প্রুনিং এবং মূল হ্যাশের সাথে রিস্টোর-পরবর্তী যাচাইসহ একটি স্বয়ংক্রিয় ব্যাকআপ ও রিকভারি সিস্টেম তৈরি করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Think carefully about incremental chains, deletion safety, and archive verification before writing code.",
+          "bn": "কোড লেখার আগে ইনক্রিমেন্টাল চেইন, মুছে ফেলার নিরাপত্তা এবং আর্কাইভ যাচাই প্রক্রিয়া নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Snapshot Change Detection", "bn": "ধাপ ১ — স্ন্যাপশট পরিবর্তন শনাক্তকরণ" },
+            "guidingQuestions": [
+              { "en": "When comparing the current directory against the latest manifest, what four file outcomes can occur (unchanged, added, modified, deleted)?", "bn": "বর্তমান ফোল্ডার ও সর্বশেষ ম্যানিফেস্ট তুলনা করলে কোন চার ধরনের ফলাফল হতে পারে (অপরিবর্তিত, নতুন, পরিবর্তিত, মুছে ফেলা)?" },
+              { "en": "Why might a file's mtime change without its contents changing, and how should SHA-256 resolve that?", "bn": "কেন কনটেন্ট না বদলেও ফাইলের mtime বদলাতে পারে এবং SHA-256 কীভাবে সেটি সামলাবে?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Safe Extraction & Verification", "bn": "ধাপ ২ — নিরাপদ এক্সট্র্যাকশন ও যাচাই" },
+            "guidingQuestions": [
+              { "en": "How do you check whether `restore_dir.joinpath(member_path).resolve()` escapes `restore_dir.resolve()`?", "bn": "`restore_dir`-এর সাথে আর্কাইভ মেম্বার পাথ যুক্ত করার পর তা মূল ডিরেক্টরির বাইরে যাচ্ছে কি না কীভাবে পরীক্ষা করবেন?" },
+              { "en": "How can you prove a restore did not miss files that were deleted in an intermediate snapshot?", "bn": "রিস্টোর করার পর মাঝখানের কোনো স্ন্যাপশটে মুছে দেওয়া অবাঞ্ছিত ফাইল থেকে যায়নি তা কীভাবে নিশ্চিত করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Retention Chain Safety", "bn": "ধাপ ৩ — রিটেনশন চেইন নিরাপত্তা" },
+            "guidingQuestions": [
+              { "en": "If the user keeps only the last 3 snapshots, what must happen before deleting Snapshot 01 if Snapshot 02 still points to unchanged files inside Snapshot 01?", "bn": "ব্যবহারকারী কেবল শেষ ৩টি স্ন্যাপশট রাখতে চাইলে স্ন্যাপশট ০১-এর ওপর নির্ভরশীল স্ন্যাপশট ০২-কে সুরক্ষিত রাখবেন কীভাবে?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Work with tarfile or zipfile safely including member path validation.", "bn": "মেম্বার পাথ যাচাইসহ tarfile বা zipfile নিরাপদভাবে ব্যবহার শেখা।" },
+        { "en": "Model snapshot manifests and incremental reference chains in JSON.", "bn": "JSON-এ স্ন্যাপশট ম্যানিফেস্ট ও ইনক্রিমেন্টাল রেফারেন্স চেইন মডেল করা।" },
+        { "en": "Verify data durability via post-restore cryptographic checksum comparisons.", "bn": "রিস্টোরের পর ক্রিপ্টোগ্রাফিক চেকসাম মিলিয়ে ডেটার স্থায়িত্ব প্রমাণ করা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Create Snapshot 1 (10 files), edit 1 file and delete 1 file, create Snapshot 2, and verify Snapshot 2 archive stores only the 1 changed file.", "bn": "স্ন্যাপশট ১ (১০টি ফাইল) নিয়ে ১টি বদলে ও ১টি মুছে স্ন্যাপশট ২ বানান—দেখুন দ্বিতীয় আর্কাইভে শুধু পরিবর্তিত ফাইলটিই আছে কি না।" },
+        { "en": "Restore Snapshot 2 to a clean temp folder and confirm exact 9 files match original SHA-256 hashes.", "bn": "খালি টেম্প ফোল্ডারে স্ন্যাপশট ২ রিস্টোর করে যাচাই করুন ঠিক ৯টি ফাইল এবং সবার SHA-256 মিলে গেছে কি না।" },
+        { "en": "Flip one byte inside an archive or tamper with a restored file and assert the integrity verifier detects mismatch.", "bn": "আর্কাইভ বা রিস্টোর করা ফাইলের এক বাইট বদলে দেখুন অখণ্ডতা যাচাইকারী ত্রুটি ধরে কি না।" },
+        { "en": "Craft a test archive entry containing '../escape.txt' and verify extraction refuses it safely.", "bn": "'../escape.txt' যুক্ত একটি পরীক্ষামূলক আর্কাইভ দিয়ে দেখুন এক্সট্র্যাকশন তা আটকে দেয় কি না।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Full and incremental snapshots work deterministically with compressed archives and JSON manifests.", "bn": "কমপ্রেসড আর্কাইভ ও JSON ম্যানিফেস্টসহ পূর্ণ ও ইনক্রিমেন্টাল স্ন্যাপশট সঠিকভাবে কাজ করবে।" },
+        { "en": "Post-restore checksum verification checks every extracted file against stored SHA-256 hashes.", "bn": "রিস্টোর-পরবর্তী যাচাই প্রতিটি ফাইলের হ্যাশ ম্যানিফেস্টের সাথে মিলিয়ে দেখবে।" },
+        { "en": "Zip Slip / path-traversal archive members are blocked prior to disk extraction.", "bn": "ডিস্কে এক্সট্র্যাক্ট হওয়ার আগেই Zip Slip বা পাথ-ট্র্যাভার্সাল মেম্বার ব্লক হবে।" },
+        { "en": "Retention pruning protects active baseline chains from accidental breakage.", "bn": "রিটেনশন প্রুনিং সক্রিয় ইনক্রিমেন্টাল চেইনের কোনো ফাইল অকার্যকর করবে না।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Deliver the backup CLI with snapshot, restore, verify, and prune subcommands, complete disaster-drill tests, and clear README recovery examples.",
+        "bn": "স্ন্যাপশট, রিস্টোর, ভেরিফাই ও প্রুন কমান্ডসহ CLI, ডিজাস্টার-ড্রিল টেস্ট স্যুট এবং পুনরুদ্ধারের উদাহরণসহ README প্রস্তুত করুন।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "Sajid, Sojib, Jihad, and Badhon experienced firsthand that backups only matter when restores are tested. Tracking incremental manifests and blocking path-traversal payloads elevated their engineering mindset toward true reliability.",
+          "bn": "চার বন্ধু হাতে-কলমে বুঝল যে শুধু ব্যাকআপ নেওয়া নয়, নিয়মিত রিস্টোর ও চেকসাম যাচাইই প্রকৃত নিরাপত্তা। ইনক্রিমেন্টাল ম্যানিফেস্ট ও Zip Slip প্রতিরোধ তাদের চিন্তাভাবনাকে আরও পেশাদার করল।"
+        },
+        "bridgeToNext": {
+          "en": "Soon after securing the CST lab's digital files, Bogura Polytechnic Institute's hardware & electronics storekeeper asked the team for help tracking physical lab kits—leading to their first full relational SQLite application in Project 05.",
+          "bn": "ল্যাবের ডিজিটাল ফাইল সুরক্ষিত হওয়ার পরই বগুড়া পলিটেকনিক ইনস্টিটিউটের হার্ডওয়্যার স্টোরকিপার ল্যাবের আসল যন্ত্রাংশ ও কিট হিসাব রাখার জন্য দলের সাহায্য চাইলেন—যা তাদের নিয়ে এল প্রথম পূর্ণাঙ্গ রিলেশনাল ডেটাবেস সিস্টেম প্রজেক্ট ০৫-এ।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-05",
+      "previousConnection": {
+        "en": "Now trusted across the CST department for rescuing digital files and automating verified backups in Project 04, Sajid's team stepped into a bigger responsibility: replacing a leaky paper ledger with an ACID-safe relational Database-Driven Inventory and Asset Management System.",
+        "bn": "প্রজেক্ট ০৪-এ নির্ভরযোগ্য ব্যাকআপ ব্যবস্থা গড়ে তোলার পর CST বিভাগে সাজিদের দলের সুনাম ছড়িয়ে পড়ল। এবার তাদের সামনে এল বড় দায়িত্ব: কাগজের খাতার বদলে ACID-নিরাপদ একটি রিলেশনাল Database-Driven Inventory and Asset Management System তৈরি করা।"
+      },
+      "storyNarrative": [
+        {
+          "en": "In the hardware and networking store room at Bogura Polytechnic Institute, dozens of Raspberry Pi boards, Arduino kits, digital multimeters, network crimpers, and Ethernet patch cables moved in and out of student hands every week. Everything was tracked in two thick paper notebooks maintained by a busy lab storekeeper. When two batches borrowed equipment simultaneously during practical exams, pages became smudged, return dates went missing, and nobody knew which student still held three Arduino kits or why the cable stock count read negative on a hastily copied summary sheet.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের হার্ডওয়্যার ও নেটওয়ার্কিং স্টোর রুমে প্রতি সপ্তাহে বহু রাস্পবেরি পাই, আর্ডুইনো কিট, ডিজিটাল মাল্টিমিটার, ক্রিম্পিং টুল ও ল্যান কেবল শিক্ষার্থীদের হাতে যেত এবং ফেরত আসত। ব্যস্ত ল্যাব স্টোরকিপার দুটি মোটা কাগজের খাতায় এসব লিখতেন। প্র্যাকটিক্যাল পরীক্ষার চাপে একসাথে দুটি ব্যাচ যন্ত্র নিলে খাতায় কাটাকাটি হতো, ফেরতের তারিখ হারাত, এমনকি ভুল যোগের কারণে কেবলের স্টক নেতিবাচক দেখা যেত।"
+        },
+        {
+          "en": "When Sajid, Sojib, Jihad, and Badhon volunteered to help digitize the inventory workflow, Jihad noticed why a plain CSV file—which worked fine in Projects 02 and 03—would fail badly here. Assets have categories, unique serial tags, borrower records, checkout events, and consumable quantities. Storing everything in a single flat spreadsheet meant repeating borrower phone numbers and risking partial updates if a checkout succeeded while stock decrement crashed.",
+          "bn": "সাজিদ, সজীব, জিহাদ ও বাঁধন যখন হিসাবটি ডিজিটাল করার দায়িত্ব নিল, তখন জিহাদ বুঝিয়ে বলল কেন প্রজেক্ট ০২ বা ০৩-এর মতো সাধারণ CSV ফাইল এখানে কাজ করবে না। যন্ত্রাংশের ক্যাটাগরি, অনন্য সিরিয়াল ট্যাগ, ব্যবহারকারীর তথ্য, চেক-আউট লগ এবং স্টক পরিমাণ—সবকিছু একটি চ্যাপ্টা শিটে রাখলে তথ্যের পুনরাবৃত্তি ঘটে এবং স্টক কমানোর মাঝপথে ক্র্যাশ করলে হিসাব নষ্ট হয়ে যায়।"
+        },
+        {
+          "en": "They decided to architect a normalized 3NF SQLite relational database with strict foreign keys, check constraints forbidding negative quantities, ACID database transactions for every stock adjustment or check-out, low-stock threshold alerts, and an immutable append-only audit log recording who changed every item and why. Completing Project 05 would mark the end of Level 01 and prepare the four Bogura Polytechnic friends for real off-campus software & reliability work.",
+          "bn": "তারা সিদ্ধান্ত নিল এমন একটি নরমালাইজড (3NF) SQLite রিলেশনাল ডেটাবেস তৈরি করবে যেখানে কঠোর ফরেন কী, ঋণাত্মক স্টক নিষিদ্ধ করার চেক কনস্ট্রেইন্ট, প্রতিটি লেনদেনের জন্য ACID ট্রানজ্যাকশন, লো-স্টক সতর্কতা এবং প্রতিটি পরিবর্তনের অপরিবর্তনীয় অডিট লগ থাকবে। প্রজেক্ট ০৫ সফলভাবে শেষ করাই হবে তাদের লেভেল ০১-এর সমাপ্তি এবং ক্যাম্পাসের বাইরে বাস্তব সফটওয়্যার প্রজেক্টের প্রস্তুতি।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Relational Schema Architect", "bn": "টিম লিডার ও ডেটাবেস আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Designs the normalized SQLite tables (items, borrowers, checkouts, audit_logs), foreign-key relations, and atomic transaction boundaries.",
+            "bn": "নরমালাইজড SQLite টেবিল (items, borrowers, checkouts, audit_logs), ফরেন-কী সম্পর্ক এবং অ্যাটমিক ট্রানজ্যাকশন সীমানা ডিজাইন করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Checkout & Low-Stock Workflow Developer", "bn": "চেক-আউট ও লো-স্টক ডেভেলপার" },
+          "responsibility": {
+            "en": "Builds check-out/return flows, overdue item queries, and automated low-stock warning summaries for the lab storekeeper.",
+            "bn": "যন্ত্রাংশ চেক-আউট ও ফেরতের ধাপ, মেয়াদোত্তীর্ণ তালিকা এবং স্টোরকিপারের জন্য লো-স্টক সতর্কতা তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "SQL Security & Audit Trail Analyst", "bn": "SQL নিরাপত্তা ও অডিট ট্রেইল বিশ্লেষক" },
+          "responsibility": {
+            "en": "Ensures every query uses parameterized placeholders against SQL injection and enforces append-only audit rows inside the same commit.",
+            "bn": "SQL ইনজেকশন ঠেকাতে সব কোয়েরিতে প্যারামিটারাইজড প্লেসহোল্ডার নিশ্চিত করে এবং একই কমিটের ভেতর অপরিবর্তনীয় অডিট লগ লেখে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Transaction Rollback & Integrity Tester", "bn": "ট্রানজ্যাকশন রোলব্যাক ও টেস্টার" },
+          "responsibility": {
+            "en": "Tests simulated failures mid-checkout to verify SQLite rolls back cleanly without corrupting stock counts or dropping audit logs.",
+            "bn": "চেক-আউটের মাঝপথে কৃত্রিম ত্রুটি ঘটিয়ে পরীক্ষা করে যেন SQLite সম্পূর্ণ রোলব্যাক করে এবং স্টক ও অডিট লগের মিল অটুট থাকে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Hardware & Networking Equipment Store, Bogura Polytechnic Institute",
+          "bn": "হার্ডওয়্যার ও নেটওয়ার্কিং ইকুইপমেন্ট স্টোর, বগুড়া পলিটেকনিক ইনস্টিটিউট"
+        },
+        "domain": {
+          "en": "IT Asset Management & Relational Operations",
+          "bn": "আইটি অ্যাসেট ম্যানেজমেন্ট ও রিলেশনাল অপারেশনস"
+        },
+        "currentSystem": {
+          "en": "Handwritten checkout registers with no real-time availability lookup, no validation against over-borrowing, and no historical audit trail.",
+          "bn": "হাতে লেখা রেজিস্টার খাতা যেখানে তাৎক্ষণিক মজুত দেখা যায় না, অতিরিক্ত ইস্যু আটকায় না এবং কোনো ইতিহাস থাকে না।"
+        },
+        "requirementsSummary": {
+          "en": "A normalized SQLite asset and stock ledger using ACID transactions, parameterized SQL, serialized checkout/return workflows, low-stock alerts, and an immutable audit log.",
+          "bn": "ACID ট্রানজ্যাকশন, প্যারামিটারাইজড SQL, চেক-আউট/রিটার্ন ওয়ার্কফ্লো, লো-স্টক সতর্কতা ও অপরিবর্তনীয় অডিট লগসমৃদ্ধ একটি নরমালাইজড SQLite ইনভেন্টরি সিস্টেম।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Tracking inventory without database constraints invites silent corruption. If two requests try to check out the last Arduino kit, or if code decrements `quantity_available` first and crashes before inserting the checkout record, the asset vanishes from inventory with no borrower attached.",
+          "bn": "ডেটাবেস কনস্ট্রেইন্ট ও ট্রানজ্যাকশন ছাড়া ইনভেন্টরি চালালে নীরবে হিসাব নষ্ট হয়। শেষ আর্ডুইনো কিটটি বের করার সময় যদি স্টক কমার পর এবং ঋণগ্রহীতার রেকর্ড লেখার আগে প্রোগ্রাম ক্র্যাশ করে, তবে যন্ত্রটি কারও নাম ছাড়াই তালিকা থেকে উধাও হয়ে যাবে।"
+        },
+        {
+          "en": "Additionally, dynamic string concatenation in SQL queries creates SQL injection risks if an item name or search string contains quotes, while mutable audit rows weaken accountability. Every stock delta and checkout must therefore be atomic, parameterized, and append-only.",
+          "bn": "এছাড়া কোয়েরিতে সরাসরি স্ট্রিং জোড়া দিলে পণ্যের নামে কোটেশন থাকলে SQL ইনজেকশনের ঝুঁকি তৈরি হয় এবং অডিট লগ সম্পাদনাযোগ্য হলে জবাবদিহিতা নষ্ট হয়। তাই প্রতিটি স্টক পরিবর্তন হতে হবে অ্যাটমিক, প্যারামিটারাইজড এবং কেবল সংযোজনযোগ্য (append-only)।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Lab Storekeeper", "bn": "ল্যাব স্টোরকিপার" },
+          "role": { "en": "Equipment Custodian", "bn": "যন্ত্রপাতি তত্ত্বাবধায়ক" },
+          "line": {
+            "en": "Sajid, every semester someone borrows 5 Ethernet testers when we only had 3 left on the shelf—or forgets to write down a return. Can the software stop impossible numbers automatically?",
+            "bn": "সাজিদ, প্রতি সেমিস্টারেই দেখা যায় তাকে মাত্র ৩টি ইথারনেট টেস্টার থাকলেও ৫টি ইস্যু লেখা হয়েছে বা ফেরতের হিসাব ওঠেনি। সফটওয়্যার কি ভুল সংখ্যা নিজে থেকেই আটকাতে পারবে?"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Yes! Both in Python validation and at the SQLite table level with `CHECK (quantity_available >= 0)` and `FOREIGN KEY` enforcement via `PRAGMA foreign_keys = ON`. Even if a bug tries to go negative, the database refuses it.",
+            "bn": "জি অবশ্যই! পাইথন কোডের পাশাপাশি SQLite টেবিলেও `CHECK (quantity_available >= 0)` এবং `PRAGMA foreign_keys = ON` চালু রাখব। কোনো কারণে ভুল হলেও ডেটাবেস নেতিবাচক স্টক হতে দেবে না।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Rollback Tester", "bn": "রোলব্যাক টেস্টার" },
+          "line": {
+            "en": "And what if writing the checkout succeeds, then writing the audit log raises an error?",
+            "bn": "ধরো চেক-আউট লেখার পর অডিট লগ লেখার সময় কোনো ত্রুটি দেখা দিল—তখন কী হবে?"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "SQL Analyst", "bn": "SQL বিশ্লেষক" },
+          "line": {
+            "en": "Because we wrap the stock decrement, checkout insertion, and audit log insert inside a single `with conn:` SQLite transaction, if any step raises an exception, SQLite rolls back all three changes atomically.",
+            "bn": "যেহেতু আমরা স্টক কমানো, চেক-আউট এন্ট্রি এবং অডিট লগ—তিনটিই একটি `with conn:` SQLite ট্রানজ্যাকশনের ভেতর রাখব, তাই যেকোনো এক ধাপে ত্রুটি হলে তিনটি পরিবর্তনই একসাথে রোলব্যাক হয়ে যাবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Architect a SQLite-backed Inventory and Asset Management CLI enforcing 3NF relational tables, foreign-key integrity, atomic check-out/return and restock transactions, immutable audit logging, parameterized search queries, and low-stock alerting.",
+        "bn": "৩এনএফ রিলেশনাল টেবিল, ফরেন-কী সুরক্ষা, অ্যাটমিক চেক-আউট/রিটার্ন ও স্টক হালনাগাদ, অপরিবর্তনীয় অডিট লগ, প্যারামিটারাইজড অনুসন্ধান এবং লো-স্টক সতর্কতাসম্পন্ন একটি SQLite ইনভেন্টরি ও অ্যাসেট ম্যানেজমেন্ট সিস্টেম তৈরি করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Model your relational entities, constraints, and failure recovery before creating database tables.",
+          "bn": "ডেটাবেস টেবিল তৈরির আগে রিলেশনাল সত্তা, কনস্ট্রেইন্ট এবং ব্যর্থতা পুনরুদ্ধার প্রক্রিয়া ভালোভাবে ভাবুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Relational Entities & Constraints", "bn": "ধাপ ১ — রিলেশনাল টেবিল ও কনস্ট্রেইন্ট" },
+            "guidingQuestions": [
+              { "en": "Which columns belong in `assets` vs `asset_checkouts` vs `audit_log` so no borrower details are duplicated?", "bn": "`assets`, `asset_checkouts` এবং `audit_log` টেবিলে কোন কোন কলাম রাখলে তথ্যের পুনরাবৃত্তি হবে না?" },
+              { "en": "Why must `PRAGMA foreign_keys = ON` be executed on every new SQLite connection?", "bn": "প্রতিটি নতুন SQLite সংযোগে `PRAGMA foreign_keys = ON` চালানো কেন আবশ্যক?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Atomic Checkout & Return Logic", "bn": "ধাপ ২ — অ্যাটমিক চেক-আউট ও রিটার্ন" },
+            "guidingQuestions": [
+              { "en": "In what order should availability checks, quantity updates, checkout inserts, and audit entries happen inside a transaction?", "bn": "ট্রানজ্যাকশনের ভেতর স্টক যাচাই, সংখ্যা হালনাগাদ, চেক-আউট এবং অডিট লগ লেখার সঠিক ক্রম কী?" },
+              { "en": "What prevents the same open checkout ID from being 'returned' twice to artificially inflate stock?", "bn": "একই চেক-আউট আইডি দুবার রিটার্ন দেখিয়ে স্টক বাড়িয়ে ফেলা আটকাবে কী?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Querying & Audit Integrity", "bn": "ধাপ ৩ — অনুসন্ধান ও অডিট অখণ্ডতা" },
+            "guidingQuestions": [
+              { "en": "How do parameterized `?` queries protect search inputs containing SQL meta-characters like `' OR 1=1 --`?", "bn": "`' OR 1=1 --`-এর মতো ইনপুট থেকে `?` প্যারামিটারাইজড কোয়েরি কীভাবে সুরক্ষা দেয়?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Apply Third Normal Form (3NF) schema design with SQLite foreign keys and CHECK constraints.", "bn": "SQLite ফরেন কী ও CHECK কনস্ট্রেইন্টসহ 3NF স্কিমা ডিজাইন প্রয়োগ করা।" },
+        { "en": "Guarantee multi-table consistency using ACID transactions and automatic rollback.", "bn": "ACID ট্রানজ্যাকশন ও স্বয়ংক্রিয় রোলব্যাক দিয়ে একাধিক টেবিলের সামঞ্জস্য রক্ষা করা।" },
+        { "en": "Prevent SQL injection strictly through parameterized DB-API placeholders.", "bn": "প্যারামিটারাইজড DB-API প্লেসহোল্ডার ব্যবহার করে SQL ইনজেকশন প্রতিরোধ করা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Attempt to check out 4 units when only 2 are available and confirm rejection plus unchanged stock.", "bn": "২টি মজুত থাকতে ৪টি চেক-আউটের চেষ্টা করে নিশ্চিত করুন তা প্রত্যাখ্যাত হয় ও স্টক অপরিবর্তিত থাকে।" },
+        { "en": "Attempt to return an already-returned checkout record twice and confirm idempotent error rejection.", "bn": "ইতিমধ্যে ফেরত আসা চেক-আউট দ্বিতীয়বার রিটার্ন করার চেষ্টা আটকে যায় কি না পরীক্ষা করা।" },
+        { "en": "Inject an exception mid-transaction during a stock change and assert full rollback of both inventory and audit tables.", "bn": "ট্রানজ্যাকশনের মাঝপথে ত্রুটি ঘটিয়ে যাচাই করুন ইনভেন্টরি ও অডিট দুই টেবিলই রোলব্যাক হয় কি না।" },
+        { "en": "Search assets using `'; DROP TABLE assets; --` and verify safe literal matching with tables intact.", "bn": "`'; DROP TABLE assets; --` দিয়ে সার্চ করে দেখুন টেবিল অক্ষত থাকে কি না।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Normalized SQLite schema initializes cleanly with foreign keys and non-negative quantity CHECK rules.", "bn": "ফরেন কী ও অঋণাত্মক CHECK নিয়মসহ নরমালাইজড SQLite স্কিমা সঠিকভাবে তৈরি হবে।" },
+        { "en": "Every stock mutation, checkout, and return executes inside an atomic ACID transaction with an audit row.", "bn": "প্রতিটি স্টক পরিবর্তন, চেক-আউট ও রিটার্ন অডিট সারিসহ অ্যাটমিক ট্রানজ্যাকশনে সম্পন্ন হবে।" },
+        { "en": "Returning an asset twice or checking out unavailable stock is blocked cleanly.", "bn": "একই ইস্যু দুবার ফেরত নেওয়া বা মজুতের বেশি ইস্যু করা সম্পূর্ণভাবে আটকানো থাকবে।" },
+        { "en": "Low-stock items below threshold appear automatically in status and inventory reports.", "bn": "নির্ধারিত সীমার নিচের পণ্যগুলো স্বয়ংক্রিয়ভাবে লো-স্টক রিপোর্টে প্রদর্শিত হবে।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Deliver the asset manager CLI with schema migration script, parameterized repository layer, transaction rollback tests, and sample hardware inventory seed fixtures.",
+        "bn": "স্কিমা ফাইল, প্যারামিটারাইজড রিপোজিটরি লেয়ার, রোলব্যাক টেস্ট এবং নমুনা হার্ডওয়্যার স্টোর ডেটাসহ প্রজেক্টটি উপস্থাপন করুন।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "Completing Level 01 transformed Sajid, Sojib, Jihad, and Badhon from classroom Python beginners into disciplined systems builders. They mastered filesystems, exact arithmetic, statistics, verified backups, and ACID databases.",
+          "bn": "লেভেল ০১ শেষ করে সাজিদ, সজীব, জিহাদ ও বাঁধন সাধারণ শিক্ষার্থী থেকে শৃঙ্খলাবদ্ধ সিস্টেম নির্মাতায় পরিণত হলো। ফাইলসিস্টেম, নির্ভুল গণনা, পরিসংখ্যান, যাচাইকৃত ব্যাকআপ ও ACID ডেটাবেসে তাদের শক্ত ভিত্তি গড়ে উঠল।"
+        },
+        "bridgeToNext": {
+          "en": "Their reputation for reliable campus tools soon earned them an off-campus opportunity with Karatoa EdTech, a growing local online learning startup in Bogura whose live APIs were silently failing during evening student quizzes—launching Level 02 and Project 06.",
+          "bn": "ক্যাম্পাসে তাদের নির্ভরযোগ্য টুলের সুনাম শুনে বগুড়ার স্থানীয় অনলাইন শিক্ষা উদ্যোগ 'করতোয়া এডটেক' দলের সাথে যোগাযোগ করে, যাদের লাইভ API সন্ধ্যাবেলার কুইজের সময় নীরবে বন্ধ হয়ে যাচ্ছিল—আর এখান থেকেই শুরু হয় লেভেল ০২ ও প্রজেক্ট ০৬।"
+        }
+      }
+    }
+  ]
+}

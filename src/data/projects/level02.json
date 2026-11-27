@@ -1,0 +1,794 @@
+{
+  "level": "Level 02",
+  "levelNumber": 2,
+  "projects": [
+    {
+      "id": "PRJ-06",
+      "number": 6,
+      "title": {
+        "en": "REST API Monitoring and Reliability Tool",
+        "bn": "REST API মনিটরিং ও নির্ভরযোগ্যতা পর্যবেক্ষণ টুল"
+      },
+      "level": "Level 02",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "10–12 hours",
+        "bn": "১০–১২ ঘণ্টা"
+      },
+      "category": "Automation & Ops",
+      "overview": {
+        "en": "Build a configurable synthetic probe monitor that polls authorized/local HTTP endpoints, measures DNS/connect/response latencies, validates JSON schema and status assertions, handles timeouts and exponential backoff retries, and computes SLA uptime and P95 latency.",
+        "bn": "অনুমোদিত বা লোকাল HTTP এন্ডপয়েন্ট পোলিং করে ল্যাটেন্সি মাপা, JSON স্কিমা ও স্ট্যাটাস যাচাই, টাইমআউট ও রিট্রাই সামলানো এবং SLA আপটাইম ও P95 হিসাব করার একটি মনিটরিং টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Simple ping checks report 'UP' even when an API returns `500 Internal Server Error`, hangs indefinitely without timeouts, or silently breaks its JSON payload schema.",
+        "bn": "সাধারণ পিং পরীক্ষায় সার্ভার `500` ত্রুটি দিলে বা ভুল JSON পাঠালেও 'UP' দেখায় এবং টাইমআউট না থাকলে ক্লায়েন্ট আটকে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Site Reliability Engineers (SREs) and backend developers rely on synthetic API monitors that verify both availability and payload correctness under strict timeouts.",
+        "bn": "রিলায়েবিলিটি ইঞ্জিনিয়ার ও ব্যাকএন্ড ডেভেলপারদের এমন মনিটর তৈরি করতে হয় যা কঠোর টাইমআউটের মধ্যে আপটাইম ও রেসপন্স কাঠামো উভয়ই যাচাই করে।"
+      },
+      "realWorldUseCases": [
+        { "en": "Continuous health probing of internal microservices on localhost or staging labs", "bn": "লোকালহোস্ট বা স্টেজিং মাইক্রোসার্ভিসের স্বাস্থ্য পর্যবেক্ষণ" },
+        { "en": "SLA latency regression tracking (P50 / P95 / P99) across deployments", "bn": "ডিপ্লয়মেন্টের পর P50/P95 ল্যাটেন্সি পরিবর্তন পর্যবেক্ষণ" },
+        { "en": "Detecting broken JSON contracts or expired TLS certificates early", "bn": "ভাঙা JSON রেসপন্স বা আসন্ন TLS মেয়াদোত্তীর্ণ হওয়া শনাক্ত করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "HTTP client timeouts & retry policies", "bn": "HTTP টাইমআউট ও রিট্রাই নীতি" },
+        { "en": "Percentile latency & SLA calculation", "bn": "পারসেন্টাইল ল্যাটেন্সি ও SLA গণনা" },
+        { "en": "Structured JSON schema assertions", "bn": "JSON স্কিমা ও কনট্র্যাক্ট যাচাই" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "urllib.request / http.server local mock lab testing", "bn": "urllib.request ও http.server দিয়ে লোকাল ল্যাব টেস্টিং" },
+        { "en": "time.perf_counter high-resolution timing", "bn": "time.perf_counter দিয়ে নির্ভুল সময় পরিমাপ" },
+        { "en": "Exception distinction (TimeoutError, URLError, HTTPError, JSONDecodeError)", "bn": "বিভিন্ন নেটওয়ার্ক ত্রুটি আলাদাভাবে সামলানো" },
+        { "en": "SQLite or JSONL time-series metric storage", "bn": "টাইম-সিরিজ মেট্রিক সংরক্ষণ" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Local test HTTP server (http.server) for safe verification", "bn": "নিরাপদ পরীক্ষার জন্য লোকাল http.server" },
+        { "en": "SQLite3 / JSON config", "bn": "SQLite3 ও JSON কনফিগ" }
+      ],
+      "functionalRequirements": [
+        { "en": "Read target endpoint specs from a JSON config (URL, expected status, required JSON keys, timeout seconds, max retries).", "bn": "JSON কনফিগ থেকে এন্ডপয়েন্ট, প্রত্যাশিত স্ট্যাটাস, আবশ্যিক JSON কী, টাইমআউট ও রিট্রাই সীমা পড়া।" },
+        { "en": "Execute bounded probes with strict timeout enforcement and transient retry backoff (only on idempotent GET/503/429).", "bn": "কঠোর টাইমআউটে প্রোব চালানো এবং কেবল অস্থায়ী ত্রুটিতে রিট্রাই করা।" },
+        { "en": "Validate response JSON contains expected keys/types and flag contract mismatches.", "bn": "উত্তরের JSON-এ কাঙ্ক্ষিত কী ও ডেটা টাইপ আছে কি না যাচাই করা।" },
+        { "en": "Persist probe history and generate uptime %, P50/P95 latency, and consecutive-failure alerts.", "bn": "ফলাফল সংরক্ষণ করে আপটাইম %, P50/P95 ও ধারাবাহিক ব্যর্থতার সতর্কতা দেখানো।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Every network request MUST specify an explicit timeout; never allow blocking forever.", "bn": "প্রতিটি নেটওয়ার্ক অনুরোধে অবশ্যই টাইমআউট থাকতে হবে।" },
+        { "en": "Mask any Authorization headers or API tokens before writing probe logs.", "bn": "লগে কোনো Authorization হেডার বা টোকেন লেখা যাবে না।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Configurable multi-endpoint health suite + local flaky mock server for testing", "bn": "বহু-এন্ডপয়েন্ট স্যুট ও পরীক্ষার জন্য লোকাল মক সার্ভার" },
+        { "en": "Jittered exponential backoff retry engine", "bn": "জিটারসহ এক্সপোনেনশিয়াল ব্যাকঅফ রিট্রাই" },
+        { "en": "Latency percentile & SLA uptime summary report", "bn": "ল্যাটেন্সি পারসেন্টাইল ও SLA আপটাইম রিপোর্ট" },
+        { "en": "Consecutive-failure circuit-breaker / alert state tracking", "bn": "ধারাবাহিক ব্যর্থতায় অ্যালার্ট স্টেট ট্র্যাকিং" }
+      ],
+      "constraints": [
+        { "en": "Test exclusively against localhost mock servers or endpoints you explicitly own/control.", "bn": "কেবল নিজের লোকালহোস্ট মক সার্ভার বা অনুমোদিত এন্ডপয়েন্টে পরীক্ষা করুন।" },
+        { "en": "Reject redirects to non-HTTP(S) schemes or unexpected private metadata IPs if URL validation is enabled.", "bn": "অনিরাপদ স্কিম বা অননুমোদিত রিডাইরেক্ট প্রত্যাখ্যান করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "api_monitor/",
+        "├── README.md",
+        "├── endpoints.example.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── config.py",
+        "│   ├── prober.py",
+        "│   ├── assertions.py",
+        "│   ├── metrics_store.py",
+        "│   └── reporter.py",
+        "└── tests/",
+        "    ├── mock_api.py",
+        "    └── test_reliability.py"
+      ],
+      "folderStructureNote": {
+        "en": "Build a local controllable flaky mock HTTP server inside `tests/mock_api.py` so retries, timeouts, and bad JSON payloads are 100% reproducible offline.",
+        "bn": "`tests/mock_api.py`-তে একটি নিয়ন্ত্রণযোগ্য লোকাল মক সার্ভার রাখুন যাতে রিট্রাই ও টাইমআউট অফলাইনেই যাচাই করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store endpoint definitions in JSON and append probe results (`timestamp`, `endpoint_id`, `status_code`, `latency_ms`, `ok`, `error_kind`) to SQLite.",
+        "bn": "এন্ডপয়েন্ট তালিকা JSON-এ এবং প্রতিটি প্রোবের ফলাফল SQLite টাইম-সিরিজ টেবিলে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test probe against a local server sleeping longer than timeout confirms deterministic `TIMEOUT` classification.", "bn": "টাইমআউটের চেয়ে বেশি দেরি করা লোকাল সার্ভারে `TIMEOUT` শনাক্ত হয় কি না টেস্ট করা।" },
+        { "en": "Test flaky local server failing twice with 503 then returning 200 succeeds on attempt 3.", "bn": "প্রথম দুবার 503 দিয়ে ৩য় বারে 200 দেওয়া সার্ভারে রিট্রাই সফল হওয়া পরীক্ষা করা।" },
+        { "en": "Test 400 Bad Request fails fast without wasting retry attempts.", "bn": "400 ত্রুটিতে অযথা রিট্রাই না করে দ্রুত ব্যর্থ হওয়া যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Redact `Authorization`, `X-API-Key`, and query secrets in logs and reports.", "bn": "লগ ও রিপোর্টে `Authorization` বা `X-API-Key` গোপন রাখুন।" },
+        { "en": "Validate target URLs (`http`/`https`) and disable unsafe default credential forwarding.", "bn": "টার্গেট URL স্কিম যাচাই করুন ও অপ্রত্যাশিত ক্রেডেনশিয়াল ফরওয়ার্ড বন্ধ রাখুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "CLI monitor supporting single-run and interval polling modes", "bn": "সিঙ্গেল-রান ও ইন্টারভ্যাল পোলিংসহ সিএলআই মনিটর" },
+        { "en": "Local test mock server + reliability test suite", "bn": "লোকাল মক সার্ভার ও রিলায়েবিলিটি টেস্ট স্যুট" },
+        { "en": "Sample SLA report and configuration documentation", "bn": "নমুনা SLA রিপোর্ট ও কনফিগারেশন নির্দেশিকা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Document retry policy matrix (which HTTP codes retry vs fail fast)", "bn": "কোন স্ট্যাটাস কোডে রিট্রাই হবে ও কোনটিতে হবে না তার নীতি নথিভুক্ত করা" },
+        { "en": "Show reproducible local mock server demo instructions in README", "bn": "README-তে লোকাল মক সার্ভারে চালানোর ধাপ দেখানো" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why is retrying a `POST` request on HTTP `500` risky compared to retrying a `GET` request?", "bn": "`GET`-এর তুলনায় `POST` রিকোয়েস্ট `500` ত্রুটিতে রিট্রাই করা কেন ঝুঁকিপূর্ণ?" },
+        { "en": "Why should exponential backoff add random jitter instead of fixed delays when monitoring many services?", "bn": "অনেক সার্ভিস মনিটর করার সময় ফিক্সড বিরতির বদলে জিটারসহ এক্সপোনেনশিয়াল ব্যাকঅফ কেন জরুরি?" },
+        { "en": "Why does measuring `time.time()` instead of `time.perf_counter()` skew sub-second API latency calculations?", "bn": "ল্যাটেন্সি মাপতে `time.time()`-এর বদলে `time.perf_counter()` ব্যবহার করা উচিত কেন?" },
+        { "en": "How do you prevent a single slow/hanging endpoint from starving all other probes in a monitoring cycle?", "bn": "একটি ধীর এন্ডপয়েন্ট যেন অন্য সব প্রোবকে আটকে না দেয় তা কীভাবে নিশ্চিত করবেন?" },
+        { "en": "What distinguishes an SLA breach caused by latency degradation (`P95 > 500ms`) from hard downtime (`503`)?", "bn": "ধীরগতির SLA লঙ্ঘন এবং সম্পূর্ণ ডাউনটাইমের পার্থক্য রিপোর্টে কীভাবে আলাদা করবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Treat each probe attempt as a structured outcome object (`status`, `latency_ms`, `schema_ok`, `error_type`) rather than just a boolean True/False.",
+          "bn": "প্রতিটি প্রোবকে কেবল True/False না ভেবে স্ট্যাটাস, ল্যাটেন্সি, স্কিমা-ফলাফল ও ত্রুটির ধরনসহ একটি কাঠামোবদ্ধ ফলাফল হিসেবে দেখুন।"
+        },
+        "level2": {
+          "en": "Use `urllib.request` with explicit per-probe timeouts, high-resolution monotonic timing via `time.perf_counter`, and separate exception handling for HTTP errors versus transport timeouts.",
+          "bn": "সুস্পষ্ট টাইমআউটসহ `urllib.request` এবং `time.perf_counter` ব্যবহার করে HTTP ত্রুটি ও নেটওয়ার্ক টাইমআউট আলাদাভাবে সামলান।"
+        },
+        "level3": {
+          "en": "Separate a Probe Runner (HTTP execution + backoff policy) from a Schema Validator and a SQLite Aggregator (uptime % and P95 calculation).",
+          "bn": "প্রোব রানার (রিট্রাই নীতিসহ), স্কিমা ভ্যালিডেটর এবং SQLite অ্যানালিটিক্স—এই তিন স্তরে বিভক্ত করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add concurrent endpoint probing using `concurrent.futures.ThreadPoolExecutor` with capped workers.", "bn": "সীমিত সংখ্যক ওয়ার্কারসহ `ThreadPoolExecutor` দিয়ে সমান্তরাল প্রোবিং যুক্ত করুন।" },
+        { "en": "Add response-time anomaly detection comparing current latency against the rolling 20-probe baseline.", "bn": "সর্বশেষ ২০টি প্রোবের গড়ের সাথে তুলনা করে হঠাৎ ল্যাটেন্সি বৃদ্ধির সতর্কতা যোগ করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Software Developer", "bn": "জুনিয়র সফটওয়্যার ডেভেলপার" },
+          { "en": "Site Reliability / DevOps Trainee", "bn": "সাইট রিলায়েবিলিটি ও ডেভঅপস ট্রেইনি" }
+        ],
+        "industryRelevance": {
+          "en": "Directly maps to observability, synthetic monitoring, SLA math, and resilient HTTP client design used across cloud backend teams.",
+          "bn": "ক্লাউড ব্যাকএন্ড টিমের ব্যবহৃত অবজারভেবিলিটি, সিন্থেটিক মনিটরিং ও রেজিলিয়েন্ট HTTP ক্লায়েন্ট প্রকৌশলের সাথে সরাসরি সামঞ্জস্যপূর্ণ।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Resilient HTTP timeout & retry design", "bn": "নির্ভরযোগ্য HTTP টাইমআউট ও রিট্রাই ডিজাইন" },
+          { "en": "SLA & latency percentile analytics", "bn": "SLA ও পারসেন্টাইল বিশ্লেষণ" },
+          { "en": "Reproducible local mock testing", "bn": "লোকাল মক সার্ভার দিয়ে টেস্টিং" }
+        ],
+        "interviewTopics": [
+          { "en": "Idempotency, backoff with jitter, and fast-fail HTTP statuses", "bn": "আইডেমপোটেন্সি ও জিটারসহ ব্যাকঅফ নীতি" },
+          { "en": "Why P95/P99 latency matters more than mean latency", "bn": "গড় ল্যাটেন্সির চেয়ে P95/P99 কেন বেশি গুরুত্বপূর্ণ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Demonstrates production resilience engineering—a clear differentiator over standard beginner API scripts.",
+          "bn": "সাধারণ এপিআই স্ক্রিপ্টের বদলে প্রোডাকশন-মানের নির্ভরযোগ্যতা প্রকৌশল দক্ষতা ফুটিয়ে তোলে।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-07",
+      "number": 7,
+      "title": {
+        "en": "Secure Authentication and Access Management System",
+        "bn": "নিরাপদ অথেনটিকেশন ও অ্যাক্সেস ম্যানেজমেন্ট সিস্টেম"
+      },
+      "level": "Level 02",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "12–15 hours",
+        "bn": "১২–১৫ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Implement an authentication and authorization core module featuring PBKDF2-HMAC-SHA256 salted password storage, constant-time verification, expiring HMAC-signed session tokens, exponential login lockout, and RBAC + resource-ownership checks.",
+        "bn": "সল্টেড PBKDF2 পাসওয়ার্ড সংরক্ষণ, সময়-নিরপেক্ষ যাচাই, মেয়াদোত্তীর্ণ-সচেতন সেশন টোকেন, এক্সপোনেনশিয়াল লকআউট এবং RBAC ও মালিকানা যাচাইসহ একটি নিরাপদ অথেনটিকেশন সিস্টেম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Insecure auth implementations leak user accounts through unsalted hashes, timing side-channels (`==`), predictable session IDs, unlimited brute-force attempts, and missing object-level ownership checks (IDOR).",
+        "bn": "দুর্বল হ্যাশিং, অনুমানযোগ্য সেশন টোকেন, অসীম লগইন চেষ্টার সুযোগ এবং IDOR ত্রুটির কারণে বহু সিস্টেমের ব্যবহারকারী অ্যাকাউন্ট ঝুঁকিতে পড়ে।"
+      },
+      "whyItMatters": {
+        "en": "Every backend engineer and AppSec practitioner must understand authentication invariants deeply rather than copying unsafe snippets.",
+        "bn": "অনিরাপদ কোড কপি না করে অথেনটিকেশনের মৌলিক নিরাপত্তা নীতিগুলো হাতে-কলমে তৈরি করা প্রতিটি ডেভেলপার ও সিকিউরিটি শিক্ষার্থীর জন্য অপরিহার্য।"
+      },
+      "realWorldUseCases": [
+        { "en": "Core auth & RBAC middleware for internal Python web services or CLIs", "bn": "অভ্যন্তরীণ পাইথন সার্ভিস বা সিএলআইয়ের মূল অথ ও RBAC লেয়ার" },
+        { "en": "Preventing Broken Object Level Authorization (BOLA/IDOR) across multi-user records", "bn": "মাল্টি-ইউজারে অবৈধ অ্যাক্সেস (IDOR) প্রতিরোধ" },
+        { "en": "Security audit logging of authentication events and lockouts", "bn": "লগইন ও লকআউট ইভেন্টের নিরাপত্তা অডিট লগ" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Password key derivation & constant-time checks", "bn": "পাসওয়ার্ড কী ডেরিভেশন ও টাইমিং-নিরাপদ তুলনা" },
+        { "en": "Cryptographic randomness & session lifecycle", "bn": "ক্রিপ্টোগ্রাফিক র‍্যান্ডমনেস ও সেশন পরিচালনা" },
+        { "en": "Default-deny RBAC & ownership enforcement", "bn": "ডিফল্ট-ডিনাই RBAC ও মালিকানা নীতি" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "hashlib.pbkdf2_hmac with unique per-user salt", "bn": "প্রতি ব্যবহারকারীর আলাদা সল্টসহ hashlib.pbkdf2_hmac" },
+        { "en": "secrets.token_bytes / token_urlsafe & hmac.compare_digest", "bn": "secrets মডিউল ও hmac.compare_digest" },
+        { "en": "SQLite user, session & audit_events tables", "bn": "SQLite-এ ইউজার, সেশন ও অডিট টেবিল" },
+        { "en": "Time-based lockout state machine", "bn": "সময়-ভিত্তিক লকআউট স্টেট মেশিন" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (hashlib, hmac, secrets, sqlite3, time)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (hashlib, hmac, secrets, sqlite3)" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Register users with unique per-user 16-byte random salt and PBKDF2-HMAC-SHA256 (`>= 100,000` iterations) stored in PHC-style string format.", "bn": "১৬-বাইট র‍্যান্ডম সল্ট ও ১,০০,০০০+ ইটারেশনে PBKDF2-HMAC-SHA256 দিয়ে পাসওয়ার্ড সংরক্ষণ করা।" },
+        { "en": "Authenticate using `hmac.compare_digest` with exponential cooldown lockouts after consecutive failures and audit logging.", "bn": "ধারাবাহিক ব্যর্থতায় এক্সপোনেনশিয়াল লকআউট ও `hmac.compare_digest` দিয়ে লগইন যাচাই করা।" },
+        { "en": "Issue high-entropy session tokens (storing only their SHA-256 hash in the database!) with explicit expiration timestamps and revocation.", "bn": "উচ্চ-এনট্রপি সেশন টোকেন ইস্যু করে ডেটাবেসে কেবল তার হ্যাশ রাখা এবং মেয়াদ ও বাতিল সমর্থন করা।" },
+        { "en": "Enforce default-deny RBAC (`viewer`, `editor`, `admin`) plus resource-owner checks on private objects.", "bn": "প্রাইভেট রিসোর্সে রোল ও মালিকানা উভয়ই যাচাই করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Never log plaintext passwords, raw session tokens, or password hashes.", "bn": "লগে কখনোই প্লেইনটেক্সট পাসওয়ার্ড বা সেশন টোকেন না লেখা।" },
+        { "en": "Return generic authentication errors (`Invalid credentials`) without revealing whether username or password failed.", "bn": "ইউজারনেম না পাসওয়ার্ড ভুল—তা প্রকাশ না করে অভিন্ন ত্রুটি বার্তা দেওয়া।" }
+      ],
+      "expectedFeatures": [
+        { "en": "User registration with weak-password policy checks", "bn": "দুর্বল পাসওয়ার্ড নীতিসহ নিরাপদ নিবন্ধন" },
+        { "en": "Brute-force lockout & session revocation (`logout` / `logout-all`)", "bn": "ব্রুট-ফোর্স লকআউট ও সেশন বাতিলের সুবিধা" },
+        { "en": "Hashed-at-rest session store", "bn": "ডেটাবেসে হ্যাশ অবস্থায় সেশন সংরক্ষণ" },
+        { "en": "RBAC + Ownership policy simulator/verifier", "bn": "RBAC ও মালিকানা যাচাই ইঞ্জিন" }
+      ],
+      "constraints": [
+        { "en": "Strictly forbid `random` module for tokens/salts (use `secrets` only) and forbid bare `sha256` for passwords.", "bn": "টোকেন/সল্টে `random` নয় কেবল `secrets` এবং পাসওয়ার্ডে `pbkdf2_hmac` ব্যবহার করুন।" },
+        { "en": "Never hardcode admin passwords or fallback secret keys inside source files.", "bn": "সোর্স কোডে কোনো হার্ডকোডেড অ্যাডমিন পাসওয়ার্ড রাখা যাবে না।" }
+      ],
+      "suggestedFolderStructure": [
+        "auth_manager/",
+        "├── README.md",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── password_policy.py",
+        "│   ├── hashing.py",
+        "│   ├── lockout.py",
+        "│   ├── sessions.py",
+        "│   ├── rbac.py",
+        "│   └── store.py",
+        "└── tests/",
+        "    ├── test_auth_security.py",
+        "    └── test_rbac_idor.py"
+      ],
+      "folderStructureNote": {
+        "en": "Keep password hashing, lockout calculation, session management, and RBAC authorization cleanly separated into auditable modules.",
+        "bn": "হ্যাশিং, লকআউট, সেশন ও RBAC প্রতিটি স্তর আলাদা মডিউলে রাখলে নিরাপত্তা অডিট সহজ হয়।"
+      },
+      "dataStorageRequirements": {
+        "en": "SQLite database storing `users` (username, phc_hash, role, failed_attempts, locked_until), `sessions` (token_hash, user_id, expires_at, revoked), and `auth_audit_log`.",
+        "bn": "`users`, `sessions` (শুধু token_hash), এবং `auth_audit_log` টেবিলসহ SQLite ডেটাবেস ব্যবহার করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Verify two users with the identical password produce completely different PBKDF2 hashes.", "bn": "একই পাসওয়ার্ডেও দুটি অ্যাকাউন্টের হ্যাশ ভিন্ন হয় কি না পরীক্ষা করা।" },
+        { "en": "Verify locked account rejects even the correct password BEFORE running PBKDF2 (DoS mitigation).", "bn": "লক থাকা অবস্থায় সঠিক পাসওয়ার্ডও PBKDF2 চালানোর আগেই প্রত্যাখ্যাত হয় কি না টেস্ট করা।" },
+        { "en": "Verify `editor` user A cannot edit or delete `editor` user B's private resource (IDOR check).", "bn": "এক এডিটর অন্য এডিটরের প্রাইভেট রিসোর্স পরিবর্তন করতে পারে না তা যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Store SHA-256 hashes of session tokens in the DB so a read-only SQL leak cannot immediately hijack active sessions.", "bn": "ডেটাবেসে সেশন টোকেনের হ্যাশ রাখুন যেন ডেটাবেস ফাঁস হলেও সক্রিয় সেশন চুরি না হয়।" },
+        { "en": "Use `hmac.compare_digest` for digest and token comparisons.", "bn": "ডাইজেস্ট তুলনায় `hmac.compare_digest` ব্যবহার করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Authentication & RBAC library + interactive CLI simulation harness", "bn": "অথেনটিকেশন ও RBAC লাইব্রেরি ও সিএলআই ডেমো" },
+        { "en": "Security unit tests covering lockout, token expiration, and IDOR defense", "bn": "লকআউট, টোকেন মেয়াদ ও IDOR প্রতিরোধের টেস্ট স্যুট" },
+        { "en": "Threat model & security controls summary in README", "bn": "README-তে নিরাপত্তা হুমকি ও প্রতিরক্ষা বিবরণী" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Explain why PBKDF2 + unique salts + hashed session storage were chosen", "bn": "PBKDF2, ইউনিক সল্ট ও হ্যাশড সেশনের কারণ README-তে ব্যাখ্যা করা" },
+        { "en": "Include OWASP-aligned test checklist results", "bn": "নিরাপত্তা টেস্টের চেকলিস্ট যুক্ত করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why should you check the account lockout timestamp BEFORE executing PBKDF2 verification?", "bn": "পাসওয়ার্ড হ্যাশ যাচাইয়ের আগেই লকআউট টাইমস্ট্যাম্প পরীক্ষা করা কেন জরুরি?" },
+        { "en": "Why is storing raw session tokens in SQLite dangerous even if passwords are properly hashed with PBKDF2?", "bn": "পাসওয়ার্ড হ্যাশ করা থাকলেও সেশন টোকেন সরাসরি ডেটাবেসে রাখা কেন বিপজ্জনক?" },
+        { "en": "How does returning `'User not found'` vs `'Wrong password'` help attackers enumerate valid usernames?", "bn": "ভিন্ন দুটি ত্রুটি বার্তা দিলে আক্রমণকারীরা কীভাবে বৈধ ইউজারনেম খুঁজে বের করে?" },
+        { "en": "What is the difference between Authentication (AuthN), RBAC Authorization, and Object-Level Ownership?", "bn": "অথেনটিকেশন, রোলভিত্তিক অনুমোদন এবং অবজেক্ট-স্তরের মালিকানার মধ্যে পার্থক্য কী?" },
+        { "en": "What happens if your verification check forgets to reject an expired session after `revoked == 0`?", "bn": "রিভোকড না হলেও মেয়াদোত্তীর্ণ সেশন পরীক্ষা না করলে কী ঝুঁকি তৈরি হয়?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think of authentication as a strict ordered pipeline: input validation -> lockout guard -> constant-time hash verification -> session issuance -> audit logging.",
+          "bn": "অথেনটিকেশনকে একটি কঠোর ধাপক্রমে ভাবুন: ইনপুট যাচাই -> লকআউট পরীক্ষা -> সময়-নিরাপদ হ্যাশ মিলানো -> সেশন ইস্যু -> অডিট লগ।"
+        },
+        "level2": {
+          "en": "Use `secrets.token_bytes(16)` for password salts, `hashlib.pbkdf2_hmac('sha256', ...)` for derivation, `secrets.token_urlsafe(32)` for bearer tokens (storing `sha256(token)`), and `hmac.compare_digest()`.",
+          "bn": "সল্টের জন্য `secrets.token_bytes(16)`, হ্যাশের জন্য `pbkdf2_hmac`, টোকেনের জন্য `token_urlsafe(32)` (হ্যাশ সংরক্ষণসহ) এবং `hmac.compare_digest()` ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Separate AuthService (register/login/lockout), TokenService (issue/validate/revoke), and PolicyEngine (default-deny role+owner check) over one SQLite persistence layer.",
+          "bn": "AuthService, TokenService এবং PolicyEngine—এই তিনটি স্বাধীন মডিউল দিয়ে সম্পূর্ণ সিস্টেম গঠন করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add password-hash work-factor migration (transparently re-hash with higher iterations upon successful login).", "bn": "সফল লগইনের সময় পুরোনো কম-ইটারেশনের হ্যাশকে স্বয়ংক্রিয়ভাবে নতুন মানদণ্ডে আপগ্রেড করুন।" },
+        { "en": "Implement per-IP + per-account dual rate-limiting.", "bn": "অ্যাকাউন্ট ও আইপি উভয় ভিত্তিক দ্বৈত রেট-লিমিটিং যুক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Application Security Learner", "bn": "অ্যাপ্লিকেশন সিকিউরিটি শিক্ষার্থী" },
+          { "en": "Junior Security Analyst", "bn": "জুনিয়র সিকিউরিটি অ্যানালিস্ট" },
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" }
+        ],
+        "industryRelevance": {
+          "en": "Covers OWASP Top-10 A01 (Broken Access Control) and A07 (Identification & Authentication Failures) defenses directly in code.",
+          "bn": "OWASP Top-10-এর Broken Access Control এবং Authentication Failures প্রতিরোধের বাস্তব অনুশীলন প্রদান করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Cryptographic password storage", "bn": "নিরাপদ পাসওয়ার্ড সংরক্ষণ" },
+          { "en": "Session token security & hashing", "bn": "সেশন টোকেন সুরক্ষা" },
+          { "en": "RBAC & IDOR mitigation", "bn": "RBAC ও IDOR প্রতিরোধ" }
+        ],
+        "interviewTopics": [
+          { "en": "Timing attacks and `hmac.compare_digest`", "bn": "টাইমিং আক্রমণ ও `hmac.compare_digest`" },
+          { "en": "Preventing username enumeration and BOLA/IDOR", "bn": "ইউজারনেম এনুমারেশন ও BOLA/IDOR প্রতিরোধ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "High-value AppSec portfolio piece demonstrating secure-by-design authentication patterns.",
+          "bn": "সিকিউর-বাই-ডিজাইন অথেনটিকেশন দক্ষতা প্রদর্শনকারী অত্যন্ত মূল্যবান পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-08",
+      "number": 8,
+      "title": {
+        "en": "Automated Server Health Monitoring Tool",
+        "bn": "স্বয়ংক্রিয় সার্ভার হেলথ মনিটরিং টুল"
+      },
+      "level": "Level 02",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "10–12 hours",
+        "bn": "১০–১২ ঘণ্টা"
+      },
+      "category": "Automation & Ops",
+      "overview": {
+        "en": "Develop a cross-platform Python host-health agent that samples CPU load, memory pressure, disk space, open-port/process checks on the local machine, evaluates threshold rules, suppresses alert flapping via cooldowns, and writes structured telemetry reports.",
+        "bn": "নিজের কম্পিউটার বা লোকাল ল্যাবের CPU, মেমরি, ডিস্ক ও প্রক্রিয়ার স্বাস্থ্য সংগ্রহ করে থ্রেশহোল্ড নীতি যাচাই, ফ্ল্যাপিং-নিরোধী কুলডাউন ও টেলিমেট্রি রিপোর্ট তৈরির টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Disks quietly fill to 100% crashing databases, memory leaks degrade services silently, and naive alert scripts spam hundreds of duplicate notifications every minute during spikes.",
+        "bn": "ডিস্ক পূর্ণ হয়ে ডেটাবেস বন্ধ হয়ে যায়, মেমরি লিক বাড়ে এবং সাধারণ স্ক্রিপ্ট প্রতি মিনিটে শত শত পুনরাবৃত্ত অ্যালার্ট পাঠিয়ে অ্যাডমিনকে বিভ্রান্ত করে।"
+      },
+      "whyItMatters": {
+        "en": "System administrators and SREs need lightweight, dependency-minimal host telemetry tools with stateful alerting (warning vs critical + hysteresis cooldown).",
+        "bn": "সিস্টেম অ্যাডমিন ও SRE-দের এমন হালকা মনিটর বানাতে হয় যা অস্থায়ী ওঠানামা বাদ দিয়ে স্টেটফুল সতর্কতা দিতে পারে।"
+      },
+      "realWorldUseCases": [
+        { "en": "Monitoring local Linux/Windows lab servers for disk exhaustion and load spikes", "bn": "লোকাল ল্যাব সার্ভারের ডিস্ক ও লোড স্পাইক পর্যবেক্ষণ" },
+        { "en": "Generating daily Markdown health digests for self-hosted services", "bn": "সেলফ-হোস্টেড সার্ভিসের দৈনিক হেলথ রিপোর্ট তৈরি" },
+        { "en": "Detecting unexpected background service downtime on local hosts", "bn": "লোকাল সার্ভিস হঠাৎ বন্ধ হয়ে গেলে তা শনাক্ত করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "OS resource inspection (CPU, RAM, disk)", "bn": "ওএস রিসোর্স পরিমাপ (CPU, RAM, ডিস্ক)" },
+        { "en": "Threshold & alert-cooldown state machines", "bn": "থ্রেশহোল্ড ও কুলডাউন স্টেট মেশিন" },
+        { "en": "JSONL / SQLite metric retention", "bn": "মেট্রিক ইতিহাস সংরক্ষণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "shutil.disk_usage, os.getloadavg / /proc parsing on Linux", "bn": "shutil.disk_usage ও লিনাক্স /proc তথ্য পার্সিং" },
+        { "en": "platform & socket local-service port checks", "bn": "platform ও লোকাল পোর্ট সক্রিয়তা যাচাই" },
+        { "en": "Configurable JSON thresholds & cooldown timers", "bn": "JSON থ্রেশহোল্ড ও কুলডাউন টাইমার" },
+        { "en": "Graceful fallbacks across OS platforms", "bn": "ভিন্ন অপারেটিং সিস্টেমে নিরাপদ ফলব্যাক" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+ (pure stdlib or optional psutil adapter)", "bn": "Python 3.10+ (স্ট্যান্ডার্ড লাইব্রেরি বা psutil অ্যাডাপ্টার)" },
+        { "en": "Linux `/proc/meminfo`, `/proc/loadavg` or cross-platform fallbacks", "bn": "Linux `/proc` পার্সিং বা ক্রস-প্ল্যাটফর্ম ফলব্যাক" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Collect disk utilization %, memory availability (via `/proc/meminfo` on Linux with graceful mock/fallback), CPU load/uptime, and local configured port checks.", "bn": "ডিস্ক ব্যবহার, মেমরি (লিনাক্স `/proc/meminfo` বা ফলব্যাক), লোড ও লোকাল পোর্ট পরীক্ষা করা।" },
+        { "en": "Evaluate Warning and Critical thresholds from a JSON policy file.", "bn": "JSON নীতি থেকে Warning ও Critical থ্রেশহোল্ড মূল্যায়ন করা।" },
+        { "en": "Implement stateful alert suppression (cooldown window + resolved notification when metric recovers).", "bn": "অ্যালার্ট পুনরাবৃত্তি ঠেকাতে কুলডাউন ও স্বাভাবিক হলে রিকভারি বার্তা দেওয়া।" },
+        { "en": "Output clean CLI dashboard snapshot + append JSONL telemetry log.", "bn": "সিএলআই ড্যাশবোর্ড স্ন্যাপশট প্রিন্ট ও JSONL লগ সংরক্ষণ করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Must never invoke unsafe shell interpolation (`shell=True`) when checking OS commands.", "bn": "কমান্ড চালাতে গিয়ে কখনোই `shell=True` ব্যবহার করা যাবে না।" },
+        { "en": "Handle non-Linux environments gracefully via simulated/mock `/proc` fixtures during unit tests.", "bn": "টেস্টে নকল `/proc` ডেটা দিয়ে সব প্ল্যাটফর্মে পরীক্ষাযোগ্য রাখা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Configurable Warning/Critical policy evaluator", "bn": "কাস্টমাইজযোগ্য Warning/Critical মূল্যায়ন" },
+        { "en": "Hysteresis/cooldown alert deduplicator", "bn": "অতিরিক্ত অ্যালার্ট রোধক কুলডাউন ব্যবস্থা" },
+        { "en": "Local-only service heartbeat checks", "bn": "লোকাল সার্ভিস পোর্ট হার্টবিট যাচাই" },
+        { "en": "Historical trend & spike summary CLI command", "bn": "ঐতিহাসিক প্রবণতা ও স্পাইক সারাংশ" }
+      ],
+      "constraints": [
+        { "en": "Collect metrics strictly from the local machine (`127.0.0.1`) or test fixtures.", "bn": "কেবল নিজের লোকাল সিস্টেম বা টেস্ট ফিক্সচার থেকে ডেটা সংগ্রহ করুন।" },
+        { "en": "Avoid requiring root privileges for standard monitoring checks.", "bn": "সাধারণ পর্যবেক্ষণের জন্য রুট অ্যাক্সেস যেন প্রয়োজন না হয়।" }
+      ],
+      "suggestedFolderStructure": [
+        "server_health_monitor/",
+        "├── README.md",
+        "├── policy.example.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── collectors.py",
+        "│   ├── proc_parser.py",
+        "│   ├── evaluator.py",
+        "│   ├── alert_state.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    ├── fixtures/",
+        "    └── test_alert_cooldown.py"
+      ],
+      "folderStructureNote": {
+        "en": "Put `/proc/meminfo` text parsing into pure functions in `proc_parser.py` so tests can verify edge cases using sample fixture strings on any OS.",
+        "bn": "`/proc/meminfo` পার্সিং `proc_parser.py`-তে রাখুন যাতে যেকোনো ওএস-এ টেক্সট ফিক্সচার দিয়ে টেস্ট করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Persist rolling metric samples in `metrics.jsonl` (or SQLite) and store per-rule alert cooldown timestamps in `alert_state.json`.",
+        "bn": "মেট্রিক স্যাম্পল `metrics.jsonl`-এ এবং অ্যালার্ট কুলডাউন স্টেট `alert_state.json`-এ সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test `/proc/meminfo` parser extracts `MemTotal` and `MemAvailable` accurately.", "bn": "`/proc/meminfo` থেকে সঠিক মোট ও অবশিষ্ট মেমরি বের হয় কি না পরীক্ষা করা।" },
+        { "en": "Test alert cooldown suppresses duplicate alerts inside cooldown period and emits `RESOLVED` when healthy again.", "bn": "কুলডাউন সময়ের মধ্যে ডুপ্লিকেট অ্যালার্ট বন্ধ থাকে ও সুস্থ হলে `RESOLVED` দেয় কি না টেস্ট করা।" },
+        { "en": "Test corrupted/incomplete sample fixture fails gracefully without crashing the monitor loop.", "bn": "অসম্পূর্ণ ফিক্সচারে মনিটর ক্র্যাশ না করে নিরাপদে সতর্ক করে তা যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Avoid `subprocess.run(..., shell=True)`; use stdlib APIs and `/proc` file reads.", "bn": "`shell=True` এড়িয়ে চলুন; সরাসরি স্ট্যান্ডার্ড লাইব্রেরি ও `/proc` ফাইল ব্যবহার করুন।" },
+        { "en": "Rotate or cap telemetry log sizes to avoid the monitor itself filling the disk.", "bn": "লগ ফাইলের আকার সীমিত রাখুন যেন মনিটর নিজেই ডিস্ক পূর্ণ না করে।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Cross-platform host health monitor + Linux `/proc` parser", "bn": "হেলথ মনিটর ও লিনাক্স `/proc` পার্সার" },
+        { "en": "Policy config + unit tests with `/proc` fixtures", "bn": "পলিসি কনফিগ ও ফিক্সচারভিত্তিক টেস্ট স্যুট" },
+        { "en": "Sample health report & README documentation", "bn": "নমুনা রিপোর্ট ও README নির্দেশিকা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Document alert state machine (OK -> WARN -> CRIT -> COOLDOWN -> RESOLVED)", "bn": "অ্যালার্ট স্টেট মেশিন README-তে স্পষ্টভাবে ব্যাখ্যা করা" },
+        { "en": "Include sample terminal output & fixture test results", "bn": "নমুনা টার্মিনাল আউটপুট ও টেস্ট ফলাফল যুক্ত করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "On Linux, why is `MemFree` misleading compared to `MemAvailable` in `/proc/meminfo`?", "bn": "লিনাক্সে `/proc/meminfo`-তে `MemFree`-এর তুলনায় `MemAvailable` কেন সঠিক চিত্র দেয়?" },
+        { "en": "How does a monitoring tool prevent itself from causing the disk exhaustion it is supposed to detect?", "bn": "মনিটরিং টুলের লগ ফাইল নিজেই যেন ডিস্ক ভরে না ফেলে তা কীভাবে নিশ্চিত করবেন?" },
+        { "en": "How do you prevent 'alert flapping' when CPU oscillates around 79%–81% across consecutive checks?", "bn": "মান ৭৯%–৮১%-এর আশেপাশে ওঠানামা করলে বারবার অ্যালার্ট আসা (ফ্ল্যাপিং) কীভাবে থামাবেন?" },
+        { "en": "What happens to your `alert_state` if the monitoring agent restarts between checks?", "bn": "দুটি চেকের মাঝে মনিটর রিস্টার্ট হলে কুলডাউন স্টেট কীভাবে বজায় রাখবেন?" },
+        { "en": "Why should metric collectors be separated from alert delivery logic?", "bn": "তথ্য সংগ্রহকারী (Collector) ও অ্যালার্ট মূল্যায়নকারী আলাদা রাখা কেন জরুরি?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think of monitoring as three clean stages: Collect a snapshot -> Evaluate against policy & persistent cooldown state -> Record/Report.",
+          "bn": "তিন ধাপে সাজান: স্ন্যাপশট সংগ্রহ -> নীতি ও সংরক্ষিত কুলডাউন অনুযায়ী মূল্যায়ন -> সংরক্ষণ ও রিপোর্ট।"
+        },
+        "level2": {
+          "en": "Use `shutil.disk_usage(path)`, parse `MemTotal`/`MemAvailable` from `/proc/meminfo`, and store `(status, last_alert_ts)` per metric in a JSON state file.",
+          "bn": "`shutil.disk_usage()`, `/proc/meminfo` থেকে `MemAvailable` এবং প্রতি মেট্রিকের কুলডাউন টাইমস্ট্যাম্প JSON স্টেটে রাখুন।"
+        },
+        "level3": {
+          "en": "Design an interface for `Collectors` returning a typed `HostSnapshot`, a stateless `PolicyEvaluator`, and a stateful `AlertTracker` handling hysteresis/cooldowns.",
+          "bn": "`HostSnapshot` প্রদানকারী Collector, পিওর `PolicyEvaluator` এবং স্টেটফুল `AlertTracker` আর্কিটেকচার তৈরি করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add hysteresis recovery margin (e.g., alert triggers at 85% and resolves only below 75%).", "bn": "হিস্টেরেসিস মার্জিন যোগ করুন (৮৫%-এ অ্যালার্ট ও ৭৫%-এর নিচে নামলে রিজলভ)।" },
+        { "en": "Implement simple JSONL log rotation when file exceeds a configurable MB threshold.", "bn": "নির্দিষ্ট সাইজ ছাড়ালে স্বয়ংক্রিয় লগ রোটেশন যোগ করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior System Administrator", "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর" },
+          { "en": "IT Support & Ops Engineer", "bn": "আইটি সাপোর্ট ও অপস ইঞ্জিনিয়ার" },
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" }
+        ],
+        "industryRelevance": {
+          "en": "Builds Linux internals literacy (`/proc`), stateful alerting engineering, and safe OS automation habits.",
+          "bn": "লিনাক্স ইন্টারনালস (`/proc`), স্টেটফুল অ্যালার্টিং ও নিরাপদ সিস্টেম অটোমেশনের বাস্তব অভিজ্ঞতা দেয়।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Linux `/proc` telemetry parsing", "bn": "লিনাক্স `/proc` টেলিমেট্রি পার্সিং" },
+          { "en": "Stateful alert deduplication", "bn": "স্টেটফুল অ্যালার্ট নিয়ন্ত্রণ" },
+          { "en": "Safe cross-platform OS checks", "bn": "নিরাপদ ক্রস-প্ল্যাটফর্ম সিস্টেম চেক" }
+        ],
+        "interviewTopics": [
+          { "en": "Linux `MemFree` vs `MemAvailable` and load averages", "bn": "লিনাক্সে `MemFree` বনাম `MemAvailable`" },
+          { "en": "Designing alert hysteresis and cooldowns", "bn": "অ্যালার্ট ফ্ল্যাপিং প্রতিরোধে হিস্টেরেসিস ও কুলডাউন" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Shows practical Linux + Python systems fluency valued in junior sysadmin and SRE roles.",
+          "bn": "জুনিয়র সিসঅ্যাডমিন ও SRE ভূমিকার জন্য অত্যন্ত প্রাসঙ্গিক লিনাক্স ও পাইথন দক্ষতা প্রদর্শন করে।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-09",
+      "number": 9,
+      "title": {
+        "en": "Application Error and Log Analysis Platform",
+        "bn": "অ্যাপ্লিকেশন ত্রুটি ও লগ বিশ্লেষণ প্ল্যাটফর্ম"
+      },
+      "level": "Level 02",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "12–14 hours",
+        "bn": "১২–১৪ ঘণ্টা"
+      },
+      "category": "Automation & Ops",
+      "overview": {
+        "en": "Create a streaming log parser and error-triage engine capable of reading huge multi-megabyte application logs line-by-line, collapsing multi-line Python tracebacks into normalized error signatures, ranking top recurring exceptions, and generating time-bucketed spike reports.",
+        "bn": "বড় অ্যাপ্লিকেশন লগ স্ট্রিমিং পদ্ধতিতে পড়ে মাল্টি-লাইন পাইথন ট্রেসব্যাক একত্রিত করা, বারবার ঘটা ত্রুটির সিগনেচার র‍্যাংক করা এবং সময়ভিত্তিক স্পাইক রিপোর্ট তৈরির প্ল্যাটফর্ম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "During outages, engineers open 500MB log files containing thousands of noisy lines and multi-line stack traces, making it nearly impossible to isolate which single root exception started spiking first.",
+        "bn": "সিস্টেম বিভ্রাটের সময় শত শত মেগাবাইটের লগে মাল্টি-লাইন ট্রেসব্যাক ছড়িয়ে থাকায় মূল ত্রুটিটি খুঁজে বের করা অত্যন্ত কঠিন হয়ে পড়ে।"
+      },
+      "whyItMatters": {
+        "en": "Log aggregation and error fingerprinting (grouping identical stack traces regardless of dynamic IDs or timestamps) power tools like Sentry and Datadog.",
+        "bn": "ডায়নামিক আইডি বাদ দিয়ে একই ধরনের স্ট্যাক ট্রেস গ্রুপ করা এবং স্ট্রিমিং লগ বিশ্লেষণ আধুনিক মনিটরিং প্ল্যাটফর্মের মূল ভিত্তি।"
+      },
+      "realWorldUseCases": [
+        { "en": "Post-incident root-cause triage across multi-service JSON and plaintext logs", "bn": "দুর্ঘটনার পর একাধিক সার্ভিসের লগ থেকে মূল কারণ শনাক্ত করা" },
+        { "en": "Grouping recurring exceptions by normalized stack-trace fingerprint", "bn": "স্ট্যাক-ট্রেস ফিঙ্গারপ্রিন্ট অনুযায়ী পুনরাবৃত্ত ত্রুটি গ্রুপিং" },
+        { "en": "Detecting error-rate spikes per 5-minute time bucket", "bn": "প্রতি ৫ মিনিটের ব্যবধানে ত্রুটি বৃদ্ধির স্পাইক শনাক্ত করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Memory-bounded streaming file iteration", "bn": "মেমরি-সাশ্রয়ী স্ট্রিমিং ফাইল পঠন" },
+        { "en": "Regex & multi-line state-machine log parsing", "bn": "রেজেক্স ও মাল্টি-লাইন স্টেট মেশিন পার্সিং" },
+        { "en": "Exception signature normalization & time bucketing", "bn": "ত্রুটির সিগনেচার স্বাভাবিকীকরণ ও টাইম বাকেটিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "Generator pipelines (`yield`) for O(1) memory streaming", "bn": "জেনারেটর পাইপলাইন (`yield`) দিয়ে স্ট্রিমিং প্রসেসিং" },
+        { "en": "re regular expressions & json.loads per-line fallback", "bn": "re রেজেক্স ও JSON লাইন পার্সিং" },
+        { "en": "collections.Counter / heapq.nlargest top-K ranking", "bn": "Counter ও heapq দিয়ে শীর্ষ-K ত্রুটি র‍্যাংকিং" },
+        { "en": "Sensitive data scrubbing before report generation", "bn": "রিপোর্টের আগে সংবেদনশীল ডেটা মাস্কিং" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Sample mixed plaintext + JSONL error logs", "bn": "নমুনা প্লেইনটেক্সট ও JSONL লগ ডেটাসেট" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Stream input logs line-by-line (never `.readlines()`) supporting both structured JSONL and standard timestamped Python logs.", "bn": "কখনো `.readlines()` না চালিয়ে লাইন-বাই-লাইন JSONL ও সাধারণ লগ স্ট্রিম করা।" },
+        { "en": "Stitch multi-line Python tracebacks (`Traceback (most recent call last):` through final exception line) into a single event.", "bn": "একাধিক লাইনের পাইথন ট্রেসব্যাককে একটি একক ত্রুটি ইভেন্ট হিসেবে একত্রিত করা।" },
+        { "en": "Normalize error messages (replacing dynamic UUIDs, timestamps, numeric IDs with `<ID>`) to group recurring issues accurately.", "bn": "ডায়নামিক আইডি বা সংখ্যাকে `<ID>` দিয়ে প্রতিস্থাপন করে অভিন্ন ত্রুটি গ্রুপ করা।" },
+        { "en": "Generate top-N error signatures, severity distribution, and time-window spike alerts.", "bn": "শীর্ষ-N ত্রুটি, তীব্রতার বন্টন এবং সময়ের সাথে স্পাইক রিপোর্ট তৈরি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Constant/bounded memory usage independent of log file size for summary statistics.", "bn": "বড় লগ ফাইলের ক্ষেত্রেও মেমরি ব্যবহার নিয়ন্ত্রিত রাখা।" },
+        { "en": "Scrub accidental tokens, passwords, or emails from extracted log snippets.", "bn": "রিপোর্টে থাকা সম্ভাব্য টোকেন বা ইমেইল মাস্ক করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Generator-based streaming multi-line traceback parser", "bn": "জেনারেটরভিত্তিক মাল্টি-লাইন ট্রেসব্যাক পার্সার" },
+        { "en": "Dynamic-token normalization for accurate error grouping", "bn": "নির্ভুল ত্রুটি গ্রুপিংয়ের জন্য টোকেন স্বাভাবিকীকরণ" },
+        { "en": "Top-K error summary + 5-minute window spike report", "bn": "শীর্ষ-K ত্রুটি ও সময়-ব্যবধানের স্পাইক রিপোর্ট" },
+        { "en": "Filter by severity (`ERROR`, `CRITICAL`), time window, or keyword", "bn": "তীব্রতা, সময়সীমা ও কীওয়ার্ড অনুযায়ী ফিল্টারিং" }
+      ],
+      "constraints": [
+        { "en": "Must never load the entire log file into RAM (`read()` / `readlines()` forbidden on log input).", "bn": "লগ ইনপুটে কখনোই `read()` বা `readlines()` দিয়ে পুরো ফাইল RAM-এ নেওয়া যাবে না।" },
+        { "en": "Must ignore malformed lines cleanly without aborting analysis.", "bn": "ত্রুটিপূর্ণ লগ লাইনে বিশ্লেষণ বন্ধ না করে নিরাপদে এড়িয়ে যেতে হবে।" }
+      ],
+      "suggestedFolderStructure": [
+        "log_analyzer/",
+        "├── README.md",
+        "├── sample_logs/",
+        "│   └── app_mixed.log",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── stream_reader.py",
+        "│   ├── normalizer.py",
+        "│   ├── aggregator.py",
+        "│   ├── scrubber.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    └── test_traceback_grouping.py"
+      ],
+      "folderStructureNote": {
+        "en": "Implement `stream_reader.py` as a Python generator yielding normalized `LogEvent` records so the aggregator stays agnostic to file size or format.",
+        "bn": "`stream_reader.py`-কে একটি পাইথন জেনারেটর হিসেবে তৈরি করুন যাতে অ্যাগ্রিগেটর ফাইলের আকার নির্বিশেষে কাজ করতে পারে।"
+      },
+      "dataStorageRequirements": {
+        "en": "Process raw `.log` / `.jsonl` streams directly and export aggregated summary reports as JSON or Markdown.",
+        "bn": "কাঁচা `.log` বা `.jsonl` স্ট্রিম পড়ে ফলাফল JSON বা মার্কডাউন রিপোর্টে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test 2 separate `KeyError` tracebacks with different user IDs group into a single signature with `count=2`.", "bn": "ভিন্ন ইউজার আইডিসহ দুটি একই `KeyError` ট্রেসব্যাক এক গ্রুপে (`count=2`) আসে কি না পরীক্ষা করা।" },
+        { "en": "Test trailing traceback at EOF (no subsequent timestamped line) is still flushed and counted.", "bn": "ফাইলের একেবারে শেষের ট্রেসব্যাকটিও বাদ না পড়ে গণনা হয় কি না পরীক্ষা করা।" },
+        { "en": "Verify sensitive patterns (`Bearer ...`, `password=...`) are redacted in output reports.", "bn": "রিপোর্টে সংবেদনশীল টোকেন ও পাসওয়ার্ড মাস্ক হয় কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Avoid catastrophic regex backtracking (ReDoS) by using bounded character classes rather than nested quantifiers.", "bn": "ReDoS এড়াতে রেজেক্সে নেস্টেড কোয়ান্টিফায়ার পরিহার করুন।" },
+        { "en": "Redact credential patterns before exporting incident summaries.", "bn": "রিপোর্ট এক্সপোর্টের আগে ক্রেডেনশিয়াল প্যাটার্ন রিড্যাক্ট করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Streaming CLI error log triage tool", "bn": "স্ট্রিমিং ত্রুটি-লগ বিশ্লেষণ সিএলআই টুল" },
+        { "en": "Synthetic multi-line + JSONL test logs", "bn": "মাল্টি-লাইন ও JSONL নমুনা লগ ডেটাসেট" },
+        { "en": "Unit tests covering EOF flush, normalization, and redaction", "bn": "EOF ফ্লাশ, স্বাভাবিকীকরণ ও রিড্যাকশন টেস্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Include memory-efficiency notes explaining generator streaming", "bn": "জেনারেটর স্ট্রিমিংয়ের মেমরি সুবিধা README-তে ব্যাখ্যা করা" },
+        { "en": "Show before/after normalized error grouping example", "bn": "স্বাভাবিকীকরণের মাধ্যমে ত্রুটি গ্রুপিংয়ের উদাহরণ দেখানো" }
+      ],
+      "thinkingChallenges": [
+        { "en": "How does a multi-line traceback parser know a stack trace has ended when the very last line of the file is part of a traceback?", "bn": "ফাইলের শেষ লাইনে থাকা একটি মাল্টি-লাইন ট্রেসব্যাক শেষ হয়েছে তা পার্সার কীভাবে বুঝবে?" },
+        { "en": "Why would `ValueError: invalid user 9182` and `ValueError: invalid user 4401` fragment your Top-10 report if you skip normalization?", "bn": "সংখ্যা ও আইডি স্বাভাবিকীকরণ না করলে আপনার Top-10 রিপোর্টে কী সমস্যা হবে?" },
+        { "en": "How can a poorly written regex cause CPU hang (ReDoS) when scanning untrusted log lines?", "bn": "ত্রুটিপূর্ণ রেজেক্স কীভাবে লগ স্ক্যানিংয়ে ReDoS তৈরি করে CPU আটকে দিতে পারে?" },
+        { "en": "What happens if an attacker injects fake newline+timestamp strings inside a logged username (Log Forging / CWE-117)?", "bn": "লগ ইনপুটে নকল নিউলাইন ও টাইমস্ট্যাম্প ঢুকিয়ে (Log Forging) বিশ্লেষণকে বিভ্রান্ত করার চেষ্টা কীভাবে সামলাবেন?" },
+        { "en": "How can you detect an error spike using a rolling baseline without holding millions of timestamps in memory?", "bn": "লক্ষ লক্ষ টাইমস্ট্যাম্প মেমরিতে না রেখেই কীভাবে সময়ের ব্যবধানে স্পাইক নির্ণয় করবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think of a multi-line log parser as holding a small buffer for the 'currently open record' and yielding it only when the next record header arrives—plus one final flush at EOF.",
+          "bn": "পার্সারে একটি চলমান রেকর্ডের বাফার রাখুন: নতুন টাইমস্ট্যাম্প এলেই আগের রেকর্ডটি ফ্লাশ করুন এবং ফাইল শেষে অবশিষ্ট বাফারটি অবশ্যই বের করুন।"
+        },
+        "level2": {
+          "en": "Stream parsed entries through a memory-bounded Python generator, normalize variable tokens using compiled regular expressions, and group epoch timestamps into fixed-width five-minute buckets via integer division.",
+          "bn": "মেমোরি-সাশ্রয়ী পাইথন জেনারেটর দিয়ে এন্ট্রি প্রবাহিত করুন, কম্পাইল করা রেগুলার এক্সপ্রেশনে পরিবর্তনশীল টোকেন স্বাভাবিক করুন এবং পূর্ণসংখ্যার ভাগে ৫-মিনিটের টাইম বাকেট গঠন করুন।"
+        },
+        "level3": {
+          "en": "Chain four decoupled stages: File Line Stream -> Multi-line Event Assembler -> Secret Scrubber & Signature Normalizer -> Counter/Bucket Aggregator.",
+          "bn": "ফাইল লাইন স্ট্রিম -> মাল্টি-লাইন অ্যাসেম্বলার -> রিড্যাক্টর ও নরমালাইজার -> অ্যাগ্রিগেটর—এই ৪ স্তরে পাইপলাইন সাজান।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Support reading `.log.gz` compressed archives seamlessly via `gzip.open(..., 'rt')`.", "bn": "`gzip.open` দিয়ে সরাসরি `.log.gz` কমপ্রেসড লগ পড়ার সমর্থন যোগ করুন।" },
+        { "en": "Add anomaly z-score calculation highlighting 5-minute intervals > 2 standard deviations above normal.", "bn": "গড় থেকে ২ স্ট্যান্ডার্ড ডেভিয়েশনের বেশি ত্রুটিযুক্ত সময়-ব্যবধান চিহ্নিত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" },
+          { "en": "Junior Software Developer", "bn": "জুনিয়র সফটওয়্যার ডেভেলপার" },
+          { "en": "SOC / Production Support Analyst", "bn": "সক ও প্রোডাকশন সাপোর্ট অ্যানালিস্ট" }
+        ],
+        "industryRelevance": {
+          "en": "Teaches O(1)-memory streaming architecture, log forging awareness, regex safety, and practical incident triage workflows.",
+          "bn": "মেমরি-সাশ্রয়ী স্ট্রিমিং আর্কিটেকচার, লগ ফর্জিং সচেতনতা ও বাস্তব সমস্যা-নির্ণয় দক্ষতা গড়ে তোলে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Generator streaming pipelines", "bn": "জেনারেটর স্ট্রিমিং পাইপলাইন" },
+          { "en": "Multi-line traceback assembly", "bn": "মাল্টি-লাইন ট্রেসব্যাক পার্সিং" },
+          { "en": "Log secret redaction & ReDoS awareness", "bn": "সিক্রেট রিড্যাকশন ও রেজেক্স নিরাপত্তা" }
+        ],
+        "interviewTopics": [
+          { "en": "Generators vs loading lists into memory", "bn": "জেনারেটর বনাম সম্পূর্ণ ফাইল মেমরিতে লোড করা" },
+          { "en": "Regular expression backtracking (ReDoS) and log sanitization", "bn": "ReDoS ও লগ স্যানিটাইজেশন" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Strong systems-oriented portfolio tool immediately recognizable by backend and SRE hiring managers.",
+          "bn": "ব্যাকএন্ড ও SRE নিয়োগকর্তাদের কাছে অত্যন্ত পরিচিত ও বাস্তবসম্মত পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-10",
+      "number": 10,
+      "title": {
+        "en": "Database Backup, Audit and Recovery Manager",
+        "bn": "ডেটাবেস ব্যাকআপ, অডিট ও রিকভারি ম্যানেজার"
+      },
+      "level": "Level 02",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "12–15 hours",
+        "bn": "১২–১৫ ঘণ্টা"
+      },
+      "category": "Data & Storage",
+      "overview": {
+        "en": "Build a safe SQLite lifecycle manager that creates hot consistent snapshots using SQLite's online backup API (never raw `cp` during writes), verifies `PRAGMA integrity_check`, diffs schema/row counts between backups, and runs sandboxed restore drills.",
+        "bn": "SQLite-এর অনলাইন ব্যাকআপ API ব্যবহার করে নিরাপদ হট স্ন্যাপশট তৈরি, `PRAGMA integrity_check` যাচাই, ব্যাকআপের মধ্যে স্কিমা ও সারি সংখ্যার তুলনা এবং স্যান্ডবক্সড রিস্টোর পরীক্ষার টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Copying a live SQLite `.db` file using plain file copy while WAL transactions are active produces torn, corrupted backups that fail only when production needs recovery.",
+        "bn": "চলমান ডেটাবেস ফাইলে সরাসরি কপি (`cp`) করলে WAL ট্রানজ্যাকশনের কারণে ব্যাকআপ ফাইল নষ্ট হয়ে যায় এবং পুনরুদ্ধারের সময় ব্যর্থ হয়।"
+      },
+      "whyItMatters": {
+        "en": "Database reliability requires understanding transaction-consistent snapshots, integrity audits, schema drift detection, and automated non-destructive restore verification.",
+        "bn": "ডেটাবেস নির্ভরযোগ্যতা নিশ্চিত করতে কনসিস্টেন্ট স্ন্যাপশট, অখণ্ডতা অডিট, স্কিমা পরিবর্তন শনাক্তকরণ ও নিরাপদ রিস্টোর পরীক্ষা জানা অপরিহার্য।"
+      },
+      "realWorldUseCases": [
+        { "en": "Automated hot backups of SQLite-backed internal services", "bn": "SQLite-নির্ভর অভ্যন্তরীণ সার্ভিসের নিরাপদ হট ব্যাকআপ" },
+        { "en": "Pre-migration schema and row-count audit verification", "bn": "স্কিমা মাইগ্রেশনের আগে ও পরে সারি ও কাঠামো অডিট" },
+        { "en": "Automated recovery drills verifying backup usability in a temporary sandbox", "bn": "টেম্প স্যান্ডবক্সে ব্যাকআপের কার্যকারিতা নিয়মিত যাচাই" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Transaction-consistent database snapshots", "bn": "ট্রানজ্যাকশন-নিরাপদ ডেটাবেস স্ন্যাপশট" },
+        { "en": "Schema inspection & drift comparison", "bn": "স্কিমা পরিদর্শন ও পরিবর্তন তুলনা" },
+        { "en": "Integrity verification & sandbox restore drills", "bn": "অখণ্ডতা যাচাই ও স্যান্ডবক্স রিস্টোর মহড়া" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "sqlite3 Connection.backup() online backup API", "bn": "sqlite3 Connection.backup() API ব্যবহার" },
+        { "en": "PRAGMA integrity_check & sqlite_master introspection", "bn": "PRAGMA integrity_check ও sqlite_master বিশ্লেষণ" },
+        { "en": "SHA-256 backup manifest & audit ledger", "bn": "SHA-256 ব্যাকআপ ম্যানিফেস্ট ও অডিট খতিয়ান" },
+        { "en": "tempfile.TemporaryDirectory isolated restore testing", "bn": "TemporaryDirectory দিয়ে বিচ্ছিন্ন রিস্টোর পরীক্ষা" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "SQLite3", "bn": "SQLite3" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Create consistent SQLite snapshots via `source_conn.backup(dest_conn)` and record SHA-256 digest + per-table row counts in a metadata manifest.", "bn": "`Connection.backup()` দিয়ে স্ন্যাপশট নিয়ে SHA-256 ও টেবিলভিত্তিক সারি সংখ্যা ম্যানিফেস্টে রাখা।" },
+        { "en": "Run `verify` executing both file SHA-256 check and SQLite `PRAGMA integrity_check` + `PRAGMA foreign_key_check` inside a sandbox copy.", "bn": "স্যান্ডবক্স কপিতে SHA-256, `integrity_check` ও `foreign_key_check` চালিয়ে যাচাই করা।" },
+        { "en": "Provide `audit-diff` comparing two snapshots to highlight added/removed tables, column schema drift, and row count deltas.", "bn": "দুটি স্ন্যাপশটের মধ্যে টেবিল, কলাম ও সারির সংখ্যার পার্থক্য তুলনা করা।" },
+        { "en": "Implement `restore-drill` testing recovery into a clean temporary directory without altering the live database.", "bn": "লাইভ ডেটাবেস স্পর্শ না করে টেম্প ডিরেক্টরিতে রিস্টোর মহড়া চালানো।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Read-only verification must never modify the archived backup snapshot timestamp or bytes.", "bn": "যাচাইয়ের সময় মূল ব্যাকআপ ফাইলের কোনো পরিবর্তন যেন না হয়।" },
+        { "en": "Strict path validation on source/backup database paths.", "bn": "উৎস ও গন্তব্য ডেটাবেস পাথে কঠোর ভ্যালিডেশন রাখা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Hot SQLite snapshot command using `.backup()` API", "bn": "`.backup()` API-নির্ভর হট স্ন্যাপশট কমান্ড" },
+        { "en": "Deep verification (`SHA-256` + `integrity_check` + `foreign_key_check`)", "bn": "ত্রিমুখী অখণ্ডতা যাচাই ব্যবস্থা" },
+        { "en": "Schema & row-count drift auditor between snapshots", "bn": "দুই ব্যাকআপের মধ্যে স্কিমা ও ডেটা পরিবর্তন অডিট" },
+        { "en": "Safe restore command with pre-restore backup of existing target", "bn": "রিস্টোরের আগে বর্তমান টার্গেটের নিরাপত্তা ব্যাকআপ" }
+      ],
+      "constraints": [
+        { "en": "Never copy SQLite files with `shutil.copy` while a connection could be writing; always use SQLite's `.backup()` API.", "bn": "সরাসরি ফাইল কপি না করে সবসময় SQLite `.backup()` API ব্যবহার করতে হবে।" },
+        { "en": "Quote/validate table identifiers safely against an allowlist from `sqlite_master` when counting rows.", "bn": "সারি গণনায় `sqlite_master` থেকে প্রাপ্ত বৈধ টেবিল নাম যাচাই ও নিরাপদ কোটেশন ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "db_backup_manager/",
+        "├── README.md",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── snapshot.py",
+        "│   ├── verifier.py",
+        "│   ├── auditor.py",
+        "│   ├── restorer.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    ├── test_hot_backup.py",
+        "    └── test_schema_diff.py"
+      ],
+      "folderStructureNote": {
+        "en": "Separate snapshot creation, integrity verification, and schema diffing so automated CI or cron drills can invoke `verify` independently.",
+        "bn": "স্ন্যাপশট, ভেরিফায়ার ও অডিটর আলাদা রাখুন যাতে স্বয়ংক্রিয়ভাবে নিয়মিত শুধু `verify` চালানো যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store `.db` snapshots and paired `.manifest.json` files inside a structured backup vault directory, plus an audit log recording every backup, verify, and restore action.",
+        "bn": "ব্যাকআপ ভল্ট ফোল্ডারে `.db` স্ন্যাপশট, `.manifest.json` এবং অপারেশন অডিট লগ সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test `backup()` while concurrent writes occur in another thread produces a clean database passing `integrity_check`.", "bn": "অন্য থ্রেডে ডেটা লেখা চলার সময়েও `backup()` নিখুঁত কপি তৈরি করে কি না পরীক্ষা করা।" },
+        { "en": "Test `audit-diff` detects an added column, dropped table, and changed row count between v1 and v2 snapshots.", "bn": "v1 ও v2 স্ন্যাপশটের মধ্যে নতুন কলাম ও পরিবর্তিত সারি সংখ্যা ধরা পড়ে কি না যাচাই করা।" },
+        { "en": "Test intentionally corrupted `.db` bytes fail verification immediately.", "bn": "ইচ্ছাকৃতভাবে বিকৃত ডেটাবেস ফাইল ভেরিফিকেশনে ধরা পড়ে কি না পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Validate table names retrieved from `sqlite_master` before interpolating double-quoted identifiers in `SELECT COUNT(*)`.", "bn": "`SELECT COUNT(*)` চালানোর আগে `sqlite_master`-এর টেবিল নাম নিরাপদে কোট ও যাচাই করুন।" },
+        { "en": "Protect backup directories with restrictive file permissions and verify SHA-256 before restore.", "bn": "ব্যাকআপ ফাইলের অনুমতি সীমিত রাখুন ও রিস্টোরের আগে SHA-256 মিলিয়ে নিন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "CLI Database Backup, Verify, Diff & Restore Manager", "bn": "সিএলআই ডেটাবেস ব্যাকআপ, ভেরিফাই ও রিকভারি টুল" },
+        { "en": "Concurrent write + corruption detection test suite", "bn": "কনকারেন্ট রাইট ও করাপশন শনাক্তকরণ টেস্ট" },
+        { "en": "Recovery drill guide in README", "bn": "README-তে পুনরুদ্ধার মহড়া নির্দেশিকা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Explain SQLite WAL mode vs `.backup()` API consistency in README", "bn": "README-তে WAL মোড বনাম `.backup()` API-এর নিরাপত্তা ব্যাখ্যা" },
+        { "en": "Demonstrate sample schema-diff output", "bn": "নমুনা স্কিমা-পার্থক্য রিপোর্ট যুক্ত করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does `shutil.copy('app.db', 'bak.db')` fail or corrupt data when SQLite is running in WAL (`Write-Ahead Logging`) mode?", "bn": "WAL মোডে চলাকালীন সাধারণ `shutil.copy()` করলে ব্যাকআপ কেন নষ্ট বা অসম্পূর্ণ হতে পারে?" },
+        { "en": "How do you safely query `SELECT COUNT(*)` across dynamic table names without exposing a SQL injection path if a table name contains spaces or quotes?", "bn": "ডায়নামিক টেবিল নামে স্পেস বা কোট থাকলে SQL ইনজেকশন ছাড়াই নিরাপদে সারি সংখ্যা কীভাবে গুনবেন?" },
+        { "en": "Why should `verify` copy the snapshot or open it in immutable/read-only mode before running `PRAGMA` checks?", "bn": "যাচাইয়ের সময় মূল ব্যাকআপ ফাইলের ওপর সরাসরি রাইট বা লক না ঘটাতে কেন রিড-অনলি/স্যান্ডবক্স মোড প্রয়োজন?" },
+        { "en": "What happens during a restore if the target database currently has active WAL/SHM sidecar files left over?", "bn": "রিস্টোরের সময় পুরোনো `-wal` বা `-shm` ফাইল থেকে গেলে কী বিপর্যয় ঘটতে পারে?" },
+        { "en": "How does comparing per-table row counts alongside `sqlite_master` DDL catch accidental destructive migrations before release?", "bn": "স্কিমা ও সারি-সংখ্যার তুলনা কীভাবে ভুল ডেটাবেস মাইগ্রেশন রিলিজের আগেই ধরে ফেলে?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think beyond copying bytes: treat a SQLite database as an active transactional engine whose consistency must be snapshot-locked through its own backup API.",
+          "bn": "ডেটাবেসকে সাধারণ ফাইল না ভেবে একটি চলমান ট্রানজ্যাকশনাল ইঞ্জিন হিসেবে ভাবুন, যার নিজস্ব ব্যাকআপ API দিয়ে কনসিস্টেন্সি নিশ্চিত করতে হয়।"
+        },
+        "level2": {
+          "en": "Use `src_conn.backup(dst_conn)`, query `sqlite_master` (`type='table'`) for schema DDL, and run `PRAGMA integrity_check` and `PRAGMA foreign_key_check`.",
+          "bn": "`src_conn.backup(dst_conn)` ব্যবহার করুন, `sqlite_master` থেকে স্কিমা পড়ুন এবং `PRAGMA integrity_check` ও `foreign_key_check` চালান।"
+        },
+        "level3": {
+          "en": "Split into Snapshotter (`.backup()` + manifest hash), Verifier (hash + PRAGMA checks in sandbox), Auditor (table/column/row diff), and Restorer (cleans stale WAL/SHM after safety backup).",
+          "bn": "Snapshotter, Verifier, Auditor এবং Restorer (পুরোনো WAL/SHM পরিষ্কারসহ)—এই চার ভাগে মডিউলগুলো সাজান।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add optional gzip compression of verified `.db` backups with transparent decompress-before-verify.", "bn": "যাচাইকৃত `.db` ব্যাকআপের জন্য ঐচ্ছিক gzip কম্প্রেশন যোগ করুন।" },
+        { "en": "Add row-level primary-key diff summary for small configuration tables.", "bn": "ছোট কনফিগ টেবিলের জন্য সারি-স্তরের পরিবর্তনের সারাংশ দেখান।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Software Developer", "bn": "জুনিয়র সফটওয়্যার ডেভেলপার" },
+          { "en": "Junior System Administrator", "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর" },
+          { "en": "Database / Reliability Trainee", "bn": "ডেটাবেস ও রিলায়েবিলিটি ট্রেইনি" }
+        ],
+        "industryRelevance": {
+          "en": "Directly teaches production DBA hygiene: WAL awareness, online snapshots, integrity verification, and schema drift auditing.",
+          "bn": "WAL সচেতনতা, অনলাইন স্ন্যাপশট, অখণ্ডতা পরীক্ষা ও স্কিমা অডিটের মতো প্রোডাকশন ডেটাবেস পরিচালনা দক্ষতা গড়ে তোলে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Online transactional backups", "bn": "অনলাইন ট্রানজ্যাকশনাল ব্যাকআপ" },
+          { "en": "Database integrity & FK auditing", "bn": "ডেটাবেস অখণ্ডতা ও ফরেন কী অডিট" },
+          { "en": "Schema drift detection", "bn": "স্কিমা পরিবর্তন শনাক্তকরণ" }
+        ],
+        "interviewTopics": [
+          { "en": "SQLite WAL mode and safe hot backups", "bn": "SQLite WAL মোড ও নিরাপদ হট ব্যাকআপ" },
+          { "en": "Preventing SQL identifier injection in metadata tools", "bn": "মেটাডেটা টুলে নিরাপদ টেবিল আইডেন্টিফায়ার হ্যান্ডলিং" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Demonstrates rare operational rigor for a junior portfolio—moving from simple queries to reliable database lifecycle management.",
+          "bn": "সাধারণ কোয়েরির বাইরে গিয়ে পূর্ণ ডেটাবেস লাইফসাইকেল পরিচালনার বিরল দক্ষতা তুলে ধরে।"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1272 @@
+{
+  "partId": "part-04",
+  "partNumber": 4,
+  "problems": [
+    {
+      "id": "P04-01",
+      "number": 1,
+      "title": {
+        "en": "Print Numbers from 1 to N",
+        "bn": "১ থেকে N পর্যন্ত সংখ্যা প্রিন্ট"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "for loop", "bn": "for লুপ" },
+        { "en": "range(1, n + 1)", "bn": "range(1, n + 1)" }
+      ],
+      "description": {
+        "en": "Read a positive integer n and print all integers from 1 to n separated by spaces on a single line.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং এক লাইনে স্পেস দিয়ে ১ থেকে n পর্যন্ত সব পূর্ণসংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated integers from 1 to n.",
+        "bn": "স্পেস দিয়ে আলাদা ১ থেকে n পর্যন্ত সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "1 2 3 4 5",
+          "explanation": {
+            "en": "range(1, 6) generates 1, 2, 3, 4, 5.",
+            "bn": "range(1, 6) থেকে 1, 2, 3, 4, 5 উৎপন্ন হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Python's range(start, stop) excludes stop, so pass n + 1 as the second argument.",
+        "bn": "পাইথনের range(start, stop)-এ stop বাদ থাকে, তাই দ্বিতীয় আর্গুমেন্ট হিসেবে n + 1 দিন।"
+      },
+      "hint2": {
+        "en": "Collect outputs or print with end=' ' (or join after converting, or track spacing cleanly).",
+        "bn": "শেষে বাড়তি স্পেস না রাখতে লুপের সাথে শর্ত বা ' '.join() ব্যবহার করতে পারেন।"
+      },
+      "logicBreakdown": {
+        "en": "Understanding range()'s inclusive start and exclusive stop prevents off-by-one errors in nearly every Python loop.",
+        "bn": "range()-এর শুরু অন্তর্ভুক্ত কিন্তু শেষ বাদ—এই নিয়মটি পরিষ্কার থাকলে লুপের অধিকাংশ ভুল এড়ানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Build output tokens or loop i from 1 to n.", "bn": "১ থেকে n পর্যন্ত লুপ চালান।" },
+        { "en": "Print values separated by single spaces.", "bn": "মাঝে একটি করে স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nout = \"\"\nfor i in range(1, n + 1):\n    if i == 1:\n        out += str(i)\n    else:\n        out += \" \" + str(i)\nprint(out)",
+      "codeExplanation": {
+        "en": "range(1, n + 1) iterates 1..n. Adding a leading space only when i > 1 prevents a trailing space at the end.",
+        "bn": "range(1, n + 1) ১ থেকে n পর্যন্ত চলে। প্রথম সংখ্যার পর বাকিগুলোর আগে স্পেস যোগ করায় শেষে বাড়তি স্পেস থাকে না।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(n)" },
+      "testCases": [
+        { "input": "5", "expectedOutput": "1 2 3 4 5" },
+        { "input": "1", "expectedOutput": "1" },
+        { "input": "3", "expectedOutput": "1 2 3" }
+      ]
+    },
+    {
+      "id": "P04-02",
+      "number": 2,
+      "title": {
+        "en": "Countdown from N to 1 Using while Loop",
+        "bn": "while লুপে N থেকে ১ পর্যন্ত উল্টো গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "while loop condition", "bn": "while লুপ শর্ত" },
+        { "en": "Decrementing counter", "bn": "কাউন্টার কমানো" }
+      ],
+      "description": {
+        "en": "Read a positive integer n. Using a while loop, print numbers counting down from n to 1, each on its own line.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n ইনপুট নিন। while লুপ ব্যবহার করে n থেকে ১ পর্যন্ত প্রতিটি সংখ্যা আলাদা লাইনে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "n lines printing n, n-1, ..., 1.",
+        "bn": "n-টি লাইনে n, n-1, ..., 1।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "3\n2\n1",
+          "explanation": {
+            "en": "Loop runs while n >= 1, subtracting 1 each iteration.",
+            "bn": "n >= 1 সত্য থাকা পর্যন্ত লুপ চলে এবং প্রতি ধাপে ১ কমে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Continue looping while n >= 1.",
+        "bn": "n >= 1 থাকা পর্যন্ত লুপ চালান।"
+      },
+      "hint2": {
+        "en": "Do not forget n -= 1 inside the loop body, or it will loop forever!",
+        "bn": "লুপের ভেতরে n -= 1 লিখতে ভুলবেন না, নাহলে অসীম লুপ হয়ে যাবে!"
+      },
+      "logicBreakdown": {
+        "en": "Every while loop needs three parts: initialization, continuation condition, and state update moving toward termination.",
+        "bn": "প্রতিটি while লুপের তিনটি অংশ থাকে: প্রাথমিক মান, চলার শর্ত এবং সমাপ্তির দিকে এগিয়ে নেওয়া আপডেট।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পড়ুন।" },
+        { "en": "While n >= 1: print(n) and n -= 1.", "bn": "n >= 1 হলে print(n) করুন এবং n -= 1 কমান।" }
+      ],
+      "solution": "n = int(input())\nwhile n >= 1:\n    print(n)\n    n -= 1",
+      "codeExplanation": {
+        "en": "Each iteration prints n and decreases n by 1 until n reaches 0 and the condition fails.",
+        "bn": "প্রতি ধাপে n প্রিন্ট হয় এবং ১ কমে, n = 0 হলে শর্ত মিথ্যা হয়ে লুপ থেমে যায়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "3\n2\n1" },
+        { "input": "1", "expectedOutput": "1" },
+        { "input": "4", "expectedOutput": "4\n3\n2\n1" }
+      ]
+    },
+    {
+      "id": "P04-03",
+      "number": 3,
+      "title": {
+        "en": "Sum of Even Numbers up to N",
+        "bn": "১ থেকে N পর্যন্ত জোড় সংখ্যার যোগফল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Accumulator variable", "bn": "অ্যাকিউমুলেটর ভ্যারিয়েবল" },
+        { "en": "range() step parameter", "bn": "range()-এর step প্যারামিটার" }
+      ],
+      "description": {
+        "en": "Read a positive integer n. Compute and print the sum of all even integers from 1 to n (inclusive).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n ইনপুট নিন। ১ থেকে n (অন্তর্ভুক্ত) পর্যন্ত সব জোড় সংখ্যার যোগফল নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Integer sum of even numbers in [1, n].",
+        "bn": "[1, n] সীমার জোড় সংখ্যাগুলোর যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "8",
+          "output": "20",
+          "explanation": {
+            "en": "2 + 4 + 6 + 8 = 20.",
+            "bn": "2 + 4 + 6 + 8 = 20।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize total = 0 before the loop starts.",
+        "bn": "লুপ শুরুর আগে total = 0 ধরুন।"
+      },
+      "hint2": {
+        "en": "Use range(2, n + 1, 2) to jump directly across even numbers.",
+        "bn": "সরাসরি জোড় সংখ্যা পেতে range(2, n + 1, 2) ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using step=2 in range(2, n + 1, 2) visits only even numbers, doubling speed compared to checking % 2 inside every step.",
+        "bn": "range(2, n + 1, 2) সরাসরি জোড় সংখ্যাগুলোর ওপর চলে, ফলে প্রতিবার % 2 যাচাই করার দরকার হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()) and set total = 0.", "bn": "n পড়ুন এবং total = 0 সেট করুন।" },
+        { "en": "For num in range(2, n + 1, 2): total += num.", "bn": "range(2, n + 1, 2) চালিয়ে total += num করুন।" },
+        { "en": "Print total.", "bn": "total প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ntotal = 0\nfor num in range(2, n + 1, 2):\n    total += num\nprint(total)",
+      "codeExplanation": {
+        "en": "total starts at 0 and accumulates each even number generated by range(2, n + 1, 2).",
+        "bn": "total শুরুতে 0 থাকে এবং লুপের প্রতিটি জোড় সংখ্যা তার সাথে যোগ হয়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "8", "expectedOutput": "20" },
+        { "input": "1", "expectedOutput": "0" },
+        { "input": "9", "expectedOutput": "20" }
+      ]
+    },
+    {
+      "id": "P04-04",
+      "number": 4,
+      "title": {
+        "en": "Multiplication Table of N",
+        "bn": "N-এর গুণের নামতা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Loop-based formatting", "bn": "লুপভিত্তিক ফরম্যাটিং" },
+        { "en": "range(1, 11)", "bn": "range(1, 11)" }
+      ],
+      "description": {
+        "en": "Read an integer n and print its multiplication table from 1 to 10 in the format 'n x i = result'.",
+        "bn": "একটি পূর্ণসংখ্যা n ইনপুট নিন এবং ১ থেকে ১০ পর্যন্ত 'n x i = result' ফরম্যাটে তার গুণের নামতা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer n.",
+        "bn": "একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "10 lines formatted as: n x i = product.",
+        "bn": "১০টি লাইন: n x i = product।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 x 10 = 30"
+        }
+      ],
+      "hint1": {
+        "en": "Loop i from 1 to 10 using range(1, 11).",
+        "bn": "range(1, 11) দিয়ে i-কে ১ থেকে ১০ পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "Format each line using f\"{n} x {i} = {n * i}\".",
+        "bn": "প্রতি লাইনে f\"{n} x {i} = {n * i}\" প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Each iteration multiplies the fixed input n by the changing loop index i.",
+        "bn": "প্রতিটি ধাপে স্থির সংখ্যা n-কে পরিবর্তনশীল লুপ চলক i দিয়ে গুণ করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পড়ুন।" },
+        { "en": "For i in range(1, 11): print f\"{n} x {i} = {n * i}\".", "bn": "১ থেকে ১০ পর্যন্ত লুপে নামতা প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, 11):\n    print(f\"{n} x {i} = {n * i}\")",
+      "codeExplanation": {
+        "en": "The loop runs 10 times with i taking values 1 through 10, formatting each product.",
+        "bn": "লুপটি ১০ বার চলে এবং প্রতিটি ধাপে n * i হিসাব করে নির্ধারিত ফরম্যাটে দেখায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        {
+          "input": "3",
+          "expectedOutput": "3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 x 10 = 30"
+        },
+        {
+          "input": "5",
+          "expectedOutput": "5 x 1 = 5\n5 x 2 = 10\n5 x 3 = 15\n5 x 4 = 20\n5 x 5 = 25\n5 x 6 = 30\n5 x 7 = 35\n5 x 8 = 40\n5 x 9 = 45\n5 x 10 = 50"
+        }
+      ]
+    },
+    {
+      "id": "P04-05",
+      "number": 5,
+      "title": {
+        "en": "Count Divisible Numbers in Range",
+        "bn": "নির্দিষ্ট সীমায় বিভাজ্য সংখ্যার গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Counter variable", "bn": "কাউন্টার ভ্যারিয়েবল" },
+        { "en": "Loop with conditional", "bn": "লুপ ও শর্তের সমন্বয়" }
+      ],
+      "description": {
+        "en": "Read integers a, b, and k (a <= b, k > 0). Using a loop, count how many integers between a and b (inclusive) are divisible by k.",
+        "bn": "পূর্ণসংখ্যা a, b এবং k (a <= b, k > 0) ইনপুট নিন। লুপ ব্যবহার করে a থেকে b (উভয় প্রান্তসহ) পর্যন্ত কতটি সংখ্যা k দ্বারা বিভাজ্য তা গণনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers a, b, k.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা a, b, k।"
+      },
+      "expectedOutput": {
+        "en": "Count of integers divisible by k.",
+        "bn": "k দ্বারা বিভাজ্য সংখ্যার মোট গণনা।"
+      },
+      "examples": [
+        {
+          "input": "5\n20\n4",
+          "output": "4",
+          "explanation": {
+            "en": "8, 12, 16, 20 are divisible by 4 -> count is 4.",
+            "bn": "5 থেকে 20-এর মধ্যে 8, 12, 16, 20 সংখ্যাগুলো 4 দ্বারা বিভাজ্য; মোট ৪টি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize count = 0 before the loop.",
+        "bn": "লুপের আগে count = 0 ধরুন।"
+      },
+      "hint2": {
+        "en": "Loop num in range(a, b + 1) and increment count when num % k == 0.",
+        "bn": "range(a, b + 1) লুপে num % k == 0 হলে count += 1 করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Counters count how often an event occurs (count += 1), whereas accumulators add values (total += num).",
+        "bn": "কাউন্টার শর্ত পূরণের সংখ্যা গোনে (count += 1), আর অ্যাকিউমুলেটর মান যোগ করে (total += num)।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, k and set count = 0.", "bn": "a, b, k পড়ুন এবং count = 0 ধরুন।" },
+        { "en": "For num in range(a, b + 1): if num % k == 0: count += 1.", "bn": "প্রতিটি সংখ্যায় num % k == 0 হলে count বাড়ান।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nk = int(input())\ncount = 0\nfor num in range(a, b + 1):\n    if num % k == 0:\n        count += 1\nprint(count)",
+      "codeExplanation": {
+        "en": "Every integer in [a, b] is tested for divisibility by k; matching integers increment count.",
+        "bn": "[a, b] সীমার প্রতিটি সংখ্যাকে k দিয়ে ভাগ করে ভাগশেষ ০ হলে count ১ বাড়ানো হয়েছে।"
+      },
+      "complexity": { "time": "O(b - a)", "space": "O(1)" },
+      "testCases": [
+        { "input": "5\n20\n4", "expectedOutput": "4" },
+        { "input": "1\n10\n3", "expectedOutput": "3" },
+        { "input": "7\n9\n5", "expectedOutput": "0" }
+      ]
+    },
+    {
+      "id": "P04-06",
+      "number": 6,
+      "title": {
+        "en": "Factorial of N",
+        "bn": "N-এর ফ্যাক্টোরিয়াল নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Multiplicative accumulator", "bn": "গুণন অ্যাকিউমুলেটর" },
+        { "en": "Zero factorial identity (0! = 1)", "bn": "শূন্যের ফ্যাক্টোরিয়াল (0! = 1)" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer n and compute n! (1 * 2 * ... * n) using a loop. Remember that 0! = 1.",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং লুপ ব্যবহার করে n! (1 * 2 * ... * n) নির্ণয় করুন। মনে রাখবেন 0! = 1।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Integer value of n!.",
+        "bn": "n!-এর মান।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "120",
+          "explanation": {
+            "en": "1 * 2 * 3 * 4 * 5 = 120.",
+            "bn": "1 * 2 * 3 * 4 * 5 = 120।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "For multiplication accumulation, initialize fact = 1 (never 0, or the product stays 0).",
+        "bn": "গুণের অ্যাকিউমুলেটরের জন্য শুরুতে fact = 1 ধরতে হয় (0 নয়)।"
+      },
+      "hint2": {
+        "en": "When n == 0, range(1, 1) runs 0 times, leaving fact at 1 automatically!",
+        "bn": "n == 0 হলে range(1, 1) একবারও চলে না, তাই fact স্বয়ংক্রিয়ভাবে 1 থেকে যায়!"
+      },
+      "logicBreakdown": {
+        "en": "The identity element for addition is 0, while the identity element for multiplication is 1. Starting at 1 naturally satisfies 0! = 1.",
+        "bn": "যোগের অভেদ উপাদান 0, কিন্তু গুণের অভেদ উপাদান 1। শুরুতে fact = 1 ধরলে 0! = 1 আলাদা শর্ত ছাড়াই ঠিক থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()) and initialize fact = 1.", "bn": "n পড়ুন এবং fact = 1 ধরুন।" },
+        { "en": "For i in range(1, n + 1): fact *= i.", "bn": "১ থেকে n পর্যন্ত fact *= i করুন।" },
+        { "en": "Print fact.", "bn": "fact প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfact = 1\nfor i in range(1, n + 1):\n    fact *= i\nprint(fact)",
+      "codeExplanation": {
+        "en": "fact starts at 1 and multiplies sequentially by every integer up to n.",
+        "bn": "fact শুরুতে 1 থাকে এবং ১ থেকে n পর্যন্ত প্রতিটি সংখ্যা দ্বারা গুণ হয়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "5", "expectedOutput": "120" },
+        { "input": "0", "expectedOutput": "1" },
+        { "input": "7", "expectedOutput": "5040" }
+      ]
+    },
+    {
+      "id": "P04-07",
+      "number": 7,
+      "title": {
+        "en": "Integer Exponentiation Using a Loop",
+        "bn": "লুপ ব্যবহার করে ঘাত (Power) নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Repeated multiplication", "bn": "পুনরাবৃত্ত গুণ" },
+        { "en": "range(exp) repetition count", "bn": "range(exp) পুনরাবৃত্তি সংখ্যা" }
+      ],
+      "description": {
+        "en": "Read an integer base and a non-negative integer exp. Compute base raised to power exp using a loop (without ** or pow()).",
+        "bn": "একটি পূর্ণসংখ্যা base এবং একটি অঋণাত্মক পূর্ণসংখ্যা exp ইনপুট নিন। ** বা pow() ব্যবহার না করে লুপের মাধ্যমে base^exp নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer base. Line 2: integer exp (>= 0).",
+        "bn": "লাইন ১: পূর্ণসংখ্যা base। লাইন ২: পূর্ণসংখ্যা exp (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Integer result of base^exp.",
+        "bn": "base^exp-এর পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "2\n5",
+          "output": "32",
+          "explanation": {
+            "en": "1 * 2 * 2 * 2 * 2 * 2 = 32.",
+            "bn": "২-কে ৫ বার গুণ করলে 32 পাওয়া যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Start with result = 1 and repeat exp times.",
+        "bn": "result = 1 ধরে নিয়ে লুপটি exp বার চালান।"
+      },
+      "hint2": {
+        "en": "Notice range(exp) executes exactly exp iterations (0 times if exp == 0, giving 1).",
+        "bn": "range(exp) ঠিক exp বার চলে; exp == 0 হলে 0 বার চলে এবং ফলাফল 1 থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "When the loop variable itself is not needed inside the loop body, Python convention uses _ in `for _ in range(exp):`.",
+        "bn": "লুপের ভেতরে কাউন্টার ভ্যারিয়েবলটির প্রয়োজন না হলে পাইথনে `for _ in range(exp):` লেখা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read base and exp.", "bn": "base এবং exp পড়ুন।" },
+        { "en": "Set result = 1.", "bn": "result = 1 ধরুন।" },
+        { "en": "Repeat exp times: result *= base.", "bn": "exp বার result *= base করুন।" },
+        { "en": "Print result.", "bn": "result প্রিন্ট করুন।" }
+      ],
+      "solution": "base = int(input())\nexp = int(input())\nresult = 1\nfor _ in range(exp):\n    result *= base\nprint(result)",
+      "codeExplanation": {
+        "en": "Multiplying result by base exp times computes base^exp, and exp=0 returns the initial 1.",
+        "bn": "exp বার base গুণ করে ঘাত নির্ণয় করা হয়েছে এবং exp=0 হলে ফলাফল 1 থাকে।"
+      },
+      "complexity": { "time": "O(exp)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2\n5", "expectedOutput": "32" },
+        { "input": "7\n0", "expectedOutput": "1" },
+        { "input": "-3\n3", "expectedOutput": "-27" }
+      ]
+    },
+    {
+      "id": "P04-08",
+      "number": 8,
+      "title": {
+        "en": "Count Digits of an Integer",
+        "bn": "পূর্ণসংখ্যার অঙ্ক সংখ্যা গণনা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "while loop digit stripping (//= 10)", "bn": "while লুপে //= 10 দিয়ে অঙ্ক কমানো" },
+        { "en": "Zero edge case", "bn": "শূন্যের এজ-কেস" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer n and count how many decimal digits it has using a while loop (without len(str(n))). Note that 0 has 1 digit.",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং স্ট্রিং ব্যবহার না করে while লুপ দিয়ে সংখ্যাটিতে কতটি অঙ্ক আছে তা নির্ণয় করুন। মনে রাখবেন 0-তে ১টি অঙ্ক রয়েছে।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Number of digits.",
+        "bn": "অঙ্কের সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "4820",
+          "output": "4",
+          "explanation": {
+            "en": "4820 -> 482 -> 48 -> 4 -> 0 takes 4 divisions.",
+            "bn": "১০ দিয়ে ৪ বার পূর্ণসংখ্যা ভাগ করলে 0 হয়, তাই ৪টি অঙ্ক।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Handle n == 0 explicitly (1 digit), or else count how many times n //= 10 runs while n > 0.",
+        "bn": "n == 0 হলে সরাসরি ১ দিন, নাহলে n > 0 থাকা পর্যন্ত n //= 10 কতবার চলে তা গুনুন।"
+      },
+      "hint2": {
+        "en": "Every //= 10 drops the rightmost digit.",
+        "bn": "প্রতিবার //= 10 করলে ডানের একটি অঙ্ক কমে যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Digit-stripping with n //= 10 works for integers of arbitrary length (even 100+ digits).",
+        "bn": "//= 10 পদ্ধতি যেকোনো দৈর্ঘ্যের পূর্ণসংখ্যার অঙ্ক গণনা করতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পড়ুন।" },
+        { "en": "If n == 0: print 1.", "bn": "n == 0 হলে 1 প্রিন্ট করুন।" },
+        { "en": "Else: count = 0; while n > 0: n //= 10; count += 1; print(count).", "bn": "নাহলে n > 0 থাকা পর্যন্ত n //= 10 ও count += 1 চালান।" }
+      ],
+      "solution": "n = int(input())\nif n == 0:\n    print(1)\nelse:\n    count = 0\n    while n > 0:\n        n //= 10\n        count += 1\n    print(count)",
+      "codeExplanation": {
+        "en": "The special guard handles 0 cleanly; for positive n, each iteration removes one digit until n becomes 0.",
+        "bn": "শূন্যের জন্য আলাদা শর্ত ১ প্রিন্ট করে; ধনাত্মক সংখ্যার ক্ষেত্রে প্রতিটি ধাপে একটি অঙ্ক বাদ পড়ে।"
+      },
+      "complexity": { "time": "O(log10 n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4820", "expectedOutput": "4" },
+        { "input": "0", "expectedOutput": "1" },
+        { "input": "9", "expectedOutput": "1" },
+        { "input": "100000", "expectedOutput": "6" }
+      ]
+    },
+    {
+      "id": "P04-09",
+      "number": 9,
+      "title": {
+        "en": "Sum of Digits of Any Integer",
+        "bn": "যেকোনো সংখ্যার অঙ্কগুলোর যোগফল"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Combining % 10 and //= 10", "bn": "% 10 ও //= 10-এর সমন্বয়" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer n of any length and calculate the sum of all its digits using a while loop.",
+        "bn": "যেকোনো দৈর্ঘ্যের একটি অঋণাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং while লুপ ব্যবহার করে এর সব অঙ্কের যোগফল নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Sum of all digits.",
+        "bn": "সবগুলো অঙ্কের যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "9402",
+          "output": "15",
+          "explanation": {
+            "en": "9 + 4 + 0 + 2 = 15.",
+            "bn": "9 + 4 + 0 + 2 = 15।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Extract the last digit with n % 10 and add it to digit_sum.",
+        "bn": "n % 10 দিয়ে শেষ অঙ্কটি বের করে digit_sum-এ যোগ করুন।"
+      },
+      "hint2": {
+        "en": "Immediately remove that last digit using n //= 10.",
+        "bn": "তারপর n //= 10 দিয়ে ওই অঙ্কটি সরিয়ে দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Extracting (% 10) then stripping (//= 10) inside a while n > 0 loop processes digits from right to left regardless of integer size.",
+        "bn": "while n > 0 লুপের ভেতরে % 10 ও //= 10 ব্যবহার করলে সংখ্যা যত বড়ই হোক ডান থেকে বামে প্রতিটি অঙ্ক প্রক্রিয়াকরণ হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and initialize digit_sum = 0.", "bn": "n পড়ুন এবং digit_sum = 0 ধরুন।" },
+        { "en": "While n > 0: digit_sum += n % 10; n //= 10.", "bn": "n > 0 হলে শেষ অঙ্ক যোগ করে n //= 10 করুন।" },
+        { "en": "Print digit_sum.", "bn": "digit_sum প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ndigit_sum = 0\nwhile n > 0:\n    digit_sum += n % 10\n    n //= 10\nprint(digit_sum)",
+      "codeExplanation": {
+        "en": "Notice n == 0 naturally skips the loop and prints 0, which is the exact sum of digits of 0.",
+        "bn": "n == 0 হলে লুপ না চলে সরাসরি 0 প্রিন্ট হয়, যা 0-এর অঙ্কগুলোর সঠিক যোগফল।"
+      },
+      "complexity": { "time": "O(log10 n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "9402", "expectedOutput": "15" },
+        { "input": "0", "expectedOutput": "0" },
+        { "input": "99999", "expectedOutput": "45" }
+      ]
+    },
+    {
+      "id": "P04-10",
+      "number": 10,
+      "title": {
+        "en": "Skip Multiples Using continue",
+        "bn": "continue ব্যবহার করে গুণিতক বাদ দেওয়া"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "continue statement", "bn": "continue স্টেটমেন্ট" },
+        { "en": "Filtered iteration", "bn": "বাছাইকৃত ইটারেশন" }
+      ],
+      "description": {
+        "en": "Read integers n and k (n >= 1, k >= 2). Iterate from 1 to n using a loop and skip all numbers divisible by k using the continue statement. Print the remaining numbers separated by spaces.",
+        "bn": "পূর্ণসংখ্যা n এবং k (n >= 1, k >= 2) ইনপুট নিন। ১ থেকে n পর্যন্ত লুপ চালিয়ে continue ব্যবহার করে k দ্বারা বিভাজ্য সংখ্যাগুলো বাদ দিন এবং বাকি সংখ্যাগুলো স্পেস দিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: n. Line 2: k.",
+        "bn": "লাইন ১: n। লাইন ২: k।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated numbers from 1 to n not divisible by k.",
+        "bn": "k দ্বারা অবিভাজ্য সংখ্যাগুলো স্পেস দিয়ে।"
+      },
+      "examples": [
+        {
+          "input": "10\n3",
+          "output": "1 2 4 5 7 8 10",
+          "explanation": {
+            "en": "3, 6, and 9 are skipped via continue.",
+            "bn": "3, 6 এবং 9 সংখ্যাগুলো continue দিয়ে বাদ দেওয়া হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inside the loop, write if i % k == 0: continue.",
+        "bn": "লুপের ভেতরে লিখুন: if i % k == 0: continue।"
+      },
+      "hint2": {
+        "en": "Append non-skipped values to an output list or string.",
+        "bn": "বাদ না পড়া সংখ্যাগুলো একটি আউটপুট লিস্ট বা স্ট্রিংয়ে যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "continue immediately jumps to the next loop iteration without running the rest of the loop body.",
+        "bn": "continue স্টেটমেন্ট লুপের নিচের অংশ না চালিয়ে সরাসরি পরবর্তী ধাপে চলে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n and k; initialize parts = [].", "bn": "n ও k পড়ুন এবং খালি লিস্ট নিন।" },
+        { "en": "For i in range(1, n + 1): if i % k == 0: continue; append str(i).", "bn": "i % k == 0 হলে continue করুন, নাহলে যোগ করুন।" },
+        { "en": "Print ' '.join(parts).", "bn": "' '.join(parts) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\nparts = []\nfor i in range(1, n + 1):\n    if i % k == 0:\n        continue\n    parts.append(str(i))\nprint(\" \".join(parts))",
+      "codeExplanation": {
+        "en": "When i % k == 0, continue skips parts.append(str(i)) and moves directly to i + 1.",
+        "bn": "i % k == 0 হলে continue এর কারণে append অংশটি বাদ পড়ে এবং লুপ পরের সংখ্যায় যায়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(n)" },
+      "testCases": [
+        { "input": "10\n3", "expectedOutput": "1 2 4 5 7 8 10" },
+        { "input": "6\n2", "expectedOutput": "1 3 5" },
+        { "input": "5\n10", "expectedOutput": "1 2 3 4 5" }
+      ]
+    },
+    {
+      "id": "P04-11",
+      "number": 11,
+      "title": {
+        "en": "Sentinel-Controlled Running Sum (while + break)",
+        "bn": "সেন্টিনেল ইনপুট পর্যন্ত চলমান যোগফল (break)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "while True + break", "bn": "while True ও break" },
+        { "en": "Sentinel loop termination", "bn": "সেন্টিনেল লুপ সমাপ্তি" }
+      ],
+      "description": {
+        "en": "Read integers one per line until the sentinel value 0 is entered. Do not include 0 in the count. Print the total sum on line 1 and how many numbers were entered before 0 on line 2.",
+        "bn": "প্রতি লাইনে একটি করে পূর্ণসংখ্যা পড়তে থাকুন যতক্ষণ না 0 পাওয়া যায়। 0-কে গণনায় ধরবেন না। প্রথম লাইনে মোট যোগফল এবং দ্বিতীয় লাইনে 0-এর আগে কতটি সংখ্যা দেওয়া হয়েছে তা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Multiple lines of integers ending with 0.",
+        "bn": "একাধিক লাইনে পূর্ণসংখ্যা যার শেষ ইনপুট 0।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: total sum. Line 2: count of numbers before 0.",
+        "bn": "লাইন ১: মোট যোগফল। লাইন ২: মোট সংখ্যার গণনা।"
+      },
+      "examples": [
+        {
+          "input": "10\n-3\n8\n0",
+          "output": "15\n3",
+          "explanation": {
+            "en": "10 + (-3) + 8 = 15 across 3 numbers before 0 stops the loop.",
+            "bn": "0-এর আগে ৩টি সংখ্যা 10, -3, 8-এর যোগফল 15।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use a while True loop and check if x == 0 immediately after reading x.",
+        "bn": "while True লুপ ব্যবহার করে ইনপুট পড়ার সাথে সাথেই if x == 0 যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Execute break when x == 0 so it isn't added to count or total.",
+        "bn": "x == 0 হলে break করুন যাতে এটি যোগফল বা গণনায় না ঢোকে।"
+      },
+      "logicBreakdown": {
+        "en": "Sentinel loops handle streams of unknown length by checking for a termination marker before processing each item.",
+        "bn": "অজানা দৈর্ঘ্যের ইনপুট প্রবাহ নিয়ন্ত্রণে সেন্টিনেল লুপ ব্যবহৃত হয়—যেখানে থামার মান পেলে প্রক্রিয়াকরণের আগেই break করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Initialize total = 0 and count = 0.", "bn": "total = 0 ও count = 0 ধরুন।" },
+        { "en": "Loop forever: read x; if x == 0: break.", "bn": "অসীম লুপে x পড়ে x == 0 হলে break করুন।" },
+        { "en": "Otherwise total += x and count += 1.", "bn": "নাহলে total += x ও count += 1 করুন।" },
+        { "en": "Print total and count.", "bn": "total ও count প্রিন্ট করুন।" }
+      ],
+      "solution": "total = 0\ncount = 0\nwhile True:\n    x = int(input())\n    if x == 0:\n        break\n    total += x\n    count += 1\nprint(total)\nprint(count)",
+      "codeExplanation": {
+        "en": "Checking x == 0 before updating total and count ensures the sentinel 0 is excluded from statistics.",
+        "bn": "total ও count আপডেট করার আগে x == 0 পরীক্ষা করায় সেন্টিনেল 0 হিসাবে যুক্ত হয় না।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n-3\n8\n0", "expectedOutput": "15\n3" },
+        { "input": "0", "expectedOutput": "0\n0" },
+        { "input": "5\n5\n0", "expectedOutput": "10\n2" }
+      ]
+    },
+    {
+      "id": "P04-12",
+      "number": 12,
+      "title": {
+        "en": "Reverse Any Non-Negative Integer Using a Loop",
+        "bn": "লুপ দিয়ে যেকোনো পূর্ণসংখ্যা উল্টানো"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Horner-style digit assembly", "bn": "অঙ্ক দিয়ে নতুন সংখ্যা গঠন" },
+        { "en": "while loop state evolution", "bn": "while লুপ স্টেট পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer n of any number of digits and reverse it purely mathematically using a while loop (no string slicing).",
+        "bn": "যেকোনো অঙ্কের একটি অঋণাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং স্ট্রিং স্লাইসিং ছাড়া while লুপ দিয়ে গাণিতিকভাবে সংখ্যাটি উল্টিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Reversed integer.",
+        "bn": "উল্টানো পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "12345",
+          "output": "54321",
+          "explanation": {
+            "en": "rev builds step by step: 5 -> 54 -> 543 -> 5432 -> 54321.",
+            "bn": "ধাপে ধাপে rev তৈরি হয়: 5 -> 54 -> 543 -> 5432 -> 54321।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize rev = 0.",
+        "bn": "শুরুতে rev = 0 ধরুন।"
+      },
+      "hint2": {
+        "en": "In each step: digit = n % 10, then rev = rev * 10 + digit, then n //= 10.",
+        "bn": "প্রতি ধাপে: digit = n % 10, তারপর rev = rev * 10 + digit, এবং n //= 10।"
+      },
+      "logicBreakdown": {
+        "en": "Multiplying rev by 10 shifts existing reversed digits one place left, making room in the units column for the newly extracted digit.",
+        "bn": "rev * 10 আগের অঙ্কগুলোকে এক ঘর বামে সরিয়ে এককের ঘরে নতুন অঙ্ক বসার জায়গা করে দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and set rev = 0.", "bn": "n পড়ুন এবং rev = 0 ধরুন।" },
+        { "en": "While n > 0: rev = rev * 10 + (n % 10); n //= 10.", "bn": "n > 0 থাকা পর্যন্ত অঙ্ক যোগ করে n //= 10 করুন।" },
+        { "en": "Print rev.", "bn": "rev প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nrev = 0\nwhile n > 0:\n    rev = rev * 10 + (n % 10)\n    n //= 10\nprint(rev)",
+      "codeExplanation": {
+        "en": "Each iteration pops the rightmost digit of n and appends it to the right of rev.",
+        "bn": "প্রতি ধাপে n-এর শেষ অঙ্ক কেটে নিয়ে rev-এর ডানে বসিয়ে দেওয়া হয়।"
+      },
+      "complexity": { "time": "O(log10 n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12345", "expectedOutput": "54321" },
+        { "input": "0", "expectedOutput": "0" },
+        { "input": "1200", "expectedOutput": "21" }
+      ]
+    },
+    {
+      "id": "P04-13",
+      "number": 13,
+      "title": {
+        "en": "Prime Number Check with Early Termination",
+        "bn": "দ্রুত সমাপ্তিসহ মৌলিক সংখ্যা যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Square-root divisor bound", "bn": "বর্গমূল সীমা পর্যন্ত ভাজক পরীক্ষা" },
+        { "en": "Boolean flag + break", "bn": "বুলিয়ান ফ্ল্যাগ ও break" }
+      ],
+      "description": {
+        "en": "Read an integer n. Print 'Prime' if n is a prime number, otherwise print 'Not Prime'. Optimize your loop to stop at sqrt(n) and exit early on the first divisor found.",
+        "bn": "একটি পূর্ণসংখ্যা n ইনপুট নিন। সংখ্যাটি মৌলিক হলে 'Prime' এবং না হলে 'Not Prime' প্রিন্ট করুন। sqrt(n) পর্যন্ত পরীক্ষা করে প্রথম ভাজক পাওয়া মাত্রই লুপ থামান।"
+      },
+      "inputDescription": {
+        "en": "An integer n.",
+        "bn": "একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "Prime or Not Prime.",
+        "bn": "Prime অথবা Not Prime।"
+      },
+      "examples": [
+        {
+          "input": "29",
+          "output": "Prime",
+          "explanation": {
+            "en": "No divisor exists between 2 and 5 (int(sqrt(29))).",
+            "bn": "2 থেকে 5 পর্যন্ত কোনো সংখ্যা দিয়েই 29 বিভাজ্য নয়, তাই Prime।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Numbers <= 1 are NOT prime.",
+        "bn": "১ বা তার ছোট সংখ্যা মৌলিক নয়।"
+      },
+      "hint2": {
+        "en": "Test d from 2 while d * d <= n. If n % d == 0, set is_prime = False and break.",
+        "bn": "d = 2 থেকে d * d <= n পর্যন্ত লুপ চালিয়ে n % d == 0 হলে is_prime = False করে break দিন।"
+      },
+      "logicBreakdown": {
+        "en": "If n has a factor larger than sqrt(n), its paired factor must be smaller than sqrt(n). Therefore checking d * d <= n is both exact and fast.",
+        "bn": "যদি n-এর একটি ভাজক sqrt(n)-এর চেয়ে বড় হয়, তবে অপর ভাজকটি অবশ্যই sqrt(n)-এর ছোট হবে। তাই d * d <= n পর্যন্ত যাচাই যথেষ্ট।"
+      },
+      "algorithm": [
+        { "en": "Read n; if n <= 1 print 'Not Prime'.", "bn": "n <= 1 হলে 'Not Prime' প্রিন্ট করুন।" },
+        { "en": "Else check d = 2 while d * d <= n.", "bn": "নাহলে d = 2 থেকে d * d <= n পর্যন্ত পরীক্ষা করুন।" },
+        { "en": "If n % d == 0, set is_prime = False and break.", "bn": "বিভাজ্য হলে is_prime = False করে break দিন।" },
+        { "en": "Print 'Prime' if is_prime else 'Not Prime'.", "bn": "is_prime অনুযায়ী ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n <= 1:\n    print(\"Not Prime\")\nelse:\n    is_prime = True\n    d = 2\n    while d * d <= n:\n        if n % d == 0:\n            is_prime = False\n            break\n        d += 1\n    print(\"Prime\" if is_prime else \"Not Prime\")",
+      "codeExplanation": {
+        "en": "Using d * d <= n avoids floating-point square roots entirely and runs in O(sqrt(n)) time.",
+        "bn": "d * d <= n শর্ত ফ্লোট বর্গমূল ছাড়াই নিখুঁতভাবে O(sqrt(n)) সময়ে কাজ করে।"
+      },
+      "complexity": { "time": "O(sqrt(n))", "space": "O(1)" },
+      "testCases": [
+        { "input": "29", "expectedOutput": "Prime" },
+        { "input": "1", "expectedOutput": "Not Prime" },
+        { "input": "2", "expectedOutput": "Prime" },
+        { "input": "49", "expectedOutput": "Not Prime" }
+      ]
+    },
+    {
+      "id": "P04-14",
+      "number": 14,
+      "title": {
+        "en": "Minimum and Maximum Across N Inputs",
+        "bn": "N-টি সংখ্যার মধ্যে সর্বনিম্ন ও সর্বোচ্চ মান"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Loop extrema tracking", "bn": "লুপে সর্বোচ্চ/সর্বনিম্ন মান রাখা" },
+        { "en": "Initializing from first item", "bn": "প্রথম মান দিয়ে শুরু করা" }
+      ],
+      "description": {
+        "en": "Read a positive integer n, followed by n integers on separate lines. Without storing them in a list, find and print the minimum on line 1 and maximum on line 2.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n এবং এরপর আলাদা লাইনে n-টি পূর্ণসংখ্যা ইনপুট নিন। লিস্টে সংরক্ষণ না করে প্রথম লাইনে সর্বনিম্ন এবং দ্বিতীয় লাইনে সর্বোচ্চ মান প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: n (>= 1), followed by n lines of integers.",
+        "bn": "লাইন ১: n (>= 1), এরপর n-টি পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: minimum. Line 2: maximum.",
+        "bn": "লাইন ১: সর্বনিম্ন। লাইন ২: সর্বোচ্চ।"
+      },
+      "examples": [
+        {
+          "input": "4\n-5\n12\n3\n-9",
+          "output": "-9\n12",
+          "explanation": {
+            "en": "Smallest of [-5, 12, 3, -9] is -9, largest is 12.",
+            "bn": "-5, 12, 3, -9-এর মধ্যে সর্বনিম্ন -9 এবং সর্বোচ্চ 12।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Do not initialize best_max = 0 because all inputs could be negative!",
+        "bn": "সব ইনপুট ঋণাত্মক হতে পারে, তাই শুরুতে best_max = 0 ধরবেন না!"
+      },
+      "hint2": {
+        "en": "Read the very first number BEFORE the loop and set both min_val and max_val to it, then loop n - 1 times.",
+        "bn": "লুপের আগেই প্রথম সংখ্যাটি পড়ে min_val এবং max_val উভয়ই সেটিতে সেট করুন, তারপর n - 1 বার লুপ চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Initializing min_val and max_val from the first real input works cleanly for negative, positive, and arbitrary-magnitude integers in O(1) memory.",
+        "bn": "প্রথম প্রকৃত ইনপুট দিয়েই min_val ও max_val শুরু করলে ঋণাত্মক বা যেকোনো বড় সংখ্যার ক্ষেত্রেও O(1) মেমোরিতে নিখুঁত উত্তর পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n, then read first = int(input()).", "bn": "n পড়ে প্রথম সংখ্যা first ইনপুট নিন।" },
+        { "en": "Set min_val = max_val = first.", "bn": "min_val = max_val = first ধরুন।" },
+        { "en": "Loop n - 1 times, reading val and updating min_val / max_val.", "bn": "n - 1 বার লুপে নতুন সংখ্যা পড়ে min_val ও max_val আপডেট করুন।" },
+        { "en": "Print min_val and max_val.", "bn": "min_val এবং max_val প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfirst = int(input())\nmin_val = first\nmax_val = first\nfor _ in range(n - 1):\n    val = int(input())\n    if val < min_val:\n        min_val = val\n    if val > max_val:\n        max_val = val\nprint(min_val)\nprint(max_val)",
+      "codeExplanation": {
+        "en": "Seeding from the first input handles all-negative sequences safely and processes streams in constant space.",
+        "bn": "প্রথম মান দিয়ে শুরু করায় সব সংখ্যা ঋণাত্মক হলেও কোনো সমস্যা হয় না এবং অতিরিক্ত লিস্ট ছাড়াই কাজ হয়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4\n-5\n12\n3\n-9", "expectedOutput": "-9\n12" },
+        { "input": "1\n42", "expectedOutput": "42\n42" },
+        { "input": "3\n-10\n-2\n-50", "expectedOutput": "-50\n-2" }
+      ]
+    },
+    {
+      "id": "P04-15",
+      "number": 15,
+      "title": {
+        "en": "Alternating Sign Series Sum",
+        "bn": "পর্যায়ক্রমিক চিহ্নযুক্ত ধারার যোগফল"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Sign flipping in loops", "bn": "লুপে চিহ্ন পরিবর্তন" },
+        { "en": "Series accumulation", "bn": "ধারার সমষ্টি" }
+      ],
+      "description": {
+        "en": "Read a positive integer n and compute the alternating series S = 1 - 2 + 3 - 4 + ... up to n terms using a loop.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং লুপ ব্যবহার করে S = 1 - 2 + 3 - 4 + ... ধারার প্রথম n পদের যোগফল নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Integer sum of the alternating series.",
+        "bn": "ধারার যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "3",
+          "explanation": {
+            "en": "1 - 2 + 3 - 4 + 5 = 3.",
+            "bn": "1 - 2 + 3 - 4 + 5 = 3।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Odd positions add (+i) and even positions subtract (-i).",
+        "bn": "বিজোড় অবস্থান যোগ (+i) এবং জোড় অবস্থান বিয়োগ (-i) হয়।"
+      },
+      "hint2": {
+        "en": "You can also maintain sign = 1 and flip it with sign = -sign after each step.",
+        "bn": "sign = 1 ধরে প্রতি ধাপের শেষে sign = -sign দিয়েও চিহ্ন উল্টানো যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Flipping a sign multiplier (sign *= -1) is a clean general pattern for alternating series in math and signal processing.",
+        "bn": "প্রতি ধাপে sign *= -1 দিয়ে চিহ্ন পরিবর্তন করা গাণিতিক ধারার একটি পরিচ্ছন্ন ও সাধারণ কৌশল।"
+      },
+      "algorithm": [
+        { "en": "Read n; set total = 0, sign = 1.", "bn": "n পড়ুন; total = 0, sign = 1 ধরুন।" },
+        { "en": "For i in range(1, n + 1): total += sign * i; sign = -sign.", "bn": "প্রতিটি পদে sign * i যোগ করে sign উল্টে দিন।" },
+        { "en": "Print total.", "bn": "total প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ntotal = 0\nsign = 1\nfor i in range(1, n + 1):\n    total += sign * i\n    sign = -sign\nprint(total)",
+      "codeExplanation": {
+        "en": "sign alternates +1, -1, +1, -1 on each iteration so odd terms add and even terms subtract.",
+        "bn": "প্রতি ধাপে sign +1 ও -1-এর মধ্যে পরিবর্তিত হওয়ায় বিজোড় পদ যোগ এবং জোড় পদ বিয়োগ হয়।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "5", "expectedOutput": "3" },
+        { "input": "6", "expectedOutput": "-3" },
+        { "input": "1", "expectedOutput": "1" }
+      ]
+    },
+    {
+      "id": "P04-16",
+      "number": 16,
+      "title": {
+        "en": "First Common Multiple in Range (for-else)",
+        "bn": "নির্দিষ্ট সীমায় প্রথম সাধারণ গুণিতক (for-else)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "for ... else construct", "bn": "for ... else গঠন" },
+        { "en": "Early search exit (break)", "bn": "প্রথম ফলাফলে break" }
+      ],
+      "description": {
+        "en": "Read integers start, end, x, and y. Search from start to end (inclusive) for the smallest integer divisible by both x and y. Print that integer if found, otherwise print 'None Found'.",
+        "bn": "পূর্ণসংখ্যা start, end, x এবং y ইনপুট নিন। start থেকে end পর্যন্ত খুঁজে প্রথম যে সংখ্যাটি x এবং y উভয় দ্বারা বিভাজ্য তা প্রিন্ট করুন। না পাওয়া গেলে 'None Found' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Four lines containing integers start, end, x, y.",
+        "bn": "চারটি লাইনে পূর্ণসংখ্যা start, end, x, y।"
+      },
+      "expectedOutput": {
+        "en": "First common multiple in range or None Found.",
+        "bn": "প্রথম সাধারণ গুণিতক অথবা None Found।"
+      },
+      "examples": [
+        {
+          "input": "10\n30\n4\n6",
+          "output": "12",
+          "explanation": {
+            "en": "12 is the smallest number in [10, 30] divisible by both 4 and 6.",
+            "bn": "[10, 30] সীমায় 4 ও 6 উভয় দ্বারা বিভাজ্য প্রথম সংখ্যা 12।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use break as soon as num % x == 0 and num % y == 0.",
+        "bn": "num % x == 0 and num % y == 0 পাওয়া মাত্রই break ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "In Python, an else block attached to a for loop runs ONLY if the loop finished without hitting break.",
+        "bn": "পাইথনে for লুপের সাথে যুক্ত else ব্লক কেবল তখনই চলে যখন লুপে কখনোই break না হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Python's for-else pattern eliminates an extra boolean 'found' flag in search loops: break skips else, and exhausting the loop triggers else.",
+        "bn": "পাইথনের for-else কাঠামোতে আলাদা ফ্ল্যাগ ভ্যারিয়েবল ছাড়াই খোঁজা যায়: break হলে else চলে না, আর লুপ শেষ হলে else চলে।"
+      },
+      "algorithm": [
+        { "en": "Read start, end, x, y.", "bn": "start, end, x, y পড়ুন।" },
+        { "en": "For num in range(start, end + 1): if num % x == 0 and num % y == 0: print(num); break.", "bn": "মিললে num প্রিন্ট করে break করুন।" },
+        { "en": "Else: print('None Found').", "bn": "else অংশে 'None Found' প্রিন্ট করুন।" }
+      ],
+      "solution": "start = int(input())\nend = int(input())\nx = int(input())\ny = int(input())\nfor num in range(start, end + 1):\n    if num % x == 0 and num % y == 0:\n        print(num)\n        break\nelse:\n    print(\"None Found\")",
+      "codeExplanation": {
+        "en": "The first matching number prints and breaks out; if the loop completes all iterations without breaking, the else clause prints 'None Found'.",
+        "bn": "প্রথম মিল পাওয়া সংখ্যাটি প্রিন্ট করে break হয়; লুপ পুরো শেষ হলে else ব্লক 'None Found' প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(end - start)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n30\n4\n6", "expectedOutput": "12" },
+        { "input": "13\n20\n4\n6", "expectedOutput": "None Found" },
+        { "input": "1\n10\n2\n5", "expectedOutput": "10" }
+      ]
+    },
+    {
+      "id": "P04-17",
+      "number": 17,
+      "title": {
+        "en": "Collatz Stopping Time Counter",
+        "bn": "কোলাৎজ অনুক্রমের ধাপ গণনা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "while n != 1 convergence", "bn": "while n != 1 লুপ" },
+        { "en": "Parity branching inside loop", "bn": "লুপের ভেতর জোড়-বিজোড় শাখা" }
+      ],
+      "description": {
+        "en": "Start with a positive integer n. Repeat until n becomes 1: if n is even, divide it by 2 (n //= 2); if n is odd, replace it with 3 * n + 1. Count and print the total number of steps taken to reach 1.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n দিয়ে শুরু করুন। n = 1 না হওয়া পর্যন্ত পুনরাবৃত্তি করুন: n জোড় হলে n //= 2, আর বিজোড় হলে 3 * n + 1। ১-এ পৌঁছাতে মোট কতটি ধাপ লাগল তা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Number of steps to reach 1.",
+        "bn": "১-এ পৌঁছানোর মোট ধাপ সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "6",
+          "output": "8",
+          "explanation": {
+            "en": "6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1 takes 8 steps.",
+            "bn": "6 -> 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1 মোট ৮টি ধাপ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "When n == 1 initially, 0 steps are needed, so the condition must be while n != 1.",
+        "bn": "শুরুতেই n == 1 হলে ০ ধাপ লাগে, তাই শর্ত হতে হবে while n != 1।"
+      },
+      "hint2": {
+        "en": "Inside the loop, update n based on n % 2 == 0 and increment steps by 1.",
+        "bn": "লুপের ভেতর n % 2 == 0 অনুযায়ী n আপডেট করে steps += 1 করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because the number of steps isn't known beforehand, a while loop is the natural choice over a fixed for loop.",
+        "bn": "আগে থেকে ধাপ সংখ্যা জানা থাকে না বলে এখানে for লুপের বদলে while লুপ ব্যবহার করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n; initialize steps = 0.", "bn": "n পড়ুন এবং steps = 0 ধরুন।" },
+        { "en": "While n != 1: apply n //= 2 if even else 3*n + 1; steps += 1.", "bn": "n != 1 থাকা পর্যন্ত নিয়ম অনুযায়ী n বদলে steps বাড়ান।" },
+        { "en": "Print steps.", "bn": "steps প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nsteps = 0\nwhile n != 1:\n    if n % 2 == 0:\n        n //= 2\n    else:\n        n = 3 * n + 1\n    steps += 1\nprint(steps)",
+      "codeExplanation": {
+        "en": "Each transition updates n and counts one step until n reaches 1.",
+        "bn": "প্রতিটি পরিবর্তনে n আপডেট হয়ে একটি করে ধাপ গণনা হয় যতক্ষণ না n = 1 হয়।"
+      },
+      "complexity": { "time": "O(steps)", "space": "O(1)" },
+      "testCases": [
+        { "input": "6", "expectedOutput": "8" },
+        { "input": "1", "expectedOutput": "0" },
+        { "input": "27", "expectedOutput": "111" }
+      ]
+    },
+    {
+      "id": "P04-18",
+      "number": 18,
+      "title": {
+        "en": "Digital Root (Repeated Digit Summation)",
+        "bn": "ডিজিটাল রুট (এক অঙ্ক না হওয়া পর্যন্ত যোগ)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Nested loop condition", "bn": "পুনরাবৃত্ত লুপ শর্ত" },
+        { "en": "Loop reduction", "bn": "মান সংকোচন" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer n. Repeatedly sum its digits until only a single-digit number (< 10) remains, and print that single digit.",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n ইনপুট নিন। এক অঙ্কের সংখ্যা (< 10) না পাওয়া পর্যন্ত বারবার এর অঙ্কগুলো যোগ করতে থাকুন এবং চূড়ান্ত একক অঙ্কটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Single-digit digital root (0 to 9).",
+        "bn": "এক অঙ্কের ডিজিটাল রুট (0 থেকে 9)।"
+      },
+      "examples": [
+        {
+          "input": "9875",
+          "output": "2",
+          "explanation": {
+            "en": "9+8+7+5 = 29 -> 2+9 = 11 -> 1+1 = 2.",
+            "bn": "9+8+7+5 = 29 -> 2+9 = 11 -> 1+1 = 2।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use an outer while n >= 10 loop to repeat rounds until n is a single digit.",
+        "bn": "বাইরে while n >= 10 লুপ চালান যতক্ষণ না n এক অঙ্কে নেমে আসে।"
+      },
+      "hint2": {
+        "en": "Inside each round, compute s = 0 using an inner while n > 0 digit-sum loop, then set n = s.",
+        "bn": "প্রতি রাউন্ডে ভেতরের লুপ দিয়ে অঙ্কগুলোর যোগফল s বের করে n = s সেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Combining an outer convergence loop (while n >= 10) with an inner reduction loop (while n > 0) demonstrates iterative problem reduction cleanly.",
+        "bn": "বাইরের while n >= 10 লুপ এবং ভেতরের অঙ্ক যোগের লুপ একসাথে ধাপে ধাপে বড় সংখ্যাকে এক অঙ্কে নামিয়ে আনে।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পড়ুন।" },
+        { "en": "While n >= 10: compute digit sum s of n, then set n = s.", "bn": "n >= 10 হলে অঙ্কের যোগফল s বের করে n = s ধরুন।" },
+        { "en": "Print n.", "bn": "n প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nwhile n >= 10:\n    s = 0\n    while n > 0:\n        s += n % 10\n        n //= 10\n    n = s\nprint(n)",
+      "codeExplanation": {
+        "en": "Each outer pass reduces n to the sum of its digits until n drops below 10.",
+        "bn": "বাইরের প্রতিটি ধাপে n তার অঙ্কগুলোর যোগফলে পরিণত হয় যতক্ষণ না ১০-এর নিচে আসে।"
+      },
+      "complexity": { "time": "O(log10 n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "9875", "expectedOutput": "2" },
+        { "input": "0", "expectedOutput": "0" },
+        { "input": "9", "expectedOutput": "9" },
+        { "input": "99", "expectedOutput": "9" }
+      ]
+    },
+    {
+      "id": "P04-19",
+      "number": 19,
+      "title": {
+        "en": "Integer Square Root Without Floating Point",
+        "bn": "ফ্লোটিং পয়েন্ট ছাড়া পূর্ণসংখ্যা বর্গমূল"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Loop boundary invariants", "bn": "লুপ বাউন্ডারি ইনভ্যারিয়েন্ট" },
+        { "en": "Monotonic search via while", "bn": "while লুপে মনোটোনিক অনুসন্ধান" }
+      ],
+      "description": {
+        "en": "Given a non-negative integer n, find the floor of its square root—the largest integer k such that k * k <= n—using a while loop without math.sqrt() or ** 0.5.",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n দেওয়া আছে। math.sqrt() বা ** 0.5 ছাড়া while লুপ ব্যবহার করে এর পূর্ণসংখ্যা বর্গমূল (সবচেয়ে বড় পূর্ণসংখ্যা k যেন k * k <= n) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A non-negative integer n (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা n (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Largest integer k where k * k <= n.",
+        "bn": "k * k <= n শর্ত পূরণকারী সর্বোচ্চ পূর্ণসংখ্যা k।"
+      },
+      "examples": [
+        {
+          "input": "20",
+          "output": "4",
+          "explanation": {
+            "en": "4 * 4 = 16 <= 20, while 5 * 5 = 25 > 20, so answer is 4.",
+            "bn": "4 * 4 = 16 <= 20 কিন্তু 5 * 5 = 25 > 20, তাই উত্তর 4।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Start with k = 0 and test whether the NEXT integer (k + 1) still satisfies (k + 1) * (k + 1) <= n.",
+        "bn": "k = 0 ধরে পরবর্তী সংখ্যা (k + 1)-এর বর্গ n-এর সমান বা ছোট কিনা পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Testing (k + 1) * (k + 1) <= n in the while condition ensures k never overshoots the answer!",
+        "bn": "শর্তে (k + 1) * (k + 1) <= n লিখলে লুপ থামার সময় k সঠিক উত্তরের চেয়ে ১ বেশি হয়ে যাবে না!"
+      },
+      "logicBreakdown": {
+        "en": "Look-ahead loop conditions like `while (k + 1) * (k + 1) <= n:` maintain the invariant `k * k <= n` at every single step, avoiding having to subtract 1 after the loop.",
+        "bn": "`while (k + 1) * (k + 1) <= n:` শর্তটি প্রতিটি ধাপে k * k <= n নিশ্চিত করে, ফলে লুপ শেষে ১ বিয়োগ করার দরকার পড়ে না।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()) and set k = 0.", "bn": "n পড়ুন এবং k = 0 ধরুন।" },
+        { "en": "While (k + 1) * (k + 1) <= n: k += 1.", "bn": "(k + 1) * (k + 1) <= n হলে k += 1।" },
+        { "en": "Print k.", "bn": "k প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = 0\nwhile (k + 1) * (k + 1) <= n:\n    k += 1\nprint(k)",
+      "codeExplanation": {
+        "en": "k advances only while the next square stays <= n, stopping precisely at floor(sqrt(n)).",
+        "bn": "পরের বর্গ n-এর সমান বা ছোট থাকলেই কেবল k বাড়ে, তাই ঠিক floor(sqrt(n))-এ গিয়ে থামে।"
+      },
+      "complexity": { "time": "O(sqrt(n))", "space": "O(1)" },
+      "testCases": [
+        { "input": "20", "expectedOutput": "4" },
+        { "input": "16", "expectedOutput": "4" },
+        { "input": "0", "expectedOutput": "0" },
+        { "input": "1", "expectedOutput": "1" }
+      ]
+    },
+    {
+      "id": "P04-20",
+      "number": 20,
+      "title": {
+        "en": "Repunit Series Sum (1 + 11 + 111 + ...)",
+        "bn": "রেপইউনিট ধারার যোগফল (1 + 11 + 111 + ...)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Recurrence relation inside loop", "bn": "লুপে রিকারেন্স সম্পর্ক" },
+        { "en": "State accumulation", "bn": "স্টেট অ্যাকিউমুলেশন" }
+      ],
+      "description": {
+        "en": "Read a positive integer n and compute the sum of the series 1 + 11 + 111 + ... up to n terms using pure integer loop arithmetic (no string multiplication).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n ইনপুট নিন এবং স্ট্রিং গুণ ছাড়াই শুধুমাত্র পূর্ণসংখ্যা লুপ দিয়ে 1 + 11 + 111 + ... ধারার প্রথম n পদের যোগফল নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer n (>= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা n (>= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Integer sum of the first n terms.",
+        "bn": "প্রথম n পদের যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "1234",
+          "explanation": {
+            "en": "1 + 11 + 111 + 1111 = 1234.",
+            "bn": "1 + 11 + 111 + 1111 = 1234।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice how each term relates to the previous term: 11 = 1 * 10 + 1, 111 = 11 * 10 + 1.",
+        "bn": "প্রতিটি পদ আগের পদের সাথে কীভাবে যুক্ত তা দেখুন: 11 = 1 * 10 + 1, 111 = 11 * 10 + 1।"
+      },
+      "hint2": {
+        "en": "Maintain term = 0 and total = 0; each step compute term = term * 10 + 1, then total += term.",
+        "bn": "term = 0 ও total = 0 রেখে প্রতি ধাপে term = term * 10 + 1 এবং total += term করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Deriving each term incrementally from the previous term turns an O(n^2) construction into an O(n) loop with O(1) extra memory.",
+        "bn": "আগের পদ থেকে পরবর্তী পদ তৈরি করলে O(1) মেমোরি ও O(n) সময়েই পুরো ধারা যোগ করা সম্ভব হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n; set term = 0 and total = 0.", "bn": "n পড়ুন; term = 0 ও total = 0 ধরুন।" },
+        { "en": "Loop n times: term = term * 10 + 1; total += term.", "bn": "n বার লুপ চালিয়ে term ও total আপডেট করুন।" },
+        { "en": "Print total.", "bn": "total প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nterm = 0\ntotal = 0\nfor _ in range(n):\n    term = term * 10 + 1\n    total += term\nprint(total)",
+      "codeExplanation": {
+        "en": "term builds 1, 11, 111, ... iteratively while total accumulates their sum.",
+        "bn": "term ক্রমান্বয়ে 1, 11, 111 তৈরি করে এবং total সেগুলোর সমষ্টি সংরক্ষণ করে।"
+      },
+      "complexity": { "time": "O(n)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "1234" },
+        { "input": "1", "expectedOutput": "1" },
+        { "input": "5", "expectedOutput": "12345" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1292 @@
+{
+  "partId": "part-08",
+  "partNumber": 8,
+  "problems": [
+    {
+      "id": "P08-01",
+      "number": 1,
+      "title": {
+        "en": "Sum and Average Without Built-in sum()",
+        "bn": "বিল্ট-ইন sum() ছাড়া লিস্টের যোগফল ও গড়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "List traversal with for loop", "bn": "for লুপ দিয়ে লিস্ট ট্রাভার্সাল" },
+        { "en": "input().split() integer parsing", "bn": "input().split() দিয়ে পূর্ণসংখ্যা গ্রহণ" }
+      ],
+      "description": {
+        "en": "Read a single line of space-separated integers into a list. Traverse the list manually without using sum() to compute the total sum and arithmetic average (formatted to 2 decimal places). Print 'Sum: X, Average: Y.YY'.",
+        "bn": "স্পেস দিয়ে আলাদা করা পূর্ণসংখ্যার একটি লাইন লিস্ট হিসেবে ইনপুট নিন। বিল্ট-ইন sum() ব্যবহার না করে লুপ চালিয়ে যোগফল এবং গড় (দশমিকের পর ২ ঘর পর্যন্ত) নির্ণয় করুন। আউটপুট ফরম্যাট: 'Sum: X, Average: Y.YY'।"
+      },
+      "inputDescription": {
+        "en": "One line containing one or more space-separated integers.",
+        "bn": "এক লাইনে এক বা একাধিক স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Formatted string: Sum: X, Average: Y.YY",
+        "bn": "ফরম্যাট করা আউটপুট: Sum: X, Average: Y.YY"
+      },
+      "examples": [
+        {
+          "input": "10 20 35 15",
+          "output": "Sum: 80, Average: 20.00",
+          "explanation": {
+            "en": "10 + 20 + 35 + 15 = 80, divided by 4 gives 20.00.",
+            "bn": "যোগফল 80, ৪টি সংখ্যা থাকায় গড় 80 / 4 = 20.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert the space-separated input line into integers using [int(x) for x in input().split()].",
+        "bn": "[int(x) for x in input().split()] ব্যবহার করে ইনপুট লাইনটিকে পূর্ণসংখ্যার লিস্টে রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Accumulate into total = 0 inside a for loop, then compute avg = total / len(nums) and format with {avg:.2f}.",
+        "bn": "for লুপে total = 0 যোগ করে avg = total / len(nums) বের করুন এবং {avg:.2f} ফরম্যাটে প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Reading structured numeric lists begins by splitting text tokens and converting each to int. Accumulating in a single pass tracks both total sum and element count. Always use floating-point division `/` (not `//`) for averages, and format to two decimal places for consistent output.",
+        "bn": "লিস্ট প্রসেসিংয়ের প্রথম ধাপ হলো ইনপুট ভেঙে সংখ্যায় রূপান্তর করা। এরপর একটি লুপেই যোগফল বের করে লিস্টের দৈর্ঘ্য দিয়ে ভাগ (/) করলে গড় পাওয়া যায়; পূর্ণসংখ্যা ভাগ (//) দিলে ভগ্নাংশ হারিয়ে যায়—তাই / ব্যবহার করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Parse space-separated integers into list nums.", "bn": "স্পেস-বিচ্ছিন্ন সংখ্যাগুলো nums লিস্টে নিন।" },
+        { "en": "Initialize total = 0.", "bn": "total = 0 নির্ধারণ করুন।" },
+        { "en": "For x in nums: add x to total.", "bn": "nums-এর প্রতিটি উপাদান x-কে total-এ যোগ করুন।" },
+        { "en": "Compute avg = total / len(nums) and print f'Sum: {total}, Average: {avg:.2f}'.", "bn": "avg = total / len(nums) বের করে f'Sum: {total}, Average: {avg:.2f}' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ntotal = 0\nfor x in nums:\n    total += x\navg = total / len(nums)\nprint(f\"Sum: {total}, Average: {avg:.2f}\")",
+      "codeExplanation": {
+        "en": "The list comprehension converts every whitespace-separated token to int. The for loop sums every element into total, and total / len(nums) computes the exact average formatted to 2 decimal places.",
+        "bn": "লিস্ট কম্প্রিহেনশন প্রতিটি সংখ্যাকে int-এ রূপান্তর করে। এরপর for লুপ সব উপাদান যোগ করে এবং len(nums) দিয়ে ভাগ করে ২ দশমিক স্থান পর্যন্ত প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "10 20 35 15", "expectedOutput": "Sum: 80, Average: 20.00", "note": { "en": "Exact integer average", "bn": "পূর্ণসংখ্যার গড়" } },
+        { "input": "-5 0 10", "expectedOutput": "Sum: 5, Average: 1.67", "note": { "en": "Includes negative & rounding", "bn": "ঋণাত্মক ও দশমিক আসন্নীকরণ" } },
+        { "input": "42", "expectedOutput": "Sum: 42, Average: 42.00", "note": { "en": "Single-element list", "bn": "এক উপাদানের লিস্ট" } }
+      ]
+    },
+    {
+      "id": "P08-02",
+      "number": 2,
+      "title": {
+        "en": "Manual Minimum and Maximum of a List",
+        "bn": "max() ও min() ছাড়া সর্বনিম্ন ও সর্বোচ্চ নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Initializing extrema from nums[0]", "bn": "nums[0] দিয়ে সর্বোচ্চ-সর্বনিম্ন শুরু করা" },
+        { "en": "Single-pass comparison", "bn": "এক লুপেই তুলনা" }
+      ],
+      "description": {
+        "en": "Read a non-empty line of space-separated integers. Find the minimum and maximum values manually without using min() or max(). Print 'Min: X, Max: Y'.",
+        "bn": "এক লাইনে খালি-নয় স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা ইনপুট নিন। min() বা max() ব্যবহার না করে লিস্টের সর্বনিম্ন ও সর্বোচ্চ মান নির্ণয় করুন। আউটপুট ফরম্যাট: 'Min: X, Max: Y'।"
+      },
+      "inputDescription": {
+        "en": "One line containing one or more space-separated integers.",
+        "bn": "এক লাইনে এক বা একাধিক স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Formatted string: Min: X, Max: Y",
+        "bn": "ফরম্যাট করা আউটপুট: Min: X, Max: Y"
+      },
+      "examples": [
+        {
+          "input": "14 -3 27 0 9",
+          "output": "Min: -3, Max: 27",
+          "explanation": {
+            "en": "Smallest value is -3 and largest is 27.",
+            "bn": "সবচেয়ে ছোট মান -3 এবং সবচেয়ে বড় 27।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never initialize min_val = 0 or max_val = 0! If all numbers are negative (e.g., -10, -3), max_val = 0 gives the wrong answer 0.",
+        "bn": "কখনোই min_val = 0 বা max_val = 0 দিয়ে শুরু করবেন না! সব সংখ্যা ঋণাত্মক হলে max ভুল করে 0 দেখাবে।"
+      },
+      "hint2": {
+        "en": "Initialize both min_val = nums[0] and max_val = nums[0], then compare each remaining element.",
+        "bn": "min_val এবং max_val উভয়ই লিস্টের প্রথম উপাদান nums[0] দিয়ে শুরু করে বাকিগুলোর সাথে তুলনা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Initializing tracking variables with `nums[0]` instead of arbitrary constants like `0` guarantees correctness for negative-only lists, huge integers, and single-element lists alike. Iterating from `nums[1:]` updates `min_val` and `max_val` independently in one pass.",
+        "bn": "০-এর মতো কাল্পনিক মান দিয়ে শুরু না করে `nums[0]` দিয়ে শুরু করলে সব ঋণাত্মক সংখ্যা বা খুব বড় সংখ্যাতেও যুক্তি নির্ভুল থাকে। এক লুপেই `min_val` ও `max_val` উভয়ই আপডেট হয়ে যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Set min_val = nums[0] and max_val = nums[0].", "bn": "min_val = nums[0] এবং max_val = nums[0] নিন।" },
+        { "en": "For x in nums[1:]: if x < min_val update min_val; if x > max_val update max_val.", "bn": "nums[1:]-এর প্রতিটি x-এর জন্য তুলনা করে min_val ও max_val হালনাগাদ করুন।" },
+        { "en": "Print f'Min: {min_val}, Max: {max_val}'.", "bn": "f'Min: {min_val}, Max: {max_val}' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nmin_val = nums[0]\nmax_val = nums[0]\nfor x in nums[1:]:\n    if x < min_val:\n        min_val = x\n    if x > max_val:\n        max_val = x\nprint(f\"Min: {min_val}, Max: {max_val}\")",
+      "codeExplanation": {
+        "en": "Both trackers start at the first element nums[0]. Each subsequent item checks both bounds independently so single-pass O(N) performance is achieved.",
+        "bn": "উভয় চলক nums[0] থেকে শুরু হয়। পরবর্তী প্রতিটি সংখ্যা আলাদাভাবে ছোট ও বড় শর্ত যাচাই করে মান হালনাগাদ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "14 -3 27 0 9", "expectedOutput": "Min: -3, Max: 27", "note": { "en": "Mixed signs", "bn": "ধনাত্মক-ঋণাত্মক মিশ্রণ" } },
+        { "input": "-50 -12 -99 -4", "expectedOutput": "Min: -99, Max: -4", "note": { "en": "All negative values", "bn": "সব ঋণাত্মক সংখ্যা" } },
+        { "input": "8", "expectedOutput": "Min: 8, Max: 8", "note": { "en": "Single element", "bn": "একটি উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-03",
+      "number": 3,
+      "title": {
+        "en": "Classify Positive, Negative & Zero Counts",
+        "bn": "ধনাত্মক, ঋণাত্মক ও শূন্য উপাদান গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Multi-branch classification", "bn": "বহু-শাখা শ্রেণিবিন্যাস" },
+        { "en": "List iteration", "bn": "লিস্ট ইটারেশন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Count how many elements are strictly positive (> 0), strictly negative (< 0), and zero (== 0). Print 'Pos: P, Neg: N, Zero: Z'.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। লিস্টে কতটি ধনাত্মক (> 0), কতটি ঋণাত্মক (< 0) এবং কতটি শূন্য (== 0) উপাদান রয়েছে তা গণনা করে 'Pos: P, Neg: N, Zero: Z' আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Formatted counts: Pos: P, Neg: N, Zero: Z",
+        "bn": "ফরম্যাট করা সংখ্যা: Pos: P, Neg: N, Zero: Z"
+      },
+      "examples": [
+        {
+          "input": "3 -1 0 7 -9 0 2",
+          "output": "Pos: 3, Neg: 2, Zero: 2",
+          "explanation": {
+            "en": "3 positive (3, 7, 2), 2 negative (-1, -9), 2 zeros.",
+            "bn": "৩টি ধনাত্মক, ২টি ঋণাত্মক এবং ২টি শূন্য।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every real integer falls into exactly one of three mutually exclusive buckets: > 0, < 0, or == 0.",
+        "bn": "প্রতিটি পূর্ণসংখ্যা তিনটি পৃথক শ্রেণির একটিতে পড়ে: > 0, < 0 অথবা == 0।"
+      },
+      "hint2": {
+        "en": "Use if / elif / else inside a single loop over nums.",
+        "bn": "nums-এর ওপর একটি লুপ চালিয়ে if / elif / else ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Partitioning numbers by sign uses three mutually exclusive branches so each element increments exactly one counter. Note that 0 is neither positive nor negative, so checking `x > 0`, `elif x < 0`, `else` prevents misclassifying zeros.",
+        "bn": "প্রতিটি সংখ্যা if / elif / else-এর ঠিক একটি শাখায় ঢুকবে। ০ ধনাত্মক বা ঋণাত্মক নয় বলে আলাদা else শাখায় গণনা করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and set pos = neg = zero = 0.", "bn": "nums পড়ে pos = neg = zero = 0 নিন।" },
+        { "en": "Loop x in nums: increment pos if x > 0, neg if x < 0, else zero.", "bn": "প্রতিটি x-এর জন্য x > 0 হলে pos, x < 0 হলে neg, নতুবা zero ১ বাড়ান।" },
+        { "en": "Print f'Pos: {pos}, Neg: {neg}, Zero: {zero}'.", "bn": "f'Pos: {pos}, Neg: {neg}, Zero: {zero}' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\npos = neg = zero = 0\nfor x in nums:\n    if x > 0:\n        pos += 1\n    elif x < 0:\n        neg += 1\n    else:\n        zero += 1\nprint(f\"Pos: {pos}, Neg: {neg}, Zero: {zero}\")",
+      "codeExplanation": {
+        "en": "Three counters track each category in one traversal. Using if-elif-else ensures each item updates only one counter.",
+        "bn": "এক লুপেই তিনটি কাউন্টার হালনাগাদ হয়। if-elif-else থাকায় প্রতিটি উপাদান কেবল একবারই গণনা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3 -1 0 7 -9 0 2", "expectedOutput": "Pos: 3, Neg: 2, Zero: 2", "note": { "en": "All three categories", "bn": "তিন ধরনের সংখ্যাই আছে" } },
+        { "input": "0 0 0", "expectedOutput": "Pos: 0, Neg: 0, Zero: 3", "note": { "en": "Zeros only", "bn": "শুধু শূন্য" } },
+        { "input": "5 10", "expectedOutput": "Pos: 2, Neg: 0, Zero: 0", "note": { "en": "Positives only", "bn": "শুধু ধনাত্মক" } }
+      ]
+    },
+    {
+      "id": "P08-04",
+      "number": 4,
+      "title": {
+        "en": "Reverse a List In-Place Using Two Pointers",
+        "bn": "টু-পয়েন্টার দিয়ে লিস্ট ইন-প্লেস উল্টানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "In-place swapping", "bn": "ইন-প্লেস মান অদলবদল" },
+        { "en": "O(1) extra space", "bn": "O(1) অতিরিক্ত মেমোরি" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers into a list. Reverse the list IN-PLACE without using .reverse(), reversed(), or [::-1], and print the reversed elements separated by single spaces.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লিস্ট ইনপুট নিন। .reverse(), reversed() বা [::-1] ব্যবহার না করে লিস্টটিকে সরাসরি (in-place) উল্টে দিন এবং স্পেস দিয়ে আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Reversed list elements separated by single spaces.",
+        "bn": "উল্টানো উপাদানসমূহ স্পেস দিয়ে আলাদা করে।"
+      },
+      "examples": [
+        {
+          "input": "10 20 30 40 50",
+          "output": "50 40 30 20 10",
+          "explanation": {
+            "en": "Swap (10, 50), swap (20, 40), middle 30 stays put.",
+            "bn": "(10, 50) ও (20, 40) অদলবদল হয়েছে; মাঝের 30 স্থির রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Place pointer left at 0 and pointer right at len(nums) - 1.",
+        "bn": "left = 0 এবং right = len(nums) - 1 পয়েন্টার নিন।"
+      },
+      "hint2": {
+        "en": "Loop while left < right (NOT <=, and never loop across the whole list or you will swap everything back!).",
+        "bn": "শুধু left < right পর্যন্ত অদলবদল করুন—পুরো লিস্টজুড়ে লুপ চালালে উপাদানগুলো আবার আগের জায়গায় ফিরে যাবে!"
+      },
+      "logicBreakdown": {
+        "en": "Swapping elements from index 0..N-1 in a full loop swaps every pair twice and restores the original list—a very common bug! Stopping at `left < right` swaps each symmetric pair `(nums[left], nums[right])` exactly once, mutating the list in place with O(1) extra memory.",
+        "bn": "পুরো লিস্টজুড়ে অদলবদল চালালে প্রতিটি জোড়া দুবার বদলে আগের অবস্থায় ফিরে যায় (খুব সাধারণ ভুল)! তাই left < right শর্ত দিয়ে মাঝখানে পৌঁছেই থামতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Set left = 0, right = len(nums) - 1.", "bn": "left = 0 ও right = len(nums) - 1 নিন।" },
+        { "en": "While left < right: swap nums[left], nums[right]; left += 1; right -= 1.", "bn": "left < right থাকা অবস্থায় nums[left], nums[right] অদলবদল করে পয়েন্টার সরান।" },
+        { "en": "Print elements joined by ' '.", "bn": "উপাদানগুলো ' ' দিয়ে যুক্ত করে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nleft, right = 0, len(nums) - 1\nwhile left < right:\n    nums[left], nums[right] = nums[right], nums[left]\n    left += 1\n    right -= 1\nprint(\" \".join(str(x) for x in nums))",
+      "codeExplanation": {
+        "en": "Tuple unpacking swaps nums[left] and nums[right] without an extra temp variable. Advancing left and retreating right until they meet reverses lists of both even and odd lengths cleanly.",
+        "bn": "টাপল আনপ্যাকিং কোনো অতিরিক্ত ভ্যারিয়েবল ছাড়াই মান অদলবদল করে। জোড় ও বিজোড় উভয় দৈর্ঘ্যের লিস্টই এতে নিখুঁত উল্টে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "10 20 30 40 50", "expectedOutput": "50 40 30 20 10", "note": { "en": "Odd length list", "bn": "বিজোড় দৈর্ঘ্য" } },
+        { "input": "1 2 3 4", "expectedOutput": "4 3 2 1", "note": { "en": "Even length list", "bn": "জোড় দৈর্ঘ্য" } },
+        { "input": "99", "expectedOutput": "99", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-05",
+      "number": 5,
+      "title": {
+        "en": "Linear Search — First Occurrence Index",
+        "bn": "লিনিয়ার সার্চ — প্রথম উপস্থিতির সূচক"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Indexed traversal with enumerate()", "bn": "enumerate() দিয়ে সূচকসহ ট্রাভার্সাল" },
+        { "en": "Not-found sentinel (-1)", "bn": "না পেলে -1 প্রদর্শন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers on line 1 and a target integer T on line 2. Find and print the 0-based index of the FIRST occurrence of T without using .index(). If T does not exist in the list, print -1.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং ২য় লাইনে একটি লক্ষ্য সংখ্যা T ইনপুট নিন। .index() ব্যবহার না করে T-এর প্রথম উপস্থিতির ০-ভিত্তিক সূচক প্রিন্ট করুন। তালিকায় না থাকলে -1 প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer target T.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: পূর্ণসংখ্যা T।"
+      },
+      "expectedOutput": {
+        "en": "0-based index of first match, or -1.",
+        "bn": "প্রথম মিলের ০-ভিত্তিক সূচক, অথবা -1।"
+      },
+      "examples": [
+        {
+          "input": "4 7 2 7 9\n7",
+          "output": "1",
+          "explanation": {
+            "en": "7 appears at indices 1 and 3; the first index is 1.",
+            "bn": "7 সূচক ১ ও ৩-এ আছে; প্রথম অবস্থান হলো ১।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize found_index = -1 before the loop so the default is -1 if no match is ever found.",
+        "bn": "লুপের আগে found_index = -1 রাখুন যাতে সংখ্যাটি না মিললে সরাসরি -1 প্রিন্ট হয়।"
+      },
+      "hint2": {
+        "en": "As soon as nums[i] == target, record i and break immediately so later duplicates do not overwrite the first index.",
+        "bn": "nums[i] == target পাওয়ামাত্রই i সংরক্ষণ করে break দিন, যাতে পরের ডুপ্লিকেট সূচকটি বদলে না দেয়।"
+      },
+      "logicBreakdown": {
+        "en": "Linear search inspects elements sequentially from index 0. Calling `break` on the very first match accomplishes two goals at once: it guarantees the earliest index is kept, and it saves unnecessary comparisons after the target is located. Never rely on `.index()`, which throws a ValueError crash when the target is absent.",
+        "bn": "বিল্ট-ইন .index() মান না পেলে প্রোগ্রাম ক্র্যাশ (ValueError) করায়। তাই found_index = -1 নিয়ে লুপ চালানো নিরাপদ, এবং প্রথম মিল পাওয়ামাত্র break দিলে সর্বনিম্ন সূচক ঠিক থাকে ও সময় বাঁচে।"
+      },
+      "algorithm": [
+        { "en": "Parse list nums and integer target.", "bn": "লিস্ট nums এবং পূর্ণসংখ্যা target পড়ুন।" },
+        { "en": "Set found_index = -1.", "bn": "found_index = -1 নির্ধারণ করুন।" },
+        { "en": "Loop i, val in enumerate(nums): if val == target, set found_index = i and break.", "bn": "enumerate(nums) দিয়ে val == target হলে found_index = i করে break দিন।" },
+        { "en": "Print found_index.", "bn": "found_index প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ntarget = int(input())\nfound_index = -1\nfor i, val in enumerate(nums):\n    if val == target:\n        found_index = i\n        break\nprint(found_index)",
+      "codeExplanation": {
+        "en": "enumerate(nums) yields each (index, value) pair in ascending order. The first match sets found_index and exits via break; absent targets leave found_index at -1.",
+        "bn": "enumerate(nums) প্রতিটি (সূচক, মান) জোড়া দেয়। প্রথমবার target মিলে গেলেই found_index বদলে লুপ থামে; না মিললে -1 থেকে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 7 2 7 9\n7", "expectedOutput": "1", "note": { "en": "Multiple occurrences", "bn": "একাধিক উপস্থিতি" } },
+        { "input": "4 7 2 7 9\n10", "expectedOutput": "-1", "note": { "en": "Not found", "bn": "তালিকায় নেই" } },
+        { "input": "5\n5", "expectedOutput": "0", "note": { "en": "Match at index 0", "bn": "শূন্য সূচকে মিল" } }
+      ]
+    },
+    {
+      "id": "P08-06",
+      "number": 6,
+      "title": {
+        "en": "Second Largest Distinct Element (Single Pass)",
+        "bn": "এক পাসে দ্বিতীয় বৃহত্তম অনন্য উপাদান"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Two-variable top tracking", "bn": "দুটি চলকে শীর্ষ দুই মান রাখা" },
+        { "en": "Duplicate maximum handling", "bn": "সমান সর্বোচ্চ মান সামলানো" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Find the second largest DISTINCT value in the list in a single O(N) pass without sorting. If fewer than 2 distinct values exist, print 'None'.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। সর্টিং না করে এক পাসে (O(N)) তালিকার দ্বিতীয় বৃহত্তম স্বতন্ত্র (distinct) মানটি নির্ণয় করুন। ২টির কম ভিন্ন মান থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The second largest distinct integer, or 'None'.",
+        "bn": "দ্বিতীয় বৃহত্তম স্বতন্ত্র সংখ্যা, অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "12 35 1 10 35 12",
+          "output": "12",
+          "explanation": {
+            "en": "Largest distinct is 35; second largest distinct is 12 (not 35!).",
+            "bn": "সর্বোচ্চ মান 35 (দুবার আছে); দ্বিতীয় বৃহত্তম স্বতন্ত্র মান হলো 12।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `None` (instead of 0 or -1) for `largest` and `second` so negative inputs work without bias.",
+        "bn": "ঋণাত্মক সংখ্যায় ভুল এড়াতে `largest` এবং `second` শুরুতে `None` দিয়ে সেট করুন।"
+      },
+      "hint2": {
+        "en": "When `x > largest`: demote old largest to `second` and set `largest = x`. When `x < largest` and (`second is None` or `x > second`): update `second = x`!",
+        "bn": "`x > largest` হলে আগের largest-কে `second`-এ নামিয়ে `largest = x` করুন; আর `x < largest` হলে প্রয়োজনে `second = x` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Two classic bugs plague this problem: (1) sorting and taking `nums[-2]`, which fails when the maximum repeats (e.g., `[5, 5, 3]` gives `5` instead of `3`), and (2) forgetting to check `x != largest` when updating `second`. Checking `if largest is None or x > largest` and `elif x != largest and (second is None or x > second)` handles duplicates, negatives, and uniform lists cleanly in O(N) time and O(1) auxiliary space.",
+        "bn": "সর্ট করে `nums[-2]` নিলে সর্বোচ্চ মান একাধিকবার থাকলে ভুল হয় (যেমন `[5, 5, 3]` থেকে `5` আসে, `3` নয়)। `None` দিয়ে শুরু করে `x > largest` হলে আগের `largest`-কে `second`-এ নেওয়া এবং `x != largest` দেখে `second` আপডেট করাই সঠিক O(N) সমাধান।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and set largest = None, second = None.", "bn": "nums পড়ুন এবং largest = None, second = None নিন।" },
+        { "en": "For x in nums: if largest is None or x > largest, set second = largest and largest = x.", "bn": "largest is None বা x > largest হলে second = largest এবং largest = x করুন।" },
+        { "en": "Elif x != largest and (second is None or x > second): set second = x.", "bn": "নতুবা x != largest এবং (second is None বা x > second) হলে second = x করুন।" },
+        { "en": "Print second if second is not None else 'None'.", "bn": "second থাকলে সেটি প্রিন্ট করুন, নতুবা 'None'।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nlargest = None\nsecond = None\nfor x in nums:\n    if largest is None or x > largest:\n        second = largest\n        largest = x\n    elif x != largest and (second is None or x > second):\n        second = x\nprint(second if second is not None else \"None\")",
+      "codeExplanation": {
+        "en": "Using None sentinels avoids arbitrary lower-bound assumptions. Whenever a strictly larger value arrives, the previous largest drops into second. Equal copies of largest skip both branches thanks to x != largest.",
+        "bn": "None ব্যবহারে ঋণাত্মক সংখ্যাতেও ত্রুটি হয় না। নতুন বড় মান এলে পুরোনো largest দ্বিতীয় স্থানে চলে আসে এবং x == largest হলে তা এড়িয়ে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "12 35 1 10 35 12", "expectedOutput": "12", "note": { "en": "Repeated maximum", "bn": "পুনরাবৃত্ত সর্বোচ্চ মান" } },
+        { "input": "7 7 7", "expectedOutput": "None", "note": { "en": "Only 1 distinct value", "bn": "একই মানের তালিকা" } },
+        { "input": "-10 -3 -25 -3", "expectedOutput": "-10", "note": { "en": "All negative with duplicate max", "bn": "সব ঋণাত্মক সংখ্যা" } },
+        { "input": "42", "expectedOutput": "None", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-07",
+      "number": 7,
+      "title": {
+        "en": "Deduplicate List Preserving Order",
+        "bn": "ক্রম অক্ষুণ্ণ রেখে লিস্ট থেকে ডুপ্লিকেট বাদ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "O(1) set lookup with ordered list", "bn": "সেট লুকআপ ও অর্ডারড লিস্ট" },
+        { "en": "Filtering repeated elements", "bn": "পুনরাবৃত্ত উপাদান ছাঁকন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Remove duplicate elements while keeping the first occurrence of every number in its original relative order. Print the unique elements separated by single spaces.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। মূল ক্রম ঠিক রেখে প্রতিটি সংখ্যার প্রথম উপস্থিতি রেখে বাকি ডুপ্লিকেট বাদ দিন এবং স্পেস দিয়ে আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated unique integers in first-appearance order.",
+        "bn": "প্রথম উপস্থিতির ক্রমে স্পেস-বিচ্ছিন্ন অনন্য সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "4 2 4 7 2 9 4",
+          "output": "4 2 7 9",
+          "explanation": {
+            "en": "4, 2, 7, 9 are kept in the order first seen.",
+            "bn": "প্রথম দেখা ক্রম অনুযায়ী 4, 2, 7, 9 রাখা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Avoid `if x not in unique:` because `not in` on a list is O(N), making the whole loop O(N^2).",
+        "bn": "লিস্টের ওপর `if x not in unique:` চালালে O(N^2) সময় লাগে; এর চেয়ে ভালো উপায় আছে।"
+      },
+      "hint2": {
+        "en": "Maintain a companion `seen = set()` alongside `unique = []` for O(1) membership checks.",
+        "bn": "`unique = []`-এর পাশাপাশি একটি `seen = set()` রাখুন যাতে O(1) সময়ে ডুপ্লিকেট ধরা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Sets check membership in average O(1) hash time, whereas lists check membership linearly in O(N). Combining `seen` (set) and `unique` (list) deduplicates any size list in linear O(N) time while preserving exact original order.",
+        "bn": "সেট O(1) সময়ে কোনো উপাদান আছে কি না তা বলতে পারে। তাই `seen` সেটে দেখা মানগুলো রেখে `unique` লিস্টে যোগ করলে ক্রম ঠিক থাকে এবং পুরো কাজ O(N) সময়ে শেষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Initialize seen = set() and unique = [].", "bn": "seen = set() এবং unique = [] নিন।" },
+        { "en": "For x in nums: if x not in seen, add x to seen and append str(x) to unique.", "bn": "x যদি seen-এ না থাকে, তবে seen-এ যোগ করে unique-এ str(x) রাখুন।" },
+        { "en": "Print ' '.join(unique).", "bn": "' '.join(unique) প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nseen = set()\nunique = []\nfor x in nums:\n    if x not in seen:\n        seen.add(x)\n        unique.append(str(x))\nprint(\" \".join(unique))",
+      "codeExplanation": {
+        "en": "seen records every previously encountered integer. Unseen integers enter both seen and unique, guaranteeing exact order preservation in linear time.",
+        "bn": "seen আগের দেখা সব সংখ্যা মনে রাখে। কেবল নতুন সংখ্যাগুলোই seen ও unique উভয় স্থানে যুক্ত হয়ে ক্রম অক্ষুণ্ণ রাখে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 2 4 7 2 9 4", "expectedOutput": "4 2 7 9", "note": { "en": "Scattered duplicates", "bn": "ছড়ানো ডুপ্লিকেট" } },
+        { "input": "5 5 5 5", "expectedOutput": "5", "note": { "en": "All identical", "bn": "সব সমান" } },
+        { "input": "1 2 3", "expectedOutput": "1 2 3", "note": { "en": "Already unique", "bn": "কোনো ডুপ্লিকেট নেই" } }
+      ]
+    },
+    {
+      "id": "P08-08",
+      "number": 8,
+      "title": {
+        "en": "Check Non-Decreasing Sorted Order",
+        "bn": "তালিকা আরোহী ক্রমে সাজানো কি না যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Adjacent pair invariant", "bn": "পাশাপাশি উপাদানের সম্পর্ক যাচাই" },
+        { "en": "Early exit on inversion", "bn": "ক্রমভঙ্গ দেখামাত্র থামা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Check if the list is sorted in non-decreasing order (each element <= the next element) without calling sorted(). Print 'Sorted' or 'Not Sorted'.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। sorted() ব্যবহার না করে যাচাই করুন তালিকাটি আরোহী (non-decreasing, অর্থাৎ প্রতিটি উপাদান <= পরের উপাদান) ক্রমে সাজানো কি না। 'Sorted' বা 'Not Sorted' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "'Sorted' or 'Not Sorted'.",
+        "bn": "'Sorted' অথবা 'Not Sorted'।"
+      },
+      "examples": [
+        {
+          "input": "1 3 3 7 12",
+          "output": "Sorted",
+          "explanation": {
+            "en": "Every adjacent pair satisfies nums[i] <= nums[i + 1].",
+            "bn": "পাশাপাশি সব জোড়ায় nums[i] <= nums[i + 1] সত্য।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Instead of sorting a copy in O(N log N), check adjacent pairs nums[i] and nums[i + 1] in O(N)!",
+        "bn": "কপি করে O(N log N) সর্ট করার চেয়ে সরাসরি পাশাপাশি উপাদান nums[i] ও nums[i + 1] তুলনা করলে O(N) সময়ে সমাধান হয়।"
+      },
+      "hint2": {
+        "en": "Watch loop bounds: iterate i from 0 to len(nums) - 2 so nums[i + 1] never raises IndexError.",
+        "bn": "IndexError এড়াতে i-কে 0 থেকে len(nums) - 2 পর্যন্ত চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Sorted order is a transitive property: if every adjacent pair satisfies `nums[i] <= nums[i + 1]`, the entire array is guaranteed non-decreasing. Conversely, a single inversion `nums[i] > nums[i + 1]` immediately proves it is not sorted, allowing early `break`.",
+        "bn": "পাশাপাশি প্রতিটি জোড়ায় nums[i] <= nums[i + 1] হলে পুরো তালিকাই সাজানো। আর একটিমাত্র স্থানেও nums[i] > nums[i + 1] পেলে তৎক্ষণাৎ 'Not Sorted' প্রমাণিত হয়ে যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Set is_sorted = True.", "bn": "is_sorted = True নিন।" },
+        { "en": "Loop i from 0 to len(nums) - 2: if nums[i] > nums[i + 1], set is_sorted = False and break.", "bn": "i = 0..len(nums)-2 পর্যন্ত nums[i] > nums[i + 1] হলে is_sorted = False করে break দিন।" },
+        { "en": "Print 'Sorted' if is_sorted else 'Not Sorted'.", "bn": "is_sorted সত্য হলে 'Sorted' নতুবা 'Not Sorted' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nis_sorted = True\nfor i in range(len(nums) - 1):\n    if nums[i] > nums[i + 1]:\n        is_sorted = False\n        break\nprint(\"Sorted\" if is_sorted else \"Not Sorted\")",
+      "codeExplanation": {
+        "en": "range(len(nums) - 1) stops at the second-to-last index so nums[i + 1] is always valid (and runs 0 times for 1-element lists, correctly yielding Sorted).",
+        "bn": "range(len(nums) - 1) শেষের আগের উপাদান পর্যন্ত চলে যাতে nums[i + 1] বৈধ থাকে। এক-উপাদানের লিস্টে লুপ না চলেই Sorted উত্তর আসে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "1 3 3 7 12", "expectedOutput": "Sorted", "note": { "en": "Non-decreasing with equal neighbors", "bn": "সমান উপাদানসহ সাজানো" } },
+        { "input": "1 5 4 8", "expectedOutput": "Not Sorted", "note": { "en": "Drop in middle", "bn": "মাঝে কমে গেছে" } },
+        { "input": "9", "expectedOutput": "Sorted", "note": { "en": "Single element", "bn": "একটি উপাদান" } },
+        { "input": "5 4 3 2 1", "expectedOutput": "Not Sorted", "note": { "en": "Reverse order", "bn": "উল্টো ক্রম" } }
+      ]
+    },
+    {
+      "id": "P08-09",
+      "number": 9,
+      "title": {
+        "en": "Rotate List Right by K Positions",
+        "bn": "লিস্টকে K ঘর ডানে রোটেশন"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Modulo wrap-around (K % N)", "bn": "মডুলো র‍্যাপ-অ্যারাউন্ড (K % N)" },
+        { "en": "Three-reversal in-place algorithm", "bn": "তিন-ধাপে উল্টিয়ে ইন-প্লেস রোটেশন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers on line 1 and a non-negative integer K on line 2. Rotate the list to the right by K steps (the last element wraps around to the front on each step). Print the rotated list separated by single spaces.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং ২য় লাইনে অ-ঋণাত্মক পূর্ণসংখ্যা K ইনপুট নিন। লিস্টটিকে K ধাপ ডানে ঘোরান (প্রতি ধাপে শেষ উপাদানটি শুরুতে আসে)। ঘোরানো লিস্টটি স্পেস দিয়ে আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer K (K >= 0).",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: পূর্ণসংখ্যা K (K >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Rotated list elements separated by single spaces.",
+        "bn": "রোটেশনের পর স্পেস-বিচ্ছিন্ন উপাদানসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 4 5\n2",
+          "output": "4 5 1 2 3",
+          "explanation": {
+            "en": "Last 2 elements [4, 5] wrap around to the front.",
+            "bn": "শেষ ২টি উপাদান [4, 5] ঘুরে শুরুতে চলে এসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Rotating a list of length N by N steps returns the exact same list! So normalize k = k % len(nums) first.",
+        "bn": "N দৈর্ঘ্যের লিস্টকে N বার ঘোরালে আগের অবস্থাতেই ফিরে আসে; তাই শুরুতেই k = k % len(nums) করে নিন।"
+      },
+      "hint2": {
+        "en": "Three-reversal trick for right rotation by k: (1) reverse whole list, (2) reverse first k items, (3) reverse remaining N - k items!",
+        "bn": "তিনটি রিভার্স কৌশল: (১) পুরো লিস্ট উল্টান, (২) প্রথম k উপাদান উল্টান, (৩) বাকি N - k উপাদান উল্টান!"
+      },
+      "logicBreakdown": {
+        "en": "Rotating one element at a time K times would take O(N * K) shifts. Reducing `k %= n` first handles huge K in O(1), and the classic three-reversal algorithm rotates in O(N) time and O(1) extra space: reversing `[1,2,3,4,5]` -> `[5,4,3,2,1]`, then reversing `[0..k-1]` -> `[4,5,3,2,1]`, then reversing `[k..n-1]` -> `[4,5,1,2,3]`.",
+        "bn": "প্রতি ধাপে ১ ঘর করে সরালে O(N * K) সময় লাগে। প্রথমেই `k %= n` করলে বড় K ছোট হয়ে যায়। এরপর পুরো লিস্ট উল্টে, প্রথম k-টি উল্টে এবং শেষ n - k-টি উল্টালে কোনো বাড়তি লিস্ট ছাড়াই মাত্র O(N) সময়ে রোটেশন সম্পন্ন হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and integer k; set n = len(nums), k %= n.", "bn": "nums ও k পড়ুন এবং n = len(nums), k %= n করুন।" },
+        { "en": "Write a helper rev(arr, l, r) that reverses indices l..r in place.", "bn": "l..r অংশ ইন-প্লেস উল্টাতে rev(arr, l, r) লিখুন।" },
+        { "en": "Call rev(nums, 0, n - 1), rev(nums, 0, k - 1), and rev(nums, k, n - 1).", "bn": "rev(nums, 0, n - 1), rev(nums, 0, k - 1) এবং rev(nums, k, n - 1) কল করুন।" },
+        { "en": "Print nums joined by spaces.", "bn": "nums স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "def rev(arr, l, r):\n    while l < r:\n        arr[l], arr[r] = arr[r], arr[l]\n        l += 1\n        r -= 1\n\nnums = [int(x) for x in input().split()]\nk = int(input())\nn = len(nums)\nk %= n\nif k > 0:\n    rev(nums, 0, n - 1)\n    rev(nums, 0, k - 1)\n    rev(nums, k, n - 1)\nprint(\" \".join(str(x) for x in nums))",
+      "codeExplanation": {
+        "en": "k %= n prevents out-of-bounds slicing or redundant full rotations. When k > 0, three clean two-pointer reversals move the last k elements into the first k positions in place.",
+        "bn": "k %= n বাড়তি ঘূর্ণন ও সীমা ত্রুটি ঠেকায়। k > 0 হলে তিনটি টু-পয়েন্টার রিভার্সাল শেষ kটি উপাদানকে শুরুতে এনে দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 3 4 5\n2", "expectedOutput": "4 5 1 2 3", "note": { "en": "Rotate by 2", "bn": "২ ঘর ডানে রোটেশন" } },
+        { "input": "1 2 3\n7", "expectedOutput": "3 1 2", "note": { "en": "K > N (7 % 3 == 1)", "bn": "K > N রোটেশন" } },
+        { "input": "10 20 30\n0", "expectedOutput": "10 20 30", "note": { "en": "K = 0 no change", "bn": "K = 0 অপরিবর্তিত" } },
+        { "input": "99\n5", "expectedOutput": "99", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-10",
+      "number": 10,
+      "title": {
+        "en": "Merge Two Sorted Lists Using Two Pointers",
+        "bn": "টু-পয়েন্টার দিয়ে দুটি সাজানো লিস্ট একীভূত করা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Two-pointer merge step", "bn": "টু-পয়েন্টার মার্জ পদ্ধতি" },
+        { "en": "Draining remaining tail elements", "bn": "অবশিষ্ট উপাদান যোগ করা" }
+      ],
+      "description": {
+        "en": "Read two sorted (non-decreasing) lists of space-separated integers on two lines. Merge them into a single sorted list using a two-pointer merge without calling .sort() or sorted(). Print the merged elements separated by spaces.",
+        "bn": "দুটি লাইনে আরোহী ক্রমে সাজানো দুটি পূর্ণসংখ্যার লিস্ট ইনপুট নিন। .sort() বা sorted() ব্যবহার না করে টু-পয়েন্টার পদ্ধতিতে উভয় লিস্ট একত্রিত করে একটি সাজানো লিস্ট প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: first sorted list. Line 2: second sorted list.",
+        "bn": "১ম লাইন: প্রথম সাজানো লিস্ট। ২য় লাইন: দ্বিতীয় সাজানো লিস্ট।"
+      },
+      "expectedOutput": {
+        "en": "Single sorted sequence of all elements separated by spaces.",
+        "bn": "সকল উপাদানের একটি সম্মিলিত সাজানো তালিকা।"
+      },
+      "examples": [
+        {
+          "input": "1 4 7\n2 3 8 10",
+          "output": "1 2 3 4 7 8 10",
+          "explanation": {
+            "en": "Pointers compare heads of both lists and pick the smaller element at each step.",
+            "bn": "দুটি পয়েন্টার প্রতিটি ধাপে উভয় লিস্টের ছোট উপাদানটি বেছে নিয়ে নতুন লিস্টে সাজায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Start pointer i = 0 for list A and j = 0 for list B, looping while i < len(a) and j < len(b).",
+        "bn": "লিস্ট A-এর জন্য i = 0 ও লিস্ট B-এর জন্য j = 0 নিন এবং i < len(a) and j < len(b) পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "Once one list runs out, don't forget two trailing while loops to append the remaining elements of whichever list still has items!",
+        "bn": "একটি লিস্ট শেষ হয়ে গেলে অন্য লিস্টের বাকি থাকা উপাদানগুলো যোগ করতে দুটি ছোট while লুপ ব্যবহার করতে ভুলবেন না।"
+      },
+      "logicBreakdown": {
+        "en": "Concatenating and calling `sorted()` takes O((N+M) log(N+M)) and ignores the fact that both inputs are already sorted. Comparing `a[i]` and `b[j]` takes the smaller item in O(1) per step, achieving optimal O(N + M) linear merge time—the core building block of Merge Sort.",
+        "bn": "উভয় লিস্ট জুড়ে দিয়ে `sorted()` করলে O((N+M) log(N+M)) সময় লাগে। কিন্তু লিস্ট দুটি আগে থেকেই সাজানো থাকায় `a[i]` ও `b[j]` তুলনা করে ছোটটি নিলে মাত্র O(N + M) সময়েই মার্জ হয়ে যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse sorted lists a and b.", "bn": "সাজানো লিস্ট a এবং b পড়ুন।" },
+        { "en": "Set i = 0, j = 0, merged = [].", "bn": "i = 0, j = 0 এবং merged = [] নিন।" },
+        { "en": "While i < len(a) and j < len(b): append smaller of a[i], b[j] and advance its pointer.", "bn": "উভয় লিস্টে উপাদান থাকা অবস্থায় ছোট মানটি merged-এ রেখে সেই পয়েন্টার ১ বাড়ান।" },
+        { "en": "Append any remaining elements from a[i:] and b[j:], then print.", "bn": "বাকি থাকা সব উপাদান যোগ করে স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "a = [int(x) for x in input().split()]\nb = [int(x) for x in input().split()]\ni = j = 0\nmerged = []\nwhile i < len(a) and j < len(b):\n    if a[i] <= b[j]:\n        merged.append(str(a[i]))\n        i += 1\n    else:\n        merged.append(str(b[j]))\n        j += 1\nwhile i < len(a):\n    merged.append(str(a[i]))\n    i += 1\nwhile j < len(b):\n    merged.append(str(b[j]))\n    j += 1\nprint(\" \".join(merged))",
+      "codeExplanation": {
+        "en": "The main loop merges elements in sorted order until one list exhausts. Then whichever list still has unread elements drains cleanly into merged.",
+        "bn": "প্রধান লুপ উভয় লিস্টের ছোট উপাদান নিয়ে সাজাতে থাকে। কোনো একটি শেষ হলে বাকি দুটির যেকোনো একটি লুপ অবশিষ্ট অংশ জুড়ে দেয়।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "1 4 7\n2 3 8 10", "expectedOutput": "1 2 3 4 7 8 10", "note": { "en": "Interleaved lengths", "bn": "ভিন্ন দৈর্ঘ্যের মিশ্র লিস্ট" } },
+        { "input": "1 2 3\n4 5", "expectedOutput": "1 2 3 4 5", "note": { "en": "All of first smaller than second", "bn": "সব প্রথমটির ছোট" } },
+        { "input": "2 2\n2 3", "expectedOutput": "2 2 2 3", "note": { "en": "Duplicate values across lists", "bn": "সমান মানের পুনরাবৃত্তি" } }
+      ]
+    },
+    {
+      "id": "P08-11",
+      "number": 11,
+      "title": {
+        "en": "Move All Zeros to End In-Place",
+        "bn": "শূন্যগুলোকে ইন-প্লেস লিস্টের শেষে নেওয়া"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Read/write two-pointer compaction", "bn": "রিড-রাইট টু-পয়েন্টার কম্প্যাকশন" },
+        { "en": "Relative order preservation", "bn": "আপেক্ষিক ক্রম অক্ষুণ্ণ রাখা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Move all zeros to the end of the list IN-PLACE while preserving the relative order of all non-zero elements. Print the modified list separated by spaces.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। অ-শূন্য উপাদানগুলোর মূল আপেক্ষিক ক্রম বজায় রেখে সব 0-কে লিস্টের শেষ প্রান্তে ইন-প্লেস স্থানান্তর করুন এবং স্পেস দিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Modified list separated by single spaces.",
+        "bn": "পরিবর্তিত লিস্ট স্পেস-বিচ্ছিন্ন অবস্থায়।"
+      },
+      "examples": [
+        {
+          "input": "0 1 0 3 12",
+          "output": "1 3 12 0 0",
+          "explanation": {
+            "en": "Non-zeros 1, 3, 12 stay in order at the front; both 0s move to the end.",
+            "bn": "1, 3, 12 ক্রম ঠিক রেখে সামনে এসেছে এবং দুটি 0 শেষে চলে গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Using `.remove(0)` inside a loop shifts the list every time and skips adjacent zeros!",
+        "bn": "লুপের ভেতরে `.remove(0)` ব্যবহার করলে লিস্টের সূচক বদলে যায় এবং পাশাপাশি থাকা শূন্য বাদ পড়ে!"
+      },
+      "hint2": {
+        "en": "Keep a write pointer `write = 0`. Whenever `nums[read] != 0`, swap `nums[write]` with `nums[read]` and increment `write`.",
+        "bn": "`write = 0` পয়েন্টার রাখুন। যখনই `nums[read] != 0` হবে, `nums[write]` ও `nums[read]` অদলবদল করে `write += 1` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Every non-zero element belongs sequentially at `write = 0, 1, 2, ...`. Swapping `nums[write]` and `nums[read]` whenever `nums[read] != 0` pushes zeros forward into the gap between `write` and `read`, preserving exact relative order of non-zeros in O(N) time and O(1) extra space.",
+        "bn": "write পয়েন্টার সবসময় পরবর্তী অ-শূন্য মান বসানোর জায়গা নির্দেশ করে। read যখন কোনো অ-শূন্য মান পায় তখন write-এর সাথে অদলবদল করলে শূন্যগুলো আপনিই ডান দিকে সরে যায় এবং O(1) বাড়তি মেমোরিতেই কাজ শেষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and set write = 0.", "bn": "nums পড়ুন এবং write = 0 সেট করুন।" },
+        { "en": "Loop read from 0 to len(nums) - 1: if nums[read] != 0, swap nums[write] and nums[read] and increment write.", "bn": "read-কে লিস্টের শুরু থেকে শেষ পর্যন্ত চালিয়ে nums[read] != 0 হলে write-এর সাথে অদলবদল করে write += 1 করুন।" },
+        { "en": "Print elements joined by ' '.", "bn": "উপাদানগুলো ' ' দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nwrite = 0\nfor read in range(len(nums)):\n    if nums[read] != 0:\n        nums[write], nums[read] = nums[read], nums[write]\n        write += 1\nprint(\" \".join(str(x) for x in nums))",
+      "codeExplanation": {
+        "en": "write lags at the first zero position (or tracks read if no zero has appeared yet). Every non-zero element swaps into write, leaving all zeros packed neatly at indices >= write.",
+        "bn": "কোনো শূন্য না আসা পর্যন্ত write ও read একসাথে এগোয়; শূন্য এলে write সেখানে অপেক্ষা করে এবং পরের অ-শূন্য সংখ্যার সাথে অদলবদল করে শূন্যকে শেষে ঠেলে দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "0 1 0 3 12", "expectedOutput": "1 3 12 0 0", "note": { "en": "Mixed zeros and non-zeros", "bn": "মিশ্র শূন্য ও অ-শূন্য" } },
+        { "input": "0 0 0", "expectedOutput": "0 0 0", "note": { "en": "All zeros", "bn": "সব শূন্য" } },
+        { "input": "5 -2 8", "expectedOutput": "5 -2 8", "note": { "en": "No zeros", "bn": "কোনো শূন্য নেই" } }
+      ]
+    },
+    {
+      "id": "P08-12",
+      "number": 12,
+      "title": {
+        "en": "Find Missing Number in 1..N Range",
+        "bn": "1..N পরিসরের হারানো সংখ্যা নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Gauss arithmetic series N*(N+1)//2", "bn": "গাউসের ধারা সূত্র N*(N+1)//2" },
+        { "en": "O(N) time and O(1) auxiliary check", "bn": "O(N) সময়ে সমাধান" }
+      ],
+      "description": {
+        "en": "Read an integer N on line 1, and a list of N - 1 distinct integers from the range 1 to N (in any order) on line 2. Find and print the single missing integer from 1..N.",
+        "bn": "১ম লাইনে একটি পূর্ণসংখ্যা N এবং ২য় লাইনে ১ থেকে N-এর মধ্যে থেকে N - 1টি ভিন্ন পূর্ণসংখ্যা (যেকোনো ক্রমে) ইনপুট নিন। ১..N-এর মধ্যে কোন সংখ্যাটি অনুপস্থিত তা খুঁজে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N (N >= 2). Line 2: N - 1 space-separated integers.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা N (N >= 2)। ২য় লাইন: N - 1টি স্পেস-বিচ্ছিন্ন সংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The single missing integer.",
+        "bn": "অনুপস্থিত পূর্ণসংখ্যাটি।"
+      },
+      "examples": [
+        {
+          "input": "6\n3 1 6 2 5",
+          "output": "4",
+          "explanation": {
+            "en": "Expected sum 1+2+3+4+5+6 = 21. Actual sum = 17. Missing = 21 - 17 = 4.",
+            "bn": "১..৬-এর প্রত্যাশিত যোগফল 21, প্রাপ্ত যোগফল 17; তাই হারানো সংখ্যা 21 - 17 = 4।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Checking `for x in range(1, n+1): if x not in nums:` takes O(N^2) time and fails on large inputs!",
+        "bn": "লুপে `if x not in nums` চালালে O(N^2) সময় লাগে—বড় ইনপুটে এটি খুব ধীর।"
+      },
+      "hint2": {
+        "en": "Compute expected_sum = n * (n + 1) // 2 and subtract the sum of the given list.",
+        "bn": "expected_sum = n * (n + 1) // 2 থেকে প্রদত্ত তালিকার যোগফল বিয়োগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Sorting takes O(N log N) and linear membership testing takes O(N^2). Because the complete set 1..N has a known closed-form sum N*(N+1)//2, subtracting the actual sum of the N-1 elements isolates the missing value in a single O(N) pass.",
+        "bn": "সর্টিং করলে O(N log N) এবং খোঁজাখুঁজি করলে O(N^2) সময় যায়। কিন্তু ১..N-এর মোট সমষ্টি N*(N+1)//2 থেকে প্রাপ্ত সংখ্যাগুলোর সমষ্টি বিয়োগ করলেই সরাসরি হারানো সংখ্যাটি O(N) সময়ে পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and list nums.", "bn": "পূর্ণসংখ্যা n এবং লিস্ট nums পড়ুন।" },
+        { "en": "Compute expected = n * (n + 1) // 2.", "bn": "expected = n * (n + 1) // 2 হিসাব করুন।" },
+        { "en": "Sum all elements of nums into actual.", "bn": "nums-এর সব উপাদান যোগ করে actual বের করুন।" },
+        { "en": "Print expected - actual.", "bn": "expected - actual প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nnums = [int(x) for x in input().split()]\nexpected = n * (n + 1) // 2\nactual = 0\nfor x in nums:\n    actual += x\nprint(expected - actual)",
+      "codeExplanation": {
+        "en": "expected holds the sum of 1 through n using exact integer division //. Subtracting the accumulated actual sum immediately yields the missing number.",
+        "bn": "expected হলো ১ থেকে n পর্যন্ত পূর্ণ যোগফল। এর থেকে actual বাদ দিলে অনুপস্থিত সংখ্যাটি বের হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "6\n3 1 6 2 5", "expectedOutput": "4", "note": { "en": "Missing in middle", "bn": "মাঝের সংখ্যা অনুপস্থিত" } },
+        { "input": "2\n2", "expectedOutput": "1", "note": { "en": "Missing 1 (smallest)", "bn": "১ অনুপস্থিত" } },
+        { "input": "5\n1 2 3 4", "expectedOutput": "5", "note": { "en": "Missing N (largest)", "bn": "N অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P08-13",
+      "number": 13,
+      "title": {
+        "en": "Remove All Occurrences of Target Element",
+        "bn": "নির্দিষ্ট উপাদানের সব উপস্থিতি অপসারণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Safe in-place list compaction", "bn": "নিরাপদ ইন-প্লেস লিস্ট সংকোচন" },
+        { "en": "Avoiding mutation-while-iterating bug", "bn": "লুপ চলাকালীন লিস্ট মোছার ত্রুটি এড়ানো" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers on line 1 and an integer target X on line 2. Remove all occurrences of X while preserving order. Print the remaining integers separated by spaces, or 'Empty' if no elements remain.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং ২য় লাইনে একটি পূর্ণসংখ্যা X ইনপুট নিন। মূল ক্রম ঠিক রেখে তালিকা থেকে X-এর সব উপস্থিতি বাদ দিন। অবশিষ্ট উপাদানগুলো স্পেস দিয়ে প্রিন্ট করুন, অথবা কোনো উপাদান না থাকলে 'Empty' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer X.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: পূর্ণসংখ্যা X।"
+      },
+      "expectedOutput": {
+        "en": "Remaining elements separated by spaces, or 'Empty'.",
+        "bn": "অবশিষ্ট উপাদানসমূহ অথবা 'Empty'।"
+      },
+      "examples": [
+        {
+          "input": "3 2 2 5 2 8\n2",
+          "output": "3 5 8",
+          "explanation": {
+            "en": "All three 2s are filtered out while 3, 5, 8 remain in order.",
+            "bn": "তিনটি 2 বাদ গিয়ে 3, 5, 8 ক্রমানুসারে থেকে গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never call `nums.remove(x)` or `del nums[i]` inside a `for item in nums:` loop—mutating a list while iterating skips elements!",
+        "bn": "কখনোই `for item in nums:` লুপের ভেতরে `nums.remove()` বা `del` চালাবেন না—এতে উপাদান বাদ পড়ে যায়!"
+      },
+      "hint2": {
+        "en": "Either build a new filtered list `[num for num in nums if num != x]` or compact in place with a write pointer and slice `nums[:write]`.",
+        "bn": "`write` পয়েন্টার দিয়ে অ-মিল উপাদানগুলো সামনে সরিয়ে `nums[:write]` নিন অথবা ফিল্টার করা নতুন লিস্ট বানান।"
+      },
+      "logicBreakdown": {
+        "en": "Mutating a list's length while iterating forward shifts subsequent elements left into indices the loop already passed, silently skipping adjacent targets (like `2 2`). Using a write pointer (`k = 0`) writes every `num != x` to `nums[k]` and slices `nums[:k]`, handling consecutive targets and full erasure safely in O(N) time.",
+        "bn": "ফরোয়ার্ড লুপে উপাদান মুছে দিলে পরের উপাদানগুলো বামে সরে আসে এবং পাশাপাশি থাকা ২য় টার্গেট এড়িয়ে যায়। write পয়েন্টার ব্যবহার করে x ছাড়া অন্য মানগুলো `nums[k]`-তে রাখলে কোনো ত্রুটি ছাড়াই O(N) সময়ে সব উপস্থিতি বাদ পড়ে।"
+      },
+      "algorithm": [
+        { "en": "Parse list nums and target x.", "bn": "nums এবং x পড়ুন।" },
+        { "en": "Initialize write = 0.", "bn": "write = 0 নিন।" },
+        { "en": "For num in nums: if num != x, set nums[write] = num and write += 1.", "bn": "num != x হলে nums[write] = num এবং write += 1 করুন।" },
+        { "en": "If write == 0, print 'Empty'; else print nums[:write] space-separated.", "bn": "write == 0 হলে 'Empty', নতুবা nums[:write] স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(v) for v in input().split()]\nx = int(input())\nwrite = 0\nfor num in nums:\n    if num != x:\n        nums[write] = num\n        write += 1\nif write == 0:\n    print(\"Empty\")\nelse:\n    print(\" \".join(str(nums[i]) for i in range(write)))",
+      "codeExplanation": {
+        "en": "write tracks how many non-x items have been kept at the front of nums. If all elements matched x, write remains 0 and prints 'Empty'; otherwise the compacted prefix nums[0..write-1] is output.",
+        "bn": "write লিস্টের শুরুতে কতগুলো বৈধ উপাদান আছে তা নির্ধারণ করে। সব উপাদান বাদ পড়লে write = 0 হয়ে 'Empty' প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "3 2 2 5 2 8\n2", "expectedOutput": "3 5 8", "note": { "en": "Adjacent targets removed", "bn": "পাশাপাশি ডুপ্লিকেট টার্গেট অপসারণ" } },
+        { "input": "4 4 4\n4", "expectedOutput": "Empty", "note": { "en": "All elements removed", "bn": "সব উপাদান বাদ পড়লে Empty" } },
+        { "input": "1 2 3\n9", "expectedOutput": "1 2 3", "note": { "en": "Target absent", "bn": "টার্গেট অনুপস্থিত" } }
+      ]
+    },
+    {
+      "id": "P08-14",
+      "number": 14,
+      "title": {
+        "en": "Element Frequency Report (First-Seen Order)",
+        "bn": "উপাদানের ফ্রিকোয়েন্সি প্রতিবেদন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Dictionary frequency mapping", "bn": "ডিকশনারিতে ফ্রিকোয়েন্সি গণনা" },
+        { "en": "Ordered summary output", "bn": "ক্রমবদ্ধ ফলাফল প্রদর্শন" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Count how many times each distinct integer appears. Print each integer and its count on its own line in the format '<value>: <count>', ordered by first appearance.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। প্রতিটি স্বতন্ত্র সংখ্যা তালিকায় কতবার এসেছে তা গণনা করুন। প্রথম উপস্থিতির ক্রম অনুযায়ী প্রতিটি লাইনে '<value>: <count>' ফরম্যাটে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "One line per unique element formatted as '<value>: <count>'.",
+        "bn": "প্রতিটি অনন্য সংখ্যার জন্য '<value>: <count>' লাইন।"
+      },
+      "examples": [
+        {
+          "input": "5 2 5 8 2 5",
+          "output": "5: 3\n2: 2\n8: 1",
+          "explanation": {
+            "en": "5 appears 3 times, 2 appears 2 times, 8 appears once.",
+            "bn": "5 এসেছে ৩ বার, 2 এসেছে ২ বার এবং 8 এসেছে ১ বার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A dictionary `counts` maps each integer key to its running occurrence count.",
+        "bn": "প্রতিটি পূর্ণসংখ্যাকে কী এবং তার সংখ্যাকে ভ্যালু হিসেবে `counts` ডিকশনারিতে রাখুন।"
+      },
+      "hint2": {
+        "en": "Update with `counts[x] = counts.get(x, 0) + 1`, then iterate `for val, cnt in counts.items()` to output in first-seen order.",
+        "bn": "`counts[x] = counts.get(x, 0) + 1` দিয়ে গণনা করে `counts.items()`-এর ওপর লুপ চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Using nested loops (`nums.count(x)` inside a loop) degrades to O(N^2) and prints duplicates repeatedly unless you track visited items separately. Using a hash map (`dict`) computes all frequencies in a single O(N) pass and naturally preserves insertion order.",
+        "bn": "লুপে বারবার nums.count() ব্যবহার করলে সময় লাগে O(N^2)। ডিকশনারিতে counts.get(x, 0) + 1 ব্যবহারে এক পাসে O(N) সময়ে গণনা সম্পন্ন হয় এবং প্রথম উপস্থিতির ক্রমও অক্ষুণ্ণ থাকে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and create empty dict counts.", "bn": "nums পড়ুন এবং খালি ডিকশনারি counts নিন।" },
+        { "en": "For x in nums: counts[x] = counts.get(x, 0) + 1.", "bn": "প্রতিটি x-এর জন্য counts[x] = counts.get(x, 0) + 1 করুন।" },
+        { "en": "For val, cnt in counts.items(): print f'{val}: {cnt}'.", "bn": "প্রতিটি val, cnt জোড়ার জন্য f'{val}: {cnt}' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ncounts = {}\nfor x in nums:\n    counts[x] = counts.get(x, 0) + 1\nfor val, cnt in counts.items():\n    print(f\"{val}: {cnt}\")",
+      "codeExplanation": {
+        "en": "counts.get(x, 0) returns 0 the first time x appears and the current tally thereafter. Iterating counts.items() prints each unique number once in order of first appearance.",
+        "bn": "প্রথমবার x এলে counts.get(x, 0) শূন্য দেয় এবং পরে ১ করে বাড়ায়। counts.items() প্রথম উপস্থিতির ক্রমে ফলাফল প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(K)" },
+      "testCases": [
+        { "input": "5 2 5 8 2 5", "expectedOutput": "5: 3\n2: 2\n8: 1", "note": { "en": "Repeated values", "bn": "একাধিক পুনরাবৃত্ত সংখ্যা" } },
+        { "input": "-1 0 -1", "expectedOutput": "-1: 2\n0: 1", "note": { "en": "Negative and zero", "bn": "ঋণাত্মক ও শূন্য" } },
+        { "input": "7", "expectedOutput": "7: 1", "note": { "en": "Single item", "bn": "একক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-15",
+      "number": 15,
+      "title": {
+        "en": "Unique Intersection of Two Lists in Order",
+        "bn": "ক্রম অনুযায়ী দুটি লিস্টের অনন্য ছেদ (Intersection)"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Set-backed membership O(1)", "bn": "সেট দিয়ে দ্রুত মেম্বারশিপ যাচাই" },
+        { "en": "Deduplicated output ordering", "bn": "ডুপ্লিকেটমুক্ত ক্রমবদ্ধ আউটপুট" }
+      ],
+      "description": {
+        "en": "Read two lists of space-separated integers on two lines. Print the unique integers present in BOTH lists, ordered by their first appearance in the first list. If they share no common elements, print 'None'.",
+        "bn": "দুটি লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার দুটি লিস্ট ইনপুট নিন। উভয় লিস্টেই আছে এমন স্বতন্ত্র (unique) সংখ্যাগুলো প্রথম লিস্টে তাদের প্রথম উপস্থিতির ক্রম অনুযায়ী প্রিন্ট করুন। কোনো সাধারণ উপাদান না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: first list of integers. Line 2: second list of integers.",
+        "bn": "১ম লাইন: প্রথম লিস্ট। ২য় লাইন: দ্বিতীয় লিস্ট।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated unique common elements in first-list order, or 'None'.",
+        "bn": "প্রথম লিস্টের ক্রমে স্পেস-বিচ্ছিন্ন সাধারণ উপাদান, অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "4 9 5 4 2\n9 4 9 8 4",
+          "output": "4 9",
+          "explanation": {
+            "en": "Both 4 and 9 appear in both lists; 4 appears first in list 1 and is printed only once.",
+            "bn": "4 এবং 9 উভয় লিস্টেই আছে; ১ম লিস্টে 4 আগে থাকায় আউটপুট '4 9'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert the second list to `b_set = set(b)` so checking `x in b_set` takes O(1) instead of O(M).",
+        "bn": "দ্বিতীয় লিস্টকে `b_set = set(b)` করে নিলে `x in b_set` পরীক্ষা মাত্র O(1) সময়ে হয়।"
+      },
+      "hint2": {
+        "en": "Also track `added = set()` so elements repeated in list 1 are included only once.",
+        "bn": "`added = set()` রাখুন যাতে প্রথম লিস্টে কোনো সংখ্যা একাধিকবার থাকলেও ফলাফলে কেবল একবার আসে।"
+      },
+      "logicBreakdown": {
+        "en": "Calling `set(a) & set(b)` finds common values quickly, but destroys order! By keeping `b_set = set(b)` and `added = set()` while scanning `a` left to right, we get both O(N + M) speed and deterministic first-list ordering.",
+        "bn": "সরাসরি `set(a) & set(b)` করলে মূল ক্রম হারিয়ে যায়। এর বদলে `b`-কে সেট বানিয়ে `a`-এর ওপর দিয়ে ক্রমানুসারে ঘুরে `added` সেটে ট্র্যাক করলে O(N + M) সময়েই ক্রমবদ্ধ ও ডুপ্লিকেটমুক্ত উত্তর মেলে।"
+      },
+      "algorithm": [
+        { "en": "Parse lists a and b.", "bn": "লিস্ট a এবং b পড়ুন।" },
+        { "en": "Create b_set = set(b), added = set(), and common = [].", "bn": "b_set = set(b), added = set() এবং common = [] নিন।" },
+        { "en": "For x in a: if x in b_set and x not in added, add x to added and append str(x) to common.", "bn": "a-এর প্রতিটি x যদি b_set-এ থাকে এবং added-এ না থাকে, তবে যোগ করুন।" },
+        { "en": "Print ' '.join(common) if common else 'None'.", "bn": "common খালি না হলে স্পেস দিয়ে প্রিন্ট করুন, নতুবা 'None'।" }
+      ],
+      "solution": "a = [int(x) for x in input().split()]\nb = [int(x) for x in input().split()]\nb_set = set(b)\nadded = set()\ncommon = []\nfor x in a:\n    if x in b_set and x not in added:\n        added.add(x)\n        common.append(str(x))\nprint(\" \".join(common) if common else \"None\")",
+      "codeExplanation": {
+        "en": "b_set enables instant lookup against list b, and added prevents duplicates from list a. Printing 'None' handles disjoint lists cleanly.",
+        "bn": "b_set দ্রুত দ্বিতীয় লিস্টে উপস্থিতি যাচাই করে এবং added প্রথম লিস্টের ডুপ্লিকেট আটকায়। কোনো মিল না থাকলে 'None' প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(N + M)" },
+      "testCases": [
+        { "input": "4 9 5 4 2\n9 4 9 8 4", "expectedOutput": "4 9", "note": { "en": "Preserves list-1 order without duplicates", "bn": "ডুপ্লিকেট ছাড়া ১ম লিস্টের ক্রম" } },
+        { "input": "1 2 3\n4 5 6", "expectedOutput": "None", "note": { "en": "Disjoint lists", "bn": "কোনো সাধারণ উপাদান নেই" } },
+        { "input": "7 7\n7", "expectedOutput": "7", "note": { "en": "Single shared value", "bn": "একটি সাধারণ মান" } }
+      ]
+    },
+    {
+      "id": "P08-16",
+      "number": 16,
+      "title": {
+        "en": "Two-Sum Pair Indices in O(N)",
+        "bn": "O(N) সময়ে টু-সাম (Two-Sum) সূচক জোড়া"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Complement lookup with hash map", "bn": "হ্যাশ ম্যাপ দিয়ে পরিপূরক খোঁজা" },
+        { "en": "O(N) single-pass search", "bn": "এক পাসে O(N) অনুসন্ধান" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers on line 1 and an integer target T on line 2. Find two DISTINCT indices i < j such that nums[i] + nums[j] == T. Print the pair 'i j' (if multiple pairs exist, pick the first pair encountered as j increases left to right). If no valid pair exists, print 'None'.",
+        "bn": "১ম লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা এবং ২য় লাইনে একটি লক্ষ্য যোগফল T ইনপুট নিন। দুটি ভিন্ন সূচক i < j খুঁজুন যেন nums[i] + nums[j] == T হয়। ফলাফল 'i j' আকারে প্রিন্ট করুন (একাধিক জোড়া থাকলে বাম থেকে ডানে পাওয়া প্রথম জোড়াটি দিন)। কোনো জোড়া না মিললে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer target T.",
+        "bn": "১ম লাইন: স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা। ২য় লাইন: লক্ষ্য পূর্ণসংখ্যা T।"
+      },
+      "expectedOutput": {
+        "en": "'i j' (0-based indices) or 'None'.",
+        "bn": "'i j' (০-ভিত্তিক সূচক) অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "2 7 11 15\n9",
+          "output": "0 1",
+          "explanation": {
+            "en": "nums[0] + nums[1] = 2 + 7 = 9.",
+            "bn": "nums[0] + nums[1] = 2 + 7 = 9।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Nested loops check every pair in O(N^2). Instead, for each element x at index j, ask: have we already seen (target - x)?",
+        "bn": "নেস্টেড লুপে O(N^2) সময় লাগে। এর বদলে প্রতিটি উপাদান x-এর জন্য ভাবুন: (target - x) মানটি কি আগে দেখা হয়েছে?"
+      },
+      "hint2": {
+        "en": "Check `if need in seen:` BEFORE inserting `seen[x] = j` so an element is never paired with itself (e.g., target = 6 with single 3)!",
+        "bn": "`seen[x] = j` যোগ করার আগেই `if need in seen:` পরীক্ষা করুন যাতে একই উপাদান নিজের সাথেই জুটি না বাঁধে!"
+      },
+      "logicBreakdown": {
+        "en": "Checking `need = target - x` in a dictionary mapping `value -> earliest index` transforms Two-Sum from O(N^2) to O(N). Crucially, look up `need` BEFORE storing `x` in `seen`—otherwise `x` at `j` could match itself when `2 * x == target`. Also, only store `seen[x] = j` if `x not in seen` so earliest `i` is preserved.",
+        "bn": "আগে দেখা মান ও তার সূচক `seen` ডিকশনারিতে রাখলে প্রতিটি উপাদান x-এর জন্য `need = target - x` মুহূর্তেই খুঁজে পাওয়া যায়। অবশ্যই `seen`-এ `x` যোগ করার আগেই `need` খুঁজতে হবে—নতুবা `target = 6`-এর জন্য একটি `3` নিজের সাথেই মিলে ভুল উত্তর দেবে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and integer target.", "bn": "nums এবং target পড়ুন।" },
+        { "en": "Initialize seen = {} and result = 'None'.", "bn": "seen = {} এবং result = 'None' নিন।" },
+        { "en": "For j, x in enumerate(nums): compute need = target - x.", "bn": "enumerate(nums) দিয়ে j, x নিয়ে need = target - x বের করুন।" },
+        { "en": "If need in seen: set result = f'{seen[need]} {j}' and break; else if x not in seen: seen[x] = j.", "bn": "need যদি seen-এ থাকে তবে সূচক জোড়া নিয়ে break দিন; নতুবা x না থাকলে seen[x] = j রাখুন।" },
+        { "en": "Print result.", "bn": "result প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ntarget = int(input())\nseen = {}\nresult = \"None\"\nfor j, x in enumerate(nums):\n    need = target - x\n    if need in seen:\n        result = f\"{seen[need]} {j}\"\n        break\n    if x not in seen:\n        seen[x] = j\nprint(result)",
+      "codeExplanation": {
+        "en": "As j advances, seen contains only indices strictly < j. Looking up need before inserting guarantees distinct indices i < j. When found, result records the pair and exits immediately.",
+        "bn": "j এগোনোর সময় seen-এ কেবল j-এর আগের উপাদানগুলোই থাকে। তাই need মিললে i < j নিশ্চিত হয় এবং সাথে সাথেই লুপ থামে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "2 7 11 15\n9", "expectedOutput": "0 1", "note": { "en": "Classic first pair", "bn": "শুরুতেই জোড়া" } },
+        { "input": "3 2 4\n6", "expectedOutput": "1 2", "note": { "en": "3 must not pair with itself", "bn": "৩ নিজের সাথে জুটি বাঁধবে না" } },
+        { "input": "3 3\n6", "expectedOutput": "0 1", "note": { "en": "Duplicate values at distinct indices", "bn": "ভিন্ন সূচকে একই মান" } },
+        { "input": "1 4 9\n100", "expectedOutput": "None", "note": { "en": "No valid pair", "bn": "কোনো জোড়া নেই" } }
+      ]
+    },
+    {
+      "id": "P08-17",
+      "number": 17,
+      "title": {
+        "en": "Stable Even-Before-Odd Partition",
+        "bn": "আপেক্ষিক ক্রম ঠিক রেখে জোড়-বিজোড় বিভাজন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Two-bucket stable partitioning", "bn": "দুই-বাকেট স্থিতিশীল বিভাজন" },
+        { "en": "Parity test (x % 2 == 0)", "bn": "জোড়-বিজোড় পরীক্ষা (x % 2 == 0)" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Rearrange the list so that ALL even numbers appear before ALL odd numbers, while strictly preserving the original relative order among evens and among odds. Print the rearranged list separated by spaces.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। জোড় সংখ্যাগুলোর নিজেদের ক্রম এবং বিজোড় সংখ্যাগুলোর নিজেদের ক্রম অক্ষুণ্ণ রেখে সব জোড় সংখ্যাকে সামনে ও সব বিজোড় সংখ্যাকে পেছনে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated integers with evens before odds (stable order).",
+        "bn": "জোড় আগে ও বিজোড় পরে রেখে স্পেস-বিচ্ছিন্ন তালিকা।"
+      },
+      "examples": [
+        {
+          "input": "3 8 5 2 4 1",
+          "output": "8 2 4 3 5 1",
+          "explanation": {
+            "en": "Evens keep relative order [8, 2, 4]; odds keep relative order [3, 5, 1].",
+            "bn": "জোড়গুলো [8, 2, 4] এবং বিজোড়গুলো [3, 5, 1] মূল ক্রমেই আছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Two-pointer swapping from opposite ends moves evens left, but SCRAMBLES the relative order of elements!",
+        "bn": "দুই প্রান্ত থেকে অদলবদল করলে জোড়-বিজোড় আলাদা হয় ঠিকই, কিন্তু সংখ্যার মূল ক্রম নষ্ট হয়ে যায়!"
+      },
+      "hint2": {
+        "en": "Collect into two lists `evens` and `odds` during one pass, then concatenate `evens + odds`.",
+        "bn": "একটি লুপেই `evens` এবং `odds` দুটি লিস্টে আলাদা করে পরে `evens + odds` যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Understanding stability is vital in sorting and partitioning. Two-pointer swaps are unstable (changing relative order of equal-class items). Collecting into separate `evens` and `odds` buckets in a single O(N) scan and joining them preserves exact stability cleanly, including negative integers since `-4 % 2 == 0` in Python.",
+        "bn": "বাস্তব ডেটা প্রসেসিংয়ে 'স্ট্যাবিলিটি' বা মূল ক্রম ধরে রাখা খুবই গুরুত্বপূর্ণ। দুই-পয়েন্টার অদলবদলে ক্রম ভেঙে যায়, কিন্তু `evens` ও `odds` বাকেটে আলাদা করে জুড়ে দিলে O(N) সময়েই নিখুঁত ক্রমবদ্ধ বিভাজন হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Create empty lists evens and odds.", "bn": "খালি লিস্ট evens এবং odds নিন।" },
+        { "en": "For x in nums: append str(x) to evens if x % 2 == 0 else odds.", "bn": "প্রতিটি x জোড় হলে evens-এ নতুবা odds-এ যোগ করুন।" },
+        { "en": "Print ' '.join(evens + odds).", "bn": "' '.join(evens + odds) প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nevens = []\nodds = []\nfor x in nums:\n    if x % 2 == 0:\n        evens.append(str(x))\n    else:\n        odds.append(str(x))\nprint(\" \".join(evens + odds))",
+      "codeExplanation": {
+        "en": "Every number enters either evens or odds in exact input order. Concatenating evens + odds places all even numbers first and all odd numbers after, maintaining stability.",
+        "bn": "প্রতিটি সংখ্যা ইনপুট ক্রম অনুযায়ী evens বা odds-এ যুক্ত হয় এবং শেষে evens + odds জোড়গুলোকে সামনে এনে ক্রম ঠিক রাখে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3 8 5 2 4 1", "expectedOutput": "8 2 4 3 5 1", "note": { "en": "Mixed evens and odds", "bn": "মিশ্র জোড় ও বিজোড়" } },
+        { "input": "-3 0 -4 7", "expectedOutput": "0 -4 -3 7", "note": { "en": "Zero and negative parity", "bn": "শূন্য ও ঋণাত্মক সংখ্যা" } },
+        { "input": "1 3 5", "expectedOutput": "1 3 5", "note": { "en": "All odds", "bn": "সব বিজোড়" } }
+      ]
+    },
+    {
+      "id": "P08-18",
+      "number": 18,
+      "title": {
+        "en": "Majority Element (Boyer-Moore Voting)",
+        "bn": "মেজরিটি উপাদান নির্ণয় (Boyer-Moore ভোটিং)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Boyer-Moore cancellation voting", "bn": "বয়ার-মুর ক্যান্সেলেশন ভোটিং" },
+        { "en": "Candidate verification pass", "bn": "সম্ভাব্য প্রার্থীর যাচাই পাস" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers of length N. A Majority Element is an element that appears STRICTLY more than N // 2 times. Use Boyer-Moore Voting (plus verification) to find and print the majority element in O(1) auxiliary space, or 'None' if no majority exists.",
+        "bn": "N দৈর্ঘ্যের স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন ইনপুট নিন। কোনো উপাদান যদি N // 2 বারের চেয়েও বেশি (strictly > N // 2) উপস্থিত থাকে তবে তাকে মেজরিটি উপাদান বলে। Boyer-Moore ভোটিং এবং যাচাই পাসের মাধ্যমে O(1) অতিরিক্ত মেমোরিতে মেজরিটি উপাদানটি প্রিন্ট করুন, না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The majority integer, or 'None'.",
+        "bn": "মেজরিটি পূর্ণসংখ্যাটি, অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "2 2 1 1 1 2 2",
+          "output": "2",
+          "explanation": {
+            "en": "N = 7; 2 appears 4 times (> 7 // 2 = 3).",
+            "bn": "মোট উপাদান ৭টি; 2 আছে ৪ বার (> ৭ // ২ = ৩)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Pair-cancellation intuition: if a value appears > N/2 times, pairing every different element against it leaves at least one copy of the majority element standing!",
+        "bn": "যদি কোনো সংখ্যা অর্ধেকের বেশি বার থাকে, তবে প্রতিটি ভিন্ন উপাদানের সাথে কাটাকাটি করার পরও অন্তত একটি কপি অবশিষ্ট থাকবে!"
+      },
+      "hint2": {
+        "en": "Always run a SECOND pass counting how many times `candidate` actually appears! Without verification, `[1, 2, 3]` falsely reports `3`!",
+        "bn": "প্রথম পাসে পাওয়া `candidate` সত্যিই > N // 2 বার আছে কি না তা যাচাই করতে অবশ্যই দ্বিতীয় পাস চালান! নতুবা `[1, 2, 3]`-এ ভুল উত্তর দেবে।"
+      },
+      "logicBreakdown": {
+        "en": "Boyer-Moore Voting works in two phases: (1) Election — maintain `candidate` and `count`; when `count == 0`, pick current item as candidate; increment `count` on match, decrement on mismatch. (2) Verification — if a true majority exists, it MUST be `candidate`, because pairs of distinct elements cancel out harmlessly. Counting `candidate`'s actual frequency checks whether > N // 2 holds (handling edge cases like `[1, 2, 3]` or `[1, 1, 2, 2]`).",
+        "bn": "বয়ার-মুর অ্যালগরিদম দুই ধাপে কাজ করে: প্রথম ধাপে `count == 0` হলে নতুন প্রার্থী বেছে নিয়ে মিললে +1 ও না মিললে -1 করে সম্ভাব্য `candidate` বের করা হয়। দ্বিতীয় ধাপে ওই `candidate` আসলেই `> N // 2` বার আছে কি না তা গুনে নিশ্চিত করা হয় (কারণ `[1, 2, 3]`-এ কোনো মেজরিটি নেই)।"
+      },
+      "algorithm": [
+        { "en": "Parse list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Phase 1: initialize candidate = None, count = 0. For x in nums: if count == 0 set candidate = x; count += 1 if x == candidate else -1.", "bn": "ধাপ ১: count == 0 হলে candidate = x ধরুন; x == candidate হলে count += 1 নতুবা -1 করুন।" },
+        { "en": "Phase 2: count occurrences of candidate in nums.", "bn": "ধাপ ২: nums-এ candidate কতবার আছে তা গুনুন।" },
+        { "en": "If actual_count > len(nums) // 2 print candidate, else print 'None'.", "bn": "সংখ্যাটি len(nums) // 2-এর বেশি হলে candidate, নতুবা 'None' প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ncandidate = None\ncount = 0\nfor x in nums:\n    if count == 0:\n        candidate = x\n    count += 1 if x == candidate else -1\n\nactual = 0\nfor x in nums:\n    if x == candidate:\n        actual += 1\n\nprint(candidate if actual > len(nums) // 2 else \"None\")",
+      "codeExplanation": {
+        "en": "Phase 1 eliminates non-majority pairs in O(N) time and O(1) space. Phase 2 confirms whether the surviving candidate strictly exceeds half the list length.",
+        "bn": "প্রথম পাস O(1) মেমোরিতে সম্ভাব্য প্রার্থী নির্ণয় করে এবং দ্বিতীয় পাস নিশ্চিত করে যে তার উপস্থিতি আসলেই মোট উপাদানের অর্ধেকের বেশি কি না।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 2 1 1 1 2 2", "expectedOutput": "2", "note": { "en": "Valid majority 4/7", "bn": "সঠিক মেজরিটি ৪/৭" } },
+        { "input": "1 2 3 4", "expectedOutput": "None", "note": { "en": "No majority element", "bn": "কোনো মেজরিটি নেই" } },
+        { "input": "5 5 6 6", "expectedOutput": "None", "note": { "en": "Exactly N/2 is NOT strict majority", "bn": "সমান অর্ধেক মেজরিটি নয়" } },
+        { "input": "9", "expectedOutput": "9", "note": { "en": "Single element 1 > 0", "bn": "একক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-19",
+      "number": 19,
+      "title": {
+        "en": "Maximum Subarray Sum (Kadane's Algorithm)",
+        "bn": "সর্বোচ্চ সাব-অ্যারে যোগফল (Kadane's Algorithm)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Kadane's dynamic state transition", "bn": "কাদানের ডাইনামিক স্টেট ট্রানজিশন" },
+        { "en": "All-negative array handling", "bn": "সব ঋণাত্মক উপাদান সামলানো" }
+      ],
+      "description": {
+        "en": "Read a non-empty line of space-separated integers (which may include negative values). Find the contiguous non-empty subarray with the largest possible sum using Kadane's Algorithm in O(N) time, and print that maximum sum.",
+        "bn": "খালি-নয় স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার (ঋণাত্মক সংখ্যা থাকতে পারে) একটি লাইন ইনপুট নিন। O(N) সময়ে কাদানের অ্যালগরিদম (Kadane's Algorithm) ব্যবহার করে সর্বাধিক যোগফলবিশিষ্ট অবিচ্ছিন্ন খালি-নয় সাব-অ্যারের যোগফল নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of one or more space-separated integers.",
+        "bn": "এক লাইনে এক বা একাধিক স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "A single integer representing the maximum contiguous subarray sum.",
+        "bn": "সর্বোচ্চ সাব-অ্যারের যোগফল নির্দেশকারী পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "-2 1 -3 4 -1 2 1 -5 4",
+          "output": "6",
+          "explanation": {
+            "en": "The subarray [4, -1, 2, 1] has the largest sum 6.",
+            "bn": "[4, -1, 2, 1] অংশটির যোগফল সর্বোচ্চ: 6।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "At each element x, ask: is it better to extend the previous subarray (current_sum + x), or start fresh right at x?",
+        "bn": "প্রতিটি সংখ্যা x-এ এসে ভাবুন: আগের যোগফলের সাথে x যুক্ত করা (current_sum + x) লাভজনক, নাকি x থেকেই নতুন করে শুরু করা?"
+      },
+      "hint2": {
+        "en": "Initialize both `current_sum` and `best_sum` to `nums[0]` (NEVER 0!), otherwise an all-negative list like `[-5, -2, -8]` wrongly returns 0!",
+        "bn": "`current_sum` এবং `best_sum` উভয়ই `nums[0]` দিয়ে শুরু করুন (০ দিয়ে নয়!), নতুবা সব ঋণাত্মক সংখ্যায় ভুল উত্তর ০ আসবে!"
+      },
+      "logicBreakdown": {
+        "en": "Checking all O(N^2) subarrays is too slow. Kadane's algorithm recognizes that a negative prefix only hurts any future extension: so at index i, the best subarray ending at i is simply `max(nums[i], current_sum + nums[i])`. Initializing with `nums[0]` and scanning `nums[1:]` ensures non-empty subarrays and handles all-negative lists (returning the least negative element) seamlessly.",
+        "bn": "যদি আগের অংশের যোগফল বর্তমান সংখ্যার সাথে যোগ হয়ে নতুন সংখ্যার চেয়েও কমে যায় (অর্থাৎ আগের যোগফল ঋণাত্মক হয়), তবে আগের অংশ বয়ে না নিয়ে বর্তমান সংখ্যা থেকেই নতুন সাব-অ্যারে শুরু করা ভালো। শুরুতে `nums[0]` রাখায় সব সংখ্যা ঋণাত্মক হলেও বৃহত্তম ঋণাত্মক মানটিই উত্তর আসে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums লিস্ট ইনপুট নিন।" },
+        { "en": "Initialize current_sum = nums[0] and best_sum = nums[0].", "bn": "current_sum = nums[0] এবং best_sum = nums[0] নিন।" },
+        { "en": "For x in nums[1:]: set current_sum = max(x, current_sum + x) and best_sum = max(best_sum, current_sum).", "bn": "nums[1:]-এর প্রতিটি x-এর জন্য current_sum = max(x, current_sum + x) এবং best_sum আপডেট করুন।" },
+        { "en": "Print best_sum.", "bn": "best_sum প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\ncurrent_sum = nums[0]\nbest_sum = nums[0]\nfor x in nums[1:]:\n    current_sum = x if x > current_sum + x else current_sum + x\n    if current_sum > best_sum:\n        best_sum = current_sum\nprint(best_sum)",
+      "codeExplanation": {
+        "en": "current_sum holds the best subarray sum ending right at the current element. Whenever extending current_sum yields less than x alone, the subarray resets at x. best_sum tracks the global maximum seen so far.",
+        "bn": "current_sum বর্তমান উপাদানে শেষ হওয়া সেরা যোগফল ধরে রাখে। আগের যোগফল যোগ করে লাভ না হলে x থেকেই নতুন হিসাব শুরু হয়, আর best_sum সর্বকালীন সর্বোচ্চ মান সংরক্ষণ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "-2 1 -3 4 -1 2 1 -5 4", "expectedOutput": "6", "note": { "en": "Classic mixed subarray", "bn": "মিশ্র সংখ্যার সেরা অংশ" } },
+        { "input": "-8 -3 -6 -2 -5", "expectedOutput": "-2", "note": { "en": "All negative edge case", "bn": "সব ঋণাত্মক সংখ্যা" } },
+        { "input": "5 4 -1 7 8", "expectedOutput": "23", "note": { "en": "Entire list is optimal", "bn": "পুরো তালিকাটাই সর্বোচ্চ" } },
+        { "input": "-4", "expectedOutput": "-4", "note": { "en": "Single negative element", "bn": "একটি ঋণাত্মক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P08-20",
+      "number": 20,
+      "title": {
+        "en": "Merge Overlapping Intervals",
+        "bn": "ওভারল্যাপিং ইন্টারভাল (Intervals) একীভূত করা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Sorting pairs by start boundary", "bn": "শুরুর মান অনুযায়ী জোড়া সাজানো" },
+        { "en": "Interval overlap merging", "bn": "ইন্টারভাল ওভারল্যাপ একত্রীকরণ" }
+      ],
+      "description": {
+        "en": "Read an integer N (N >= 1) on line 1, followed by N lines each containing two integers 'start end' (start <= end). Merge all overlapping or touching intervals (e.g., [1, 3] and [3, 6] merge into [1, 6]). Print the resulting merged intervals sorted by start, one per line as 'start end'.",
+        "bn": "১ম লাইনে পূর্ণসংখ্যা N (N >= 1) এবং পরের Nটি লাইনে প্রতিটি 'start end' (start <= end) আকারে একটি করে ইন্টারভাল ইনপুট নিন। একে অপরের ওপর পড়া বা স্পর্শ করা সব ইন্টারভাল একত্রিত করুন (যেমন [1, 3] এবং [3, 6] মিলে হবে [1, 6])। শুরুর মান অনুযায়ী সাজানো চূড়ান্ত ইন্টারভালগুলো প্রতি লাইনে 'start end' আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer N. Next N lines: two space-separated integers start and end.",
+        "bn": "১ম লাইন: N। পরের N লাইনে দুটি পূর্ণসংখ্যা start এবং end।"
+      },
+      "expectedOutput": {
+        "en": "Merged intervals in ascending order, one 'start end' per line.",
+        "bn": "আরোহী ক্রমে একত্রিত ইন্টারভালসমূহ প্রতি লাইনে 'start end' আকারে।"
+      },
+      "examples": [
+        {
+          "input": "4\n1 3\n8 10\n2 6\n15 18",
+          "output": "1 6\n8 10\n15 18",
+          "explanation": {
+            "en": "After sorting by start, [1, 3] overlaps [2, 6] because 2 <= 3, merging into [1, 6].",
+            "bn": "সাজানোর পর [1, 3] এবং [2, 6] ওভারল্যাপ করায় (2 <= 3) মিলে [1, 6] হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "If intervals arrive unsorted, sort them by their start coordinate first so overlapping intervals always sit adjacent!",
+        "bn": "শুরুর মান অনুযায়ী ইন্টারভালগুলো আগে সাজিয়ে নিন যাতে ওভারল্যাপিং জোড়াগুলো পাশাপাশি চলে আসে।"
+      },
+      "hint2": {
+        "en": "If the next interval's start <= merged[-1][1], merge them by setting merged[-1][1] = max(merged[-1][1], next_end) — never overwrite blindly in case the new interval is fully nested inside!",
+        "bn": "পরেরটির start <= আগেরটির end হলে merged[-1][1] = max(merged[-1][1], next_end) করুন (কারণ [1, 10]-এর ভেতরে [2, 5] থাকতে পারে)।"
+      },
+      "logicBreakdown": {
+        "en": "Sorting intervals by `(start, end)` guarantees that we only ever need to compare each interval against the LAST merged interval in `merged[-1]`. Two pitfalls to guard against: (1) forgetting to sort first, and (2) setting `merged[-1][1] = end` instead of `max(merged[-1][1], end)` when a shorter interval `[2, 4]` lies completely inside `[1, 10]`.",
+        "bn": "শুরুর মান অনুযায়ী সাজিয়ে নিলে প্রতিটি নতুন ইন্টারভালকে কেবল সর্বশেষ একীভূত ইন্টারভাল `merged[-1]`-এর সাথে তুলনা করলেই চলে। `max(merged[-1][1], end)` নিতে ভুলবেন না—নতুবা `[1, 10]`-এর সাথে `[2, 4]` মেশালে শেষ সীমানা কমে 4 হয়ে যাবে!"
+      },
+      "algorithm": [
+        { "en": "Read n, then parse n pairs [start, end] into intervals.", "bn": "n পড়ুন এবং nটি [start, end] জোড়া intervals লিস্টে নিন।" },
+        { "en": "Sort intervals ascending by (start, end).", "bn": "intervals-কে (start, end) অনুযায়ী সাজান।" },
+        { "en": "Initialize merged = [intervals[0]].", "bn": "merged = [intervals[0]] নির্ধারণ করুন।" },
+        { "en": "For s, e in intervals[1:]: if s <= merged[-1][1], update merged[-1][1] = max(merged[-1][1], e); else append [s, e].", "bn": "s <= merged[-1][1] হলে শেষ সীমা max দিয়ে বাড়ান, নতুবা নতুন [s, e] যোগ করুন।" },
+        { "en": "Print each merged interval as 'start end'.", "bn": "প্রতিটি ইন্টারভাল 'start end' আকারে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nintervals = []\nfor _ in range(n):\n    s, e = [int(x) for x in input().split()]\n    intervals.append([s, e])\nintervals.sort()\nmerged = [intervals[0]]\nfor s, e in intervals[1:]:\n    if s <= merged[-1][1]:\n        if e > merged[-1][1]:\n            merged[-1][1] = e\n    else:\n        merged.append([s, e])\nfor s, e in merged:\n    print(f\"{s} {e}\")",
+      "codeExplanation": {
+        "en": "intervals.sort() orders tuples/lists lexicographically by start then end. Each subsequent interval either extends merged[-1]'s upper bound when s <= merged[-1][1], or starts a new disjoint interval in merged.",
+        "bn": "intervals.sort() শুরুর মান অনুযায়ী সাজিয়ে দেয়। এরপর প্রতিটি ইন্টারভাল s <= merged[-1][1] হলে আগেরটির সাথে মিশে যায় (বৃহত্তর end নিয়ে), নতুবা নতুন ইন্টারভাল হিসেবে যুক্ত হয়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\n1 3\n8 10\n2 6\n15 18", "expectedOutput": "1 6\n8 10\n15 18", "note": { "en": "Unsorted overlapping intervals", "bn": "অসাজানো ওভারল্যাপিং ইন্টারভাল" } },
+        { "input": "3\n1 10\n2 5\n6 8", "expectedOutput": "1 10", "note": { "en": "Intervals nested inside [1, 10]", "bn": "ভেতরে থাকা ছোট ইন্টারভাল" } },
+        { "input": "2\n1 4\n4 5", "expectedOutput": "1 5", "note": { "en": "Touching boundary intervals", "bn": "সীমানা স্পর্শ করা ইন্টারভাল" } },
+        { "input": "1\n5 9", "expectedOutput": "5 9", "note": { "en": "Single interval", "bn": "একটি মাত্র ইন্টারভাল" } }
+      ]
+    }
+  ]
+}

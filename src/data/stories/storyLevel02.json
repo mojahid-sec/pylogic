@@ -1,0 +1,931 @@
+{
+  "level": "Level 02",
+  "levelNumber": 2,
+  "stories": [
+    {
+      "projectId": "PRJ-06",
+      "previousConnection": {
+        "en": "At the close of Level 01, MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon stood inside the Bogura Polytechnic Institute CST project exhibition room, proudly demonstrating their SQLite-backed inventory and asset ledger from Project 05. A visiting senior alumnus working as a backend engineer at Karatoa EdTech—a growing Bogura-based online learning and quiz platform—stopped by their desk. Impressed by their discipline with ACID transactions, he invited the four CST friends to help solve a frustrating reliability blind spot in Karatoa EdTech's staging APIs.",
+        "bn": "লেভেল ০১-এর শেষ প্রজেক্টে বগুড়া পলিটেকনিক ইনস্টিটিউটের CST প্রজেক্ট প্রদর্শনী কক্ষে মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন যখন তাদের SQLite অ্যাসেট ও ইনভেন্টরি লেজার দেখাচ্ছিল, তখন সেখানে উপস্থিত এক প্রাক্তন শিক্ষার্থী থেমে দাঁড়ালেন। তিনি বগুড়াভিত্তিক একটি অনলাইন কোচিং ও কুইজ প্ল্যাটফর্ম 'করতোয়া এডটেক' (Karatoa EdTech)-এ ব্যাকএন্ড ইঞ্জিনিয়ার হিসেবে কাজ করেন। দলের ACID ট্রানজ্যাকশন দক্ষতা দেখে তিনি চার CST বন্ধুকে তাদের স্টেজিং API-এর এক বিরক্তিকর নির্ভরযোগ্যতা সংকট সমাধানের আমন্ত্রণ জানান।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Every Friday evening at 8:00 PM, hundreds of polytechnic and college students across Rajshahi division logged into Karatoa EdTech for timed mock exams. For weeks, their simple cron-based ping script kept reporting 'ALL SYSTEMS UP' in green text—even on Friday nights when students complained that quiz submission endpoints froze for forty seconds or returned empty white screens. Inside the Bogura Polytechnic CST lab after afternoon classes, MD. MOJAHIDUR RAHMAN SAJID pulled up the staging test logs alongside Sojib, Jihad, and Badhon to investigate why uptime dashboards disagreed with real user experience.",
+          "bn": "প্রতি শুক্রবার রাত আটটায় রাজশাহী বিভাগের শত শত শিক্ষার্থী সময়বদ্ধ মক টেস্ট দিতে করতোয়া এডটেকে লগইন করত। অথচ কয়েক সপ্তাহ ধরে প্ল্যাটফর্মের সাধারণ পিং স্ক্রিপ্ট সবুজ রঙে 'ALL SYSTEMS UP' দেখাচ্ছিল—এমনকি যখন শিক্ষার্থীরা অভিযোগ করছিল যে কুইজ সাবমিশন এন্ডপয়েন্ট চল্লিশ সেকেন্ড আটকে থাকে বা ফাঁকা সাদা স্ক্রিন দেখায়। বিকেলের ক্লাস শেষে বগুড়া পলিটেকনিকের CST ল্যাবে বসে মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধন স্টেজিং লগ খুলে খুঁজতে শুরু করল কেন মনিটরিং ড্যাশবোর্ডের সাথে বাস্তব অভিজ্ঞতা মিলছে না।"
+        },
+        {
+          "en": "Within twenty minutes of inspecting a local replica server, Badhon reproduced the exact failure. Their old monitor only opened a TCP port check or accepted HTTP 200 without reading the body. When Karatoa's quiz API returned an HTTP 500 error JSON or silently changed a key from 'questions' to 'items', the naive script failed to flag the broken contract. Worse, when a local database pool stalled, the check lacked any socket timeout—so the monitoring script itself hung indefinitely instead of recording a timeout failure.",
+          "bn": "লোকাল রেপ্লিকা সার্ভারে বিশ মিনিট পরীক্ষা চালিয়েই বাঁধন মূল ত্রুটিটি ধরে ফেলল। পুরনো মনিটরটি কেবল পোর্ট খোলা আছে কি না দেখত বা বডি না পড়েই HTTP 200 মেনে নিত। করতোয়ার কুইজ API যখন HTTP 500 JSON পাঠাত কিংবা নীরবে রেসপন্সের 'questions' কী বদলে 'items' করে দিত, তখন সরল স্ক্রিপ্টটি সেই ভাঙা কনট্র্যাক্ট ধরতেই পারত না। তার চেয়েও খারাপ ছিল, লোকাল ডেটাবেস পুল আটকে গেলে মনিটরে কোনো টাইমআউট না থাকায় মনিটরিং স্ক্রিপ্ট নিজেই অনির্দিষ্টকাল ঝুলে থাকত।"
+        },
+        {
+          "en": "Jihad also noticed that averaging response times hid the real pain: while 90% of requests completed in 90 milliseconds, the slowest 5% spiked above 2,400 milliseconds during simulated quiz peaks—completely invisible in simple mean calculations. Meanwhile, Sojib pointed out that an automated monitor must stay strictly authorized against localhost or staging targets and mask Bearer tokens so secrets never leak into telemetry logs. Together at their Bogura Polytechnic workbench, the four CST friends committed to engineering a real REST API Monitoring and Reliability Tool capable of bounded retries, JSON schema assertions, P50/P95 SLA math, and reproducible local mock testing.",
+          "bn": "জিহাদ আরও একটি গুরুত্বপূর্ণ দিক ধরল—শুধু গড় রেসপন্স সময় হিসাব করায় প্রকৃত সমস্যা আড়ালে থেকে যাচ্ছে। ৯০% রিকোয়েস্ট ৯০ মিলিসেকেন্ডে শেষ হলেও ব্যস্ত সময়ে ধীরতম ৫% রিকোয়েস্ট ২,৪০০ মিলিসেকেন্ড ছাড়িয়ে যাচ্ছিল, যা সাধারণ গড়ে বোঝা যেত না। সজীব যোগ করল, একটি নির্ভরযোগ্য মনিটর কেবল অনুমোদিত লোকালহোস্ট বা স্টেজিং এন্ডপয়েন্টেই চলবে এবং লগ ফাইলে কখনোই Authorization টোকেন ফাঁস করবে না। বগুড়া পলিটেকনিকের ল্যাবেই চার বন্ধু সিদ্ধান্ত নিল তারা বাউন্ডেড রিট্রাই, JSON স্কিমা যাচাই, P50/P95 SLA হিসাব ও লোকাল মক সার্ভারসহ একটি প্রকৃত REST API মনিটরিং টুল তৈরি করবে।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Reliability Architect", "bn": "টিম লিডার ও রিলায়েবিলিটি আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Designs the probe execution pipeline, defines explicit retry versus fast-fail HTTP policies, and specifies SQLite time-series SLA calculations.",
+            "bn": "প্রোব এক্সিকিউশন পাইপলাইন ডিজাইন করেন, রিট্রাই বনাম ফাস্ট-ফেইল HTTP নীতি নির্ধারণ করেন এবং SQLite SLA হিসাবের কাঠামো সাজান।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Schema Assertions & Security Masking Lead", "bn": "স্কিমা অ্যাসার্শন ও সিকিউরিটি মাস্কিং লিড" },
+          "responsibility": {
+            "en": "Builds JSON contract validation rules for required keys/types and ensures Authorization or API-key headers are always redacted in logs.",
+            "bn": "প্রয়োজনীয় JSON কী ও টাইপ যাচাইয়ের নিয়ম তৈরি করে এবং লগে যেন কোনো API-কী বা Authorization হেডার না আসে তা নিশ্চিত করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Timing & Percentile Analytics Engineer", "bn": "টাইমিং ও পারসেন্টাইল অ্যানালিটিক্স ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements high-resolution monotonic timing with time.perf_counter, computes P50/P95/P99 latency percentiles, and tracks consecutive-failure alert states.",
+            "bn": "time.perf_counter ব্যবহার করে নির্ভুল সময় মাপে, P50/P95/P99 ল্যাটেন্সি পারসেন্টাইল গণনা করে এবং ধারাবাহিক ব্যর্থতার অবস্থা ট্র্যাক করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Mock Server & Flaky-Behavior Tester", "bn": "মক সার্ভার ও ফ্লেকি-টেস্ট ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Builds a controllable localhost http.server mock fixture that simulates slow sleeps, 503 bursts, 400 client errors, and malformed JSON payloads.",
+            "bn": "লোকালহোস্টে নিয়ন্ত্রণযোগ্য http.server মক তৈরি করে যেখানে ইচ্ছাকৃত বিলম্ব, 503 রিট্রাই, 400 ত্রুটি ও ভাঙা JSON পরীক্ষা করা যায়।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Karatoa EdTech — Staging Learning & Quiz Platform (Bogura)",
+          "bn": "করতোয়া এডটেক — স্টেজিং লার্নিং ও কুইজ প্ল্যাটফর্ম (বগুড়া)"
+        },
+        "domain": {
+          "en": "Educational Technology & API Reliability Engineering",
+          "bn": "এডটেক ও API রিলায়েবিলিটি ইঞ্জিনিয়ারিং"
+        },
+        "currentSystem": {
+          "en": "A basic ping/HTTP-status script with infinite socket waits, no JSON payload verification, no retry jitter, and mean-only response metrics.",
+          "bn": "টাইমআউটবিহীন একটি সাধারণ স্ট্যাটাস স্ক্রিপ্ট, যেখানে কোনো JSON কাঠামো যাচাই, রিট্রাই ব্যাকঅফ বা পারসেন্টাইল ল্যাটেন্সি হিসাব নেই।"
+        },
+        "requirementsSummary": {
+          "en": "An authorized localhost/staging API monitor enforcing per-probe timeouts, jittered backoff on idempotent transient errors, JSON contract checks, token redaction, and SLA reporting.",
+          "bn": "অনুমোদিত লোকাল বা স্টেজিং এন্ডপয়েন্টের জন্য কঠোর টাইমআউট, জিটারসহ ব্যাকঅফ রিট্রাই, JSON কনট্র্যাক্ট যাচাই, টোকেন মাস্কিং ও SLA রিপোর্টসমৃদ্ধ মনিটর।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "During mock staging simulations, the team discovered why naive HTTP health checks mislead engineers: a server returning HTTP 200 with malformed HTML instead of JSON passes simple status checks, while retrying a 400 Bad Request wastes time and retrying a non-idempotent POST could duplicate student quiz submissions.",
+          "bn": "লোকাল স্টেজিং সিমুলেশনে দলটি বুঝতে পারল সরল হেলথ-চেক কেন বিভ্রান্ত করে: সার্ভার JSON-এর বদলে ভাঙা HTML পাঠিয়ে HTTP 200 দিলেও সরল চেক তা পাস বলে ধরে, আবার 400 ত্রুটিতে রিট্রাই সময় নষ্ট করে এবং POST রিকোয়েস্ট রিট্রাই করলে একই ডেটা দুবার জমা হতে পারে।"
+        },
+        {
+          "en": "Furthermore, calculating latency with wall-clock time.time() can jump backward or forward during NTP adjustments, skewing millisecond telemetry. Separating transport failures (TimeoutError/URLError), HTTP status errors, and JSON schema contract violations into distinct structured outcomes became essential.",
+          "bn": "তাছাড়া wall-clock time.time() দিয়ে মিলিসেকেন্ড মাপলে সিস্টেম ঘড়ি সমন্বয়ের সময় ভুল মান আসতে পারে। তাই নেটওয়ার্ক টাইমআউট, HTTP স্ট্যাটাস ত্রুটি এবং JSON স্কিমা ভঙ্গ—এই তিনটিকে আলাদা ফলাফল হিসেবে শনাক্ত করা অত্যন্ত জরুরি হয়ে পড়ল।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Mock Server Tester", "bn": "মক সার্ভার টেস্টার" },
+          "line": {
+            "en": "Sajid, in my local test server, when an endpoint sleeps for 5 seconds and our timeout is 1.5 seconds, should the tool wait to retry all 3 times immediately or back off cleanly?",
+            "bn": "সাজিদ, আমার লোকাল টেস্ট সার্ভারে কোনো এন্ডপয়েন্ট ৫ সেকেন্ড আটকে থাকলে এবং আমাদের টাইমআউট ১.৫ সেকেন্ড হলে টুলটি কি সঙ্গে সঙ্গে ৩ বার চেষ্টা করবে নাকি বিরতি নিয়ে?"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Only retry idempotent GET checks on transient failures like 503, 429, or timeouts, and apply exponential backoff with small random jitter so probes never hammer a struggling server simultaneously. On 400 or 404, fail fast immediately.",
+            "bn": "কেবল 503, 429 বা টাইমআউটের মতো অস্থায়ী ত্রুটিতে GET প্রোব রিট্রাই করব, তাও ছোট র‍্যান্ডম জিটারসহ এক্সপোনেনশিয়াল ব্যাকঅফ দিয়ে যেন চাপে থাকা সার্ভারে ঝড় না বয়। তবে 400 বা 404-এ সঙ্গে সঙ্গে ফাস্ট-ফেইল করব।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Timing & Percentile Analyst", "bn": "টাইমিং ও পারসেন্টাইল বিশ্লেষক" },
+          "line": {
+            "en": "I switched all probe timers to time.perf_counter(). Now our SQLite metrics store keeps every sample's exact latency_ms, allowing honest P50 and P95 latency reports alongside SLA uptime percentage.",
+            "bn": "আমি সব প্রোব টাইমারে time.perf_counter() বসিয়েছি। এখন আমাদের SQLite স্টোরে প্রতিটি স্যাম্পলের নিখুঁত latency_ms থাকবে—ফলে আপটাইম শতাংশের সাথে সঠিক P50 ও P95 রিপোর্ট দেওয়া যাবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Schema & Security Lead", "bn": "স্কিমা ও সিকিউরিটি লিড" },
+          "line": {
+            "en": "And before writing any log entry or summary table, my scrubber strips Authorization and X-API-Key header values completely, while my schema assertion confirms every required JSON key and type actually matches the contract.",
+            "bn": "আর কোনো লগ বা সারাংশ লেখার আগেই আমার স্ক্রাবার Authorization ও X-API-Key মান সম্পূর্ণ লুকিয়ে রাখবে এবং স্কিমা যাচাই নিশ্চিত করবে প্রতিটি আবশ্যিক JSON কী ও ডেটা টাইপ ঠিক আছে কি না।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a resilient Python API monitoring CLI backed by an isolated localhost mock test server that reads endpoint specs from JSON, enforces explicit per-request timeouts, applies jittered exponential backoff only on safe transient failures, validates JSON schema contracts, redacts sensitive headers from logs, and persists SQLite metrics to report uptime %, P50/P95 latency, and consecutive-failure alerts.",
+        "bn": "একটি অনুমোদিত লোকালহোস্ট মক সার্ভারসহ নির্ভরযোগ্য পাইথন API মনিটরিং CLI তৈরি করুন, যা JSON কনফিগ থেকে এন্ডপয়েন্ট পড়ে, প্রতিটি রিকোয়েস্টে কঠোর টাইমআউট প্রয়োগ করে, কেবল নিরাপদ অস্থায়ী ত্রুটিতে জিটারসহ ব্যাকঅফ রিট্রাই চালায়, JSON স্কিমা যাচাই করে, লগ থেকে গোপন হেডার মাস্ক করে এবং SQLite-এ সংরক্ষিত ডেটা থেকে আপটাইম %, P50/P95 ও অ্যালার্ট রিপোর্ট দেয়।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Reason through these system-design questions before writing your probe runner or mock HTTP tests.",
+          "bn": "প্রোব রানার বা মক HTTP টেস্ট লেখার আগে এই ডিজাইন প্রশ্নগুলো নিয়ে নিজে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Configuration, Allowlist & Timeouts", "bn": "ধাপ ১ — কনফিগারেশন, অনুমোদন ও টাইমআউট" },
+            "guidingQuestions": [
+              { "en": "Which fields must an endpoint specification carry (URL scheme check, expected HTTP status, required JSON keys, timeout, max retries)?", "bn": "একটি এন্ডপয়েন্ট স্পেসিফিকেশনে কী কী ক্ষেত্র থাকা আবশ্যিক (URL স্কিম, স্ট্যাটাস, JSON কী, টাইমআউট, রিট্রাই)?" },
+              { "en": "Why must every single probe enforce an explicit socket timeout and reject non-HTTP(S) schemes?", "bn": "প্রতিটি প্রোবেই সুস্পষ্ট টাইমআউট ও নিরাপদ URL স্কিম যাচাই বাধ্যতামূলক কেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Retry Policy & Contract Validation", "bn": "ধাপ ২ — রিট্রাই নীতি ও কনট্র্যাক্ট যাচাই" },
+            "guidingQuestions": [
+              { "en": "How do you decide whether an HTTP error (400 vs 503 vs TimeoutError) triggers backoff retry or immediate failure?", "bn": "400, 503 বা টাইমআউটের মধ্যে কোনটি রিট্রাই পাবে আর কোনটি সঙ্গে সঙ্গে ব্যর্থ হবে তা কীভাবে ঠিক করবেন?" },
+              { "en": "When status is 200 OK, what steps verify that the response body is valid JSON matching expected keys and data types?", "bn": "স্ট্যাটাস 200 OK হলেও বডি বৈধ JSON এবং কাঙ্ক্ষিত কী-টাইপসমৃদ্ধ কি না তা কীভাবে পরীক্ষা করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Telemetry Storage & Secret Hygiene", "bn": "ধাপ ৩ — মেট্রিক সংরক্ষণ ও গোপনীয়তা সুরক্ষা" },
+            "guidingQuestions": [
+              { "en": "How should you compute P50 and P95 latencies from stored SQLite probe durations, and how do you redact secrets before saving error logs?", "bn": "সংরক্ষিত সময় থেকে P50 ও P95 কীভাবে হিসাব করবেন এবং ত্রুটির লগে গোপন টোকেন কীভাবে মাস্ক করবেন?" },
+              { "en": "How can a local http.server fixture in tests reproducibly simulate flaky 503 -> 503 -> 200 behavior without internet access?", "bn": "ইন্টারনেট ছাড়াই টেস্টের ভেতর http.server দিয়ে প্রথম দুবার 503 ও তৃতীয়বার 200 রেসপন্স কীভাবে অনুকরণ করবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Distinguish transport timeouts, HTTP error codes, and JSON contract mismatches cleanly in code.", "bn": "নেটওয়ার্ক টাইমআউট, HTTP ত্রুটি ও JSON কনট্র্যাক্ট অমিল স্পষ্টভাবে আলাদা করতে শেখা।" },
+        { "en": "Implement monotonic timing (time.perf_counter), percentile math (P50/P95), and jittered retry policies.", "bn": "time.perf_counter দিয়ে সময় মাপা, পারসেন্টাইল গণনা ও জিটারসহ রিট্রাই নীতি বাস্তবায়ন।" },
+        { "en": "Build deterministic, offline-reproducible test fixtures using Python's local http.server.", "bn": "পাইথনের লোকাল http.server ব্যবহার করে অফলাইনে পুনরুৎপাদনযোগ্য টেস্ট তৈরি।" }
+      ],
+      "testingScenarios": [
+        { "en": "Probe a local test endpoint that sleeps past the configured timeout and verify deterministic TIMEOUT classification.", "bn": "নির্ধারিত টাইমআউটের চেয়ে বেশি দেরি করা লোকাল এন্ডপয়েন্টে TIMEOUT শনাক্ত হয় কি না যাচাই করুন।" },
+        { "en": "Configure the mock server to fail twice with 503 and succeed with 200 on attempt 3; verify retry succeeds cleanly.", "bn": "প্রথম দুবার 503 ও ৩য় বার 200 দেওয়া মক সার্ভারে রিট্রাই সফল হওয়া পরীক্ষা করুন।" },
+        { "en": "Return HTTP 400 Bad Request and confirm the monitor fails fast on attempt 1 with zero retries.", "bn": "HTTP 400 পেলে রিট্রাই না করে প্রথম চেষ্টাতেই ব্যর্থ হয় কি না দেখুন।" },
+        { "en": "Return HTTP 200 with a missing required JSON field and confirm contract assertion flags a schema mismatch while redacting headers in logs.", "bn": "200 OK-এর সাথে আবশ্যিক JSON কী বাদ গেলে স্কিমা ত্রুটি ধরে এবং লগে হেডার মাস্ক থাকে তা যাচাই করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "All network probes enforce explicit timeouts and classify transport, status, and schema failures accurately.", "bn": "সব প্রোব সুস্পষ্ট টাইমআউট মানে এবং নেটওয়ার্ক, স্ট্যাটাস ও স্কিমা ত্রুটি সঠিকভাবে আলাদা করে।" },
+        { "en": "Retries execute with exponential backoff + jitter exclusively for transient idempotent failures.", "bn": "কেবল অস্থায়ী আইডেমপোটেন্ট ত্রুটিতে জিটারসহ এক্সপোনেনশিয়াল ব্যাকঅফ রিট্রাই কাজ করে।" },
+        { "en": "Probe history persists in SQLite and outputs accurate uptime %, P50/P95 latency, and consecutive-failure alerts.", "bn": "ফলাফল SQLite-এ সংরক্ষিত হয়ে সঠিক আপটাইম %, P50/P95 ও ধারাবাহিক ব্যর্থতার অ্যালার্ট দেয়।" },
+        { "en": "Sensitive request headers never appear unmasked in logs, reports, or terminal output.", "bn": "সংবেদনশীল হেডার কখনোই মাস্ক ছাড়া লগ বা রিপোর্টে প্রদর্শিত হয় না।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Sajid's team delivers the modular api_monitor package, an endpoints.example.json template, an offline mock HTTP server suite verifying timeout/retry/schema assertions, and a clean SLA summary generator ready for Karatoa EdTech's staging reviews.",
+        "bn": "সাজিদের দল মডুলার api_monitor প্যাকেজ, endpoints.example.json নমুনা, টাইমআউট-রিট্রাই-স্কিমা যাচাইকারী লোকাল মক টেস্ট স্যুট এবং করতোয়া এডটেকের স্টেজিং পর্যালোচনার উপযোগী একটি পরিচ্ছন্ন SLA রিপোর্ট জেনারেটর প্রস্তুত করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "The team discovered that real reliability engineering goes far beyond checking whether a port opens—it requires strict timeouts, smart retry boundaries, schema verification, and tail-latency percentiles.",
+          "bn": "দলটি শিখল প্রকৃত রিলায়েবিলিটি ইঞ্জিনিয়ারিং মানে শুধু পোর্ট খোলা দেখা নয়—বরং কঠোর টাইমআউট, বুদ্ধিদীপ্ত রিট্রাই সীমা, স্কিমা যাচাই ও P95 ল্যাটেন্সি বিশ্লেষণ।"
+        },
+        "bridgeToNext": {
+          "en": "While verifying Karatoa EdTech's staging endpoints, Sojib noticed something alarming on their old admin test routes: accounts were using weak hashes and missing ownership checks—setting up Project 07 immediately.",
+          "bn": "করতোয়া এডটেকের স্টেজিং এন্ডপয়েন্ট পরীক্ষা করার সময় সজীব পুরনো অ্যাডমিন টেস্ট রুটে ভয়াবহ এক দুর্বলতা লক্ষ করল: অ্যাকাউন্টগুলোতে দুর্বল হ্যাশ ও মালিকানা যাচাইয়ের ঘাটতি রয়েছে—যা তাদের নিয়ে গেল প্রজেক্ট ০৭-এ।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-07",
+      "previousConnection": {
+        "en": "While testing Karatoa EdTech's staging APIs with their new reliability monitor in Project 06, MD. MOJAHIDUR RAHMAN SAJID and Sojib spotted an alarming security gap inside a legacy staging test module: passwords were stored with plain SHA-256 without salts, failed login attempts were never throttled, and an editor user could modify another student's draft notes simply by changing an integer ID.",
+        "bn": "প্রজেক্ট ০৬-এ করতোয়া এডটেকের স্টেজিং API পরীক্ষা করার সময় মোঃ মোজাহিদুর রহমান সাজিদ ও সজীব পুরনো একটি টেস্ট মডিউলে বড় ধরনের নিরাপত্তা ফাঁক খুঁজে পেল: পাসওয়ার্ড সল্ট ছাড়াই সাধারণ SHA-256-এ রাখা ছিল, ভুল লগইনে কোনো সীমা ছিল না এবং শুধু একটি আইডি নম্বর বদলেই এক ব্যবহারকারী অন্যজনের প্রাইভেট নোট পরিবর্তন করতে পারত।"
+      },
+      "storyNarrative": [
+        {
+          "en": "The Monday after discovering those flaws, Karatoa EdTech's engineering lead asked the Bogura Polytechnic CST team to treat authentication and access control as a clean, from-scratch engineering challenge for the platform's upcoming internal portal. Sitting in CST Lab-01 during a quiet break between lectures, MD. MOJAHIDUR RAHMAN SAJID wrote three rules across the whiteboard: never store plaintext or fast-hashed passwords, never store raw session tokens inside the database, and never trust a role badge without verifying resource ownership.",
+          "bn": "দুর্বলতাগুলো ধরা পড়ার পরের সোমবারই করতোয়া এডটেকের লিড ইঞ্জিনিয়ার বগুড়া পলিটেকনিকের CST দলকে আসন্ন ইন্টারনাল পোর্টালের জন্য শূন্য থেকে একটি নিরাপদ অথেনটিকেশন ও অ্যাক্সেস কন্ট্রোল মডিউল ডিজাইন করার দায়িত্ব দিলেন। ক্লাসের বিরতিতে CST ল্যাব-০১-এ বসে মোঃ মোজাহিদুর রহমান সাজিদ হোয়াইটবোর্ডে তিনটি মূল নিয়ম লিখলেন: কখনোই দুর্বল বা সল্টহীন পাসওয়ার্ড রাখা যাবে না, ডেটাবেসে আসল সেশন টোকেন রাখা যাবে না এবং কেবল রোলের ওপর নির্ভর করে অবজেক্ট মালিকানা যাচাই বাদ দেওয়া যাবে না।"
+        },
+        {
+          "en": "Jihad stepped through how attackers exploit sloppy auth designs. When two students accidentally choose the same password and the database uses unsalted hashes, both rows produce the exact same digest—instantly revealing shared passwords. Even worse, using Python's regular '==' string check leaks subtle timing clues, and storing raw bearer tokens in SQLite means a single read-only backup leak compromises every logged-in session.",
+          "bn": "জিহাদ ব্যাখ্যা করল অসতর্ক অথেনটিকেশন ডিজাইন কীভাবে আক্রমণের সুযোগ তৈরি করে। সল্ট না থাকলে দুই শিক্ষার্থী একই পাসওয়ার্ড দিলে ডেটাবেসে হুবহু একই হ্যাশ তৈরি হয়। তাছাড়া সাধারণ '==' দিয়ে টোকেন বা ডাইজেস্ট মেলালে টাইমিং সাইড-চ্যানেলের ঝুঁকি থাকে, আর ডেটাবেসে সরাসরি সেশন টোকেন রাখলে রিড-ওনলি ব্যাকআপ ফাঁস হওয়ার সাথে সাথেই সব সক্রিয় সেশন হাইজ্যাক হতে পারে।"
+        },
+        {
+          "en": "Badhon then pointed out a subtle Denial-of-Service trap in lockout code: if a system runs expensive 100,000-iteration PBKDF2 hashing before checking whether an account is already locked out, automated login floods can freeze the CPU. Meanwhile, Sojib mapped out a clean RBAC plus Object-Level Ownership matrix for 'viewer', 'editor', and 'admin' roles so no editor can tamper with another user's records (IDOR defense). That week, the four friends built the Secure Authentication and Access Management System.",
+          "bn": "এরপর বাঁধন লকআউট কোডের এক সূক্ষ্ম DoS ফাঁদ দেখাল: অ্যাকাউন্ট আগেই লক করা আছে কি না তা না দেখে যদি প্রোগ্রাম প্রথমেই ১,০০,০০০ ইটারেশনের ভারী PBKDF2 হ্যাশিং চালায়, তবে স্বয়ংক্রিয় ব্রুট-ফোর্স রিকোয়েস্টেই সার্ভারের CPU আটকে যাবে। সজীব 'viewer', 'editor' ও 'admin' রোলের জন্য RBAC এবং অবজেক্ট-মালিকানা নীতি (IDOR প্রতিরোধ) সাজাল। সেই সপ্তাহেই চার বন্ধু মিলে নিরাপদ অথেনটিকেশন ও অ্যাক্সেস ম্যানেজমেন্ট সিস্টেম গড়ে তুলল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Auth Security Architect", "bn": "টিম লিডার ও অথ সিকিউরিটি আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Defines the end-to-end authentication pipeline, PHC-style PBKDF2 storage specification, generic error rules, and SQLite audit schema.",
+            "bn": "সম্পূর্ণ অথেনটিকেশন পাইপলাইন, PHC-ধাঁচের PBKDF2 ফরম্যাট, অভিন্ন ত্রুটি বার্তা ও SQLite অডিট স্কিমা নির্ধারণ করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "RBAC & IDOR Policy Developer", "bn": "RBAC ও IDOR নীতি ডেভেলপার" },
+          "responsibility": {
+            "en": "Implements default-deny Role-Based Access Control alongside object-owner checks so editors can never access or mutate another user's private resources.",
+            "bn": "ডিফল্ট-ডিনাই RBAC ও রিসোর্স-মালিকানা যাচাই তৈরি করে যাতে কোনো এডিটর অন্যের প্রাইভেট ডেটা পরিবর্তন করতে না পারে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Cryptography & Session Lifecycle Engineer", "bn": "ক্রিপ্টোগ্রাফি ও সেশন ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements secrets-based 16-byte random salts, constant-time hmac.compare_digest verification, and hashed-at-rest session tokens with expiry and revocation.",
+            "bn": "secrets দিয়ে ১৬-বাইট র‍্যান্ডম সল্ট, hmac.compare_digest তুলনা এবং মেয়াদ ও রিভোকেশনসহ হ্যাশড সেশন টোকেন বাস্তবায়ন করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Lockout & Security Adversarial Tester", "bn": "লকআউট ও সিকিউরিটি টেস্ট ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Writes automated tests proving lockout executes prior to PBKDF2 computation, identical passwords yield unique hashes, expired tokens fail, and IDOR attempts are denied.",
+            "bn": "PBKDF2-এর আগেই লকআউট কার্যকর হওয়া, ইউনিক সল্ট, মেয়াদোত্তীর্ণ টোকেন বাতিল এবং IDOR প্রতিরোধ যাচাইয়ের টেস্ট তৈরি করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Karatoa EdTech — Internal Portal Auth Core",
+          "bn": "করতোয়া এডটেক — ইন্টারনাল পোর্টাল অথ কোর"
+        },
+        "domain": {
+          "en": "Application Security & Access Management",
+          "bn": "অ্যাপ্লিকেশন সিকিউরিটি ও অ্যাক্সেস ম্যানেজমেন্ট"
+        },
+        "currentSystem": {
+          "en": "Unsalted password hashes, raw session IDs in tables, unlimited brute-force retries, username-revealing login errors, and missing ownership validation.",
+          "bn": "সল্টবিহীন হ্যাশ, ডেটাবেসে কাঁচা সেশন টোকেন, সীমাহীন ভুল লগইনের সুযোগ, ইউজারনেম ফাঁস করা ত্রুটি বার্তা ও মালিকানা যাচাইয়ের অভাব।"
+        },
+        "requirementsSummary": {
+          "en": "A defensive Python auth & RBAC core using secrets + PBKDF2-HMAC-SHA256 (>=100,000 iterations), lockout-before-hash guards, SHA-256 hashed session tokens, audit events, and default-deny RBAC + ownership.",
+          "bn": "secrets ও PBKDF2-HMAC-SHA256, হ্যাশিংয়ের আগে লকআউট গার্ড, ডেটাবেসে হ্যাশড সেশন টোকেন, অডিট ইভেন্ট এবং ডিফল্ট-ডিনাই RBAC + মালিকানাসমৃদ্ধ অথ কোর।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Inspecting legacy code taught the team two subtle security traps. First, returning 'User does not exist' vs 'Incorrect password' lets attackers enumerate valid accounts automatically—every login failure must return the same generic error while writing the real reason only to the private audit table.",
+          "bn": "পুরনো কোড যাচাই করে দলটি দুটি সূক্ষ্ম নিরাপত্তা ফাঁদ বুঝতে পারল। প্রথমত, 'ইউজার নেই' বনাম 'ভুল পাসওয়ার্ড'—এমন ভিন্ন বার্তা দিলে আক্রমণকারীরা বৈধ ইউজারনেম তালিকা বের করে ফেলে; তাই ব্যবহারকারীকে অভিন্ন বার্তা দিয়ে প্রকৃত কারণ কেবল প্রাইভেট অডিট টেবিলে লিখতে হয়।"
+        },
+        {
+          "en": "Second, authentication without authorization is only half a lock. Even a properly authenticated 'editor' account must be blocked from altering resources owned by another user unless explicitly granted 'admin' rights—preventing Broken Object Level Authorization (BOLA/IDOR).",
+          "bn": "দ্বিতীয়ত, শুধু অথেনটিকেশন যথেষ্ট নয়। বৈধভাবে লগইন করা একজন 'editor' যেন অন্য কোনো ব্যবহারকারীর প্রাইভেট রিসোর্স পরিবর্তন করতে না পারে (BOLA/IDOR প্রতিরোধ), সেজন্য প্রতিটি অ্যাকশনে রোল ও মালিকানা উভয়ই পরীক্ষা করা আবশ্যক।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Cryptography & Session Engineer", "bn": "ক্রিপ্টোগ্রাফি ও সেশন ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "When a user logs in, we give them the random URL-safe bearer token once, but in SQLite we store only hashlib.sha256(token) and never log the raw secret.",
+            "bn": "ব্যবহারকারী লগইন করলে কেবল একবার র‍্যান্ডম টোকেনটি রিটার্ন করব, কিন্তু SQLite-এ সংরক্ষণ করব তার SHA-256 হ্যাশ—এবং কখনোই লগে আসল টোকেন বা পাসওয়ার্ড লিখব না।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Lockout & Security Tester", "bn": "লকআউট ও সিকিউরিটি টেস্টার" },
+          "line": {
+            "en": "And let's make sure we check 'locked_until > now' right after fetching the user row—before running PBKDF2—so an attacker hammering a locked account cannot drain CPU cycles.",
+            "bn": "আর ইউজারের সারি পাওয়ার পরপরই PBKDF2 চালানোর আগেই 'locked_until > now' পরীক্ষা করতে হবে, যেন লক থাকা অ্যাকাউন্টে আক্রমণ চালিয়ে সার্ভারের CPU নষ্ট করা না যায়।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "RBAC & IDOR Policy Developer", "bn": "RBAC ও IDOR নীতি ডেভেলপার" },
+          "line": {
+            "en": "For permissions, my PolicyEngine defaults to deny everything unless the action matches the user's role AND, for non-admin mutations, resource.owner_id == current_user.id.",
+            "bn": "পারমিশনের ক্ষেত্রে আমার PolicyEngine ডিফল্টভাবে সব আটকে দেবে—কেবল অনুমোদিত রোল এবং এডিটরের ক্ষেত্রে resource.owner_id == current_user.id মিললেই অনুমতি মিলবে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Also remember: zero hardcoded fallback admin passwords in the repository, and every hash comparison uses hmac.compare_digest. Clean security invariants start with clean defaults.",
+            "bn": "আরেকটি বিষয়—কোডের কোথাও কোনো হার্ডকোডেড অ্যাডমিন পাসওয়ার্ড থাকবে না, আর প্রতিটি হ্যাশ তুলনায় hmac.compare_digest ব্যবহার করতে হবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Architect and test a Python authentication and authorization core using standard-library cryptography (secrets, hashlib.pbkdf2_hmac, hmac) with per-user salted hashes, lockout-before-KDF protection, hashed-at-rest expiring/revocable sessions, audit logging, and default-deny RBAC + object-ownership checks.",
+        "bn": "পাইথন স্ট্যান্ডার্ড লাইব্রেরি (secrets, hashlib.pbkdf2_hmac, hmac) ব্যবহার করে প্রতি-ব্যবহারকারী সল্টেড হ্যাশ, KDF-পূর্ব লকআউট সুরক্ষা, ডেটাবেসে হ্যাশড ও বাতিলযোগ্য সেশন টোকেন, অডিট লগ এবং ডিফল্ট-ডিনাই RBAC + মালিকানা যাচাইসমৃদ্ধ একটি নিরাপদ অথেনটিকেশন কোর তৈরি ও পরীক্ষা করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Think carefully through the exact security ordering of every authentication and authorization decision before coding.",
+          "bn": "কোড লেখার আগে প্রতিটি অথেনটিকেশন ও অথরাইজেশন ধাপের সঠিক নিরাপত্তা ক্রম নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Password Storage & Salt Generation", "bn": "ধাপ ১ — পাসওয়ার্ড সংরক্ষণ ও সল্ট তৈরি" },
+            "guidingQuestions": [
+              { "en": "Why must random salts come from secrets.token_bytes rather than Python's random module, and why must every user get a fresh salt?", "bn": "সল্টের জন্য random-এর বদলে secrets.token_bytes কেন ব্যবহার করতে হয় এবং প্রতি ব্যবহারকারীর আলাদা সল্ট কেন প্রয়োজন?" },
+              { "en": "How should you encode algorithm, iteration count, salt, and derived digest inside a single self-describing PHC-style string?", "bn": "অ্যালগরিদম, ইটারেশন সংখ্যা, সল্ট ও হ্যাশ কীভাবে একটি একক স্ট্রিংয়ে সংরক্ষণ করবেন যাতে ভবিষ্যতে ইটারেশন বাড়ানো যায়?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Ordered Login Pipeline & Lockout", "bn": "ধাপ ২ — লগইন পাইপলাইন ও লকআউট ক্রম" },
+            "guidingQuestions": [
+              { "en": "In what exact order should your login function run: password policy/input check, user lookup, lockout timestamp check, PBKDF2 verification, session creation?", "bn": "ইনপুট যাচাই, ইউজার খোঁজা, লকআউট পরীক্ষা, PBKDF2 মিলানো ও সেশন তৈরির সঠিক ক্রম কী হওয়া উচিত?" },
+              { "en": "How do you implement exponential cooldowns after consecutive failures and reset counters cleanly upon legitimate login?", "bn": "ধারাবাহিক ব্যর্থতায় এক্সপোনেনশিয়াল কুলডাউন ও সফল লগইনের পর কাউন্টার রিসেট কীভাবে পরিচালনা করবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Sessions, Revocation & RBAC + IDOR", "bn": "ধাপ ৩ — সেশন, রিভোকেশন এবং RBAC ও IDOR" },
+            "guidingQuestions": [
+              { "en": "What checks must pass for a bearer token to authenticate a request (hash match, not revoked, not expired)?", "bn": "একটি সেশন টোকেন বৈধ ধরতে কী কী শর্ত যাচাই করতে হবে (হ্যাশ মিল, বাতিল নয়, মেয়াদ উত্তীর্ণ নয়)?" },
+              { "en": "How do you structure PolicyEngine rules so role permissions AND resource ownership both gate sensitive edits?", "bn": "PolicyEngine-এ রোল ও অবজেক্ট-মালিকানা—উভয় শর্ত কীভাবে একসাথে যাচাই করবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Apply cryptographic key derivation (PBKDF2-HMAC-SHA256) and constant-time comparison properly.", "bn": "PBKDF2-HMAC-SHA256 ও কনস্ট্যান্ট-টাইম তুলনার সঠিক ব্যবহার আয়ত্ত করা।" },
+        { "en": "Design hashed-at-rest bearer sessions with expiration and single/global revocation.", "bn": "মেয়াদ ও বাতিল সুবিধাসহ ডেটাবেসে হ্যাশড সেশন টোকেন ডিজাইন।" },
+        { "en": "Implement default-deny RBAC paired with object-level ownership enforcement against IDOR.", "bn": "IDOR রোধে ডিফল্ট-ডিনাই RBAC ও অবজেক্ট-মালিকানা যাচাই বাস্তবায়ন।" }
+      ],
+      "testingScenarios": [
+        { "en": "Register two users with the exact same password and confirm their stored PBKDF2 hashes are completely different.", "bn": "একই পাসওয়ার্ডে দুই ব্যবহারকারী নিবন্ধন করে নিশ্চিত করুন তাদের সংরক্ষিত হ্যাশ সম্পূর্ণ আলাদা।" },
+        { "en": "Trigger account lockout via repeated bad passwords, then verify even the right password fails BEFORE running PBKDF2 during cooldown.", "bn": "বারবার ভুল পাসওয়ার্ডে লকআউট ঘটিয়ে দেখুন কুলডাউন চলাকালে সঠিক পাসওয়ার্ডও PBKDF2-এর আগেই প্রত্যাখ্যাত হয় কি না।" },
+        { "en": "Verify expired or revoked session tokens fail authentication even when the database row exists.", "bn": "মেয়াদোত্তীর্ণ বা রিভোক করা সেশন টোকেন বাতিল হয় কি না পরীক্ষা করুন।" },
+        { "en": "Simulate Editor A attempting to update Editor B's private resource and assert authorization is denied (IDOR check).", "bn": "এডিটর A কর্তৃক এডিটর B-র প্রাইভেট রিসোর্স পরিবর্তনের চেষ্টা প্রত্যাখ্যাত হয় কি না পরীক্ষা করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Passwords use unique 16-byte secrets salts and >=100,000 PBKDF2-HMAC-SHA256 iterations with hmac.compare_digest.", "bn": "পাসওয়ার্ডে ১৬-বাইট secrets সল্ট, ১,০০,০০০+ PBKDF2 ইটারেশন ও hmac.compare_digest ব্যবহৃত হবে।" },
+        { "en": "Login always checks lockout state prior to KDF verification and returns uniform non-enumerating errors.", "bn": "লগইন সর্বদা KDF-এর আগেই লকআউট দেখে ও ইউজারনেম ফাঁস না করে অভিন্ন ত্রুটি বার্তা দেয়।" },
+        { "en": "SQLite stores only SHA-256 digests of session tokens and enforces expiry + logout revocation.", "bn": "SQLite কেবল সেশন টোকেনের SHA-256 হ্যাশ রাখে এবং মেয়াদ ও রিভোকেশন কার্যকর করে।" },
+        { "en": "Default-deny RBAC + object-ownership rules block cross-user IDOR edits cleanly.", "bn": "ডিফল্ট-ডিনাই RBAC ও মালিকানা নীতি সব IDOR প্রচেষ্টা আটকে দেয়।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team delivers the modular auth_manager package (password policy, hashing, lockout, sessions, RBAC, store), security test suites covering IDOR and lockout DoS safety, and an OWASP-aligned threat model document.",
+        "bn": "CST দলটি মডুলার auth_manager প্যাকেজ, IDOR ও লকআউট নিরাপত্তা যাচাইকারী ইউনিট টেস্ট স্যুট এবং OWASP-অনুযায়ী হুমকি ও প্রতিরক্ষা নথি সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They learned that secure authentication is a chain of invariants—one missing check such as raw token storage, non-constant comparison, or missing object ownership undermines everything else.",
+          "bn": "তারা শিখল নিরাপদ অথেনটিকেশন একাধিক শর্তের সমন্বিত শৃঙ্খল—একটি ধাপে দুর্বলতা থাকলে পুরো সিস্টেম ঝুঁকিতে পড়ে।"
+        },
+        "bridgeToNext": {
+          "en": "Just as Karatoa EdTech prepared to deploy the new API monitor and auth core onto two Ubuntu Linux VPS nodes, their staging server froze overnight due to a silent disk-full crash—sparking Project 08.",
+          "bn": "করতোয়া এডটেক যখন নতুন মনিটর ও অথ কোর দুটি Ubuntu লিনাক্স VPS-এ চালানোর প্রস্তুতি নিচ্ছিল, ঠিক তখনই রাতের বেলা ডিস্ক পূর্ণ হয়ে একটি স্টেজিং সার্ভার হঠাৎ থেমে গেল—যার ফলে শুরু হলো প্রজেক্ট ০৮।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-08",
+      "previousConnection": {
+        "en": "After building the API reliability monitor (PRJ-06) and hardened auth core (PRJ-07), Karatoa EdTech deployed both prototypes onto two small Linux staging VPS nodes. Everything ran smoothly until Saturday morning, when the auth database refused new writes: an uncaught log growth filled the root disk to 100%, and nobody had visibility into host CPU, memory pressure, or disk saturation.",
+        "bn": "প্রজেক্ট ০৬-এর API মনিটর ও প্রজেক্ট ০৭-এর নিরাপদ অথ কোর দুটি ছোট লিনাক্স স্টেজিং VPS-এ তোলার পর সব ভালোই চলছিল—কিন্তু শনিবার সকালে হঠাৎ ডেটাবেস নতুন লেখা নিতে অস্বীকার করল। কারণ, অজান্তেই ডিস্ক ১০০% ভরে গিয়েছিল, অথচ সার্ভারের CPU, মেমরি বা ডিস্ক পর্যবেক্ষণের কোনো লোকাল হেলথ এজেন্ট ছিল না।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Inside Bogura Polytechnic Institute's networking and OS practice room, MD. MOJAHIDUR RAHMAN SAJID opened the terminal snapshot sent by Karatoa EdTech's operations volunteer. The server had not suffered a cyberattack; it had quietly exhausted disk space and memory headroom until SQLite threw I/O errors. Sojib looked at the free-memory output and asked why Linux 'MemFree' looked tiny while the system was still healthy—opening a fascinating hands-on Linux internals discussion.",
+          "bn": "বগুড়া পলিটেকনিক ইনস্টিটিউটের নেটওয়ার্কিং ও OS প্র্যাকটিস রুমে বসে মোঃ মোজাহিদুর রহমান সাজিদ করতোয়া এডটেকের অপারেশনস ভলান্টিয়ারের পাঠানো টার্মিনাল স্ন্যাপশট খুললেন। কোনো সাইবার হামলা নয়, বরং ডিস্ক স্পেস ও মেমরি ধীরে ধীরে শেষ হয়ে যাওয়ায় SQLite I/O ত্রুটি দিয়েছে। সজীব মেমরি আউটপুট দেখে জানতে চাইল সিস্টেম ঠিক থাকা সত্ত্বেও লিনাক্সে 'MemFree' এত কম দেখায় কেন—যা থেকে শুরু হলো লিনাক্স ইন্টারনালস নিয়ে চমৎকার আলোচনা।"
+        },
+        {
+          "en": "Jihad pulled up the Linux kernel '/proc/meminfo' structure on the lab screen and showed why 'MemFree' ignores reclaimable disk cache, whereas 'MemAvailable' reveals true usable memory for applications. Badhon reminded everyone that their monitor must also work safely on Windows laptops during college lab work—so parsing '/proc' text files should sit behind clean testable pure functions with graceful cross-platform fallbacks.",
+          "bn": "জিহাদ ল্যাবের স্ক্রিনে লিনাক্স কার্নেলের '/proc/meminfo' কাঠামো দেখিয়ে বুঝিয়ে দিল 'MemFree' পুনর্ব্যবহারযোগ্য ডিস্ক ক্যাশ বাদ দিয়ে দেখায়, অথচ 'MemAvailable' অ্যাপ্লিকেশনের জন্য প্রকৃত সহজলভ্য মেমরির হিসাব দেয়। বাঁধন মনে করিয়ে দিল কলেজ ল্যাবে উইন্ডোজ কম্পিউটারেও তাদের কোড পরীক্ষা করতে হবে—তাই '/proc' পার্সিংকে বিশুদ্ধ ফাংশন ও ক্রস-প্ল্যাটফর্ম ফলব্যাকের মাধ্যমে আলাদা রাখতে হবে।"
+        },
+        {
+          "en": "Even more importantly, Sajid recalled a classic ops mistake: naive monitoring scripts alert every single minute when CPU hovers between 79% and 81%, creating noisy 'alert flapping', or write unbounded telemetry logs that fill up the very disk they monitor! The four CST teammates designed an Automated Server Health Monitoring Tool featuring pure '/proc' parsers, local service port heartbeats, persistent cooldown/hysteresis state, and capped JSONL telemetry rotation.",
+          "bn": "সবচেয়ে গুরুত্বপূর্ণ বিষয়টি তুললেন সাজিদ: CPU ব্যবহার ৭৯% থেকে ৮১%-এর মধ্যে ওঠানামা করলে সরল স্ক্রিপ্ট প্রতি মিনিটে শত শত অ্যালার্ট পাঠিয়ে অ্যাডমিনকে বিভ্রান্ত করে ('অ্যালার্ট ফ্ল্যাপিং'), অথবা মনিটর নিজেই বিশাল লগ লিখে ডিস্ক ভরে ফেলে! চার বন্ধু মিলে নির্ভেজাল '/proc' পার্সার, লোকাল পোর্ট হার্টবিট, পারসিস্টেন্ট কুলডাউন ও সাইজ-নিয়ন্ত্রিত JSONL লগ রোটেশনসহ একটি স্বয়ংক্রিয় সার্ভার হেলথ মনিটরিং টুল ডিজাইন করল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Host Telemetry Architect", "bn": "টিম লিডার ও হোস্ট টেলিমেট্রি আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Separates host metric collectors, stateless policy evaluation, and persistent cooldown tracking, enforcing zero shell=True execution.",
+            "bn": "হোস্ট মেট্রিক কালেক্টর, স্টেটলেস পলিসি মূল্যায়ন ও পারসিস্টেন্ট কুলডাউন ট্র্যাকার আলাদা করেন এবং shell=True নিষিদ্ধ রাখেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Policy Threshold & Local Heartbeat Lead", "bn": "পলিসি থ্রেশহোল্ড ও লোকাল হার্টবিট লিড" },
+          "responsibility": {
+            "en": "Builds JSON threshold evaluator (Warning vs Critical) and safe 127.0.0.1 TCP port heartbeat checks for local service availability.",
+            "bn": "Warning ও Critical থ্রেশহোল্ড মূল্যায়ন এবং লোকাল সার্ভিস সক্রিয়তা দেখতে নিরাপদ 127.0.0.1 পোর্ট হার্টবিট চেক তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Linux /proc & Cross-Platform Collector Engineer", "bn": "লিনাক্স /proc ও ক্রস-প্ল্যাটফর্ম কালেক্টর ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements /proc/meminfo and /proc/loadavg pure parsers with shutil.disk_usage and clean non-Linux fallbacks.",
+            "bn": "shutil.disk_usage সহ /proc/meminfo ও /proc/loadavg-এর পিওর পার্সার এবং ক্রস-প্ল্যাটফর্ম নিরাপদ ফলব্যাক তৈরি করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Cooldown State & Log Rotation Tester", "bn": "কুলডাউন স্টেট ও লগ রোটেশন টেস্টার" },
+          "responsibility": {
+            "en": "Creates /proc fixture suites and verifies alert cooldown suppression, RESOLVED recovery transitions, and bounded telemetry log size.",
+            "bn": "/proc ফিক্সচার টেস্ট তৈরি করে কুলডাউন সাপ্রেশন, RESOLVED রিকভারি এবং লগ সাইজ নিয়ন্ত্রণ যাচাই করে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Karatoa EdTech — Local & Staging Linux VPS Nodes",
+          "bn": "করতোয়া এডটেক — লোকাল ও স্টেজিং লিনাক্স VPS নোড"
+        },
+        "domain": {
+          "en": "Systems Telemetry & Operations Automation",
+          "bn": "সিস্টেমস টেলিমেট্রি ও অপারেশনস অটোমেশন"
+        },
+        "currentSystem": {
+          "en": "Manual SSH checks of 'df -h' and 'free -m' only after services crash from disk saturation or memory exhaustion.",
+          "bn": "ডিস্ক বা মেমরি শেষ হয়ে সার্ভিস বন্ধ হওয়ার পর কেবল ম্যানুয়ালি 'df -h' ও 'free -m' চালিয়ে অবস্থা দেখা।"
+        },
+        "requirementsSummary": {
+          "en": "A lightweight local host-health agent sampling CPU load, MemAvailable, disk usage, and 127.0.0.1 service ports with persistent alert cooldowns, recovery states, and bounded JSONL metrics.",
+          "bn": "CPU লোড, MemAvailable, ডিস্ক ব্যবহার ও 127.0.0.1 পোর্ট হার্টবিট সংগ্রহ, পারসিস্টেন্ট অ্যালার্ট কুলডাউন, রিকভারি স্টেট ও সীমিত JSONL লগসমৃদ্ধ হেলথ এজেন্ট।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Running subprocess shell commands like 'df -h | grep ...' with shell=True introduces fragile locale formatting bugs and command injection risks. Pure Python stdlib calls (shutil.disk_usage) and direct '/proc' file parsing avoid subprocess overhead completely.",
+          "bn": "shell=True দিয়ে বাহ্যিক শেল কমান্ড চালালে লোকেল ফরম্যাটিংয়ের ভুল এবং কমান্ড ইনজেকশনের ঝুঁকি থাকে। সরাসরি shutil.disk_usage ও '/proc' ফাইল পড়া অনেক বেশি নিরাপদ ও নির্ভরযোগ্য।"
+        },
+        {
+          "en": "Furthermore, alert state stored only in RAM vanishes whenever a cron-triggered script exits. Persisting '(status, last_alert_ts)' inside alert_state.json guarantees cooldown suppression survives restarts and cleanly emits RESOLVED once health returns.",
+          "bn": "তাছাড়া অ্যালার্টের অবস্থা কেবল RAM-এ রাখলে স্ক্রিপ্ট বন্ধ হলেই হারিয়ে যায়। alert_state.json-এ অবস্থা সংরক্ষণ করলে রিস্টার্টের পরও কুলডাউন বজায় থাকে এবং সুস্থ হলে RESOLVED বার্তা দেওয়া যায়।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Collector Engineer", "bn": "কালেক্টর ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "When parsing /proc/meminfo, we specifically read MemTotal and MemAvailable in kB—never MemFree alone—and compute used percentage cleanly.",
+            "bn": "/proc/meminfo পার্স করার সময় আমরা কখনোই শুধু MemFree নয়, বরং MemTotal ও MemAvailable পড়ে প্রকৃত ব্যবহৃত মেমরি শতাংশ হিসাব করব।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Cooldown & Fixture Tester", "bn": "কুলডাউন ও ফিক্সচার টেস্টার" },
+          "line": {
+            "en": "Because proc_parser takes raw text lines as input, my unit tests can verify Linux memory math using sample fixture files even when run on Windows!",
+            "bn": "proc_parser সরাসরি টেক্সট লাইন ইনপুট নেওয়ায় আমি উইন্ডোজ ল্যাপটপে বসেই স্যাম্পল ফিক্সচার দিয়ে লিনাক্স মেমরি পার্সিং টেস্ট করতে পারব!"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Policy & Heartbeat Lead", "bn": "পলিসি ও হার্টবিট লিড" },
+          "line": {
+            "en": "If disk usage crosses 85% Warning and stays at 86% for ten minutes, alert_state.json ensures we don't fire ten noisy warnings—only one alert per cooldown window, plus a clear RESOLVED notice when it drops safely.",
+            "bn": "ডিস্ক ব্যবহার ৮৫% Warning পার হয়ে ১০ মিনিট ৮৬%-এ থাকলে alert_state.json নিশ্চিত করবে যেন ১০ বার অ্যালার্ট না যায়—কুলডাউন সময়ে একবারই সতর্কতা যাবে এবং নিচে নামলে RESOLVED দেখাবে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "And let's cap or rotate metrics.jsonl so our monitoring agent never becomes the reason a disk hits 100%.",
+            "bn": "আর metrics.jsonl-এর আকার সীমিত ও রোটেট করার ব্যবস্থা রাখতে হবে যাতে আমাদের মনিটর নিজেই ডিস্ক পূর্ণ না করে ফেলে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Develop a cross-platform Python host-health monitor that safely samples disk usage, Linux /proc memory/load metrics (with graceful fallbacks), and local 127.0.0.1 service port heartbeats, evaluates Warning/Critical JSON policies, suppresses alert flapping via persistent cooldowns, and writes bounded JSONL telemetry.",
+        "bn": "একটি ক্রস-প্ল্যাটফর্ম পাইথন হোস্ট হেলথ মনিটর তৈরি করুন যা নিরাপদে ডিস্ক, লিনাক্স /proc মেমরি/লোড ও 127.0.0.1 সার্ভিস পোর্ট সংগ্রহ করে, Warning/Critical নীতি যাচাই করে, পারসিস্টেন্ট কুলডাউনে অ্যালার্ট ফ্ল্যাপিং থামায় এবং সীমিত JSONL টেলিমেট্রি সংরক্ষণ করে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Examine how metric collection, threshold logic, and persistent alert state interact before writing code.",
+          "bn": "কোড লেখার আগে মেট্রিক সংগ্রহ, থ্রেশহোল্ড ও পারসিস্টেন্ট অ্যালার্ট স্টেটের সম্পর্ক বুঝে নিন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Safe Metric Collection", "bn": "ধাপ ১ — নিরাপদ মেট্রিক সংগ্রহ" },
+            "guidingQuestions": [
+              { "en": "How do you collect disk percentage safely via standard library APIs, and how do you parse /proc/meminfo without calling shell subprocesses?", "bn": "শেল কমান্ড ছাড়াই স্ট্যান্ডার্ড লাইব্রেরি দিয়ে ডিস্ক শতাংশ এবং /proc/meminfo থেকে মেমরি কীভাবে সংগ্রহ করবেন?" },
+              { "en": "What fallback snapshot should run if the tool executes on a non-Linux laptop?", "bn": "লিনাক্স নয় এমন ল্যাপটপে প্রোগ্রাম চললে কোন নিরাপদ ফলব্যাক পদ্ধতি নেবে?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Policy Evaluation & Hysteresis", "bn": "ধাপ ২ — পলিসি মূল্যায়ন ও হিস্টেরেসিস" },
+            "guidingQuestions": [
+              { "en": "How do Warning and Critical thresholds map a numeric sample to OK, WARN, or CRIT states?", "bn": "Warning ও Critical সীমা থেকে একটি সংখ্যাসূচক মানকে কীভাবে OK, WARN বা CRIT-এ রূপান্তর করবেন?" },
+              { "en": "What happens in alert_state.json when a metric transitions OK -> WARN -> WARN (within cooldown) -> OK?", "bn": "OK -> WARN -> WARN (কুলডাউনের ভেতরে) -> OK পরিবর্তনে alert_state.json-এ কী কী রেকর্ড হবে?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Bounded Storage & Testing", "bn": "ধাপ ৩ — লগ সীমা ও টেস্টিং" },
+            "guidingQuestions": [
+              { "en": "How do you rotate or cap metrics.jsonl so telemetry logs never exhaust disk space?", "bn": "টেলিমেট্রি লগ যেন নিজেই ডিস্ক ভরে না ফেলে সেজন্য কী রোটেশন নিয়ম রাখবেন?" },
+              { "en": "How can pure functions over fixture strings test corrupted or missing /proc lines cleanly?", "bn": "ফিক্সচার স্ট্রিং দিয়ে বিকৃত বা অসম্পূর্ণ /proc লাইন কীভাবে ইউনিট টেস্টে পরীক্ষা করবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Understand Linux /proc telemetry semantics (MemAvailable vs MemFree, loadavg) safely.", "bn": "লিনাক্স /proc টেলিমেট্রি (MemAvailable বনাম MemFree, loadavg) নিরাপদে বোঝা ও পার্স করা।" },
+        { "en": "Build stateful alert deduplication and recovery tracking that persists across restarts.", "bn": "রিস্টার্টের পরও টিকে থাকা স্টেটফুল অ্যালার্ট কুলডাউন ও রিকভারি ট্র্যাকিং তৈরি।" },
+        { "en": "Avoid unsafe shell=True calls through pure standard-library OS inspection.", "bn": "shell=True এড়িয়ে নিরাপদ স্ট্যান্ডার্ড লাইব্রেরি দিয়ে OS পর্যবেক্ষণ।" }
+      ],
+      "testingScenarios": [
+        { "en": "Parse sample /proc/meminfo fixture strings and confirm accurate MemAvailable percentage math.", "bn": "নমুনা /proc/meminfo ফিক্সচার পার্স করে নির্ভুল MemAvailable শতাংশ হিসাব যাচাই করুন।" },
+        { "en": "Simulate consecutive Critical breaches inside cooldown window and verify duplicate alerts are suppressed.", "bn": "কুলডাউন সময়ের মধ্যে একাধিকবার Critical সীমা অতিক্রম করলেও ডুপ্লিকেট অ্যালার্ট বন্ধ থাকে তা পরীক্ষা করুন।" },
+        { "en": "Return metric below threshold after an alert and verify a RESOLVED state transition emits cleanly.", "bn": "অ্যালার্টের পর মান স্বাভাবিক হলে RESOLVED স্টেট আসে কি না দেখুন।" },
+        { "en": "Feed a truncated / malformed fixture file and verify graceful fallback warning without crashing.", "bn": "অসম্পূর্ণ বা ভাঙা ফিক্সচার দিলে ক্র্যাশ না করে নিরাপদ সতর্কবার্তা আসে কি না পরীক্ষা করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Zero shell=True subprocess invocations; disk, /proc, and local 127.0.0.1 checks use stdlib safely.", "bn": "কোথাও shell=True নেই; ডিস্ক, /proc ও 127.0.0.1 চেক সম্পূর্ণ স্ট্যান্ডার্ড লাইব্রেরিতে চলে।" },
+        { "en": "Alert tracker persists cooldown timestamps across runs and emits RESOLVED upon healthy recovery.", "bn": "অ্যালার্ট ট্র্যাকার কুলডাউন সময় সংরক্ষণ করে এবং সুস্থ হলে RESOLVED দেখায়।" },
+        { "en": "Telemetry log file implements size capping or rotation to prevent self-inflicted disk exhaustion.", "bn": "টেলিমেট্রি লগে সাইজ সীমা বা রোটেশন থাকে যেন মনিটর নিজেই ডিস্ক না ভরে।" },
+        { "en": "Unit tests verify /proc parsing, policy thresholds, and cooldown suppression cross-platform.", "bn": "সব প্ল্যাটফর্মে ফিক্সচার টেস্ট দিয়ে /proc পার্সিং ও কুলডাউন যাচাইকৃত।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "Sajid's team ships server_health_monitor with policy.example.json, fixture-tested /proc parsers, persistent alert_state.json cooldown handling, and bounded JSONL metrics.",
+        "bn": "সাজিদের দল policy.example.json, ফিক্সচার-পরীক্ষিত /proc পার্সার, পারসিস্টেন্ট কুলডাউন ব্যবস্থাপনা ও সীমিত JSONL লগসহ server_health_monitor সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "The friends realized good ops tooling is quiet when healthy, loud once when broken, self-limiting on disk usage, and testable offline on any machine.",
+          "bn": "বন্ধুরা উপলব্ধি করল ভালো অপস টুল সুস্থ অবস্থায় নীরব থাকে, সমস্যায় একবার স্পষ্ট সতর্কতা দেয়, নিজের ডিস্ক খরচ নিয়ন্ত্রণে রাখে এবং অফলাইন ফিক্সচারে সহজে টেস্ট করা যায়।"
+        },
+        "bridgeToNext": {
+          "en": "Right after inspecting the disk alert from that staging incident, Badhon opened the 450 MB error log file that had filled the disk—only to discover thousands of multi-line Python tracebacks impossible to read by hand, launching Project 09.",
+          "bn": "সেই স্টেজিং বিভ্রাটের ডিস্ক সতর্কতা দেখার পর বাঁধন যখন ৪৫০ মেগাবাইটের যে লগ ফাইলটি ডিস্ক ভরে দিয়েছিল তা খুলল, ভেতরে ছড়িয়ে থাকা হাজার হাজার মাল্টি-লাইন পাইথন ট্রেসব্যাক চোখে পড়ল—যা থেকেই শুরু হলো প্রজেক্ট ০৯।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-09",
+      "previousConnection": {
+        "en": "Investigating the giant log file discovered during Project 08's disk-full incident at Karatoa EdTech, Badhon tried reading the 450 MB 'app_mixed.log' in a quick script using '.readlines()'. His laptop immediately froze from RAM exhaustion, showing MD. MOJAHIDUR RAHMAN SAJID, Sojib, and Jihad why naive log readers fail during real outages.",
+        "bn": "প্রজেক্ট ০৮-এর ডিস্ক-পূর্ণ হওয়ার ঘটনায় পাওয়া ৪৫০ মেগাবাইটের 'app_mixed.log' ফাইলটি বাঁধন যখন সাধারণ '.readlines()' স্ক্রিপ্টে খুলতে গেল, তখনই তার ল্যাপটপের RAM ভরে গিয়ে হ্যাং হয়ে গেল। এই অভিজ্ঞতা থেকে মোঃ মোজাহিদুর রহমান সাজিদ, সজীব ও জিহাদ বুঝল বাস্তব বিভ্রাটে সাধারণ লগ রিডার কেন ব্যর্থ হয়।"
+      },
+      "storyNarrative": [
+        {
+          "en": "On Sunday afternoon inside the Bogura Polytechnic CST lab, MD. MOJAHIDUR RAHMAN SAJID challenged the team to build a triage engine that could tear through multi-hundred-megabyte logs using nearly flat memory. Looking closely at sanitized samples of Karatoa EdTech's mixed plaintext and JSONL logs, Sojib noticed two big obstacles: first, Python exceptions spanned ten to twenty indented lines starting with 'Traceback (most recent call last):', and second, identical bugs appeared as hundreds of separate entries simply because every line contained a different student ID or request UUID.",
+          "bn": "রোববার বিকেলে বগুড়া পলিটেকনিকের CST ল্যাবে মোঃ মোজাহিদুর রহমান সাজিদ দলকে চ্যালেঞ্জ দিলেন এমন একটি বিশ্লেষণ ইঞ্জিন বানাতে যা নামমাত্র মেমরি ব্যবহার করেই শত শত মেগাবাইট লগ পড়তে পারবে। করতোয়া এডটেকের প্লেইনটেক্সট ও JSONL নমুনা লগ দেখে সজীব দুটি বড় বাধা চিহ্নিত করল: প্রথমত, পাইথনের প্রতিটি ট্রেসব্যাক ১০–২০ লাইন জুড়ে ছড়ানো থাকে; দ্বিতীয়ত, প্রতিটি লাইনে আলাদা শিক্ষার্থী আইডি বা UUID থাকায় হুবহু একই বাগ শত শত আলাদা ত্রুটি হিসেবে দেখাচ্ছে।"
+        },
+        {
+          "en": "Jihad stepped in with Python's generator pipeline design and regular expression normalization. By streaming one line at a time with 'yield', keeping only the currently assembling traceback buffer in memory, and flushing the final buffered traceback at End-Of-File (EOF), RAM usage stayed tiny regardless of file size. Then normalizing numbers, UUIDs, and timestamps into '<ID>' collapsed 1,400 noisy tracebacks down into 4 clear root-cause signatures.",
+          "bn": "জিহাদ পাইথন জেনারেটর পাইপলাইন ও রেজেক্স নরমালাইজেশনের সমাধান আনল। একবারে একটি লাইন স্ট্রিম করে শুধু চলমান ট্রেসব্যাক বাফারটি মেমরিতে রাখা এবং ফাইল শেষে (EOF) শেষ বাফারটি ফ্লাশ করায় ফাইলের আকার যত বড়ই হোক RAM ব্যবহার থাকল প্রায় স্থির। আর সংখ্যা, UUID ও টাইমস্ট্যাম্পকে '<ID>' দিয়ে বদলে দেওয়ায় ১,৪০০ এলোমেলো ট্রেসব্যাক মাত্র ৪টি স্পষ্ট মূল ত্রুটিতে নেমে এল।"
+        },
+        {
+          "en": "Before they finalized the architecture, Badhon spotted two critical security traps while reviewing sample log lines: accidental 'Bearer ...' tokens appeared inside request dump lines, and a user-controlled username field containing newline characters could attempt Log Forging (CWE-117), while a badly written nested regex risked ReDoS CPU freezes. The four CST friends built a disciplined four-stage Application Error and Log Analysis Platform with secret scrubbing, ReDoS-safe patterns, and five-minute spike bucketing.",
+          "bn": "আর্কিটেকচার চূড়ান্ত করার আগে বাঁধন নমুনা লগে দুটি বড় নিরাপত্তা ঝুঁকি ধরল: কিছু রিকোয়েস্ট ডাম্পে দুর্ঘটনাবশত 'Bearer ...' টোকেন চলে এসেছে, এবং ইউজারনেমের ভেতর নকল নিউলাইন ঢুকিয়ে লগ ফর্জিং (CWE-117) বা ভুল রেজেক্সে ReDoS-এর মাধ্যমে CPU আটকে যাওয়ার আশঙ্কা আছে। চার বন্ধু মিলে সিক্রেট রিড্যাকশন, নিরাপদ রেজেক্স এবং ৫-মিনিটের স্পাইক বাকেটিংসহ একটি পরিচ্ছন্ন অ্যাপ্লিকেশন ত্রুটি ও লগ বিশ্লেষণ প্ল্যাটফর্ম তৈরি করল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Streaming Pipeline Architect", "bn": "টিম লিডার ও স্ট্রিমিং পাইপলাইন আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Designs the O(1)-memory generator pipeline linking line streaming, multi-line traceback assembly, redaction, and aggregation without .readlines().",
+            "bn": ".readlines() ছাড়াই লাইন স্ট্রিমিং, মাল্টি-লাইন ট্রেসব্যাক গঠন, রিড্যাকশন ও অ্যাগ্রিগেশন যুক্তকারী মেমরি-সাশ্রয়ী পাইপলাইন ডিজাইন করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Traceback State-Machine & JSONL Parser", "bn": "ট্রেসব্যাক স্টেট-মেশিন ও JSONL পার্সার" },
+          "responsibility": {
+            "en": "Handles dual-format parsing across timestamped plaintext logs and JSONL lines, ensuring the final traceback buffer flushes cleanly at EOF.",
+            "bn": "প্লেইনটেক্সট ও JSONL উভয় লগ ফরম্যাট পার্স করে এবং ফাইলের শেষে (EOF) অবশিষ্ট ট্রেসব্যাক বাফার ফ্লাশ নিশ্চিত করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Signature Normalization & Spike Analyst", "bn": "সিগনেচার নরমালাইজেশন ও স্পাইক বিশ্লেষক" },
+          "responsibility": {
+            "en": "Implements ReDoS-safe regex normalizers replacing dynamic IDs/UUIDs, ranks top-K errors with heapq/Counter, and groups events into 5-minute time buckets.",
+            "bn": "ReDoS-নিরাপদ রেজেক্স দিয়ে ডায়নামিক আইডি `<ID>`-তে রূপান্তর করে, শীর্ষ-K ত্রুটি র‍্যাংক করে এবং ৫-মিনিটের স্পাইক নির্ণয় করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Secret Scrubber & Boundary Tester", "bn": "সিক্রেট স্ক্রাবার ও বাউন্ডারি টেস্টার" },
+          "responsibility": {
+            "en": "Implements credential/token redaction before output and writes automated tests covering EOF flushing, signature grouping, and malformed lines.",
+            "bn": "রিপোর্টের আগে টোকেন ও পাসওয়ার্ড মাস্ক করে এবং EOF ফ্লাশ, সিগনেচার গ্রুপিং ও ভাঙা লাইন নিয়ে অটোমেটেড টেস্ট লেখে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "Karatoa EdTech — Weekend Outage Forensics Archive",
+          "bn": "করতোয়া এডটেক — উইকেন্ড আউটেজ ফরেনসিক আর্কাইভ"
+        },
+        "domain": {
+          "en": "Observability, Log Processing & Incident Triage",
+          "bn": "অবজারভেবিলিটি, লগ প্রসেসিং ও ইনসিডেন্ট ট্রায়াজ"
+        },
+        "currentSystem": {
+          "en": "Developers loading multi-hundred-MB logs into editors or .readlines() scripts, losing sight of root exceptions behind dynamic IDs and risking accidental secret leaks.",
+          "bn": "বড় লগ ফাইল .readlines() দিয়ে খুলে RAM ভরে ফেলা, ডায়নামিক আইডির ভিড়ে মূল বাগ হারানো ও লগে গোপন টোকেন ছড়িয়ে পড়া।"
+        },
+        "requirementsSummary": {
+          "en": "A bounded-memory generator CLI supporting JSONL and plaintext logs, EOF-safe multi-line Python traceback grouping, dynamic token normalization, secret scrubbing, and 5-minute error spike reporting.",
+          "bn": "সীমিত মেমরির জেনারেটর CLI যা JSONL ও প্লেইনটেক্সট লগ পড়ে, EOF-নিরাপদ মাল্টি-লাইন ট্রেসব্যাক একত্র করে, ডায়নামিক টোকেন `<ID>`-তে বদলায়, সিক্রেট মাস্ক করে এবং ৫-মিনিটের স্পাইক দেখায়।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "During testing, Badhon caught a classic multi-line parser bug: if a Python traceback sits at the very end of the file with no following timestamped line to signal 'next record started', the parser forgets to yield the last error unless an explicit flush runs after the file loop finishes.",
+          "bn": "পরীক্ষার সময় বাঁধন একটি ধ্রুপদি বাগ ধরে ফেলল: ফাইলের একেবারে শেষ লাইনে কোনো ট্রেসব্যাক থাকলে পরের টাইমস্ট্যাম্প না আসায় লুপ শেষে আলাদা ফ্লাশ না করলে শেষ ত্রুটিটি হারিয়ে যায়।"
+        },
+        {
+          "en": "Meanwhile, testing regex patterns against abnormally long attacker strings showed why nested quantifiers can cause catastrophic backtracking (ReDoS). Replacing ambiguous wildcards with bounded character classes kept parsing linear and fast.",
+          "bn": "অন্যদিকে অস্বাভাবিক দীর্ঘ ইনপুটে রেজেক্স চালাতে গিয়ে দেখা গেল নেস্টেড কোয়ান্টিফায়ার ReDoS সৃষ্টি করে CPU আটকে দেয়—তাই সীমাবদ্ধ ক্যারেক্টার ক্লাস ব্যবহার করে পার্সিং গতি নিশ্চিত করা হলো।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Traceback & JSONL Parser", "bn": "ট্রেসব্যাক ও JSONL পার্সার" },
+          "line": {
+            "en": "When a line starts with a new ISO timestamp or JSON brace, my generator yields the previous accumulated traceback buffer first—and right after the for-line loop ends, it flushes whatever remains in the buffer.",
+            "bn": "নতুন টাইমস্ট্যাম্প বা JSON লাইন পেলেই জেনারেটর আগের জমা হওয়া ট্রেসব্যাকটি yield করবে—আর ফাইল পড়া শেষ হওয়ার সাথে সাথেই শেষ বাফারটি ফ্লাশ করবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Signature & Spike Analyst", "bn": "সিগনেচার ও স্পাইক বিশ্লেষক" },
+          "line": {
+            "en": "Once 'KeyError: user_id 9182' and 'KeyError: user_id 4401' both normalize to 'KeyError: user_id <ID>', Counter immediately tells us one single bug caused 68% of the outage.",
+            "bn": "'KeyError: user_id 9182' ও '4401' উভয়ই 'KeyError: user_id <ID>' হলেই Counter সঙ্গে সঙ্গে দেখিয়ে দেয় একটিমাত্র বাগ থেকেই ৬৮% বিভ্রাট ঘটেছে।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Secret Scrubber & Tester", "bn": "সিক্রেট স্ক্রাবার ও টেস্টার" },
+          "line": {
+            "en": "And my scrubber runs before any snippet hits the summary JSON or Markdown report, masking 'Bearer ...', 'password=...', and email strings automatically.",
+            "bn": "আর কোনো স্নিপেট JSON বা মার্কডাউন রিপোর্টে যাওয়ার আগেই আমার স্ক্রাবার স্বয়ংক্রিয়ভাবে Bearer টোকেন, পাসওয়ার্ড ও ইমেইল মাস্ক করে দেবে।"
+          }
+        },
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Zero .read() or .readlines() anywhere in the codebase. Every stage streams cleanly, and malformed lines log a safe skipped counter instead of aborting the whole analysis.",
+            "bn": "কোডের কোথাও .read() বা .readlines() থাকবে না। প্রতিটি ধাপ স্ট্রিম করে চলবে এবং ভুল লাইনে প্রোগ্রাম বন্ধ না হয়ে নিরাপদভাবে স্কিপ কাউন্টার দেখাবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a streaming Python log-triage CLI that reads plaintext and JSONL logs line-by-line with O(1) file-buffer memory, stitches multi-line Python tracebacks (including EOF flushes), normalizes dynamic identifiers into stable error signatures, redacts secrets, ranks top recurring failures, and detects 5-minute error spikes.",
+        "bn": "একটি স্ট্রিমিং পাইথন লগ বিশ্লেষণ CLI তৈরি করুন যা প্লেইনটেক্সট ও JSONL লগ মেমরি-সাশ্রয়ী উপায়ে লাইন-বাই-লাইন পড়ে, EOF ফ্লাশসহ মাল্টি-লাইন ট্রেসব্যাক একত্র করে, ডায়নামিক আইডি স্বাভাবিক করে, গোপন তথ্য মাস্ক করে, শীর্ষ ত্রুটি র‍্যাংক করে এবং ৫-মিনিটের স্পাইক শনাক্ত করে।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Walk through streaming state machines, normalization accuracy, and regex safety before writing code.",
+          "bn": "কোড লেখার আগে স্ট্রিমিং স্টেট মেশিন, নরমালাইজেশন ও রেজেক্স নিরাপত্তা নিয়ে চিন্তা করুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Generator Streaming & Multi-Line Assembly", "bn": "ধাপ ১ — জেনারেটর স্ট্রিমিং ও মাল্টি-লাইন গঠন" },
+            "guidingQuestions": [
+              { "en": "How do you distinguish the start of a new log record from continuation lines belonging to a Python traceback?", "bn": "নতুন লগ রেকর্ডের শুরু এবং ট্রেসব্যাকের ধারাবাহিক লাইন কীভাবে আলাদা করবেন?" },
+              { "en": "Why is an explicit post-loop flush required at EOF, and how do you skip malformed lines safely?", "bn": "ফাইল শেষে আলাদা ফ্লাশ কেন জরুরি এবং ত্রুটিপূর্ণ লাইনে ক্র্যাশ না করে কীভাবে এগোবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Error Normalization & Secret Redaction", "bn": "ধাপ ২ — ত্রুটি স্বাভাবিকীকরণ ও সিক্রেট রিড্যাকশন" },
+            "guidingQuestions": [
+              { "en": "Which dynamic tokens (UUIDs, numeric IDs, timestamps, IP addresses) fragment identical bugs if left unnormalized?", "bn": "কোন ডায়নামিক অংশগুলো (UUID, সংখ্যা, টাইমস্ট্যাম্প) বাদ না দিলে একই ত্রুটি বহু ভাগে ভেঙে যায়?" },
+              { "en": "How do you design regex rules that redact secrets safely without suffering ReDoS on huge strings?", "bn": "দীর্ঘ স্ট্রিংয়ে ReDoS না ঘটিয়ে নিরাপদে সিক্রেট মাস্ক করার রেজেক্স কীভাবে লিখবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Top-K Ranking & Time Bucketing", "bn": "ধাপ ৩ — শীর্ষ-K র‍্যাংকিং ও টাইম বাকেটিং" },
+            "guidingQuestions": [
+              { "en": "How can integer division over epoch timestamps group error counts into clean 5-minute intervals?", "bn": "ইপক টাইমস্ট্যাম্পে পূর্ণসংখ্যার ভাগ দিয়ে কীভাবে ৫-মিনিটের ব্যবধান তৈরি করবেন?" },
+              { "en": "Why should you pass sanitized sample logs through severity filters and unit tests before declaring triage complete?", "bn": "তীব্রতা ফিল্টার ও EOF/রিড্যাকশন ইউনিট টেস্ট যাচাই করা কেন অপরিহার্য?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Engineer memory-bounded streaming generator pipelines over multi-hundred-MB text files.", "bn": "মেমরি-সাশ্রয়ী জেনারেটর স্ট্রিমিং পাইপলাইন তৈরি।" },
+        { "en": "Implement stateful multi-line traceback assembly, dynamic token normalization, and EOF buffer flushing.", "bn": "মাল্টি-লাইন ট্রেসব্যাক গঠন, সিগনেচার নরমালাইজেশন ও EOF ফ্লাশিং।" },
+        { "en": "Apply ReDoS-safe regex hygiene, secret redaction, and Log Forging awareness.", "bn": "ReDoS-নিরাপদ রেজেক্স, সিক্রেট মাস্কিং ও লগ ফর্জিং সচেতনতা অর্জন।" }
+      ],
+      "testingScenarios": [
+        { "en": "Feed two KeyError tracebacks with different numeric user IDs and confirm they collapse into one signature with count=2.", "bn": "ভিন্ন ইউজার আইডিসহ দুটি KeyError ট্রেসব্যাক একত্র হয়ে count=2 হয় কি না পরীক্ষা করুন।" },
+        { "en": "Place a multi-line traceback at the exact end of the test file and verify EOF flushing counts it accurately.", "bn": "ফাইলের একদম শেষের ট্রেসব্যাকটিও EOF ফ্লাশে গণনা হয় কি না যাচাই করুন।" },
+        { "en": "Include lines containing 'Authorization: Bearer secret123' and 'password=mysecret' and verify complete redaction in reports.", "bn": "Bearer টোকেন ও password থাকা লাইন রিপোর্টে সম্পূর্ণ মাস্ক হয় কি না দেখুন।" },
+        { "en": "Mix broken/non-JSON lines into a JSONL log and confirm malformed lines are tallied gracefully without aborting.", "bn": "JSONL লগে ভাঙা লাইন মিশিয়ে দেখুন প্রোগ্রাম বন্ধ না হয়ে নিরাপদে এগোয় কি না।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "Logs stream incrementally via Python generators with zero .read() or .readlines() calls.", "bn": ".read() বা .readlines() ছাড়াই জেনারেটর দিয়ে লগ স্ট্রিমিং চলে।" },
+        { "en": "Multi-line tracebacks across plaintext and JSONL collapse accurately, including trailing EOF tracebacks.", "bn": "প্লেইনটেক্সট ও JSONL-এর মাল্টি-লাইন ও EOF ট্রেসব্যাক নিখুঁতভাবে একত্র হয়।" },
+        { "en": "Dynamic IDs normalize into shared error signatures ranked with 5-minute time-bucket spikes.", "bn": "ডায়নামিক আইডি স্বাভাবিক হয়ে শীর্ষ ত্রুটি ও ৫-মিনিটের স্পাইক রিপোর্ট তৈরি হয়।" },
+        { "en": "Secret patterns are scrubbed before any output is saved or printed.", "bn": "আউটপুটের আগেই সব সংবেদনশীল তথ্য মাস্ক করা হয়।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The team packages log_analyzer with generator streaming, EOF-tested traceback assembly, ReDoS-safe normalizers, credential scrubbing, and synthetic mixed sample logs.",
+        "bn": "দলটি জেনারেটর স্ট্রিমিং, EOF-পরীক্ষিত ট্রেসব্যাক পার্সিং, ReDoS-নিরাপদ নরমালাইজার ও সিক্রেট মাস্কিংসহ log_analyzer সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "They learned that turning raw outage chaos into actionable engineering signals depends on streaming discipline, careful EOF state handling, and defensive regex design.",
+          "bn": "তারা শিখল অগোছালো লগ থেকে দ্রুত মূল কারণ বের করতে স্ট্রিমিং শৃঙ্খলা, EOF বাফার হ্যান্ডলিং ও নিরাপদ রেজেক্স অপরিহার্য।"
+        },
+        "bridgeToNext": {
+          "en": "While inspecting those tracebacks, a friend running a community health clinic network in Bogura called Sajid with a database emergency: someone had copied a live SQLite database using plain 'cp' during active writes, corrupting their backup—launching Project 10.",
+          "bn": "ট্রেসব্যাক বিশ্লেষণের সময়ই বগুড়ার একটি কমিউনিটি ক্লিনিক নেটওয়ার্কের পরিচিত একজন সাজিদকে জরুরি ফোন করলেন: চলমান লেখার মাঝেই সাধারণ 'cp' কমান্ডে লাইভ SQLite ডেটাবেস ব্যাকআপ নেওয়ায় ফাইলটি নষ্ট হয়ে গেছে—যা নিয়ে আসে প্রজেক্ট ১০-এ।"
+        }
+      }
+    },
+    {
+      "projectId": "PRJ-10",
+      "previousConnection": {
+        "en": "Word of the Bogura Polytechnic CST team's systems discipline traveled beyond Karatoa EdTech. A coordinator at NorthBengal MicroHealth—a regional rural clinic sync service operating around Bogura and Rajshahi—reached out to MD. MOJAHIDUR RAHMAN SAJID after their nightly cron job ran plain 'cp clinic.db backup.db' mid-transaction and produced a silently corrupted SQLite backup.",
+        "bn": "করতোয়া এডটেকের কাজের পর বগুড়া পলিটেকনিকের CST দলের সুনাম ছড়িয়ে পড়ে। বগুড়া ও রাজশাহী অঞ্চলের গ্রামীণ ক্লিনিক সিঙ্ক সিস্টেম 'নর্থবেঙ্গল মাইক্রোহেলথ' (NorthBengal MicroHealth)-এর এক সমন্বয়ক মোঃ মোজাহিদুর রহমান সাজিদের সাথে যোগাযোগ করেন—কারণ তাদের রাতের ক্রন জব চলমান ট্রানজ্যাকশনের মাঝেই সাধারণ 'cp' দিয়ে SQLite ফাইল কপি করায় ব্যাকআপটি নষ্ট হয়ে গেছে।"
+      },
+      "storyNarrative": [
+        {
+          "en": "Inside Bogura Polytechnic's database lab, MD. MOJAHIDUR RAHMAN SAJID demonstrated on a small synthetic clinic database exactly how raw file copies break SQLite. In WAL (Write-Ahead Logging) mode, recent patient-visit counter writes sit inside the '-wal' journal file rather than the main '.db' file. Copying only the '.db' file—or copying bytes while a transaction is half-flushed—produces a torn snapshot that looks fine on disk size yet fails 'PRAGMA integrity_check' when an emergency restore is attempted weeks later.",
+          "bn": "বগুড়া পলিটেকনিকের ডেটাবেস ল্যাবে বসে মোঃ মোজাহিদুর রহমান সাজিদ একটি সিন্থেটিক ক্লিনিক ডেটাবেস দিয়ে দেখালেন কীভাবে সরাসরি ফাইল কপি SQLite ভেঙে দেয়। WAL মোডে সাম্প্রতিক লেখাগুলো মূল '.db' ফাইলের বদলে '-wal' জার্নালে থাকে; চলমান পরিবর্তনের মাঝে কেবল মূল ফাইলটি কপি করলে ফাইল সাইজ ঠিক থাকলেও ভেতরের কাঠামো ভেঙে যায় এবং জরুরি পুনরুদ্ধারের সময় 'PRAGMA integrity_check' ব্যর্থ হয়।"
+        },
+        {
+          "en": "Jihad explored Python's built-in 'sqlite3.Connection.backup()' online backup API, which copies pages transactionally across consistent database snapshots without stopping concurrent readers. Meanwhile, Sojib realized that verifying a backup only by comparing file hashes isn't enough: a corrupted file still has a valid SHA-256 of its broken bytes! True backup verification must check BOTH the manifest SHA-256 digest AND 'PRAGMA integrity_check' + 'PRAGMA foreign_key_check' inside an isolated sandbox copy.",
+          "bn": "জিহাদ পাইথনের বিল্ট-ইন 'sqlite3.Connection.backup()' অনলাইন ব্যাকআপ API পরীক্ষা করে দেখল এটি চলমান কাজের মাঝেও ট্রানজ্যাকশন-নিরাপদ পেজ-বাই-পেজ স্ন্যাপশট নেয়। সজীব যোগ করল শুধু ফাইলের SHA-256 হ্যাশ মিলিয়ে দেখা যথেষ্ট নয়—নষ্ট ফাইলেরও একটি বৈধ SHA-256 থাকে! তাই প্রকৃত যাচাইয়ে SHA-256 ম্যানিফেস্টের পাশাপাশি বিচ্ছিন্ন স্যান্ডবক্স কপিতে 'PRAGMA integrity_check' ও 'PRAGMA foreign_key_check' চালাতে হবে।"
+        },
+        {
+          "en": "Badhon added the final safety layer that every clinic administrator needed before database migrations: schema and row-count drift auditing ('audit-diff') plus a non-destructive 'restore-drill' inside 'tempfile.TemporaryDirectory'. If a migration accidentally drops a column or deletes rows, comparing two snapshots immediately reveals the delta—and restore drills prove backups actually work without ever risking the live database. That completed Level 02 with a rock-solid Database Backup, Audit and Recovery Manager.",
+          "bn": "বাঁধন ক্লিনিক অ্যাডমিনদের জন্য শেষ দুটি নিরাপত্তা ধাপ যুক্ত করল: স্কিমা মাইগ্রেশনের আগে-পরে টেবিল, কলাম ও সারির পার্থক্য দেখানো 'audit-diff' এবং লাইভ ডেটাবেস স্পর্শ না করেই 'tempfile.TemporaryDirectory'-তে রিস্টোর সক্ষমতা যাচাইকারী 'restore-drill'। এভাবে চার বন্ধু শক্তিশালী Database Backup, Audit and Recovery Manager তৈরি করে লেভেল ০২ সফলভাবে শেষ করল।"
+        }
+      ],
+      "characterRoles": [
+        {
+          "characterId": "sajid",
+          "name": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "roleInProject": { "en": "Team Leader & Database Reliability Architect", "bn": "টিম লিডার ও ডেটাবেস রিলায়েবিলিটি আর্কিটেক্ট" },
+          "responsibility": {
+            "en": "Defines the Connection.backup() hot-snapshot flow, immutable manifest specification, and safe pre-restore protection of live target databases.",
+            "bn": "Connection.backup() হট-স্ন্যাপশট প্রক্রিয়া, অপরিবর্তনীয় ম্যানিফেস্ট কাঠামো ও রিস্টোর-পূর্ব লাইভ ডেটাবেস সুরক্ষা নীতি নির্ধারণ করেন।"
+          }
+        },
+        {
+          "characterId": "sojib",
+          "name": { "en": "Sojib", "bn": "সজীব" },
+          "roleInProject": { "en": "Schema Introspection & Drift Auditor", "bn": "স্কিমা পরিদর্শন ও পরিবর্তন অডিটর" },
+          "responsibility": {
+            "en": "Queries sqlite_master and PRAGMA table_info to diff added/removed tables, column changes, and row-count deltas between two backup snapshots.",
+            "bn": "sqlite_master ও PRAGMA table_info পড়ে দুটি ব্যাকআপের মধ্যে টেবিল, কলাম ও সারির সংখ্যার পার্থক্য ('audit-diff') বের করে।"
+          }
+        },
+        {
+          "characterId": "jihad",
+          "name": { "en": "Jihad", "bn": "জিহাদ" },
+          "roleInProject": { "en": "Integrity Verification & Manifest Engineer", "bn": "অখণ্ডতা যাচাই ও ম্যানিফেস্ট ইঞ্জিনিয়ার" },
+          "responsibility": {
+            "en": "Implements SHA-256 verification paired with sandboxed PRAGMA integrity_check and PRAGMA foreign_key_check without mutating archived backup bytes.",
+            "bn": "মূল ব্যাকআপ ফাইল পরিবর্তন না করেই স্যান্ডবক্স কপিতে SHA-256, PRAGMA integrity_check ও foreign_key_check পরিচালনা করে।"
+          }
+        },
+        {
+          "characterId": "badhon",
+          "name": { "en": "Badhon", "bn": "বাঁধন" },
+          "roleInProject": { "en": "Restore-Drill & Corruption Simulation Tester", "bn": "রিস্টোর-ড্রিল ও ত্রুটি সিমুলেশন টেস্টার" },
+          "responsibility": {
+            "en": "Builds automated tests creating concurrent WAL writes, corrupting a test backup byte, verifying detection, and validating TemporaryDirectory restore drills.",
+            "bn": "WAL রাইট চলাকালে ব্যাকআপ, ১ বাইট বিকৃত করে ধরা পড়া এবং TemporaryDirectory রিস্টোর মহড়ার স্বয়ংক্রিয় টেস্ট লেখে।"
+          }
+        }
+      ],
+      "organization": {
+        "name": {
+          "en": "NorthBengal MicroHealth — Clinic Sync Storage (Bogura / Rajshahi)",
+          "bn": "নর্থবেঙ্গল মাইক্রোহেলথ — ক্লিনিক সিঙ্ক স্টোরেজ (বগুড়া / রাজশাহী)"
+        },
+        "domain": {
+          "en": "Database Reliability & Recovery Operations",
+          "bn": "ডেটাবেস নির্ভরযোগ্যতা ও রিকভারি অপারেশনস"
+        },
+        "currentSystem": {
+          "en": "Nightly file-copy cron scripts copying live WAL-mode SQLite databases without transactional backup APIs, integrity verification, or restore drills.",
+          "bn": "চলমান WAL-মোডের SQLite ডেটাবেস সরাসরি ফাইল কপি করে ব্যাকআপ রাখা—যেখানে কোনো অখণ্ডতা যাচাই বা রিস্টোর পরীক্ষা নেই।"
+        },
+        "requirementsSummary": {
+          "en": "A Python SQLite backup manager using Connection.backup(), SHA-256 + row-count manifests, read-only sandbox verification (integrity_check + foreign_key_check), schema/data diffing, and non-destructive restore drills.",
+          "bn": "Connection.backup(), SHA-256 ও সারি-সংখ্যা ম্যানিফেস্ট, স্যান্ডবক্স integrity_check + foreign_key_check, স্কিমা ডিফ ও নিরাপদ রিস্টোর মহড়াসম্পন্ন SQLite ম্যানেজার।"
+        }
+      },
+      "problemDiscovery": [
+        {
+          "en": "Testing verify directly on the archived backup file with read-write SQLite connections alters file timestamps or creates journal sidecar files, silently changing the backup's SHA-256 hash! Copying to a temporary sandbox directory before running PRAGMA checks keeps archived snapshots byte-identical.",
+          "bn": "মূল সংরক্ষিত ব্যাকআপ ফাইলের ওপর সরাসরি রিড-রাইট মোডে SQLite খুললে টাইমস্ট্যাম্প বা জার্নাল ফাইল তৈরি হয়ে মূল SHA-256 বদলে যেতে পারে। তাই স্যান্ডবক্সে কপি নিয়ে PRAGMA চালানো বাধ্যতামূলক করা হলো।"
+        },
+        {
+          "en": "Also, allowing raw SQL string interpolation in row-count introspection over unusual table names introduces SQL injection risks—table identifiers must be validated strictly against sqlite_master and safely quoted.",
+          "bn": "তাছাড়া টেবিল নাম সরাসরি SQL স্ট্রিংয়ে বসালে SQL ইনজেকশনের ঝুঁকি থাকে; তাই sqlite_master থেকে বৈধ টেবিল নাম যাচাই ও নিরাপদ কোটেশন ব্যবহার আবশ্যক।"
+        }
+      ],
+      "conversations": [
+        {
+          "speaker": { "en": "MD. MOJAHIDUR RAHMAN SAJID", "bn": "মোঃ মোজাহিদুর রহমান সাজিদ" },
+          "role": { "en": "Team Leader", "bn": "টিম লিডার" },
+          "line": {
+            "en": "Rule number one: shutil.copy is strictly banned for live database backups. Every snapshot must go through source_conn.backup(dest_conn) so WAL pages flush cleanly.",
+            "bn": "প্রথম নিয়ম: লাইভ ডেটাবেস ব্যাকআপে shutil.copy সম্পূর্ণ নিষিদ্ধ। প্রতিটি স্ন্যাপশট source_conn.backup(dest_conn) দিয়েই তৈরি হবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Jihad", "bn": "জিহাদ" },
+          "role": { "en": "Integrity & Manifest Engineer", "bn": "অখণ্ডতা ও ম্যানিফেস্ট ইঞ্জিনিয়ার" },
+          "line": {
+            "en": "During 'verify', we check the archived file's SHA-256 first, then copy it into TemporaryDirectory to execute PRAGMA integrity_check and foreign_key_check without touching the original archive bytes.",
+            "bn": "'verify' চালানোর সময় প্রথমে মূল ফাইলের SHA-256 মিলিয়ে এরপর TemporaryDirectory-তে কপি করে PRAGMA integrity_check ও foreign_key_check চালাব—ফলে মূল ব্যাকআপ অক্ষত থাকবে।"
+          }
+        },
+        {
+          "speaker": { "en": "Sojib", "bn": "সজীব" },
+          "role": { "en": "Schema & Drift Auditor", "bn": "স্কিমা ও পরিবর্তন অডিটর" },
+          "line": {
+            "en": "My 'audit-diff' compares two manifests and their table structures side-by-side—flagging if a column disappeared or if 500 rows vanished unexpectedly between backups.",
+            "bn": "আমার 'audit-diff' দুটি স্ন্যাপশটের ম্যানিফেস্ট ও টেবিল কাঠামো পাশাপাশি মিলিয়ে দেখাবে কোনো কলাম হারিয়েছে বা হঠাৎ ৫০০ সারি কমে গেছে কি না।"
+          }
+        },
+        {
+          "speaker": { "en": "Badhon", "bn": "বাঁধন" },
+          "role": { "en": "Restore-Drill Tester", "bn": "রিস্টোর-ড্রিল টেস্টার" },
+          "line": {
+            "en": "And when running a real restore onto an existing target path, our tool automatically creates a safety backup of the current target first so recovery itself never causes accidental loss.",
+            "bn": "আর আসল টার্গেট পাথে রিস্টোর চালানোর আগে আমাদের টুল স্বয়ংক্রিয়ভাবে বর্তমান ফাইলের একটি নিরাপত্তা ব্যাকআপ রেখে নেবে।"
+          }
+        }
+      ],
+      "mission": {
+        "en": "Build a safe SQLite Database Backup, Audit, and Recovery Manager CLI that creates hot consistent snapshots using Connection.backup(), records SHA-256 and table row-count manifests, performs non-mutating sandbox verification (SHA-256 + integrity_check + foreign_key_check), diffs schema and data drift across snapshots, and executes automated TemporaryDirectory restore drills.",
+        "bn": "Connection.backup() দিয়ে নিরাপদ হট স্ন্যাপশট, SHA-256 ও সারি-সংখ্যা ম্যানিফেস্ট, মূল ফাইল অক্ষত রেখে স্যান্ডবক্স যাচাই (SHA-256 + integrity_check + foreign_key_check), স্কিমা/ডেটা পরিবর্তন তুলনা এবং TemporaryDirectory রিস্টোর মহড়াসম্পন্ন একটি SQLite ব্যাকআপ ও রিকভারি ম্যানেজার CLI তৈরি করুন।"
+      },
+      "logicBuilding": {
+        "intro": {
+          "en": "Trace why transactional snapshots, immutability, and schema introspection work together to protect persistent data.",
+          "bn": "ট্রানজ্যাকশনাল স্ন্যাপশট, অপরিবর্তনীয়তা ও স্কিমা বিশ্লেষণ কীভাবে একসাথে ডেটা সুরক্ষিত রাখে তা ভেবে দেখুন।"
+        },
+        "steps": [
+          {
+            "stepTitle": { "en": "Step 1 — Online Snapshot & Manifest Capture", "bn": "ধাপ ১ — অনলাইন স্ন্যাপশট ও ম্যানিফেস্ট" },
+            "guidingQuestions": [
+              { "en": "Why does sqlite3 Connection.backup() remain safe during active WAL writes while plain file copying fails?", "bn": "সক্রিয় WAL রাইটের মাঝেও সাধারণ ফাইল কপি ব্যর্থ হলেও Connection.backup() কেন নিরাপদ থাকে?" },
+              { "en": "What metadata (SHA-256, per-table row counts, schema columns, timestamp) belongs in each snapshot manifest?", "bn": "প্রতিটি ব্যাকআপ ম্যানিফেস্টে কী কী তথ্য (SHA-256, টেবিলের সারি সংখ্যা, কলাম স্কিমা) সংরক্ষণ করা উচিত?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 2 — Non-Mutating Verification & Restore Drills", "bn": "ধাপ ২ — অপরিবর্তিত যাচাই ও রিস্টোর মহড়া" },
+            "guidingQuestions": [
+              { "en": "How do you run PRAGMA integrity_check and PRAGMA foreign_key_check without modifying the original backup's SHA-256 hash or mtime?", "bn": "মূল ব্যাকআপের SHA-256 বা সময় পরিবর্তন না করেই কীভাবে PRAGMA integrity_check চালাবেন?" },
+              { "en": "What pre-restore safety step protects an existing target database file before overwriting it during a real restore?", "bn": "আসল রিস্টোর চালানোর আগে বিদ্যমান ডেটাবেস রক্ষায় কোন পূর্ব-সতর্কতামূলক ব্যাকআপ নেবেন?" }
+            ]
+          },
+          {
+            "stepTitle": { "en": "Step 3 — Schema Drift & Identifier Safety", "bn": "ধাপ ৩ — স্কিমা পরিবর্তন ও SQL নিরাপত্তা" },
+            "guidingQuestions": [
+              { "en": "How do you compare two SQLite snapshots to report added/dropped tables, column diffs, and row-count changes?", "bn": "দুটি SQLite স্ন্যাপশটের মধ্যে নতুন/বিলুপ্ত টেবিল, কলাম ও সারির পরিবর্তন কীভাবে নির্ণয় করবেন?" },
+              { "en": "How do you avoid SQL injection when reading row counts from table names discovered dynamically in sqlite_master?", "bn": "sqlite_master থেকে পাওয়া টেবিল নামের সারি গণনার সময় SQL ইনজেকশন কীভাবে ঠেকাবেন?" }
+            ]
+          }
+        ]
+      },
+      "learningGoals": [
+        { "en": "Use SQLite's online backup API for transaction-consistent hot snapshots.", "bn": "ট্রানজ্যাকশন-নিরাপদ হট স্ন্যাপশটের জন্য SQLite অনলাইন ব্যাকআপ API ব্যবহার শেখা।" },
+        { "en": "Verify database structural and referential integrity alongside cryptographic digests.", "bn": "ক্রিপ্টোগ্রাফিক হ্যাশের সাথে ডেটাবেসের কাঠামোগত ও রেফারেনশিয়াল অখণ্ডতা যাচাই।" },
+        { "en": "Automate schema drift detection and isolated sandbox recovery drills.", "bn": "স্কিমা পরিবর্তন অডিট ও বিচ্ছিন্ন স্যান্ডবক্স রিকভারি মহড়া স্বয়ংক্রিয় করা।" }
+      ],
+      "testingScenarios": [
+        { "en": "Run backup while a test fixture performs concurrent WAL writes and confirm the snapshot passes PRAGMA integrity_check.", "bn": "সক্রিয় WAL রাইটের মাঝে ব্যাকআপ চালিয়ে নিশ্চিত করুন স্ন্যাপশট PRAGMA integrity_check পাস করে।" },
+        { "en": "Verify running 'verify' leaves the archived backup file's SHA-256 hash and mtime unchanged.", "bn": "'verify' চালানোর পর মূল ব্যাকআপের SHA-256 ও পরিবর্তনের সময় অপরিবর্তিত থাকে তা যাচাই করুন।" },
+        { "en": "Flip one byte in a test backup copy and confirm verification detects corruption immediately.", "bn": "টেস্ট ব্যাকআপের ১ বাইট পরিবর্তন করে দেখুন যাচাই প্রক্রিয়া সাথে সাথেই ত্রুটি ধরে কি না।" },
+        { "en": "Run audit-diff between v1 and v2 snapshots (with an added column and deleted rows) and verify exact delta reporting.", "bn": "v1 ও v2 স্ন্যাপশটের মধ্যে audit-diff চালিয়ে কলাম ও সারির সঠিক পার্থক্য দেখায় কি না পরীক্ষা করুন।" }
+      ],
+      "acceptanceCriteria": [
+        { "en": "All hot snapshots use SQLite Connection.backup()—never shutil.copy on active databases.", "bn": "সব হট ব্যাকআপ Connection.backup() দিয়ে তৈরি হবে—কখনোই সরাসরি shutil.copy নয়।" },
+        { "en": "Verification validates SHA-256, PRAGMA integrity_check, and PRAGMA foreign_key_check inside a sandbox copy.", "bn": "যাচাই প্রক্রিয়ায় স্যান্ডবক্সে SHA-256, integrity_check ও foreign_key_check সম্পন্ন হয়।" },
+        { "en": "Schema/row-count diffing highlights table, column, and row deltas accurately.", "bn": "স্কিমা ও সারি-সংখ্যা ডিফ নির্ভুলভাবে টেবিল, কলাম ও ডেটা পরিবর্তন দেখায়।" },
+        { "en": "Restore drills run safely in TemporaryDirectory and real restores snapshot existing targets first.", "bn": "রিস্টোর মহড়া TemporaryDirectory-তে চলে এবং আসল রিস্টোরে আগে বর্তমান ফাইলের নিরাপত্তা ব্যাকআপ নেওয়া হয়।" }
+      ],
+      "finalDeliverySummary": {
+        "en": "The CST team completes the db_backup_manager package with hot-snapshot creation, non-mutating integrity verification, schema-diff reporting, and automated TemporaryDirectory recovery drills.",
+        "bn": "CST দলটি হট-স্ন্যাপশট, অপরিবর্তিত অখণ্ডতা যাচাই, স্কিমা-ডিফ রিপোর্ট ও স্বয়ংক্রিয় TemporaryDirectory রিকভারি মহড়াসহ db_backup_manager প্যাকেজ সম্পন্ন করে।"
+      },
+      "whatWeLearned": {
+        "reflections": {
+          "en": "Completing Level 02 proved a vital engineering lesson: an untested backup is not a backup—only verified integrity and automated restore drills create real peace of mind.",
+          "bn": "লেভেল ০২ শেষে বন্ধুরা একটি চিরন্তন সত্য শিখল: পরীক্ষা না করা ব্যাকআপ আসলে কোনো ব্যাকআপই নয়—নিয়মিত অখণ্ডতা যাচাই ও রিস্টোর মহড়াই প্রকৃত নিরাপত্তা দেয়।"
+        },
+        "bridgeToNext": {
+          "en": "With NorthBengal MicroHealth's databases safe, the clinic's branch connections suddenly began timing out between Bogura and a rural server—sending MD. MOJAHIDUR RAHMAN SAJID, Sojib, Jihad, and Badhon into Level 03: Networking & Defensive Security, starting with Project 11.",
+          "bn": "নর্থবেঙ্গল মাইক্রোহেলথের ডেটাবেস সুরক্ষিত হওয়ার পরই বগুড়া ও একটি শাখা সার্ভারের সংযোগ হঠাৎ মাঝে মাঝেই টাইমআউট হতে শুরু করল—যা মোঃ মোজাহিদুর রহমান সাজিদ, সজীব, জিহাদ ও বাঁধনকে নিয়ে গেল লেভেল ০৩ (নেটওয়ার্কিং ও প্রতিরক্ষামূলক সিকিউরিটি)-এর প্রজেক্ট ১১-তে।"
+        }
+      }
+    }
+  ]
+}

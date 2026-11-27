@@ -1,0 +1,1279 @@
+{
+  "partId": "part-10",
+  "partNumber": 10,
+  "problems": [
+    {
+      "id": "P10-01",
+      "number": 1,
+      "title": {
+        "en": "Temperature Converter Function With Return Value",
+        "bn": "রিটার্ন ভ্যালুসহ তাপমাত্রা রূপান্তর ফাংশন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Defining functions with def & return", "bn": "def এবং return দিয়ে ফাংশন লেখা" },
+        { "en": "Separating computation from print()", "bn": "গণনা ও প্রিন্টিং আলাদা রাখা" }
+      ],
+      "description": {
+        "en": "Define a reusable function `c_to_f(celsius)` that accepts a float temperature in Celsius and RETURNS the equivalent Fahrenheit value using `F = celsius * 9 / 5 + 32`. Read Celsius from input, call the function, and print the returned value formatted to 2 decimal places.",
+        "bn": "`c_to_f(celsius)` নামের একটি পুনর্ব্যবহারযোগ্য ফাংশন লিখুন যা সেলসিয়াস তাপমাত্রা (float) প্যারামিটার হিসেবে নিয়ে `F = celsius * 9 / 5 + 32` সূত্রে ফারেনহাইট মান RETURN করবে। ইনপুট পড়ে ফাংশনটি কল করুন এবং প্রাপ্ত মান দশমিকের পর ২ ঘর পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single numeric temperature C (integer or float).",
+        "bn": "একটি সংখ্যা C (পূর্ণসংখ্যা বা দশমিক)।"
+      },
+      "expectedOutput": {
+        "en": "The Fahrenheit temperature formatted to 2 decimal places.",
+        "bn": "দশমিকের পর ২ ঘর পর্যন্ত ফারেনহাইট তাপমাত্রা।"
+      },
+      "examples": [
+        {
+          "input": "37",
+          "output": "98.60",
+          "explanation": {
+            "en": "37 * 9 / 5 + 32 = 98.6 -> formatted as 98.60.",
+            "bn": "37 * 9 / 5 + 32 = 98.6 -> ২ ঘর ফরম্যাটে 98.60।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Remember to use `return` inside the function—NOT `print()`—so the caller can reuse or format the result.",
+        "bn": "ফাংশনের ভেতরে `print()` না করে `return` ব্যবহার করুন, যাতে ফাংশনের মান বাইরে থেকে ফরম্যাট বা পুনর্ব্যবহার করা যায়।"
+      },
+      "hint2": {
+        "en": "Call `f = c_to_f(float(input()))` and then print `f\"{f:.2f}\"`.",
+        "bn": "`f = c_to_f(float(input()))` কল করে `f\"{f:.2f}\"` প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A common beginner mistake is printing inside a helper function and returning `None`. Returning the numeric float keeps `c_to_f` pure and reusable—it works whether the caller wants to print 2 decimals, compare temperatures, or store values in a list.",
+        "bn": "ফাংশনের ভেতরে print করলে রিটার্ন ভ্যালু `None` হয়ে যায় এবং ফাংশনটি আর অন্য কাজে ব্যবহার করা যায় না। হিসাব শেষে `return` করা এবং বাইরে `print` করা পরিচ্ছন্ন সফটওয়্যার ডিজাইনের প্রথম নিয়ম।"
+      },
+      "algorithm": [
+        { "en": "Define c_to_f(celsius) returning celsius * 9 / 5 + 32.", "bn": "celsius * 9 / 5 + 32 রিটার্ন করা c_to_f(celsius) ফাংশন লিখুন।" },
+        { "en": "Read c = float(input()).", "bn": "c = float(input()) পড়ুন।" },
+        { "en": "Call f = c_to_f(c) and print f'{f:.2f}'.", "bn": "f = c_to_f(c) কল করে ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।" }
+      ],
+      "solution": "def c_to_f(celsius):\n    return celsius * 9 / 5 + 32\n\nc = float(input())\nf = c_to_f(c)\nprint(f\"{f:.2f}\")",
+      "codeExplanation": {
+        "en": "c_to_f takes one numeric parameter celsius and returns the computed Fahrenheit float. The main block reads input, invokes c_to_f(c), and formats the returned float to two decimal places.",
+        "bn": "c_to_f ফাংশনটি celsius প্যারামিটার নিয়ে ফারেনহাইট মান রিটার্ন করে। মূল অংশে ইনপুট পড়ে ফাংশন কল করে ২ দশমিক স্থানে প্রিন্ট করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "37", "expectedOutput": "98.60", "note": { "en": "Human body temperature", "bn": "স্বাভাবিক তাপমাত্রা" } },
+        { "input": "0", "expectedOutput": "32.00", "note": { "en": "Freezing point", "bn": "হিমাঙ্ক" } },
+        { "input": "-40", "expectedOutput": "-40.00", "note": { "en": "Equal point -40C == -40F", "bn": "সমান বিন্দু -৪০" } }
+      ]
+    },
+    {
+      "id": "P10-02",
+      "number": 2,
+      "title": {
+        "en": "Default Parameter Greeting Function",
+        "bn": "ডিফল্ট প্যারামিটারসহ শুভেচ্ছা ফাংশন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Default function arguments", "bn": "ডিফল্ট ফাংশন আর্গুমেন্ট" },
+        { "en": "Conditional argument passing", "bn": "শর্তসাপেক্ষে আর্গুমেন্ট পাঠানো" }
+      ],
+      "description": {
+        "en": "Write a function `format_greeting(name, prefix='Hello')` that returns `'<prefix>, <name>!'`. Read `name` on line 1 and an optional custom `prefix` on line 2 (if line 2 is empty/whitespace, call `format_greeting(name)` relying on the default `'Hello'`; otherwise pass both arguments).",
+        "bn": "`format_greeting(name, prefix='Hello')` নামের একটি ফাংশন লিখুন যা `'<prefix>, <name>!'` রিটার্ন করবে। ১ম লাইনে `name` এবং ২য় লাইনে ঐচ্ছিক `prefix` ইনপুট নিন। ২য় লাইন ফাঁকা থাকলে ডিফল্ট `'Hello'` ব্যবহার করে ফাংশন কল করুন, নতুবা উভয় আর্গুমেন্ট পাঠিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string name. Line 2: optional prefix string (may be blank).",
+        "bn": "১ম লাইন: নাম। ২য় লাইন: ঐচ্ছিক prefix (ফাঁকা হতে পারে)।"
+      },
+      "expectedOutput": {
+        "en": "Formatted greeting '<prefix>, <name>!'.",
+        "bn": "'<prefix>, <name>!' আকারের শুভেচ্ছা বার্তা।"
+      },
+      "examples": [
+        {
+          "input": "Sajid\n",
+          "output": "Hello, Sajid!",
+          "explanation": {
+            "en": "Line 2 is blank, so format_greeting('Sajid') uses the default prefix 'Hello'.",
+            "bn": "২য় লাইন ফাঁকা থাকায় ডিফল্ট 'Hello' ব্যবহৃত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Define `def format_greeting(name, prefix='Hello'):` with the default value assigned in the signature.",
+        "bn": "ফাংশন সংজ্ঞায় ডিফল্ট মান দিন: `def format_greeting(name, prefix='Hello'):`।"
+      },
+      "hint2": {
+        "en": "Read line 2 with `custom = input().strip()`; if `custom` is non-empty, call `format_greeting(name, prefix=custom)`, else `format_greeting(name)`.",
+        "bn": "`custom = input().strip()` ফাঁকা না হলে `format_greeting(name, prefix=custom)` এবং ফাঁকা হলে `format_greeting(name)` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Default parameters allow functions to stay ergonomic for common calls while remaining customizable when needed. Note that passing an explicit empty string `''` overrides the default, so the caller should omit the second argument whenever `custom` is blank.",
+        "bn": "ডিফল্ট প্যারামিটার সাধারণ ব্যবহারে আর্গুমেন্ট কমায় আবার প্রয়োজনে পরিবর্তনের সুযোগও রাখে। মনে রাখবেন ফাঁকা স্ট্রিং `''` পাঠালে ডিফল্ট মান ঢেকে যায়—তাই ফাঁকা হলে দ্বিতীয় আর্গুমেন্ট না পাঠিয়েই কল করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Define format_greeting(name, prefix='Hello') returning f'{prefix}, {name}!'.", "bn": "format_greeting(name, prefix='Hello') সংজ্ঞায়িত করুন।" },
+        { "en": "Read name = input().strip() and custom = input().strip().", "bn": "name ও custom পড়ুন।" },
+        { "en": "If custom is non-empty, call format_greeting(name, prefix=custom); else call format_greeting(name).", "bn": "custom থাকলে সেটিসহ, নতুবা কেবল name দিয়ে কল করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def format_greeting(name, prefix=\"Hello\"):\n    return f\"{prefix}, {name}!\"\n\nname = input().strip()\ntry:\n    custom = input().strip()\nexcept EOFError:\n    custom = \"\"\nif custom:\n    print(format_greeting(name, prefix=custom))\nelse:\n    print(format_greeting(name))",
+      "codeExplanation": {
+        "en": "When custom is empty, Python falls back to prefix='Hello' defined in format_greeting. When custom is provided, passing prefix=custom overrides the default using a keyword argument.",
+        "bn": "custom ফাঁকা থাকলে ফাংশনটি ডিফল্ট 'Hello' ব্যবহার করে, আর custom দেওয়া হলে কীওয়ার্ড আর্গুমেন্ট prefix=custom দিয়ে সেটি বদলে দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Sajid\n", "expectedOutput": "Hello, Sajid!", "note": { "en": "Uses default prefix (EOF on line 2)", "bn": "ডিফল্ট উপসর্গ" } },
+        { "input": "Sajid\n   \n", "expectedOutput": "Hello, Sajid!", "note": { "en": "Blank whitespace line 2 uses default", "bn": "ফাঁকা লাইনে ডিফল্ট উপসর্গ" } },
+        { "input": "Rafi\nWelcome", "expectedOutput": "Welcome, Rafi!", "note": { "en": "Custom prefix provided", "bn": "কাস্টম উপসর্গ" } }
+      ]
+    },
+    {
+      "id": "P10-03",
+      "number": 3,
+      "title": {
+        "en": "Boolean Divisibility Helper Function",
+        "bn": "বুলিয়ান বিভাজ্যতা যাচাই ফাংশন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Boolean predicate functions (is_*)", "bn": "বুলিয়ান প্রেডিকেট ফাংশন" },
+        { "en": "Zero-divisor safety guard", "bn": "শূন্য ভাজক নিরাপত্তা" }
+      ],
+      "description": {
+        "en": "Write a boolean function `is_divisible(n, d=2)` that returns `True` if `d != 0` and `n % d == 0`, otherwise `False`. Read integers `n` and `d` on two lines, call `is_divisible(n, d)`, and print `'Yes'` if True or `'No'` if False.",
+        "bn": "`is_divisible(n, d=2)` নামের একটি বুলিয়ান ফাংশন লিখুন যা `d != 0` এবং `n % d == 0` হলে `True`, অন্যথায় `False` রিটার্ন করবে। দুটি লাইনে পূর্ণসংখ্যা `n` ও `d` পড়ে ফাংশনটি কল করুন এবং `True` হলে `'Yes'` ও `False` হলে `'No'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer n. Line 2: integer d.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা n। ২য় লাইন: পূর্ণসংখ্যা d।"
+      },
+      "expectedOutput": {
+        "en": "'Yes' or 'No'.",
+        "bn": "'Yes' অথবা 'No'।"
+      },
+      "examples": [
+        {
+          "input": "24\n6",
+          "output": "Yes",
+          "explanation": {
+            "en": "6 != 0 and 24 % 6 == 0, so is_divisible returns True -> 'Yes'.",
+            "bn": "6 != 0 এবং 24 % 6 == 0 হওয়ায় 'Yes'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `d != 0` BEFORE `n % d == 0` using `and` so short-circuit evaluation prevents ZeroDivisionError when d is 0!",
+        "bn": "d শূন্য হলে ZeroDivisionError এড়াতে `and`-এর আগে `d != 0` লিখুন (short-circuit evaluation)!"
+      },
+      "hint2": {
+        "en": "You can write `return d != 0 and n % d == 0` directly in one clean line.",
+        "bn": "এক লাইনেই লিখতে পারেন: `return d != 0 and n % d == 0`।"
+      },
+      "logicBreakdown": {
+        "en": "Predicate functions (named `is_*`) encapsulate boolean logic cleanly. Placing `d != 0` on the left of `and` exploits Python's short-circuit evaluation: if `d == 0`, Python immediately returns `False` without executing `n % d`.",
+        "bn": "`is_*` ফাংশনগুলো কোনো শর্ত সত্য না মিথ্যা তা রিটার্ন করে। `d != 0 and n % d == 0` লিখলে d = 0 হলেও শর্ট-সার্কিট নিয়মে ডান পাশের ভাগ না করেই নিরাপদে `False` দেয়।"
+      },
+      "algorithm": [
+        { "en": "Define is_divisible(n, d=2) returning d != 0 and n % d == 0.", "bn": "d != 0 and n % d == 0 রিটার্ন করা ফাংশন লিখুন।" },
+        { "en": "Read integers n and d.", "bn": "n এবং d পড়ুন।" },
+        { "en": "Print 'Yes' if is_divisible(n, d) else 'No'.", "bn": "ফাংশনের ফলাফল অনুযায়ী 'Yes' বা 'No' প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_divisible(n, d=2):\n    return d != 0 and n % d == 0\n\nn = int(input())\nd = int(input())\nprint(\"Yes\" if is_divisible(n, d) else \"No\")",
+      "codeExplanation": {
+        "en": "is_divisible guards against d == 0 using short-circuit boolean logic. Calling it inside the ternary print keeps the main script concise and self-documenting.",
+        "bn": "is_divisible প্রথমেই d != 0 দেখে ZeroDivisionError প্রতিরোধ করে এবং মূল অংশে 'Yes' বা 'No' প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "24\n6", "expectedOutput": "Yes", "note": { "en": "Evenly divisible", "bn": "নিঃশেষে বিভাজ্য" } },
+        { "input": "15\n0", "expectedOutput": "No", "note": { "en": "Zero divisor guard", "bn": "শূন্য ভাজক নিরাপত্তা" } },
+        { "input": "0\n5", "expectedOutput": "Yes", "note": { "en": "Zero dividend is divisible", "bn": "০ যেকোনো অ-শূন্য সংখ্যায় বিভাজ্য" } },
+        { "input": "17\n4", "expectedOutput": "No", "note": { "en": "Non-zero remainder", "bn": "বিভাজ্য নয়" } }
+      ]
+    },
+    {
+      "id": "P10-04",
+      "number": 4,
+      "title": {
+        "en": "Rectangle Metrics Returning Tuple",
+        "bn": "টাপল হিসেবে একাধিক মান রিটার্ন করা ফাংশন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Multiple return values (tuple packing)", "bn": "একাধিক রিটার্ন ভ্যালু (টাপল প্যাকিং)" },
+        { "en": "Caller tuple unpacking", "bn": "কল করার স্থানে আনপ্যাকিং" }
+      ],
+      "description": {
+        "en": "Write a function `rectangle_stats(width, height)` that returns BOTH the area and the perimeter as a 2-tuple `(area, perimeter)`. Read two integers `width` and `height`, unpack the returned tuple, and print `'Area: <area>, Perimeter: <perimeter>'`.",
+        "bn": "`rectangle_stats(width, height)` নামের একটি ফাংশন লিখুন যা আয়তক্ষেত্রের ক্ষেত্রফল ও পরিসীমা উভয়ই একসাথে `(area, perimeter)` টাপল হিসেবে রিটার্ন করবে। ইনপুট থেকে width ও height পড়ে টাপলটি আনপ্যাক করে `'Area: <area>, Perimeter: <perimeter>'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: positive integer width. Line 2: positive integer height.",
+        "bn": "১ম লাইন: প্রস্থ (width)। ২য় লাইন: উচ্চতা (height)।"
+      },
+      "expectedOutput": {
+        "en": "Formatted line: Area: <area>, Perimeter: <perimeter>",
+        "bn": "ফরম্যাট করা আউটপুট: Area: <area>, Perimeter: <perimeter>"
+      },
+      "examples": [
+        {
+          "input": "8\n5",
+          "output": "Area: 40, Perimeter: 26",
+          "explanation": {
+            "en": "Area = 8 * 5 = 40; Perimeter = 2 * (8 + 5) = 26.",
+            "bn": "ক্ষেত্রফল 8 * 5 = 40 এবং পরিসীমা 2 * (8 + 5) = 26।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In Python, `return area, perimeter` automatically packs both values into a tuple!",
+        "bn": "পাইথনে `return area, perimeter` লিখলেই দুটি মান স্বয়ংক্রিয়ভাবে একটি টাপল হিসেবে রিটার্ন হয়!"
+      },
+      "hint2": {
+        "en": "Unpack on the calling line: `area, peri = rectangle_stats(w, h)`.",
+        "bn": "কল করার সময় `area, peri = rectangle_stats(w, h)` দিয়ে মান দুটি আলাদা করে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "Instead of writing two separate functions for tightly coupled geometric metrics, returning a tuple `(area, perimeter)` and unpacking on the caller side delivers clean, idiomatic Python.",
+        "bn": "একই তথ্যের ওপর ভিত্তি করে দুটি ঘনিষ্ঠ হিসাব আলাদা ফাংশনে না করে `return area, perimeter` দিয়ে একসাথে রিটার্ন ও আনপ্যাক করলে কোড সংক্ষিপ্ত ও পরিচ্ছন্ন হয়।"
+      },
+      "algorithm": [
+        { "en": "Define rectangle_stats(width, height) returning (width * height, 2 * (width + height)).", "bn": "ক্ষেত্রফল ও পরিসীমা রিটার্ন করা rectangle_stats ফাংশন লিখুন।" },
+        { "en": "Read integers w and h.", "bn": "w এবং h পড়ুন।" },
+        { "en": "Unpack area, peri = rectangle_stats(w, h) and print formatted result.", "bn": "area, peri = rectangle_stats(w, h) আনপ্যাক করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def rectangle_stats(width, height):\n    area = width * height\n    perimeter = 2 * (width + height)\n    return area, perimeter\n\nw = int(input())\nh = int(input())\na, p = rectangle_stats(w, h)\nprint(f\"Area: {a}, Perimeter: {p}\")",
+      "codeExplanation": {
+        "en": "rectangle_stats computes area and perimeter and returns both as a 2-tuple. Tuple unpacking assigns them cleanly to a and p.",
+        "bn": "rectangle_stats উভয় মান গণনা করে টাপল আকারে রিটার্ন করে এবং a, p চলকে আনপ্যাক হয়ে প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "8\n5", "expectedOutput": "Area: 40, Perimeter: 26", "note": { "en": "Rectangle", "bn": "আয়তক্ষেত্র" } },
+        { "input": "4\n4", "expectedOutput": "Area: 16, Perimeter: 16", "note": { "en": "4x4 square", "bn": "৪x৪ বর্গ" } },
+        { "input": "1\n10", "expectedOutput": "Area: 10, Perimeter: 22", "note": { "en": "Unit width", "bn": "একক প্রস্থ" } }
+      ]
+    },
+    {
+      "id": "P10-05",
+      "number": 5,
+      "title": {
+        "en": "Recursive Sum of First N Integers",
+        "bn": "রিকার্শনের মাধ্যমে ১ থেকে N পর্যন্ত যোগফল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Recursion base case & recursive step", "bn": "রিকার্শনের বেস কেস ও রিকার্সিভ ধাপ" },
+        { "en": "Call stack unwinding", "bn": "কল স্ট্যাক আনউইন্ডিং" }
+      ],
+      "description": {
+        "en": "Write a recursive function `sum_to_n(n)` that returns `1 + 2 + ... + n` for `n >= 1`, and returns `0` when `n <= 0` (the base case). Read integer `n` and print `sum_to_n(n)`.",
+        "bn": "`sum_to_n(n)` নামের একটি রিকার্সিভ ফাংশন লিখুন যা `n >= 1` হলে `1 + 2 + ... + n` এবং `n <= 0` হলে বেস কেস হিসেবে `0` রিটার্ন করবে। পূর্ণসংখ্যা `n` পড়ে `sum_to_n(n)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (0 <= N <= 500).",
+        "bn": "একটি পূর্ণসংখ্যা N (0 <= N <= 500)।"
+      },
+      "expectedOutput": {
+        "en": "An integer equal to the recursive sum.",
+        "bn": "রিকার্সিভ যোগফলের পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "15",
+          "explanation": {
+            "en": "sum(5) = 5 + sum(4) = 5 + 4 + 3 + 2 + 1 + 0 = 15.",
+            "bn": "sum(5) = 5 + 4 + 3 + 2 + 1 + 0 = 15।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every recursive function needs two things: a stopping condition (base case) and a smaller subproblem call.",
+        "bn": "প্রতিটি রিকার্সিভ ফাংশনে দুটি জিনিস থাকা আবশ্যক: থামার শর্ত (বেস কেস) এবং ছোট সমস্যায় নিজেকে কল করা।"
+      },
+      "hint2": {
+        "en": "If `n <= 0: return 0`, otherwise `return n + sum_to_n(n - 1)`.",
+        "bn": "`n <= 0` হলে `return 0`, নতুবা `return n + sum_to_n(n - 1)` লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Omitting the base case (`if n <= 0: return 0`) causes infinite recursion until Python throws `RecursionError`. Each recursive frame reduces `n` by 1 toward 0, then unwinds adding `1`, `2`, ..., `n` back up the call stack.",
+        "bn": "বেস কেস (`n <= 0`) না থাকলে ফাংশন অনন্তকাল চলতে গিয়ে `RecursionError` দেখাবে। প্রতিটি ধাপে n-কে ১ কমিয়ে বেস কেসের দিকে এগোলেই রিকার্শন সঠিকভাবে থামে এবং ফেরার পথে যোগফল তৈরি করে।"
+      },
+      "algorithm": [
+        { "en": "Define sum_to_n(n): if n <= 0 return 0.", "bn": "sum_to_n(n) লিখুন: n <= 0 হলে 0 রিটার্ন করবে।" },
+        { "en": "Otherwise return n + sum_to_n(n - 1).", "bn": "অন্যথায় n + sum_to_n(n - 1) রিটার্ন করবে।" },
+        { "en": "Read n and print sum_to_n(n).", "bn": "n পড়ে sum_to_n(n) প্রিন্ট করুন।" }
+      ],
+      "solution": "def sum_to_n(n):\n    if n <= 0:\n        return 0\n    return n + sum_to_n(n - 1)\n\nn = int(input())\nprint(sum_to_n(n))",
+      "codeExplanation": {
+        "en": "When n <= 0, recursion stops and returns 0. Otherwise the call waits on sum_to_n(n - 1) and adds n upon return.",
+        "bn": "n <= 0 হলে রিকার্শন থেমে 0 ফেরত দেয়, নতুবা n + sum_to_n(n - 1) ধাপে ধাপে ছোট হয়ে যোগফল হিসাব করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "5", "expectedOutput": "15", "note": { "en": "1+2+3+4+5", "bn": "১ থেকে ৫ যোগ" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Base case N=0", "bn": "বেস কেস N=0" } },
+        { "input": "10", "expectedOutput": "55", "note": { "en": "Sum 1..10", "bn": "১..১০ সমষ্টি" } }
+      ]
+    },
+    {
+      "id": "P10-06",
+      "number": 6,
+      "title": {
+        "en": "Recursive Power Function",
+        "bn": "রিকার্সিভ সূচক (Power) ফাংশন"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Recursive multiplication", "bn": "রিকার্সিভ গুণন" },
+        { "en": "Base case exp == 0", "bn": "বেস কেস exp == 0" }
+      ],
+      "description": {
+        "en": "Write a recursive function `power(base, exp)` (where `exp >= 0`) without using `**` or `pow()`. Read integers `base` and `exp` on two lines and print `power(base, exp)`.",
+        "bn": "`**` বা `pow()` ব্যবহার না করে `power(base, exp)` (`exp >= 0`) নামের একটি রিকার্সিভ ফাংশন লিখুন। দুটি লাইনে পূর্ণসংখ্যা `base` ও `exp` পড়ে `power(base, exp)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer base. Line 2: non-negative integer exp.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা base। ২য় লাইন: অ-ঋণাত্মক পূর্ণসংখ্যা exp।"
+      },
+      "expectedOutput": {
+        "en": "The integer value of base^exp.",
+        "bn": "base^exp-এর পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "2\n6",
+          "output": "64",
+          "explanation": {
+            "en": "2 * power(2, 5) -> ... -> 2^6 = 64.",
+            "bn": "2 * power(2, 5) -> ... -> 2^6 = 64।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Base case: any number raised to exponent 0 equals 1 (`if exp == 0: return 1`).",
+        "bn": "বেস কেস: `exp == 0` হলে রিটার্ন হবে `1`।"
+      },
+      "hint2": {
+        "en": "Recursive relation: `base^exp = base * base^(exp - 1)`.",
+        "bn": "রিকার্সিভ সূত্র: `base * power(base, exp - 1)`।"
+      },
+      "logicBreakdown": {
+        "en": "Exponentiation decomposes naturally into `base * power(base, exp - 1)`, reducing `exp` by 1 each call until hitting the identity base case `exp == 0 -> 1`.",
+        "bn": "সূচকের নিয়ম অনুযায়ী `base^exp = base * base^(exp - 1)`। এভাবে exp কমতে কমতে 0 হলে বেস কেস 1 রিটার্ন করে এবং ফেরার পথে গুণ হয়ে উত্তর তৈরি হয়।"
+      },
+      "algorithm": [
+        { "en": "Define power(base, exp): if exp == 0 return 1; else return base * power(base, exp - 1).", "bn": "বেস কেস exp == 0 -> 1 এবং রিকার্সিভ ধাপ base * power(base, exp - 1) লিখুন।" },
+        { "en": "Read base and exp.", "bn": "base এবং exp পড়ুন।" },
+        { "en": "Print power(base, exp).", "bn": "power(base, exp) প্রিন্ট করুন।" }
+      ],
+      "solution": "def power(base, exp):\n    if exp == 0:\n        return 1\n    return base * power(base, exp - 1)\n\nbase = int(input())\nexp = int(input())\nprint(power(base, exp))",
+      "codeExplanation": {
+        "en": "Each call reduces exp by 1 until exp == 0 returns 1. Returning back up the call stack multiplies base exp times.",
+        "bn": "প্রতি কলের সাথে exp ১ করে কমে exp == 0-তে পৌঁছায় এবং ফেরার সময় exp বার base গুণ করে দেয়।"
+      },
+      "complexity": { "time": "O(exp)", "space": "O(exp) call stack" },
+      "testCases": [
+        { "input": "2\n6", "expectedOutput": "64", "note": { "en": "2^6", "bn": "২-এর ঘাত ৬" } },
+        { "input": "9\n0", "expectedOutput": "1", "note": { "en": "Zero exponent base case", "bn": "সূচক ০" } },
+        { "input": "-3\n3", "expectedOutput": "-27", "note": { "en": "Negative base odd exponent", "bn": "ঋণাত্মক ভিত্তি" } }
+      ]
+    },
+    {
+      "id": "P10-07",
+      "number": 7,
+      "title": {
+        "en": "Keyword Arguments Invoice Calculator",
+        "bn": "কীওয়ার্ড আর্গুমেন্টসহ বিল হিসাব ফাংশন"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Multiple default & keyword parameters", "bn": "একাধিক ডিফল্ট ও কীওয়ার্ড প্যারামিটার" },
+        { "en": "Order of discount and tax calculation", "bn": "ছাড় ও ভ্যাট হিসাবের সঠিক ক্রম" }
+      ],
+      "description": {
+        "en": "Write a function `calculate_bill(unit_price, qty=1, discount_pct=0.0, tax_pct=0.0)` that computes subtotal `unit_price * qty`, applies `discount_pct` percent off, then adds `tax_pct` percent tax on the discounted amount. Read 4 numbers (`unit_price`, `qty`, `discount_pct`, `tax_pct`) on separate lines and invoke the function using keyword arguments, printing the final total to 2 decimals.",
+        "bn": "`calculate_bill(unit_price, qty=1, discount_pct=0.0, tax_pct=0.0)` ফাংশন লিখুন যা `unit_price * qty` বের করে প্রথমে `discount_pct`% ছাড় দেবে এবং ছাড়ের পরের মূল্যের ওপর `tax_pct`% ট্যাক্স যোগ করবে। ৪ লাইনে ইনপুট পড়ে কীওয়ার্ড আর্গুমেন্টে ফাংশন কল করে ২ দশমিক স্থান পর্যন্ত মোট বিল প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "4 lines: unit_price (float), qty (int), discount_pct (float), tax_pct (float).",
+        "bn": "৪টি লাইন: unit_price, qty, discount_pct, tax_pct।"
+      },
+      "expectedOutput": {
+        "en": "Final bill formatted to 2 decimal places.",
+        "bn": "দশমিকের পর ২ ঘর পর্যন্ত চূড়ান্ত বিল।"
+      },
+      "examples": [
+        {
+          "input": "200\n3\n10\n5",
+          "output": "567.00",
+          "explanation": {
+            "en": "Subtotal = 600; after 10% discount = 540; + 5% tax (27) = 567.00.",
+            "bn": "মোট = 600; ১০% ছাড়ে = 540; ৫% ট্যাক্স (27) যোগে = 567.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Apply discount first: `after_discount = subtotal * (1 - discount_pct / 100)`.",
+        "bn": "আগে ছাড় হিসাব করুন: `after_discount = subtotal * (1 - discount_pct / 100)`।"
+      },
+      "hint2": {
+        "en": "Then apply tax on `after_discount`: `total = after_discount * (1 + tax_pct / 100)`.",
+        "bn": "এরপর ছাড়কৃত মূল্যের ওপর ট্যাক্স যোগ করুন: `total = after_discount * (1 + tax_pct / 100)`।"
+      },
+      "logicBreakdown": {
+        "en": "Passing keyword arguments like `discount_pct=d, tax_pct=t` makes multi-parameter calls self-documenting and prevents swapping arguments by mistake (e.g., passing tax into discount). Applying tax after discount follows standard retail billing math.",
+        "bn": "অনেকগুলো সংখ্যার প্যারামিটার থাকলে কীওয়ার্ড আর্গুমেন্ট (`discount_pct=d, tax_pct=t`) ব্যবহার করলে ক্রম ভুল হওয়ার ঝুঁকি থাকে না এবং কোড পঠনযোগ্য হয়।"
+      },
+      "algorithm": [
+        { "en": "Define calculate_bill(unit_price, qty=1, discount_pct=0.0, tax_pct=0.0).", "bn": "ডিফল্ট মানসহ calculate_bill ফাংশন সংজ্ঞায়িত করুন।" },
+        { "en": "Compute subtotal = unit_price * qty, discounted = subtotal * (1 - discount_pct / 100), return discounted * (1 + tax_pct / 100).", "bn": "subtotal থেকে ছাড় বাদ দিয়ে ট্যাক্স যোগ করে রিটার্ন করুন।" },
+        { "en": "Read inputs, call with keyword args, and print to 2 decimals.", "bn": "ইনপুট নিয়ে কীওয়ার্ড আর্গুমেন্টে কল করে ২ দশমিক স্থানে প্রিন্ট করুন।" }
+      ],
+      "solution": "def calculate_bill(unit_price, qty=1, discount_pct=0.0, tax_pct=0.0):\n    subtotal = unit_price * qty\n    discounted = subtotal * (1.0 - discount_pct / 100.0)\n    return discounted * (1.0 + tax_pct / 100.0)\n\np = float(input())\nq = int(input())\nd = float(input())\nt = float(input())\ntotal = calculate_bill(unit_price=p, qty=q, discount_pct=d, tax_pct=t)\nprint(f\"{total:.2f}\")",
+      "codeExplanation": {
+        "en": "calculate_bill isolates pricing rules cleanly. Keyword arguments at the call site explicitly map each input variable to its parameter name.",
+        "bn": "calculate_bill মূল্য নির্ধারণের নিয়মগুলো আলাদা করে রাখে এবং কল করার সময় কীওয়ার্ড আর্গুমেন্ট প্রতিটি মানের ভূমিকা স্পষ্ট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "200\n3\n10\n5", "expectedOutput": "567.00", "note": { "en": "Discount + tax", "bn": "ছাড় ও ভ্যাটসহ বিল" } },
+        { "input": "99.5\n2\n0\n0", "expectedOutput": "199.00", "note": { "en": "Zero discount and zero tax", "bn": "শূন্য ছাড় ও ভ্যাট" } },
+        { "input": "100\n1\n100\n15", "expectedOutput": "0.00", "note": { "en": "100% discount", "bn": "১০০% ছাড়" } }
+      ]
+    },
+    {
+      "id": "P10-08",
+      "number": 8,
+      "title": {
+        "en": "Composing Leap Year & Days-in-Month Functions",
+        "bn": "অধিবর্ষ ও মাসের দিন সংখ্যা নির্ণায়ক ফাংশন"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Function composition (one calling another)", "bn": "এক ফাংশনের ভেতর আরেক ফাংশন কল" },
+        { "en": "Gregorian leap year rules", "bn": "গ্রেগরীয় অধিবর্ষের নিয়ম" }
+      ],
+      "description": {
+        "en": "Write two cooperating functions: `is_leap_year(year)` returning True/False, and `days_in_month(month, year)` which calls `is_leap_year(year)` when month == 2 to return 29 or 28 (or 30/31 for other valid months 1–12, or -1 if month is invalid). Read month and year and print `days_in_month(month, year)`.",
+        "bn": "দুটি সহায়ক ফাংশন লিখুন: `is_leap_year(year)` যা অধিবর্ষ হলে True দেয়, এবং `days_in_month(month, year)` যা month == 2 হলে `is_leap_year(year)` কল করে 29 বা 28 দেয় (বাকি বৈধ মাসের জন্য 30/31 এবং অবৈধ মাসে -1)। মাস ও বছর ইনপুট নিয়ে দিনের সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer month. Line 2: integer year.",
+        "bn": "১ম লাইন: মাস (month)। ২য় লাইন: বছর (year)।"
+      },
+      "expectedOutput": {
+        "en": "Number of days in that month (28, 29, 30, 31), or -1 for invalid month.",
+        "bn": "উক্ত মাসের দিন সংখ্যা, অথবা অবৈধ মাসে -1।"
+      },
+      "examples": [
+        {
+          "input": "2\n2024",
+          "output": "29",
+          "explanation": {
+            "en": "2024 is divisible by 4 and not 100, so February has 29 days.",
+            "bn": "2024 অধিবর্ষ হওয়ায় ফেব্রুয়ারি মাসে ২৯ দিন।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Gregorian leap year rule: `(year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)`.",
+        "bn": "অধিবর্ষের সূত্র: `(year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)`।"
+      },
+      "hint2": {
+        "en": "Remember century years like 1900 are NOT leap years because 1900 % 100 == 0 and 1900 % 400 != 0!",
+        "bn": "সাবধান: 1900-এর মতো শতাব্দী বছর অধিবর্ষ নয়, তবে 2000 অধিবর্ষ কারণ 2000 % 400 == 0!"
+      },
+      "logicBreakdown": {
+        "en": "Function composition splits responsibilities cleanly: `is_leap_year` knows calendar leap logic while `days_in_month` maps months to day counts and delegates February's check to `is_leap_year`. Guarding invalid months (`< 1` or `> 12`) returns `-1` cleanly.",
+        "bn": "ফাংশন কম্পোজিশনে প্রতিটি ফাংশন একটি নির্দিষ্ট দায়িত্ব পালন করে: `is_leap_year` অধিবর্ষ নির্ণয় করে এবং `days_in_month` মাসের তালিকা দেখে ও ফেব্রুয়ারির জন্য প্রথম ফাংশনকে কল করে।"
+      },
+      "algorithm": [
+        { "en": "Define is_leap_year(year) using 400 / 100 / 4 rules.", "bn": "৪০০/১০০/৪ নিয়মে is_leap_year(year) লিখুন।" },
+        { "en": "Define days_in_month(month, year): validate 1 <= month <= 12; handle month == 2 via is_leap_year; return 30 for {4, 6, 9, 11}, else 31.", "bn": "মাস যাচাই করে ফেব্রুয়ারির জন্য is_leap_year ব্যবহার করুন এবং বাকি মাসগুলোর দিন রিটার্ন করুন।" },
+        { "en": "Read month and year and print days_in_month(month, year).", "bn": "month ও year পড়ে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_leap_year(year):\n    return (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)\n\ndef days_in_month(month, year):\n    if month < 1 or month > 12:\n        return -1\n    if month == 2:\n        return 29 if is_leap_year(year) else 28\n    if month in (4, 6, 9, 11):\n        return 30\n    return 31\n\nm = int(input())\ny = int(input())\nprint(days_in_month(m, y))",
+      "codeExplanation": {
+        "en": "is_leap_year handles 4-year, 100-year, and 400-year calendar rules. days_in_month checks validity first, delegates February to is_leap_year, checks 30-day months with a tuple, and returns 31 for the rest.",
+        "bn": "is_leap_year শতাব্দী ও ৪-বছরের নিয়ম যাচাই করে। days_in_month বৈধতা দেখে ফেব্রুয়ারি বাদে ৩০ ও ৩১ দিনের মাস আলাদা করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2\n2024", "expectedOutput": "29", "note": { "en": "Standard leap year", "bn": "সাধারণ অধিবর্ষ" } },
+        { "input": "2\n1900", "expectedOutput": "28", "note": { "en": "Century non-leap year", "bn": "শতাব্দী অধিবর্ষ নয়" } },
+        { "input": "2\n2000", "expectedOutput": "29", "note": { "en": "Divisible by 400 leap year", "bn": "৪০০-দিয়ে বিভাজ্য অধিবর্ষ" } },
+        { "input": "13\n2026", "expectedOutput": "-1", "note": { "en": "Invalid month", "bn": "অবৈধ মাস" } }
+      ]
+    },
+    {
+      "id": "P10-09",
+      "number": 9,
+      "title": {
+        "en": "Modular Text Cleaner & Word Analyzer",
+        "bn": "মডুলার টেক্সট ক্লিনার ও শব্দ বিশ্লেষক"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Data transformation pipelines", "bn": "ডেটা রূপান্তর পাইপলাইন" },
+        { "en": "Reusable string & list functions", "bn": "পুনর্ব্যবহারযোগ্য স্ট্রিং ও লিস্ট ফাংশন" }
+      ],
+      "description": {
+        "en": "Write two helper functions: `extract_words(text)` which keeps only letters/digits and spaces (converting everything else to spaces, lowercased, and returning a list of words), and `analyze_words(words)` which returns `(total_words, unique_words)`. Read a sentence, pass through the pipeline, and print `'Total: <total>, Unique: <unique>'`.",
+        "bn": "দুটি ফাংশন লিখুন: `extract_words(text)` যা কেবল বর্ণ, অঙ্ক ও স্পেস রেখে বাকি চিহ্ন স্পেসে রূপান্তর করে ছোট হাতের শব্দের লিস্ট রিটার্ন করবে, এবং `analyze_words(words)` যা `(total_words, unique_words)` রিটার্ন করবে। একটি বাক্য পড়ে ফাংশন দুটি ব্যবহার করে `'Total: <total>, Unique: <unique>'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি টেক্সট S।"
+      },
+      "expectedOutput": {
+        "en": "Formatted counts: Total: <total>, Unique: <unique>",
+        "bn": "ফরম্যাট করা আউটপুট: Total: <total>, Unique: <unique>"
+      },
+      "examples": [
+        {
+          "input": "Hello, hello! Logic is logic.",
+          "output": "Total: 5, Unique: 3",
+          "explanation": {
+            "en": "Cleaned words: ['hello', 'hello', 'logic', 'is', 'logic'] -> 5 total, 3 unique.",
+            "bn": "পরিষ্কার করা শব্দ: ['hello', 'hello', 'logic', 'is', 'logic'] -> মোট ৫টি, স্বতন্ত্র ৩টি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In `extract_words(text)`, build characters keeping `ch.lower()` if `ch.isalnum()` else `' '`, then call `.split()`.",
+        "bn": "`extract_words`-এ প্রতিটি অক্ষর `ch.isalnum()` হলে `ch.lower()`, নতুবা `' '` নিয়ে শেষে `.split()` করুন।"
+      },
+      "hint2": {
+        "en": "In `analyze_words(words)`, `len(words)` gives total and `len(set(words))` gives unique count.",
+        "bn": "`analyze_words`-এ `len(words)` ও `len(set(words))` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Notice why converting punctuation to `' '` rather than removing it (`''`) is better: `'well-known'` splits cleanly into two words `'well'` and `'known'` instead of fusing into `'wellknown'`. Structuring cleaning and counting as separate functions makes each easy to test independently.",
+        "bn": "বিরামচিহ্ন একেবারে মুছে না দিয়ে স্পেস বানালে `'well-known'` বা `'hi,hello'`-এর মতো শব্দ জোড়া লেগে না গিয়ে আলাদা শব্দ হয়। পরিচ্ছন্নতা ও গণনা আলাদা ফাংশনে রাখা ভালো অভ্যাস।"
+      },
+      "algorithm": [
+        { "en": "Define extract_words(text) replacing non-alphanumeric chars with spaces and splitting lowercased text.", "bn": "অ-বর্ণ/অ-অঙ্ককে স্পেস বানিয়ে ছোট হাতের শব্দ বের করার extract_words লিখুন।" },
+        { "en": "Define analyze_words(words) returning (len(words), len(set(words))).", "bn": "(len(words), len(set(words))) রিটার্ন করা analyze_words লিখুন।" },
+        { "en": "Read input line, run both functions, and print result.", "bn": "বাক্য পড়ে পাইপলাইন চালিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "def extract_words(text):\n    cleaned = [ch.lower() if ch.isalnum() else \" \" for ch in text]\n    return \"\".join(cleaned).split()\n\ndef analyze_words(words):\n    return len(words), len(set(words))\n\ntext = input()\nwords = extract_words(text)\ntotal, unique = analyze_words(words)\nprint(f\"Total: {total}, Unique: {unique}\")",
+      "codeExplanation": {
+        "en": "extract_words maps non-alphanumeric characters to spaces so punctuation never glues adjacent words together, then splits into normalized tokens. analyze_words returns both counts cleanly.",
+        "bn": "extract_words বিরামচিহ্নকে স্পেসে বদলে দিয়ে শব্দ তালিকা দেয় এবং analyze_words মোট ও অনন্য শব্দের সংখ্যা রিটার্ন করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Hello, hello! Logic is logic.", "expectedOutput": "Total: 5, Unique: 3", "note": { "en": "Punctuation and case repeats", "bn": "চিহ্ন ও কেস পুনরাবৃত্তি" } },
+        { "input": "!!! ???", "expectedOutput": "Total: 0, Unique: 0", "note": { "en": "No valid words", "bn": "কোনো বৈধ শব্দ নেই" } },
+        { "input": "well-known, known!", "expectedOutput": "Total: 3, Unique: 2", "note": { "en": "Hyphen separates words", "bn": "হাইফেন দিয়ে শব্দ বিভাজন" } }
+      ]
+    },
+    {
+      "id": "P10-10",
+      "number": 10,
+      "title": {
+        "en": "Recursive Sum of Digits",
+        "bn": "রিকার্শনে সংখ্যার অঙ্কগুলোর যোগফল"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Recursive integer reduction (n // 10)", "bn": "রিকার্সিভ সংখ্যা সংকোচন (n // 10)" },
+        { "en": "Handling negative input before recursion", "bn": "রিকার্শনের আগে চিহ্ন স্বাভাবিকীকরণ" }
+      ],
+      "description": {
+        "en": "Write a recursive function `digit_sum(n)` (without loops or strings) that returns the sum of decimal digits of `|n|`. Read an integer `n` (which may be negative or 0) and print `digit_sum(abs(n))`.",
+        "bn": "লুপ বা স্ট্রিং ব্যবহার না করে `digit_sum(n)` নামের একটি রিকার্সিভ ফাংশন লিখুন যা `|n|`-এর অঙ্কগুলোর যোগফল রিটার্ন করবে। পূর্ণসংখ্যা `n` পড়ে `digit_sum(n)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "Integer sum of the digits of |N|.",
+        "bn": "|N|-এর অঙ্কগুলোর যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "5094",
+          "output": "18",
+          "explanation": {
+            "en": "4 + digit_sum(509) -> 4 + 9 + 0 + 5 = 18.",
+            "bn": "4 + digit_sum(509) -> 4 + 9 + 0 + 5 = 18।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize negative input once (`n = abs(n)`), then stop when `n < 10` (`return n`).",
+        "bn": "শুরুতেই `n = abs(n)` করে নিন এবং `n < 10` হলে সরাসরি `return n` (বেস কেস) করুন।"
+      },
+      "hint2": {
+        "en": "Recursive step: `(n % 10) + digit_sum(n // 10)`.",
+        "bn": "রিকার্সিভ ধাপ: `(n % 10) + digit_sum(n // 10)`।"
+      },
+      "logicBreakdown": {
+        "en": "Dividing `n // 10` shrinks a number exponentially in base 10, so recursion depth is only ~10 frames even for a 10-digit integer! Using `n < 10` as the base case handles `0` and all single-digit integers immediately without an extra recursive call.",
+        "bn": "প্রতি ধাপে `n // 10` করার কারণে ১০ অঙ্কের সংখ্যার জন্যও রিকার্শন মাত্র ১০ ধাপে শেষ হয়। বেস কেস `n < 10` রাখলে ০ সহ সব এক-অঙ্কের সংখ্যা সরাসরি উত্তর দেয়।"
+      },
+      "algorithm": [
+        { "en": "Define digit_sum(n): set n = abs(n); if n < 10 return n.", "bn": "n = abs(n) নিয়ে n < 10 হলে n রিটার্ন করুন।" },
+        { "en": "Else return (n % 10) + digit_sum(n // 10).", "bn": "নতুবা (n % 10) + digit_sum(n // 10) রিটার্ন করুন।" },
+        { "en": "Read n and print digit_sum(n).", "bn": "n পড়ে digit_sum(n) প্রিন্ট করুন।" }
+      ],
+      "solution": "def digit_sum(n):\n    n = abs(n)\n    if n < 10:\n        return n\n    return (n % 10) + digit_sum(n // 10)\n\nn = int(input())\nprint(digit_sum(n))",
+      "codeExplanation": {
+        "en": "abs(n) handles negative inputs safely. When n is a single digit (< 10), it returns directly; otherwise it adds the last digit (n % 10) to the recursive sum of the remaining prefix (n // 10).",
+        "bn": "abs(n) ঋণাত্মক সংখ্যা সামলায়। n এক অঙ্কের হলে সরাসরি রিটার্ন হয়; নতুবা শেষ অঙ্ক (n % 10)-এর সাথে বাকি অংশের (n // 10) রিকার্সিভ যোগফল যুক্ত হয়।"
+      },
+      "complexity": { "time": "O(log10(|N| + 1))", "space": "O(log10(|N| + 1)) stack" },
+      "testCases": [
+        { "input": "5094", "expectedOutput": "18", "note": { "en": "4-digit number", "bn": "৪-অঙ্কের সংখ্যা" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero base case", "bn": "শূন্য" } },
+        { "input": "-738", "expectedOutput": "18", "note": { "en": "Negative number", "bn": "ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P10-11",
+      "number": 11,
+      "title": {
+        "en": "Prime Sum in Range via Reusable Helpers",
+        "bn": "পুনর্ব্যবহারযোগ্য ফাংশনে নির্দিষ্ট পরিসরের মৌলিক সংখ্যার যোগফল"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Modular helper design (is_prime + range_prime_sum)", "bn": "মডুলার সহায়ক ফাংশন ডিজাইন" },
+        { "en": "Inclusive range bounds normalization", "bn": "সীমা বিন্যাস ও পরিসর গণনা" }
+      ],
+      "description": {
+        "en": "Write two functions: `is_prime(n)` checking primality in O(sqrt(n)), and `sum_primes(a, b)` returning the sum of all primes between `a` and `b` inclusive (even if `a > b`!). Read two integers `a` and `b` on two lines and print `sum_primes(a, b)`.",
+        "bn": "দুটি ফাংশন লিখুন: O(sqrt(n)) সময়ে মৌলিকতা যাচাইয়ের `is_prime(n)` এবং `a` থেকে `b` (উভয় প্রান্তসহ, এমনকি `a > b` হলেও) এর মধ্যকার সব মৌলিক সংখ্যার যোগফল নির্ণয়ের `sum_primes(a, b)`। দুটি লাইনে `a` ও `b` পড়ে যোগফল প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer a. Line 2: integer b.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা a। ২য় লাইন: পূর্ণসংখ্যা b।"
+      },
+      "expectedOutput": {
+        "en": "Integer sum of all primes in [min(a, b), max(a, b)].",
+        "bn": "পরিসরের সব মৌলিক সংখ্যার যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "10\n20",
+          "output": "60",
+          "explanation": {
+            "en": "Primes in [10, 20] are 11, 13, 17, 19 -> sum = 60.",
+            "bn": "10 থেকে 20-এর মৌলিক সংখ্যা 11, 13, 17, 19; যোগফল 60।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize bounds inside `sum_primes(a, b)` with `low, high = min(a, b), max(a, b)` so reversed inputs work!",
+        "bn": "`a > b` হলেও যেন কাজ করে সেজন্য `low, high = min(a, b), max(a, b)` করে নিন।"
+      },
+      "hint2": {
+        "en": "Skip primes below 2 safely inside `is_prime(n)` (so negative or 0/1 bounds never crash or count as prime).",
+        "bn": "`is_prime`-এ `n < 2` হলে `False` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Breaking primality testing out into `is_prime` keeps `sum_primes` crystal clear and easy to read. Normalizing `low = min(a, b)` and `high = max(a, b)` handles edge cases where the user passes the larger endpoint first, or passes negative numbers.",
+        "bn": "মৌলিকতা পরীক্ষা আলাদা ফাংশনে রাখলে `sum_primes` খুব সহজ ও পাঠযোগ্য থাকে। `min` এবং `max` দিয়ে সীমা ঠিক করে নিলে বড় সংখ্যা আগে দিলেও বা ঋণাত্মক সীমাতেও ত্রুটি হয় না।"
+      },
+      "algorithm": [
+        { "en": "Define is_prime(n) returning False for n < 2 and checking 2..int(n**0.5).", "bn": "is_prime(n) ফাংশন লিখুন।" },
+        { "en": "Define sum_primes(a, b): set low, high = min(a, b), max(a, b); sum x in range(low, high + 1) if is_prime(x).", "bn": "sum_primes(a, b)-এ সীমা ঠিক করে মৌলিক সংখ্যাগুলো যোগ করুন।" },
+        { "en": "Read a and b, print sum_primes(a, b).", "bn": "a ও b পড়ে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_prime(n):\n    if n < 2:\n        return False\n    for d in range(2, int(n ** 0.5) + 1):\n        if n % d == 0:\n            return False\n    return True\n\ndef sum_primes(a, b):\n    low, high = min(a, b), max(a, b)\n    total = 0\n    for num in range(low, high + 1):\n        if is_prime(num):\n            total += num\n    return total\n\na = int(input())\nb = int(input())\nprint(sum_primes(a, b))",
+      "codeExplanation": {
+        "en": "sum_primes delegates primality checking cleanly to is_prime while handling reversed ranges via min/max. Any range with no primes returns 0.",
+        "bn": "sum_primes প্রতিটি সংখ্যার জন্য is_prime কল করে এবং min/max দিয়ে বিপরীত সীমা সামলায়; কোনো মৌলিক সংখ্যা না থাকলে 0 দেয়।"
+      },
+      "complexity": { "time": "O((B - A) * sqrt(B))", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n20", "expectedOutput": "60", "note": { "en": "Standard range", "bn": "সাধারণ পরিসর" } },
+        { "input": "20\n10", "expectedOutput": "60", "note": { "en": "Reversed bounds", "bn": "উল্টো সীমা" } },
+        { "input": "-5\n1", "expectedOutput": "0", "note": { "en": "No primes <= 1", "bn": "কোনো মৌলিক সংখ্যা নেই" } },
+        { "input": "2\n2", "expectedOutput": "2", "note": { "en": "Single prime boundary", "bn": "একক মৌলিক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P10-12",
+      "number": 12,
+      "title": {
+        "en": "Recursive Palindrome String Verifier",
+        "bn": "রিকার্সিভ প্যালিনড্রোম স্ট্রিং যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Index-based recursion (no string slicing)", "bn": "স্লাইসিং ছাড়া সূচকভিত্তিক রিকার্শন" },
+        { "en": "Two-pointer base cases", "bn": "টু-পয়েন্টার বেস কেস" }
+      ],
+      "description": {
+        "en": "Write a recursive function `is_palindrome(s, left, right)` that checks if string `s` (case-insensitive) is a palindrome WITHOUT slicing `s[1:-1]` on every call. Read string `s` and print `'Palindrome'` or `'Not Palindrome'`.",
+        "bn": "প্রতি ধাপে স্ট্রিং স্লাইসিং (`s[1:-1]`) না করে `is_palindrome(s, left, right)` নামের একটি রিকার্সিভ ফাংশন লিখুন যা যাচাই করবে স্ট্রিং `s` (ছোট-বড় হাতের পার্থক্য ছাড়া) প্যালিনড্রোম কি না। `'Palindrome'` বা `'Not Palindrome'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "'Palindrome' or 'Not Palindrome'.",
+        "bn": "'Palindrome' অথবা 'Not Palindrome'।"
+      },
+      "examples": [
+        {
+          "input": "Level",
+          "output": "Palindrome",
+          "explanation": {
+            "en": "'l' == 'l', 'e' == 'e', middle 'v' hits left >= right -> True.",
+            "bn": "'l' == 'l', 'e' == 'e' এবং মাঝে left >= right হয়ে True।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why avoid slicing `s[1:-1]` in recursion? Because copying slices at every depth takes O(N^2) total memory and time!",
+        "bn": "রিকার্শনে `s[1:-1]` করলে প্রতি ধাপে নতুন স্ট্রিং কপি হয়ে O(N^2) সময় লাগে; তাই সূচক পাঠানো অনেক দক্ষ!"
+      },
+      "hint2": {
+        "en": "Base case 1: `if left >= right: return True`. Base case 2: `if s[left] != s[right]: return False`. Recursive call: `return is_palindrome(s, left + 1, right - 1)`.",
+        "bn": "বেস কেস ১: `left >= right` হলে `True`। বেস কেস ২: `s[left] != s[right]` হলে `False`। নতুবা `is_palindrome(s, left + 1, right - 1)`।"
+      },
+      "logicBreakdown": {
+        "en": "Passing `left` and `right` integer indices rather than copying substrings turns recursive palindrome checking from O(N^2) into O(N) time and O(N) stack space. Lowercasing `s` once before invoking the recursion avoids repeated `.lower()` calls at every frame.",
+        "bn": "স্ট্রিং কপি না করে কেবল `left` ও `right` সূচক পাঠালে সময় ও মেমোরি অনেক সাশ্রয় হয়। রিকার্শন শুরুর আগে একবার `s.lower()` করে নেওয়া পরিচ্ছন্ন।"
+      },
+      "algorithm": [
+        { "en": "Define is_palindrome(s, left, right): if left >= right return True.", "bn": "left >= right হলে True রিটার্ন করুন।" },
+        { "en": "If s[left] != s[right]: return False.", "bn": "s[left] != s[right] হলে False রিটার্ন করুন।" },
+        { "en": "Return is_palindrome(s, left + 1, right - 1).", "bn": "is_palindrome(s, left + 1, right - 1) রিটার্ন করুন।" },
+        { "en": "Normalize s = input().lower(), call with (s, 0, len(s) - 1), and print.", "bn": "s.lower() করে (s, 0, len(s) - 1) কল করে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_palindrome(s, left, right):\n    if left >= right:\n        return True\n    if s[left] != s[right]:\n        return False\n    return is_palindrome(s, left + 1, right - 1)\n\ns = input().lower()\nprint(\"Palindrome\" if is_palindrome(s, 0, len(s) - 1) else \"Not Palindrome\")",
+      "codeExplanation": {
+        "en": "Two base cases govern termination: pointers meeting/crossing signals success (True), while any mismatch short-circuits failure (False). Passing indices avoids substring allocations.",
+        "bn": "দুটি বেস কেস রয়েছে: পয়েন্টার দুটো মিলে বা পেরিয়ে গেলে True, আর অক্ষর না মিললেই সাথে সাথে False। সূচক পাস করায় বাড়তি স্ট্রিং তৈরি হয় না।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) call stack" },
+      "testCases": [
+        { "input": "Level", "expectedOutput": "Palindrome", "note": { "en": "Case-insensitive odd length", "bn": "বিজোড় দৈর্ঘ্যের প্যালিনড্রোম" } },
+        { "input": "noon", "expectedOutput": "Palindrome", "note": { "en": "Even length", "bn": "জোড় দৈর্ঘ্যের প্যালিনড্রোম" } },
+        { "input": "python", "expectedOutput": "Not Palindrome", "note": { "en": "Mismatch at ends", "bn": "প্যালিনড্রোম নয়" } },
+        { "input": "a", "expectedOutput": "Palindrome", "note": { "en": "Single character", "bn": "একক অক্ষর" } }
+      ]
+    },
+    {
+      "id": "P10-13",
+      "number": 13,
+      "title": {
+        "en": "Variadic Statistics Function (*args)",
+        "bn": "ভ্যারিয়াডিক প্যারামিটার (*args) পরিসংখ্যান ফাংশন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Arbitrary positional arguments (*args)", "bn": "অনির্দিষ্ট সংখ্যক আর্গুমেন্ট (*args)" },
+        { "en": "Unpacking list into function call (*nums)", "bn": "লিস্ট আনপ্যাক করে ফাংশন কল (*nums)" }
+      ],
+      "description": {
+        "en": "Write a function `stats(*nums)` that accepts any number of integer arguments via `*args`. If zero arguments are passed, return `None`. Otherwise return `(min_val, max_val, range_span, avg)` where `range_span = max_val - min_val`. Read a line of space-separated integers (may be empty), unpack them into `stats(*nums)`, and print `'Min: X, Max: Y, Span: Z, Avg: A.AA'` (or `'No Data'` if empty).",
+        "bn": "`*args` ব্যবহার করে `stats(*nums)` নামের একটি ফাংশন লিখুন যা যেকোনো সংখ্যক পূর্ণসংখ্যা গ্রহণ করবে। কোনো আর্গুমেন্ট না পেলে `None` রিটার্ন করবে, নতুবা `(min_val, max_val, range_span, avg)` রিটার্ন করবে। ইনপুট থেকে সংখ্যা পড়ে `*nums` দিয়ে ফাংশনটি কল করুন এবং ফরম্যাট করে প্রিন্ট করুন (ইনপুট খালি হলে `'No Data'`)।"
+      },
+      "inputDescription": {
+        "en": "A single line of space-separated integers (may be blank).",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি লাইন (খালিও হতে পারে)।"
+      },
+      "expectedOutput": {
+        "en": "'Min: X, Max: Y, Span: Z, Avg: A.AA' or 'No Data'.",
+        "bn": "'Min: X, Max: Y, Span: Z, Avg: A.AA' অথবা 'No Data'।"
+      },
+      "examples": [
+        {
+          "input": "10 25 5 40",
+          "output": "Min: 5, Max: 40, Span: 35, Avg: 20.00",
+          "explanation": {
+            "en": "min=5, max=40, span=40-5=35, avg=80/4=20.00.",
+            "bn": "সর্বনিম্ন 5, সর্বোচ্চ 40, ব্যবধান 35, গড় 20.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inside `def stats(*nums):`, `nums` is automatically a tuple of all arguments passed!",
+        "bn": "`def stats(*nums):` লিখলে ভেতরে `nums` একটি টাপল হিসেবে সব আর্গুমেন্ট ধরে রাখে।"
+      },
+      "hint2": {
+        "en": "To pass elements of a list `values` as individual arguments into `stats`, call `stats(*values)`!",
+        "bn": "একটি লিস্টের উপাদানগুলোকে আলাদা আর্গুমেন্ট হিসেবে পাঠাতে `stats(*values)` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "`*args` lets a function accept 0, 1, or N positional arguments flexibly, while `*values` at the call site unpacks a dynamic list back into individual positional arguments. Guarding `if not nums: return None` prevents division-by-zero when called with zero values.",
+        "bn": "`*args` ফাংশনকে যেকোনো সংখ্যক ইনপুট নিতে দেয়, আর কল করার সময় `*values` লিস্টের উপাদানগুলো খুলে পাঠায়। `if not nums: return None` শূন্য দিয়ে ভাগ হওয়ার ঝুঁকি দূর করে।"
+      },
+      "algorithm": [
+        { "en": "Define stats(*nums): if not nums return None; compute low, high, high - low, total / len(nums).", "bn": "stats(*nums) ফাংশনে খালি হলে None, নতুবা চারটি পরিসংখ্যান রিটার্ন করুন।" },
+        { "en": "Parse input line into integer list values.", "bn": "ইনপুট ভেঙে পূর্ণসংখ্যার লিস্ট values নিন।" },
+        { "en": "Call res = stats(*values). Print 'No Data' if None, else formatted stats.", "bn": "res = stats(*values) কল করে None হলে 'No Data' নতুবা ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def stats(*nums):\n    if not nums:\n        return None\n    low = high = nums[0]\n    total = 0\n    for x in nums:\n        if x < low:\n            low = x\n        if x > high:\n            high = x\n        total += x\n    return low, high, high - low, total / len(nums)\n\nvalues = [int(x) for x in input().split()]\nres = stats(*values)\nif res is None:\n    print(\"No Data\")\nelse:\n    low, high, span, avg = res\n    print(f\"Min: {low}, Max: {high}, Span: {span}, Avg: {avg:.2f}\")",
+      "codeExplanation": {
+        "en": "stats receives any number of arguments packed into tuple nums. When values is empty, stats(*values) receives zero args and returns None cleanly.",
+        "bn": "stats ফাংশন সব আর্গুমেন্ট nums টাপলে পায়। values খালি হলে শূন্য আর্গুমেন্ট গিয়ে নিরাপদে None রিটার্ন করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "10 25 5 40", "expectedOutput": "Min: 5, Max: 40, Span: 35, Avg: 20.00", "note": { "en": "Multiple numbers", "bn": "একাধিক সংখ্যা" } },
+        { "input": "   ", "expectedOutput": "No Data", "note": { "en": "Empty input edge case", "bn": "খালি ইনপুট" } },
+        { "input": "-7", "expectedOutput": "Min: -7, Max: -7, Span: 0, Avg: -7.00", "note": { "en": "Single negative element", "bn": "একটি ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P10-14",
+      "number": 14,
+      "title": {
+        "en": "Modular Student Grade Report Pipeline",
+        "bn": "মডুলার শিক্ষার্থী গ্রেড রিপোর্ট পাইপলাইন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Multi-function separation of concerns", "bn": "একাধিক ফাংশনে দায়িত্ব বিভাজন" },
+        { "en": "Threshold mapping + batch summary", "bn": "গ্রেড রূপান্তর ও সারসংক্ষেপ" }
+      ],
+      "description": {
+        "en": "Build two functions: `score_to_grade(score)` mapping 80–100->'A+', 70–79->'A', 60–69->'B', 50–59->'C', 40–49->'D', <40->'F'; and `build_report(records)` taking `(name, score)` tuples and returning `(grade_lines, pass_count)` where passing is score >= 40. Read N records, print each `'<name>: <grade>'`, and finish with `'Passed: <pass_count>/<N>'`.",
+        "bn": "দুটি ফাংশন তৈরি করুন: `score_to_grade(score)` (৮০–১০০:'A+', ৭০–৭৯:'A', ৬০–৬৯:'B', ৫০–৫৯:'C', ৪০–৪৯:'D', <৪০:'F') এবং `build_report(records)` যা `(name, score)` টাপলের লিস্ট নিয়ে প্রতিটি শিক্ষার্থীর গ্রেড ও পাসকৃত (score >= 40) সংখ্যা রিটার্ন করবে। Nটি রেকর্ড পড়ে প্রতিটি `'<name>: <grade>'` এবং শেষে `'Passed: <pass_count>/<N>'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N (N >= 1). Next N lines: '<name> <score>'.",
+        "bn": "১ম লাইন: N। পরের N লাইনে '<name> <score>'।"
+      },
+      "expectedOutput": {
+        "en": "N lines of '<name>: <grade>' followed by 'Passed: <pass_count>/<N>'.",
+        "bn": "Nটি '<name>: <grade>' লাইন এবং শেষে 'Passed: <pass_count>/<N>'।"
+      },
+      "examples": [
+        {
+          "input": "3\nNadia 84\nTariq 58\nImran 35",
+          "output": "Nadia: A+\nTariq: C\nImran: F\nPassed: 2/3",
+          "explanation": {
+            "en": "84 -> A+, 58 -> C, 35 -> F; 2 out of 3 scored >= 40.",
+            "bn": "84 -> A+, 58 -> C, 35 -> F; ৩ জনের মধ্যে ২ জন পাস করেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Order `elif` branches from highest threshold (80, 70, 60, 50, 40) downward so each boundary is concise.",
+        "bn": "উপর থেকে নিচে (80, 70, 60, 50, 40) ক্রমে `elif` লিখলে শর্তগুলো সংক্ষিপ্ত ও ত্রুটিমুক্ত থাকে।"
+      },
+      "hint2": {
+        "en": "Have `build_report` call `score_to_grade` for each student instead of duplicating grading rules.",
+        "bn": "`build_report`-এর ভেতরে গ্রেডের শর্ত আবার না লিখে `score_to_grade` কল করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Separating grading policy (`score_to_grade`) from report aggregation (`build_report`) ensures that changing a grade cutoff later only requires editing one function. Returning `(lines, pass_count)` keeps `build_report` pure and testable.",
+        "bn": "গ্রেড নির্ধারণের নিয়ম (`score_to_grade`) এবং রিপোর্ট তৈরির কাজ (`build_report`) আলাদা রাখলে ভবিষ্যতে গ্রেড স্কেল বদলাতে হলে কেবল একটি ফাংশন বদলালেই চলে।"
+      },
+      "algorithm": [
+        { "en": "Define score_to_grade(score) checking thresholds 80, 70, 60, 50, 40.", "bn": "৮০, ৭০, ৬০, ৫০, ৪০ সীমা যাচাইয়ের score_to_grade লিখুন।" },
+        { "en": "Define build_report(records) looping over records, formatting '<name>: <grade>', and counting score >= 40.", "bn": "build_report ফাংশনে প্রতিটি শিক্ষার্থীর গ্রেড ও পাসের সংখ্যা বের করুন।" },
+        { "en": "Read n records, invoke build_report, print lines and summary.", "bn": "nটি রেকর্ড পড়ে রিপোর্ট ও পাসের সংখ্যা প্রিন্ট করুন।" }
+      ],
+      "solution": "def score_to_grade(score):\n    if score >= 80:\n        return \"A+\"\n    elif score >= 70:\n        return \"A\"\n    elif score >= 60:\n        return \"B\"\n    elif score >= 50:\n        return \"C\"\n    elif score >= 40:\n        return \"D\"\n    return \"F\"\n\ndef build_report(records):\n    lines = []\n    passed = 0\n    for name, score in records:\n        grade = score_to_grade(score)\n        lines.append(f\"{name}: {grade}\")\n        if score >= 40:\n            passed += 1\n    return lines, passed\n\nn = int(input())\nrecords = []\nfor _ in range(n):\n    name, s = input().split()\n    records.append((name, int(s)))\n\nreport_lines, pass_count = build_report(records)\nfor line in report_lines:\n    print(line)\nprint(f\"Passed: {pass_count}/{n}\")",
+      "codeExplanation": {
+        "en": "score_to_grade cleanly translates numeric marks to letter grades. build_report composes it across all records and returns both formatted report lines and the pass count.",
+        "bn": "score_to_grade নম্বরকে গ্রেডে রূপান্তর করে, আর build_report তা সব শিক্ষার্থীর ওপর প্রয়োগ করে রিপোর্ট ও পাসের হিসাব দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\nNadia 84\nTariq 58\nImran 35", "expectedOutput": "Nadia: A+\nTariq: C\nImran: F\nPassed: 2/3", "note": { "en": "Mixed grades", "bn": "মিশ্র গ্রেড" } },
+        { "input": "2\nA 40\nB 39", "expectedOutput": "A: D\nB: F\nPassed: 1/2", "note": { "en": "Pass boundary 40 vs 39", "bn": "পাসের সীমানা ৪০ বনাম ৩৯" } },
+        { "input": "4\nR 80\nS 70\nT 60\nU 50", "expectedOutput": "R: A+\nS: A\nT: B\nU: C\nPassed: 4/4", "note": { "en": "Exact cutoff thresholds", "bn": "সঠিক গ্রেড সীমানা" } }
+      ]
+    },
+    {
+      "id": "P10-15",
+      "number": 15,
+      "title": {
+        "en": "Fast Recursive Binary Exponentiation",
+        "bn": "দক্ষ রিকার্সিভ বাইনারি এক্সপোনেনশিয়েশন (O(log exp))"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Divide-and-conquer recursion", "bn": "ডিভাইড-অ্যান্ড-কনকার রিকার্শন" },
+        { "en": "Halving exponent (exp // 2)", "bn": "সূচক অর্ধেক করা (exp // 2)" }
+      ],
+      "description": {
+        "en": "Write a recursive function `fast_pow(base, exp)` computing `base^exp` (mod `1000000007`) in `O(log exp)` time using exponentiation by squaring (without using built-in 3-arg `pow()`). Read `base` and `exp` on two lines (`exp >= 0`) and print `fast_pow(base, exp) % 1000000007`.",
+        "bn": "তিন-আর্গুমেন্টের বিল্ট-ইন `pow()` ব্যবহার না করে বাইনারি এক্সপোনেনশিয়েশন পদ্ধতিতে O(log exp) সময়ে `(base^exp) % 1000000007` নির্ণয়ের জন্য একটি রিকার্সিভ ফাংশন `fast_pow(base, exp)` লিখুন। `base` এবং `exp` (`exp >= 0`) ইনপুট নিয়ে ফলাফল প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integer base. Line 2: non-negative integer exp (can be large, e.g., 10^9).",
+        "bn": "১ম লাইন: base। ২য় লাইন: অ-ঋণাত্মক পূর্ণসংখ্যা exp (যেমন 10^9 পর্যন্ত)।"
+      },
+      "expectedOutput": {
+        "en": "Integer equal to (base^exp) mod 1000000007.",
+        "bn": "(base^exp) mod 1000000007-এর মান।"
+      },
+      "examples": [
+        {
+          "input": "2\n10",
+          "output": "1024",
+          "explanation": {
+            "en": "2^10 = 1024; 1024 % 1000000007 = 1024.",
+            "bn": "2^10 = 1024।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Key identity: if `exp` is even, `base^exp = (base^(exp // 2))^2`. If odd, `base * (base^(exp // 2))^2`!",
+        "bn": "মূল সূত্র: `exp` জোড় হলে `(base^(exp // 2))^2`, আর বিজোড় হলে `base * (base^(exp // 2))^2`!"
+      },
+      "hint2": {
+        "en": "Compute `half = fast_pow(base, exp // 2)` ONCE and store it in a variable! Calling `fast_pow` twice turns O(log N) back into O(N)!",
+        "bn": "`half = fast_pow(base, exp // 2)` একবার হিসাব করে ভ্যারিয়েবলে রাখুন; দুবার কল করলে সময় আবার O(N) হয়ে যাবে!"
+      },
+      "logicBreakdown": {
+        "en": "Linear recursion `base * power(base, exp - 1)` crashes on `exp = 10^9` due to recursion depth and takes a billion steps. Halving `exp // 2` at each step takes at most ~30 recursive frames even for `exp = 10^9`! Applying `% MOD` after squaring and multiplying keeps intermediate numbers tiny, and storing `half` once prevents duplicate recursive subtrees.",
+        "bn": "প্রতি ধাপে exp ১ করে কমালে `exp = 10^9`-এ প্রোগ্রাম ক্র্যাশ করবে। কিন্তু প্রতিবার `exp // 2` করলে ১০০ কোটির জন্যও মাত্র ~৩০ ধাপ লাগে! মনে রাখবেন `half` একবারই কল করতে হবে, আর প্রতি গুণফলে `% 1000000007` নিলে সংখ্যা ছোট থাকে।"
+      },
+      "algorithm": [
+        { "en": "Set MOD = 1000000007.", "bn": "MOD = 1000000007 নির্ধারণ করুন।" },
+        { "en": "Define fast_pow(base, exp): if exp == 0 return 1.", "bn": "exp == 0 হলে 1 রিটার্ন করুন।" },
+        { "en": "Compute half = fast_pow(base, exp // 2); sq = (half * half) % MOD.", "bn": "half = fast_pow(base, exp // 2) বের করে sq = (half * half) % MOD নিন।" },
+        { "en": "If exp % 2 == 1, return (sq * (base % MOD)) % MOD; else return sq.", "bn": "exp বিজোড় হলে (sq * (base % MOD)) % MOD, নতুবা sq রিটার্ন করুন।" }
+      ],
+      "solution": "MOD = 1000000007\n\ndef fast_pow(base, exp):\n    if exp == 0:\n        return 1\n    half = fast_pow(base, exp // 2)\n    sq = (half * half) % MOD\n    if exp % 2 == 1:\n        return (sq * (base % MOD)) % MOD\n    return sq\n\nbase = int(input())\nexp = int(input())\nprint(fast_pow(base, exp))",
+      "codeExplanation": {
+        "en": "Because half is stored before squaring, each level makes only one recursive call with half the exponent. Modular reduction at each multiplication keeps values bounded below 10^18.",
+        "bn": "half একবার বের করে বর্গ করায় প্রতি স্তরে মাত্র একটি রিকার্সিভ কল হয় এবং % MOD নেওয়ায় বড় সূচকেও দ্রুত নিখুঁত উত্তর আসে।"
+      },
+      "complexity": { "time": "O(log(exp))", "space": "O(log(exp)) stack" },
+      "testCases": [
+        { "input": "2\n10", "expectedOutput": "1024", "note": { "en": "Small exponent", "bn": "ছোট সূচক" } },
+        { "input": "2\n1000000000", "expectedOutput": "140625001", "note": { "en": "Huge exponent 10^9", "bn": "বিশাল সূচক 10^9" } },
+        { "input": "5\n0", "expectedOutput": "1", "note": { "en": "Zero exponent", "bn": "শূন্য সূচক" } },
+        { "input": "3\n31", "expectedOutput": "391960236", "note": { "en": "Exceeds MOD", "bn": "MOD অতিক্রমকারী ফল" } }
+      ]
+    },
+    {
+      "id": "P10-16",
+      "number": 16,
+      "title": {
+        "en": "Arithmetic Expression Evaluator With Precedence",
+        "bn": "অপারেটর অগ্রাধিকারসহ গাণিতিক এক্সপ্রেশন মূল্যায়ন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Operator precedence (* before +, -)", "bn": "অপারেটর অগ্রাধিকার (* ও // আগে, + ও - পরে)" },
+        { "en": "Two-stage helper architecture", "bn": "দুই-ধাপের হেল্পার ফাংশন কাঠামো" }
+      ],
+      "description": {
+        "en": "Read a space-separated integer arithmetic expression containing `+`, `-`, `*`, and `//` (integer division, no parentheses, e.g. `3 + 4 * 2 - 6 // 3`). Evaluate it WITHOUT using `eval()`, respecting standard operator precedence (`*` and `//` before `+` and `-`, left-to-right within equal precedence).",
+        "bn": "`eval()` ব্যবহার না করে `+`, `-`, `*` এবং `//` অপারেটরযুক্ত স্পেস-বিচ্ছিন্ন একটি পূর্ণসংখ্যার গাণিতিক এক্সপ্রেশন (যেমন `3 + 4 * 2 - 6 // 3`) ইনপুট নিয়ে সঠিক অপারেটর অগ্রাধিকার মেনে (`*` ও `//` আগে, তারপর `+` ও `-`) মান নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing space-separated integer operands and operators (+, -, *, //).",
+        "bn": "এক লাইনে স্পেস দিয়ে আলাদা করা সংখ্যা ও অপারেটর (+, -, *, //)।"
+      },
+      "expectedOutput": {
+        "en": "The integer result of evaluating the expression.",
+        "bn": "এক্সপ্রেশনের চূড়ান্ত পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "3 + 4 * 2 - 6 // 3",
+          "output": "9",
+          "explanation": {
+            "en": "First 4 * 2 = 8 and 6 // 3 = 2 -> 3 + 8 - 2 = 9.",
+            "bn": "প্রথমে 4 * 2 = 8 এবং 6 // 3 = 2, তারপর 3 + 8 - 2 = 9।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Write a helper `apply_mul_div(tokens)` for Pass 1 that evaluates `*` and `//` left-to-right, collapsing them into a reduced list of numbers and `+`/`-`.",
+        "bn": "প্রথম পাসের জন্য `apply_mul_div(tokens)` লিখুন যা বাম থেকে ডানে `*` এবং `//` সমাধান করে সংখ্যা ও `+`/`-`-এর ছোট তালিকা বানাবে।"
+      },
+      "hint2": {
+        "en": "In Pass 2 (`apply_add_sub(reduced)`), walk left-to-right summing/subtracting the remaining values.",
+        "bn": "দ্বিতীয় পাসে (`apply_add_sub`) অবশিষ্ট `+` ও `-` বাম থেকে ডানে হিসাব করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Evaluating strictly left-to-right gives `3 + 4 * 2 -> 14` instead of `11`. Splitting evaluation into two modular functions mirrors how real expression parsers handle precedence: Pass 1 binds higher-precedence `*` and `//` onto the top of a reduced token list (`stack[-1]`), and Pass 2 folds all lower-precedence `+` and `-` left to right.",
+        "bn": "বাম থেকে ডানে সরাসরি হিসাব করলে `3 + 4 * 2` ভুলভাবে 14 হয়ে যায়। তাই দুটি ফাংশনে ভাগ করা হয়েছে: প্রথম ফাংশন `*` ও `//` আগে শেষ করে এবং দ্বিতীয় ফাংশন বাকি `+` ও `-` বাম থেকে ডানে যোগ-বিয়োগ করে।"
+      },
+      "algorithm": [
+        { "en": "Write apply_mul_div(tokens): process tokens left-to-right, collapsing * and // onto the last pushed integer.", "bn": "tokens থেকে * ও // আগে হিসাব করার apply_mul_div ফাংশন লিখুন।" },
+        { "en": "Write apply_add_sub(reduced): start total = reduced[0], then process pairs (op, num) for + and -.", "bn": "বাকি + ও - হিসাব করার apply_add_sub ফাংশন লিখুন।" },
+        { "en": "Tokenize input().split(), compose both functions, and print result.", "bn": "ইনপুট ভেঙে ফাংশন দুটি চালিয়ে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def apply_mul_div(tokens):\n    reduced = [int(tokens[0])]\n    i = 1\n    while i < len(tokens):\n        op = tokens[i]\n        val = int(tokens[i + 1])\n        if op == \"*\":\n            reduced[-1] *= val\n        elif op == \"//\":\n            reduced[-1] //= val\n        else:\n            reduced.append(op)\n            reduced.append(val)\n        i += 2\n    return reduced\n\ndef apply_add_sub(reduced):\n    total = reduced[0]\n    i = 1\n    while i < len(reduced):\n        op = reduced[i]\n        val = reduced[i + 1]\n        if op == \"+\":\n            total += val\n        else:\n            total -= val\n        i += 2\n    return total\n\ntokens = input().split()\nprint(apply_add_sub(apply_mul_div(tokens)))",
+      "codeExplanation": {
+        "en": "apply_mul_div maintains reduced[-1] as the most recent integer operand, immediately folding any * or // operation onto it while passing + and - through. apply_add_sub then folds the remaining additions and subtractions.",
+        "bn": "apply_mul_div কেবল * ও // অপারেশন সাথে সাথে reduced[-1]-এর ওপর প্রয়োগ করে এবং + ও - রেখে দেয়; এরপর apply_add_sub সেগুলো যোগ-বিয়োগ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3 + 4 * 2 - 6 // 3", "expectedOutput": "9", "note": { "en": "Precedence across all 4 ops", "bn": "সব ৪টি অপারেটরের অগ্রাধিকার" } },
+        { "input": "10 - 2 * 3 * 2", "expectedOutput": "-2", "note": { "en": "Chained multiplication", "bn": "ধারাবাহিক গুণ ও ঋণাত্মক ফল" } },
+        { "input": "42", "expectedOutput": "42", "note": { "en": "Single number", "bn": "একটি সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P10-17",
+      "number": 17,
+      "title": {
+        "en": "Memoized Recursive Fibonacci (Top-Down DP)",
+        "bn": "মেমোইজেশনসহ রিকার্সিভ ফিবোনাচ্চি (Top-Down DP)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Memoization cache dictionary", "bn": "মেমোইজেশন ক্যাশ ডিকশনারি" },
+        { "en": "Eliminating overlapping subproblems", "bn": "পুনরাবৃত্ত সাব-প্রবলেম এড়ানো" }
+      ],
+      "description": {
+        "en": "Write a memoized recursive function `fib(n, memo)` returning the N-th Fibonacci number (with `fib(0) = 0`, `fib(1) = 1`) capable of answering `N = 80` instantaneously without exponential slowness. Read integer `N` (`0 <= N <= 200`) and print `fib(N)`.",
+        "bn": "মেমোইজেশন ব্যবহার করে `fib(n, memo)` নামের একটি রিকার্সিভ ফাংশন লিখুন যা N-তম ফিবোনাচ্চি সংখ্যা (`fib(0) = 0`, `fib(1) = 1`) রিটার্ন করবে এবং `N = 80` বা `200`-এর জন্যও মুহূর্তেই উত্তর দেবে। `N` (`0 <= N <= 200`) ইনপুট নিয়ে `fib(N)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (0 <= N <= 200).",
+        "bn": "একটি পূর্ণসংখ্যা N (0 <= N <= 200)।"
+      },
+      "expectedOutput": {
+        "en": "The N-th Fibonacci integer.",
+        "bn": "N-তম ফিবোনাচ্চি পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "50",
+          "output": "12586269025",
+          "explanation": {
+            "en": "Without memoization, fib(50) takes ~2^50 calls; with memoization it takes only 51 unique computations.",
+            "bn": "মেমোইজেশন ছাড়া fib(50) কোটি কোটি বার কল হয়, কিন্তু ক্যাশ রাখলে মাত্র ৫১টি গণনায় শেষ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Avoid mutable default arguments like `def fib(n, memo={}):` in Python—either pass `memo` explicitly or default `memo=None` and create it when needed!",
+        "bn": "পাইথনে `memo={}` ডিফল্ট হিসেবে নেবেন না; `memo=None` নিয়ে ভেতরে ডিকশনারি তৈরি করুন অথবা বাইরে থেকে `{0: 0, 1: 1}` পাঠান!"
+      },
+      "hint2": {
+        "en": "Before computing `fib(n - 1) + fib(n - 2)`, check `if n in memo: return memo[n]`, and store `memo[n]` before returning.",
+        "bn": "গবেষণার আগেই `if n in memo: return memo[n]` দেখুন এবং রিটার্নের আগে ফলাফল `memo[n]`-এ জমা রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Naive recursive Fibonacci repeats identical subproblems exponentially (`O(2^N)`). Caching each solved `n` inside `memo` ensures every subproblem `0..N` is computed at most once, collapsing time complexity from exponential `O(2^N)` to linear `O(N)`. This is your gateway to Dynamic Programming.",
+        "bn": "সাধারণ রিকার্সিভ ফিবোনাচ্চিতে একই `fib(k)` অসংখ্যবার হিসাব হয় (`O(2^N)`)। `memo` ডিকশনারিতে একবার পাওয়া মান রেখে দিলে `0..N` পর্যন্ত প্রতিটি মান কেবল একবারই বের করতে হয়—ফলে সময় O(N)-এ নেমে আসে।"
+      },
+      "algorithm": [
+        { "en": "Define fib(n, memo=None): initialize memo = {0: 0, 1: 1} if None.", "bn": "fib(n, memo=None) লিখুন এবং memo খালি থাকলে {0: 0, 1: 1} নিন।" },
+        { "en": "If n in memo, return memo[n].", "bn": "n যদি memo-তে থাকে তবে সরাসরি memo[n] রিটার্ন করুন।" },
+        { "en": "Otherwise set memo[n] = fib(n - 1, memo) + fib(n - 2, memo) and return memo[n].", "bn": "নতুবা memo[n] = fib(n - 1, memo) + fib(n - 2, memo) সংরক্ষণ করে রিটার্ন করুন।" },
+        { "en": "Read n and print fib(n).", "bn": "n পড়ে fib(n) প্রিন্ট করুন।" }
+      ],
+      "solution": "def fib(n, memo=None):\n    if memo is None:\n        memo = {0: 0, 1: 1}\n    if n in memo:\n        return memo[n]\n    memo[n] = fib(n - 1, memo) + fib(n - 2, memo)\n    return memo[n]\n\nn = int(input())\nprint(fib(n))",
+      "codeExplanation": {
+        "en": "Initializing memo inside the call when None avoids Python's shared-mutable-default pitfall. Each new n is computed once, cached in memo, and reused in O(1) across the rest of the recursion tree.",
+        "bn": "memo=None দিয়ে ভেতরে ডিকশনারি তৈরি করায় নিরাপদ মেমোইজেশন হয়। প্রতিটি মান একবারই হিসাব হয়ে ক্যাশ থাকে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "50", "expectedOutput": "12586269025", "note": { "en": "Fast O(N) memoized calculation", "bn": "দ্রুত ৫০-তম পদ" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Base case 0", "bn": "বেস কেস ০" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Base case 1", "bn": "বেস কেস ১" } },
+        { "input": "80", "expectedOutput": "23416728348467685", "note": { "en": "Large N=80", "bn": "বড় মান N=80" } }
+      ]
+    },
+    {
+      "id": "P10-18",
+      "number": 18,
+      "title": {
+        "en": "Strict IPv4 Address Validator Functions",
+        "bn": "কঠোর IPv4 ঠিকানা যাচাইকারী ফাংশন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Modular validation helpers", "bn": "মডুলার ভ্যালিডেশন ফাংশন" },
+        { "en": "Security & networking input checks", "bn": "নেটওয়ার্কিং ইনপুট নিরাপত্তা যাচাই" }
+      ],
+      "description": {
+        "en": "Write helper functions `is_valid_octet(part)` and `is_valid_ipv4(addr)` to verify whether an input string is a valid IPv4 address. Rules: exactly 4 dot-separated parts; each part contains ONLY ASCII digits (no signs, spaces, or letters); numeric value is 0–255; and NO leading zeros for multi-digit octets (so '0' is valid, but '01' or '00' is invalid). Print 'Valid' or 'Invalid'.",
+        "bn": "`is_valid_octet(part)` এবং `is_valid_ipv4(addr)` ফাংশন লিখে যাচাই করুন ইনপুট স্ট্রিংটি বৈধ IPv4 ঠিকানা কি না। নিয়মাবলি: ডট (.) দিয়ে আলাদা ঠিক ৪টি অংশ; প্রতিটি অংশে কেবল ডিজিট থাকবে (চিহ্ন বা স্পেস নয়); মান 0–255-এর মধ্যে হবে; এবং একাধিক অঙ্কের অংশে শুরুতে শূন্য থাকতে পারবে না ('0' বৈধ, কিন্তু '01' বা '00' অবৈধ)। 'Valid' বা 'Invalid' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string representing a candidate IPv4 address.",
+        "bn": "এক লাইনের একটি সম্ভাব্য IPv4 স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "'Valid' or 'Invalid'.",
+        "bn": "'Valid' অথবা 'Invalid'।"
+      },
+      "examples": [
+        {
+          "input": "192.168.0.1",
+          "output": "Valid",
+          "explanation": {
+            "en": "4 valid octets, all in 0..255 with no leading zeros.",
+            "bn": "৪টি বৈধ অক্টেট (0..255), কোনো শুরুর শূন্য নেই।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Watch out for Python's `.isdigit()` on Unicode superscripts like '²', or `int('+1')` accepting '+'! Checking `all('0' <= ch <= '9' for ch in part)` is strictest.",
+        "bn": "`int('+1')` '+' চিহ্ন গ্রহণ করে ফেলে! তাই `all('0' <= ch <= '9' for ch in part)` দিয়ে নিশ্চিত হোন কেবল 0–9 অঙ্কই আছে।"
+      },
+      "hint2": {
+        "en": "Check leading zeros cleanly: `if len(part) > 1 and part[0] == '0': return False`.",
+        "bn": "শুরুর শূন্য ধরতে লিখুন: `if len(part) > 1 and part[0] == '0': return False`।"
+      },
+      "logicBreakdown": {
+        "en": "Strict input validation is vital in cybersecurity and network programming. Splitting on `'.'` must yield length 4 (`1.2.3.` produces an empty 5th part or empty 4th part). Checking empty string, non-ASCII-digit characters, multi-digit leading zeros (to prevent octal ambiguity in security parsers!), and integer bounds `0 <= val <= 255` covers every edge case.",
+        "bn": "নেটওয়ার্কিং ও সাইবার সিকিউরিটিতে ইনপুট যাচাই অত্যন্ত জরুরি। ডট দিয়ে ভাগ করলে ঠিক ৪টি অংশ থাকতে হবে, খালি বা '+' চিহ্ন যুক্ত হলে চলবে না, এবং একাধিক অঙ্কে শুরুতে '0' থাকলে তা অক্টাল বিভ্রান্তি ঘটায় বলে বাতিল করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Define is_valid_octet(part): reject empty, non-'0'..'9' chars, len > 1 with part[0] == '0', or int(part) > 255.", "bn": "প্রতিটি অক্টেটের দৈর্ঘ্য, অঙ্ক, শুরুর শূন্য এবং ০..২৫৫ সীমা যাচাইয়ে is_valid_octet লিখুন।" },
+        { "en": "Define is_valid_ipv4(addr): split on '.'; require len == 4 and all(is_valid_octet(p) for p in parts).", "bn": "ডট দিয়ে ভেঙে ৪টি অংশই বৈধ কি না তা is_valid_ipv4-এ যাচাই করুন।" },
+        { "en": "Read addr = input().strip() and print 'Valid' or 'Invalid'.", "bn": "ইনপুট পড়ে 'Valid' বা 'Invalid' প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_valid_octet(part):\n    if not part:\n        return False\n    if not all(\"0\" <= ch <= \"9\" for ch in part):\n        return False\n    if len(part) > 1 and part[0] == \"0\":\n        return False\n    return 0 <= int(part) <= 255\n\ndef is_valid_ipv4(addr):\n    parts = addr.split(\".\")\n    if len(parts) != 4:\n        return False\n    return all(is_valid_octet(p) for p in parts)\n\naddr = input().strip()\nprint(\"Valid\" if is_valid_ipv4(addr) else \"Invalid\")",
+      "codeExplanation": {
+        "en": "is_valid_octet verifies non-emptiness, strict ASCII digits, no leading zeros on multi-digit strings, and numeric range 0–255. is_valid_ipv4 ensures exactly four valid octets.",
+        "bn": "is_valid_octet প্রতিটি অংশে খালি না থাকা, শুধু ০–৯ অঙ্ক, শুরুর শূন্য না থাকা এবং ০–২৫৫ সীমা যাচাই করে; আর is_valid_ipv4 ঠিক ৪টি বৈধ অংশ নিশ্চিত করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "192.168.0.1", "expectedOutput": "Valid", "note": { "en": "Private IPv4 with 0", "bn": "বৈধ IPv4 (একক 0 সহ)" } },
+        { "input": "255.255.255.255", "expectedOutput": "Valid", "note": { "en": "Upper broadcast boundary", "bn": "সর্বোচ্চ বৈধ মান" } },
+        { "input": "192.168.01.1", "expectedOutput": "Invalid", "note": { "en": "Leading zero in octet", "bn": "শুরুতে শূন্য অবৈধ" } },
+        { "input": "256.1.1.1", "expectedOutput": "Invalid", "note": { "en": "Out of 0..255 range", "bn": "২৫৫-এর বেশি মান" } },
+        { "input": "1.2.3.", "expectedOutput": "Invalid", "note": { "en": "Trailing dot creates empty octet", "bn": "শেষে ডট থাকায় খালি অংশ" } },
+        { "input": "+1.2.3.4", "expectedOutput": "Invalid", "note": { "en": "Plus sign rejected", "bn": "যোগ চিহ্ন অবৈধ" } }
+      ]
+    },
+    {
+      "id": "P10-19",
+      "number": 19,
+      "title": {
+        "en": "Recursive Nested List Flattener",
+        "bn": "রিকার্সিভ নেস্টেড লিস্ট সমতলকরণ (Flatten)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Tree/arbitrary-depth recursion", "bn": "যেকোনো গভীরতার রিকার্শন" },
+        { "en": "isinstance() type checking + safe JSON parsing", "bn": "isinstance() দিয়ে টাইপ যাচাই ও নিরাপদ পার্সিং" }
+      ],
+      "description": {
+        "en": "Read a JSON-formatted arbitrarily nested list of integers (e.g., `[1, [2, [3, 4], []], 5]`). Write a recursive function `flatten(data, out)` that traverses any nesting depth using `isinstance(item, list)` and collects all integers in left-to-right order. Print the flattened integers separated by spaces, or `'Empty'` if no integers exist.",
+        "bn": "যেকোনো গভীরতার নেস্টেড পূর্ণসংখ্যার একটি JSON লিস্ট (যেমন `[1, [2, [3, 4], []], 5]`) ইনপুট নিন। `isinstance(item, list)` ব্যবহার করে একটি রিকার্সিভ ফাংশন `flatten(data, out)` লিখুন যা সব স্তর ভেঙে বাম থেকে ডানে সব পূর্ণসংখ্যা সংগ্রহ করবে। সংখ্যাগুলো স্পেস দিয়ে প্রিন্ট করুন, অথবা কোনো সংখ্যা না থাকলে `'Empty'` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a valid JSON nested list of integers.",
+        "bn": "এক লাইনে পূর্ণসংখ্যার একটি নেস্টেড JSON লিস্ট।"
+      },
+      "expectedOutput": {
+        "en": "Flattened integers separated by spaces, or 'Empty'.",
+        "bn": "সমতলকৃত পূর্ণসংখ্যাগুলো অথবা 'Empty'।"
+      },
+      "examples": [
+        {
+          "input": "[1, [2, [3, 4], []], 5]",
+          "output": "1 2 3 4 5",
+          "explanation": {
+            "en": "Empty inner list [] yields nothing; nested 3 and 4 flatten into place.",
+            "bn": "ভেতরের খালি লিস্ট [] বাদ পড়ে বাকি সব সংখ্যা ক্রমানুসারে এক স্তরে এসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `import json` and `json.loads(input())` rather than unsafe `eval()` to parse the nested list safely!",
+        "bn": "অনিরাপদ `eval()`-এর বদলে `import json` এবং `json.loads(input())` দিয়ে নিরাপদে লিস্ট পার্স করুন।"
+      },
+      "hint2": {
+        "en": "In `flatten(items, out)`: for each `x` in `items`, if `isinstance(x, list)`, recurse `flatten(x, out)`; else `out.append(str(x))`.",
+        "bn": "`flatten(items, out)`-এ `isinstance(x, list)` হলে রিকার্সিভভাবে `flatten(x, out)` কল করুন, নতুবা `out.append(str(x))`।"
+      },
+      "logicBreakdown": {
+        "en": "A regular `for` loop can only unwrap a fixed number of nesting levels. Because nested lists form a tree of unknown depth, recursion naturally handles 1 level, 5 levels, or 50 levels with one concise base/recursive rule: scalars append to `out`, sublists recurse.",
+        "bn": "সাধারণ লুপ কেবল নির্দিষ্ট সংখ্যক স্তর খুলতে পারে। কিন্তু রিকার্শন অজানা যেকোনো গভীরতার নেস্টেড লিস্ট (ট্রি কাঠামো) একই নিয়মে খুলতে পারে: উপাদানটি লিস্ট হলে রিকার্সিভ কল, আর সংখ্যা হলে আউটপুটে যোগ।"
+      },
+      "algorithm": [
+        { "en": "Parse nested list using json.loads(input()).", "bn": "json.loads(input()) দিয়ে নেস্টেড লিস্ট পড়ুন।" },
+        { "en": "Define flatten(items, out): iterate x in items; if isinstance(x, list) recurse flatten(x, out), else out.append(str(x)).", "bn": "isinstance(x, list) অনুযায়ী রিকার্সিভ flatten(items, out) ফাংশন লিখুন।" },
+        { "en": "Invoke flatten(data, out) and print ' '.join(out) or 'Empty'.", "bn": "ফলাফল স্পেস দিয়ে প্রিন্ট করুন, খালি হলে 'Empty'।" }
+      ],
+      "solution": "import json\n\ndef flatten(items, out):\n    for x in items:\n        if isinstance(x, list):\n            flatten(x, out)\n        else:\n            out.append(str(x))\n\ndata = json.loads(input())\nresult = []\nflatten(data, result)\nprint(\" \".join(result) if result else \"Empty\")",
+      "codeExplanation": {
+        "en": "json.loads safely converts the input text into Python nested lists. Passing a shared accumulator list out avoids creating and concatenating intermediate lists at every recursive depth.",
+        "bn": "json.loads নিরাপদে টেক্সটকে পাইথন লিস্টে রূপান্তর করে। একটি একক result লিস্ট পাস করায় প্রতি ধাপে বাড়তি মেমোরি নষ্ট না হয়ে দ্রুত সমতল লিস্ট তৈরি হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N + D)" },
+      "testCases": [
+        { "input": "[1, [2, [3, 4], []], 5]", "expectedOutput": "1 2 3 4 5", "note": { "en": "Multi-level with empty sublist", "bn": "বহু-স্তর ও খালি সাব-লিস্ট" } },
+        { "input": "[[], [[]]]", "expectedOutput": "Empty", "note": { "en": "Only empty lists", "bn": "শুধুমাত্র খালি লিস্ট" } },
+        { "input": "[[10], 20, [[[-5]]]]", "expectedOutput": "10 20 -5", "note": { "en": "Deep negative element", "bn": "গভীরে থাকা ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P10-20",
+      "number": 20,
+      "title": {
+        "en": "Mini Banking Ledger System (Multi-Function Integration)",
+        "bn": "মিনি ব্যাংকিং লেজার সিস্টেম (বহু-ফাংশন সমন্বয়)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "System architecture with pure action functions", "bn": "আলাদা ফাংশনের মাধ্যমে সিস্টেম ডিজাইন" },
+        { "en": "Atomic transfer validation + dictionary state", "bn": "নিরাপদ ট্রান্সফার ও ডিকশনারি স্টেট" }
+      ],
+      "description": {
+        "en": "Design a multi-function banking engine managing account balances in a dictionary using three helper functions: `deposit(accounts, user, amount)`, `withdraw(accounts, user, amount)`, and `transfer(accounts, sender, receiver, amount)`. Rules: `deposit` adds positive `amount` (creating account if needed); `withdraw` succeeds only if `user` has balance >= `amount`; `transfer` succeeds ONLY if `sender != receiver`, `amount > 0`, and `sender` has balance >= `amount` (creating `receiver` if needed). Read `N` commands (`DEPOSIT u amt`, `WITHDRAW u amt`, `TRANSFER u1 u2 amt`) and print all accounts sorted alphabetically as `'<user>: <balance>'` (or `'Empty'` if no accounts exist).",
+        "bn": "ডিকশনারিতে অ্যাকাউন্ট ব্যালেন্স পরিচালনার জন্য `deposit`, `withdraw` এবং `transfer` নামের তিনটি ফাংশন দিয়ে একটি ব্যাংকিং লেজার সিস্টেম তৈরি করুন। নিয়ম: `deposit` ধনাত্মক টাকা যোগ করে (নতুন অ্যাকাউন্ট তৈরি করে); `withdraw` কেবল পর্যাপ্ত ব্যালেন্স থাকলেই টাকা তোলে; `transfer` কেবল `sender != receiver`, `amount > 0` এবং পর্যাপ্ত ব্যালেন্স থাকলেই স্থানান্তর সম্পন্ন করে। Nটি কমান্ড প্রক্রিয়াকরণ করে বর্ণানুক্রমে সব অ্যাকাউন্ট `'<user>: <balance>'` প্রিন্ট করুন (কোনো অ্যাকাউন্ট না থাকলে `'Empty'`)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: DEPOSIT/WITHDRAW/TRANSFER commands.",
+        "bn": "১ম লাইন: N। পরের N লাইনে DEPOSIT/WITHDRAW/TRANSFER কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Sorted '<user>: <balance>' lines, or 'Empty'.",
+        "bn": "বর্ণানুক্রমে '<user>: <balance>' লাইনসমূহ অথবা 'Empty'।"
+      },
+      "examples": [
+        {
+          "input": "5\nDEPOSIT alice 500\nDEPOSIT bob 100\nTRANSFER alice bob 200\nWITHDRAW bob 400\nWITHDRAW alice 100",
+          "output": "alice: 200\nbob: 300",
+          "explanation": {
+            "en": "alice: 500 -> 300 -> 200. bob: 100 -> 300 (withdraw 400 rejected since 300 < 400).",
+            "bn": "alice: ৫০০ -> ৩০০ -> ২০০; bob: ১০০ -> ৩০০ (৪০০ তোলার চেষ্টা পর্যাপ্ত ব্যালেন্স না থাকায় বাতিল)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep `withdraw` returning `True`/`False` so `transfer` can enforce atomicity—never credit `receiver` unless `sender` actually has enough funds!",
+        "bn": "`withdraw` থেকে সফল হলে `True` ও ব্যর্থ হলে `False` রিটার্ন করুন, এবং `transfer`-এ কেবল উভয় শর্ত পূরণ হলেই টাকা ক্রেডিট করুন!"
+      },
+      "hint2": {
+        "en": "Watch the edge case where `sender == receiver` on a TRANSFER or `amount <= 0`: reject without creating phantom accounts!",
+        "bn": "খেয়াল রাখবেন `sender == receiver` বা `amount <= 0` হলে যেন কোনো ভুয়া অ্যাকাউন্ট তৈরি না হয়!"
+      },
+      "logicBreakdown": {
+        "en": "This capstone combines functions, dictionaries, validation invariants, and command dispatching. Notice how `transfer` validates `sender != receiver and amount > 0 and accounts.get(sender, 0) >= amount` BEFORE mutating either account—ensuring atomic transactions where failed transfers never leave partial updates or create phantom zero-balance receivers.",
+        "bn": "এটি ফাংশন, ডিকশনারি, শর্ত যাচাই ও কমান্ড ডিসপ্যাচের একটি পূর্ণাঙ্গ সমন্বয়। `transfer` ফাংশনে কোনো অ্যাকাউন্টের মান বদলানোর আগেই সব শর্ত যাচাই করা হয় যাতে ব্যর্থ লেনদেনে কখনোই অসম্পূর্ণ বা ভুল ব্যালেন্স তৈরি না হয়।"
+      },
+      "algorithm": [
+        { "en": "Define deposit(accounts, user, amt) adding positive amt to accounts[user].", "bn": "deposit ফাংশন লিখুন যা ধনাত্মক টাকা যোগ করবে।" },
+        { "en": "Define withdraw(accounts, user, amt) subtracting amt only if amt > 0 and accounts.get(user, 0) >= amt.", "bn": "পর্যাপ্ত ব্যালেন্স থাকলে বিয়োগ করার withdraw ফাংশন লিখুন।" },
+        { "en": "Define transfer(accounts, sender, receiver, amt): validate sender != receiver and withdraw succeeds, then deposit to receiver.", "bn": "sender != receiver দেখে withdraw সফল হলে receiver-এ deposit করার transfer লিখুন।" },
+        { "en": "Dispatch N commands and print sorted accounts or 'Empty'.", "bn": "Nটি কমান্ড চালিয়ে বর্ণানুক্রমে অ্যাকাউন্ট প্রিন্ট করুন।" }
+      ],
+      "solution": "def deposit(accounts, user, amount):\n    if amount > 0:\n        accounts[user] = accounts.get(user, 0) + amount\n\ndef withdraw(accounts, user, amount):\n    if amount > 0 and accounts.get(user, 0) >= amount:\n        accounts[user] -= amount\n        return True\n    return False\n\ndef transfer(accounts, sender, receiver, amount):\n    if sender == receiver or amount <= 0:\n        return\n    if withdraw(accounts, sender, amount):\n        deposit(accounts, receiver, amount)\n\nn = int(input())\naccounts = {}\nfor _ in range(n):\n    parts = input().split()\n    cmd = parts[0]\n    if cmd == \"DEPOSIT\":\n        deposit(accounts, parts[1], int(parts[2]))\n    elif cmd == \"WITHDRAW\":\n        withdraw(accounts, parts[1], int(parts[2]))\n    elif cmd == \"TRANSFER\":\n        transfer(accounts, parts[1], parts[2], int(parts[3]))\n\nif not accounts:\n    print(\"Empty\")\nelse:\n    for user in sorted(accounts):\n        print(f\"{user}: {accounts[user]}\")",
+      "codeExplanation": {
+        "en": "transfer reuses both withdraw and deposit cleanly after checking sender != receiver and amount > 0. Because withdraw returns True only on sufficient funds, deposit only runs when funds were actually deducted.",
+        "bn": "transfer ফাংশনটি শর্ত যাচাইয়ের পর প্রথমে withdraw কল করে এবং সেটি True হলেই কেবল receiver-এ deposit কল করে—এতে লেনদেন সম্পূর্ণ নিরাপদ থাকে।"
+      },
+      "complexity": { "time": "O(N + A log A)", "space": "O(A)" },
+      "testCases": [
+        { "input": "5\nDEPOSIT alice 500\nDEPOSIT bob 100\nTRANSFER alice bob 200\nWITHDRAW bob 400\nWITHDRAW alice 100", "expectedOutput": "alice: 200\nbob: 300", "note": { "en": "Full ledger workflow", "bn": "সম্পূর্ণ লেনদেন প্রবাহ" } },
+        { "input": "2\nWITHDRAW ghost 50\nTRANSFER ghost alice 20", "expectedOutput": "Empty", "note": { "en": "Invalid actions create no accounts", "bn": "অবৈধ লেনদেনে ভুয়া অ্যাকাউন্ট তৈরি হয় না" } },
+        { "input": "2\nDEPOSIT sajid 300\nTRANSFER sajid sajid 100", "expectedOutput": "sajid: 300", "note": { "en": "Self-transfer ignored", "bn": "নিজেকে ট্রান্সফার উপেক্ষিত" } }
+      ]
+    }
+  ]
+}

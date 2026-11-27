@@ -1,0 +1,1284 @@
+{
+  "partId": "part-01",
+  "partNumber": 1,
+  "problems": [
+    {
+      "id": "P01-01",
+      "number": 1,
+      "title": {
+        "en": "Sum and Difference of Two Integers",
+        "bn": "দুটি পূর্ণসংখ্যার যোগফল ও বিয়োগফল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "input() and int()", "bn": "input() এবং int()" },
+        { "en": "Basic arithmetic (+, -)", "bn": "মৌলিক যোগ ও বিয়োগ (+, -)" },
+        { "en": "print() output", "bn": "print() আউটপুট" }
+      ],
+      "description": {
+        "en": "Read two integers a and b from input. Calculate and display their sum (a + b) on the first line and their difference (a - b) on the second line.",
+        "bn": "ইনপুট থেকে দুটি পূর্ণসংখ্যা a এবং b গ্রহণ করুন। প্রথম লাইনে তাদের যোগফল (a + b) এবং দ্বিতীয় লাইনে তাদের বিয়োগফল (a - b) প্রদর্শন করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines, each containing one integer (a on the first line, b on the second line).",
+        "bn": "দুটি লাইন, প্রতিটিতে একটি করে পূর্ণসংখ্যা (প্রথম লাইনে a, দ্বিতীয় লাইনে b)।"
+      },
+      "expectedOutput": {
+        "en": "First line: a + b. Second line: a - b.",
+        "bn": "প্রথম লাইনে a + b এবং দ্বিতীয় লাইনে a - b।"
+      },
+      "examples": [
+        {
+          "input": "12\n5",
+          "output": "17\n7",
+          "explanation": {
+            "en": "12 + 5 equals 17, and 12 - 5 equals 7.",
+            "bn": "12 + 5 সমান 17, এবং 12 - 5 সমান 7।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "input() always returns text (str). Convert both inputs using int() before adding or subtracting.",
+        "bn": "input() সবসময় টেক্সট (str) রিটার্ন করে। যোগ বা বিয়োগ করার আগে int() দিয়ে সংখ্যায় রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Store the converted values in two variables a and b, then call print(a + b) and print(a - b).",
+        "bn": "রূপান্তরিত মান দুটি a এবং b ভ্যারিয়েবলে রাখুন, তারপর print(a + b) এবং print(a - b) ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "In Python, reading from standard input yields strings. If you add two strings, Python concatenates them ('12' + '5' -> '125'). Converting each line with int() ensures numerical arithmetic is performed.",
+        "bn": "পাইথনে স্ট্যান্ডার্ড ইনপুট থেকে পাওয়া মান স্ট্রিং হিসেবে আসে। দুটি স্ট্রিং যোগ করলে সেগুলো পাশাপাশি বসে যায় ('12' + '5' -> '125')। তাই int() ব্যবহার করে পূর্ণসংখ্যায় রূপান্তর করা জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Read the first integer into variable a using int(input()).", "bn": "int(input()) দিয়ে প্রথম পূর্ণসংখ্যাটি a ভ্যারিয়েবলে নিন।" },
+        { "en": "Read the second integer into variable b using int(input()).", "bn": "int(input()) দিয়ে দ্বিতীয় পূর্ণসংখ্যাটি b ভ্যারিয়েবলে নিন।" },
+        { "en": "Print a + b.", "bn": "a + b প্রিন্ট করুন।" },
+        { "en": "Print a - b.", "bn": "a - b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nprint(a + b)\nprint(a - b)",
+      "codeExplanation": {
+        "en": "int(input()) reads one line of input and converts it into an integer. Variables a and b store those two numbers. print(a + b) outputs their sum, and print(a - b) outputs their difference on a new line.",
+        "bn": "int(input()) এক লাইন ইনপুট পড়ে পূর্ণসংখ্যায় রূপান্তর করে। a ও b ভ্যারিয়েবলে সংখ্যা দুটি সংরক্ষিত হয়। এরপর print(a + b) যোগফল এবং print(a - b) নতুন লাইনে বিয়োগফল প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12\n5", "expectedOutput": "17\n7", "note": { "en": "Standard positive integers", "bn": "সাধারণ ধনাত্মক সংখ্যা" } },
+        { "input": "-4\n6", "expectedOutput": "2\n-10", "note": { "en": "Negative first number", "bn": "প্রথম সংখ্যা ঋণাত্মক" } },
+        { "input": "0\n0", "expectedOutput": "0\n0", "note": { "en": "Zero boundary", "bn": "শূন্য ইনপুট" } }
+      ]
+    },
+    {
+      "id": "P01-02",
+      "number": 2,
+      "title": {
+        "en": "Personalized Greeting & Age Calculation",
+        "bn": "ব্যক্তিগত শুভেচ্ছা ও বয়স নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "String variables", "bn": "স্ট্রিং ভ্যারিয়েবল" },
+        { "en": "Subtraction", "bn": "বিয়োগ" },
+        { "en": "f-strings", "bn": "f-string ফরম্যাটিং" }
+      ],
+      "description": {
+        "en": "Read a learner's name and their birth year. Assuming the current year is 2026, output a greeting showing their name and calculated age.",
+        "bn": "একজন শিক্ষার্থীর নাম এবং জন্মসাল ইনপুট নিন। বর্তমান বছর 2026 ধরে নামসহ তার বয়স প্রদর্শন করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: Name (string). Line 2: Birth year (integer).",
+        "bn": "প্রথম লাইন: নাম (স্ট্রিং)। দ্বিতীয় লাইন: জন্মসাল (পূর্ণসংখ্যা)।"
+      },
+      "expectedOutput": {
+        "en": "A single line formatted as: Hello, <name>! You are <age> years old.",
+        "bn": "এক লাইনে আউটপুট: Hello, <name>! You are <age> years old."
+      },
+      "examples": [
+        {
+          "input": "Sajid\n2005",
+          "output": "Hello, Sajid! You are 21 years old.",
+          "explanation": {
+            "en": "2026 - 2005 equals 21.",
+            "bn": "2026 - 2005 সমান 21।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep the name as a string using input().strip(), and convert the birth year with int(input()).",
+        "bn": "নামটি input().strip() দিয়ে স্ট্রিং হিসেবে রাখুন এবং জন্মসালটি int(input()) দিয়ে রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Use an f-string: f\"Hello, {name}! You are {age} years old.\"",
+        "bn": "f-string ব্যবহার করুন: f\"Hello, {name}! You are {age} years old.\""
+      },
+      "logicBreakdown": {
+        "en": "This problem combines text input with numeric computation. Subtracting birth_year from the constant 2026 gives the age, and an f-string cleanly embeds variables inside text.",
+        "bn": "এই সমস্যায় টেক্সট ইনপুট ও গাণিতিক হিসাব একত্রিত হয়েছে। 2026 থেকে birth_year বিয়োগ করলে বয়স পাওয়া যায় এবং f-string দিয়ে টেক্সটের ভেতরে ভ্যারিয়েবল বসানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read name using input().strip().", "bn": "input().strip() দিয়ে নাম পড়ুন।" },
+        { "en": "Read birth_year as an integer.", "bn": "জন্মসাল পূর্ণসংখ্যা হিসেবে পড়ুন।" },
+        { "en": "Compute age = 2026 - birth_year.", "bn": "age = 2026 - birth_year হিসাব করুন।" },
+        { "en": "Print the formatted f-string.", "bn": "f-string ফরম্যাটে আউটপুট প্রিন্ট করুন।" }
+      ],
+      "solution": "name = input().strip()\nbirth_year = int(input())\nage = 2026 - birth_year\nprint(f\"Hello, {name}! You are {age} years old.\")",
+      "codeExplanation": {
+        "en": "input().strip() removes any trailing spaces from the name. birth_year is converted to int so 2026 - birth_year works mathematically. Finally, the f-string formats the exact output sentence.",
+        "bn": "input().strip() নামের পাশের বাড়তি স্পেস সরিয়ে দেয়। birth_year-কে int করায় 2026 - birth_year সঠিকভাবে কাজ করে এবং f-string নির্ধারিত বাক্যটি তৈরি করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Sajid\n2005", "expectedOutput": "Hello, Sajid! You are 21 years old." },
+        { "input": "Amina\n2000", "expectedOutput": "Hello, Amina! You are 26 years old." },
+        { "input": "Rafiq\n2010", "expectedOutput": "Hello, Rafiq! You are 16 years old." }
+      ]
+    },
+    {
+      "id": "P01-03",
+      "number": 3,
+      "title": {
+        "en": "Swap Two Numbers Without a Temporary Variable",
+        "bn": "অতিরিক্ত ভ্যারিয়েবল ছাড়াই দুটি সংখ্যা অদলবদল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Variable assignment", "bn": "ভ্যারিয়েবল অ্যাসাইনমেন্ট" },
+        { "en": "Tuple unpacking", "bn": "টাপল আনপ্যাকিং" }
+      ],
+      "description": {
+        "en": "Given two integers a and b, swap their values in memory without creating a third temporary variable, then print the updated values of a and b separated by a space.",
+        "bn": "দুটি পূর্ণসংখ্যা a এবং b দেওয়া আছে। তৃতীয় কোনো অস্থায়ী ভ্যারিয়েবল তৈরি না করে তাদের মান অদলবদল করুন এবং স্পেস দিয়ে a ও b প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers a and b.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা a এবং b।"
+      },
+      "expectedOutput": {
+        "en": "One line containing the swapped values: new a followed by new b.",
+        "bn": "এক লাইনে পরিবর্তিত মান: প্রথমে নতুন a, তারপর স্পেস দিয়ে নতুন b।"
+      },
+      "examples": [
+        {
+          "input": "10\n25",
+          "output": "25 10",
+          "explanation": {
+            "en": "Originally a=10, b=25. After swapping, a=25 and b=10.",
+            "bn": "শুরুতে a=10, b=25 ছিল। অদলবদলের পর a=25 ও b=10 হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Writing a = b followed by b = a fails because a's original value is overwritten first.",
+        "bn": "প্রথমে a = b এবং পরে b = a লিখলে ভুল হবে, কারণ প্রথম লাইনেই a-এর আগের মান হারিয়ে যায়।"
+      },
+      "hint2": {
+        "en": "Python lets you assign both variables simultaneously on one line: a, b = b, a.",
+        "bn": "পাইথনে এক লাইনে দুটি মান একসাথে অদলবদল করা যায়: a, b = b, a।"
+      },
+      "logicBreakdown": {
+        "en": "Python evaluates the entire right-hand side (b, a) as a tuple before assigning back to a and b. This avoids losing either original value and requires zero temporary variables.",
+        "bn": "পাইথন অ্যাসাইনমেন্টের আগে ডান পাশের (b, a) মানগুলো একসাথে মূল্যায়ন করে নেয়, তারপর বাম পাশের ভ্যারিয়েবলে বসায়। ফলে কোনো অস্থায়ী ভ্যারিয়েবল ছাড়াই মান অদলবদল হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a এবং b পূর্ণসংখ্যা ইনপুট নিন।" },
+        { "en": "Swap simultaneously using a, b = b, a.", "bn": "a, b = b, a দিয়ে একসাথে মান অদলবদল করুন।" },
+        { "en": "Print a and b separated by a space.", "bn": "স্পেস দিয়ে a এবং b প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\na, b = b, a\nprint(a, b)",
+      "codeExplanation": {
+        "en": "a, b = b, a swaps both variables atomically in Python. print(a, b) outputs both values separated by a single space.",
+        "bn": "a, b = b, a পাইথনে দুটি ভ্যারিয়েবলের মান একসাথে বিনিময় করে। print(a, b) স্বয়ংক্রিয়ভাবে মাঝে একটি স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n25", "expectedOutput": "25 10" },
+        { "input": "-7\n3", "expectedOutput": "3 -7" },
+        { "input": "42\n42", "expectedOutput": "42 42" }
+      ]
+    },
+    {
+      "id": "P01-04",
+      "number": 4,
+      "title": {
+        "en": "Rectangle Area and Perimeter",
+        "bn": "আয়তক্ষেত্রের ক্ষেত্রফল ও পরিসীমা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Multiplication (*)", "bn": "গুণ (*)" },
+        { "en": "Parentheses in expressions", "bn": "এক্সপ্রেশনে বন্ধনীর ব্যবহার" }
+      ],
+      "description": {
+        "en": "Given the integer length and width of a rectangle, compute its area and perimeter.",
+        "bn": "একটি আয়তক্ষেত্রের পূর্ণসংখ্যায় দৈর্ঘ্য ও প্রস্থ দেওয়া আছে। এর ক্ষেত্রফল ও পরিসীমা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: length (integer). Line 2: width (integer).",
+        "bn": "প্রথম লাইন: দৈর্ঘ্য (পূর্ণসংখ্যা)। দ্বিতীয় লাইন: প্রস্থ (পূর্ণসংখ্যা)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Area. Line 2: Perimeter.",
+        "bn": "প্রথম লাইন: ক্ষেত্রফল। দ্বিতীয় লাইন: পরিসীমা।"
+      },
+      "examples": [
+        {
+          "input": "8\n5",
+          "output": "40\n26",
+          "explanation": {
+            "en": "Area = 8 * 5 = 40. Perimeter = 2 * (8 + 5) = 26.",
+            "bn": "ক্ষেত্রফল = 8 * 5 = 40 এবং পরিসীমা = 2 * (8 + 5) = 26।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Area is length * width.",
+        "bn": "ক্ষেত্রফলের সূত্র হলো length * width।"
+      },
+      "hint2": {
+        "en": "Use parentheses in perimeter = 2 * (length + width) so addition happens before multiplication.",
+        "bn": "পরিসীমার ক্ষেত্রে 2 * (length + width) লিখুন যাতে যোগ আগে সম্পন্ন হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Multiplication has higher precedence than addition. Without parentheses, 2 * length + width would calculate the wrong perimeter.",
+        "bn": "যোগের চেয়ে গুণের অগ্রাধিকার বেশি। বন্ধনী না দিলে 2 * length + width ভুল ফলাফল দেবে।"
+      },
+      "algorithm": [
+        { "en": "Read length and width as integers.", "bn": "দৈর্ঘ্য ও প্রস্থ পূর্ণসংখ্যা হিসেবে নিন।" },
+        { "en": "Calculate area = length * width.", "bn": "area = length * width হিসাব করুন।" },
+        { "en": "Calculate perimeter = 2 * (length + width).", "bn": "perimeter = 2 * (length + width) হিসাব করুন।" },
+        { "en": "Print area and perimeter on separate lines.", "bn": "আলাদা লাইনে ক্ষেত্রফল ও পরিসীমা প্রিন্ট করুন।" }
+      ],
+      "solution": "length = int(input())\nwidth = int(input())\narea = length * width\nperimeter = 2 * (length + width)\nprint(area)\nprint(perimeter)",
+      "codeExplanation": {
+        "en": "Parentheses force Python to add length and width first before multiplying by 2.",
+        "bn": "বন্ধনী থাকার কারণে পাইথন প্রথমে length ও width যোগ করে এবং তারপর 2 দিয়ে গুণ করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "8\n5", "expectedOutput": "40\n26" },
+        { "input": "10\n10", "expectedOutput": "100\n40" },
+        { "input": "1\n9", "expectedOutput": "9\n20" }
+      ]
+    },
+    {
+      "id": "P01-05",
+      "number": 5,
+      "title": {
+        "en": "Celsius to Fahrenheit Converter",
+        "bn": "সেলসিয়াস থেকে ফারেনহাইট রূপান্তর"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "float() conversion", "bn": "float() রূপান্তর" },
+        { "en": "Decimal formatting (:.2f)", "bn": "দশমিক ফরম্যাটিং (:.2f)" }
+      ],
+      "description": {
+        "en": "Read a temperature in Celsius (may be decimal) and convert it to Fahrenheit using the formula F = (C * 9 / 5) + 32, rounded to 2 decimal places.",
+        "bn": "সেলসিয়াসে একটি তাপমাত্রা (দশমিক হতে পারে) ইনপুট নিয়ে F = (C * 9 / 5) + 32 সূত্র ব্যবহার করে ফারেনহাইটে রূপান্তর করুন এবং ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single floating-point number C representing Celsius.",
+        "bn": "সেলসিয়াস তাপমাত্রা নির্দেশক একটি ফ্লোটিং-পয়েন্ট সংখ্যা C।"
+      },
+      "expectedOutput": {
+        "en": "Fahrenheit value formatted to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত ফরম্যাট করা ফারেনহাইট মান।"
+      },
+      "examples": [
+        {
+          "input": "37",
+          "output": "98.60",
+          "explanation": {
+            "en": "(37 * 9 / 5) + 32 = 98.6, formatted as 98.60.",
+            "bn": "(37 * 9 / 5) + 32 = 98.6, ২ দশমিক স্থানে 98.60।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use float(input()) instead of int(input()) so decimal temperatures work cleanly.",
+        "bn": "দশমিক তাপমাত্রা গ্রহণের জন্য int()-এর বদলে float(input()) ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Use f\"{f:.2f}\" to display exactly two digits after the decimal point.",
+        "bn": "দশমিকের পর ঠিক দুই ঘর দেখাতে f\"{f:.2f}\" ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Temperature conversion requires floating-point division (/) rather than integer floor division (//) to preserve precision.",
+        "bn": "তাপমাত্রার নির্ভুল রূপান্তরের জন্য পূর্ণসংখ্যা ভাগ (//) নয়, সাধারণ ভাগ (/) এবং float ব্যবহার করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Read c = float(input()).", "bn": "c = float(input()) ইনপুট নিন।" },
+        { "en": "Compute f = (c * 9 / 5) + 32.", "bn": "f = (c * 9 / 5) + 32 হিসাব করুন।" },
+        { "en": "Print f formatted with :.2f.", "bn": ":.2f ফরম্যাটে f প্রিন্ট করুন।" }
+      ],
+      "solution": "c = float(input())\nf = (c * 9 / 5) + 32\nprint(f\"{f:.2f}\")",
+      "codeExplanation": {
+        "en": "float(input()) accepts integer or fractional inputs. The format specifier :.2f ensures consistent two-decimal output.",
+        "bn": "float(input()) পূর্ণ বা দশমিক যেকোনো সংখ্যা নিতে পারে। :.2f ফরম্যাট স্পেসিফায়ার দশমিকের পর দুই অঙ্ক নিশ্চিত করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "37", "expectedOutput": "98.60" },
+        { "input": "0", "expectedOutput": "32.00" },
+        { "input": "100", "expectedOutput": "212.00" },
+        { "input": "-40", "expectedOutput": "-40.00" }
+      ]
+    },
+    {
+      "id": "P01-06",
+      "number": 6,
+      "title": {
+        "en": "Average of Three Scores",
+        "bn": "তিনটি নম্বরের গড় নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Grouping sums with parentheses", "bn": "বন্ধনী দিয়ে সমষ্টি নির্ণয়" },
+        { "en": "Floating-point division", "bn": "দশমিক ভাগ" }
+      ],
+      "description": {
+        "en": "Read three exam scores on separate lines and print their arithmetic mean formatted to 2 decimal places.",
+        "bn": "তিনটি আলাদা লাইনে তিনটি পরীক্ষার নম্বর ইনপুট নিন এবং তাদের গড় ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines, each with a number (int or float).",
+        "bn": "তিনটি লাইন, প্রতিটিতে একটি করে সংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The average rounded to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত গড় মান।"
+      },
+      "examples": [
+        {
+          "input": "85\n90\n92",
+          "output": "89.00",
+          "explanation": {
+            "en": "(85 + 90 + 92) / 3 = 267 / 3 = 89.00.",
+            "bn": "(85 + 90 + 92) / 3 = 267 / 3 = 89.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Add all three scores inside parentheses before dividing by 3.",
+        "bn": "৩ দিয়ে ভাগ করার আগে তিনটি নম্বরকে বন্ধনীর ভেতর যোগ করুন।"
+      },
+      "hint2": {
+        "en": "Use print(f\"{avg:.2f}\") for two-decimal formatting.",
+        "bn": "দুই দশমিক ঘরের জন্য print(f\"{avg:.2f}\") লিখুন।"
+      },
+      "logicBreakdown": {
+        "en": "A common beginner bug is writing a + b + c / 3, which only divides c by 3. Wrapping (a + b + c) in parentheses enforces the right order of operations.",
+        "bn": "সাধারণ একটি ভুল হলো a + b + c / 3 লেখা, যেখানে শুধু c-কে ৩ দিয়ে ভাগ হয়। (a + b + c) / 3 লিখলে সঠিক গড় পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read s1, s2, s3 as floats.", "bn": "s1, s2, s3 ফ্লোট হিসেবে পড়ুন।" },
+        { "en": "Compute avg = (s1 + s2 + s3) / 3.", "bn": "avg = (s1 + s2 + s3) / 3 হিসাব করুন।" },
+        { "en": "Print avg with :.2f.", "bn": ":.2f ফরম্যাটে avg প্রিন্ট করুন।" }
+      ],
+      "solution": "s1 = float(input())\ns2 = float(input())\ns3 = float(input())\navg = (s1 + s2 + s3) / 3\nprint(f\"{avg:.2f}\")",
+      "codeExplanation": {
+        "en": "Three float inputs are summed inside parentheses and divided by 3, then formatted to two decimal places.",
+        "bn": "তিনটি ইনপুট বন্ধনীর মধ্যে যোগ করে ৩ দিয়ে ভাগ করা হয়েছে এবং ২ দশমিক স্থান পর্যন্ত প্রিন্ট করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "85\n90\n92", "expectedOutput": "89.00" },
+        { "input": "70\n75\n81", "expectedOutput": "75.33" },
+        { "input": "100\n99.5\n98.5", "expectedOutput": "99.33" }
+      ]
+    },
+    {
+      "id": "P01-07",
+      "number": 7,
+      "title": {
+        "en": "Simple Interest and Total Amount",
+        "bn": "সরল মুনাফা ও মোট আসল-মুনাফা"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Percentage formula", "bn": "শতকরা হিসাব" },
+        { "en": "Multi-variable expressions", "bn": "একাধিক ভ্যারিয়েবল সমীকরণ" }
+      ],
+      "description": {
+        "en": "Given principal P, annual interest rate R (in %), and time T (in years), calculate Simple Interest SI = (P * R * T) / 100 and Total Amount = P + SI.",
+        "bn": "আসল P, বার্ষিক মুনাফার হার R (%) এবং সময় T (বছর) দেওয়া আছে। সরল মুনাফা SI = (P * R * T) / 100 এবং মোট পরিমাণ = P + SI নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines: P (float), R (float), T (float).",
+        "bn": "তিনটি লাইন: P, R, এবং T (ফ্লোট)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Simple Interest (2 decimals). Line 2: Total Amount (2 decimals).",
+        "bn": "প্রথম লাইন: সরল মুনাফা (২ দশমিক)। দ্বিতীয় লাইন: মোট পরিমাণ (২ দশমিক)।"
+      },
+      "examples": [
+        {
+          "input": "1000\n5\n2",
+          "output": "100.00\n1100.00",
+          "explanation": {
+            "en": "SI = (1000 * 5 * 2) / 100 = 100.00; Total = 1000 + 100 = 1100.00.",
+            "bn": "SI = (1000 * 5 * 2) / 100 = 100.00; মোট = 1000 + 100 = 1100.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Divide by 100 because rate R is given as a percentage.",
+        "bn": "হার R শতকরায় দেওয়া থাকায় 100 দিয়ে ভাগ করতে হবে।"
+      },
+      "hint2": {
+        "en": "Reuse the calculated variable si to compute total = p + si.",
+        "bn": "আগে হিসাব করা si ভ্যারিয়েবল ব্যবহার করে total = p + si বের করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Breaking a calculation into intermediate named variables (si, total) keeps code readable and prevents duplicating the formula.",
+        "bn": "হিসাবকে si এবং total নামে আলাদা ভ্যারিয়েবলে রাখলে কোড পরিষ্কার থাকে এবং একই সূত্র বারবার লিখতে হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read p, r, t as floats.", "bn": "p, r, t ফ্লোট হিসেবে পড়ুন।" },
+        { "en": "Compute si = (p * r * t) / 100.", "bn": "si = (p * r * t) / 100 বের করুন।" },
+        { "en": "Compute total = p + si.", "bn": "total = p + si বের করুন।" },
+        { "en": "Print si and total formatted to 2 decimals.", "bn": "২ দশমিক স্থানে si ও total প্রিন্ট করুন।" }
+      ],
+      "solution": "p = float(input())\nr = float(input())\nt = float(input())\nsi = (p * r * t) / 100\ntotal = p + si\nprint(f\"{si:.2f}\")\nprint(f\"{total:.2f}\")",
+      "codeExplanation": {
+        "en": "Each input is parsed as float, si holds the interest, and total adds si back to p.",
+        "bn": "প্রতিটি ইনপুট float হিসেবে নেওয়া হয়েছে, si-তে মুনাফা রাখা হয়েছে এবং total-এ আসলের সাথে মুনাফা যোগ হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1000\n5\n2", "expectedOutput": "100.00\n1100.00" },
+        { "input": "2500\n7.5\n4", "expectedOutput": "750.00\n3250.00" },
+        { "input": "500\n0\n3", "expectedOutput": "0.00\n500.00" }
+      ]
+    },
+    {
+      "id": "P01-08",
+      "number": 8,
+      "title": {
+        "en": "Seconds to Hours, Minutes, and Seconds",
+        "bn": "সেকেন্ড থেকে ঘণ্টা, মিনিট ও সেকেন্ড রূপান্তর"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Floor division (//)", "bn": "পূর্ণসংখ্যা ভাগ (//)" },
+        { "en": "Modulo operator (%)", "bn": "ভাগশেষ অপারেটর (%)" }
+      ],
+      "description": {
+        "en": "Convert a given non-negative total number of seconds into hours, minutes, and remaining seconds.",
+        "bn": "মোট সেকেন্ডের একটি অঋণাত্মক পূর্ণসংখ্যাকে ঘণ্টা, মিনিট এবং অবশিষ্ট সেকেন্ডে রূপান্তর করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer total_seconds (>= 0).",
+        "bn": "একটি পূর্ণসংখ্যা total_seconds (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "One line formatted as: <hours>h <minutes>m <seconds>s",
+        "bn": "এক লাইনে আউটপুট: <hours>h <minutes>m <seconds>s"
+      },
+      "examples": [
+        {
+          "input": "3665",
+          "output": "1h 1m 5s",
+          "explanation": {
+            "en": "3665 seconds = 1 hour (3600s), remainder 65s = 1 minute (60s) and 5 seconds.",
+            "bn": "3665 সেকেন্ড = 1 ঘণ্টা (3600 সেকেন্ড), বাকি 65 সেকেন্ড = 1 মিনিট ও 5 সেকেন্ড।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "One hour has 3600 seconds. Use total_seconds // 3600 to get full hours.",
+        "bn": "১ ঘণ্টায় 3600 সেকেন্ড। পূর্ণ ঘণ্টা পেতে total_seconds // 3600 ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Find remaining seconds with remainder = total_seconds % 3600, then split remainder by 60.",
+        "bn": "বাকি সেকেন্ড বের করুন remainder = total_seconds % 3600 দিয়ে, তারপর তাকে 60 দিয়ে ভাগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Unit decomposition works from largest unit to smallest: extract full hours using // 3600, keep the leftover via % 3600, then extract minutes with // 60 and final seconds with % 60.",
+        "bn": "বড় একক থেকে ছোট এককে ভাঙতে হয়: প্রথমে // 3600 দিয়ে ঘণ্টা, % 3600 দিয়ে বাকি সেকেন্ড, এরপর // 60 দিয়ে মিনিট এবং % 60 দিয়ে শেষ সেকেন্ড বের হয়।"
+      },
+      "algorithm": [
+        { "en": "Read total_seconds = int(input()).", "bn": "total_seconds পূর্ণসংখ্যা হিসেবে পড়ুন।" },
+        { "en": "hours = total_seconds // 3600 and rem = total_seconds % 3600.", "bn": "hours = total_seconds // 3600 এবং rem = total_seconds % 3600 বের করুন।" },
+        { "en": "minutes = rem // 60 and seconds = rem % 60.", "bn": "minutes = rem // 60 এবং seconds = rem % 60 বের করুন।" },
+        { "en": "Print f\"{hours}h {minutes}m {seconds}s\".", "bn": "f\"{hours}h {minutes}m {seconds}s\" প্রিন্ট করুন।" }
+      ],
+      "solution": "total_seconds = int(input())\nhours = total_seconds // 3600\nrem = total_seconds % 3600\nminutes = rem // 60\nseconds = rem % 60\nprint(f\"{hours}h {minutes}m {seconds}s\")",
+      "codeExplanation": {
+        "en": "// gives integer quotient while % gives remainder. Chaining them cleanly decomposes seconds into h, m, and s.",
+        "bn": "// পূর্ণ ভাগফল ও % ভাগশেষ দেয়। ধাপে ধাপে এগুলো ব্যবহার করে সেকেন্ডকে ঘণ্টা, মিনিট ও সেকেন্ডে ভাগ করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3665", "expectedOutput": "1h 1m 5s" },
+        { "input": "59", "expectedOutput": "0h 0m 59s" },
+        { "input": "7200", "expectedOutput": "2h 0m 0s" },
+        { "input": "0", "expectedOutput": "0h 0m 0s" }
+      ]
+    },
+    {
+      "id": "P01-09",
+      "number": 9,
+      "title": {
+        "en": "Two-Digit Number Digit Sum",
+        "bn": "দুই অঙ্কের সংখ্যার অঙ্কদ্বয়ের যোগফল"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Integer division by 10", "bn": "১০ দিয়ে পূর্ণসংখ্যা ভাগ" },
+        { "en": "Modulo 10", "bn": "মডুলো ১০" }
+      ],
+      "description": {
+        "en": "Read a positive two-digit integer (10 to 99) and output the sum of its tens digit and units digit without converting it to a string.",
+        "bn": "একটি ধনাত্মক দুই অঙ্কের পূর্ণসংখ্যা (10 থেকে 99) নিন এবং স্ট্রিংয়ে রূপান্তর না করে এর দশক ও একক অঙ্কের যোগফল নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A two-digit integer n.",
+        "bn": "দুই অঙ্কের একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "A single integer equal to tens_digit + units_digit.",
+        "bn": "দশক ও একক অঙ্কের যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "47",
+          "output": "11",
+          "explanation": {
+            "en": "4 + 7 = 11.",
+            "bn": "4 + 7 = 11।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Dividing a two-digit number by 10 using // removes the last digit.",
+        "bn": "দুই অঙ্কের সংখ্যাকে // 10 করলে শেষ অঙ্কটি বাদ পড়ে এবং প্রথম অঙ্কটি পাওয়া যায়।"
+      },
+      "hint2": {
+        "en": "Taking n % 10 extracts the last digit.",
+        "bn": "n % 10 ব্যবহার করলে শেষ অঙ্কটি পাওয়া যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Base-10 numbers follow place value: n = 10 * tens + units. Therefore tens = n // 10 and units = n % 10.",
+        "bn": "দশমিক সংখ্যার স্থানীয় মান অনুযায়ী n = 10 * tens + units। তাই n // 10 হলো দশকের অঙ্ক এবং n % 10 হলো এককের অঙ্ক।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n = int(input()) পড়ুন।" },
+        { "en": "Extract tens = n // 10 and units = n % 10.", "bn": "tens = n // 10 এবং units = n % 10 বের করুন।" },
+        { "en": "Print tens + units.", "bn": "tens + units প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ntens = n // 10\nunits = n % 10\nprint(tens + units)",
+      "codeExplanation": {
+        "en": "n // 10 extracts the tens place and n % 10 extracts the ones place mathematically.",
+        "bn": "n // 10 দিয়ে দশকের অঙ্ক এবং n % 10 দিয়ে এককের অঙ্ক গাণিতিকভাবে আলাদা করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "47", "expectedOutput": "11" },
+        { "input": "90", "expectedOutput": "9" },
+        { "input": "99", "expectedOutput": "18" }
+      ]
+    },
+    {
+      "id": "P01-10",
+      "number": 10,
+      "title": {
+        "en": "Euclidean Distance Between Two Points",
+        "bn": "দুটি বিন্দুর মধ্যবর্তী ইউক্লিডীয় দূরত্ব"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Exponentiation (**)", "bn": "ঘাত অপারেটর (**)" },
+        { "en": "Coordinate geometry", "bn": "স্থানাঙ্ক জ্যামিতি" }
+      ],
+      "description": {
+        "en": "Given coordinates (x1, y1) and (x2, y2), compute the straight-line distance between them rounded to 2 decimal places.",
+        "bn": "দুটি বিন্দুর স্থানাঙ্ক (x1, y1) এবং (x2, y2) দেওয়া আছে। বিন্দু দুটির সরলরৈখিক দূরত্ব ২ দশমিক স্থান পর্যন্ত নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Four lines containing x1, y1, x2, y2 as numbers.",
+        "bn": "চারটি লাইনে যথাক্রমে x1, y1, x2, y2 সংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Distance formatted to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত দূরত্ব।"
+      },
+      "examples": [
+        {
+          "input": "0\n0\n3\n4",
+          "output": "5.00",
+          "explanation": {
+            "en": "sqrt((3 - 0)^2 + (4 - 0)^2) = sqrt(9 + 16) = 5.00.",
+            "bn": "sqrt((3 - 0)^2 + (4 - 0)^2) = sqrt(25) = 5.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compute dx = x2 - x1 and dy = y2 - y1 first.",
+        "bn": "প্রথমে dx = x2 - x1 এবং dy = y2 - y1 বের করে নিন।"
+      },
+      "hint2": {
+        "en": "Square root can be written as (dx ** 2 + dy ** 2) ** 0.5.",
+        "bn": "বর্গমূল বের করতে (dx ** 2 + dy ** 2) ** 0.5 লেখা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "By the Pythagorean theorem, distance is sqrt((x2 - x1)^2 + (y2 - y1)^2). Raising a number to power 0.5 computes its square root cleanly.",
+        "bn": "পিথাগোরাসের উপপাদ্য অনুযায়ী দূরত্ব = sqrt((x2 - x1)^2 + (y2 - y1)^2)। 0.5 ঘাত দিয়ে বর্গমূল পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read x1, y1, x2, y2 as floats.", "bn": "x1, y1, x2, y2 ফ্লোট হিসেবে পড়ুন।" },
+        { "en": "Compute dx = x2 - x1 and dy = y2 - y1.", "bn": "dx ও dy নির্ণয় করুন।" },
+        { "en": "Compute distance = (dx ** 2 + dy ** 2) ** 0.5.", "bn": "distance = (dx ** 2 + dy ** 2) ** 0.5 হিসাব করুন।" },
+        { "en": "Print distance formatted to :.2f.", "bn": ":.2f ফরম্যাটে দূরত্ব প্রিন্ট করুন।" }
+      ],
+      "solution": "x1 = float(input())\ny1 = float(input())\nx2 = float(input())\ny2 = float(input())\ndx = x2 - x1\ndy = y2 - y1\ndistance = (dx ** 2 + dy ** 2) ** 0.5\nprint(f\"{distance:.2f}\")",
+      "codeExplanation": {
+        "en": "dx and dy store coordinate differences. Squaring both, summing, and raising to 0.5 gives Euclidean distance.",
+        "bn": "dx ও dy-তে স্থানাঙ্কের পার্থক্য রাখা হয়েছে। উভয়ের বর্গের যোগফলকে 0.5 ঘাত দিয়ে দূরত্ব বের করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "0\n0\n3\n4", "expectedOutput": "5.00" },
+        { "input": "1\n2\n4\n6", "expectedOutput": "5.00" },
+        { "input": "-1\n-1\n2\n3", "expectedOutput": "5.00" },
+        { "input": "2\n3\n5\n7", "expectedOutput": "5.00" }
+      ]
+    },
+    {
+      "id": "P01-11",
+      "number": 11,
+      "title": {
+        "en": "Reverse a Three-Digit Integer Mathematically",
+        "bn": "তিন অঙ্কের সংখ্যা গাণিতিকভাবে উল্টানো"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Place value decomposition", "bn": "স্থানীয় মান বিশ্লেষণ" },
+        { "en": "Rebuilding integers", "bn": "সংখ্যা পুনর্গঠন" }
+      ],
+      "description": {
+        "en": "Read a positive three-digit integer (100 to 999) and reverse its digits purely using arithmetic operators (no strings or slicing).",
+        "bn": "একটি ধনাত্মক তিন অঙ্কের পূর্ণসংখ্যা (100 থেকে 999) নিন এবং স্ট্রিং বা স্লাইসিং ছাড়া শুধুমাত্র গাণিতিক অপারেটর দিয়ে অঙ্কগুলো উল্টিয়ে নতুন সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A three-digit integer n.",
+        "bn": "তিন অঙ্কের একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "The reversed integer.",
+        "bn": "উল্টানো পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "385",
+          "output": "583",
+          "explanation": {
+            "en": "Digits 3, 8, 5 become 5*100 + 8*10 + 3 = 583.",
+            "bn": "3, 8, 5 অঙ্কগুলো উল্টে 5*100 + 8*10 + 3 = 583 হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Extract hundreds = n // 100, tens = (n // 10) % 10, and units = n % 10.",
+        "bn": "শতক = n // 100, দশক = (n // 10) % 10 এবং একক = n % 10 বের করুন।"
+      },
+      "hint2": {
+        "en": "Rebuild the reversed number as units * 100 + tens * 10 + hundreds.",
+        "bn": "নতুন সংখ্যা তৈরি করুন: units * 100 + tens * 10 + hundreds।"
+      },
+      "logicBreakdown": {
+        "en": "Extracting middle digits requires combining // and %: (n // 10) drops the units digit, leaving a 2-digit prefix whose % 10 is the middle digit.",
+        "bn": "মাঝের অঙ্ক বের করতে // এবং % একসাথে ব্যবহার করতে হয়: n // 10 শেষ অঙ্ক বাদ দেয়, তারপর % 10 দিলে দশকের অঙ্ক পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n = int(input()) পড়ুন।" },
+        { "en": "Extract hundreds, tens, and units.", "bn": "শতক, দশক ও এককের অঙ্ক আলাদা করুন।" },
+        { "en": "Compute rev = units * 100 + tens * 10 + hundreds.", "bn": "rev = units * 100 + tens * 10 + hundreds হিসাব করুন।" },
+        { "en": "Print rev.", "bn": "rev প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nhundreds = n // 100\ntens = (n // 10) % 10\nunits = n % 10\nrev = units * 100 + tens * 10 + hundreds\nprint(rev)",
+      "codeExplanation": {
+        "en": "Each digit is isolated mathematically and reweighted in reverse place order. Note that trailing zeros like 120 become 21 as an integer.",
+        "bn": "প্রতিটি অঙ্ক আলাদা করে বিপরীত স্থানীয় মান দিয়ে গুণ করে যোগ করা হয়েছে। যেমন 120 উল্টে পূর্ণসংখ্যা 21 হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "385", "expectedOutput": "583" },
+        { "input": "120", "expectedOutput": "21", "note": { "en": "Leading zero drops in int", "bn": "শুরুর শূন্য পূর্ণসংখ্যায় বাদ যায়" } },
+        { "input": "707", "expectedOutput": "707" }
+      ]
+    },
+    {
+      "id": "P01-12",
+      "number": 12,
+      "title": {
+        "en": "Circular Track Full Laps & Position",
+        "bn": "বৃত্তাকার ট্র্যাকে পূর্ণ চক্কর ও অবস্থান"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Quotient and remainder modeling", "bn": "ভাগফল ও ভাগশেষ মডেলিং" }
+      ],
+      "description": {
+        "en": "A runner covers total_meters on a circular track of length lap_length meters. Determine how many full laps were completed and how many meters past the starting line the runner is currently positioned.",
+        "bn": "একজন দৌড়বিদ lap_length মিটারের একটি বৃত্তাকার ট্র্যাকে মোট total_meters দূরত্ব অতিক্রম করেন। তিনি কতটি পূর্ণ চক্কর দিয়েছেন এবং শুরুর রেখা থেকে কত মিটার এগিয়ে আছেন তা বের করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: total_meters (int). Line 2: lap_length (int > 0).",
+        "bn": "প্রথম লাইন: total_meters। দ্বিতীয় লাইন: lap_length (> 0)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Full laps. Line 2: Current position in meters.",
+        "bn": "প্রথম লাইন: পূর্ণ চক্কর। দ্বিতীয় লাইন: বর্তমান অবস্থান (মিটার)।"
+      },
+      "examples": [
+        {
+          "input": "1050\n400",
+          "output": "2\n250",
+          "explanation": {
+            "en": "1050 = 2 * 400 + 250, so 2 full laps and 250m from start.",
+            "bn": "1050 = 2 * 400 + 250, অর্থাৎ ২টি পূর্ণ চক্কর এবং শুরুর রেখা থেকে ২৫০ মিটার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Full laps is the integer quotient total_meters // lap_length.",
+        "bn": "পূর্ণ চক্কর হলো total_meters // lap_length।"
+      },
+      "hint2": {
+        "en": "Position around the circle wraps around using % lap_length.",
+        "bn": "বৃত্তাকার অবস্থান % lap_length ব্যবহার করে বের করা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Circular wrap-around problems are classic applications of modular arithmetic: division counts complete cycles, and modulo gives the offset within the current cycle.",
+        "bn": "বৃত্তাকার বা পুনরাবৃত্ত অবস্থান নির্ণয়ে মডুলার গণিত ব্যবহৃত হয়: ভাগফল পূর্ণ চক্র এবং ভাগশেষ বর্তমান চক্রের অবস্থান দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read total_meters and lap_length.", "bn": "total_meters এবং lap_length পড়ুন।" },
+        { "en": "laps = total_meters // lap_length.", "bn": "laps = total_meters // lap_length বের করুন।" },
+        { "en": "position = total_meters % lap_length.", "bn": "position = total_meters % lap_length বের করুন।" },
+        { "en": "Print laps and position.", "bn": "laps ও position প্রিন্ট করুন।" }
+      ],
+      "solution": "total_meters = int(input())\nlap_length = int(input())\nlaps = total_meters // lap_length\nposition = total_meters % lap_length\nprint(laps)\nprint(position)",
+      "codeExplanation": {
+        "en": "total_meters // lap_length computes completed laps, and total_meters % lap_length gives the wrap-around offset.",
+        "bn": "total_meters // lap_length পূর্ণ চক্কর এবং total_meters % lap_length অবশিষ্ট দূরত্ব নির্ণয় করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1050\n400", "expectedOutput": "2\n250" },
+        { "input": "800\n400", "expectedOutput": "2\n0" },
+        { "input": "150\n400", "expectedOutput": "0\n150" }
+      ]
+    },
+    {
+      "id": "P01-13",
+      "number": 13,
+      "title": {
+        "en": "Currency Note Breakdown",
+        "bn": "টাকার নোট বিভাজন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Sequential remainder reduction", "bn": "ধারাবাহিক ভাগশেষ হ্রাস" },
+        { "en": "Greedy arithmetic", "bn": "গ্রিডি গণনা" }
+      ],
+      "description": {
+        "en": "Given an integer amount in Taka, break it down into the minimum number of 100, 50, 20, 10, 5, and 1 Taka notes without using loops.",
+        "bn": "লুপ ব্যবহার না করে একটি পূর্ণসংখ্যার পরিমাণকে সর্বনিম্ন সংখ্যক 100, 50, 20, 10, 5 এবং 1 টাকার নোটে ভাগ করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer amount (>= 0).",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা amount।"
+      },
+      "expectedOutput": {
+        "en": "Six integers separated by spaces representing counts of 100, 50, 20, 10, 5, and 1 notes.",
+        "bn": "স্পেস দিয়ে আলাদা ৬টি পূর্ণসংখ্যা যা যথাক্রমে 100, 50, 20, 10, 5 এবং 1 টাকার নোটের সংখ্যা নির্দেশ করে।"
+      },
+      "examples": [
+        {
+          "input": "286",
+          "output": "2 1 1 1 1 1",
+          "explanation": {
+            "en": "2*100 + 1*50 + 1*20 + 1*10 + 1*5 + 1*1 = 286.",
+            "bn": "2*100 + 1*50 + 1*20 + 1*10 + 1*5 + 1*1 = 286।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Start from the largest note (100) and update the remaining amount with %= 100.",
+        "bn": "সবচেয়ে বড় নোট (100) থেকে শুরু করুন এবং %= 100 দিয়ে বাকি টাকা আপডেট করুন।"
+      },
+      "hint2": {
+        "en": "Repeat // and %= for 50, 20, 10, 5, and the final remainder is the count of 1-Taka notes.",
+        "bn": "একইভাবে 50, 20, 10, 5-এর জন্য // ও %= করুন; শেষ অবশিষ্টই হবে 1 টাকার নোট।"
+      },
+      "logicBreakdown": {
+        "en": "Because each larger denomination can be formed optimally by taking as many of the largest notes first, updating amount = amount % denomination passes the exact leftover to the next smaller note.",
+        "bn": "সর্বনিম্ন নোট পেতে বড় নোট থেকে শুরু করে প্রতিটি ধাপে // দিয়ে নোট সংখ্যা এবং %= দিয়ে অবশিষ্ট পরিমাণ পরবর্তী ধাপে পাঠাতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read amount = int(input()).", "bn": "amount পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Compute n100 = amount // 100; amount %= 100.", "bn": "n100 = amount // 100; amount %= 100।" },
+        { "en": "Repeat sequentially for 50, 20, 10, and 5.", "bn": "50, 20, 10 ও 5-এর জন্য ধারাবাহিকভাবে পুনরাবৃত্তি করুন।" },
+        { "en": "Assign n1 = amount and print all six counts.", "bn": "n1 = amount ধরে ৬টি মান প্রিন্ট করুন।" }
+      ],
+      "solution": "amount = int(input())\nn100 = amount // 100\namount %= 100\nn50 = amount // 50\namount %= 50\nn20 = amount // 20\namount %= 20\nn10 = amount // 10\namount %= 10\nn5 = amount // 5\namount %= 5\nn1 = amount\nprint(n100, n50, n20, n10, n5, n1)",
+      "codeExplanation": {
+        "en": "Each denomination count uses //, and amount %= denom reduces the remaining balance before the next step.",
+        "bn": "প্রতিটি নোটের সংখ্যা // দিয়ে নির্ণয় করা হয়েছে এবং amount %= denom দিয়ে বাকি টাকা কমানো হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "286", "expectedOutput": "2 1 1 1 1 1" },
+        { "input": "70", "expectedOutput": "0 1 1 0 0 0" },
+        { "input": "0", "expectedOutput": "0 0 0 0 0 0" }
+      ]
+    },
+    {
+      "id": "P01-14",
+      "number": 14,
+      "title": {
+        "en": "Arithmetic Progression N-th Term and Sum",
+        "bn": "সমান্তর ধারার n-তম পদ ও সমষ্টি"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Closed-form formulas", "bn": "সূত্রভিত্তিক গাণিতিক সমাধান" },
+        { "en": "Integer arithmetic", "bn": "পূর্ণসংখ্যা গণিত" }
+      ],
+      "description": {
+        "en": "Given the first term a, common difference d, and term count n of an arithmetic progression, compute the n-th term and the sum of the first n terms in O(1) time without loops.",
+        "bn": "একটি সমান্তর ধারার প্রথম পদ a, সাধারণ অন্তর d এবং পদ সংখ্যা n দেওয়া আছে। লুপ ছাড়া O(1) সময়ে n-তম পদ এবং প্রথম n পদের সমষ্টি নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines: integers a, d, and n (n >= 1).",
+        "bn": "তিনটি লাইন: পূর্ণসংখ্যা a, d, এবং n (n >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: n-th term. Line 2: Sum of first n terms (as integer).",
+        "bn": "প্রথম লাইন: n-তম পদ। দ্বিতীয় লাইন: সমষ্টি (পূর্ণসংখ্যায়)।"
+      },
+      "examples": [
+        {
+          "input": "3\n4\n5",
+          "output": "19\n55",
+          "explanation": {
+            "en": "Sequence: 3, 7, 11, 15, 19. 5th term = 19, sum = 55.",
+            "bn": "ধারা: 3, 7, 11, 15, 19। ৫ম পদ = 19 এবং যোগফল = 55।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "The n-th term formula is a + (n - 1) * d.",
+        "bn": "n-তম পদের সূত্র: a + (n - 1) * d।"
+      },
+      "hint2": {
+        "en": "Sum of n terms is n * (first + last) // 2.",
+        "bn": "সমষ্টির সূত্র: n * (প্রথম + শেষ) // 2।"
+      },
+      "logicBreakdown": {
+        "en": "Mathematical closed-form formulas solve problems instantaneously regardless of how huge n is. Using // 2 guarantees an integer output since either n or (first + last) is always even.",
+        "bn": "গাণিতিক সূত্র ব্যবহার করলে n যত বড়ই হোক এক ধাপে উত্তর পাওয়া যায়। // 2 ব্যবহার করলে আউটপুট পূর্ণসংখ্যা থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read a, d, n as integers.", "bn": "a, d, n পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Compute nth = a + (n - 1) * d.", "bn": "nth = a + (n - 1) * d হিসাব করুন।" },
+        { "en": "Compute total = n * (a + nth) // 2.", "bn": "total = n * (a + nth) // 2 হিসাব করুন।" },
+        { "en": "Print nth and total.", "bn": "nth এবং total প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nd = int(input())\nn = int(input())\nnth = a + (n - 1) * d\ntotal = n * (a + nth) // 2\nprint(nth)\nprint(total)",
+      "codeExplanation": {
+        "en": "nth computes the final term directly, and Gauss's pairing formula n * (a + nth) // 2 computes the exact integer sum.",
+        "bn": "nth দিয়ে শেষ পদ এবং n * (a + nth) // 2 সূত্র দিয়ে সরাসরি পূর্ণসংখ্যায় সমষ্টি বের করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3\n4\n5", "expectedOutput": "19\n55" },
+        { "input": "1\n1\n100", "expectedOutput": "100\n5050" },
+        { "input": "10\n-2\n4", "expectedOutput": "4\n28" }
+      ]
+    },
+    {
+      "id": "P01-15",
+      "number": 15,
+      "title": {
+        "en": "Compound Growth Formula",
+        "bn": "চক্রবৃদ্ধি মূলধন নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Exponentiation in finance", "bn": "চক্রবৃদ্ধি ঘাত সমীকরণ" },
+        { "en": "Float precision formatting", "bn": "দশমিক ফরম্যাটিং" }
+      ],
+      "description": {
+        "en": "Given principal P, annual interest rate R (%), and years T, compute the compound amount A = P * ((1 + R / 100) ** T) and compound interest (A - P) rounded to 2 decimal places.",
+        "bn": "আসল P, বার্ষিক সুদের হার R (%) এবং বছর T দেওয়া আছে। চক্রবৃদ্ধি মূলধন A = P * ((1 + R / 100) ** T) এবং চক্রবৃদ্ধি মুনাফা (A - P) ২ দশমিক স্থান পর্যন্ত নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines: P (float), R (float), T (int or float).",
+        "bn": "তিনটি লাইন: P, R এবং T।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: Compound Amount. Line 2: Compound Interest.",
+        "bn": "প্রথম লাইন: চক্রবৃদ্ধি মূলধন। দ্বিতীয় লাইন: চক্রবৃদ্ধি মুনাফা।"
+      },
+      "examples": [
+        {
+          "input": "1000\n10\n2",
+          "output": "1210.00\n210.00",
+          "explanation": {
+            "en": "1000 * (1.10 ** 2) = 1210.00; Interest = 210.00.",
+            "bn": "1000 * (1.10 ** 2) = 1210.00; মুনাফা = 210.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert rate R to a decimal growth factor using 1 + R / 100.",
+        "bn": "1 + R / 100 দিয়ে বার্ষিক বৃদ্ধির গুণক বের করুন।"
+      },
+      "hint2": {
+        "en": "Raise the growth factor to power T before multiplying by P.",
+        "bn": "বৃদ্ধির গুণকের ঘাত T হিসাব করে P দিয়ে গুণ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Unlike simple interest, compound growth multiplies the balance by (1 + R/100) each period, which simplifies mathematically to raising the factor to T.",
+        "bn": "সরল মুনাফার মতো নয়, চক্রবৃদ্ধিতে প্রতি বছর (1 + R/100) গুণ হয়—যা T ঘাত ব্যবহার করে এক ধাপে বের করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read p, r, t as floats.", "bn": "p, r, t ফ্লোট হিসেবে নিন।" },
+        { "en": "Compute amount = p * ((1 + r / 100) ** t).", "bn": "amount = p * ((1 + r / 100) ** t) বের করুন।" },
+        { "en": "Compute interest = amount - p.", "bn": "interest = amount - p বের করুন।" },
+        { "en": "Print amount and interest with :.2f.", "bn": ":.2f ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "p = float(input())\nr = float(input())\nt = float(input())\namount = p * ((1 + r / 100) ** t)\ninterest = amount - p\nprint(f\"{amount:.2f}\")\nprint(f\"{interest:.2f}\")",
+      "codeExplanation": {
+        "en": "** raises (1 + r / 100) to power t. Subtracting p yields total compound interest earned.",
+        "bn": "** অপারেটর দিয়ে (1 + r / 100)-এর ঘাত t বের করা হয়েছে এবং মূলধন থেকে p বিয়োগ করে মুনাফা পাওয়া গেছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1000\n10\n2", "expectedOutput": "1210.00\n210.00" },
+        { "input": "2000\n5\n3", "expectedOutput": "2315.25\n315.25" },
+        { "input": "1500\n0\n5", "expectedOutput": "1500.00\n0.00" }
+      ]
+    },
+    {
+      "id": "P01-16",
+      "number": 16,
+      "title": {
+        "en": "Elapsed Minutes Between Two Times",
+        "bn": "দুটি সময়ের মধ্যবর্তী মোট মিনিট"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Unit normalization", "bn": "একক সাধারণীকরণ" },
+        { "en": "Time arithmetic", "bn": "সময় গণনা" }
+      ],
+      "description": {
+        "en": "Given a start time (h1, m1) and a later end time (h2, m2) on the same day in 24-hour format, calculate the total minutes elapsed between them.",
+        "bn": "একই দিনের ২৪-ঘণ্টা ফরম্যাটে শুরুর সময় (h1, m1) এবং পরবর্তী শেষ সময় (h2, m2) দেওয়া আছে। মধ্যবর্তী মোট কত মিনিট অতিক্রান্ত হয়েছে তা বের করুন।"
+      },
+      "inputDescription": {
+        "en": "Four lines containing integers h1, m1, h2, m2.",
+        "bn": "চারটি লাইনে পূর্ণসংখ্যা h1, m1, h2, m2।"
+      },
+      "expectedOutput": {
+        "en": "Total elapsed minutes (integer).",
+        "bn": "অতিক্রান্ত মোট মিনিট (পূর্ণসংখ্যা)।"
+      },
+      "examples": [
+        {
+          "input": "9\n45\n11\n20",
+          "output": "95",
+          "explanation": {
+            "en": "9:45 is 585 minutes from midnight; 11:20 is 680 minutes. 680 - 585 = 95.",
+            "bn": "9:45 হলো 585 মিনিট এবং 11:20 হলো 680 মিনিট। পার্থক্য 680 - 585 = 95 মিনিট।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Subtracting hours and minutes separately gets tricky when m2 < m1 (like 11:20 minus 9:45).",
+        "bn": "m2 < m1 হলে ঘণ্টা ও মিনিট আলাদা বিয়োগ করতে গেলে ধার নেওয়ার ঝামেলা হয়।"
+      },
+      "hint2": {
+        "en": "Convert both times into total minutes from 00:00 first: h * 60 + m.",
+        "bn": "উভয় সময়কে ০0:০০ থেকে মোট মিনিটে রূপান্তর করুন: h * 60 + m।"
+      },
+      "logicBreakdown": {
+        "en": "Normalizing composite units (hours + minutes) into a single base unit (minutes since midnight) eliminates borrowing logic and turns time difference into simple subtraction.",
+        "bn": "মিশ্র একককে (ঘণ্টা ও মিনিট) একক ভিত্তিতে (মোট মিনিট) রূপান্তর করলে আলাদা ধার নেওয়ার শর্ত ছাড়াই বিয়োগ করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read h1, m1, h2, m2.", "bn": "h1, m1, h2, m2 পড়ুন।" },
+        { "en": "start_mins = h1 * 60 + m1.", "bn": "start_mins = h1 * 60 + m1 বের করুন।" },
+        { "en": "end_mins = h2 * 60 + m2.", "bn": "end_mins = h2 * 60 + m2 বের করুন।" },
+        { "en": "Print end_mins - start_mins.", "bn": "end_mins - start_mins প্রিন্ট করুন।" }
+      ],
+      "solution": "h1 = int(input())\nm1 = int(input())\nh2 = int(input())\nm2 = int(input())\nstart_mins = h1 * 60 + m1\nend_mins = h2 * 60 + m2\nprint(end_mins - start_mins)",
+      "codeExplanation": {
+        "en": "Converting both timestamps into minutes from midnight makes subtracting 09:45 from 11:20 trivial.",
+        "bn": "দুটি সময়কে মিনিটে রূপান্তর করায় ০৯:৪৫ থেকে ১১:২০-এর পার্থক্য সরাসরি বিয়োগেই পাওয়া যায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "9\n45\n11\n20", "expectedOutput": "95" },
+        { "input": "0\n0\n23\n59", "expectedOutput": "1439" },
+        { "input": "14\n10\n14\n10", "expectedOutput": "0" }
+      ]
+    },
+    {
+      "id": "P01-17",
+      "number": 17,
+      "title": {
+        "en": "Cyclic Three-Variable Rotation",
+        "bn": "তিনটি ভ্যারিয়েবলের চক্রাকার ঘূর্ণন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Simultaneous assignment", "bn": "একযোগে মান অ্যাসাইনমেন্ট" },
+        { "en": "State permutation", "bn": "স্টেট পারমুটেশন" }
+      ],
+      "description": {
+        "en": "Given three integers a, b, and c, rotate their values right by one position so that a receives c's value, b receives a's value, and c receives b's value.",
+        "bn": "তিনটি পূর্ণসংখ্যা a, b, এবং c দেওয়া আছে। এদের মান ডানে এক ধাপ ঘুরিয়ে দিন যাতে a পায় c-এর মান, b পায় a-এর মান এবং c পায় b-এর মান।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers a, b, c.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা a, b, c।"
+      },
+      "expectedOutput": {
+        "en": "Updated a, b, c on one line separated by spaces.",
+        "bn": "এক লাইনে স্পেস দিয়ে নতুন a, b, c।"
+      },
+      "examples": [
+        {
+          "input": "1\n2\n3",
+          "output": "3 1 2",
+          "explanation": {
+            "en": "(1, 2, 3) rotated right becomes (3, 1, 2).",
+            "bn": "(1, 2, 3) ডানে এক ধাপ ঘুরে (3, 1, 2) হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Map out each target: new_a = old_c, new_b = old_a, new_c = old_b.",
+        "bn": "নতুন মানগুলো লিখুন: new_a = old_c, new_b = old_a, new_c = old_b।"
+      },
+      "hint2": {
+        "en": "In Python you can write a, b, c = c, a, b in one atomic statement.",
+        "bn": "পাইথনে এক লাইনে a, b, c = c, a, b লিখলেই সমাধান হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Rotating three variables sequentially without simultaneous assignment loses values unless carefully ordered or backed up. Tuple assignment evaluates (c, a, b) first, preserving every value.",
+        "bn": "একসাথে অ্যাসাইন না করে আলাদা লাইনে লিখলে মান হারিয়ে যায়। টাপল অ্যাসাইনমেন্ট (c, a, b) আগে মূল্যায়ন করে নেওয়ায় কোনো মান হারায় না।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c as integers.", "bn": "a, b, c পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Rotate using a, b, c = c, a, b.", "bn": "a, b, c = c, a, b দিয়ে ঘোরান।" },
+        { "en": "Print a, b, c.", "bn": "a, b, c প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nc = int(input())\na, b, c = c, a, b\nprint(a, b, c)",
+      "codeExplanation": {
+        "en": "Python packs the right-hand side (c, a, b) before unpacking into a, b, c.",
+        "bn": "পাইথন প্রথমে ডান দিকের (c, a, b) প্যাকেট তৈরি করে এবং তারপর a, b, c-তে বসিয়ে দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1\n2\n3", "expectedOutput": "3 1 2" },
+        { "input": "10\n20\n30", "expectedOutput": "30 10 20" },
+        { "input": "-5\n0\n5", "expectedOutput": "5 -5 0" }
+      ]
+    },
+    {
+      "id": "P01-18",
+      "number": 18,
+      "title": {
+        "en": "Four-Digit Outer vs Inner Digit Difference",
+        "bn": "চার অঙ্কের প্রান্তীয় ও মধ্যম অঙ্কের পার্থক্য"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Multi-digit place extraction", "bn": "বহু-অঙ্কের স্থানীয় মান পৃথকীকরণ" },
+        { "en": "Expression construction", "bn": "এক্সপ্রেশন গঠন" }
+      ],
+      "description": {
+        "en": "Read a four-digit integer (1000 to 9999). Without converting to a string, calculate (first_digit + last_digit) - (second_digit + third_digit).",
+        "bn": "একটি চার অঙ্কের পূর্ণসংখ্যা (1000 থেকে 9999) নিন। স্ট্রিং ব্যবহার না করে (প্রথম_অঙ্ক + শেষ_অঙ্ক) - (দ্বিতীয়_অঙ্ক + তৃতীয়_অঙ্ক) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A four-digit integer n.",
+        "bn": "চার অঙ্কের একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "Resulting integer difference.",
+        "bn": "হিসাবকৃত পূর্ণসংখ্যা পার্থক্য।"
+      },
+      "examples": [
+        {
+          "input": "8234",
+          "output": "7",
+          "explanation": {
+            "en": "(8 + 4) - (2 + 3) = 12 - 5 = 7.",
+            "bn": "(8 + 4) - (2 + 3) = 12 - 5 = 7।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "d1 = n // 1000 and d4 = n % 10.",
+        "bn": "d1 = n // 1000 এবং d4 = n % 10।"
+      },
+      "hint2": {
+        "en": "d2 = (n // 100) % 10 and d3 = (n // 10) % 10.",
+        "bn": "d2 = (n // 100) % 10 এবং d3 = (n // 10) % 10।"
+      },
+      "logicBreakdown": {
+        "en": "To isolate the k-th digit from the right, floor-divide by 10^(k-1) to bring that digit to the ones place, then apply % 10.",
+        "bn": "ডান দিক থেকে k-তম অঙ্ক পেতে 10^(k-1) দিয়ে পূর্ণসংখ্যা ভাগ করে অঙ্কটিকে এককের ঘরে আনুন, তারপর % 10 নিন।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n = int(input()) পড়ুন।" },
+        { "en": "Compute d1, d2, d3, d4 using // and %.", "bn": "// ও % দিয়ে d1, d2, d3, d4 বের করুন।" },
+        { "en": "Print (d1 + d4) - (d2 + d3).", "bn": "(d1 + d4) - (d2 + d3) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nd1 = n // 1000\nd2 = (n // 100) % 10\nd3 = (n // 10) % 10\nd4 = n % 10\nprint((d1 + d4) - (d2 + d3))",
+      "codeExplanation": {
+        "en": "Powers of 10 shift digits right via //, and % 10 extracts the rightmost digit.",
+        "bn": "১০-এর ঘাত দিয়ে ভাগ করলে অঙ্ক ডানে সরে আসে এবং % 10 ডানের অঙ্কটি বের করে দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "8234", "expectedOutput": "7" },
+        { "input": "1991", "expectedOutput": "-16" },
+        { "input": "5005", "expectedOutput": "10" }
+      ]
+    },
+    {
+      "id": "P01-19",
+      "number": 19,
+      "title": {
+        "en": "Minimum Boat Trips (Ceiling Division Without Conditionals)",
+        "bn": "সর্বনিম্ন নৌকা ট্রিপ (শর্ত ছাড়া সিলিং ভাগ)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Integer ceiling division", "bn": "পূর্ণসংখ্যা সিলিং ডিভিশন" },
+        { "en": "Boundary arithmetic", "bn": "বাউন্ডারি গণিত" }
+      ],
+      "description": {
+        "en": "N people need to cross a river in a boat that holds at most K people per trip. Compute the minimum number of trips required using pure integer arithmetic (no if statements, no math.ceil).",
+        "bn": "N জন মানুষকে একটি নৌকায় নদী পার হতে হবে যেখানে প্রতিবার সর্বোচ্চ K জন উঠতে পারে। কোনো if শর্ত বা math.ceil ব্যবহার না করে শুধু পূর্ণসংখ্যা গণিত দিয়ে সর্বনিম্ন কতটি ট্রিপ লাগবে তা বের করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N (int >= 0). Line 2: K (int > 0).",
+        "bn": "প্রথম লাইন: N (>= 0)। দ্বিতীয় লাইন: K (> 0)।"
+      },
+      "expectedOutput": {
+        "en": "Minimum number of trips (integer).",
+        "bn": "সর্বনিম্ন ট্রিপ সংখ্যা (পূর্ণসংখ্যা)।"
+      },
+      "examples": [
+        {
+          "input": "13\n5",
+          "output": "3",
+          "explanation": {
+            "en": "Two trips carry 10 people; 3 people remain, requiring a 3rd trip.",
+            "bn": "২টি ট্রিপে ১০ জন পার হয়; বাকি ৩ জনের জন্য ৩য় ট্রিপ লাগে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "N // K rounds down. When N is 10 and K is 5, the answer is 2; when N is 11 and K is 5, the answer must jump to 3.",
+        "bn": "N // K নিচে রাউন্ড করে। N=10, K=5 হলে উত্তর 2, কিন্তু N=11 হলে উত্তর 3 হতে হবে।"
+      },
+      "hint2": {
+        "en": "Adding (K - 1) to N before floor-dividing by K pushes any non-zero remainder into the next integer: (N + K - 1) // K.",
+        "bn": "N-এর সাথে (K - 1) যোগ করে K দিয়ে // করলে যেকোনো অশূন্য ভাগশেষ পরের পূর্ণসংখ্যায় চলে যায়: (N + K - 1) // K।"
+      },
+      "logicBreakdown": {
+        "en": "If N is an exact multiple of K, adding K - 1 is not enough to reach the next multiple, so (N + K - 1) // K stays at N // K. If N leaves even a remainder of 1, adding K - 1 reaches the next multiple, incrementing the quotient by 1.",
+        "bn": "N যদি K-এর গুণিতক হয়, তবে K - 1 যোগ করলেও পরের গুণিতকে পৌঁছায় না। কিন্তু ভাগশেষ ১ হলেও K - 1 যোগ করলে পরের গুণিতকে পৌঁছে ভাগফল ১ বেড়ে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read n and k as integers.", "bn": "n এবং k পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Compute trips = (n + k - 1) // k.", "bn": "trips = (n + k - 1) // k হিসাব করুন।" },
+        { "en": "Print trips.", "bn": "trips প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\ntrips = (n + k - 1) // k\nprint(trips)",
+      "codeExplanation": {
+        "en": "(n + k - 1) // k is the standard integer ceiling division trick used across systems programming and memory alignment.",
+        "bn": "(n + k - 1) // k হলো সিস্টেমস প্রোগ্রামিং ও গণিতে বহুল ব্যবহৃত সিলিং ডিভিশন কৌশল।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "13\n5", "expectedOutput": "3" },
+        { "input": "10\n5", "expectedOutput": "2", "note": { "en": "Exact multiple", "bn": "সঠিক গুণিতক" } },
+        { "input": "0\n5", "expectedOutput": "0", "note": { "en": "Zero people", "bn": "শূন্য মানুষ" } },
+        { "input": "1\n5", "expectedOutput": "1" }
+      ]
+    },
+    {
+      "id": "P01-20",
+      "number": 20,
+      "title": {
+        "en": "Round Up to Next Multiple of K",
+        "bn": "K-এর পরবর্তী গুণিতকে উন্নীতকরণ"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Alignment arithmetic", "bn": "অ্যালাইনমেন্ট গণিত" },
+        { "en": "Ceiling multiple", "bn": "সিলিং গুণিতক" }
+      ],
+      "description": {
+        "en": "Given a non-negative integer N and a positive integer K, find the smallest multiple of K that is greater than or equal to N using a single arithmetic expression without conditionals.",
+        "bn": "একটি অঋণাত্মক পূর্ণসংখ্যা N এবং ধনাত্মক পূর্ণসংখ্যা K দেওয়া আছে। কোনো শর্ত ব্যবহার না করে একটি গাণিতিক এক্সপ্রেশনের মাধ্যমে N-এর সমান বা বড় K-এর ক্ষুদ্রতম গুণিতক নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N (>= 0). Line 2: K (> 0).",
+        "bn": "প্রথম লাইন: N (>= 0)। দ্বিতীয় লাইন: K (> 0)।"
+      },
+      "expectedOutput": {
+        "en": "Smallest multiple of K >= N.",
+        "bn": "N-এর সমান বা বড় K-এর ক্ষুদ্রতম গুণিতক।"
+      },
+      "examples": [
+        {
+          "input": "17\n8",
+          "output": "24",
+          "explanation": {
+            "en": "Multiples of 8 are 0, 8, 16, 24. The smallest >= 17 is 24.",
+            "bn": "8-এর গুণিতক 0, 8, 16, 24। 17-এর চেয়ে বড় ক্ষুদ্রতম গুণিতক হলো 24।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Think of how many blocks of size K are needed to fit N items (just like the boat problem!).",
+        "bn": "N-টি জিনিস রাখতে K আকারের কতটি ব্লক লাগবে তা ভাবুন (নৌকা সমস্যার মতোই!)।"
+      },
+      "hint2": {
+        "en": "Multiply the ceiling block count ((N + K - 1) // K) by K.",
+        "bn": "সিলিং ব্লক সংখ্যা ((N + K - 1) // K)-কে K দিয়ে গুণ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "This exact formula ((n + k - 1) // k) * k is how operating systems and compilers align memory addresses to 8-byte or 4096-byte page boundaries.",
+        "bn": "((n + k - 1) // k) * k সূত্রটি অপারেটিং সিস্টেম ও কম্পাইলারে মেমোরি ব্লক অ্যালাইনমেন্টের কাজে ব্যবহৃত হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and k as integers.", "bn": "n এবং k পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Compute aligned = ((n + k - 1) // k) * k.", "bn": "aligned = ((n + k - 1) // k) * k হিসাব করুন।" },
+        { "en": "Print aligned.", "bn": "aligned প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nk = int(input())\naligned = ((n + k - 1) // k) * k\nprint(aligned)",
+      "codeExplanation": {
+        "en": "((n + k - 1) // k) finds the ceiling multiplier, and * k converts it back into the aligned multiple.",
+        "bn": "((n + k - 1) // k) দিয়ে সিলিং গুণক বের করে K দিয়ে গুণ করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "17\n8", "expectedOutput": "24" },
+        { "input": "16\n8", "expectedOutput": "16", "note": { "en": "Already aligned", "bn": "ইতিমধ্যেই গুণিতক" } },
+        { "input": "0\n8", "expectedOutput": "0" },
+        { "input": "1\n16", "expectedOutput": "16" }
+      ]
+    }
+  ]
+}

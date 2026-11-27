@@ -1,0 +1,1308 @@
+{
+  "partId": "part-06",
+  "partNumber": 6,
+  "problems": [
+    {
+      "id": "P06-01",
+      "number": 1,
+      "title": {
+        "en": "Count Even and Odd Digits of an Integer",
+        "bn": "পূর্ণসংখ্যার জোড় ও বিজোড় অঙ্ক গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Modulus (% 10) & Floor Division (// 10)", "bn": "মডুলাস (% 10) এবং ফ্লোর ডিভিশন (// 10)" },
+        { "en": "Digit parity & zero edge case", "bn": "অঙ্কের জোড়-বিজোড় ও শূন্য এজ কেস" },
+        { "en": "abs() for negative input", "bn": "ঋণাত্মক সংখ্যার জন্য abs()" }
+      ],
+      "description": {
+        "en": "Read an integer N (which may be negative, zero, or positive). Extract each decimal digit mathematically without converting N to a string, and print two space-separated integers: the count of even digits and the count of odd digits (note that 0 is an even digit).",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন (যা ঋণাত্মক, শূন্য বা ধনাত্মক হতে পারে)। স্ট্রিং-এ রূপান্তর না করে গাণিতিক উপায়ে প্রতিটি অঙ্ক আলাদা করুন এবং স্পেস দিয়ে আলাদা করা দুটি সংখ্যা প্রিন্ট করুন: মোট জোড় অঙ্কের সংখ্যা এবং মোট বিজোড় অঙ্কের সংখ্যা (মনে রাখবেন 0 একটি জোড় অঙ্ক)।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "Two space-separated integers: '<even_count> <odd_count>'.",
+        "bn": "স্পেস দিয়ে আলাদা করা দুটি পূর্ণসংখ্যা: '<even_count> <odd_count>'।"
+      },
+      "examples": [
+        {
+          "input": "4720",
+          "output": "3 1",
+          "explanation": {
+            "en": "Even digits: 4, 2, 0 (count 3); Odd digit: 7 (count 1).",
+            "bn": "জোড় অঙ্ক: 4, 2, 0 (মোট ৩টি); বিজোড় অঙ্ক: 7 (মোট ১টি)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize negative numbers first using n = abs(n), and peel off digits with n % 10 and n //= 10.",
+        "bn": "প্রথমে n = abs(n) করে চিহ্ন বাদ দিন, তারপর n % 10 ও n //= 10 দিয়ে অঙ্ক আলাদা করুন।"
+      },
+      "hint2": {
+        "en": "Handle N = 0 explicitly! If n == 0, the while n > 0 loop will skip and mistakenly count 0 even digits instead of 1.",
+        "bn": "N = 0 আলাদাভাবে সামলান! তা না হলে while n > 0 লুপ না চলায় 0-এর জন্য ১টি জোড় অঙ্কের বদলে ০ গণনা হবে।"
+      },
+      "logicBreakdown": {
+        "en": "Decimal digits are peeled from right to left using % 10 and // 10, while d % 2 == 0 classifies each digit as even or odd. Two classic pitfalls exist: in Python -472 % 10 yields 8 instead of 2 unless abs(n) is taken first, and the single-digit number 0 must report 1 even digit rather than falling through a while n > 0 loop with (0, 0).",
+        "bn": "ডান থেকে বামে প্রতিটি অঙ্ক আলাদা করতে % 10 ও // 10 এবং জোড়-বিজোড় বুঝতে d % 2 == 0 ব্যবহার করা হয়। দুটি সাধারণ ভুল হলো: abs(n) না নিয়ে ঋণাত্মক সংখ্যায় % 10 চালানো এবং N = 0-এর ক্ষেত্রে (1, 0)-এর বদলে (0, 0) প্রিন্ট করা।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and set n = abs(n).", "bn": "পূর্ণসংখ্যা n পড়ে n = abs(n) নিন।" },
+        { "en": "If n == 0, print '1 0' and finish.", "bn": "n == 0 হলে '1 0' প্রিন্ট করুন।" },
+        { "en": "Otherwise initialize even_c = 0, odd_c = 0; while n > 0, check (n % 10) % 2 == 0 to increment even_c or odd_c, then n //= 10.", "bn": "নতুবা while n > 0 লুপে প্রতিটি অঙ্ক পরীক্ষা করে even_c বা odd_c বাড়ান এবং n //= 10 করুন।" },
+        { "en": "Print even_c and odd_c separated by a space.", "bn": "even_c এবং odd_c স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = abs(int(input()))\nif n == 0:\n    print(1, 0)\nelse:\n    even_c = 0\n    odd_c = 0\n    while n > 0:\n        d = n % 10\n        if d % 2 == 0:\n            even_c += 1\n        else:\n            odd_c += 1\n        n //= 10\n    print(even_c, odd_c)",
+      "codeExplanation": {
+        "en": "The explicit n == 0 guard outputs (1, 0) immediately because 0 is an even digit. For any nonzero integer, abs() strips the negative sign and the while loop inspects every digit via n % 10 before discarding it with n //= 10.",
+        "bn": "n == 0 হলে সরাসরি (1, 0) প্রিন্ট হয়। অন্য যেকোনো সংখ্যার জন্য abs() ঋণাত্মক চিহ্ন সরায় এবং while লুপ প্রতিটি অঙ্কের জোড়-বিজোড় যাচাই করে গণনা করে।"
+      },
+      "complexity": { "time": "O(log10(|N|))", "space": "O(1)" },
+      "testCases": [
+        { "input": "4720", "expectedOutput": "3 1", "note": { "en": "Mixed digits including 0", "bn": "০-সহ মিশ্র অঙ্ক" } },
+        { "input": "0", "expectedOutput": "1 0", "note": { "en": "Zero has 1 even digit", "bn": "শূন্য ১টি জোড় অঙ্ক" } },
+        { "input": "-905", "expectedOutput": "1 2", "note": { "en": "Negative integer", "bn": "ঋণাত্মক পূর্ণসংখ্যা" } },
+        { "input": "13579", "expectedOutput": "0 5", "note": { "en": "All odd digits", "bn": "সব বিজোড় অঙ্ক" } }
+      ]
+    },
+    {
+      "id": "P06-02",
+      "number": 2,
+      "title": {
+        "en": "Reverse an Integer Mathematically",
+        "bn": "গাণিতিকভাবে পূর্ণসংখ্যা উল্টানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Place-value reconstruction (rev * 10 + digit)", "bn": "স্থানীয় মান পুনর্গঠন (rev * 10 + digit)" },
+        { "en": "Sign preservation", "bn": "চিহ্ন সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read an integer N (negative, zero, or positive). Reverse its digits mathematically without converting to a string, preserving the negative sign if N < 0. Leading zeros in the reversed number should drop naturally (e.g., 1200 becomes 21).",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন। স্ট্রিং ব্যবহার না করে গাণিতিকভাবে অঙ্কগুলো উল্টে দিন এবং N ঋণাত্মক হলে বিয়োগ চিহ্ন বজায় রাখুন। উল্টানোর পর শুরুর শূন্যগুলো স্বাভাবিকভাবেই বাদ পড়বে (যেমন 1200 হবে 21)।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "The reversed integer with original sign preserved.",
+        "bn": "মূল চিহ্ন অক্ষুণ্ণ রেখে উল্টানো পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "-1204",
+          "output": "-4021",
+          "explanation": {
+            "en": "Digits 1204 reversed become 4021, and negative sign stays.",
+            "bn": "1204 উল্টে 4021 হয় এবং ঋণাত্মক চিহ্নটি থেকে যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Save the sign first (-1 if n < 0 else 1), then work on n = abs(n).",
+        "bn": "প্রথমে চিহ্নটি আলাদা করে রাখুন (n < 0 হলে -1 নতুবা 1), তারপর n = abs(n) নিয়ে কাজ করুন।"
+      },
+      "hint2": {
+        "en": "Build rev step-by-step: rev = rev * 10 + (n % 10).",
+        "bn": "ধাপে ধাপে rev গঠন করুন: rev = rev * 10 + (n % 10)।"
+      },
+      "logicBreakdown": {
+        "en": "Multiplying the accumulator rev by 10 shifts previously collected digits left by one decimal place, creating room at the ones position for the next digit n % 10. A common mistake is forgetting negative inputs or keeping trailing zeros artificially via strings; numeric construction drops leading zeros automatically and preserves sign cleanly.",
+        "bn": "প্রতিবার rev-কে 10 দিয়ে গুণ করলে আগের অঙ্কগুলো এক ঘর বামে সরে যায় এবং এককের ঘরে নতুন অঙ্ক n % 10 বসার জায়গা তৈরি হয়। সাধারণ ভুল হলো ঋণাত্মক চিহ্ন না রাখা; তাই আগে sign সংরক্ষণ করে শেষে sign * rev প্রিন্ট করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n; store sign = -1 if n < 0 else 1, then set n = abs(n).", "bn": "n পড়ুন; sign নির্ধারণ করে n = abs(n) নিন।" },
+        { "en": "Initialize rev = 0.", "bn": "rev = 0 সেট করুন।" },
+        { "en": "While n > 0: rev = rev * 10 + n % 10; n //= 10.", "bn": "n > 0 হলে rev = rev * 10 + n % 10 এবং n //= 10 করুন।" },
+        { "en": "Print sign * rev.", "bn": "sign * rev প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nsign = -1 if n < 0 else 1\nn = abs(n)\nrev = 0\nwhile n > 0:\n    rev = rev * 10 + (n % 10)\n    n //= 10\nprint(sign * rev)",
+      "codeExplanation": {
+        "en": "sign records whether the input was negative. The while loop extracts digits from right to left and shifts them into rev. Multiplying rev by sign restores the negative sign if needed (and 1 * 0 remains 0).",
+        "bn": "sign ইনপুটের চিহ্ন মনে রাখে। while লুপ ডান থেকে বামে অঙ্ক বের করে rev-তে সাজায়। শেষে sign * rev করলে ঋণাত্মক চিহ্ন ফিরে আসে এবং 0 ইনপুটে 0 থাকে।"
+      },
+      "complexity": { "time": "O(log10(|N|))", "space": "O(1)" },
+      "testCases": [
+        { "input": "-1204", "expectedOutput": "-4021", "note": { "en": "Negative with internal zero", "bn": "মাঝে শূন্যসহ ঋণাত্মক সংখ্যা" } },
+        { "input": "1200", "expectedOutput": "21", "note": { "en": "Trailing zeros drop", "bn": "শেষের শূন্য বাদ যায়" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero edge case", "bn": "শূন্য এজ কেস" } },
+        { "input": "7", "expectedOutput": "7", "note": { "en": "Single digit", "bn": "এক অঙ্কের সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P06-03",
+      "number": 3,
+      "title": {
+        "en": "Count All Divisors of N",
+        "bn": "N-এর মোট ভাজক সংখ্যা নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Divisibility test (n % d == 0)", "bn": "বিভাজ্যতা পরীক্ষা (n % d == 0)" },
+        { "en": "for loop with range()", "bn": "range() সহ for লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Count how many positive integers d (1 <= d <= N) divide N evenly with zero remainder.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। 1 থেকে N পর্যন্ত কতগুলো ধনাত্মক পূর্ণসংখ্যা N-কে নিঃশেষে ভাগ করে তা গণনা করুন।"
+      },
+      "inputDescription": {
+        "en": "A single positive integer N (N >= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "Total count of positive divisors of N.",
+        "bn": "N-এর ধনাত্মক ভাজকের মোট সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "12",
+          "output": "6",
+          "explanation": {
+            "en": "The divisors of 12 are 1, 2, 3, 4, 6, and 12 (total 6).",
+            "bn": "12-এর ভাজকগুলো হলো 1, 2, 3, 4, 6 এবং 12 (মোট ৬টি)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A number d divides N evenly if N % d == 0.",
+        "bn": "N % d == 0 হলে d সংখ্যাটি N-এর একটি ভাজক।"
+      },
+      "hint2": {
+        "en": "Check every integer from 1 up to N inclusive using range(1, n + 1).",
+        "bn": "range(1, n + 1) দিয়ে 1 থেকে N পর্যন্ত প্রতিটি সংখ্যা পরীক্ষা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "By definition, every divisor of a positive integer N lies in the range [1, N]. Testing N % d == 0 for each candidate d increments a counter whenever no remainder exists. Remember range(1, n + 1) because range(1, n) would miss N itself—a frequent off-by-one mistake.",
+        "bn": "একটি ধনাত্মক সংখ্যা N-এর সব ভাজক 1 থেকে N-এর মধ্যেই থাকে। প্রতিটি d-এর জন্য N % d == 0 সত্য হলে কাউন্টার ১ বাড়ে। লক্ষ্য রাখবেন range(1, n + 1) লিখতে হবে, নতুবা N নিজেই বাদ পড়ে যাবে।"
+      },
+      "algorithm": [
+        { "en": "Read positive integer n.", "bn": "ধনাত্মক পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Initialize count = 0.", "bn": "count = 0 নির্ধারণ করুন।" },
+        { "en": "Loop d from 1 to n: if n % d == 0, increment count.", "bn": "d = 1 থেকে n পর্যন্ত চালিয়ে n % d == 0 হলে count ১ বাড়ান।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ncount = 0\nfor d in range(1, n + 1):\n    if n % d == 0:\n        count += 1\nprint(count)",
+      "codeExplanation": {
+        "en": "The loop tests every integer d from 1 through n. Whenever n % d == 0 holds, count increases by 1. After checking all candidates, print(count) outputs the total divisor count.",
+        "bn": "লুপটি 1 থেকে n পর্যন্ত প্রতিটি সংখ্যা d যাচাই করে। যখনই n % d == 0 হয়, count ১ বাড়ে। লুপ শেষে মোট ভাজক সংখ্যা প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12", "expectedOutput": "6", "note": { "en": "Composite number", "bn": "যৌগিক সংখ্যা" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Minimum N=1", "bn": "ন্যূনতম N=1" } },
+        { "input": "17", "expectedOutput": "2", "note": { "en": "Prime number has 2 divisors", "bn": "মৌলিক সংখ্যার ২টি ভাজক" } },
+        { "input": "36", "expectedOutput": "9", "note": { "en": "Perfect square has odd number of divisors", "bn": "পূর্ণবর্গ সংখ্যার বিজোড় সংখ্যক ভাজক" } }
+      ]
+    },
+    {
+      "id": "P06-04",
+      "number": 4,
+      "title": {
+        "en": "Sum of Factorial Series (1! + 2! + ... + N!)",
+        "bn": "ফ্যাক্টোরিয়াল ধারার যোগফল (1! + 2! + ... + N!)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Running factorial product", "bn": "চলমান ফ্যাক্টোরিয়াল গুণফল" },
+        { "en": "Single-loop series accumulation", "bn": "এক লুপে ধারার যোগফল" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N (N >= 0). Calculate the sum of the factorial series 1! + 2! + 3! + ... + N! (for N = 0, the empty sum is 0). Aim for O(N) time by reusing the previous term's factorial.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (N >= 0) ইনপুট নিন। 1! + 2! + 3! + ... + N! ধারার যোগফল নির্ণয় করুন (N = 0 হলে যোগফল 0)। আগের পদের ফ্যাক্টোরিয়াল পুনর্ব্যবহার করে এক লুপেই O(N) সময়ে সমাধান করার চেষ্টা করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 0).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "The integer sum 1! + 2! + ... + N!.",
+        "bn": "1! + 2! + ... + N! ধারার যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "33",
+          "explanation": {
+            "en": "1! + 2! + 3! + 4! = 1 + 2 + 6 + 24 = 33.",
+            "bn": "1! + 2! + 3! + 4! = 1 + 2 + 6 + 24 = 33।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice that k! = (k - 1)! * k—you do NOT need an inner loop to recompute k! from 1 every time.",
+        "bn": "লক্ষ্য করুন k! = (k - 1)! * k—তাই প্রতিবার নতুন করে 1 থেকে গুণ করার জন্য নেস্টেড লুপের দরকার নেই।"
+      },
+      "hint2": {
+        "en": "Keep two accumulators: fact = 1 and total = 0. On each k from 1 to N, update fact *= k then total += fact.",
+        "bn": "দুটি ভ্যারিয়েবল রাখুন: fact = 1 ও total = 0। প্রতিটি k-এর জন্য fact *= k করে total += fact করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Recomputing k! from scratch for each k from 1 to N takes O(N^2) multiplications. Because each factorial builds directly on the previous one (k! = (k-1)! * k), maintaining a running variable fact lets you update fact *= k and add it to total in O(N) time and O(1) space. For N = 0, range(1, 1) executes zero times so total remains 0.",
+        "bn": "প্রতিটি পদের ফ্যাক্টোরিয়াল নতুন করে বের করলে O(N^2) সময় লাগে। কিন্তু চলমান ভ্যারিয়েবল fact-এ আগের ফ্যাক্টোরিয়াল ধরে রেখে প্রতি ধাপে শুধু fact *= k ও total += fact করলে মাত্র এক লুপেই O(N) সময়ে পুরো ধারার যোগফল পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Initialize total = 0 and fact = 1.", "bn": "total = 0 ও fact = 1 নির্ধারণ করুন।" },
+        { "en": "For k in range(1, n + 1): multiply fact *= k and add total += fact.", "bn": "k = 1 থেকে n পর্যন্ত fact *= k এবং total += fact করুন।" },
+        { "en": "Print total.", "bn": "total প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ntotal = 0\nfact = 1\nfor k in range(1, n + 1):\n    fact *= k\n    total += fact\nprint(total)",
+      "codeExplanation": {
+        "en": "At iteration k, fact transitions from (k-1)! to k! in one multiplication, then total accumulates k!. When n is 0, the loop skips cleanly and prints 0.",
+        "bn": "প্রতিটি ধাপে fact আগের মান থেকে k! হয় এবং total-এ যোগ হয়। n = 0 হলে লুপ না চলে 0 প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "33", "note": { "en": "1+2+6+24 = 33", "bn": "৪টি পদের যোগফল" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Empty series N=0", "bn": "শূন্য পদ এজ কেস" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single term 1!", "bn": "১! বাউন্ডারি" } },
+        { "input": "5", "expectedOutput": "153", "note": { "en": "1+2+6+24+120 = 153", "bn": "৫টি পদের যোগফল" } }
+      ]
+    },
+    {
+      "id": "P06-05",
+      "number": 5,
+      "title": {
+        "en": "Sum of Squares of Digits",
+        "bn": "অঙ্কগুলোর বর্গের যোগফল"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Digit extraction (% 10, // 10)", "bn": "অঙ্ক পৃথকীকরণ (% 10, // 10)" },
+        { "en": "Squaring & accumulation", "bn": "বর্গ ও সমষ্টি নির্ণয়" }
+      ],
+      "description": {
+        "en": "Read an integer N (which may be negative, zero, or positive). Compute and print the sum of the squares of the digits of |N| mathematically without converting N to a string.",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন। স্ট্রিং ব্যবহার না করে |N|-এর প্রতিটি অঙ্কের বর্গের যোগফল গাণিতিকভাবে নির্ণয় ও প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "The integer sum of squared digits of |N|.",
+        "bn": "|N|-এর অঙ্কগুলোর বর্গের যোগফল।"
+      },
+      "examples": [
+        {
+          "input": "19",
+          "output": "82",
+          "explanation": {
+            "en": "1^2 + 9^2 = 1 + 81 = 82.",
+            "bn": "1^2 + 9^2 = 1 + 81 = 82।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Take n = abs(n) first, then extract each digit d = n % 10.",
+        "bn": "প্রথমে n = abs(n) নিন এবং প্রতিটি অঙ্ক d = n % 10 হিসেবে বের করুন।"
+      },
+      "hint2": {
+        "en": "Add d * d to total before updating n //= 10.",
+        "bn": "n //= 10 করার আগে total-এ d * d যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Computing digit-power sums is the foundation behind Happy Numbers and Armstrong Numbers. Peeling digits via d = n % 10 and accumulating d * d keeps everything in exact integer arithmetic. When N = 0, total stays 0.",
+        "bn": "অঙ্কের ঘাতের যোগফল নির্ণয় হলো হ্যাপি নম্বর ও আর্মস্ট্রং সংখ্যার মূল ভিত্তি। abs(n) নিয়ে লুপে d = n % 10 ও d * d যোগ করলে নির্ভুল পূর্ণসংখ্যার ফল পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and normalize with n = abs(n).", "bn": "n পড়ে n = abs(n) নিন।" },
+        { "en": "Set total = 0.", "bn": "total = 0 নির্ধারণ করুন।" },
+        { "en": "While n > 0: d = n % 10; total += d * d; n //= 10.", "bn": "n > 0 হলে d = n % 10, total += d * d এবং n //= 10 করুন।" },
+        { "en": "Print total.", "bn": "total প্রিন্ট করুন।" }
+      ],
+      "solution": "n = abs(int(input()))\ntotal = 0\nwhile n > 0:\n    d = n % 10\n    total += d * d\n    n //= 10\nprint(total)",
+      "codeExplanation": {
+        "en": "abs(int(input())) removes any sign. Each iteration isolates the rightmost digit d = n % 10, squares it, adds to total, and drops the digit with n //= 10.",
+        "bn": "abs(int(input())) চিহ্ন বাদ দেয়। প্রতিটি ধাপে শেষ অঙ্ক d আলাদা করে d * d যোগ করা হয় এবং n //= 10 দিয়ে সংখ্যাটি ছোট করা হয়।"
+      },
+      "complexity": { "time": "O(log10(|N|))", "space": "O(1)" },
+      "testCases": [
+        { "input": "19", "expectedOutput": "82", "note": { "en": "First step of happy number 19", "bn": "১৯-এর অঙ্ক-বর্গ যোগফল" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero edge case", "bn": "শূন্য এজ কেস" } },
+        { "input": "-23", "expectedOutput": "13", "note": { "en": "Negative number: 4 + 9 = 13", "bn": "ঋণাত্মক সংখ্যা: ৪+৯=১৩" } },
+        { "input": "405", "expectedOutput": "41", "note": { "en": "Contains zero digit: 16+0+25", "bn": "শূন্য অঙ্কসহ: ১৬+০+২৫" } }
+      ]
+    },
+    {
+      "id": "P06-06",
+      "number": 6,
+      "title": {
+        "en": "Efficient Prime Number Checker",
+        "bn": "দক্ষ মৌলিক সংখ্যা (Prime) যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Square-root bound checking", "bn": "বর্গমূল সীমা পর্যন্ত যাচাই" },
+        { "en": "Early termination with break", "bn": "break দিয়ে দ্রুত সমাপ্তি" }
+      ],
+      "description": {
+        "en": "Read an integer N. Determine whether N is a prime number. Print 'Prime' if N is prime, otherwise print 'Not Prime'.",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন। N একটি মৌলিক সংখ্যা (Prime) কি না তা নির্ণয় করুন। মৌলিক হলে 'Prime' এবং না হলে 'Not Prime' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "'Prime' or 'Not Prime'.",
+        "bn": "'Prime' অথবা 'Not Prime'।"
+      },
+      "examples": [
+        {
+          "input": "29",
+          "output": "Prime",
+          "explanation": {
+            "en": "29 > 1 and has no divisors between 2 and int(29**0.5) = 5.",
+            "bn": "29 > 1 এবং 2 থেকে 5-এর মধ্যে এর কোনো ভাজক নেই।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Numbers less than or equal to 1 (including 0, 1, and negatives) are never prime.",
+        "bn": "1 বা তার চেয়ে ছোট কোনো সংখ্যা (যেমন 0, 1 বা ঋণাত্মক) কখনোই মৌলিক নয়।"
+      },
+      "hint2": {
+        "en": "If N has a factor greater than sqrt(N), its paired factor must be less than sqrt(N), so checking up to int(N ** 0.5) is enough.",
+        "bn": "N-এর কোনো গুণনীয়ক sqrt(N)-এর চেয়ে বড় হলে তার জোড়া গুণনীয়ক অবশ্যই sqrt(N)-এর ছোট হবে; তাই int(N ** 0.5) পর্যন্ত পরীক্ষা করাই যথেষ্ট।"
+      },
+      "logicBreakdown": {
+        "en": "Why does checking only up to sqrt(N) work? Every composite N factors as a * b = N. Both a and b cannot exceed sqrt(N), because then a * b > N. So at least one non-trivial factor must exist at or below int(N**0.5). A common bug is treating 1 as prime—always reject n <= 1 first.",
+        "bn": "কোনো যৌগিক সংখ্যা N = a * b হলে a ও b উভয়ই sqrt(N)-এর বড় হতে পারে না, নতুবা গুণফল N ছাড়িয়ে যেত। তাই int(N**0.5) পর্যন্ত কোনো ভাজক না পেলে সংখ্যাটি নিশ্চিত মৌলিক। সাবধান: 1 মৌলিক সংখ্যা নয়, তাই n <= 1 শুরুতেই বাদ দিতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n. If n <= 1, print 'Not Prime'.", "bn": "n পড়ুন। n <= 1 হলে 'Not Prime' প্রিন্ট করুন।" },
+        { "en": "Otherwise set is_prime = True and limit = int(n ** 0.5).", "bn": "নতুবা is_prime = True এবং limit = int(n ** 0.5) নিন।" },
+        { "en": "Loop d from 2 to limit: if n % d == 0, set is_prime = False and break.", "bn": "d = 2 থেকে limit পর্যন্ত চালিয়ে n % d == 0 হলে is_prime = False করে break করুন।" },
+        { "en": "Print 'Prime' if is_prime else 'Not Prime'.", "bn": "is_prime সত্য হলে 'Prime' নতুবা 'Not Prime' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n <= 1:\n    print(\"Not Prime\")\nelse:\n    is_prime = True\n    limit = int(n ** 0.5)\n    for d in range(2, limit + 1):\n        if n % d == 0:\n            is_prime = False\n            break\n    print(\"Prime\" if is_prime else \"Not Prime\")",
+      "codeExplanation": {
+        "en": "First, numbers <= 1 are immediately ruled out. For n >= 2, divisors are tested from 2 up to int(n ** 0.5). Finding any divisor triggers break early for efficiency.",
+        "bn": "প্রথমেই n <= 1 বাতিল করা হয়। n >= 2 হলে 2 থেকে int(n ** 0.5) পর্যন্ত ভাজক খোঁজা হয় এবং কোনো ভাজক পাওয়ামাত্রই break দিয়ে লুপ থামানো হয়।"
+      },
+      "complexity": { "time": "O(sqrt(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "29", "expectedOutput": "Prime", "note": { "en": "Odd prime", "bn": "বিজোড় মৌলিক সংখ্যা" } },
+        { "input": "2", "expectedOutput": "Prime", "note": { "en": "Smallest prime", "bn": "ক্ষুদ্রতম মৌলিক সংখ্যা" } },
+        { "input": "1", "expectedOutput": "Not Prime", "note": { "en": "Edge case 1", "bn": "১ মৌলিক নয়" } },
+        { "input": "49", "expectedOutput": "Not Prime", "note": { "en": "Square of prime (tests <= sqrt boundary)", "bn": "বর্গমূল সীমা যাচাই (7*7)" } },
+        { "input": "-7", "expectedOutput": "Not Prime", "note": { "en": "Negative number edge case", "bn": "ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P06-07",
+      "number": 7,
+      "title": {
+        "en": "Numeric Palindrome Checker",
+        "bn": "সংখ্যার প্যালিনড্রোম যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Digit reversal comparison", "bn": "অঙ্ক উল্টিয়ে তুলনা" },
+        { "en": "Preserving original input", "bn": "মূল ইনপুট সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read an integer N. Check if N reads the same forward and backward using mathematical digit reversal (without converting N to a string). Negative integers are NOT palindromes. Print 'Palindrome' or 'Not Palindrome'.",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন। স্ট্রিং-এ রূপান্তর না করে গাণিতিক উপায়ে অঙ্ক উল্টে যাচাই করুন N সামনে ও পেছনে থেকে একই কি না। ঋণাত্মক সংখ্যা প্যালিনড্রোম নয়। 'Palindrome' অথবা 'Not Palindrome' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "'Palindrome' or 'Not Palindrome'.",
+        "bn": "'Palindrome' অথবা 'Not Palindrome'।"
+      },
+      "examples": [
+        {
+          "input": "12321",
+          "output": "Palindrome",
+          "explanation": {
+            "en": "Reversing 12321 gives 12321, which equals the original.",
+            "bn": "12321-কে উল্টালে 12321 পাওয়া যায়, যা মূল সংখ্যার সমান।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep a copy original = n before modifying n inside the while loop!",
+        "bn": "while লুপে n পরিবর্তন করার আগে অবশ্যই original = n সংরক্ষণ করে রাখুন!"
+      },
+      "hint2": {
+        "en": "If n < 0, print 'Not Palindrome' immediately.",
+        "bn": "n < 0 হলে শুরুতেই 'Not Palindrome' প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A common mistake is modifying n in the while loop (reducing it to 0) and then comparing rev == n at the end, which fails for all non-zero numbers. Saving original = n before the loop lets you compare rev == original accurately. Negative integers like -121 read backward as 121-, so n < 0 is never a palindrome.",
+        "bn": "সবচেয়ে সাধারণ ভুল হলো লুপের মধ্যে n-কে ভাগ করে 0 বানিয়ে ফেলার পর শেষে rev == n তুলনা করা। তাই আগেই original = n ধরে রাখতে হয়। ঋণাত্মক সংখ্যার শুরুতে '-' থাকায় তা প্যালিনড্রোম হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read integer n. If n < 0, print 'Not Palindrome'.", "bn": "n পড়ুন। n < 0 হলে 'Not Palindrome' প্রিন্ট করুন।" },
+        { "en": "Save original = n and set rev = 0.", "bn": "original = n এবং rev = 0 নিন।" },
+        { "en": "While n > 0: rev = rev * 10 + n % 10; n //= 10.", "bn": "n > 0 থাকা পর্যন্ত অঙ্ক উল্টে rev গঠন করুন।" },
+        { "en": "Print 'Palindrome' if rev == original else 'Not Palindrome'.", "bn": "rev == original হলে 'Palindrome' নতুবা 'Not Palindrome' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n < 0:\n    print(\"Not Palindrome\")\nelse:\n    original = n\n    rev = 0\n    while n > 0:\n        rev = rev * 10 + (n % 10)\n        n //= 10\n    print(\"Palindrome\" if rev == original else \"Not Palindrome\")",
+      "codeExplanation": {
+        "en": "Negative numbers are rejected immediately. For n >= 0, original retains the starting value while the loop extracts digits from n into rev. Finally rev == original verifies symmetry.",
+        "bn": "ঋণাত্মক সংখ্যা সরাসরি বাতিল হয়। n >= 0 হলে original-এ মূল মান রেখে লুপ দিয়ে rev তৈরি করা হয় এবং শেষে rev == original পরীক্ষা করা হয়।"
+      },
+      "complexity": { "time": "O(log10(N + 1))", "space": "O(1)" },
+      "testCases": [
+        { "input": "12321", "expectedOutput": "Palindrome", "note": { "en": "Odd-length palindrome", "bn": "বিজোড় দৈর্ঘ্যের প্যালিনড্রোম" } },
+        { "input": "0", "expectedOutput": "Palindrome", "note": { "en": "Zero edge case", "bn": "শূন্য প্যালিনড্রোম" } },
+        { "input": "-121", "expectedOutput": "Not Palindrome", "note": { "en": "Negative input", "bn": "ঋণাত্মক ইনপুট" } },
+        { "input": "120", "expectedOutput": "Not Palindrome", "note": { "en": "Trailing zero asymmetry", "bn": "শেষে শূন্য থাকলে প্যালিনড্রোম নয়" } }
+      ]
+    },
+    {
+      "id": "P06-08",
+      "number": 8,
+      "title": {
+        "en": "Generate First N Fibonacci Numbers",
+        "bn": "প্রথম Nটি ফিবোনাচ্চি সংখ্যা তৈরি"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "State-sliding variables (a, b = b, a + b)", "bn": "দুটি চলকের মান পরিবর্তন (a, b = b, a + b)" },
+        { "en": "Iterative sequence generation", "bn": "লুপের মাধ্যমে ধারা তৈরি" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (N >= 1). Print the first N numbers of the Fibonacci sequence starting with 0 and 1, separated by single spaces on one line.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1) ইনপুট নিন। 0 এবং 1 দিয়ে শুরু হওয়া ফিবোনাচ্চি ধারার প্রথম Nটি সংখ্যা একই লাইনে স্পেস দিয়ে আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single positive integer N (N >= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N space-separated Fibonacci integers starting with 0.",
+        "bn": "0 দিয়ে শুরু Nটি স্পেস-বিচ্ছিন্ন ফিবোনাচ্চি সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "6",
+          "output": "0 1 1 2 3 5",
+          "explanation": {
+            "en": "Each term after 0 and 1 is the sum of the two previous terms.",
+            "bn": "0 ও 1-এর পর প্রতিটি পদ আগের দুটি পদের যোগফল।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Track only the previous two terms a = 0 and b = 1 instead of storing a large history if not needed.",
+        "bn": "কেবল আগের দুটি পদ a = 0 ও b = 1 মনে রাখলেই পুরো ধারা তৈরি করা যায়।"
+      },
+      "hint2": {
+        "en": "On each of N iterations, append str(a), then update a, b = b, a + b simultaneously using tuple unpacking.",
+        "bn": "প্রতি ধাপে str(a) সংগ্রহ করুন এবং টাপল আনপ্যাকিং ব্যবহার করে একসাথে a, b = b, a + b হালনাগাদ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Simultaneous assignment a, b = b, a + b evaluates the right-hand side before overwriting a, avoiding a temporary variable. Printing str(a) on every iteration handles N = 1 (outputs '0') and N = 2 ('0 1') uniformly without separate branches.",
+        "bn": "পাইথনে a, b = b, a + b লিখলে ডান পাশের মান আগে হিসাব হয়, ফলে অস্থায়ী ভ্যারিয়েবল লাগে না। প্রতি ধাপে a সংগ্রহ করলে N = 1 এবং N = 2 আলাদা if ছাড়াই নিখুঁত কাজ করে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Initialize a = 0, b = 1, and an empty list terms.", "bn": "a = 0, b = 1 এবং খালি লিস্ট terms নিন।" },
+        { "en": "Repeat n times: append str(a) to terms, then set a, b = b, a + b.", "bn": "n বার চালিয়ে terms-এ str(a) রাখুন এবং a, b = b, a + b করুন।" },
+        { "en": "Print ' '.join(terms).", "bn": "' '.join(terms) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\na, b = 0, 1\nterms = []\nfor _ in range(n):\n    terms.append(str(a))\n    a, b = b, a + b\nprint(\" \".join(terms))",
+      "codeExplanation": {
+        "en": "a holds the current term to output, while b holds the next term. The loop runs n times, collecting string representations into terms and advancing the pair cleanly.",
+        "bn": "a বর্তমান পদ এবং b পরবর্তী পদ ধারণ করে। লুপটি n বার ঘুরে পদগুলো terms লিস্টে জমা করে এবং শেষে স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "6", "expectedOutput": "0 1 1 2 3 5", "note": { "en": "First 6 terms", "bn": "প্রথম ৬টি পদ" } },
+        { "input": "1", "expectedOutput": "0", "note": { "en": "Boundary N=1", "bn": "ন্যূনতম N=1" } },
+        { "input": "2", "expectedOutput": "0 1", "note": { "en": "Boundary N=2", "bn": "N=2" } },
+        { "input": "8", "expectedOutput": "0 1 1 2 3 5 8 13", "note": { "en": "8 terms", "bn": "৮টি পদ" } }
+      ]
+    },
+    {
+      "id": "P06-09",
+      "number": 9,
+      "title": {
+        "en": "GCD Using Euclidean Algorithm",
+        "bn": "ইউক্লিডীয় অ্যালগরিদমে গসাগু (GCD) নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Euclidean remainder property", "bn": "ইউক্লিডীয় ভাগশেষ ধর্ম" },
+        { "en": "while loop", "bn": "while লুপ" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers A and B (not both zero). Compute and print their Greatest Common Divisor (GCD) using the Euclidean algorithm without importing math.",
+        "bn": "দুটি অ-ঋণাত্মক পূর্ণসংখ্যা A এবং B ইনপুট নিন (উভয়ই একসাথে শূন্য নয়)। math মডিউল ব্যবহার না করে ইউক্লিডীয় অ্যালগরিদমের মাধ্যমে এদের গরিষ্ঠ সাধারণ গুণনীয়ক (GCD) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines: integer A on line 1, integer B on line 2 (A >= 0, B >= 0, A + B > 0).",
+        "bn": "দুটি লাইন: ১ম লাইনে A, ২য় লাইনে B (A >= 0, B >= 0, A + B > 0)।"
+      },
+      "expectedOutput": {
+        "en": "A single integer representing gcd(A, B).",
+        "bn": "A ও B-এর গসাগু নির্দেশকারী একটি পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "48\n18",
+          "output": "6",
+          "explanation": {
+            "en": "(48, 18) -> (18, 12) -> (12, 6) -> (6, 0), so GCD is 6.",
+            "bn": "(48, 18) -> (18, 12) -> (12, 6) -> (6, 0), তাই গসাগু 6।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Key identity: gcd(a, b) is always equal to gcd(b, a % b) whenever b > 0.",
+        "bn": "মূল সূত্র: b > 0 হলে gcd(a, b) এবং gcd(b, a % b) সর্বদা সমান।"
+      },
+      "hint2": {
+        "en": "Repeat a, b = b, a % b until b becomes 0; then a is the GCD.",
+        "bn": "b শূন্য না হওয়া পর্যন্ত a, b = b, a % b চালাতে থাকুন; শেষে a-ই হবে গসাগু।"
+      },
+      "logicBreakdown": {
+        "en": "Scanning every divisor up to min(A, B) takes O(min(A, B)) steps and is slow for large inputs. Euclid's method exploits the fact that any common divisor of a and b also divides a - k*b = a % b. Each iteration shrinks the numbers dramatically, finishing in logarithmic steps and naturally handling gcd(a, 0) = a.",
+        "bn": "সব ভাজক পরীক্ষা করা বড় সংখ্যার জন্য ধীরগতির। ইউক্লিডের পদ্ধতি অনুযায়ী a ও b-এর যেকোনো সাধারণ ভাজক a % b-কেও ভাগ করে। ফলে প্রতিটি ধাপে সংখ্যা দ্রুত ছোট হতে থাকে এবং b = 0 হলে a সরাসরি গসাগু হয় (যেমন gcd(15, 0) = 15)।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "পূর্ণসংখ্যা a এবং b পড়ুন।" },
+        { "en": "While b != 0: update a, b = b, a % b.", "bn": "b != 0 থাকা পর্যন্ত a, b = b, a % b করুন।" },
+        { "en": "Print a.", "bn": "a প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nwhile b != 0:\n    a, b = b, a % b\nprint(a)",
+      "codeExplanation": {
+        "en": "Each step replaces (a, b) with (b, a % b). Even if a < b initially, the first iteration computes a % b = a and cleanly swaps them to (b, a). When b hits 0, a holds the exact GCD.",
+        "bn": "প্রতি ধাপে (a, b) বদলে (b, a % b) হয়। শুরুতে a < b হলেও প্রথম ধাপেই সেগুলো অদলবদল হয়ে যায়। b = 0 হলে লুপ থামে এবং a-তে গসাগু থাকে।"
+      },
+      "complexity": { "time": "O(log(min(A, B)))", "space": "O(1)" },
+      "testCases": [
+        { "input": "48\n18", "expectedOutput": "6", "note": { "en": "Standard pair", "bn": "সাধারণ সংখ্যা জোড়া" } },
+        { "input": "17\n31", "expectedOutput": "1", "note": { "en": "Coprime numbers", "bn": "সহমৌলিক সংখ্যা" } },
+        { "input": "0\n25", "expectedOutput": "25", "note": { "en": "Zero edge case", "bn": "একটি সংখ্যা শূন্য" } },
+        { "input": "18\n48", "expectedOutput": "6", "note": { "en": "Smaller first number", "bn": "প্রথম সংখ্যা ছোট" } }
+      ]
+    },
+    {
+      "id": "P06-10",
+      "number": 10,
+      "title": {
+        "en": "LCM Using GCD Relationship",
+        "bn": "গসাগু ব্যবহার করে লসাগু (LCM) নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Identity LCM(a, b) * GCD(a, b) = a * b", "bn": "সূত্র: LCM(a, b) * GCD(a, b) = a * b" },
+        { "en": "Integer division //", "bn": "পূর্ণসংখ্যার ভাগ //" }
+      ],
+      "description": {
+        "en": "Read two positive integers A and B. Find and print their Least Common Multiple (LCM) efficiently using the GCD relationship.",
+        "bn": "দুটি ধনাত্মক পূর্ণসংখ্যা A এবং B ইনপুট নিন। গসাগু-লসাগু সম্পর্কের সাহায্যে দক্ষতার সাথে এদের লঘিষ্ঠ সাধারণ গুণিতক (LCM) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines: positive integer A and positive integer B.",
+        "bn": "দুটি লাইন: ধনাত্মক পূর্ণসংখ্যা A এবং B।"
+      },
+      "expectedOutput": {
+        "en": "A single integer equal to lcm(A, B).",
+        "bn": "A ও B-এর লসাগু নির্দেশকারী একটি পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "12\n18",
+          "output": "36",
+          "explanation": {
+            "en": "gcd(12, 18) = 6, so lcm = (12 // 6) * 18 = 36.",
+            "bn": "gcd(12, 18) = 6, তাই lcm = (12 // 6) * 18 = 36।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Remember to save the original A and B before running the Euclidean loop, because that loop overwrites them.",
+        "bn": "ইউক্লিডীয় লুপ চালানোর আগে মূল A ও B আলাদা ভ্যারিয়েবলে সংরক্ষণ করুন, কারণ লুপ তাদের মান বদলে দেয়।"
+      },
+      "hint2": {
+        "en": "Divide before multiplying: (orig_a // gcd) * orig_b guarantees an exact integer.",
+        "bn": "গুণ করার আগে ভাগ করুন: (orig_a // gcd) * orig_b লিখলে নিখুঁত পূর্ণসংখ্যা পাওয়া যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Brute-forcing multiples of max(A, B) can take up to A*B steps when A and B are coprime. Using lcm(A, B) = (A // gcd(A, B)) * B solves it in O(log(min(A, B))) time. Dividing A by gcd first keeps intermediate values smaller and avoids floating-point conversion from `/`.",
+        "bn": "বড় সহমৌলিক সংখ্যার ক্ষেত্রে গুণিতক খুঁজে লসাগু বের করা ধীরগতির। বরং (A // gcd(A, B)) * B সূত্র ব্যবহার করলে লগারিদমিক সময়েই লসাগু পাওয়া যায় এবং // ব্যবহার করায় ফ্লোট ত্রুটি হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read a and b; store x = a, y = b.", "bn": "a ও b পড়ুন এবং x = a, y = b রাখুন।" },
+        { "en": "Compute gcd using while y != 0: x, y = y, x % y.", "bn": "while y != 0 লুপে x (গসাগু) নির্ণয় করুন।" },
+        { "en": "Calculate lcm = (a // x) * b and print it.", "bn": "lcm = (a // x) * b বের করে প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nx, y = a, b\nwhile y != 0:\n    x, y = y, x % y\nlcm = (a // x) * b\nprint(lcm)",
+      "codeExplanation": {
+        "en": "x and y compute the GCD of a and b without mutating the originals. After the loop, x holds gcd(a, b), and (a // x) * b gives the exact integer LCM.",
+        "bn": "a ও b অক্ষত রেখে x ও y-এর মাধ্যমে গসাগু x নির্ণয় করা হয়। এরপর (a // x) * b দিয়ে নির্ভুল পূর্ণসংখ্যা লসাগু প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(log(min(A, B)))", "space": "O(1)" },
+      "testCases": [
+        { "input": "12\n18", "expectedOutput": "36", "note": { "en": "Common factors exist", "bn": "সাধারণ উৎপাদক আছে" } },
+        { "input": "7\n13", "expectedOutput": "91", "note": { "en": "Coprime numbers", "bn": "সহমৌলিক সংখ্যা" } },
+        { "input": "9\n9", "expectedOutput": "9", "note": { "en": "Equal numbers", "bn": "সমান সংখ্যা" } },
+        { "input": "1\n42", "expectedOutput": "42", "note": { "en": "Identity with 1", "bn": "১-এর সাথে লসাগু" } }
+      ]
+    },
+    {
+      "id": "P06-11",
+      "number": 11,
+      "title": {
+        "en": "Armstrong (Narcissistic) Number Checker",
+        "bn": "আর্মস্ট্রং সংখ্যা যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Digit count calculation", "bn": "অঙ্কের সংখ্যা গণনা" },
+        { "en": "Power sum of digits", "bn": "অঙ্কগুলোর ঘাতের সমষ্টি" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N. An N-digit number is an Armstrong number if the sum of its digits each raised to the power of the total digit count equals the number itself (e.g., 153 = 1^3 + 5^3 + 3^3). Print 'Armstrong' or 'Not Armstrong'.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N ইনপুট নিন। একটি সংখ্যার মোট অঙ্কসংখ্যা k হলে, এর প্রতিটি অঙ্কের k-তম ঘাতের যোগফল যদি সংখ্যাটির সমান হয় তবে তাকে আর্মস্ট্রং সংখ্যা বলে (যেমন 153 = 1^3 + 5^3 + 3^3)। 'Armstrong' বা 'Not Armstrong' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 0).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "'Armstrong' or 'Not Armstrong'.",
+        "bn": "'Armstrong' অথবা 'Not Armstrong'।"
+      },
+      "examples": [
+        {
+          "input": "9474",
+          "output": "Armstrong",
+          "explanation": {
+            "en": "9474 has 4 digits: 9^4 + 4^4 + 7^4 + 4^4 = 6561 + 256 + 2401 + 256 = 9474.",
+            "bn": "9474-এ ৪টি অঙ্ক: 9^4 + 4^4 + 7^4 + 4^4 = 9474।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First count how many digits N has (remember 0 has 1 digit), instead of assuming the exponent is always 3!",
+        "bn": "সবসময় ঘাত 3 ধরে না নিয়ে আগে N-এ কতগুলো অঙ্ক আছে তা গুনুন (মনে রাখবেন 0-তে ১টি অঙ্ক)!"
+      },
+      "hint2": {
+        "en": "In a second pass over a copy of N, add (temp % 10) ** digits to total.",
+        "bn": "দ্বিতীয় ধাপে N-এর একটি কপির ওপর লুপ চালিয়ে (temp % 10) ** digits যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A frequent mistake is hardcoding power 3, which fails for 4-digit Armstrong numbers like 1634 or 9474 and 1-digit numbers like 0–9. Separating digit-counting and power-summation into two clean phases handles any number of digits accurately.",
+        "bn": "অনেকেই ভুলবশত সব সংখ্যায় ঘাত 3 ধরে নেয়, যা 1634 বা 9474-এর মতো ৪-অঙ্কের আর্মস্ট্রং সংখ্যায় ভুল উত্তর দেয়। তাই প্রথমে অঙ্কসংখ্যা গণনা এবং পরে প্রতিটি অঙ্কের সেই ঘাতের যোগফল বের করা উচিত।"
+      },
+      "algorithm": [
+        { "en": "Read integer n. If n == 0, digits = 1; else count digits by dividing a copy by 10.", "bn": "n পড়ুন। n == 0 হলে digits = 1; নতুবা কপিকে 10 দিয়ে ভাগ করে অঙ্কসংখ্যা বের করুন।" },
+        { "en": "Set temp = n and total = 0.", "bn": "temp = n এবং total = 0 নিন।" },
+        { "en": "While temp > 0: total += (temp % 10) ** digits; temp //= 10.", "bn": "temp > 0 হলে total-এ (temp % 10) ** digits যোগ করুন ও temp //= 10 করুন।" },
+        { "en": "Print 'Armstrong' if total == n else 'Not Armstrong'.", "bn": "total == n হলে 'Armstrong' নতুবা 'Not Armstrong' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n == 0:\n    digits = 1\nelse:\n    digits = 0\n    t = n\n    while t > 0:\n        digits += 1\n        t //= 10\ntemp = n\ntotal = 0\nwhile temp > 0:\n    total += (temp % 10) ** digits\n    temp //= 10\nprint(\"Armstrong\" if total == n else \"Not Armstrong\")",
+      "codeExplanation": {
+        "en": "The first phase counts total decimal digits into digits. The second phase iterates through each digit of temp, raises it to the power digits, accumulates into total, and checks total == n.",
+        "bn": "প্রথম অংশ মোট অঙ্কসংখ্যা digits-এ বের করে। দ্বিতীয় অংশ প্রতিটি অঙ্ক আলাদা করে তার digits-তম ঘাত total-এ যোগ করে এবং শেষে total == n যাচাই করে।"
+      },
+      "complexity": { "time": "O(log10(N + 1))", "space": "O(1)" },
+      "testCases": [
+        { "input": "153", "expectedOutput": "Armstrong", "note": { "en": "3-digit Armstrong", "bn": "৩-অঙ্কের আর্মস্ট্রং" } },
+        { "input": "9474", "expectedOutput": "Armstrong", "note": { "en": "4-digit Armstrong", "bn": "৪-অঙ্কের আর্মস্ট্রং" } },
+        { "input": "0", "expectedOutput": "Armstrong", "note": { "en": "0^1 == 0", "bn": "0^1 == 0 এজ কেস" } },
+        { "input": "123", "expectedOutput": "Not Armstrong", "note": { "en": "Non-Armstrong number", "bn": "সাধারণ সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P06-12",
+      "number": 12,
+      "title": {
+        "en": "Perfect Number Checker (O(sqrt(N)))",
+        "bn": "পারফেক্ট সংখ্যা যাচাই (O(sqrt(N)))"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Proper divisor pairing", "bn": "প্রকৃত ভাজক জোড়া নির্ণয়" },
+        { "en": "Square-root optimization", "bn": "বর্গমূল অপটিমাইজেশন" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. A number is Perfect if it equals the sum of its proper positive divisors (all divisors strictly less than N). Use an O(sqrt(N)) divisor-pair approach and print 'Perfect' or 'Not Perfect'.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। কোনো সংখ্যার চেয়ে ছোট সব ভাজকের যোগফল যদি সংখ্যাটির সমান হয় তবে তাকে পারফেক্ট সংখ্যা বলে। O(sqrt(N)) পদ্ধতিতে যাচাই করে 'Perfect' বা 'Not Perfect' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "'Perfect' or 'Not Perfect'.",
+        "bn": "'Perfect' অথবা 'Not Perfect'।"
+      },
+      "examples": [
+        {
+          "input": "28",
+          "output": "Perfect",
+          "explanation": {
+            "en": "Proper divisors of 28 are 1 + 2 + 4 + 7 + 14 = 28.",
+            "bn": "28-এর প্রকৃত ভাজক 1 + 2 + 4 + 7 + 14 = 28।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "For N <= 1, there are no proper positive divisors summing to N, so 1 is Not Perfect.",
+        "bn": "N <= 1-এর জন্য কোনো প্রকৃত ধনাত্মক ভাজকের যোগফল N হয় না, তাই 1 পারফেক্ট নয়।"
+      },
+      "hint2": {
+        "en": "Start divisor sum at 1 (since 1 divides every N > 1). For d from 2 to int(N**0.5), if N % d == 0, add both d and N // d (making sure not to double-count when d * d == N).",
+        "bn": "সমষ্টি 1 দিয়ে শুরু করুন। d = 2 থেকে int(N**0.5) পর্যন্ত N % d == 0 হলে d এবং N // d উভয়ই যোগ করুন (তবে d * d == N হলে কেবল একবার)।"
+      },
+      "logicBreakdown": {
+        "en": "Divisors always occur in complementary pairs (d, N // d). Starting with 1 (excluding its pair N since proper divisors exclude N) and scanning d from 2 to sqrt(N) collects every proper divisor pair in O(sqrt(N)) time. The key edge case is a perfect square where d == N // d: adding both would double-count sqrt(N).",
+        "bn": "প্রতিটি ভাজক জোড়ায় আসে: (d, N // d)। যেহেতু প্রকৃত ভাজকে N নিজে থাকে না, তাই শুরুতেই 1 যোগ করে 2 থেকে sqrt(N) পর্যন্ত জোড়া ভাজকগুলো যোগ করা যায়। পূর্ণবর্গ সংখ্যায় d == N // d হওয়ায় দুইবার যোগ না করার শর্ত রাখতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n. If n <= 1, print 'Not Perfect'.", "bn": "n পড়ুন। n <= 1 হলে 'Not Perfect' প্রিন্ট করুন।" },
+        { "en": "Initialize total = 1 and limit = int(n ** 0.5).", "bn": "total = 1 এবং limit = int(n ** 0.5) নির্ধারণ করুন।" },
+        { "en": "For d in 2..limit: if n % d == 0, add d, and if d != n // d add n // d.", "bn": "d = 2..limit-এ n % d == 0 হলে d যোগ করুন এবং d != n // d হলে n // d যোগ করুন।" },
+        { "en": "Print 'Perfect' if total == n else 'Not Perfect'.", "bn": "total == n হলে 'Perfect' নতুবা 'Not Perfect' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n <= 1:\n    print(\"Not Perfect\")\nelse:\n    total = 1\n    limit = int(n ** 0.5)\n    for d in range(2, limit + 1):\n        if n % d == 0:\n            total += d\n            pair = n // d\n            if pair != d:\n                total += pair\n    print(\"Perfect\" if total == n else \"Not Perfect\")",
+      "codeExplanation": {
+        "en": "1 is pre-added as the smallest proper divisor for n > 1. For every divisor d >= 2 up to sqrt(n), its partner pair = n // d is also added unless d == pair (a square root).",
+        "bn": "n > 1 হলে 1 আগেই যোগ করা হয়। 2 থেকে sqrt(n) পর্যন্ত প্রতিটি ভাজক d-এর সাথে তার জোড়া pair = n // d যোগ হয় (যদি d ও pair সমান না হয়)।"
+      },
+      "complexity": { "time": "O(sqrt(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "28", "expectedOutput": "Perfect", "note": { "en": "Second perfect number", "bn": "দ্বিতীয় পারফেক্ট সংখ্যা" } },
+        { "input": "6", "expectedOutput": "Perfect", "note": { "en": "Smallest perfect number", "bn": "ক্ষুদ্রতম পারফেক্ট সংখ্যা" } },
+        { "input": "1", "expectedOutput": "Not Perfect", "note": { "en": "Boundary N=1", "bn": "বাউন্ডারি N=1" } },
+        { "input": "36", "expectedOutput": "Not Perfect", "note": { "en": "Square number edge check", "bn": "পূর্ণবর্গ সংখ্যা পরীক্ষা" } },
+        { "input": "496", "expectedOutput": "Perfect", "note": { "en": "Third perfect number", "bn": "তৃতীয় পারফেক্ট সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P06-13",
+      "number": 13,
+      "title": {
+        "en": "Strong (Krishnamurthy) Number Checker",
+        "bn": "স্ট্রং (কৃষ্ণমূর্তি) সংখ্যা যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Nested digit + factorial logic", "bn": "নেস্টেড অঙ্ক ও ফ্যাক্টোরিয়াল যুক্তি" },
+        { "en": "Precomputed factorial lookup", "bn": "আগে থেকে হিসাবকৃত ফ্যাক্টোরিয়াল তালিকা" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. A number is Strong if the sum of the factorials of its decimal digits equals N itself (e.g., 145 = 1! + 4! + 5! = 1 + 24 + 120). Print 'Strong' or 'Not Strong'.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। কোনো সংখ্যার প্রতিটি অঙ্কের ফ্যাক্টোরিয়ালের যোগফল যদি মূল সংখ্যার সমান হয় তবে তাকে স্ট্রং সংখ্যা বলে (যেমন 145 = 1! + 4! + 5!)। 'Strong' বা 'Not Strong' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "'Strong' or 'Not Strong'.",
+        "bn": "'Strong' অথবা 'Not Strong'।"
+      },
+      "examples": [
+        {
+          "input": "145",
+          "output": "Strong",
+          "explanation": {
+            "en": "1! + 4! + 5! = 1 + 24 + 120 = 145.",
+            "bn": "1! + 4! + 5! = 1 + 24 + 120 = 145।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every digit is between 0 and 9. Note that 0! = 1!",
+        "bn": "প্রতিটি অঙ্ক 0 থেকে 9-এর মধ্যে থাকে। মনে রাখবেন 0! = 1!"
+      },
+      "hint2": {
+        "en": "Compute fact = 1 for each digit d (looping 2..d) and accumulate fact into total.",
+        "bn": "প্রতিটি অঙ্ক d-এর জন্য 2..d লুপ চালিয়ে fact বের করে total-এ যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "This combines digit extraction (outer while loop) with factorial computation (inner for loop). An insightful optimization is that only digits 0–9 ever appear, so precomputing factorials [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880] gives O(1) per digit—and even inner loops take at most 8 iterations.",
+        "bn": "এটি অঙ্ক পৃথকীকরণ ও ফ্যাক্টোরিয়ালের সমন্বয়। যেহেতু অঙ্ক কেবল 0 থেকে 9 পর্যন্ত হয়, তাই ০! থেকে ৯!-এর মান একটি তালিকায় আগে থেকে রাখলে প্রতিটি অঙ্কের ফ্যাক্টোরিয়াল সরাসরি পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and prepare factorials for digits 0..9.", "bn": "n পড়ুন এবং 0..9-এর ফ্যাক্টোরিয়াল মান প্রস্তুত করুন।" },
+        { "en": "Set temp = n and total = 0.", "bn": "temp = n এবং total = 0 নিন।" },
+        { "en": "While temp > 0: total += fact[temp % 10]; temp //= 10.", "bn": "temp > 0 হলে অঙ্কের ফ্যাক্টোরিয়াল total-এ যোগ করে temp //= 10 করুন।" },
+        { "en": "Print 'Strong' if total == n else 'Not Strong'.", "bn": "total == n হলে 'Strong' নতুবা 'Not Strong' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfact = [1] * 10\nfor d in range(2, 10):\n    fact[d] = fact[d - 1] * d\ntemp = n\ntotal = 0\nwhile temp > 0:\n    total += fact[temp % 10]\n    temp //= 10\nprint(\"Strong\" if total == n else \"Not Strong\")",
+      "codeExplanation": {
+        "en": "fact[0..9] caches the factorials of all single digits once. Then the while loop peels digits from temp, looks up fact[digit] in O(1), and compares the final sum to n.",
+        "bn": "fact[0..9] লিস্টে ০ থেকে ৯ পর্যন্ত ফ্যাক্টোরিয়াল সংরক্ষণ করা হয়েছে। এরপর while লুপ অঙ্ক বের করে সরাসরি fact থেকে মান নিয়ে যোগফল যাচাই করে।"
+      },
+      "complexity": { "time": "O(log10(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "145", "expectedOutput": "Strong", "note": { "en": "Classic 3-digit strong number", "bn": "পরিচিত স্ট্রং সংখ্যা" } },
+        { "input": "1", "expectedOutput": "Strong", "note": { "en": "1! = 1", "bn": "1! = 1" } },
+        { "input": "2", "expectedOutput": "Strong", "note": { "en": "2! = 2", "bn": "2! = 2" } },
+        { "input": "105", "expectedOutput": "Not Strong", "note": { "en": "Tests 0! = 1 (1+1+120=122 != 105)", "bn": "0! = 1 পরীক্ষা" } }
+      ]
+    },
+    {
+      "id": "P06-14",
+      "number": 14,
+      "title": {
+        "en": "Decimal to Binary Conversion Without bin()",
+        "bn": "bin() ছাড়া দশমিক থেকে বাইনারি রূপান্তর"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Repeated division by base 2", "bn": "২ দিয়ে ক্রমাগত ভাগ" },
+        { "en": "Reversing remainder order", "bn": "ভাগশেষ উল্টে সাজানো" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N. Convert N to its binary representation (base 2) without using bin() or format(), and print the resulting binary string.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N ইনপুট নিন। bin() বা format() ব্যবহার না করে N-কে বাইনারিতে (বেস ২) রূপান্তর করুন এবং বাইনারি স্ট্রিংটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 0).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "The binary representation of N without any '0b' prefix.",
+        "bn": "'0b' উপসর্গ ছাড়া N-এর বাইনারি রূপ।"
+      },
+      "examples": [
+        {
+          "input": "13",
+          "output": "1101",
+          "explanation": {
+            "en": "13/2 -> rem 1, 6/2 -> rem 0, 3/2 -> rem 1, 1/2 -> rem 1. Reading remainders bottom-up gives 1101.",
+            "bn": "১৩-কে ২ দিয়ে ভাগ করে পাওয়া ভাগশেষগুলো (1, 0, 1, 1) উল্টোভাবে সাজালে হয় 1101।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Handle N == 0 explicitly by printing '0' so it doesn't produce an empty string.",
+        "bn": "N == 0 হলে আলাদাভাবে '0' প্রিন্ট করুন যাতে খালি আউটপুট না আসে।"
+      },
+      "hint2": {
+        "en": "Collect remainders n % 2 in a list, update n //= 2, and reverse the collected bits at the end.",
+        "bn": "n % 2 ভাগশেষগুলো লিস্টে জমিয়ে n //= 2 করুন এবং শেষে বিটগুলো উল্টে দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Each n % 2 yields the least significant bit (2^0 place), and integer division n //= 2 divides out that power of 2. Because bits emerge from right to left (LSB first), reversing them puts the most significant bit at the front. Forgetting N = 0 is the classic edge-case mistake.",
+        "bn": "n % 2 সর্বনিম্ন স্থানের বিট দেয় এবং n //= 2 সংখ্যাটিকে ২ দিয়ে ভাগ করে। যেহেতু বিটগুলো ডান থেকে বামে পাওয়া যায়, তাই শেষে লিস্টটি উল্টে নিতে হয়। N = 0 আলাদাভাবে সামলানো জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Read integer n. If n == 0, print '0'.", "bn": "n পড়ুন। n == 0 হলে '0' প্রিন্ট করুন।" },
+        { "en": "Initialize empty list bits.", "bn": "খালি লিস্ট bits নিন।" },
+        { "en": "While n > 0: append str(n % 2) to bits and update n //= 2.", "bn": "n > 0 থাকা পর্যন্ত bits-এ str(n % 2) রাখুন ও n //= 2 করুন।" },
+        { "en": "Reverse bits and print ''.join(bits).", "bn": "bits উল্টে ''.join(bits) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n == 0:\n    print(\"0\")\nelse:\n    bits = []\n    while n > 0:\n        bits.append(str(n % 2))\n        n //= 2\n    bits.reverse()\n    print(\"\".join(bits))",
+      "codeExplanation": {
+        "en": "The special case n == 0 outputs '0'. For positive integers, n % 2 appends each remainder bit from lowest to highest, bits.reverse() orders them MSB-first, and ''.join(bits) outputs the binary string.",
+        "bn": "n == 0 হলে '0' প্রিন্ট হয়। ধনাত্মক সংখ্যায় n % 2 দিয়ে বিটগুলো জমা করে bits.reverse() ব্যবহারে সঠিক ক্রমে সাজিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(log2(N + 1))", "space": "O(log2(N + 1))" },
+      "testCases": [
+        { "input": "13", "expectedOutput": "1101", "note": { "en": "Standard conversion", "bn": "সাধারণ রূপান্তর" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero edge case", "bn": "শূন্য এজ কেস" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single bit", "bn": "এক বিট" } },
+        { "input": "16", "expectedOutput": "10000", "note": { "en": "Exact power of 2", "bn": "২-এর ঘাত" } }
+      ]
+    },
+    {
+      "id": "P06-15",
+      "number": 15,
+      "title": {
+        "en": "Binary String to Decimal Without int(s, 2)",
+        "bn": "int(s, 2) ছাড়া বাইনারি থেকে দশমিক রূপান্তর"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Horner's positional accumulation", "bn": "হর্নারের স্থানীয় মান পদ্ধতি" },
+        { "en": "Left-to-right bit scanning", "bn": "বাম থেকে ডানে বিট পড়া" }
+      ],
+      "description": {
+        "en": "Read a non-empty binary string consisting solely of '0' and '1' characters. Convert it to its decimal integer value without using int(s, 2).",
+        "bn": "শুধুমাত্র '0' ও '1' দিয়ে গঠিত একটি বাইনারি স্ট্রিং ইনপুট নিন। int(s, 2) ব্যবহার না করে স্ট্রিংটিকে দশমিক পূর্ণসংখ্যায় রূপান্তর করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line containing a binary string B.",
+        "bn": "এক লাইনে একটি বাইনারি স্ট্রিং B।"
+      },
+      "expectedOutput": {
+        "en": "The decimal integer value of B.",
+        "bn": "B-এর দশমিক পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "10110",
+          "output": "22",
+          "explanation": {
+            "en": "Step by step: 0 -> 1 -> 2 -> 5 -> 11 -> 22 (16 + 4 + 2 = 22).",
+            "bn": "ধাপে ধাপে: 0 -> 1 -> 2 -> 5 -> 11 -> 22 (16 + 4 + 2 = 22)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Moving one bit left-to-right multiplies the previous binary value by 2 before adding the new bit.",
+        "bn": "বাম থেকে ডানে এক বিট এগোনো মানে আগের মানকে ২ দিয়ে গুণ করে নতুন বিট যোগ করা।"
+      },
+      "hint2": {
+        "en": "Start value = 0; for each ch in b: value = value * 2 + int(ch).",
+        "bn": "value = 0 নিয়ে প্রতিটি ch-এর জন্য value = value * 2 + int(ch) করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Rather than computing 2**position for every bit from right to left, Horner's method scans left-to-right in a single pass with value = value * 2 + int(ch). Each multiplication by 2 doubles the weight of every previously read bit automatically.",
+        "bn": "ডান থেকে বামে 2**position হিসাব না করে হর্নারের পদ্ধতিতে বাম থেকে ডানে value = value * 2 + int(ch) করলে আগের প্রতিটি বিটের স্থানীয় মান স্বয়ংক্রিয়ভাবে দ্বিগুণ হতে থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read binary string b using input().strip().", "bn": "input().strip() দিয়ে বাইনারি স্ট্রিং b পড়ুন।" },
+        { "en": "Initialize value = 0.", "bn": "value = 0 নির্ধারণ করুন।" },
+        { "en": "For each character ch in b: value = value * 2 + int(ch).", "bn": "b-এর প্রতিটি অক্ষর ch-এর জন্য value = value * 2 + int(ch) করুন।" },
+        { "en": "Print value.", "bn": "value প্রিন্ট করুন।" }
+      ],
+      "solution": "b = input().strip()\nvalue = 0\nfor ch in b:\n    value = value * 2 + int(ch)\nprint(value)",
+      "codeExplanation": {
+        "en": "strip() guards against accidental trailing spaces. For each bit character, value doubles and adds 0 or 1, converting the full binary string into an exact integer in one O(len(b)) pass.",
+        "bn": "strip() অতিরিক্ত স্পেস দূর করে। প্রতিটি বিট পড়ার সময় value দ্বিগুণ হয়ে 0 বা 1 যোগ হয় এবং এক ধাপেই সঠিক দশমিক মান তৈরি হয়।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10110", "expectedOutput": "22", "note": { "en": "5-bit binary", "bn": "৫-বিট বাইনারি" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Zero bit", "bn": "শূন্য বিট" } },
+        { "input": "11111111", "expectedOutput": "255", "note": { "en": "8-bit all ones", "bn": "৮-বিট সব ১" } },
+        { "input": "000101", "expectedOutput": "5", "note": { "en": "Leading zeros", "bn": "শুরুতে শূন্য" } }
+      ]
+    },
+    {
+      "id": "P06-16",
+      "number": 16,
+      "title": {
+        "en": "Prime Factorization in Ascending Order",
+        "bn": "আরোহী ক্রমে মৌলিক উৎপাদকে বিশ্লেষণ"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Trial division & quotient reduction", "bn": "মৌলিক ভাজক দিয়ে ক্রমাগত ভাগ" },
+        { "en": "Remainder prime > sqrt(N)", "bn": "বর্গমূলের বড় অবশিষ্ট মৌলিক উৎপাদক" }
+      ],
+      "description": {
+        "en": "Read an integer N (N >= 2). Print all prime factors of N (including repeated factors) in non-decreasing order separated by single spaces.",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 2) ইনপুট নিন। N-এর সবগুলো মৌলিক উৎপাদক (পুনরাবৃত্ত উৎপাদকসহ) ছোট থেকে বড় ক্রমে একটি করে স্পেস দিয়ে আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 2).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 2)।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated prime factors in ascending order.",
+        "bn": "আরোহী ক্রমে স্পেস-বিচ্ছিন্ন মৌলিক উৎপাদকসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "60",
+          "output": "2 2 3 5",
+          "explanation": {
+            "en": "60 = 2 * 2 * 3 * 5.",
+            "bn": "60 = 2 * 2 * 3 * 5।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Divide out a factor d repeatedly inside a while n % d == 0 loop before moving to the next d; that ensures composite numbers never divide n.",
+        "bn": "পরবর্তী d-তে যাওয়ার আগে while n % d == 0 লুপ দিয়ে d সম্পূর্ণ নিঃশেষ করে ফেলুন; এতে কোনো যৌগিক সংখ্যা কখনোই ভাগ করবে না।"
+      },
+      "hint2": {
+        "en": "After looping d * d <= n, if n > 1 still remains, that remaining n itself must be a prime factor!",
+        "bn": "d * d <= n লুপ শেষেও যদি n > 1 থেকে যায়, তবে অবশিষ্ট n নিজেই একটি মৌলিক উৎপাদক!"
+      },
+      "logicBreakdown": {
+        "en": "Why does testing d from 2 upward only ever capture primes? Because by the time you reach a composite number like 4 or 6, all powers of 2 and 3 have already been divided out of n. Furthermore, checking only while d * d <= n guarantees O(sqrt(N)) worst-case runtime, and any leftover n > 1 at the end has no smaller factors so it must be prime.",
+        "bn": "d = 2 থেকে এগোতে থাকলে যখন কোনো যৌগিক সংখ্যা (যেমন 4 বা 6) আসে, তার আগেই তার সব মৌলিক উৎপাদক (2, 3) দিয়ে n-কে পুরোপুরি ভাগ করা হয়ে যায়—ফলে কেবল মৌলিক সংখ্যাই উৎপাদক হিসেবে পাওয়া যায়। লুপ শেষে n > 1 থাকলে সেটিই বৃহত্তম মৌলিক উৎপাদক।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize empty list factors.", "bn": "n পড়ুন এবং খালি লিস্ট factors নিন।" },
+        { "en": "Set d = 2. While d * d <= n: while n % d == 0, append str(d) and set n //= d; then d += 1.", "bn": "d = 2 থেকে d * d <= n পর্যন্ত: n % d == 0 থাকা অবস্থায় str(d) যোগ করে n //= d করুন, পরে d += 1।" },
+        { "en": "After loop, if n > 1, append str(n).", "bn": "লুপের পর n > 1 হলে str(n) যোগ করুন।" },
+        { "en": "Print ' '.join(factors).", "bn": "' '.join(factors) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfactors = []\nd = 2\nwhile d * d <= n:\n    while n % d == 0:\n        factors.append(str(d))\n        n //= d\n    d += 1\nif n > 1:\n    factors.append(str(n))\nprint(\" \".join(factors))",
+      "codeExplanation": {
+        "en": "The outer while runs only while d*d <= n (dynamically shrinking as n shrinks). The inner while extracts every occurrence of factor d. Any final n > 1 is the single remaining prime factor greater than sqrt(original N).",
+        "bn": "বাইরের লুপ d*d <= n পর্যন্ত চলে (n ছোট হওয়ার সাথে সাথে সীমাও কমে)। ভেতরের লুপ একই উৎপাদক d যতবার আছে ততবার বের করে। শেষে n > 1 থাকলে সেটিও যুক্ত হয়।"
+      },
+      "complexity": { "time": "O(sqrt(N))", "space": "O(log2(N))" },
+      "testCases": [
+        { "input": "60", "expectedOutput": "2 2 3 5", "note": { "en": "Repeated and distinct factors", "bn": "একাধিক মৌলিক উৎপাদক" } },
+        { "input": "29", "expectedOutput": "29", "note": { "en": "Prime input (hits n > 1 tail)", "bn": "মৌলিক ইনপুট" } },
+        { "input": "2", "expectedOutput": "2", "note": { "en": "Smallest valid N=2", "bn": "ন্যূনতম N=2" } },
+        { "input": "128", "expectedOutput": "2 2 2 2 2 2 2", "note": { "en": "Power of 2", "bn": "২-এর ঘাত" } }
+      ]
+    },
+    {
+      "id": "P06-17",
+      "number": 17,
+      "title": {
+        "en": "Sieve of Eratosthenes — Primes Up to N",
+        "bn": "ইরাটোস্থেনিসের ছাঁকনি — N পর্যন্ত মৌলিক সংখ্যা"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Boolean marking array (Sieve)", "bn": "বুলিয়ান চিহ্নিতকরণ অ্যারে (Sieve)" },
+        { "en": "Marking multiples from p*p", "bn": "p*p থেকে গুণিতক বাতিল করা" }
+      ],
+      "description": {
+        "en": "Read an integer N. Using the Sieve of Eratosthenes algorithm, print all prime numbers less than or equal to N separated by single spaces. If there are no primes <= N (e.g., N < 2), print 'None'.",
+        "bn": "একটি পূর্ণসংখ্যা N ইনপুট নিন। ইরাটোস্থেনিসের ছাঁকনি (Sieve of Eratosthenes) ব্যবহার করে N বা তার চেয়ে ছোট সব মৌলিক সংখ্যা স্পেস দিয়ে আলাদা করে প্রিন্ট করুন। কোনো মৌলিক সংখ্যা না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N.",
+        "bn": "একটি পূর্ণসংখ্যা N।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated primes <= N, or 'None'.",
+        "bn": "N পর্যন্ত স্পেস-বিচ্ছিন্ন মৌলিক সংখ্যা, নতুবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "20",
+          "output": "2 3 5 7 11 13 17 19",
+          "explanation": {
+            "en": "All primes from 2 up to 20.",
+            "bn": "2 থেকে 20 পর্যন্ত সবগুলো মৌলিক সংখ্যা।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Create a boolean list is_prime = [True] * (n + 1), setting indices 0 and 1 to False.",
+        "bn": "is_prime = [True] * (n + 1) নামের একটি বুলিয়ান লিস্ট তৈরি করে 0 ও 1-কে False করে দিন।"
+      },
+      "hint2": {
+        "en": "For p from 2 to int(n**0.5), if is_prime[p] is True, mark all multiples starting from p*p up to n as False with step p.",
+        "bn": "p = 2 থেকে int(n**0.5) পর্যন্ত is_prime[p] সত্য হলে p*p থেকে n পর্যন্ত p ধাপে সব গুণিতক False করে দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Instead of testing each number independently, the Sieve eliminates multiples of discovered primes simultaneously. Starting cancellation at p * p works because every smaller multiple k * p (k < p) already shares a prime factor smaller than p and was crossed off earlier. This achieves near-linear O(N log log N) performance.",
+        "bn": "প্রতিটি সংখ্যা আলাদাভাবে পরীক্ষা না করে ছাঁকনি পদ্ধতিতে প্রতিটি মৌলিক সংখ্যা p-এর গুণিতকগুলো একসাথে বাদ দেওয়া হয়। p*p থেকে শুরু করার কারণ হলো p*p-এর ছোট সব গুণিতক আগেই ছোট মৌলিক সংখ্যা দ্বারা বাদ পড়ে গেছে।"
+      },
+      "algorithm": [
+        { "en": "Read n. If n < 2, print 'None'.", "bn": "n পড়ুন। n < 2 হলে 'None' প্রিন্ট করুন।" },
+        { "en": "Create is_prime = [True] * (n + 1); set is_prime[0] = is_prime[1] = False.", "bn": "is_prime লিস্ট তৈরি করে 0 ও 1 সূচক False করুন।" },
+        { "en": "Loop p from 2 to int(n ** 0.5): if is_prime[p], mark range(p * p, n + 1, p) as False.", "bn": "p = 2 থেকে int(n**0.5) পর্যন্ত is_prime[p] হলে p*p থেকে গুণিতকগুলো False করুন।" },
+        { "en": "Collect all x where is_prime[x] is True and print space-separated.", "bn": "যেসব x-এর জন্য is_prime[x] সত্য সেগুলো স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n < 2:\n    print(\"None\")\nelse:\n    is_prime = [True] * (n + 1)\n    is_prime[0] = False\n    is_prime[1] = False\n    for p in range(2, int(n ** 0.5) + 1):\n        if is_prime[p]:\n            for multiple in range(p * p, n + 1, p):\n                is_prime[multiple] = False\n    primes = [str(i) for i in range(2, n + 1) if is_prime[i]]\n    print(\" \".join(primes))",
+      "codeExplanation": {
+        "en": "The outer loop checks primes up to sqrt(n). When is_prime[p] is True, the inner loop steps by p starting from p * p and sets every composite multiple to False. Finally, remaining True indices are printed.",
+        "bn": "বাইরের লুপ sqrt(n) পর্যন্ত মৌলিক সংখ্যা খুঁজে পেলে ভেতরের লুপ p*p থেকে p ধাপে সব গুণিতক False করে দেয়। শেষে বাকি থাকা True সূচকগুলো প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N log log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "20", "expectedOutput": "2 3 5 7 11 13 17 19", "note": { "en": "Primes up to 20", "bn": "২০ পর্যন্ত মৌলিক সংখ্যা" } },
+        { "input": "2", "expectedOutput": "2", "note": { "en": "Smallest prime limit", "bn": "ন্যূনতম সীমা ২" } },
+        { "input": "1", "expectedOutput": "None", "note": { "en": "No primes <= 1", "bn": "কোনো মৌলিক সংখ্যা নেই" } },
+        { "input": "25", "expectedOutput": "2 3 5 7 11 13 17 19 23", "note": { "en": "Upper bound is a square of prime 5", "bn": "বর্গমূল সীমা ৫*৫" } }
+      ]
+    },
+    {
+      "id": "P06-18",
+      "number": 18,
+      "title": {
+        "en": "Euler's Totient Function φ(N)",
+        "bn": "অয়লারের টোশেন্ট ফাংশন φ(N)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Coprime numbers (GCD == 1)", "bn": "সহমৌলিক সংখ্যা (গসাগু == ১)" },
+        { "en": "Euler's product formula in O(sqrt(N))", "bn": "O(sqrt(N)) সময়ে অয়লারের সূত্র" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (N >= 1). Compute Euler's Totient Function φ(N): the count of integers k in the range 1 <= k <= N that are coprime to N (gcd(k, N) == 1). Use prime-factorization reduction in O(sqrt(N)) time.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1) ইনপুট নিন। অয়লারের টোশেন্ট ফাংশন φ(N) নির্ণয় করুন—অর্থাৎ 1 থেকে N পর্যন্ত কতটি পূর্ণসংখ্যা N-এর সাথে সহমৌলিক (gcd(k, N) == 1)। O(sqrt(N)) সময়ে মৌলিক উৎপাদক পদ্ধতিতে সমাধান করুন।"
+      },
+      "inputDescription": {
+        "en": "A single positive integer N (N >= 1).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "The integer value of φ(N).",
+        "bn": "φ(N)-এর পূর্ণসংখ্যা মান।"
+      },
+      "examples": [
+        {
+          "input": "12",
+          "output": "4",
+          "explanation": {
+            "en": "Out of 1..12, only 1, 5, 7, and 11 satisfy gcd(k, 12) == 1 (count = 4).",
+            "bn": "১ থেকে ১২-এর মধ্যে কেবল ১, ৫, ৭ এবং ১১ সংখ্যাগুলো ১২-এর সাথে সহমৌলিক (মোট ৪টি)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Checking gcd(k, N) for every k takes O(N log N) and times out for N = 10^9. Instead, factorize N by prime factors p <= sqrt(N).",
+        "bn": "প্রতিটি k-এর গসাগু বের করলে O(N log N) সময় লাগে। এর বদলে sqrt(N) পর্যন্ত মৌলিক উৎপাদক p বের করে কাজ করুন।"
+      },
+      "hint2": {
+        "en": "Initialize result = N. Whenever a distinct prime factor p divides N, divide out all powers of p from N and subtract result // p from result!",
+        "bn": "শুরুতে result = N ধরুন। প্রতিটি স্বতন্ত্র মৌলিক উৎপাদক p পেলে N থেকে p-এর সব ঘাত ভাগ করে সরান এবং result -= result // p করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Euler's product formula states φ(N) = N * product(1 - 1/p) over all distinct prime factors p dividing N. Multiplying by (1 - 1/p) in exact integer arithmetic is simply `result -= result // p` (since result is guaranteed divisible by p!). This number-theoretic formula underpins RSA public-key cryptography and computes φ(N) in O(sqrt(N)) even for N = 10^9.",
+        "bn": "অয়লারের সূত্র অনুযায়ী φ(N) = N * গুণফল(1 - 1/p), যেখানে p হলো N-এর স্বতন্ত্র মৌলিক উৎপাদক। পূর্ণসংখ্যার হিসাবে এটি শুধু `result -= result // p`। আরএসএ (RSA) ক্রিপ্টোগ্রাফির ভিত্তি হিসেবে এই সূত্রটি O(sqrt(N)) সময়ে নিখুঁত ফলাফল দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and initialize result = n, p = 2.", "bn": "n পড়ুন; result = n এবং p = 2 ধরুন।" },
+        { "en": "While p * p <= n: if n % p == 0, divide out p completely (while n % p == 0: n //= p) and update result -= result // p; increment p.", "bn": "p * p <= n পর্যন্ত: p দিয়ে n বিভাজ্য হলে সব ঘাত ভাগ করে সরান এবং result -= result // p করুন।" },
+        { "en": "After loop, if n > 1 (a remaining prime factor > sqrt(original N)), update result -= result // n.", "bn": "লুপ শেষে n > 1 থাকলে অবশিষ্ট মৌলিক উৎপাদকের জন্য result -= result // n করুন।" },
+        { "en": "Print result.", "bn": "result প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nresult = n\np = 2\nwhile p * p <= n:\n    if n % p == 0:\n        while n % p == 0:\n            n //= p\n        result -= result // p\n    p += 1\nif n > 1:\n    result -= result // n\nprint(result)",
+      "codeExplanation": {
+        "en": "Each distinct prime factor p of n reduces result by a factor of (1 - 1/p) via result -= result // p, while dividing all powers of p out of n prevents counting the same prime twice. If a prime factor larger than sqrt(N) remains as n > 1, one final reduction completes φ(N).",
+        "bn": "প্রতিটি স্বতন্ত্র মৌলিক উৎপাদক p পাওয়া মাত্র result থেকে result // p বিয়োগ হয় এবং n থেকে p-এর সব ঘাত সরিয়ে নেওয়া হয়। শেষে n > 1 থাকলে শেষ মৌলিক উৎপাদকের জন্যও একই বিয়োগ সম্পন্ন হয়।"
+      },
+      "complexity": { "time": "O(sqrt(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "12", "expectedOutput": "4", "note": { "en": "Composite with primes 2 and 3", "bn": "২ ও ৩ উৎপাদকযুক্ত সংখ্যা" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Base case N=1", "bn": "বেস কেস N=1" } },
+        { "input": "13", "expectedOutput": "12", "note": { "en": "Prime N returns N-1", "bn": "মৌলিক সংখ্যায় N-1" } },
+        { "input": "36", "expectedOutput": "12", "note": { "en": "Repeated prime factors (2^2 * 3^2)", "bn": "পুনরাবৃত্ত মৌলিক উৎপাদক" } },
+        { "input": "9", "expectedOutput": "6", "note": { "en": "Prime power 3^2", "bn": "মৌলিক ঘাত ৩^২" } }
+      ]
+    },
+    {
+      "id": "P06-19",
+      "number": 19,
+      "title": {
+        "en": "Trailing Zeros in N Factorial",
+        "bn": "N ফ্যাক্টোরিয়ালের শেষে শূন্যের সংখ্যা"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Prime factor counting (Legendre's formula)", "bn": "মৌলিক উৎপাদক গণনা (লেজেন্ড্রের সূত্র)" },
+        { "en": "Avoiding factorial computation", "bn": "ফ্যাক্টোরিয়াল না বের করেই সমাধান" }
+      ],
+      "description": {
+        "en": "Read a non-negative integer N (up to 10^9). Find the exact number of trailing zeros at the end of N! WITHOUT computing N! directly.",
+        "bn": "একটি অ-ঋণাত্মক পূর্ণসংখ্যা N (10^9 পর্যন্ত হতে পারে) ইনপুট নিন। সরাসরি N! হিসাব না করেই N!-এর শেষে ঠিক কতটি শূন্য (Trailing Zeros) থাকবে তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 0).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 0)।"
+      },
+      "expectedOutput": {
+        "en": "The number of trailing zeros in N!.",
+        "bn": "N!-এর শেষের শূন্যের সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "25",
+          "output": "6",
+          "explanation": {
+            "en": "25 // 5 = 5, plus 25 // 25 = 1 (because 25 contributes two 5s), total = 6.",
+            "bn": "25 // 5 = 5 এবং 25 // 25 = 1 (কারণ 25-এ দুটি 5 রয়েছে), মোট = 6।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A trailing zero comes from a factor of 10 = 2 * 5. In N!, factors of 2 always outnumber factors of 5.",
+        "bn": "শেষে শূন্য তৈরি হয় 10 = 2 * 5 থেকে। N!-এ সবসময় 5-এর তুলনায় 2-এর সংখ্যা অনেক বেশি থাকে।"
+      },
+      "hint2": {
+        "en": "Count how many times 5 divides 1..N: repeatedly add n // 5, then set n //= 5 while n >= 5 (catching 25, 125, 625, etc.).",
+        "bn": "n >= 5 থাকা পর্যন্ত বারবার n //= 5 করে প্রতিটি ধাপের ভাগফল যোগ করুন (এতে 25, 125 ইত্যাদিও হিসাব হয়ে যায়)।"
+      },
+      "logicBreakdown": {
+        "en": "Computing N! for N = 10^6 or 10^9 is impossible within normal time and memory limits. Instead, count how many pairs of (2, 5) divide N!. Because factors of 2 are plentiful, the count of trailing zeros equals the exponent of 5 in N!. Counting n // 5 catches one 5 per multiple of 5; dividing n by 5 and adding again catches extra 5s in multiples of 25, 125, and higher powers.",
+        "bn": "বড় N-এর জন্য N! বের করে শেষে শূন্য গোনা অবাস্তব। বরং N!-এ কতটি 5 উৎপাদক আছে তা গুনলেই হয় (কারণ 2-এর সংখ্যা সবসময় পর্যাপ্ত)। প্রতি ধাপে n //= 5 করে যোগ করলে 5, 25, 125 সব ঘাতের অবদান O(log5 N) সময়েই বের হয়ে আসে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize zeros = 0.", "bn": "n পড়ুন এবং zeros = 0 নির্ধারণ করুন।" },
+        { "en": "While n >= 5: set n //= 5 and add n to zeros.", "bn": "n >= 5 থাকা পর্যন্ত n //= 5 করুন এবং zeros-এ n যোগ করুন।" },
+        { "en": "Print zeros.", "bn": "zeros প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nzeros = 0\nwhile n >= 5:\n    n //= 5\n    zeros += n\nprint(zeros)",
+      "codeExplanation": {
+        "en": "On iteration 1, n //= 5 adds floor(N/5). On iteration 2, it adds floor(N/25), then floor(N/125), until n drops below 5. This runs in logarithmic time and works effortlessly for N up to 10^9 and beyond.",
+        "bn": "প্রথম ধাপে floor(N/5), দ্বিতীয় ধাপে floor(N/25), এভাবে n < 5 না হওয়া পর্যন্ত সবগুলো ঘাতের 5 গণনা করে zeros-এ যোগ করা হয়।"
+      },
+      "complexity": { "time": "O(log5(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "25", "expectedOutput": "6", "note": { "en": "Multiple of 25 contributes extra 5", "bn": "২৫-এ অতিরিক্ত ৫ থাকে" } },
+        { "input": "4", "expectedOutput": "0", "note": { "en": "4! = 24 has 0 trailing zeros", "bn": "৪!-এ কোনো শূন্য নেই" } },
+        { "input": "100", "expectedOutput": "24", "note": { "en": "100//5 + 100//25 = 20 + 4", "bn": "১০০-এর ক্ষেত্রে ২৪টি শূন্য" } },
+        { "input": "1000000000", "expectedOutput": "249999998", "note": { "en": "Large N=10^9 boundary", "bn": "বড় মান 10^9" } }
+      ]
+    },
+    {
+      "id": "P06-20",
+      "number": 20,
+      "title": {
+        "en": "Express N as Sum of Two Primes (Smallest Pair)",
+        "bn": "দুটি মৌলিক সংখ্যার যোগফল হিসেবে N প্রকাশ"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Primality helper + complement search", "bn": "মৌলিকতা যাচাই ও পরিপূরক খোঁজা" },
+        { "en": "Two-prime decomposition", "bn": "দুটি মৌলিকের যোগফলে বিভাজন" }
+      ],
+      "description": {
+        "en": "Read an integer N (N >= 2). Determine whether N can be written as p + q where both p and q are prime numbers (p <= q). If possible, print the pair with the smallest p formatted as 'p + q'. If no such pair exists, print 'None'.",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 2) ইনপুট নিন। যাচাই করুন N-কে দুটি মৌলিক সংখ্যা p এবং q (p <= q)-এর যোগফল (p + q) হিসেবে প্রকাশ করা যায় কি না। সম্ভব হলে ক্ষুদ্রতম p বিশিষ্ট জোড়াটি 'p + q' আকারে প্রিন্ট করুন, আর সম্ভব না হলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 2).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 2)।"
+      },
+      "expectedOutput": {
+        "en": "Either 'p + q' with smallest prime p, or 'None'.",
+        "bn": "ক্ষুদ্রতম p-সহ 'p + q', অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "34",
+          "output": "3 + 31",
+          "explanation": {
+            "en": "2 + 32 (32 not prime), 3 + 31 (both prime) -> smallest pair is 3 + 31.",
+            "bn": "2 + 32 (32 মৌলিক নয়), 3 + 31 (উভয়ই মৌলিক) -> ক্ষুদ্রতম জোড়া 3 + 31।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "You only need to try candidate primes p from 2 up to N // 2 so that p <= N - p.",
+        "bn": "p <= N - p নিশ্চিত করতে কেবল 2 থেকে N // 2 পর্যন্ত p পরীক্ষা করাই যথেষ্ট।"
+      },
+      "hint2": {
+        "en": "Write a small helper function is_prime(x) and find the first p where both is_prime(p) and is_prime(n - p) are True.",
+        "bn": "একটি is_prime(x) ফাংশন লিখে প্রথম এমন p খুঁজুন যেখানে is_prime(p) ও is_prime(n - p) উভয়ই সত্য।"
+      },
+      "logicBreakdown": {
+        "en": "Goldbach's conjecture observes that every even integer > 2 is a sum of two primes, while odd numbers N can only split into 2 + (N - 2) (because adding two odd primes always yields an even sum). Testing p from 2 to N // 2 in ascending order guarantees the very first valid pair has the smallest possible p. Checking odd N = 11 gives 11 - 2 = 9 (composite), correctly outputting 'None'.",
+        "bn": "যেকোনো জোড় সংখ্যার ক্ষেত্রে একাধিক মৌলিক জোড়া থাকতে পারে, আর বিজোড় N-এর ক্ষেত্রে একমাত্র সম্ভাব্য জোড়া হলো 2 + (N - 2) (কারণ দুটি বিজোড় মৌলিকের যোগফল জোড় হয়)। ছোট থেকে p = 2..N//2 পরীক্ষা করলে প্রথম সঠিক জোড়াটিই ক্ষুদ্রতম p দেয়।"
+      },
+      "algorithm": [
+        { "en": "Define is_prime(x) returning True iff x >= 2 and has no divisor up to sqrt(x).", "bn": "sqrt(x) পর্যন্ত পরীক্ষা করে মৌলিক যাচাইয়ের জন্য is_prime(x) ফাংশন লিখুন।" },
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop p from 2 to n // 2: if is_prime(p) and is_prime(n - p), print f'{p} + {n - p}' and stop.", "bn": "p = 2 থেকে n // 2 পর্যন্ত চালিয়ে উভয়েই মৌলিক হলে f'{p} + {n - p}' প্রিন্ট করে থামুন।" },
+        { "en": "If the loop finishes without finding a pair, print 'None'.", "bn": "কোনো জোড়া না পাওয়া গেলে 'None' প্রিন্ট করুন।" }
+      ],
+      "solution": "def is_prime(x):\n    if x < 2:\n        return False\n    for d in range(2, int(x ** 0.5) + 1):\n        if x % d == 0:\n            return False\n    return True\n\nn = int(input())\nfound = False\nfor p in range(2, n // 2 + 1):\n    if is_prime(p) and is_prime(n - p):\n        print(f\"{p} + {n - p}\")\n        found = True\n        break\nif not found:\n    print(\"None\")",
+      "codeExplanation": {
+        "en": "is_prime checks primality in O(sqrt(x)). The main loop scans p upwards from 2 to n // 2. As soon as both p and its complement n - p are prime, it prints the pair and breaks; otherwise it prints 'None'.",
+        "bn": "is_prime ফাংশন দ্রুত মৌলিকতা যাচাই করে। মূল লুপ 2 থেকে n // 2 পর্যন্ত ঘুরে প্রথম যে p-এর জন্য p ও n - p উভয়ই মৌলিক হয় সেটি প্রিন্ট করে থামে; না মিললে 'None' প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N * sqrt(N))", "space": "O(1)" },
+      "testCases": [
+        { "input": "34", "expectedOutput": "3 + 31", "note": { "en": "Even Goldbach pair", "bn": "জোড় সংখ্যায় মৌলিক জোড়া" } },
+        { "input": "4", "expectedOutput": "2 + 2", "note": { "en": "2 + 2 boundary", "bn": "সমান মৌলিক জোড়া" } },
+        { "input": "11", "expectedOutput": "None", "note": { "en": "Odd number where N-2=9 is composite", "bn": "বিজোড় সংখ্যায় সম্ভব নয়" } },
+        { "input": "19", "expectedOutput": "2 + 17", "note": { "en": "Odd number where N-2=17 is prime", "bn": "২ + ১৭ সম্ভব" } },
+        { "input": "2", "expectedOutput": "None", "note": { "en": "Minimum N=2 has no sum of two primes", "bn": "ন্যূনতম N=2" } }
+      ]
+    }
+  ]
+}

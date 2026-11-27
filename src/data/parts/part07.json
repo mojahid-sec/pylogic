@@ -1,0 +1,1300 @@
+{
+  "partId": "part-07",
+  "partNumber": 7,
+  "problems": [
+    {
+      "id": "P07-01",
+      "number": 1,
+      "title": {
+        "en": "Reverse a String Without Slicing",
+        "bn": "স্লাইসিং ছাড়া স্ট্রিং উল্টানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Reverse index traversal", "bn": "উল্টো সূচক ট্রাভার্সাল" },
+        { "en": "String accumulation", "bn": "স্ট্রিং একত্রিতকরণ" }
+      ],
+      "description": {
+        "en": "Read a line of text S. Reverse S manually using a loop without using slicing ([::-1]) or reversed(), and print the reversed string.",
+        "bn": "এক লাইনের একটি টেক্সট S ইনপুট নিন। স্লাইসিং ([::-1]) বা reversed() ব্যবহার না করে লুপের সাহায্যে S-কে উল্টে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S (may contain spaces or be a single character).",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The reversed string.",
+        "bn": "উল্টানো স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "PyLogic",
+          "output": "cigoLyP",
+          "explanation": {
+            "en": "Characters are collected from the last index down to index 0.",
+            "bn": "শেষ সূচক থেকে শুরু করে সূচক 0 পর্যন্ত অক্ষরগুলো সংগ্রহ করা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "The last character of a string s sits at index len(s) - 1, and the first sits at index 0.",
+        "bn": "স্ট্রিং s-এর শেষ অক্ষরের অবস্থান len(s) - 1 এবং প্রথম অক্ষরের অবস্থান 0।"
+      },
+      "hint2": {
+        "en": "Loop idx using range(len(s) - 1, -1, -1) and append s[idx] to a list, then join with ''.",
+        "bn": "range(len(s) - 1, -1, -1) দিয়ে পেছন থেকে লুপ চালিয়ে s[idx] লিস্টে রাখুন ও ''.join() করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Strings in Python are immutable sequences indexed from 0 to len(s) - 1. Walking backwards from len(s) - 1 down to 0 (stop value -1 is exclusive!) visits every character in reverse order. Collecting characters into a list and joining at the end runs in O(N) time instead of repeatedly copying immutable strings.",
+        "bn": "পাইথনে স্ট্রিং অপরিবর্তনীয় (immutable) এবং এর সূচক 0 থেকে len(s) - 1 পর্যন্ত। পেছন থেকে লুপ চালাতে গেলে শেষ সীমা -1 দিতে হয় যেন 0-তম অক্ষরটি বাদ না পড়ে (সাধারণ ভুল)। লিস্টে জমা করে ''.join() করলে দ্রুত ও পরিচ্ছন্ন সমাধান হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s.", "bn": "স্ট্রিং s ইনপুট নিন।" },
+        { "en": "Initialize an empty list chars.", "bn": "খালি লিস্ট chars তৈরি করুন।" },
+        { "en": "Loop i from len(s) - 1 down to 0: append s[i] to chars.", "bn": "i-কে len(s) - 1 থেকে 0 পর্যন্ত চালিয়ে chars-এ s[i] যোগ করুন।" },
+        { "en": "Print ''.join(chars).", "bn": "''.join(chars) প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nchars = []\nfor i in range(len(s) - 1, -1, -1):\n    chars.append(s[i])\nprint(\"\".join(chars))",
+      "codeExplanation": {
+        "en": "range(len(s) - 1, -1, -1) steps backward by -1 down to 0 inclusive. Each character s[i] is appended to chars, and ''.join(chars) produces the final reversed string.",
+        "bn": "range(len(s) - 1, -1, -1) শেষ অক্ষর থেকে 0 সূচক পর্যন্ত উল্টোদিকে চলে। প্রতিটি অক্ষর chars-এ জমা করে ''.join(chars) দিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "PyLogic", "expectedOutput": "cigoLyP", "note": { "en": "Mixed case word", "bn": "মিশ্র হাতের শব্দ" } },
+        { "input": "a", "expectedOutput": "a", "note": { "en": "Single character", "bn": "একক অক্ষর" } },
+        { "input": "hello world", "expectedOutput": "dlrow olleh", "note": { "en": "String with space", "bn": "স্পেসযুক্ত স্ট্রিং" } },
+        { "input": "12345", "expectedOutput": "54321", "note": { "en": "Digits string", "bn": "অঙ্ক স্ট্রিং" } }
+      ]
+    },
+    {
+      "id": "P07-02",
+      "number": 2,
+      "title": {
+        "en": "Count Vowels and Consonants",
+        "bn": "স্বরবর্ণ ও ব্যঞ্জনবর্ণ গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Character filtering with isalpha()", "bn": "isalpha() দিয়ে বর্ণ যাচাই" },
+        { "en": "Membership check (in)", "bn": "মেম্বারশিপ পরীক্ষা (in)" }
+      ],
+      "description": {
+        "en": "Read a line of text S. Count how many English vowels (a, e, i, o, u — case-insensitive) and consonants appear in S. Ignore spaces, digits, and punctuation. Print 'Vowels: X, Consonants: Y'.",
+        "bn": "এক লাইনের একটি টেক্সট S ইনপুট নিন। S-এ কতটি ইংরেজি স্বরবর্ণ (a, e, i, o, u — ছোট বা বড় হাতের) এবং কতটি ব্যঞ্জনবর্ণ আছে তা গণনা করুন। স্পেস, অঙ্ক ও বিরামচিহ্ন উপেক্ষা করুন। আউটপুট ফরম্যাট: 'Vowels: X, Consonants: Y'।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "Formatted counts: Vowels: X, Consonants: Y",
+        "bn": "ফরম্যাট করা সংখ্যা: Vowels: X, Consonants: Y"
+      },
+      "examples": [
+        {
+          "input": "Hello, World! 2026",
+          "output": "Vowels: 3, Consonants: 7",
+          "explanation": {
+            "en": "Vowels: e, o, o (3). Consonants: H, l, l, W, r, l, d (7). Punctuation and digits ignored.",
+            "bn": "স্বরবর্ণ: e, o, o (৩টি)। ব্যঞ্জনবর্ণ: H, l, l, W, r, l, d (৭টি)। চিহ্ন ও অঙ্ক বাদ দেওয়া হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Do NOT count every non-vowel character as a consonant! Spaces, digits, and commas are neither vowels nor consonants.",
+        "bn": "স্বরবর্ণ না হলেই ব্যঞ্জনবর্ণ ধরবেন না! স্পেস, অঙ্ক বা বিরামচিহ্ন কোনোটাই ব্যঞ্জনবর্ণ নয়।"
+      },
+      "hint2": {
+        "en": "Convert each character to lowercase with ch.lower() and first check ch.isalpha() before checking if it is in 'aeiou'.",
+        "bn": "প্রথমে ch.isalpha() দিয়ে নিশ্চিত হন সেটি বর্ণ কি না, তারপর ch.lower() in 'aeiou' পরীক্ষা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A classic mistake in vowel/consonant counting is using `else: consonants += 1` without checking `isalpha()`, which wrongly counts spaces and punctuation as consonants. Filtering with `ch.isalpha()` isolates alphabetic letters first, and lowercasing avoids checking 10 vowel characters.",
+        "bn": "সাধারণ ভুল হলো `isalpha()` না দেখে সরাসরি `else` ব্লকে ব্যঞ্জনবর্ণ গোনা—যাতে স্পেস ও চিহ্নও গোনা হয়ে যায়। তাই আগে `ch.isalpha()` দিয়ে কেবল বর্ণ বেছে নিয়ে `ch.lower()` দিয়ে স্বরবর্ণ বা ব্যঞ্জনবর্ণ আলাদা করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s; initialize vowels = 0, consonants = 0.", "bn": "s পড়ুন এবং vowels = 0, consonants = 0 নিন।" },
+        { "en": "For each character ch in s: if ch.isalpha(), check ch.lower() in 'aeiou'.", "bn": "প্রতিটি ch-এর জন্য ch.isalpha() সত্য হলে ch.lower() in 'aeiou' পরীক্ষা করুন।" },
+        { "en": "Increment vowels if in 'aeiou', else increment consonants.", "bn": "স্বরবর্ণ হলে vowels, নতুবা consonants ১ বাড়ান।" },
+        { "en": "Print f'Vowels: {vowels}, Consonants: {consonants}'.", "bn": "f'Vowels: {vowels}, Consonants: {consonants}' প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nvowels = 0\nconsonants = 0\nfor ch in s:\n    if ch.isalpha():\n        if ch.lower() in \"aeiou\":\n            vowels += 1\n        else:\n            consonants += 1\nprint(f\"Vowels: {vowels}, Consonants: {consonants}\")",
+      "codeExplanation": {
+        "en": "ch.isalpha() skips numbers, spaces, and symbols. Among letters, ch.lower() in 'aeiou' cleanly separates vowels from consonants.",
+        "bn": "ch.isalpha() সংখ্যা, স্পেস ও চিহ্ন বাদ দেয়। কেবল বর্ণগুলোর মধ্যে ch.lower() in 'aeiou' দিয়ে স্বরবর্ণ ও ব্যঞ্জনবর্ণ আলাদা করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "Hello, World! 2026", "expectedOutput": "Vowels: 3, Consonants: 7", "note": { "en": "Mixed text with digits & punctuation", "bn": "অঙ্ক ও চিহ্নযুক্ত বাক্য" } },
+        { "input": "AEIOU", "expectedOutput": "Vowels: 5, Consonants: 0", "note": { "en": "All uppercase vowels", "bn": "সব বড় হাতের স্বরবর্ণ" } },
+        { "input": "1234 !@#", "expectedOutput": "Vowels: 0, Consonants: 0", "note": { "en": "No letters edge case", "bn": "কোনো বর্ণ নেই" } },
+        { "input": "rhythm", "expectedOutput": "Vowels: 0, Consonants: 6", "note": { "en": "All consonants", "bn": "সব ব্যঞ্জনবর্ণ" } }
+      ]
+    },
+    {
+      "id": "P07-03",
+      "number": 3,
+      "title": {
+        "en": "Word Counter with Irregular Spacing",
+        "bn": "অসমান স্পেসযুক্ত বাক্যে শব্দ গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Whitespace splitting vs state transitions", "bn": "হোয়াইটস্পেস বিভাজন ও স্টেট লজিক" },
+        { "en": "Boundary edge cases (leading/trailing spaces)", "bn": "শুরু ও শেষের স্পেস সামলানো" }
+      ],
+      "description": {
+        "en": "Read a line of text S that may contain leading spaces, trailing spaces, or multiple consecutive spaces between words. Count and print the exact number of words in S.",
+        "bn": "এক লাইনের একটি টেক্সট S ইনপুট নিন যার শুরুতে, শেষে বা শব্দের মাঝে একাধিক স্পেস থাকতে পারে। S-এ মোট কতটি শব্দ রয়েছে তা নির্ভুলভাবে গণনা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "An integer representing the total number of words.",
+        "bn": "মোট শব্দের সংখ্যা নির্দেশকারী পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "   Python   logic   building  ",
+          "output": "3",
+          "explanation": {
+            "en": "Three non-empty words: 'Python', 'logic', and 'building'.",
+            "bn": "তিনটি শব্দ: 'Python', 'logic' এবং 'building'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Counting spaces + 1 fails if there are leading spaces, double spaces, or an empty string!",
+        "bn": "শুধু স্পেস গুনে + ১ করলে একাধিক স্পেস বা খালি স্ট্রিং-এ ভুল উত্তর আসে!"
+      },
+      "hint2": {
+        "en": "Think with a boolean flag `in_word`: a new word begins whenever a non-space character appears while `in_word` is False.",
+        "bn": "`in_word` ফ্ল্যাগ ব্যবহার করুন: যখনই `in_word` মিথ্যা থাকা অবস্থায় একটি নন-স্পেস অক্ষর আসে, তখনই একটি নতুন শব্দ শুরু হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Simply counting `' '` characters breaks on multiple spaces or blank lines. Using a two-state tracker (`in_word = False`) visits each character once: transitioning from space to non-space increments the word count and flips `in_word = True`; hitting whitespace flips `in_word = False`. This O(1)-space state logic also matches `len(s.split())`.",
+        "bn": "স্পেস গুনে শব্দ বের করা সহজ মনে হলেও শুরু, শেষ বা মাঝে একাধিক স্পেসে সেটি ভুল হয়। `in_word` নামের একটি স্টেট ফ্ল্যাগ রাখলে স্পেস থেকে অক্ষরে ঢোকার মুহূর্তেই কেবল কাউন্ট ১ বাড়ে এবং O(1) মেমোরিতে সব এজ কেস সামলানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s.", "bn": "স্ট্রিং s পড়ুন।" },
+        { "en": "Initialize count = 0 and in_word = False.", "bn": "count = 0 এবং in_word = False নিন।" },
+        { "en": "For each character ch: if not ch.isspace() and not in_word, increment count and set in_word = True; else if ch.isspace(), set in_word = False.", "bn": "প্রতিটি ch-এর জন্য: স্পেস না হলে এবং in_word মিথ্যা হলে count += 1 ও in_word = True করুন; স্পেস হলে in_word = False করুন।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\ncount = 0\nin_word = False\nfor ch in s:\n    if not ch.isspace():\n        if not in_word:\n            count += 1\n            in_word = True\n    else:\n        in_word = False\nprint(count)",
+      "codeExplanation": {
+        "en": "The state flag in_word prevents consecutive characters of the same word from incrementing count again, while consecutive spaces simply keep in_word False. Empty or all-space strings correctly output 0.",
+        "bn": "in_word ফ্ল্যাগ একই শব্দের পরবর্তী অক্ষরগুলোতে পুনরায় গোনা আটকায়, আর একাধিক স্পেস একসাথে থাকলেও কোনো বাড়তি গণনা হয় না। সম্পূর্ণ ফাঁকা লাইনে 0 প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "   Python   logic   building  ", "expectedOutput": "3", "note": { "en": "Leading, trailing, multiple spaces", "bn": "একাধিক ও প্রান্তীয় স্পেস" } },
+        { "input": "     ", "expectedOutput": "0", "note": { "en": "Only spaces edge case", "bn": "শুধুমাত্র স্পেস" } },
+        { "input": "SingleWord", "expectedOutput": "1", "note": { "en": "No spaces", "bn": "কোনো স্পেস নেই" } },
+        { "input": "A B C D", "expectedOutput": "4", "note": { "en": "Single-letter words", "bn": "এক অক্ষরের শব্দ" } }
+      ]
+    },
+    {
+      "id": "P07-04",
+      "number": 4,
+      "title": {
+        "en": "Toggle Character Case Without swapcase()",
+        "bn": "swapcase() ছাড়া অক্ষরের কেস পরিবর্তন"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "ASCII range checking", "bn": "ASCII সীমা যাচাই" },
+        { "en": "ord() and chr() offset (32)", "bn": "ord() ও chr()-এর ৩২ পার্থক্য" }
+      ],
+      "description": {
+        "en": "Read a string S. Convert every uppercase English letter to lowercase and every lowercase letter to uppercase without using .swapcase(), .upper(), or .lower(). Leave digits, spaces, and punctuation untouched.",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। .swapcase(), .upper() বা .lower() ব্যবহার না করে প্রতিটি বড় হাতের ইংরেজি অক্ষরকে ছোট হাতের এবং ছোট হাতের অক্ষরকে বড় হাতের অক্ষরে রূপান্তর করুন। অঙ্ক, স্পেস ও চিহ্ন অপরিবর্তিত থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The case-toggled string.",
+        "bn": "কেস-পরিবর্তিত স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "PyLogic 101!",
+          "output": "pYlOGIC 101!",
+          "explanation": {
+            "en": "'P'->'p', 'y'->'Y', 'L'->'l', etc.; spaces, digits, and '!' stay unchanged.",
+            "bn": "'P'->'p', 'y'->'Y' হয়েছে; স্পেস, '101' ও '!' অপরিবর্তিত রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In ASCII, uppercase 'A'..'Z' occupy codes 65..90 and lowercase 'a'..'z' occupy 97..122.",
+        "bn": "ASCII-তে 'A'..'Z'-এর কোড 65..90 এবং 'a'..'z'-এর কোড 97..122।"
+      },
+      "hint2": {
+        "en": "The difference between 'a' and 'A' is always 32: lowercase = chr(ord(ch) + 32), uppercase = chr(ord(ch) - 32).",
+        "bn": "'a' এবং 'A'-এর মধ্যে কোড পার্থক্য সবসময় 32: ছোট করতে +32 এবং বড় করতে -32 ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Understanding ASCII ordering lets you transform letters arithmetically. Because 'a' - 'A' = 97 - 65 = 32, shifting by +32 lowers an uppercase letter and shifting by -32 raises a lowercase letter. Checking explicit range bounds ('A' <= ch <= 'Z' and 'a' <= ch <= 'z') avoids corrupting digits or punctuation.",
+        "bn": "ASCII টেবিলে বড় ও ছোট হাতের প্রতিটি ইংরেজি বর্ণের মাঝে ঠিক 32 ব্যবধান থাকে। তাই কোড যাচাই করে +32 বা -32 করলেই কেস বদলে যায় এবং অঙ্ক বা চিহ্নগুলো অক্ষত থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read string s and create list out.", "bn": "s পড়ুন এবং খালি লিস্ট out নিন।" },
+        { "en": "For each ch in s: if 'A' <= ch <= 'Z', append chr(ord(ch) + 32).", "bn": "প্রতিটি ch-এর জন্য 'A' <= ch <= 'Z' হলে chr(ord(ch) + 32) যোগ করুন।" },
+        { "en": "Elif 'a' <= ch <= 'z', append chr(ord(ch) - 32); else append ch unchanged.", "bn": "'a' <= ch <= 'z' হলে chr(ord(ch) - 32) নতুবা ch অপরিবর্তিত রাখুন।" },
+        { "en": "Print ''.join(out).", "bn": "''.join(out) প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nout = []\nfor ch in s:\n    if \"A\" <= ch <= \"Z\":\n        out.append(chr(ord(ch) + 32))\n    elif \"a\" <= ch <= \"z\":\n        out.append(chr(ord(ch) - 32))\n    else:\n        out.append(ch)\nprint(\"\".join(out))",
+      "codeExplanation": {
+        "en": "Chained comparisons check whether ch falls in uppercase or lowercase ASCII letter ranges. Arithmetic on ord(ch) shifts by 32 and chr() converts back to a character, while non-letters pass straight into out.",
+        "bn": "শর্তের মাধ্যমে অক্ষরটি বড় না ছোট তা দেখে ord(ch)-এর সাথে 32 যোগ বা বিয়োগ করে chr() দিয়ে বর্ণে ফেরত নেওয়া হয়; অন্যান্য চিহ্ন সরাসরি out-এ বসে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "PyLogic 101!", "expectedOutput": "pYlOGIC 101!", "note": { "en": "Mixed letters, digits, punctuation", "bn": "মিশ্র বর্ণ ও চিহ্ন" } },
+        { "input": "abcXYZ", "expectedOutput": "ABCxyz", "note": { "en": "Boundary letters a, z, A, Z", "bn": "সীমান্ত বর্ণ" } },
+        { "input": "2026-01", "expectedOutput": "2026-01", "note": { "en": "No alphabetic chars", "bn": "কোনো বর্ণ নেই" } }
+      ]
+    },
+    {
+      "id": "P07-05",
+      "number": 5,
+      "title": {
+        "en": "Strip All Whitespace Characters",
+        "bn": "সব ধরনের ফাঁকা স্থান (Whitespace) অপসারণ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Character filtering", "bn": "অক্ষর ফিল্টারিং" },
+        { "en": "List-join string building", "bn": "লিস্ট-জয়েন দিয়ে স্ট্রিং নির্মাণ" }
+      ],
+      "description": {
+        "en": "Read a string S. Remove all space and tab characters from S using character-by-character filtering (without using .replace()), and print the compacted result.",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। .replace() ব্যবহার না করে অক্ষর-বাই-অক্ষর ফিল্টারিংয়ের মাধ্যমে সব স্পেস ও ট্যাব বাদ দিয়ে সংকুচিত স্ট্রিংটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "S with all whitespace characters removed.",
+        "bn": "সব হোয়াইটস্পেস অপসারিত স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "  clean   this  text ",
+          "output": "cleanthistext",
+          "explanation": {
+            "en": "All spaces at the start, middle, and end are filtered out.",
+            "bn": "শুরু, মাঝখান এবং শেষের সব স্পেস বাদ দেওয়া হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Iterate over every character ch in S and only keep it if not ch.isspace().",
+        "bn": "S-এর প্রতিটি অক্ষর ch-এর ওপর লুপ চালিয়ে কেবল not ch.isspace() হলেই সেটি রাখুন।"
+      },
+      "hint2": {
+        "en": "Join the kept characters with ''.join(result).",
+        "bn": "সংরক্ষিত অক্ষরগুলো ''.join(result) দিয়ে যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Because Python strings cannot be modified in place, filtering constructs a new sequence containing only characters passing the predicate (`not ch.isspace()`). Note that `.strip()` only removes outer spaces, whereas this filter strips internal whitespace too.",
+        "bn": "পাইথনে .strip() কেবল শুরু ও শেষের স্পেস সরায়, ভেতরের স্পেস নয়। তাই পুরো স্ট্রিং থেকে প্রতিটি স্পেস বাদ দিতে হলে not ch.isspace() শর্ত দিয়ে নতুন স্ট্রিং তৈরি করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s.", "bn": "স্ট্রিং s পড়ুন।" },
+        { "en": "Build list kept containing every ch in s where not ch.isspace().", "bn": "s থেকে প্রতিটি ch যেখানে not ch.isspace() তা kept লিস্টে নিন।" },
+        { "en": "Print ''.join(kept).", "bn": "''.join(kept) প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nkept = []\nfor ch in s:\n    if not ch.isspace():\n        kept.append(ch)\nprint(\"\".join(kept))",
+      "codeExplanation": {
+        "en": "ch.isspace() returns True for spaces and tabs. Whenever it is False, the character is appended to kept, and ''.join(kept) prints the compact string.",
+        "bn": "ch.isspace() স্পেস বা ট্যাব হলে True দেয়। তাই এটি False হলে অক্ষরটি kept-এ রাখা হয় এবং শেষে যুক্ত করে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "  clean   this  text ", "expectedOutput": "cleanthistext", "note": { "en": "Multiple spaces removed", "bn": "একাধিক স্পেস অপসারণ" } },
+        { "input": "NoSpacesHere", "expectedOutput": "NoSpacesHere", "note": { "en": "Already compact", "bn": "আগে থেকেই স্পেসবিহীন" } },
+        { "input": "a\tb c", "expectedOutput": "abc", "note": { "en": "Includes tab character", "bn": "ট্যাবসহ স্ট্রিং" } }
+      ]
+    },
+    {
+      "id": "P07-06",
+      "number": 6,
+      "title": {
+        "en": "Alphanumeric Case-Insensitive Palindrome",
+        "bn": "অক্ষর-অঙ্কভিত্তিক প্যালিনড্রোম যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Two-pointer technique", "bn": "টু-পয়েন্টার কৌশল" },
+        { "en": "isalnum() & case normalization", "bn": "isalnum() এবং ছোট হাতের রূপান্তর" }
+      ],
+      "description": {
+        "en": "Read a string S. Determine whether S is a palindrome when considering ONLY alphanumeric characters (letters and digits) and ignoring letter case and punctuation/spaces. Print 'Palindrome' or 'Not Palindrome'.",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। শুধুমাত্র বর্ণ ও অঙ্ক বিবেচনা করে এবং বড়-ছোট হাতের পার্থক্য ও স্পেস/বিরামচিহ্ন উপেক্ষা করে যাচাই করুন S প্যালিনড্রোম কি না। 'Palindrome' বা 'Not Palindrome' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "'Palindrome' or 'Not Palindrome'.",
+        "bn": "'Palindrome' অথবা 'Not Palindrome'।"
+      },
+      "examples": [
+        {
+          "input": "A man, a plan, a canal: Panama",
+          "output": "Palindrome",
+          "explanation": {
+            "en": "Keeping only alphanumeric characters lowercased yields 'amanaplanacanalpanama', which reads the same both ways.",
+            "bn": "কেবল বর্ণগুলো ছোট হাতে রাখলে হয় 'amanaplanacanalpanama', যা উভয় দিক থেকেই সমান।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use two pointers left = 0 and right = len(s) - 1 moving toward each other.",
+        "bn": "বাম (left = 0) এবং ডান (right = len(s) - 1) থেকে দুটি পয়েন্টার মাঝের দিকে চালান।"
+      },
+      "hint2": {
+        "en": "Advance left while not s[left].isalnum(), retreat right while not s[right].isalnum(), then compare s[left].lower() != s[right].lower().",
+        "bn": "চিহ্ন/স্পেস এলে left বা right এগিয়ে/পিছিয়ে নিন, তারপর s[left].lower() এবং s[right].lower() তুলনা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Why use two pointers instead of building a reversed string? Two pointers scan inward from both ends in O(1) extra space and stop immediately on the first mismatch. Skipping non-alphanumeric characters cleanly handles commas, colons, and spaces, and an empty/punctuation-only string is vacuously a palindrome.",
+        "bn": "নতুন স্ট্রিং না বানিয়েই দুই প্রান্ত থেকে left ও right পয়েন্টার চালালে O(1) অতিরিক্ত মেমোরিতেই কাজ হয় এবং অমিল দেখামাত্র থামা যায়। isalnum() চিহ্ন ও স্পেস এড়িয়ে কেবল বর্ণ ও অঙ্ক তুলনা করে।"
+      },
+      "algorithm": [
+        { "en": "Read string s. Set left = 0, right = len(s) - 1, is_pal = True.", "bn": "s পড়ুন এবং left = 0, right = len(s) - 1, is_pal = True নিন।" },
+        { "en": "While left < right: skip non-alphanumeric from left, then from right.", "bn": "left < right হলে উভয় প্রান্ত থেকে অ-বর্ণ/অ-অঙ্ক বাদ দিন।" },
+        { "en": "If s[left].lower() != s[right].lower(), set is_pal = False and break.", "bn": "s[left].lower() != s[right].lower() হলে is_pal = False করে break করুন।" },
+        { "en": "Otherwise move left += 1 and right -= 1. Print result.", "bn": "নতুবা left += 1 ও right -= 1 করুন এবং ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nleft, right = 0, len(s) - 1\nis_pal = True\nwhile left < right:\n    while left < right and not s[left].isalnum():\n        left += 1\n    while left < right and not s[right].isalnum():\n        right -= 1\n    if s[left].lower() != s[right].lower():\n        is_pal = False\n        break\n    left += 1\n    right -= 1\nprint(\"Palindrome\" if is_pal else \"Not Palindrome\")",
+      "codeExplanation": {
+        "en": "The two inner while loops guard left < right while skipping punctuation or spaces. Once both pointers land on valid characters, lowercased equality is verified; any mismatch exits immediately.",
+        "bn": "ভেতরের দুটি while লুপ left < right বজায় রেখেই স্পেস ও চিহ্ন টপকে যায়। বৈধ বর্ণ বা অঙ্ক মিললে ছোট হাতে রূপান্তর করে সমতা যাচাই হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "A man, a plan, a canal: Panama", "expectedOutput": "Palindrome", "note": { "en": "Classic phrase with punctuation", "bn": "বিরামচিহ্নযুক্ত প্যালিনড্রোম" } },
+        { "input": "race a car", "expectedOutput": "Not Palindrome", "note": { "en": "Mismatch after space skip", "bn": "প্যালিনড্রোম নয়" } },
+        { "input": "12321", "expectedOutput": "Palindrome", "note": { "en": "Numeric characters included", "bn": "অঙ্কযুক্ত প্যালিনড্রোম" } },
+        { "input": ".,!", "expectedOutput": "Palindrome", "note": { "en": "Only punctuation edge case", "bn": "শুধু চিহ্ন" } }
+      ]
+    },
+    {
+      "id": "P07-07",
+      "number": 7,
+      "title": {
+        "en": "Most Frequent Character (Tie-Break by First Seen)",
+        "bn": "সর্বাধিক ব্যবহৃত অক্ষর নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Character frequency counting", "bn": "অক্ষরের পুনরাবৃত্তি গণনা" },
+        { "en": "Deterministic tie-breaking", "bn": "সমান সংখ্যার ক্ষেত্রে প্রথমটির অগ্রাধিকার" }
+      ],
+      "description": {
+        "en": "Read a non-empty string S (ignoring spaces). Find the non-space character that appears most frequently (case-sensitive). If there is a tie in frequency, choose the character that appears earliest in S. Print '<char> <count>' (or 'None' if only spaces).",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন (স্পেস বাদ দিয়ে)। কেস-সেন্সিটিভভাবে কোন অক্ষরটি সবচেয়ে বেশি বার এসেছে তা নির্ণয় করুন। একাধিক অক্ষরের সংখ্যা সমান হলে S-এ যেটি আগে এসেছে সেটিকে বেছে নিন। আউটপুট: '<char> <count>' (শুধু স্পেস থাকলে 'None')।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "'<char> <count>' or 'None'.",
+        "bn": "'<char> <count>' অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "programming logic",
+          "output": "g 3",
+          "explanation": {
+            "en": "'g' appears 3 times; 'r', 'o', 'i' appear twice.",
+            "bn": "'g' এসেছে ৩ বার; 'r', 'o', 'i' এসেছে ২ বার করে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Count occurrences of every non-space character using a dictionary.",
+        "bn": "স্পেস বাদে প্রতিটি অক্ষরের গণনা একটি ডিকশনারিতে সংরক্ষণ করুন।"
+      },
+      "hint2": {
+        "en": "Because Python dictionaries preserve insertion order, iterating over counts with strictly greater (`cnt > best_count`) guarantees ties keep the earliest character!",
+        "bn": "পাইথন ডিকশনারিতে প্রথম প্রবেশের ক্রম বজায় থাকে; তাই `cnt > best_count` (strictly greater) শর্ত ব্যবহার করলে টাই হলে প্রথম অক্ষরই জয়ী হয়।"
+      },
+      "logicBreakdown": {
+        "en": "First build a frequency map over non-space characters in insertion order. Then scan the frequency map tracking best_char and best_count, updating ONLY when count > best_count (strict inequality). This preserves earliest-appearance tie-breaking cleanly without nested O(N^2) counting loops.",
+        "bn": "প্রথমে স্পেস বাদ দিয়ে প্রতিটি অক্ষরের ফ্রিকোয়েন্সি গণনা করুন। এরপর শুধুমাত্র count > best_count হলেই সেরা অক্ষর হালনাগাদ করলে সমান সংখ্যার ক্ষেত্রে প্রথম অক্ষরটিই স্বয়ংক্রিয়ভাবে থেকে যায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and initialize empty dict freq.", "bn": "s পড়ুন এবং খালি ডিকশনারি freq নিন।" },
+        { "en": "For ch in s: if not ch.isspace(), increment freq[ch].", "bn": "s-এর প্রতিটি নন-স্পেস অক্ষরের জন্য freq[ch] ১ বাড়ান।" },
+        { "en": "If freq is empty, print 'None'.", "bn": "freq খালি হলে 'None' প্রিন্ট করুন।" },
+        { "en": "Otherwise find the first key with maximum count and print f'{best_ch} {best_cnt}'.", "bn": "সর্বোচ্চ গণনাযুক্ত প্রথম অক্ষরটি খুঁজে f'{best_ch} {best_cnt}' প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nfreq = {}\nfor ch in s:\n    if not ch.isspace():\n        freq[ch] = freq.get(ch, 0) + 1\nif not freq:\n    print(\"None\")\nelse:\n    best_ch = \"\"\n    best_cnt = 0\n    for ch, cnt in freq.items():\n        if cnt > best_cnt:\n            best_cnt = cnt\n            best_ch = ch\n    print(f\"{best_ch} {best_cnt}\")",
+      "codeExplanation": {
+        "en": "freq.get(ch, 0) + 1 safely counts each non-space character without KeyError. Because dict preserves first-seen order in Python 3.7+, checking cnt > best_cnt finds the maximum and breaks ties in favor of the earliest character.",
+        "bn": "freq.get(ch, 0) + 1 কোনো KeyError ছাড়াই প্রতিটি অক্ষরের সংখ্যা গোনে। ডিকশনারি প্রবেশক্রম বজায় রাখায় cnt > best_cnt শর্তটি টাই হলে প্রথম অক্ষরকে নির্বাচিত করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(K)" },
+      "testCases": [
+        { "input": "programming logic", "expectedOutput": "g 3", "note": { "en": "Clear winner", "bn": "স্পষ্ট সর্বোচ্চ" } },
+        { "input": "abacbc", "expectedOutput": "a 2", "note": { "en": "3-way tie broken by first seen", "bn": "সমান সংখ্যায় প্রথম অক্ষর" } },
+        { "input": "   ", "expectedOutput": "None", "note": { "en": "Whitespace only", "bn": "শুধুমাত্র স্পেস" } },
+        { "input": "AaAaA", "expectedOutput": "A 3", "note": { "en": "Case-sensitive check", "bn": "কেস-সেন্সিটিভ পরীক্ষা" } }
+      ]
+    },
+    {
+      "id": "P07-08",
+      "number": 8,
+      "title": {
+        "en": "Remove Duplicate Characters Preserving Order",
+        "bn": "ক্রম ঠিক রেখে ডুপ্লিকেট অক্ষর অপসারণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Seen set membership O(1)", "bn": "seen সেট ব্যবহার করে O(1) খোঁজ" },
+        { "en": "Order preservation", "bn": "মূল ক্রম সংরক্ষণ" }
+      ],
+      "description": {
+        "en": "Read a string S. Remove repeated occurrences of any character while preserving the exact order of first appearance (case-sensitive). Print the resulting string.",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। প্রথম উপস্থিতির ক্রম অক্ষুণ্ণ রেখে প্রতিটি অক্ষরের পুনরাবৃত্তি (ডুপ্লিকেট) বাদ দিন (কেস-সেন্সিটিভ)। প্রাপ্ত স্ট্রিংটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "String S with only the first occurrence of each character kept.",
+        "bn": "প্রতিটি অক্ষর কেবল প্রথমবার রেখে গঠিত স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "banana",
+          "output": "ban",
+          "explanation": {
+            "en": "'b' kept, 'a' kept, 'n' kept; subsequent 'a' and 'n' skipped.",
+            "bn": "'b', 'a', 'n' রাখা হয়েছে এবং পরের 'a' ও 'n' বাদ পড়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Converting S directly to set(S) loses the original character order!",
+        "bn": "সরাসরি set(S) ব্যবহার করলে অক্ষরের মূল ক্রম নষ্ট হয়ে যায়!"
+      },
+      "hint2": {
+        "en": "Track already-seen characters in a `seen = set()` and append to `result` list only when `ch not in seen`.",
+        "bn": "`seen = set()`-এ দেখা অক্ষরগুলো রাখুন এবং কেবল `ch not in seen` হলেই `result` লিস্টে যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A `set` gives O(1) lookup but does not remember order. Pairing a `seen` set (for fast duplicate detection) with a `result` list (for order preservation) combines the best of both structures, avoiding both scrambled output and O(N^2) linear scans on `result`.",
+        "bn": "শুধু `set()` ব্যবহার করলে ক্রম হারায়, আর কেবল লিস্টে খুঁজতে থাকলে গতি ধীর হয়। তাই `seen` সেটে অক্ষর মনে রেখে `result` লিস্টে ক্রম অনুযায়ী রাখলে দ্রুত ও নির্ভুল ফলাফল পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s; initialize seen = set() and result = [].", "bn": "s পড়ুন এবং seen = set(), result = [] নিন।" },
+        { "en": "For ch in s: if ch not in seen, add ch to seen and append ch to result.", "bn": "প্রতিটি ch যদি seen-এ না থাকে, তবে seen ও result উভয়ে যোগ করুন।" },
+        { "en": "Print ''.join(result).", "bn": "''.join(result) প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nseen = set()\nresult = []\nfor ch in s:\n    if ch not in seen:\n        seen.add(ch)\n        result.append(ch)\nprint(\"\".join(result))",
+      "codeExplanation": {
+        "en": "Each character is checked against seen in O(1) time. Only unseen characters enter result and are recorded in seen, preserving the exact original sequence.",
+        "bn": "প্রতিটি অক্ষর seen সেটে আছে কি না তা দ্রুত পরীক্ষা হয়। নতুন অক্ষর হলেই কেবল result-এ যুক্ত হয় এবং seen-এ সংরক্ষিত হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "banana", "expectedOutput": "ban", "note": { "en": "Repeated letters", "bn": "পুনরাবৃত্ত বর্ণ" } },
+        { "input": "AaBbAa", "expectedOutput": "AaBb", "note": { "en": "Case-sensitive distinctness", "bn": "ছোট-বড় অক্ষর ভিন্ন" } },
+        { "input": "a b a c b", "expectedOutput": "a bc", "note": { "en": "First space kept, later spaces removed", "bn": "প্রথম স্পেস থাকে, পরেরগুলো বাদ" } },
+        { "input": "xyz", "expectedOutput": "xyz", "note": { "en": "All unique", "bn": "সব ভিন্ন অক্ষর" } }
+      ]
+    },
+    {
+      "id": "P07-09",
+      "number": 9,
+      "title": {
+        "en": "Manual Title Case Formatter",
+        "bn": "হাতে-কলমে টাইটেল কেস (Title Case) ফরম্যাটার"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Word boundary detection", "bn": "শব্দের শুরু শনাক্তকরণ" },
+        { "en": "Character-level state transformation", "bn": "অক্ষর পর্যায়ে স্টেট রূপান্তর" }
+      ],
+      "description": {
+        "en": "Read a line of text S containing space-separated words. Capitalize the first character of every word and convert all remaining characters in each word to lowercase without using .title(). Collapse extra spaces to single spaces.",
+        "bn": "স্পেস দিয়ে আলাদা শব্দযুক্ত এক লাইনের টেক্সট S ইনপুট নিন। .title() ব্যবহার না করে প্রতিটি শব্দের প্রথম অক্ষর বড় হাতের এবং বাকি অক্ষরগুলো ছোট হাতের করুন। অতিরিক্ত স্পেস থাকলে সেগুলো একটি স্পেসে সংকুচিত করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "Normalized Title Cased words separated by single spaces.",
+        "bn": "একটি স্পেস দিয়ে আলাদা করা টাইটেল-কেস শব্দসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "  pYtHoN   lOGic   bUILding ",
+          "output": "Python Logic Building",
+          "explanation": {
+            "en": "Each word starts uppercase and continues lowercase, joined with single spaces.",
+            "bn": "প্রতিটি শব্দের প্রথম বর্ণ বড় হাতের এবং বাকিগুলো ছোট হাতের হয়ে একটি করে স্পেস দিয়ে যুক্ত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split the input into words using s.split(), which handles leading, trailing, and multiple spaces automatically.",
+        "bn": "s.split() ব্যবহার করে শব্দগুলো আলাদা করে নিন—এতে অতিরিক্ত স্পেস স্বয়ংক্রিয়ভাবে বাদ পড়ে।"
+      },
+      "hint2": {
+        "en": "For each word w, construct w[0].upper() + w[1:].lower().",
+        "bn": "প্রতিটি শব্দ w-এর জন্য w[0].upper() + w[1:].lower() তৈরি করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Python's built-in `.title()` actually capitalizes after apostrophes (e.g., \"don't\" -> \"Don'T\"), which is often undesired. Splitting on whitespace (`s.split()`) and transforming `w[0].upper() + w[1:].lower()` per word handles arbitrary mixed casing and normalizes irregular spacing cleanly.",
+        "bn": "পাইথনের বিল্ট-ইন .title() অ্যাপোস্ট্রফির পরেও অক্ষর বড় করে দেয় (যেমন \"don't\" -> \"Don'T\")। এর বদলে s.split() দিয়ে শব্দ আলাদা করে w[0].upper() + w[1:].lower() করলে প্রতিটি শব্দ ও স্পেস নিখুঁতভাবে সাজানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and split into words using s.split().", "bn": "s পড়ে s.split() দিয়ে শব্দ তালিকা নিন।" },
+        { "en": "For each word w: format w[0].upper() + w[1:].lower().", "bn": "প্রতিটি শব্দ w-কে w[0].upper() + w[1:].lower() রূপে সাজান।" },
+        { "en": "Join formatted words with ' ' and print.", "bn": "শব্দগুলো ' ' দিয়ে যুক্ত করে প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\nformatted = []\nfor w in words:\n    formatted.append(w[0].upper() + w[1:].lower())\nprint(\" \".join(formatted))",
+      "codeExplanation": {
+        "en": "input().split() separates non-empty tokens regardless of multiple spaces. For each word, slicing w[0] uppercases the initial letter and w[1:] lowercases the rest—even for 1-character words where w[1:] is safely ''.",
+        "bn": "input().split() যেকোনো সংখ্যক স্পেস সামলে শব্দগুলো আলাদা করে। এক-অক্ষরের শব্দের ক্ষেত্রেও w[1:] নিরাপদভাবে '' দেয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "  pYtHoN   lOGic   bUILding ", "expectedOutput": "Python Logic Building", "note": { "en": "Mixed case + extra spaces", "bn": "মিশ্র কেস ও বাড়তি স্পেস" } },
+        { "input": "a b c", "expectedOutput": "A B C", "note": { "en": "Single-char words", "bn": "এক অক্ষরের শব্দ" } },
+        { "input": "don't STOP", "expectedOutput": "Don't Stop", "note": { "en": "Apostrophe stays lowercase after '", "bn": "অ্যাপোস্ট্রফি ঠিক থাকে" } }
+      ]
+    },
+    {
+      "id": "P07-10",
+      "number": 10,
+      "title": {
+        "en": "Count Non-Overlapping Substring Occurrences",
+        "bn": "নন-ওভারল্যাপিং সাবস্ট্রিং-এর সংখ্যা নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Sliding window slice matching", "bn": "স্লাইডিং উইন্ডো স্লাইস তুলনা" },
+        { "en": "Manual index jumping (i += len(sub))", "bn": "ম্যাচ পেলে সূচক লাফিয়ে এগোনো" }
+      ],
+      "description": {
+        "en": "Read a text string T and a non-empty pattern string P. Count how many non-overlapping times P appears inside T (case-sensitive) without using .count() or .find().",
+        "bn": "একটি টেক্সট স্ট্রিং T এবং একটি খালি-নয় প্যাটার্ন স্ট্রিং P ইনপুট নিন। .count() বা .find() ব্যবহার না করে T-এর ভেতরে P কতবার (একে অপরের ওপর না পড়ে / non-overlapping) আছে তা গণনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string T. Line 2: non-empty string P.",
+        "bn": "১ম লাইন: স্ট্রিং T। ২য় লাইন: প্যাটার্ন স্ট্রিং P।"
+      },
+      "expectedOutput": {
+        "en": "An integer count of non-overlapping occurrences of P in T.",
+        "bn": "T-এ P কতবার পাওয়া গেছে তার পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "aaaaa\naa",
+          "output": "2",
+          "explanation": {
+            "en": "Matches at indices 0..1 and 2..3; index 4 alone is too short.",
+            "bn": "০..১ এবং ২..৩ অবস্থানে মিলেছে; ৪ নম্বর অক্ষরটি একা ছোট হওয়ায় মোট ২ বার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use a while loop with index i starting at 0 while i <= len(t) - len(p).",
+        "bn": "while লুপে i = 0 থেকে শুরু করে i <= len(t) - len(p) পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "When t[i : i + len(p)] == p, increment count and jump i += len(p) (non-overlapping); otherwise advance i += 1.",
+        "bn": "t[i : i + len(p)] == p হলে count ১ বাড়িয়ে i += len(p) করুন; না মিললে i += 1।"
+      },
+      "logicBreakdown": {
+        "en": "Using a for loop that always advances by 1 would either miss the jump needed for non-overlapping counting (yielding 4 instead of 2 on 'aaaaa' / 'aa') or waste checks. A while loop gives explicit control over step size: jump by len(p) on match, or step by 1 on mismatch.",
+        "bn": "for লুপ প্রতিবার ১ করে এগোয় বলে ম্যাচ পেলে প্যাটার্নের দৈর্ঘ্য পরিমাণ লাফ দেওয়া যায় না (যেমন 'aaaaa'-তে 'aa' ২ বার, ৪ বার নয়)। while লুপ ব্যবহার করলে ম্যাচ পেলে i += len(p) এবং না মিললে i += 1 করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read text t and pattern p.", "bn": "টেক্সট t এবং প্যাটার্ন p পড়ুন।" },
+        { "en": "Set m = len(p), i = 0, count = 0.", "bn": "m = len(p), i = 0, count = 0 নিন।" },
+        { "en": "While i <= len(t) - m: if t[i : i + m] == p, count += 1 and i += m; else i += 1.", "bn": "i <= len(t) - m হলে t[i : i + m] == p দেখুন; মিললে count += 1 ও i += m, নতুবা i += 1।" },
+        { "en": "Print count.", "bn": "count প্রিন্ট করুন।" }
+      ],
+      "solution": "t = input()\np = input()\nm = len(p)\ni = 0\ncount = 0\nwhile i <= len(t) - m:\n    if t[i : i + m] == p:\n        count += 1\n        i += m\n    else:\n        i += 1\nprint(count)",
+      "codeExplanation": {
+        "en": "i scans candidate starting positions up to len(t) - m. Whenever slice t[i : i + m] equals p, count increments and i skips past the matched substring by m.",
+        "bn": "i পয়েন্টার len(t) - m পর্যন্ত সম্ভাব্য সব শুরুর অবস্থান যাচাই করে। সাবস্ট্রিং মিলে গেলে count বাড়ে এবং i পরের অক্ষর থেকে খুঁজতে m ঘর এগিয়ে যায়।"
+      },
+      "complexity": { "time": "O(N * M)", "space": "O(M)" },
+      "testCases": [
+        { "input": "aaaaa\naa", "expectedOutput": "2", "note": { "en": "Non-overlapping rule test", "bn": "নন-ওভারল্যাপিং পরীক্ষা" } },
+        { "input": "banana\nana", "expectedOutput": "1", "note": { "en": "Consumes index 1..3", "bn": "১..৩ সূচক ব্যবহারের পর আর মেলে না" } },
+        { "input": "hello\nworld", "expectedOutput": "0", "note": { "en": "No match found", "bn": "কোনো মিল নেই" } },
+        { "input": "hi\nhi there", "expectedOutput": "0", "note": { "en": "Pattern longer than text", "bn": "প্যাটার্ন টেক্সটের চেয়ে বড়" } }
+      ]
+    },
+    {
+      "id": "P07-11",
+      "number": 11,
+      "title": {
+        "en": "Anagram Checker Using Character Frequency",
+        "bn": "অক্ষর গণনা দিয়ে অ্যানাগ্রাম (Anagram) যাচাই"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Frequency map equality", "bn": "ফ্রিকোয়েন্সি ডিকশনারির সমতা" },
+        { "en": "Space & case normalization", "bn": "স্পেস ও কেস স্বাভাবিকীকরণ" }
+      ],
+      "description": {
+        "en": "Read two strings S1 and S2. Determine whether S1 and S2 are anagrams (contain the exact same letters with identical frequencies), ignoring spaces and letter case. Print 'Anagram' or 'Not Anagram'.",
+        "bn": "দুটি স্ট্রিং S1 এবং S2 ইনপুট নিন। স্পেস ও বড়-ছোট হাতের পার্থক্য উপেক্ষা করে যাচাই করুন তারা অ্যানাগ্রাম কি না (অর্থাৎ উভয়ের অক্ষর ও প্রতিটি অক্ষরের সংখ্যা হুবহু সমান কি না)। 'Anagram' বা 'Not Anagram' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string S1. Line 2: string S2.",
+        "bn": "১ম লাইন: স্ট্রিং S1। ২য় লাইন: স্ট্রিং S2।"
+      },
+      "expectedOutput": {
+        "en": "'Anagram' or 'Not Anagram'.",
+        "bn": "'Anagram' অথবা 'Not Anagram'।"
+      },
+      "examples": [
+        {
+          "input": "Dormitory\nDirty room",
+          "output": "Anagram",
+          "explanation": {
+            "en": "Both have the exact same 9 letters: d, i, m, o, o, r, r, t, y.",
+            "bn": "উভয় স্ট্রিংয়েই স্পেস বাদে একই ৯টি অক্ষর সমান সংখ্যায় রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sorting both normalized strings works in O(N log N), but counting frequencies in a single dictionary solves it in O(N)!",
+        "bn": "সর্টিং করলে O(N log N) লাগে, কিন্তু ডিকশনারিতে ফ্রিকোয়েন্সি গুনলে O(N) সময়েই সমাধান করা যায়।"
+      },
+      "hint2": {
+        "en": "Build counts from S1 (ignoring spaces, lowercased), or increment for S1 and decrement for S2, then check all counts are 0.",
+        "bn": "S1-এর অক্ষরের জন্য +1 এবং S2-এর অক্ষরের জন্য -1 করুন; শেষে সব মান 0 হলেই অ্যানাগ্রাম।"
+      },
+      "logicBreakdown": {
+        "en": "Two normalized strings are anagrams if and only if every character has identical multiplicity. By adding +1 for each non-space lowercased character of S1 and -1 for each of S2 in a single dictionary, balanced characters cancel out to 0. Checking `all(v == 0 for v in counts.values())` validates both exact lengths and exact frequencies in O(N) time.",
+        "bn": "দুটি স্ট্রিং অ্যানাগ্রাম হবে কেবল তখনই যখন প্রতিটি অক্ষরের সংখ্যা উভয়ে সমান থাকে। একটি ডিকশনারিতে S1-এর অক্ষরে +1 এবং S2-এর অক্ষরে -1 করলে সমান অক্ষরগুলো কাটাকাটি হয়ে 0 হয়ে যাবে। শেষে সব মান 0 হলেই তারা অ্যানাগ্রাম।"
+      },
+      "algorithm": [
+        { "en": "Read s1 and s2; initialize dict counts.", "bn": "s1 ও s2 পড়ুন এবং counts ডিকশনারি নিন।" },
+        { "en": "For ch in s1: if not ch.isspace(), increment counts[ch.lower()].", "bn": "s1-এর প্রতিটি নন-স্পেস অক্ষর ছোট হাতে করে counts-এ +1 করুন।" },
+        { "en": "For ch in s2: if not ch.isspace(), decrement counts[ch.lower()].", "bn": "s2-এর প্রতিটি নন-স্পেস অক্ষর ছোট হাতে করে counts থেকে -1 করুন।" },
+        { "en": "If all values in counts equal 0, print 'Anagram', else 'Not Anagram'.", "bn": "counts-এর সব মান 0 হলে 'Anagram' নতুবা 'Not Anagram' প্রিন্ট করুন।" }
+      ],
+      "solution": "s1 = input()\ns2 = input()\ncounts = {}\nfor ch in s1:\n    if not ch.isspace():\n        c = ch.lower()\n        counts[c] = counts.get(c, 0) + 1\nfor ch in s2:\n    if not ch.isspace():\n        c = ch.lower()\n        counts[c] = counts.get(c, 0) - 1\nprint(\"Anagram\" if all(v == 0 for v in counts.values()) else \"Not Anagram\")",
+      "codeExplanation": {
+        "en": "counts tracks net balance per lowercased non-space character. Any extra letter in s1 leaves a positive value, and any extra letter in s2 leaves a negative value; only exact anagrams balance every entry to 0.",
+        "bn": "counts ডিকশনারিতে s1 থেকে যোগ এবং s2 থেকে বিয়োগ করা হয়েছে। কোনো অক্ষর কম বা বেশি থাকলে তার মান 0 হবে না; কেবল নিখুঁত অ্যানাগ্রামে সব মান 0 হয়।"
+      },
+      "complexity": { "time": "O(N + M)", "space": "O(K)" },
+      "testCases": [
+        { "input": "Dormitory\nDirty room", "expectedOutput": "Anagram", "note": { "en": "Multi-word case-insensitive anagram", "bn": "একাধিক শব্দের অ্যানাগ্রাম" } },
+        { "input": "listen\nsilent", "expectedOutput": "Anagram", "note": { "en": "Classic single words", "bn": "সাধারণ শব্দ" } },
+        { "input": "aabb\nabbb", "expectedOutput": "Not Anagram", "note": { "en": "Same set of letters, different counts", "bn": "বর্ণ এক হলেও সংখ্যা ভিন্ন" } },
+        { "input": "hello\nhell", "expectedOutput": "Not Anagram", "note": { "en": "Different lengths", "bn": "ভিন্ন দৈর্ঘ্য" } }
+      ]
+    },
+    {
+      "id": "P07-12",
+      "number": 12,
+      "title": {
+        "en": "Run-Length String Compression",
+        "bn": "রান-লেংথ স্ট্রিং কম্প্রেশন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Consecutive run grouping", "bn": "পাশাপাশি একই অক্ষরের দল গণনা" },
+        { "en": "Flushing the final run", "bn": "লুপ শেষে শেষ দলের হিসাব যোগ করা" }
+      ],
+      "description": {
+        "en": "Read a non-empty string S. Compress consecutive identical characters into '<char><count>' pairs (Run-Length Encoding). Note: even a single isolated character gets count 1 (e.g., 'aab' -> 'a2b1').",
+        "bn": "একটি খালি-নয় স্ট্রিং S ইনপুট নিন। পাশাপাশি থাকা একই অক্ষরগুলোকে '<char><count>' আকারে সংকুচিত (Run-Length Encoding) করুন। একটি অক্ষর একা থাকলেও তার পাশে 1 বসবে (যেমন 'aab' -> 'a2b1')।"
+      },
+      "inputDescription": {
+        "en": "A single non-empty line string S.",
+        "bn": "এক লাইনের একটি খালি-নয় স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The run-length compressed string.",
+        "bn": "রান-লেংথ সংকুচিত স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "aaabbcdddd",
+          "output": "a3b2c1d4",
+          "explanation": {
+            "en": "'a' x3, 'b' x2, 'c' x1, 'd' x4.",
+            "bn": "'a' ৩ বার, 'b' ২ বার, 'c' ১ বার, 'd' ৪ বার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Walk from index 1 to len(s) - 1, comparing s[i] against s[i - 1] and counting run length.",
+        "bn": "সূচক 1 থেকে len(s) - 1 পর্যন্ত গিয়ে s[i]-কে s[i - 1]-এর সাথে তুলনা করুন।"
+      },
+      "hint2": {
+        "en": "Don't forget the very last group! After the loop ends, append s[-1] + str(count).",
+        "bn": "লুপ শেষ হওয়ার পর শেষ দলটি (s[-1] ও count) যুক্ত করতে ভুলবেন না!"
+      },
+      "logicBreakdown": {
+        "en": "Run-length encoding compresses adjacent repeats, NOT global frequency (so 'aba' compresses to 'a1b1a1', not 'a2b1'). Maintaining count = 1 starting at index 1 flushes a pair whenever the character changes, and one extra flush after the loop closes out the final run—the #1 bug beginners make is forgetting that final flush.",
+        "bn": "রান-লেংথ এনকোডিং কেবল পাশাপাশি থাকা পুনরাবৃত্তি গোনে, পুরো স্ট্রিংয়ের মোট সংখ্যা নয় (তাই 'aba' হবে 'a1b1a1')। লুপের ভেতরে অক্ষর বদলালে আগের দলটি যোগ হয়, আর লুপ শেষে শেষ দলটি আলাদা করে যোগ করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read non-empty string s.", "bn": "স্ট্রিং s পড়ুন।" },
+        { "en": "Initialize out = [] and count = 1.", "bn": "out = [] এবং count = 1 নির্ধারণ করুন।" },
+        { "en": "Loop i from 1 to len(s) - 1: if s[i] == s[i - 1], count += 1; else append s[i - 1] + str(count) and reset count = 1.", "bn": "i = 1..len(s)-1-এ s[i] == s[i-1] হলে count += 1; নতুবা আগের দল যোগ করে count = 1 করুন।" },
+        { "en": "After loop, append s[-1] + str(count) and print ''.join(out).", "bn": "লুপ শেষে s[-1] + str(count) যোগ করে প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nout = []\ncount = 1\nfor i in range(1, len(s)):\n    if s[i] == s[i - 1]:\n        count += 1\n    else:\n        out.append(s[i - 1] + str(count))\n        count = 1\nout.append(s[-1] + str(count))\nprint(\"\".join(out))",
+      "codeExplanation": {
+        "en": "As long as s[i] matches s[i - 1], count increments. On a transition, the completed run s[i - 1] + str(count) is saved and count resets to 1. One final append after the loop records the trailing run.",
+        "bn": "যতক্ষণ s[i] ও s[i - 1] সমান থাকে ততক্ষণ count বাড়ে। অক্ষর বদলালে আগের দলটি সংরক্ষিত হয়ে count = 1 হয়, আর লুপের পরে শেষ দলটি যুক্ত হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "aaabbcdddd", "expectedOutput": "a3b2c1d4", "note": { "en": "Standard runs", "bn": "সাধারণ রান" } },
+        { "input": "aba", "expectedOutput": "a1b1a1", "note": { "en": "Non-adjacent repeats stay separate", "bn": "আলাদা অবস্থানের একই অক্ষর" } },
+        { "input": "z", "expectedOutput": "z1", "note": { "en": "Single character", "bn": "একক অক্ষর" } },
+        { "input": "wwwwww", "expectedOutput": "w6", "note": { "en": "Single long run", "bn": "একই অক্ষরের দীর্ঘ সারি" } }
+      ]
+    },
+    {
+      "id": "P07-13",
+      "number": 13,
+      "title": {
+        "en": "Password Character Strength Analyzer",
+        "bn": "পাসওয়ার্ডের অক্ষর শক্তি বিশ্লেষণ"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Multi-flag character classification", "bn": "একাধিক ফ্ল্যাগ দিয়ে অক্ষর শ্রেণিবিন্যাস" },
+        { "en": "Security rule validation", "bn": "নিরাপত্তা নীতিমালা যাচাই" }
+      ],
+      "description": {
+        "en": "Read a password string P (no spaces). Evaluate 5 security criteria: (1) length >= 8, (2) has an uppercase letter, (3) has a lowercase letter, (4) has a digit, (5) has a special character (any character that is neither letter nor digit). Print 'Strong' if all 5 criteria pass, 'Moderate' if 3 or 4 pass, and 'Weak' otherwise.",
+        "bn": "একটি পাসওয়ার্ড স্ট্রিং P ইনপুট নিন। ৫টি নিরাপত্তা শর্ত যাচাই করুন: (১) দৈর্ঘ্য >= 8, (২) বড় হাতের অক্ষর আছে, (৩) ছোট হাতের অক্ষর আছে, (৪) অঙ্ক আছে, (৫) বিশেষ চিহ্ন (বর্ণ বা অঙ্ক নয় এমন) আছে। ৫টি পূরণ হলে 'Strong', ৩ বা ৪টি হলে 'Moderate' এবং বাকি ক্ষেত্রে 'Weak' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line password string P.",
+        "bn": "এক লাইনের একটি পাসওয়ার্ড স্ট্রিং P।"
+      },
+      "expectedOutput": {
+        "en": "'Strong', 'Moderate', or 'Weak'.",
+        "bn": "'Strong', 'Moderate' অথবা 'Weak'।"
+      },
+      "examples": [
+        {
+          "input": "PySec#2026",
+          "output": "Strong",
+          "explanation": {
+            "en": "Length is 10 (>=8), has 'P', 'y', '2', and '#': 5/5 criteria met.",
+            "bn": "দৈর্ঘ্য ১০ (>=৮), বড় অক্ষর, ছোট অক্ষর, অঙ্ক ও '#' সবই রয়েছে (৫/৫)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use boolean flags has_upper, has_lower, has_digit, has_special initialized to False.",
+        "bn": "has_upper, has_lower, has_digit, has_special নামের চারটি বুলিয়ান ফ্ল্যাগ False দিয়ে শুরু করুন।"
+      },
+      "hint2": {
+        "en": "Count how many of the 5 checks are True by converting booleans to integers (int(True) == 1) or summing them.",
+        "bn": "৫টি শর্তের মধ্যে কতটি সত্য হয়েছে তা যোগ করে মোট স্কোর (0–5) বের করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Character auditing is foundational for cybersecurity validation logic. Scanning the string once classifies each character with `isupper()`, `islower()`, `isdigit()`, and `else` (for special symbols). Summing the 5 boolean criteria produces a clean integer score from 0 to 5.",
+        "bn": "পাসওয়ার্ড অডিটিং সাইবার সিকিউরিটির একটি মৌলিক অনুশীলন। পুরো স্ট্রিং একবার স্ক্যান করে চারটি ফ্ল্যাগ নির্ধারণ করলে এবং দৈর্ঘ্য শর্তসহ ৫টি বুলিয়ান মান যোগ করলে সরাসরি ০ থেকে ৫-এর মধ্যে স্কোর পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read password p.", "bn": "পাসওয়ার্ড p পড়ুন।" },
+        { "en": "Initialize has_upper = has_lower = has_digit = has_special = False.", "bn": "চারটি ফ্ল্যাগ False সেট করুন।" },
+        { "en": "Scan each ch in p and update the matching boolean flag.", "bn": "প্রতিটি অক্ষর ch যাচাই করে সংশ্লিষ্ট ফ্ল্যাগ True করুন।" },
+        { "en": "Compute score = (len(p) >= 8) + has_upper + has_lower + has_digit + has_special and print tier.", "bn": "score হিসাব করে ৫ হলে 'Strong', ৩ বা ৪ হলে 'Moderate', নতুবা 'Weak' প্রিন্ট করুন।" }
+      ],
+      "solution": "p = input()\nhas_upper = False\nhas_lower = False\nhas_digit = False\nhas_special = False\nfor ch in p:\n    if ch.isupper():\n        has_upper = True\n    elif ch.islower():\n        has_lower = True\n    elif ch.isdigit():\n        has_digit = True\n    else:\n        has_special = True\nscore = (len(p) >= 8) + has_upper + has_lower + has_digit + has_special\nif score == 5:\n    print(\"Strong\")\nelif score >= 3:\n    print(\"Moderate\")\nelse:\n    print(\"Weak\")",
+      "codeExplanation": {
+        "en": "Each character triggers exactly one branch in the if-elif-else ladder. Because Python treats booleans as 1/0 in addition, summing the 5 criteria cleanly computes score without verbose counters.",
+        "bn": "প্রতিটি অক্ষর if-elif-else ধাপের যেকোনো একটি শর্তে পড়ে। পাইথনে True-এর মান 1 এবং False-এর মান 0 হওয়ায় ৫টি শর্ত যোগ করলেই মোট স্কোর পাওয়া যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "PySec#2026", "expectedOutput": "Strong", "note": { "en": "All 5 criteria satisfied", "bn": "সব শর্ত পূরণ" } },
+        { "input": "python123", "expectedOutput": "Moderate", "note": { "en": "Length, lower, digit (3/5)", "bn": "৩টি শর্ত পূরণ" } },
+        { "input": "Ab1!", "expectedOutput": "Moderate", "note": { "en": "All char types but length < 8 (4/5)", "bn": "দৈর্ঘ্য কম (৪/৫)" } },
+        { "input": "12345", "expectedOutput": "Weak", "note": { "en": "Only digit (1/5)", "bn": "দুর্বল পাসওয়ার্ড (১/৫)" } }
+      ]
+    },
+    {
+      "id": "P07-14",
+      "number": 14,
+      "title": {
+        "en": "First Non-Repeating Character",
+        "bn": "প্রথম অপুনরাবৃত্ত (Non-Repeating) অক্ষর"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Two-pass frequency lookup", "bn": "দুই-পাসের ফ্রিকোয়েন্সি অনুসন্ধান" },
+        { "en": "O(N) character scanning", "bn": "O(N) অক্ষর স্ক্যানিং" }
+      ],
+      "description": {
+        "en": "Read a string S. Find the very first character (left to right, case-sensitive) whose total count in S is exactly 1. Print that character, or print 'None' if every character repeats.",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। বাম থেকে ডানে এমন প্রথম অক্ষরটি খুঁজুন (কেস-সেন্সিটিভ) যা পুরো স্ট্রিংয়ে মাত্র ১ বার আছে। অক্ষরটি প্রিন্ট করুন, অথবা সব অক্ষরের পুনরাবৃত্তি থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The first unique character, or 'None'.",
+        "bn": "প্রথম অনন্য অক্ষরটি অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "swiss",
+          "output": "w",
+          "explanation": {
+            "en": "'s' appears 3 times, 'w' appears 1 time (first unique!), 'i' appears 1 time.",
+            "bn": "'s' আছে ৩ বার, 'w' আছে ১ বার (প্রথম অনন্য), 'i' আছে ১ বার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "You cannot know whether a character repeats later in S until you finish scanning the entire string once.",
+        "bn": "পুরো স্ট্রিং একবার পড়া শেষ না করা পর্যন্ত কোনো অক্ষর পরে আবার আসবে কি না তা জানা যায় না।"
+      },
+      "hint2": {
+        "en": "Pass 1: build a frequency dictionary freq. Pass 2: iterate over S in original order and return the first ch with freq[ch] == 1.",
+        "bn": "প্রথম পাসে freq ডিকশনারি তৈরি করুন। দ্বিতীয় পাসে মূল S-এর ওপর ঘুরে প্রথম যে অক্ষরের freq[ch] == 1 তা প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using s.count(ch) inside a loop takes O(N^2) time because count scans the whole string for every character. Building a frequency map in Pass 1 and scanning S left-to-right in Pass 2 checking freq[ch] == 1 drops total runtime to O(N).",
+        "bn": "লুপের ভেতরে s.count(ch) চালালে O(N^2) সময় লাগে। এর বদলে দুই পাসে—প্রথমে ফ্রিকোয়েন্সি ডিকশনারি তৈরি করে ও পরে বাম থেকে ডানে freq[ch] == 1 দেখলে—মাত্র O(N) সময়ে সমাধান হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and count character frequencies into dict freq.", "bn": "s পড়ে প্রতিটি অক্ষরের সংখ্যা freq ডিকশনারিতে রাখুন।" },
+        { "en": "Loop ch in s: if freq[ch] == 1, print ch and stop.", "bn": "s-এর প্রতিটি ch-এর জন্য freq[ch] == 1 হলে সেটি প্রিন্ট করে থামুন।" },
+        { "en": "If no character has count 1, print 'None'.", "bn": "কারও সংখ্যা ১ না হলে 'None' প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nfreq = {}\nfor ch in s:\n    freq[ch] = freq.get(ch, 0) + 1\nans = \"None\"\nfor ch in s:\n    if freq[ch] == 1:\n        ans = ch\n        break\nprint(ans)",
+      "codeExplanation": {
+        "en": "Pass 1 records exact frequencies across the entire string. Pass 2 walks s from left to right; the very first ch with freq[ch] == 1 overwrites ans and breaks.",
+        "bn": "প্রথম লুপ সব অক্ষরের মোট সংখ্যা বের করে। দ্বিতীয় লুপ বাম থেকে ডানে গিয়ে প্রথম freq[ch] == 1 অক্ষরটি পাওয়ামাত্রই থেমে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(K)" },
+      "testCases": [
+        { "input": "swiss", "expectedOutput": "w", "note": { "en": "First unique in middle", "bn": "মাঝে প্রথম অনন্য অক্ষর" } },
+        { "input": "aabbcc", "expectedOutput": "None", "note": { "en": "All characters repeat", "bn": "সব অক্ষরের পুনরাবৃত্তি" } },
+        { "input": "x", "expectedOutput": "x", "note": { "en": "Single character", "bn": "একক অক্ষর" } },
+        { "input": "AaBbA", "expectedOutput": "a", "note": { "en": "Case-sensitive check", "bn": "কেস-সেন্সিটিভ পরীক্ষা" } }
+      ]
+    },
+    {
+      "id": "P07-15",
+      "number": 15,
+      "title": {
+        "en": "Reverse Word Order Without Reversing Letters",
+        "bn": "অক্ষর না উল্টে বাক্যের শব্দক্রম উল্টানো"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Tokenization & two-pointer swap", "bn": "টোকেনাইজেশন ও টু-পয়েন্টার অদলবদল" },
+        { "en": "Whitespace normalization", "bn": "স্পেস স্বাভাবিকীকরণ" }
+      ],
+      "description": {
+        "en": "Read a sentence S. Reverse the order of words in S (keeping characters within each word in their normal forward order) and join them with single spaces. Trim any leading or trailing spaces.",
+        "bn": "একটি বাক্য S ইনপুট নিন। প্রতিটি শব্দের ভেতরের অক্ষর ঠিক রেখে কেবল শব্দগুলোর ক্রম উল্টে দিন এবং একটি করে স্পেস দিয়ে যুক্ত করে প্রিন্ট করুন। শুরু বা শেষের অতিরিক্ত স্পেস বাদ দিন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S containing one or more words.",
+        "bn": "এক বা একাধিক শব্দযুক্ত একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "Words in reversed order separated by single spaces.",
+        "bn": "উল্টো ক্রমে স্পেস-বিচ্ছিন্ন শব্দসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "  logic builds strong code  ",
+          "output": "code strong builds logic",
+          "explanation": {
+            "en": "Words ['logic', 'builds', 'strong', 'code'] become ['code', 'strong', 'builds', 'logic'].",
+            "bn": "শব্দগুলো উল্টো ক্রমে হয়ে গেছে: 'code strong builds logic'।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First tokenize S into a list of clean words using s.split().",
+        "bn": "প্রথমে s.split() দিয়ে বাড়তি স্পেস ছাড়া শব্দের লিস্ট তৈরি করুন।"
+      },
+      "hint2": {
+        "en": "Swap words at left and right pointers moving inward until left >= right.",
+        "bn": "left ও right পয়েন্টার দিয়ে উভয় প্রান্তের শব্দ অদলবদল করুন যতক্ষণ না left >= right হয়।"
+      },
+      "logicBreakdown": {
+        "en": "Reversing a string character-by-character scrambles every word ('logic' -> 'cigol'). Instead, operate at the token level: split into words first, then reverse the word list in place with two pointers and join with a single space.",
+        "bn": "পুরো স্ট্রিং অক্ষর ধরে উল্টালে শব্দগুলো ভেঙে যায় ('logic' -> 'cigol')। তাই প্রথমে শব্দে ভাগ করে (split) পরে টু-পয়েন্টার দিয়ে শব্দ তালিকার ক্রম উল্টে ' ' দিয়ে যুক্ত করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read line and extract words = input().split().", "bn": "ইনপুট নিয়ে words = input().split() দিয়ে শব্দ তালিকা তৈরি করুন।" },
+        { "en": "Set left = 0, right = len(words) - 1.", "bn": "left = 0 এবং right = len(words) - 1 নিন।" },
+        { "en": "While left < right: swap words[left] and words[right]; left += 1; right -= 1.", "bn": "left < right হলে words[left] ও words[right] অদলবদল করুন এবং পয়েন্টার সরান।" },
+        { "en": "Print ' '.join(words).", "bn": "' '.join(words) প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\nleft, right = 0, len(words) - 1\nwhile left < right:\n    words[left], words[right] = words[right], words[left]\n    left += 1\n    right -= 1\nprint(\" \".join(words))",
+      "codeExplanation": {
+        "en": "split() strips extra whitespace and extracts words. The two-pointer loop swaps symmetric pairs in place in O(W) time, and ' '.join(words) formats the clean reversed sentence.",
+        "bn": "split() অতিরিক্ত স্পেস ফেলে শব্দ তালিকা দেয়। টু-পয়েন্টার লুপ বিপরীত প্রান্তের শব্দ অদলবদল করে এবং শেষে ' '.join(words) দিয়ে প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "  logic builds strong code  ", "expectedOutput": "code strong builds logic", "note": { "en": "Extra spaces trimmed", "bn": "বাড়তি স্পেসসহ বাক্য" } },
+        { "input": "Python", "expectedOutput": "Python", "note": { "en": "Single word", "bn": "একটি শব্দ" } },
+        { "input": "one two", "expectedOutput": "two one", "note": { "en": "Two words", "bn": "দুটি শব্দ" } }
+      ]
+    },
+    {
+      "id": "P07-16",
+      "number": 16,
+      "title": {
+        "en": "Longest Alphabetic Word in a Sentence",
+        "bn": "বাক্যের দীর্ঘতম বর্ণমালা-ভিত্তিক শব্দ"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Punctuation stripping & parsing", "bn": "বিরামচিহ্ন আলাদা করে শব্দ পার্সিং" },
+        { "en": "Maximum-length tracking with tie-break", "bn": "সর্বোচ্চ দৈর্ঘ্য ও প্রথম শব্দের অগ্রাধিকার" }
+      ],
+      "description": {
+        "en": "Read a sentence S that may contain punctuation (such as commas, periods, or exclamation marks). Extract contiguous sequences of alphabetic characters (words) and print the longest word. If multiple words tie for longest, print the first one. If no letters exist, print 'None'.",
+        "bn": "বিরামচিহ্নযুক্ত একটি বাক্য S ইনপুট নিন। পাশাপাশি থাকা ইংরেজি বর্ণগুলোর প্রতিটি দলকে একটি শব্দ হিসেবে ধরে সবচেয়ে দীর্ঘ শব্দটি প্রিন্ট করুন। সমান দৈর্ঘ্যের একাধিক শব্দ থাকলে প্রথমটি প্রিন্ট করুন। কোনো বর্ণ না থাকলে 'None' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "The first longest alphabetic word, or 'None'.",
+        "bn": "প্রথম দীর্ঘতম শব্দটি অথবা 'None'।"
+      },
+      "examples": [
+        {
+          "input": "Hello, problem-solving enthusiasts!",
+          "output": "enthusiasts",
+          "explanation": {
+            "en": "Alphabetic words are 'Hello' (5), 'problem' (7), 'solving' (7), 'enthusiasts' (11).",
+            "bn": "শব্দগুলো হলো 'Hello' (5), 'problem' (7), 'solving' (7), 'enthusiasts' (11)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Instead of splitting only on spaces (which leaves commas or hyphens attached), build current_word character by character while ch.isalpha().",
+        "bn": "কেবল স্পেসে split করলে কমা বা হাইফেন শব্দের সাথে লেগে থাকে; তাই অক্ষর ধরে ch.isalpha() দেখে শব্দ গঠন করুন।"
+      },
+      "hint2": {
+        "en": "Remember to check the final word after the loop finishes, just like in Run-Length Encoding!",
+        "bn": "লুপ শেষ হওয়ার পর শেষ শব্দটির দৈর্ঘ্যও পরীক্ষা করতে ভুলবেন না!"
+      },
+      "logicBreakdown": {
+        "en": "Using `s.split()` mistakenly counts punctuation inside a word's length (so `'hello!'` becomes length 6 instead of 5) and treats hyphenated words as one chunk. Accumulating contiguous `ch.isalpha()` characters and flushing whenever a non-letter appears—plus one final check after appending a sentinel space—handles all punctuation cleanly in O(1) extra effort.",
+        "bn": "সাধারণ `s.split()` ব্যবহার করলে 'hello!'-এর মতো শব্দে বিরামচিহ্নও দৈর্ঘ্যে যোগ হয়ে যায়। তাই `ch.isalpha()` দিয়ে বর্ণগুলো জুড়ে শব্দ বানানো এবং অ-বর্ণ বা স্ট্রিংয়ের শেষে একটি বাড়তি স্পেস যোগ করে শব্দগুলো যাচাই করাই সবচেয়ে নির্ভরযোগ্য উপায়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and append a sentinel ' ' so the last word flushes inside the loop.", "bn": "s পড়ে শেষে একটি বাড়তি স্পেস যোগ করুন যাতে শেষ শব্দটিও লুপের ভেতরেই যাচাই হয়।" },
+        { "en": "Initialize best = '' and current = [].", "bn": "best = '' এবং current = [] নির্ধারণ করুন।" },
+        { "en": "For ch in s + ' ': if ch.isalpha(), append ch to current.", "bn": "ch.isalpha() হলে current-এ ch যোগ করুন।" },
+        { "en": "Else: if len(current) > len(best), update best = ''.join(current); reset current = [].", "bn": "নতুবা len(current) > len(best) হলে best হালনাগাদ করুন এবং current খালি করুন।" },
+        { "en": "Print best if best else 'None'.", "bn": "best খালি না হলে তা প্রিন্ট করুন, নতুবা 'None'।" }
+      ],
+      "solution": "s = input() + \" \"\nbest = \"\"\ncurrent = []\nfor ch in s:\n    if ch.isalpha():\n        current.append(ch)\n    else:\n        if len(current) > len(best):\n            best = \"\".join(current)\n        current = []\nprint(best if best else \"None\")",
+      "codeExplanation": {
+        "en": "Appending ' ' guarantees a non-alphabetic character terminates the final word cleanly inside the single loop. Strict > ensures ties preserve the first longest word encountered.",
+        "bn": "শেষে ' ' যোগ করায় লুপ শেষ হওয়ার আগেই শেষ শব্দটি যাচাই হয়ে যায়। এবং '>' ব্যবহার করায় সমান দৈর্ঘ্যের ক্ষেত্রে প্রথম শব্দটিই থেকে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Hello, problem-solving enthusiasts!", "expectedOutput": "enthusiasts", "note": { "en": "Punctuation and hyphens stripped", "bn": "চিহ্ন ও হাইফেন পৃথকীকরণ" } },
+        { "input": "cat dog fox", "expectedOutput": "cat", "note": { "en": "Tie-break keeps first word", "bn": "সমান দৈর্ঘ্যে প্রথম শব্দ" } },
+        { "input": "12345 !@#", "expectedOutput": "None", "note": { "en": "No letters", "bn": "কোনো বর্ণ নেই" } },
+        { "input": "Python", "expectedOutput": "Python", "note": { "en": "Single word without trailing space", "bn": "একক শব্দ (sentinel পরীক্ষা)" } }
+      ]
+    },
+    {
+      "id": "P07-17",
+      "number": 17,
+      "title": {
+        "en": "String Rotation Verification",
+        "bn": "স্ট্রিং রোটেশন যাচাই"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Concatenation invariant (s2 in s1 + s1)", "bn": "স্ট্রিং দ্বিগুণ করার নিয়ম (s2 in s1 + s1)" },
+        { "en": "Length equality precondition", "bn": "সমান দৈর্ঘ্যের পূর্বশর্ত" }
+      ],
+      "description": {
+        "en": "Read two strings S1 and S2. Check if S2 is a cyclic rotation of S1 (for instance, 'cdab' is a rotation of 'abcd'). Print 'Yes' or 'No'.",
+        "bn": "দুটি স্ট্রিং S1 এবং S2 ইনপুট নিন। যাচাই করুন S2 হলো S1-এর একটি চক্রাকার ঘূর্ণন (cyclic rotation) কি না (যেমন 'abcd'-এর একটি রোটেশন হলো 'cdab')। 'Yes' অথবা 'No' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string S1. Line 2: string S2.",
+        "bn": "১ম লাইন: স্ট্রিং S1। ২য় লাইন: স্ট্রিং S2।"
+      },
+      "expectedOutput": {
+        "en": "'Yes' if S2 is a rotation of S1, otherwise 'No'.",
+        "bn": "S2 রোটেশন হলে 'Yes', নতুবা 'No'।"
+      },
+      "examples": [
+        {
+          "input": "waterbottle\nerbottlewat",
+          "output": "Yes",
+          "explanation": {
+            "en": "'erbottlewat' appears inside 'waterbottlewaterbottle' and both have length 11.",
+            "bn": "'waterbottlewaterbottle'-এর ভেতরে 'erbottlewat' আছে এবং উভয়ের দৈর্ঘ্য ১১।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First check: can S2 ever be a rotation of S1 if their lengths differ? Never!",
+        "bn": "প্রথম শর্ত: S1 ও S2-এর দৈর্ঘ্য ভিন্ন হলে কখনোই রোটেশন হতে পারে না!"
+      },
+      "hint2": {
+        "en": "Every cyclic rotation of S1 splits S1 = A + B into B + A, which is always a contiguous substring inside S1 + S1 = A + B + A + B.",
+        "bn": "S1 = A + B হলে যেকোনো রোটেশন B + A সর্বদা S1 + S1 = A + B + A + B-এর ভেতরেই উপস্থিত থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "Rotating a string by all N positions and comparing takes O(N^2). A classic algorithmic insight solves it cleanly: any rotation splits S1 into prefix A and suffix B to form B + A. Doubling S1 gives A + B + A + B, which contains B + A right across the seam. Always check len(s1) == len(s2) first so substrings of shorter strings don't falsely pass.",
+        "bn": "প্রতিটি অবস্থানে ঘুরিয়ে তুলনা করলে O(N^2) সময় লাগে। কিন্তু S1-কে S1 + S1 করলে তার ভেতরে S1-এর সম্ভাব্য সব চক্রাকার রোটেশন চলে আসে। তবে শুরুতে len(s1) == len(s2) যাচাই না করলে ছোট সাবস্ট্রিং ভুলভাবে 'Yes' হয়ে যেতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Read s1 and s2.", "bn": "s1 এবং s2 পড়ুন।" },
+        { "en": "If len(s1) != len(s2), print 'No'.", "bn": "len(s1) != len(s2) হলে 'No' প্রিন্ট করুন।" },
+        { "en": "Else check if s2 in (s1 + s1): print 'Yes' or 'No'.", "bn": "নতুবা s2 in (s1 + s1) সত্য হলে 'Yes' এবং মিথ্যা হলে 'No' প্রিন্ট করুন।" }
+      ],
+      "solution": "s1 = input()\ns2 = input()\nif len(s1) == len(s2) and s2 in (s1 + s1):\n    print(\"Yes\")\nelse:\n    print(\"No\")",
+      "codeExplanation": {
+        "en": "First len(s1) == len(s2) ensures identical character counts and length. Then s2 in (s1 + s1) verifies whether s2 appears at any cyclic wrap-around boundary (including empty or identical strings).",
+        "bn": "প্রথমে len(s1) == len(s2) সমান দৈর্ঘ্য নিশ্চিত করে। এরপর s2 in (s1 + s1) যাচাই করে S2 কোনো চক্রাকার বিভাজন বিন্দুতে মেলে কি না।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "waterbottle\nerbottlewat", "expectedOutput": "Yes", "note": { "en": "Valid rotation", "bn": "সঠিক রোটেশন" } },
+        { "input": "abcd\nacbd", "expectedOutput": "No", "note": { "en": "Anagram but not rotation", "bn": "অ্যানাগ্রাম কিন্তু রোটেশন নয়" } },
+        { "input": "abc\nab", "expectedOutput": "No", "note": { "en": "Shorter substring trap", "bn": "ভিন্ন দৈর্ঘ্যের সাবস্ট্রিং ফাঁদ" } },
+        { "input": "aaaa\naaaa", "expectedOutput": "Yes", "note": { "en": "Identical strings (0-shift rotation)", "bn": "অভিন্ন স্ট্রিং" } }
+      ]
+    },
+    {
+      "id": "P07-18",
+      "number": 18,
+      "title": {
+        "en": "Caesar Cipher Shift Encoder",
+        "bn": "সিজার সাইফার (Caesar Cipher) এনকোডার"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Modular alphabet wrap-around (% 26)", "bn": "মডুলার বর্ণমালা আবর্তন (% 26)" },
+        { "en": "Case-preserving ASCII transformation", "bn": "ছোট-বড় কেস অক্ষুণ্ণ রাখা" }
+      ],
+      "description": {
+        "en": "Read a plaintext string S and an integer shift K (which may be >= 26 or negative). Shift every English letter forward by K positions wrapping around Z->A (or backward if K < 0), preserving uppercase/lowercase. Keep spaces, digits, and punctuation unchanged.",
+        "bn": "একটি প্লেইনটেক্সট স্ট্রিং S এবং পূর্ণসংখ্যা শিফট K (যা ২৬-এর বেশি বা ঋণাত্মকও হতে পারে) ইনপুট নিন। প্রতিটি ইংরেজি বর্ণকে K ধাপ এগিয়ে (বা K < 0 হলে পিছিয়ে) সিজার সাইফারে রূপান্তর করুন—যেখানে Z-এর পর আবার A আসে। বড়-ছোট হাত ও অন্যান্য চিহ্ন অপরিবর্তিত থাকবে।"
+      },
+      "inputDescription": {
+        "en": "Line 1: string S. Line 2: integer K.",
+        "bn": "১ম লাইন: স্ট্রিং S। ২য় লাইন: পূর্ণসংখ্যা K।"
+      },
+      "expectedOutput": {
+        "en": "The Caesar-ciphered string.",
+        "bn": "সিজার সাইফারে রূপান্তরিত স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "Attack at Dawn! 09\n5",
+          "output": "Fyyfhp fy Ifbs! 09",
+          "explanation": {
+            "en": "'A'+5='F', 't'+5='y', 'w'+5 wraps around 'z' to 'b'; '!' and '09' stay unchanged.",
+            "bn": "'A'+5='F', 'w'+5 ঘুরে 'b' হয়েছে; '!' ও '09' অপরিবর্তিত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert any letter to a 0–25 index first by subtracting ord('A') for uppercase or ord('a') for lowercase.",
+        "bn": "প্রতিটি বর্ণ থেকে ord('A') বা ord('a') বিয়োগ করে আগে 0–25 সূচকে নিয়ে আসুন।"
+      },
+      "hint2": {
+        "en": "Apply ((ord(ch) - base + k) % 26) + base, which handles both large shifts like K=100 and negative shifts like K=-3 cleanly in Python.",
+        "bn": "((ord(ch) - base + k) % 26) + base সূত্র ব্যবহার করলে K=100 বা ঋণাত্মক K=-3 উভয়ই নির্ভুল কাজ করে।"
+      },
+      "logicBreakdown": {
+        "en": "Classical cryptography relies on modular arithmetic over finite alphabets. Shifting raw ASCII codes directly fails because Z+1 becomes '[' instead of 'A'. Mapping 'A'..'Z' and 'a'..'z' to 0..25, taking `% 26` (Python's `%` always yields 0..25 even for negative dividends), and adding back the base code produces wrap-around encryption.",
+        "bn": "সরাসরি ASCII কোডে যোগ করলে 'Z'-এর পর '[' চলে আসে। তাই আগে base ('A' বা 'a') বিয়োগ করে ০..২৫ পরিসরে এনে `% 26` করতে হয়—এবং পাইথনে ঋণাত্মক মানের % 26-ও ০..২৫-এর মধ্যেই থাকে বলে ডিক্রিপশন (-K) ও নির্ভুল কাজ করে।"
+      },
+      "algorithm": [
+        { "en": "Read plaintext s and integer k.", "bn": "স্ট্রিং s এবং পূর্ণসংখ্যা k পড়ুন।" },
+        { "en": "For each ch in s: pick base = ord('A') if uppercase, ord('a') if lowercase.", "bn": "প্রতিটি বর্ণের জন্য বড় হাতের হলে base = ord('A') এবং ছোট হাতের হলে base = ord('a') নিন।" },
+        { "en": "Compute shifted = chr(base + (ord(ch) - base + k) % 26) and append.", "bn": "shifted = chr(base + (ord(ch) - base + k) % 26) হিসাব করে যোগ করুন।" },
+        { "en": "Leave non-letters unchanged and print ''.join(out).", "bn": "অন্যান্য চিহ্ন অপরিবর্তিত রেখে প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nk = int(input())\nout = []\nfor ch in s:\n    if \"A\" <= ch <= \"Z\":\n        base = ord(\"A\")\n        out.append(chr(base + (ord(ch) - base + k) % 26))\n    elif \"a\" <= ch <= \"z\":\n        base = ord(\"a\")\n        out.append(chr(base + (ord(ch) - base + k) % 26))\n    else:\n        out.append(ch)\nprint(\"\".join(out))",
+      "codeExplanation": {
+        "en": "Uppercase and lowercase letters use their respective base ASCII codes. (ord(ch) - base + k) % 26 wraps around the 26-letter ring cleanly for any integer k, and non-alphabetic characters pass through untouched.",
+        "bn": "ছোট ও বড় হাতের বর্ণের জন্য নিজস্ব base ব্যবহার করে % 26 দিয়ে ২৬-বর্ণের চক্রে ঘোরানো হয়েছে; অঙ্ক ও চিহ্ন অপরিবর্তিত থাকে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "Attack at Dawn! 09\n5", "expectedOutput": "Fyyfhp fy Ifbs! 09", "note": { "en": "Mixed case with wrap-around", "bn": "মিশ্র কেস ও র‍্যাপ-অ্যারাউন্ড" } },
+        { "input": "xyz\n29", "expectedOutput": "abc", "note": { "en": "Shift >= 26 (29 % 26 == 3)", "bn": "২৬-এর বেশি শিফট" } },
+        { "input": "Abc\n-3", "expectedOutput": "Xyz", "note": { "en": "Negative shift (decryption)", "bn": "ঋণাত্মক শিফট" } },
+        { "input": "Hello\n0", "expectedOutput": "Hello", "note": { "en": "Zero shift identity", "bn": "শূন্য শিফট" } }
+      ]
+    },
+    {
+      "id": "P07-19",
+      "number": 19,
+      "title": {
+        "en": "Longest Substring Without Repeating Characters",
+        "bn": "পুনরাবৃত্তিহীন দীর্ঘতম সাবস্ট্রিং-এর দৈর্ঘ্য"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Sliding window with last-seen index map", "bn": "সর্বশেষ অবস্থান ম্যাপসহ স্লাইডিং উইন্ডো" },
+        { "en": "O(N) two-pointer optimization", "bn": "O(N) টু-পয়েন্টার অপটিমাইজেশন" }
+      ],
+      "description": {
+        "en": "Read a string S. Find and print the length of the longest contiguous substring of S that contains no duplicate characters (case-sensitive, spaces count as characters if present).",
+        "bn": "একটি স্ট্রিং S ইনপুট নিন। S-এর এমন দীর্ঘতম অবিচ্ছিন্ন সাবস্ট্রিং-এর দৈর্ঘ্য প্রিন্ট করুন যাতে কোনো অক্ষরের পুনরাবৃত্তি নেই (কেস-সেন্সিটিভ)।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "An integer representing the maximum unique-character substring length.",
+        "bn": "পুনরাবৃত্তিহীন দীর্ঘতম সাবস্ট্রিং-এর দৈর্ঘ্য।"
+      },
+      "examples": [
+        {
+          "input": "abcabcbb",
+          "output": "3",
+          "explanation": {
+            "en": "The longest substring without repeats is 'abc' (length 3).",
+            "bn": "পুনরাবৃত্তিহীন দীর্ঘতম সাবস্ট্রিং হলো 'abc' (দৈর্ঘ্য ৩)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Maintain a sliding window [left .. right] containing only unique characters.",
+        "bn": "[left .. right] সীমার একটি স্লাইডিং উইন্ডো রাখুন যেখানে সব অক্ষর অনন্য থাকবে।"
+      },
+      "hint2": {
+        "en": "Store each character's last seen index in a dict `last_seen`. When s[right] was seen at index >= left, jump left directly to last_seen[s[right]] + 1!",
+        "bn": "`last_seen` ডিকশনারিতে প্রতিটি অক্ষরের শেষ অবস্থান রাখুন। s[right] যদি left বা তার ডানে আগে দেখা থাকে, তবে left-কে সরাসরি last_seen[s[right]] + 1-এ নিয়ে যান!"
+      },
+      "logicBreakdown": {
+        "en": "Checking all O(N^2) substrings is slow. A sliding window expands `right` step by step while keeping `[left..right]` duplicate-free. If `ch` appeared previously at `idx >= left`, shifting `left = idx + 1` eliminates the duplicate in O(1). Crucial subtlety: NEVER move `left` backward if `idx < left` (already outside the current window)—checking `if ch in last_seen and last_seen[ch] >= left` prevents that common bug.",
+        "bn": "সব সাবস্ট্রিং পরীক্ষা করলে O(N^2) সময় লাগে। স্লাইডিং উইন্ডো পদ্ধতিতে right ডানে এগোয় এবং যদি কোনো অক্ষর বর্তমান উইন্ডোর ভেতরে (last_seen[ch] >= left) আগে থেকেই থাকে, তবে left সরাসরি তার পরের ঘরে চলে যায়। সাবধান: উইন্ডোর বাইরের (idx < left) পুরোনো অবস্থানে left যেন কখনোই পেছনে ফিরে না আসে!"
+      },
+      "algorithm": [
+        { "en": "Read string s; initialize last_seen = {}, left = 0, best = 0.", "bn": "s পড়ুন; last_seen = {}, left = 0, best = 0 নিন।" },
+        { "en": "Loop right, ch in enumerate(s).", "bn": "enumerate(s) দিয়ে প্রতিটি right, ch দেখুন।" },
+        { "en": "If ch in last_seen and last_seen[ch] >= left: set left = last_seen[ch] + 1.", "bn": "ch বর্তমান উইন্ডোতে আগে থাকলে left = last_seen[ch] + 1 করুন।" },
+        { "en": "Update last_seen[ch] = right and best = max(best, right - left + 1).", "bn": "last_seen[ch] = right এবং best = max(best, right - left + 1) আপডেট করুন।" },
+        { "en": "Print best.", "bn": "best প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\nlast_seen = {}\nleft = 0\nbest = 0\nfor right, ch in enumerate(s):\n    if ch in last_seen and last_seen[ch] >= left:\n        left = last_seen[ch] + 1\n    last_seen[ch] = right\n    window_len = right - left + 1\n    if window_len > best:\n        best = window_len\nprint(best)",
+      "codeExplanation": {
+        "en": "enumerate(s) yields index right and character ch. When ch already lives inside [left..right - 1], left advances past its previous index. Then last_seen[ch] updates to right and best records the widest valid window.",
+        "bn": "enumerate(s) প্রতিটি সূচক right ও অক্ষর ch দেয়। ch বর্তমান উইন্ডোতে পাওয়া গেলে left তার আগের অবস্থানের পরের ঘরে চলে যায়। প্রতি ধাপে best সর্বোচ্চ দৈর্ঘ্য সংরক্ষণ করে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(K)" },
+      "testCases": [
+        { "input": "abcabcbb", "expectedOutput": "3", "note": { "en": "Repeating cycle", "bn": "পুনরাবৃত্ত ধারা" } },
+        { "input": "bbbbb", "expectedOutput": "1", "note": { "en": "All identical chars", "bn": "সব একই অক্ষর" } },
+        { "input": "abba", "expectedOutput": "2", "note": { "en": "Tests left never moving backward", "bn": "left পেছনে না যাওয়ার এজ কেস" } },
+        { "input": "pwwkew", "expectedOutput": "3", "note": { "en": "Answer 'wke' in middle", "bn": "মাঝে 'wke' উত্তর" } }
+      ]
+    },
+    {
+      "id": "P07-20",
+      "number": 20,
+      "title": {
+        "en": "Balanced Brackets Validator",
+        "bn": "ব্যালেন্সড ব্র্যাকেট যাচাই"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Stack (LIFO) logic using a list", "bn": "লিস্ট দিয়ে স্ট্যাক (LIFO) যুক্তি" },
+        { "en": "Opening-closing pair matching", "bn": "খোলা ও বন্ধ বন্ধনীর জোড়া মেলানো" }
+      ],
+      "description": {
+        "en": "Read a string S consisting of brackets '(', ')', '{', '}', '[', ']' (any non-bracket characters may be ignored). Determine whether every opening bracket is closed by the matching type in proper Last-In-First-Out nesting order. Print 'Balanced' or 'Not Balanced'.",
+        "bn": "'(', ')', '{', '}', '[', ']' বন্ধনীযুক্ত একটি স্ট্রিং S ইনপুট নিন (অন্য কোনো অক্ষর থাকলে উপেক্ষা করুন)। যাচাই করুন প্রতিটি খোলার বন্ধনী সঠিক ক্রমে (LIFO নিয়মে) তার নিজস্ব বন্ধনী দিয়ে বন্ধ হয়েছে কি না। 'Balanced' অথবা 'Not Balanced' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string S.",
+        "bn": "এক লাইনের একটি স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "'Balanced' or 'Not Balanced'.",
+        "bn": "'Balanced' অথবা 'Not Balanced'।"
+      },
+      "examples": [
+        {
+          "input": "{[()()]}",
+          "output": "Balanced",
+          "explanation": {
+            "en": "Every bracket closes in exact reverse order of opening.",
+            "bn": "প্রতিটি বন্ধনী খোলার ঠিক উল্টো ক্রমে বন্ধ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Counting opening vs closing brackets is NOT enough: '([)]' has equal counts yet is Not Balanced!",
+        "bn": "কেবল বন্ধনীর সংখ্যা গোনা যথেষ্ট নয়—'([)]'-এ সংখ্যা সমান হলেও ক্রম ভুল!"
+      },
+      "hint2": {
+        "en": "Use a list as a stack: push opening brackets onto the stack, and on a closing bracket verify the stack is non-empty and its top matches.",
+        "bn": "একটি লিস্টকে স্ট্যাক হিসেবে ব্যবহার করুন: খোলার বন্ধনী push করুন এবং বন্ধ করার বন্ধনী এলে স্ট্যাকের শীর্ষ উপাদানটির সাথে মিলছে কি না দেখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Nesting follows Last-In-First-Out order: the most recently opened bracket MUST close first. A Python list used as a stack (`append` / `pop`) handles this naturally. Always watch two edge cases: (1) encountering a closing bracket when the stack is empty (e.g., `')'`), and (2) reaching the end of the string with unclosed brackets still left on the stack (e.g., `'((['`).",
+        "bn": "বন্ধনীর সঠিক বিন্যাস Last-In-First-Out (LIFO) নিয়ম মানে—অর্থাৎ যেটি সবার শেষে খোলা হয়েছে সেটি সবার আগে বন্ধ হবে। এজন্য লিস্ট দিয়ে স্ট্যাক (append এবং pop) ব্যবহার করা হয়। দুটি এজ কেস খেয়াল রাখুন: স্ট্যাক খালি অবস্থায় বন্ধ করার বন্ধনী এলে ভুল, এবং শেষে স্ট্যাকে কিছু থেকে গেলেও ভুল।"
+      },
+      "algorithm": [
+        { "en": "Read string s and map closing brackets to opening counterparts: pairs = {')': '(', ']': '[', '}': '{'}.", "bn": "s পড়ুন এবং pairs = {')': '(', ']': '[', '}': '{'} তৈরি করুন।" },
+        { "en": "Initialize stack = [] and valid = True.", "bn": "stack = [] এবং valid = True নিন।" },
+        { "en": "For ch in s: if ch in '([{', stack.append(ch); elif ch in pairs, if not stack or stack.pop() != pairs[ch], set valid = False and break.", "bn": "খোলার বন্ধনী হলে stack-এ রাখুন; বন্ধ করার বন্ধনী হলে stack খালি কি না এবং শীর্ষের সাথে মেলে কি না দেখুন।" },
+        { "en": "Print 'Balanced' if valid and len(stack) == 0 else 'Not Balanced'.", "bn": "valid সত্য এবং stack খালি হলে 'Balanced' নতুবা 'Not Balanced' প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input()\npairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\nstack = []\nvalid = True\nfor ch in s:\n    if ch in \"([{\":\n        stack.append(ch)\n    elif ch in pairs:\n        if not stack or stack.pop() != pairs[ch]:\n            valid = False\n            break\nprint(\"Balanced\" if valid and not stack else \"Not Balanced\")",
+      "codeExplanation": {
+        "en": "Opening brackets push onto stack. Closing brackets pop the top element and verify it equals pairs[ch]. Both valid == True and an empty stack at the end are required for 'Balanced'.",
+        "bn": "খোলার বন্ধনী stack-এ জমা হয়। বন্ধ করার বন্ধনী এলে stack থেকে শীর্ষটি তুলে pairs[ch]-এর সাথে মিল দেখা হয়। শেষে valid সত্য এবং stack সম্পূর্ণ খালি হলে তবেই 'Balanced' হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "{[()()]}", "expectedOutput": "Balanced", "note": { "en": "Properly nested", "bn": "সঠিক নেস্টিং" } },
+        { "input": "([)]", "expectedOutput": "Not Balanced", "note": { "en": "Interleaved mismatch", "bn": "ভুল ক্রমে বন্ধনী" } },
+        { "input": ")(", "expectedOutput": "Not Balanced", "note": { "en": "Closing before opening", "bn": "শুরুতেই বন্ধ বন্ধনী" } },
+        { "input": "(([]", "expectedOutput": "Not Balanced", "note": { "en": "Unclosed leftover on stack", "bn": "অসমাপ্ত বন্ধনী" } },
+        { "input": "if (a[0] == {1})", "expectedOutput": "Balanced", "note": { "en": "Expression with non-bracket text", "bn": "টেক্সটসহ সঠিক বন্ধনী" } }
+      ]
+    }
+  ]
+}

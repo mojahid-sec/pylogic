@@ -1,0 +1,1284 @@
+{
+  "partId": "part-12",
+  "partNumber": 12,
+  "problems": [
+    {
+      "id": "P12-01",
+      "number": 1,
+      "title": {
+        "en": "Bubble Sort With Early Exit & Swap Count",
+        "bn": "আর্লি-এক্সিট ও সোয়্যাপ গণনাসহ বাবল সর্ট (Bubble Sort)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Adjacent comparison & swapping", "bn": "পাশাপাশি তুলনা ও অদলবদল" },
+        { "en": "Early termination optimization", "bn": "কোনো সোয়্যাপ না হলে দ্রুত থামা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Implement Bubble Sort in ascending order WITHOUT using `sorted()` or `.sort()`, using an early-exit flag whenever a full pass makes zero swaps. Print the sorted numbers on line 1 (space-separated) and the total number of swaps performed on line 2.",
+        "bn": "`sorted()` বা `.sort()` ব্যবহার না করে বাবল সর্ট (Bubble Sort) অ্যালগরিদম দিয়ে সংখ্যাগুলোকে ছোট থেকে বড় ক্রমে সাজান। কোনো পাসে শূন্যটি সোয়্যাপ হলে আগেই লুপ থামান। ১ম লাইনে সাজানো সংখ্যাগুলো এবং ২য় লাইনে মোট সোয়্যাপের সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: sorted integers. Line 2: total swap count.",
+        "bn": "১ম লাইন: সাজানো সংখ্যা। ২য় লাইন: মোট সোয়্যাপ সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "5 1 4 2 8",
+          "output": "1 2 4 5 8\n4",
+          "explanation": {
+            "en": "Pass 1 swaps (5,1), (5,4), (5,2) -> 3 swaps; Pass 2 swaps (4,2) -> 1 swap; Pass 3 makes 0 swaps and stops early. Total = 4.",
+            "bn": "প্রথম পাসে ৩টি এবং দ্বিতীয় পাসে ১টি সোয়্যাপ হয়; তৃতীয় পাসে কোনো সোয়্যাপ না থাকায় থামে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "After pass `i`, the largest `i` elements have already 'bubbled' to the end, so the inner loop only needs `range(0, n - 1 - i)`.",
+        "bn": "প্রতিটি পাস `i` শেষে সবচেয়ে বড় উপাদানগুলো ডানে বসে যায়, তাই ভেতরের লুপ `n - 1 - i` পর্যন্ত চালালেই যথেষ্ট।"
+      },
+      "hint2": {
+        "en": "Set `swapped = False` before each outer pass; if an inner swap occurs, set `swapped = True` and increment `swaps += 1`. If `not swapped`, `break`.",
+        "bn": "প্রতি পাসের শুরুতে `swapped = False` রাখুন; একটিও সোয়্যাপ না হলে `break` করে বেরিয়ে আসুন।"
+      },
+      "logicBreakdown": {
+        "en": "Bubble Sort repeatedly compares adjacent pairs `arr[j]` and `arr[j + 1]`, swapping out-of-order pairs so the largest remaining element bubbles to its final slot at `n - 1 - i`. Adding `swapped = False` turns best-case runtime on an already-sorted list from O(N^2) into O(N) because the very first pass sees 0 swaps and exits.",
+        "bn": "বাবল সর্ট পাশাপাশি দুটি উপাদান তুলনা করে বড়টিকে ডানে পাঠাতে থাকে। `swapped` ফ্ল্যাগ রাখলে তালিকা আগে থেকেই সাজানো থাকলে মাত্র ১টি পাসে O(N) সময়ে লুপ শেষ হয়, আর অসাজানো অবস্থায় মোট সোয়্যাপ সংখ্যা মূল ইনভার্সন সংখ্যার সমান হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer list arr and n = len(arr).", "bn": "arr লিস্ট এবং n = len(arr) পড়ুন।" },
+        { "en": "Set swaps = 0.", "bn": "swaps = 0 ধরুন।" },
+        { "en": "For i in range(n): set swapped = False; for j in range(n - 1 - i): if arr[j] > arr[j + 1], swap them, swaps += 1, swapped = True.", "bn": "পাশাপাশি arr[j] > arr[j + 1] হলে অদলবদল করে swaps += 1 করুন।" },
+        { "en": "If not swapped, break. Finally print sorted arr and swaps.", "bn": "সোয়্যাপ না হলে break করুন এবং সাজানো লিস্ট ও swaps প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nn = len(arr)\nswaps = 0\nfor i in range(n):\n    swapped = False\n    for j in range(n - 1 - i):\n        if arr[j] > arr[j + 1]:\n            arr[j], arr[j + 1] = arr[j + 1], arr[j]\n            swaps += 1\n            swapped = True\n    if not swapped:\n        break\nprint(\" \".join(str(x) for x in arr))\nprint(swaps)",
+      "codeExplanation": {
+        "en": "Each outer pass shrinks the unsorted prefix by 1. Tuple swap arr[j], arr[j + 1] = arr[j + 1], arr[j] avoids a temp variable and increments swaps. Early break skips redundant passes on sorted input.",
+        "bn": "প্রতিটি ধাপে অসাজানো অংশ ১ করে কমে। সোয়্যাপ হলে swaps বাড়ে এবং পুরো পাসে কোনো সোয়্যাপ না হলে break লুপ থামায়।"
+      },
+      "complexity": { "time": "O(N^2) worst/avg, O(N) best", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "5 1 4 2 8", "expectedOutput": "1 2 4 5 8\n4", "note": { "en": "Mixed unsorted", "bn": "মিশ্র অসাজানো" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "1 2 3 4 5\n0", "note": { "en": "Already sorted (0 swaps)", "bn": "আগেই সাজানো (০ সোয়্যাপ)" } },
+        { "input": "4 3 2 1", "expectedOutput": "1 2 3 4\n6", "note": { "en": "Reverse sorted (N*(N-1)/2 = 6 swaps)", "bn": "উল্টো সাজানো (সর্বোচ্চ সোয়্যাপ)" } }
+      ]
+    },
+    {
+      "id": "P12-02",
+      "number": 2,
+      "title": {
+        "en": "Selection Sort — Ascending With Minimum Swaps",
+        "bn": "সিলেকশন সর্ট — ন্যূনতম সোয়্যাপে আরোহী ক্রমে সাজানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Selecting minimum index per pass", "bn": "প্রতি ধাপে সর্বনিম্ন উপাদানের সূচক নির্বাচন" },
+        { "en": "At most N-1 swaps property", "bn": "সর্বোচ্চ N-1 বার সোয়্যাপের বৈশিষ্ট্য" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Implement Selection Sort manually to sort them in ascending order, swapping `arr[i]` with `arr[min_idx]` ONLY when `min_idx != i`. Print the sorted array on line 1 and the number of actual swaps performed on line 2.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। সিলেকশন সর্ট (Selection Sort) ব্যবহার করে ছোট থেকে বড় ক্রমে সাজান এবং কেবল `min_idx != i` হলেই অদলবদল করুন। ১ম লাইনে সাজানো তালিকা ও ২য় লাইনে প্রকৃত সোয়্যাপ সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: sorted integers. Line 2: number of swaps.",
+        "bn": "১ম লাইন: সাজানো সংখ্যা। ২য় লাইন: সোয়্যাপ সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "64 25 12 22 11",
+          "output": "11 12 22 25 64\n3",
+          "explanation": {
+            "en": "i=0 swaps 64<->11; i=1 swaps 25<->12; i=2 (22 already min, no swap); i=3 swaps 25<->64. Total 3 swaps.",
+            "bn": "সূচক ০, ১ ও ৩-এ মোট ৩টি সোয়্যাপ হয়েছে (সূচক ২-এ ২২ আগেই সঠিক স্থানে ছিল)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "For each position `i`, scan `j` from `i + 1` to `n - 1` to track `min_idx` (do NOT swap inside the inner loop!).",
+        "bn": "ভেতরের লুপে কখনোই সোয়্যাপ করবেন না—কেবল সবচেয়ে ছোট মানের সূচক `min_idx` খুঁজে বের করুন।"
+      },
+      "hint2": {
+        "en": "After the inner loop finishes, if `min_idx != i`, perform ONE swap `arr[i], arr[min_idx] = arr[min_idx], arr[i]` and increment `swaps`.",
+        "bn": "ভেতরের লুপ শেষে `min_idx != i` হলে একবার সোয়্যাপ করে `swaps += 1` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Selection Sort minimizes writes/swaps (at most N - 1 swaps total, compared to Bubble Sort's O(N^2) swaps) by finding the smallest remaining element in `arr[i:]` first and performing at most one swap per outer pass. However, it is always O(N^2) comparisons even on already-sorted data and is unstable because long-distance swaps can jump equal keys over each other.",
+        "bn": "সিলেকশন সর্ট প্রতি ধাপে বাকি অংশের সবচেয়ে ছোট উপাদান খুঁজে মাত্র একবার অদলবদল করে—তাই সর্বোচ্চ (N - 1) বার মেমোরিতে লিখতে হয়। তবে এটি সব অবস্থাতেই O(N^2) তুলনা করে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and n = len(arr); swaps = 0.", "bn": "arr, n এবং swaps = 0 নিন।" },
+        { "en": "For i in range(n - 1): set min_idx = i; for j in range(i + 1, n): if arr[j] < arr[min_idx], min_idx = j.", "bn": "প্রতিটি i-এর জন্য বাকি অংশে সর্বনিম্ন সূচক min_idx খুঁজুন।" },
+        { "en": "If min_idx != i: swap arr[i] and arr[min_idx]; swaps += 1.", "bn": "min_idx != i হলে সোয়্যাপ করে swaps বাড়ান।" },
+        { "en": "Print sorted arr and swaps.", "bn": "সাজানো তালিকা ও swaps প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nn = len(arr)\nswaps = 0\nfor i in range(n - 1):\n    min_idx = i\n    for j in range(i + 1, n):\n        if arr[j] < arr[min_idx]:\n            min_idx = j\n    if min_idx != i:\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n        swaps += 1\nprint(\" \".join(str(x) for x in arr))\nprint(swaps)",
+      "codeExplanation": {
+        "en": "The inner loop only tracks the index of the minimum element in arr[i:]. Only after locating it does Selection Sort perform a single swap if min_idx differs from i.",
+        "bn": "ভেতরের লুপ শুধু সর্বনিম্ন উপাদানের সূচক খুঁজে রাখে। লুপ শেষে min_idx != i হলেই মাত্র একটি সোয়্যাপ হয়।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "64 25 12 22 11", "expectedOutput": "11 12 22 25 64\n3", "note": { "en": "Standard selection sort", "bn": "সাধারণ সিলেকশন সর্ট" } },
+        { "input": "1 2 3 4", "expectedOutput": "1 2 3 4\n0", "note": { "en": "Already sorted", "bn": "আগেই সাজানো" } },
+        { "input": "4 3 2 1", "expectedOutput": "1 2 3 4\n2", "note": { "en": "Reverse order takes only 2 swaps", "bn": "উল্টো ক্রমে মাত্র ২ সোয়্যাপ" } }
+      ]
+    },
+    {
+      "id": "P12-03",
+      "number": 3,
+      "title": {
+        "en": "Insertion Sort — Shifting Into Sorted Prefix",
+        "bn": "ইনসার্শন সর্ট — সাজানো অংশে উপযুক্ত স্থানে বসানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Growing sorted left prefix", "bn": "বামের সাজানো অংশ ক্রমান্বয়ে বাড়ানো" },
+        { "en": "Right-shifting larger elements", "bn": "বড় উপাদানগুলো ডানে সরিয়ে জায়গা করা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Implement Insertion Sort manually in ascending order by shifting larger elements right and inserting each `key = arr[i]` into its sorted position. Print the sorted list on line 1 and the total number of element shifts performed on line 2.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার তালিকা ইনপুট নিন। ইনসার্শন সর্ট (Insertion Sort) দিয়ে সাজানো অংশের উপাদানগুলো ডানে সরিয়ে প্রতিটি `key = arr[i]`-কে সঠিক স্থানে বসিয়ে ছোট থেকে বড় ক্রমে সাজান। ১ম লাইনে সাজানো তালিকা ও ২য় লাইনে মোট সরানোর (shift) সংখ্যা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: sorted integers. Line 2: total shift count.",
+        "bn": "১ম লাইন: সাজানো সংখ্যা। ২য় লাইন: মোট শিফট সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "12 11 13 5 6",
+          "output": "5 6 11 12 13\n7",
+          "explanation": {
+            "en": "11 shifts 1; 13 shifts 0; 5 shifts 3; 6 shifts 3 -> total 7 shifts.",
+            "bn": "১১-এর জন্য ১, ১৩-এর জন্য ০, ৫-এর জন্য ৩ এবং ৬-এর জন্য ৩টি শিফট হয়ে মোট ৭টি শিফট হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Think of sorting playing cards in your hand: `arr[0..i-1]` is already sorted; pick `key = arr[i]` and slide every element `> key` one step right.",
+        "bn": "হাতে তাস সাজানোর মতো: বামের `arr[0..i-1]` সাজানো আছে ধরে `key = arr[i]`-এর চেয়ে বড় মানগুলো ১ ঘর ডানে সরান।"
+      },
+      "hint2": {
+        "en": "Use `while j >= 0 and arr[j] > key:` (strictly `>`, NOT `>=`, to keep Insertion Sort stable!). Insert `arr[j + 1] = key` afterward.",
+        "bn": "স্থিতিশীলতা (stability) বজায় রাখতে `arr[j] > key` (সমান নয়, কেবল বড়) শর্ত দিয়ে `arr[j + 1] = arr[j]` সরান এবং শেষে `arr[j + 1] = key` বসান।"
+      },
+      "logicBreakdown": {
+        "en": "Insertion Sort shines on small or nearly-sorted arrays: if data is already sorted, `arr[j] > key` fails immediately on every iteration, taking O(N) time and 0 shifts! Using strict `>` avoids shifting equal elements past each other, preserving stability.",
+        "bn": "ছোট বা প্রায়-সাজানো ডেটায় ইনসার্শন সর্ট খুব দ্রুত (O(N)) কাজ করে। `arr[j] > key` ব্যবহার করলে সমান উপাদানগুলোর পারস্পরিক ক্রম অক্ষুণ্ণ থাকে (স্টেবল সর্ট)।"
+      },
+      "algorithm": [
+        { "en": "Read arr and initialize shifts = 0.", "bn": "arr পড়ুন ও shifts = 0 নিন।" },
+        { "en": "For i in range(1, len(arr)): set key = arr[i], j = i - 1.", "bn": "i = 1 থেকে n-1 পর্যন্ত key = arr[i], j = i - 1 ধরুন।" },
+        { "en": "While j >= 0 and arr[j] > key: arr[j + 1] = arr[j], j -= 1, shifts += 1.", "bn": "j >= 0 এবং arr[j] > key হলে ডানে সরিয়ে shifts বাড়ান।" },
+        { "en": "Place arr[j + 1] = key. Print sorted arr and shifts.", "bn": "arr[j + 1] = key বসিয়ে শেষে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nshifts = 0\nfor i in range(1, len(arr)):\n    key = arr[i]\n    j = i - 1\n    while j >= 0 and arr[j] > key:\n        arr[j + 1] = arr[j]\n        j -= 1\n        shifts += 1\n    arr[j + 1] = key\nprint(\" \".join(str(x) for x in arr))\nprint(shifts)",
+      "codeExplanation": {
+        "en": "Holding key in a variable avoids full swaps inside the inner loop; each displaced element simply copies one slot right, and key drops cleanly into arr[j + 1].",
+        "bn": "key ভ্যারিয়েবলে মান ধরে রেখে বড় উপাদানগুলোকে ডানে সরিয়ে শেষে ফাঁকা হওয়া arr[j + 1] স্থানে key বসানো হয়েছে।"
+      },
+      "complexity": { "time": "O(N^2) worst, O(N) best", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "12 11 13 5 6", "expectedOutput": "5 6 11 12 13\n7", "note": { "en": "Standard insertion trace", "bn": "সাধারণ ইনসার্শন" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "1 2 3 4 5\n0", "note": { "en": "Sorted input -> 0 shifts", "bn": "সাজানো ডেটায় ০ শিফট" } },
+        { "input": "5 4 3 2 1", "expectedOutput": "1 2 3 4 5\n10", "note": { "en": "Reverse sorted -> 10 shifts", "bn": "উল্টো ক্রমে ১০ শিফট" } }
+      ]
+    },
+    {
+      "id": "P12-04",
+      "number": 4,
+      "title": {
+        "en": "Descending Selection Sort",
+        "bn": "সিলেকশন সর্টে অবরোহী (বড় থেকে ছোট) ক্রমে সাজানো"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Reversing comparison operator", "bn": "তুলনামূলক অপারেটর উল্টে দেওয়া" },
+        { "en": "Manual descending sort", "bn": "ম্যানুয়াল অবরোহী সর্টিং" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Using Selection Sort manually (without `sorted(..., reverse=True)` or `.reverse()`), sort the array in descending order (largest to smallest) and print the result.",
+        "bn": "`sorted(..., reverse=True)` বা `.reverse()` ব্যবহার না করে ম্যানুয়াল সিলেকশন সর্টের মাধ্যমে সংখ্যাগুলোকে বড় থেকে ছোট (Descending) ক্রমে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Integers sorted largest to smallest, space-separated.",
+        "bn": "বড় থেকে ছোট ক্রমে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "3 10 -4 7 10 0",
+          "output": "10 10 7 3 0 -4",
+          "explanation": {
+            "en": "Every element is >= the element to its right.",
+            "bn": "প্রতিটি উপাদান তার ডানের উপাদানের সমান বা বড়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Instead of finding the minimum index in `arr[i:]`, find `max_idx` in `arr[i:]`!",
+        "bn": "সবচেয়ে ছোট সূচকের বদলে প্রতিটি পাসে সবচেয়ে বড় উপাদানের সূচক `max_idx` খুঁজুন!"
+      },
+      "hint2": {
+        "en": "Flip `arr[j] < arr[min_idx]` to `arr[j] > arr[max_idx]`.",
+        "bn": "তুলনায় `<`-এর বদলে `arr[j] > arr[max_idx]` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Sort direction depends entirely on the comparator rule. Switching Selection Sort from `min_idx` to `max_idx` places the largest remaining item at index `i` on every pass, sorting descending directly without needing a separate reversal pass.",
+        "bn": "তুলনার শর্ত `<` থেকে `>`-এ বদলে দিলেই সিলেকশন সর্ট সরাসরি বড় থেকে ছোট ক্রমে সাজায়—আলাদা করে লিস্ট উল্টানোর দরকার হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read integer list arr.", "bn": "arr পড়ুন।" },
+        { "en": "For i in range(len(arr) - 1): find max_idx in i+1..len(arr)-1 where arr[j] > arr[max_idx].", "bn": "প্রতিটি i-এর জন্য বাকি অংশ থেকে সবচেয়ে বড় মানের সূচক max_idx খুঁজুন।" },
+        { "en": "Swap arr[i] and arr[max_idx] if max_idx != i.", "bn": "max_idx != i হলে অদলবদল করুন।" },
+        { "en": "Print space-separated result.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nn = len(arr)\nfor i in range(n - 1):\n    max_idx = i\n    for j in range(i + 1, n):\n        if arr[j] > arr[max_idx]:\n            max_idx = j\n    if max_idx != i:\n        arr[i], arr[max_idx] = arr[max_idx], arr[i]\nprint(\" \".join(str(x) for x in arr))",
+      "codeExplanation": {
+        "en": "On pass i, max_idx identifies the largest value in the unsorted suffix arr[i:] and swaps it into index i.",
+        "bn": "প্রতিটি ধাপে অসাজানো অংশের সর্বোচ্চ মান max_idx খুঁজে এনে সূচক i-এ বসানো হয়েছে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "3 10 -4 7 10 0", "expectedOutput": "10 10 7 3 0 -4", "note": { "en": "Negatives and duplicates", "bn": "ঋণাত্মক ও ডুপ্লিকেট" } },
+        { "input": "1 2 3 4", "expectedOutput": "4 3 2 1", "note": { "en": "Ascending input reversed", "bn": "আরোহী ইনপুট অবরোহী হয়েছে" } },
+        { "input": "99", "expectedOutput": "99", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P12-05",
+      "number": 5,
+      "title": {
+        "en": "Bubble vs Insertion Pass Step Trace",
+        "bn": "সর্টেড অংশ শনাক্ত ও বাবল সর্ট পাস গণনা"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Counting outer sorting passes", "bn": "বাইরের সর্টিং পাস গণনা" },
+        { "en": "Best-case vs worst-case pass behavior", "bn": "বেস্ট-কেস বনাম ওর্স্ট-কেস পাস" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Run Bubble Sort with early termination and print two values: how many passes (outer iterations that checked adjacent elements) were executed before the array was confirmed sorted, and the sorted array on line 2.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। আর্লি-এক্সিট বাবল সর্ট চালিয়ে ১ম লাইনে তালিকাটি সম্পূর্ণ সাজানো নিশ্চিত হতে মোট কতটি পাস (Pass) লেগেছে তা এবং ২য় লাইনে সাজানো তালিকাটি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers (at least 1 element).",
+        "bn": "এক লাইনে কমপক্ষে ১টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: integer pass count. Line 2: sorted space-separated integers.",
+        "bn": "১ম লাইন: পাস সংখ্যা। ২য় লাইন: সাজানো সংখ্যাগুলো।"
+      },
+      "examples": [
+        {
+          "input": "2 1 3 4 5",
+          "output": "2\n1 2 3 4 5",
+          "explanation": {
+            "en": "Pass 1 swaps (2,1) making it sorted; Pass 2 verifies 0 swaps and exits -> 2 passes.",
+            "bn": "১ম পাসে (2,1) অদলবদল হয়ে সাজানো হয়ে যায় এবং ২য় পাস ০ সোয়্যাপ দেখে নিশ্চিত হয়ে থামে -> ২টি পাস।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice why even a single swap in Pass 1 requires a Pass 2: Bubble Sort cannot know after Pass 1 whether the rest is sorted until one verification pass completes with 0 swaps!",
+        "bn": "১ম পাসে সোয়্যাপ হলেই তা সাজানো কি না নিশ্চিত হওয়া যায় না; অন্তত ১টি শূন্য-সোয়্যাপ পাস না চলা পর্যন্ত থামা যায় না!"
+      },
+      "hint2": {
+        "en": "For an array of length 1, 0 comparisons are needed (or 1 confirmation pass if counting outer iterations): handle `len(arr) <= 1` cleanly as 0 passes, and for `n >= 2` increment `passes += 1` inside each outer pass before checking `not swapped`.",
+        "bn": "দৈর্ঘ্য <= 1 হলে 0 পাস, আর নতুবা প্রতি পাসে `passes += 1` করে `not swapped` হলে `break` করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Counting passes illustrates Bubble Sort's adaptive behavior: nearly-sorted inputs like `[2, 1, 3, 4, 5]` finish in just 2 passes (O(N)) rather than N - 1 passes, whereas `[5, 1, 2, 3, 4]` takes 2 passes (`5` bubbles to end in pass 1!), while `[2, 3, 4, 5, 1]` needs all `N - 1` passes because small values ('turtles') move left only 1 step per pass!",
+        "bn": "বাবল সর্টে বড় মান ('rabbit') এক পাসে ডানে চলে গেলেও ছোট মান ('turtle', যেমন শেষে থাকা ১) প্রতি পাসে মাত্র ১ ঘর বামে সরে—তাই প্রায় সাজানো হলেও শেষের ছোট মানের কারণে অনেক পাস লাগতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and n = len(arr).", "bn": "arr এবং n পড়ুন।" },
+        { "en": "If n <= 1: passes = 0; else loop i in range(n - 1): passes += 1, run inner pass, break if not swapped.", "bn": "n <= 1 হলে 0 পাস, নতুবা প্রতি পাসে passes += 1 করে সোয়্যাপ না থাকলে break করুন।" },
+        { "en": "Print passes and sorted arr.", "bn": "passes এবং সাজানো arr প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nn = len(arr)\npasses = 0\nif n > 1:\n    for i in range(n - 1):\n        passes += 1\n        swapped = False\n        for j in range(n - 1 - i):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swapped = True\n        if not swapped:\n            break\nprint(passes)\nprint(\" \".join(str(x) for x in arr))",
+      "codeExplanation": {
+        "en": "Each pass up to n - 1 increments passes before checking adjacent pairs. Once a pass finishes with swapped still False, break stops immediately without running remaining passes.",
+        "bn": "প্রতিটি বাইরের ধাপে passes ১ বাড়ে। কোনো ধাপে একটিও অদলবদল না হলে বাকি ধাপগুলো বাদ দিয়ে break বের হয়ে আসে।"
+      },
+      "complexity": { "time": "O(N^2) worst, O(N) best", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 1 3 4 5", "expectedOutput": "2\n1 2 3 4 5", "note": { "en": "Rabbit swap early exit", "bn": "দ্রুত সমাপ্তি" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "1\n1 2 3 4 5", "note": { "en": "Already sorted needs 1 confirmation pass", "bn": "আগেই সাজানো (১টি যাচাই পাস)" } },
+        { "input": "2 3 4 5 1", "expectedOutput": "4\n1 2 3 4 5", "note": { "en": "Turtle element 1 takes n-1=4 passes", "bn": "টার্টল উপাদানে ৪ পাস" } },
+        { "input": "8", "expectedOutput": "0\n8", "note": { "en": "Single element needs 0 passes", "bn": "এক উপাদানে ০ পাস" } }
+      ]
+    },
+    {
+      "id": "P12-06",
+      "number": 6,
+      "title": {
+        "en": "Insertion Sort on Strings (Case-Insensitive)",
+        "bn": "স্ট্রিংয়ের ওপর ইনসার্শন সর্ট (কেস-নিরপেক্ষ)"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Lexicographical string comparison", "bn": "অভিধান-ক্রমিক স্ট্রিং তুলনা" },
+        { "en": "Key-based manual Insertion Sort", "bn": "কী-ভিত্তিক ম্যানুয়াল ইনসার্শন সর্ট" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated words with mixed uppercase/lowercase letters. Sort the words alphabetically (case-insensitive) using manual Insertion Sort—WITHOUT calling `sorted()` or `.sort()`—preserving each word's original casing and relative order on case-insensitive ties.",
+        "bn": "বড় ও ছোট হাতের অক্ষর মেশানো শব্দের একটি তালিকা ইনপুট নিন। `sorted()` বা `.sort()` ব্যবহার না করে ম্যানুয়াল ইনসার্শন সর্ট দিয়ে শব্দগুলোকে বর্ণানুক্রমে (কেস-নিরপেক্ষভাবে) সাজান, যেখানে প্রতিটি শব্দের মূল বানান-কেস ও সমান শব্দের আপেক্ষিক ক্রম অক্ষুণ্ণ থাকবে।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated words.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন শব্দ।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated words sorted case-insensitively.",
+        "bn": "কেস-নিরপেক্ষ বর্ণানুক্রমে সাজানো শব্দসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "banana Apple cherry apricot",
+          "output": "Apple apricot banana cherry",
+          "explanation": {
+            "en": "'apple' < 'apricot' < 'banana' < 'cherry', keeping original 'Apple'.",
+            "bn": "'apple' < 'apricot' < 'banana' < 'cherry', মূল 'Apple' অক্ষত আছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compare `words[j].lower() > key.lower()` inside Insertion Sort while shifting and storing the original `words[j]` and `key`!",
+        "bn": "তুলনার সময় `words[j].lower() > key.lower()` লিখুন, কিন্তু লিস্টে মূল `words[j]` ও `key` সংরক্ষণ করুন।"
+      },
+      "hint2": {
+        "en": "Because `>` is strict (not `>=`), `'Apple'` followed by `'apple'` stays in original order (stability).",
+        "bn": "কঠোর `>` ব্যবহার করলে সমান শব্দের (যেমন 'Apple' ও 'apple') মূল ক্রম নষ্ট হয় না।"
+      },
+      "logicBreakdown": {
+        "en": "Comparing raw ASCII codes puts `'Zebra'` before `'apple'` because `'Z' (90) < 'a' (97)`. Normalizing with `.lower()` during the comparison `words[j].lower() > key.lower()` yields true alphabetical order while preserving original capitalization. Strict `>` maintains Insertion Sort's stability.",
+        "bn": "সরাসরি তুলনায় বড় হাতের অক্ষরের ASCII মান কম হওয়ায় `'Zebra'` শব্দটি `'apple'`-এর আগে চলে আসে। তুলনায় `.lower()` ব্যবহার করলে সঠিক বর্ণানুক্রম ও মূল বানান দুটিই বজায় থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read words = input().split().", "bn": "words = input().split() পড়ুন।" },
+        { "en": "For i in range(1, len(words)): key = words[i], key_low = key.lower(), j = i - 1.", "bn": "প্রতিটি শব্দের জন্য key ও key.lower() নিন।" },
+        { "en": "While j >= 0 and words[j].lower() > key_low: shift words[j] right and j -= 1.", "bn": "words[j].lower() > key_low হলে ডানে সরান।" },
+        { "en": "Set words[j + 1] = key; print space-separated words.", "bn": "words[j + 1] = key বসিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\nfor i in range(1, len(words)):\n    key = words[i]\n    key_low = key.lower()\n    j = i - 1\n    while j >= 0 and words[j].lower() > key_low:\n        words[j + 1] = words[j]\n        j -= 1\n    words[j + 1] = key\nprint(\" \".join(words))",
+      "codeExplanation": {
+        "en": "key_low caches key.lower() once per outer iteration. Shifting relies strictly on lowercased comparison while storing original-case strings back into words.",
+        "bn": "key_low একবারে ছোট হাতের রূপ ধরে রাখে, আর তুলনা শেষে আসল কেসসহ শব্দগুলো words-এ সজ্জিত হয়।"
+      },
+      "complexity": { "time": "O(N^2 * L)", "space": "O(N * L)" },
+      "testCases": [
+        { "input": "banana Apple cherry apricot", "expectedOutput": "Apple apricot banana cherry", "note": { "en": "Mixed case alphabetical", "bn": "মিশ্র কেস বর্ণানুক্রম" } },
+        { "input": "Zebra apple mango", "expectedOutput": "apple mango Zebra", "note": { "en": "Avoids ASCII Z < a trap", "bn": "ASCII Z < a ফাঁদ এড়ানো" } },
+        { "input": "Go go Python", "expectedOutput": "Go go Python", "note": { "en": "Stability on 'Go' before 'go'", "bn": "সমান শব্দের আপেক্ষিক ক্রম রক্ষা" } }
+      ]
+    },
+    {
+      "id": "P12-07",
+      "number": 7,
+      "title": {
+        "en": "Sort Strings by Length (Stable Manual Sort)",
+        "bn": "শব্দের দৈর্ঘ্য অনুযায়ী স্থিতিশীল (Stable) সর্টিং"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Sorting by derived key len(word)", "bn": "শব্দের দৈর্ঘ্য len(word) দিয়ে সর্টিং" },
+        { "en": "Order preservation on ties (stability)", "bn": "সমান দৈর্ঘ্যের মূল ক্রম অক্ষুণ্ণ রাখা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated words. Sort them in ascending order of word length using a STABLE manual sorting algorithm (Insertion Sort or Bubble Sort, NOT `sorted()`/`list.sort()`). Words with equal length MUST remain in their original input order.",
+        "bn": "স্পেস-বিচ্ছিন্ন শব্দের একটি তালিকা ইনপুট নিন। বিল্ট-ইন `sorted()` ছাড়াই ইনসার্শন বা বাবল সর্টের মতো একটি স্টেবল (Stable) অ্যালগরিদমে শব্দের দৈর্ঘ্য অনুযায়ী ছোট থেকে বড় ক্রমে সাজান। সমান দৈর্ঘ্যের শব্দগুলোর মূল ইনপুট ক্রম অবশ্যই অপরিবর্তিত থাকতে হবে।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated words.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন শব্দ।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated words sorted by length stably.",
+        "bn": "দৈর্ঘ্য অনুযায়ী স্টেবলভাবে সাজানো শব্দসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "python is fun and very cool",
+          "output": "is fun and very cool python",
+          "explanation": {
+            "en": "len 2: 'is'; len 3: 'fun', 'and' (order kept!); len 4: 'very', 'cool' (order kept!); len 6: 'python'.",
+            "bn": "দৈর্ঘ্য ৩-এ 'fun' আগে ও 'and' পরে এবং দৈর্ঘ্য ৪-এ 'very' আগে ও 'cool' পরে রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why would Selection Sort FAIL this requirement? Because swapping across long distances can jump `'and'` ahead of `'fun'`!",
+        "bn": "সিলেকশন সর্ট এখানে ভুল করবে কেন? কারণ দূরের সোয়্যাপ সমান দৈর্ঘ্যের শব্দের পূর্বের ক্রম উল্টে দিতে পারে!"
+      },
+      "hint2": {
+        "en": "Use Insertion Sort comparing `len(words[j]) > len(key)`—strict `>` never moves a tie past an earlier equal-length word.",
+        "bn": "ইনসার্শন সর্টে `len(words[j]) > len(key)` ব্যবহার করলে সমান দৈর্ঘ্যের শব্দগুলোর আপেক্ষিক ক্রম অক্ষুণ্ণ থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "A sorting algorithm is 'stable' if equal keys always appear in the same relative order in the output as in the input. Insertion Sort with strict `>` (`len(words[j]) > len(key)`) is naturally stable because it stops shifting as soon as an equal-or-smaller length appears.",
+        "bn": "সমান কী-যুক্ত উপাদানগুলোর মূল ইনপুট ক্রম বজায় থাকলে তাকে স্টেবল সর্ট বলে। `len(words[j]) > len(key)` শর্তসহ ইনসার্শন সর্ট সমান দৈর্ঘ্যে থামে বলে সবসময় স্টেবল থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read words = input().split().", "bn": "words পড়ুন।" },
+        { "en": "Apply Insertion Sort using len(key) as comparison key with strict >.", "bn": "len(key) ও কঠোর > দিয়ে ইনসার্শন সর্ট চালান।" },
+        { "en": "Print space-separated words.", "bn": "শব্দগুলো প্রিন্ট করুন।" }
+      ],
+      "solution": "words = input().split()\nfor i in range(1, len(words)):\n    key = words[i]\n    key_len = len(key)\n    j = i - 1\n    while j >= 0 and len(words[j]) > key_len:\n        words[j + 1] = words[j]\n        j -= 1\n    words[j + 1] = key\nprint(\" \".join(words))",
+      "codeExplanation": {
+        "en": "Strict inequality len(words[j]) > key_len stops before equal-length words, guaranteeing stability in O(N^2) time without built-in sort helpers.",
+        "bn": "len(words[j]) > key_len শর্ত সমান দৈর্ঘ্যে থেমে যাওয়ায় শব্দের পারস্পরিক ক্রম একদম ঠিক থাকে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "python is fun and very cool", "expectedOutput": "is fun and very cool python", "note": { "en": "Multiple length ties preserved", "bn": "একাধিক সমান দৈর্ঘ্যের ক্রম রক্ষা" } },
+        { "input": "cat dog fox bat", "expectedOutput": "cat dog fox bat", "note": { "en": "All equal lengths remain unchanged", "bn": "সব সমান দৈর্ঘ্য অপরিবর্তিত" } },
+        { "input": "elephant ox a", "expectedOutput": "a ox elephant", "note": { "en": "Reverse lengths", "bn": "উল্টো দৈর্ঘ্য" } }
+      ]
+    },
+    {
+      "id": "P12-08",
+      "number": 8,
+      "title": {
+        "en": "Sort Evens Ascending Then Odds Descending",
+        "bn": "জোড় সংখ্যা আরোহী এবং বিজোড় সংখ্যা অবরোহী ক্রমে সাজানো"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Partitioning + custom directional sorting", "bn": "বিভাজন ও দুই দিকে আলাদা সর্টিং" },
+        { "en": "Tuple comparator or dual sort", "bn": "টাপল কী বা দুই ভাগে সর্ট" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Arrange the output so that ALL even numbers appear first sorted in ASCENDING order, followed by ALL odd numbers sorted in DESCENDING order.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। এমনভাবে সাজান যেন প্রথমে সব জোড় সংখ্যাগুলো ছোট থেকে বড় (Ascending) ক্রমে এবং তার পরে সব বিজোড় সংখ্যাগুলো বড় থেকে ছোট (Descending) ক্রমে থাকে।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated integers: evens ascending, then odds descending.",
+        "bn": "প্রথমে আরোহী জোড় এবং পরে অবরোহী বিজোড় সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "5 2 9 8 1 4 7",
+          "output": "2 4 8 9 7 5 1",
+          "explanation": {
+            "en": "Evens ascending: [2, 4, 8]; Odds descending: [9, 7, 5, 1].",
+            "bn": "জোড় আরোহী: [2, 4, 8]; বিজোড় অবরোহী: [9, 7, 5, 1]।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Splitting into `evens` and `odds` makes sorting each group independently super clean—or sort with a tuple key `(x % 2, x if x % 2 == 0 else -x)`!",
+        "bn": "জোড় ও বিজোড় আলাদা লিস্টে ভাগ করে আলাদাভাবে সাজাতে পারেন, অথবা `(x % 2, x if x % 2 == 0 else -x)` কী ব্যবহার করতে পারেন!"
+      },
+      "hint2": {
+        "en": "Watch negative odd integers! `-3 % 2 == 1` in Python, so parity splitting works identically for negative numbers.",
+        "bn": "ঋণাত্মক বিজোড় সংখ্যাতেও পাইথনে `x % 2 == 1` কাজ করে।"
+      },
+      "logicBreakdown": {
+        "en": "Two-group directional sorting can be implemented either by partitioning into `evens` and `odds` (sorting `evens` ascending, `odds` descending, then concatenating) or via a single composite sort key `(x % 2, x if x % 2 == 0 else -x)`. Both yield O(N log N) clarity and work seamlessly for negative integers.",
+        "bn": "উপাদানগুলোকে জোড় ও বিজোড় দলে ভাগ করে প্রথমটিকে আরোহী ও দ্বিতীয়টিকে অবরোহী ক্রমে সাজিয়ে জোড়া লাগালেই পরিষ্কার সমাধান পাওয়া যায়; অথবা একক টাপল কী `(x % 2, x if x % 2 == 0 else -x)` ব্যবহার করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums.", "bn": "nums পড়ুন।" },
+        { "en": "Split into evens = [x for x in nums if x % 2 == 0] and odds = [x for x in nums if x % 2 != 0].", "bn": "evens ও odds আলাদা করুন।" },
+        { "en": "Sort evens ascending and odds descending.", "bn": "evens আরোহী এবং odds অবরোহী ক্রমে সাজান।" },
+        { "en": "Print evens + odds space-separated.", "bn": "evens + odds স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nevens = sorted([x for x in nums if x % 2 == 0])\nodds = sorted([x for x in nums if x % 2 != 0], reverse=True)\nresult = evens + odds\nprint(\" \".join(str(x) for x in result))",
+      "codeExplanation": {
+        "en": "List comprehensions separate even and odd values cleanly. evens is sorted ascending and odds descending before concatenation.",
+        "bn": "জোড় ও বিজোড় সংখ্যা দুটি আলাদা লিস্টে নিয়ে যথাক্রমে ছোট-থেকে-বড় ও বড়-থেকে-ছোট সাজিয়ে একত্রিত করা হয়েছে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5 2 9 8 1 4 7", "expectedOutput": "2 4 8 9 7 5 1", "note": { "en": "Mixed evens and odds", "bn": "মিশ্র জোড়-বিজোড়" } },
+        { "input": "-4 -3 0 5 -2", "expectedOutput": "-4 -2 0 5 -3", "note": { "en": "Negative numbers & zero", "bn": "ঋণাত্মক সংখ্যা ও শূন্য" } },
+        { "input": "2 6 4", "expectedOutput": "2 4 6", "note": { "en": "Only evens", "bn": "শুধু জোড়" } }
+      ]
+    },
+    {
+      "id": "P12-09",
+      "number": 9,
+      "title": {
+        "en": "Sort Dictionary Entries by Value Descending",
+        "bn": "মানের অবরোহী ক্রমে ডিকশনারি সাজানো"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Sorting dict.items() by value", "bn": "dict.items() মান অনুযায়ী সর্টিং" },
+        { "en": "Multi-key tie-breaking (-val, key)", "bn": "সমান মানে কী অনুযায়ী টাই-ব্রেক" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N lines of '<item> <score>' (string name and integer score; if an item appears multiple times, overwrite or keep latest). Sort the dictionary entries by score DESCENDING, breaking ties by item name ASCENDING alphabetically, and print '<item>: <score>' per line.",
+        "bn": "প্রথমে N এবং পরের N লাইনে '<item> <score>' ইনপুট নিন। ডিকশনারির এন্ট্রিগুলোকে score-এর অবরোহী (বড় থেকে ছোট) ক্রমে এবং সমান score হলে item-এর বর্ণানুক্রমে (ছোট থেকে বড়) সাজিয়ে প্রতি লাইনে '<item>: <score>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: '<item> <score>'.",
+        "bn": "১ম লাইন: N। পরের N লাইনে '<item> <score>'।"
+      },
+      "expectedOutput": {
+        "en": "Sorted '<item>: <score>' lines.",
+        "bn": "সাজানো '<item>: <score>' লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "4\npen 15\nbook 40\npencil 15\nbag 90",
+          "output": "bag: 90\nbook: 40\npen: 15\npencil: 15",
+          "explanation": {
+            "en": "90 > 40 > 15; between 'pen' and 'pencil' (both 15), 'pen' comes alphabetically first.",
+            "bn": "90, 40, 15 ক্রম এবং সমান ১৫-তে 'pen' বর্ণানুক্রমে 'pencil'-এর আগে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Negating the numeric score `-item[1]` sorts scores descending while leaving `item[0]` ascending in a single `key=lambda kv: (-kv[1], kv[0])`!",
+        "bn": "সংখ্যার মান ঋণাত্মক করে `-kv[1]` দিলে অবরোহী এবং `kv[0]` দিলে আরোহী টাই-ব্রেক একসাথে হয়!"
+      },
+      "hint2": {
+        "en": "Avoid `reverse=True` with `(kv[1], kv[0])` because that would reverse BOTH score AND item name (putting 'pencil' before 'pen')!",
+        "bn": "`reverse=True` দিলে নামের বর্ণানুক্রমও উল্টে যাবে—তাই `-kv[1]` কৌশল ব্যবহার করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Dictionaries preserve insertion order, not sorted order. When sorting `(key, value)` pairs with opposite directions (value descending, key ascending), a global `reverse=True` fails because it flips both criteria. Negating the numeric component `-kv[1]` inside a tuple key `( -kv[1], kv[0] )` cleanly reverses only the primary key.",
+        "bn": "বিপরীতমুখী দুটি শর্ত (মান বড় থেকে ছোট কিন্তু নাম ছোট থেকে বড়) থাকলে `reverse=True` ব্যবহার করা যায় না; বরং `-kv[1]` ব্যবহার করলে কেবল সংখ্যাই বড় থেকে ছোট হয় আর নাম বর্ণানুক্রমে থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read n and populate dict d[item] = int(score).", "bn": "nটি এন্ট্রি ডিকশনারিতে নিন।" },
+        { "en": "Sort d.items() with key=lambda kv: (-kv[1], kv[0]).", "bn": "(-kv[1], kv[0]) দিয়ে d.items() সাজান।" },
+        { "en": "Print each pair as '<item>: <score>'.", "bn": "প্রতিটি জোড়া '<item>: <score>' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ndata = {}\nfor _ in range(n):\n    name, val = input().split()\n    data[name] = int(val)\n\nordered = sorted(data.items(), key=lambda kv: (-kv[1], kv[0]))\nfor name, val in ordered:\n    print(f\"{name}: {val}\")",
+      "codeExplanation": {
+        "en": "sorted(data.items(), ...) ranks tuples using (-val, name), ensuring higher scores appear first and equal scores break alphabetically.",
+        "bn": "(-kv[1], kv[0]) কী-এর কারণে বেশি স্কোর আগে আসে এবং সমান স্কোরে নাম বর্ণানুক্রমে বসে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\npen 15\nbook 40\npencil 15\nbag 90", "expectedOutput": "bag: 90\nbook: 40\npen: 15\npencil: 15", "note": { "en": "Value desc, name asc tie", "bn": "সমান মানে নাম অনুযায়ী টাই-ব্রেক" } },
+        { "input": "3\nz 10\na 10\nm 10", "expectedOutput": "a: 10\nm: 10\nz: 10", "note": { "en": "All equal values", "bn": "সব মান সমান" } },
+        { "input": "2\nx -5\ny -1", "expectedOutput": "y: -1\nx: -5", "note": { "en": "Negative scores", "bn": "ঋণাত্মক স্কোর" } }
+      ]
+    },
+    {
+      "id": "P12-10",
+      "number": 10,
+      "title": {
+        "en": "K-th Smallest Element via Partial Selection Sort",
+        "bn": "আংশিক সিলেকশন সর্টের মাধ্যমে K-তম ক্ষুদ্রতম উপাদান"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Partial sorting (stopping after K passes)", "bn": "K ধাপ পরেই সর্টিং থামানো" },
+        { "en": "O(K * N) early-stop Selection Sort", "bn": "O(K * N) সময়ে K-তম মান নির্ণয়" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers and an integer K (1 <= K <= N). Find the K-th smallest element (counting duplicates, 1-based) by running ONLY K passes of Selection Sort rather than sorting the entire array.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা এবং K (1 <= K <= N) ইনপুট নিন। পুরো তালিকা সম্পূর্ণ সর্ট না করে সিলেকশন সর্টের মাত্র Kটি ধাপ চালিয়ে K-তম ক্ষুদ্রতম (১-ভিত্তিক) উপাদানটি নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: integer K (1 <= K <= N).",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা তালিকা। ২য় লাইন: K।"
+      },
+      "expectedOutput": {
+        "en": "The K-th smallest integer.",
+        "bn": "K-তম ক্ষুদ্রতম পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "7 10 4 3 20 15\n3",
+          "output": "7",
+          "explanation": {
+            "en": "After 3 Selection passes, prefix is [3, 4, 7, ...]; arr[2] = 7.",
+            "bn": "৩ ধাপ পরেই প্রথম ৩টি ক্ষুদ্রতম সংখ্যা [3, 4, 7] সামনে আসে; উত্তর ৭।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "After pass `i = 0`, `arr[0]` holds the 1st smallest; after `i = 1`, `arr[1]` holds the 2nd smallest... so after `K` passes (`i = 0..K-1`), `arr[K - 1]` is the answer!",
+        "bn": "সিলেকশন সর্টের প্রতি ধাপ `i` শেষে `arr[i]`-এ (i+1)-তম ক্ষুদ্রতম উপাদান পাকা হয়ে যায়, তাই K ধাপ পর আর চালানোর দরকারই নেই!"
+      },
+      "hint2": {
+        "en": "Run the outer loop for `i in range(k)` instead of `range(n - 1)`, then print `arr[k - 1]`.",
+        "bn": "বাইরের লুপ `range(k)` পর্যন্ত চালিয়ে `arr[k - 1]` প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "When K is tiny (e.g., finding the 3rd smallest out of 10,000 items), stopping Selection Sort after K passes does only O(K * N) work instead of full O(N^2) or O(N log N) sorting! Because Selection Sort places the exact final value into `arr[i]` on pass `i`, index `k - 1` is guaranteed finalized after pass `k - 1`.",
+        "bn": "বড় তালিকায় K ছোট হলে পুরো সর্ট না করে কেবল প্রথম Kটি পাস চালালে O(K * N) সময়েই K-তম ক্ষুদ্রতম মান নিশ্চিতভাবে `arr[K - 1]`-এ চলে আসে।"
+      },
+      "algorithm": [
+        { "en": "Read arr and integer k.", "bn": "arr এবং k পড়ুন।" },
+        { "en": "For i in range(k): find min_idx in arr[i:] and swap arr[i] with arr[min_idx].", "bn": "i = 0 থেকে k-1 পর্যন্ত সিলেকশন সর্টের ধাপ চালান।" },
+        { "en": "Print arr[k - 1].", "bn": "arr[k - 1] প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nk = int(input())\nn = len(arr)\n\nfor i in range(k):\n    min_idx = i\n    for j in range(i + 1, n):\n        if arr[j] < arr[min_idx]:\n            min_idx = j\n    arr[i], arr[min_idx] = arr[min_idx], arr[i]\n\nprint(arr[k - 1])",
+      "codeExplanation": {
+        "en": "Only k outer passes run. After pass k - 1 places the k-th smallest value at index k - 1, the algorithm stops immediately and prints arr[k - 1].",
+        "bn": "মাত্র kটি ধাপ চলার পরই k-তম ক্ষুদ্রতম উপাদান arr[k - 1]-এ স্থায়ী হয় এবং সেটি প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(K * N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "7 10 4 3 20 15\n3", "expectedOutput": "7", "note": { "en": "3rd smallest", "bn": "৩য় ক্ষুদ্রতম" } },
+        { "input": "5 1 5 2\n2", "expectedOutput": "2", "note": { "en": "With duplicates", "bn": "ডুপ্লিকেটসহ" } },
+        { "input": "9 3 6\n1", "expectedOutput": "3", "note": { "en": "K=1 (minimum)", "bn": "K=1 (সর্বনিম্ন)" } },
+        { "input": "4 2 8\n3", "expectedOutput": "8", "note": { "en": "K=N (maximum)", "bn": "K=N (সর্বোচ্চ)" } }
+      ]
+    },
+    {
+      "id": "P12-11",
+      "number": 11,
+      "title": {
+        "en": "Merge Sort Implementation (Divide & Conquer)",
+        "bn": "মার্জ সর্ট (Merge Sort) বাস্তবায়ন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Divide-and-conquer splitting", "bn": "ডিভাইড-অ্যান্ড-কনকার বিভাজন" },
+        { "en": "Guaranteed O(N log N) stable merge", "bn": "নিশ্চিত O(N log N) স্টেবল মার্জ" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Implement Merge Sort recursively from scratch (splitting into halves and merging sorted halves with two pointers—do NOT use `sorted()` or `.sort()`) and print the sorted numbers.",
+        "bn": "`sorted()` বা `.sort()` ব্যবহার না করে রিকার্সিভ মার্জ সর্ট (Merge Sort) অ্যালগরিদম সম্পূর্ণ নিজে লিখে সংখ্যাগুলোকে ছোট থেকে বড় ক্রমে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Sorted space-separated integers.",
+        "bn": "ছোট থেকে বড় ক্রমে সাজানো পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "38 27 43 3 9 82 10",
+          "output": "3 9 10 27 38 43 82",
+          "explanation": {
+            "en": "Array splits recursively into singletons, then merges back in sorted order.",
+            "bn": "তালিকাটি একক উপাদানে ভেঙে পুনরায় সাজানো অবস্থায় একত্রিত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Base case: any list of length `<= 1` is already sorted and returned as-is.",
+        "bn": "বেস কেস: দৈর্ঘ্য `<= 1` হলে তালিকা আগে থেকেই সাজানো থাকে।"
+      },
+      "hint2": {
+        "en": "Split at `mid = len(arr) // 2`, sort `left` and `right` recursively, then merge using `left[i] <= right[j]` (using `<=` preserves stability!).",
+        "bn": "`mid = len(arr) // 2`-এ ভাগ করে দুই অংশ সর্ট করুন এবং `left[i] <= right[j]` দিয়ে একত্রিত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Bubble, Selection, and Insertion Sort degrade to O(N^2) on large inputs (100k items = 10^10 operations). Merge Sort guarantees O(N log N) in BEST, AVERAGE, and WORST cases because splitting creates log2(N) levels and each level merges all N elements in O(N) time. Using `<=` during merge picks the left element first on ties, making Merge Sort naturally stable at the cost of O(N) auxiliary space.",
+        "bn": "সব অবস্থাতেই (Best, Average, Worst) নিশ্চিত O(N log N) গতি দেয় মার্জ সর্ট। এটি তালিকাটিকে অর্ধেক করে ভেঙে রিকার্সিভলি সাজায় এবং দুটি পয়েন্টারে `<=` ব্যবহার করে স্টেবলভাবে জুড়ে দেয়।"
+      },
+      "algorithm": [
+        { "en": "Define merge(left, right) merging two sorted lists with two indices i, j.", "bn": "দুটি সাজানো লিস্ট জুড়তে merge(left, right) লিখুন।" },
+        { "en": "Define merge_sort(arr): if len(arr) <= 1 return arr.", "bn": "len(arr) <= 1 হলে রিটার্ন করুন।" },
+        { "en": "Recurse on arr[:mid] and arr[mid:], return merge(left, right).", "bn": "দুই অর্ধে রিকার্শন চালিয়ে merge রিটার্ন করুন।" },
+        { "en": "Print sorted result.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "def merge(left, right):\n    merged = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:  # <= preserves stability\n            merged.append(left[i])\n            i += 1\n        else:\n            merged.append(right[j])\n            j += 1\n    merged.extend(left[i:])\n    merged.extend(right[j:])\n    return merged\n\ndef merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\narr = [int(x) for x in input().split()]\nprint(\" \".join(str(x) for x in merge_sort(arr)))",
+      "codeExplanation": {
+        "en": "merge_sort divides recursively until sublists have size <= 1. merge compares fronts with <= and appends leftover tails via extend.",
+        "bn": "merge_sort তালিকাটিকে একক উপাদানে না পৌঁছানো পর্যন্ত ভাগ করে এবং merge দুই অংশকে ক্রমানুসারে একত্রিত করে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "38 27 43 3 9 82 10", "expectedOutput": "3 9 10 27 38 43 82", "note": { "en": "Odd length array", "bn": "বিজোড় দৈর্ঘ্যের তালিকা" } },
+        { "input": "5 -2 5 0 -10 3", "expectedOutput": "-10 -2 0 3 5 5", "note": { "en": "Negatives and duplicates", "bn": "ঋণাত্মক ও ডুপ্লিকেট" } },
+        { "input": "   ", "expectedOutput": "", "note": { "en": "Empty array", "bn": "খালি তালিকা" } },
+        { "input": "42", "expectedOutput": "42", "note": { "en": "Single element", "bn": "এক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P12-12",
+      "number": 12,
+      "title": {
+        "en": "Quick Sort Implementation (In-Place Partition)",
+        "bn": "কুইক সর্ট (Quick Sort) — ইন-প্লেস পার্টিশন"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Pivot selection & partitioning", "bn": "পিভট নির্বাচন ও পার্টিশন" },
+        { "en": "Average O(N log N), O(log N) stack", "bn": "গড় O(N log N) সময় ও O(log N) স্ট্যাক" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Implement in-place Quick Sort manually (using partitioning around a pivot—do NOT call `sorted()` or `.sort()`) and print the sorted numbers.",
+        "bn": "বিল্ট-ইন সর্ট ফাংশন ছাড়াই ইন-প্লেস কুইক সর্ট (Quick Sort) পার্টিশন পদ্ধতি বাস্তবায়ন করে পূর্ণসংখ্যাগুলোকে ছোট থেকে বড় ক্রমে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Sorted space-separated integers.",
+        "bn": "ছোট থেকে বড় ক্রমে সাজানো পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "10 7 8 9 1 5",
+          "output": "1 5 7 8 9 10",
+          "explanation": {
+            "en": "Partitioning places pivot in its final sorted slot, then recurses on left and right subarrays.",
+            "bn": "পার্টিশন ধাপে পিভট তার চূড়ান্ত স্থানে বসে এবং বাম ও ডান অংশে রিকার্সিভ সর্ট চলে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why NOT always pick `arr[high]` as pivot on sorted data? Choosing a fixed endpoint degrades to O(N^2) on already-sorted inputs! Swapping `arr[(low + high) // 2]` into `arr[high]` before Lomuto partitioning avoids that trap.",
+        "bn": "সাজানো ডেটায় শেষ উপাদান পিভট ধরলে O(N^2) হয়ে যায়! তাই আগে মধ্যম উপাদান `arr[(low + high) // 2]`-কে `arr[high]`-এ সোয়্যাপ করে পিভট নিন।"
+      },
+      "hint2": {
+        "en": "Maintain boundary `i = low`: whenever `arr[j] <= pivot`, swap `arr[i]` and `arr[j]` and increment `i += 1`. Finally swap `arr[i]` and `arr[high]` and return `i`.",
+        "bn": "`arr[j] <= pivot` হলে `arr[i]` ও `arr[j]` অদলবদল করে `i += 1` করুন এবং শেষে `arr[i]` ও `arr[high]` সোয়্যাপ করে `i` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Quick Sort partitions elements in-place around a pivot so everything `<= pivot` sits left and everything `> pivot` sits right. Using the midpoint as pivot prevents O(N^2) worst-case recursion depth on already-sorted arrays. Unlike Merge Sort, Quick Sort is unstable and O(log N) in-place stack space on average.",
+        "bn": "কুইক সর্ট একটি পিভটের তুলনায় ছোট উপাদানগুলো বামে ও বড় উপাদানগুলো ডানে সাজিয়ে নেয়। মধ্যবিন্দুকে পিভট হিসেবে নিলে আগে থেকে সাজানো ডেটাতেও O(N^2) হওয়ার ঝুঁকি কমে যায়।"
+      },
+      "algorithm": [
+        { "en": "Define partition(arr, low, high): swap midpoint into high, set pivot = arr[high], i = low.", "bn": "মধ্যবিন্দুকে high-এ এনে পিভট ধরে partition লিখুন।" },
+        { "en": "Loop j in range(low, high): if arr[j] <= pivot, swap arr[i], arr[j] and i += 1.", "bn": "arr[j] <= pivot হলে সোয়্যাপ করে i বাড়ান।" },
+        { "en": "Swap arr[i], arr[high]; return i.", "bn": "arr[i] ও arr[high] সোয়্যাপ করে i রিটার্ন করুন।" },
+        { "en": "Define quick_sort(arr, low, high): if low < high, p = partition(...), recurse on (low, p-1) and (p+1, high).", "bn": "বাম ও ডান অংশে quick_sort চালিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "def partition(arr, low, high):\n    mid = (low + high) // 2\n    arr[mid], arr[high] = arr[high], arr[mid]  # Midpoint pivot avoids sorted O(N^2)\n    pivot = arr[high]\n    i = low\n    for j in range(low, high):\n        if arr[j] <= pivot:\n            arr[i], arr[j] = arr[j], arr[i]\n            i += 1\n    arr[i], arr[high] = arr[high], arr[i]\n    return i\n\ndef quick_sort(arr, low, high):\n    if low < high:\n        p = partition(arr, low, high)\n        quick_sort(arr, low, p - 1)\n        quick_sort(arr, p + 1, high)\n\narr = [int(x) for x in input().split()]\nif arr:\n    quick_sort(arr, 0, len(arr) - 1)\nprint(\" \".join(str(x) for x in arr))",
+      "codeExplanation": {
+        "en": "Swapping mid into high protects against already-sorted worst cases. partition places pivot at its exact sorted position p, and quick_sort recursively sorts the two independent subranges.",
+        "bn": "মধ্যবিন্দুকে পিভট নেওয়ায় সাজানো ইনপুটেও পার্টিশন ভারসাম্যপূর্ণ থাকে। পার্টিশনের পর পিভটের বাম ও ডান অংশ আলাদাভাবে সর্ট হয়।"
+      },
+      "complexity": { "time": "O(N log N) avg, O(N^2) worst", "space": "O(log N) avg stack" },
+      "testCases": [
+        { "input": "10 7 8 9 1 5", "expectedOutput": "1 5 7 8 9 10", "note": { "en": "Standard quick sort", "bn": "সাধারণ কুইক সর্ট" } },
+        { "input": "1 2 3 4 5 6", "expectedOutput": "1 2 3 4 5 6", "note": { "en": "Already sorted midpoint pivot", "bn": "সাজানো ডেটা" } },
+        { "input": "4 2 4 1 2", "expectedOutput": "1 2 2 4 4", "note": { "en": "Repeated duplicates", "bn": "ডুপ্লিকেটসহ" } }
+      ]
+    },
+    {
+      "id": "P12-13",
+      "number": 13,
+      "title": {
+        "en": "Sort Array by Frequency Descending",
+        "bn": "পুনরাবৃত্তির সংখ্যা অনুযায়ী তালিকা সাজানো"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Frequency map + composite sort key", "bn": "ফ্রিকোয়েন্সি ম্যাপ ও যৌগিক সর্টিং কী" },
+        { "en": "Grouping identical elements together", "bn": "একই মানগুলো পাশাপাশি রাখা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers. Sort the list by element FREQUENCY in DESCENDING order (most frequent elements first). If two distinct values have the same frequency, place the SMALLER integer value first. Print all elements (preserving each element's frequency count).",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। প্রতিটি সংখ্যা মোট কতবার আছে (Frequency) তার বড় থেকে ছোট ক্রমে তালিকাটি সাজান। দুটি সংখ্যার পুনরাবৃত্তি সমান হলে ছোট সংখ্যাটি আগে বসবে। সবগুলো উপাদান প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "All integers sorted by frequency descending, then value ascending.",
+        "bn": "বেশি পুনরাবৃত্তি আগে এবং সমানে ছোট মান আগে।"
+      },
+      "examples": [
+        {
+          "input": "4 6 2 6 4 4 1 2",
+          "output": "4 4 4 2 2 6 6 1",
+          "explanation": {
+            "en": "freq: 4->3, 2->2, 6->2, 1->1. Tie between 2 and 6 breaks by 2 < 6.",
+            "bn": "4 আছে ৩ বার; 2 ও 6 আছে ২ বার করে (২ আগে বসেছে); 1 আছে ১ বার।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First build a dictionary `freq` counting occurrences in O(N).",
+        "bn": "প্রথমে একটি ডিকশনারি `freq`-তে প্রতিটি সংখ্যার পুনরাবৃত্তি গুনে নিন।"
+      },
+      "hint2": {
+        "en": "Sort using `key=lambda x: (-freq[x], x)`!",
+        "bn": "সর্টিংয়ের জন্য `key=lambda x: (-freq[x], x)` ব্যবহার করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Counting frequencies first in a hash map lets us look up `freq[x]` in O(1) inside the sort key `(-freq[x], x)`. Note that even if equal-frequency elements were interleaved in the input (like `2 6 2 6`), including `x` as the second tuple element groups identical numbers contiguously while breaking ties ascending.",
+        "bn": "ফ্রিকোয়েন্সি ডিকশনারি তৈরি করে `(-freq[x], x)` কী ব্যবহার করলে সবচেয়ে বেশি পুনরাবৃত্ত সংখ্যা সবার আগে আসে, সমান ফ্রিকোয়েন্সিতে ছোট সংখ্যা আগে থাকে এবং একই মানগুলো সব একসাথে থাকে।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list nums and build dict freq.", "bn": "nums পড়ে freq ডিকশনারি তৈরি করুন।" },
+        { "en": "Sort nums using key=lambda x: (-freq[x], x).", "bn": "(-freq[x], x) কী দিয়ে nums সাজান।" },
+        { "en": "Print sorted space-separated numbers.", "bn": "সাজানো সংখ্যাগুলো প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nfreq = {}\nfor x in nums:\n    freq[x] = freq.get(x, 0) + 1\n\nordered = sorted(nums, key=lambda x: (-freq[x], x))\nprint(\" \".join(str(x) for x in ordered))",
+      "codeExplanation": {
+        "en": "freq[x] counts occurrences of each value. sorted(..., key=lambda x: (-freq[x], x)) sorts primarily by higher count and secondarily by smaller integer value.",
+        "bn": "freq প্রতিটি সংখ্যার গণনা ধরে রাখে এবং (-freq[x], x) অনুযায়ী সর্ট করে ফলাফল প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 6 2 6 4 4 1 2", "expectedOutput": "4 4 4 2 2 6 6 1", "note": { "en": "Frequency tie-break", "bn": "ফ্রিকোয়েন্সি টাই-ব্রেক" } },
+        { "input": "9 3 1 5", "expectedOutput": "1 3 5 9", "note": { "en": "All frequency 1 -> ascending values", "bn": "সব ফ্রিকোয়েন্সি ১ -> আরোহী মান" } },
+        { "input": "-1 -1 2 2 2", "expectedOutput": "2 2 2 -1 -1", "note": { "en": "Negative numbers", "bn": "ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P12-14",
+      "number": 14,
+      "title": {
+        "en": "Multi-Condition Student Record Ranking",
+        "bn": "একাধিক শর্তে শিক্ষার্থীদের মেধাক্রম নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Multi-field tuple sorting key", "bn": "একাধিক ফিল্ডযুক্ত টাপল সর্টিং কী" },
+        { "en": "Mixed asc/desc tie-breakers", "bn": "মিশ্র আরোহী/অবরোহী টাই-ব্রেকার" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) followed by N student records formatted as '<name> <marks> <age>'. Rank students by: (1) marks DESCENDING, (2) if marks tie, younger age FIRST (age ASCENDING), (3) if both tie, name ASCENDING alphabetically. Print '<name> <marks> <age>' per line.",
+        "bn": "প্রথমে N এবং পরের N লাইনে '<name> <marks> <age>' আকারে শিক্ষার্থীর তথ্য ইনপুট নিন। শিক্ষার্থীদের সাজান: (১) marks বড় থেকে ছোট, (২) নম্বর সমান হলে বয়স (age) ছোট থেকে বড়, (৩) উভয়ই সমান হলে name বর্ণানুক্রমে। প্রতি লাইনে '<name> <marks> <age>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: '<name> <marks> <age>'.",
+        "bn": "১ম লাইন: N। পরের N লাইনে '<name> <marks> <age>'।"
+      },
+      "expectedOutput": {
+        "en": "Ranked N lines of '<name> <marks> <age>'.",
+        "bn": "মেধাক্রম অনুযায়ী Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4\nTariq 85 20\nRafi 92 19\nAnik 85 18\nBabu 85 18",
+          "output": "Rafi 92 19\nAnik 85 18\nBabu 85 18\nTariq 85 20",
+          "explanation": {
+            "en": "92 first; among three 85s, age 18 beats age 20; between Anik and Babu (both 85, 18), Anik comes alphabetically first.",
+            "bn": "৯২ সবার আগে; ৮৫ পাওয়া তিনজনের মধ্যে ১৮ বছর বয়সীরা ২০-এর আগে এবং সমান বয়সে Anik এসেছে Babu-এর আগে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Represent each record as `(name, int(marks), int(age))`—be careful NOT to compare marks/age as strings (`'9' > '85'`)!",
+        "bn": "marks এবং age অবশ্যই `int()`-এ রূপান্তর করুন, নতুবা স্ট্রিং হিসেবে `'9' > '85'` হয়ে যাবে!"
+      },
+      "hint2": {
+        "en": "Use `key=lambda r: (-r[1], r[2], r[0])`.",
+        "bn": "সর্টিং কী দিন: `key=lambda r: (-r[1], r[2], r[0])`।"
+      },
+      "logicBreakdown": {
+        "en": "Multi-condition ranking cleanly maps into Python's lexicographical tuple comparison: `(-marks, age, name)` tests marks descending first, then age ascending, then name ascending. Converting numeric fields to `int` prevents lexicographical digit errors (such as `'100' < '90'`).",
+        "bn": "টাপলের প্রথম, দ্বিতীয় ও তৃতীয় উপাদানে যথাক্রমে `-marks`, `age` ও `name` রাখলে পাইথন স্বয়ংক্রিয়ভাবে তিনটি ধাপের টাই-ব্রেক সম্পন্ন করে। সংখ্যাগুলো `int()` করা আবশ্যক।"
+      },
+      "algorithm": [
+        { "en": "Read n records into tuples (name, int(marks), int(age)).", "bn": "nটি রেকর্ড (name, int(marks), int(age)) টাপলে পড়ুন।" },
+        { "en": "Sort records using key=lambda r: (-r[1], r[2], r[0]).", "bn": "(-r[1], r[2], r[0]) কী দিয়ে সর্ট করুন।" },
+        { "en": "Print each record as '<name> <marks> <age>'.", "bn": "প্রতিটি রেকর্ড প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nrecords = []\nfor _ in range(n):\n    name, m, a = input().split()\n    records.append((name, int(m), int(a)))\n\nrecords.sort(key=lambda r: (-r[1], r[2], r[0]))\nfor name, m, a in records:\n    print(name, m, a)",
+      "codeExplanation": {
+        "en": "Each tuple stores name plus integer marks and age. Sorting by (-r[1], r[2], r[0]) applies all three ranking priorities cleanly in one O(N log N) pass.",
+        "bn": "প্রতিটি টাপল (-marks, age, name) নিয়মে সাজিয়ে এক পাসে তিন স্তরের শর্ত বাস্তবায়ন করা হয়েছে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nTariq 85 20\nRafi 92 19\nAnik 85 18\nBabu 85 18", "expectedOutput": "Rafi 92 19\nAnik 85 18\nBabu 85 18\nTariq 85 20", "note": { "en": "All three tie-breakers tested", "bn": "তিনটি শর্তই পরীক্ষিত" } },
+        { "input": "2\nA 100 22\nB 90 19", "expectedOutput": "A 100 22\nB 90 19", "note": { "en": "Numeric 100 > 90 (not string '100' < '90')", "bn": "১০০ > ৯০ সংখ্যাগত তুলনা" } },
+        { "input": "1\nSajid 95 19", "expectedOutput": "Sajid 95 19", "note": { "en": "Single student", "bn": "একজন শিক্ষার্থী" } }
+      ]
+    },
+    {
+      "id": "P12-15",
+      "number": 15,
+      "title": {
+        "en": "Relative Sort Array by Reference Order",
+        "bn": "নির্দেশক তালিকার ক্রম অনুযায়ী রিলেটিভ সর্টিং"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Rank lookup dictionary from reference list", "bn": "রেফারেন্স লিস্ট থেকে র‍্যাংক ম্যাপ তৈরি" },
+        { "en": "Custom fallback order for unseen items", "bn": "অবশিষ্ট উপাদানের জন্য শেষাংশের ক্রম" }
+      ],
+      "description": {
+        "en": "Read two lines of space-separated integers: array A and distinct reference array B. Sort A so that elements appearing in B are ordered according to their relative order in B, while elements of A NOT present in B appear at the end sorted in ascending numerical order.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যার তালিকা A এবং স্বতন্ত্র উপাদানের রেফারেন্স তালিকা B ইনপুট নিন। A-কে এমনভাবে সাজান যেন B-তে থাকা উপাদানগুলো B-এর ক্রম অনুযায়ী আগে বসে, এবং B-তে না থাকা উপাদানগুলো শেষে ছোট থেকে বড় ক্রমে বসে।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers A. Line 2: distinct space-separated integers B.",
+        "bn": "১ম লাইন: তালিকা A। ২য় লাইন: রেফারেন্স তালিকা B।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated sorted integers of A.",
+        "bn": "সাজানো A তালিকা।"
+      },
+      "examples": [
+        {
+          "input": "2 3 1 3 2 4 6 7 9 2 19\n2 1 4 3 9 6",
+          "output": "2 2 2 1 4 3 3 9 6 7 19",
+          "explanation": {
+            "en": "Items in B follow order 2,1,4,3,9,6; items not in B (7, 19) go at the end ascending.",
+            "bn": "B-এর ক্রমে 2,1,4,3,9,6 বসেছে এবং বাকি 7, 19 শেষে ছোট থেকে বড় ক্রমে বসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Build `rank = {val: idx for idx, val in enumerate(B)}` so checking an item's target position in B takes O(1)!",
+        "bn": "`rank = {val: idx for idx, val in enumerate(B)}` ম্যাপ তৈরি করে নিন।"
+      },
+      "hint2": {
+        "en": "Sort A with `key=lambda x: (0, rank[x]) if x in rank else (1, x)`!",
+        "bn": "`key=lambda x: (0, rank[x]) if x in rank else (1, x)` ব্যবহার করুন—0 মানে B-তে আছে, 1 মানে শেষে যাবে!"
+      },
+      "logicBreakdown": {
+        "en": "Custom order sorting reduces any arbitrary priority list B into a numerical rank dictionary. Using a two-tier tuple key `(0, rank[x])` for items inside B and `(1, x)` for items outside B guarantees that all B-elements precede all non-B elements, ordered internally by `rank[x]` and `x` respectively.",
+        "bn": "যেকোনো কাস্টম ক্রম B-কে একটি র‍্যাংক ডিকশনারিতে রূপান্তর করে `(0, rank[x])` বনাম `(1, x)` ব্যবহার করলে B-এর উপাদানগুলো আগে (গ্রুপ ০) এবং অন্যগুলো শেষে ছোট থেকে বড় ক্রমে (গ্রুপ ১) সহজেই সর্ট হয়।"
+      },
+      "algorithm": [
+        { "en": "Read lists a and b.", "bn": "a ও b লিস্ট পড়ুন।" },
+        { "en": "Create rank = {val: idx for idx, val in enumerate(b)}.", "bn": "rank ডিকশনারি তৈরি করুন।" },
+        { "en": "Sort a with key=lambda x: (0, rank[x]) if x in rank else (1, x).", "bn": "কাস্টম টাপল কী দিয়ে a সর্ট করুন।" },
+        { "en": "Print sorted a.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "a = [int(x) for x in input().split()]\nb = [int(x) for x in input().split()]\n\nrank = {val: idx for idx, val in enumerate(b)}\na.sort(key=lambda x: (0, rank[x]) if x in rank else (1, x))\nprint(\" \".join(str(x) for x in a))",
+      "codeExplanation": {
+        "en": "rank maps each element of B to its 0-based position. The lambda assigns priority group 0 with rank[x] for elements in B, and group 1 with value x for remaining elements.",
+        "bn": "rank B-এর প্রতিটি মানের অবস্থান সংরক্ষণ করে। গ্রুপ ০ ও ১ আলাদা করায় B-এর উপাদান ও বাইরের উপাদান নির্ভুলভাবে সাজানো হয়।"
+      },
+      "complexity": { "time": "O(M + N log N)", "space": "O(M + N)" },
+      "testCases": [
+        { "input": "2 3 1 3 2 4 6 7 9 2 19\n2 1 4 3 9 6", "expectedOutput": "2 2 2 1 4 3 3 9 6 7 19", "note": { "en": "Standard relative sort", "bn": "সাধারণ রিলেটিভ সর্ট" } },
+        { "input": "28 6 22 8 44 17\n22 28 8 6", "expectedOutput": "22 28 8 6 17 44", "note": { "en": "Remaining items sorted ascending", "bn": "অবশিষ্ট উপাদান আরোহী ক্রমে" } },
+        { "input": "5 1 3\n9 8", "expectedOutput": "1 3 5", "note": { "en": "No overlap with B", "bn": "B-এর সাথে কোনো মিল নেই" } }
+      ]
+    },
+    {
+      "id": "P12-16",
+      "number": 16,
+      "title": {
+        "en": "Stable vs Unstable Sort on Tagged Records",
+        "bn": "ট্যাগযুক্ত রেকর্ডে স্টেবল বনাম আনস্টেবল সর্টিং প্রদর্শন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Stability invariant on equal primary keys", "bn": "সমান কী-তে আপেক্ষিক ক্রম বজায় রাখা" },
+        { "en": "Manual Merge Sort vs Selection Sort", "bn": "ম্যানুয়াল মার্জ সর্ট বনাম সিলেকশন সর্ট" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) records formatted as '<priority> <tag>' (integer priority, string tag). Sort records manually by priority ASCENDING (WITHOUT `sorted()`/`.sort()`) using a STABLE Merge Sort so records with equal priority strictly retain their input order. Print '<priority>:<tag>' space-separated.",
+        "bn": "প্রথমে N এবং পরের N লাইনে '<priority> <tag>' ইনপুট নিন। বিল্ট-ইন `sorted()` ছাড়াই স্টেবল মার্জ সর্ট ব্যবহার করে priority-র ছোট থেকে বড় ক্রমে সাজান, যেন সমান priority-যুক্ত রেকর্ডগুলোর মূল ইনপুট ক্রম অক্ষুণ্ণ থাকে। স্পেস দিয়ে '<priority>:<tag>' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N. Next N lines: '<priority> <tag>'.",
+        "bn": "১ম লাইন: N। পরের N লাইনে '<priority> <tag>'।"
+      },
+      "expectedOutput": {
+        "en": "Space-separated '<priority>:<tag>' sorted stably by priority.",
+        "bn": "স্টেবলভাবে সাজানো '<priority>:<tag>'।"
+      },
+      "examples": [
+        {
+          "input": "5\n2 alpha\n1 first\n2 beta\n1 second\n2 gamma",
+          "output": "1:first 1:second 2:alpha 2:beta 2:gamma",
+          "explanation": {
+            "en": "Notice 1:first stays before 1:second, and 2:alpha, 2:beta, 2:gamma stay in input order! An unstable sort like Selection Sort would scramble 2:alpha behind 2:beta/gamma.",
+            "bn": "১:first আগে ও ১:second পরে এবং ২:alpha, ২:beta, ২:gamma ঠিক ইনপুট ক্রমেই রয়েছে—সিলেকশন সর্ট এখানে ক্রম ভেঙে দিত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compare ONLY `left[i][0] <= right[j][0]` (compare priority only, NOT the tag!).",
+        "bn": "তুলনার সময় কেবল প্রথম উপাদান `left[i][0] <= right[j][0]` তুলনা করুন—tag নয়!"
+      },
+      "hint2": {
+        "en": "Notice why `<=` (rather than `<`) is essential in Merge Sort: when `left[i][0] == right[j][0]`, taking from `left` first guarantees earlier records always precede later ones!",
+        "bn": "সমান priority-তে বাম অংশ থেকে আগে নিতেই `<`-এর বদলে `<=` ব্যবহার করা আবশ্যক!"
+      },
+      "logicBreakdown": {
+        "en": "In databases and event pipelines, you often sort by multiple keys sequentially (e.g., first sort by timestamp, then stably sort by priority). A stable sort preserves the prior ordering within equal priorities; an unstable sort (Quick/Selection/Heap) can destroy it! Here Merge Sort compares strictly `left[i][0] <= right[j][0]` and prints `<p>:<tag>` stably in O(N log N).",
+        "bn": "ডেটাবেস বা লগ প্রক্রিয়াকরণে স্টেবল সর্টিং অপরিহার্য, নতুবা আগের ক্রম হারিয়ে যায়। `left[i][0] <= right[j][0]` শর্তে `<=` ব্যবহার করার ফলেই সমান priority-তে বাম দিকের (আগের) রেকর্ড সবসময় আগে বসে।"
+      },
+      "algorithm": [
+        { "en": "Read n records as (int(priority), tag) tuples.", "bn": "nটি (priority, tag) টাপল পড়ুন।" },
+        { "en": "Implement merge_sort comparing only rec[0] using <= during merge.", "bn": "কেবল rec[0] তুলনা করে স্টেবল মার্জ সর্ট চালান।" },
+        { "en": "Format each tuple as f'{p}:{tag}' and print space-separated.", "bn": "'<p>:<tag>' আকারে প্রিন্ট করুন।" }
+      ],
+      "solution": "def stable_merge(left, right):\n    out = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        # <= ensures left (earlier) element wins on equal priority\n        if left[i][0] <= right[j][0]:\n            out.append(left[i])\n            i += 1\n        else:\n            out.append(right[j])\n            j += 1\n    out.extend(left[i:])\n    out.extend(right[j:])\n    return out\n\ndef stable_merge_sort(items):\n    if len(items) <= 1:\n        return items\n    mid = len(items) // 2\n    return stable_merge(stable_merge_sort(items[:mid]), stable_merge_sort(items[mid:]))\n\nn = int(input())\nrecords = []\nfor _ in range(n):\n    p, tag = input().split()\n    records.append((int(p), tag))\n\nordered = stable_merge_sort(records)\nprint(\" \".join(f\"{p}:{tag}\" for p, tag in ordered))",
+      "codeExplanation": {
+        "en": "stable_merge inspects only index 0 (priority). Whenever priorities match, left[i][0] <= right[j][0] selects left[i], preserving input arrival sequence across all recursion levels.",
+        "bn": "stable_merge কেবল priority তুলনা করে এবং সমান হলে বাম দিকেরটি আগে নিয়ে ইনপুট ক্রম রক্ষা করে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5\n2 alpha\n1 first\n2 beta\n1 second\n2 gamma", "expectedOutput": "1:first 1:second 2:alpha 2:beta 2:gamma", "note": { "en": "Preserves order across equal priorities", "bn": "সমান priority-তে ক্রম রক্ষা" } },
+        { "input": "3\n5 z\n5 a\n5 m", "expectedOutput": "5:z 5:a 5:m", "note": { "en": "Tags NOT re-sorted alphabetically", "bn": "tag-এ পরিবর্তন নয়" } },
+        { "input": "1\n10 only", "expectedOutput": "10:only", "note": { "en": "Single record", "bn": "একটি রেকর্ড" } }
+      ]
+    },
+    {
+      "id": "P12-17",
+      "number": 17,
+      "title": {
+        "en": "Largest Concatenated Number (Custom Comparator)",
+        "bn": "কাস্টম কম্পারেটরে বৃহত্তম সংযুক্ত সংখ্যা গঠন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Pairwise concatenation comparator (a+b vs b+a)", "bn": "জোড়ায় সংযুক্তি তুলনা (a+b বনাম b+a)" },
+        { "en": "functools.cmp_to_key & all-zeros edge case", "bn": "cmp_to_key ও সব-শূন্য এজ কেস" }
+      ],
+      "description": {
+        "en": "Read a line of non-negative integers. Arrange them so that when concatenated together they form the LARGEST possible integer string, and print that resulting number (without leading zeros, e.g., `[0, 0]` becomes `'0'`).",
+        "bn": "অ-ঋণাত্মক পূর্ণসংখ্যার একটি তালিকা ইনপুট নিন। সংখ্যাগুলোকে এমনভাবে সাজিয়ে পাশাপাশি যুক্ত করুন যাতে সম্ভাব্য সবচেয়ে বড় সংখ্যা তৈরি হয়, এবং ফলাফলটি প্রিন্ট করুন (সবগুলো শূন্য হলে `'00'`-এর বদলে `'0'` প্রিন্ট হবে)।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated non-negative integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন অ-ঋণাত্মক পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "The largest concatenated integer string.",
+        "bn": "সবচেয়ে বড় সংযুক্ত সংখ্যার স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "3 30 34 5 9",
+          "output": "9534330",
+          "explanation": {
+            "en": "'3' comes before '30' because '330' > '303', whereas '34' beats '3' because '343' > '334'.",
+            "bn": "'330' > '303' হওয়ায় '3' আগে এবং '343' > '334' হওয়ায় '34' সবার আগে বসে '9534330' তৈরি হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Why does standard string descending sort fail? Because `'30' > '3'`, yet `'303' < '330'`!",
+        "bn": "সাধারণ স্ট্রিং সর্ট ব্যর্থ হয় কারণ `'30' > '3'` হলেও `'303'`-এর চেয়ে `'330'` বড়!"
+      },
+      "hint2": {
+        "en": "Compare two strings `a` and `b` directly by checking `a + b` vs `b + a`! You can write a manual sort with this rule or `functools.cmp_to_key`.",
+        "bn": "দুটি স্ট্রিং `a` ও `b`-এর মধ্যে কোনটি আগে বসবে তা জানতে `a + b` ও `b + a` তুলনা করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Whether `a` should precede `b` depends strictly on whether `a + b > b + a` (this defines a valid transitive strict weak ordering!). Sorting string tokens using `cmp_to_key` (where `b + a > a + b` puts `a` after `b`) solves arbitrary multi-digit ties cleanly. Edge case: if all inputs are `0`, `''.join(tokens)` is `'00...'` which must collapse to `'0'` when `tokens[0] == '0'`.",
+        "bn": "দুটি সংখ্যা `a` ও `b`-এর ক্রম নির্ধারিত হয় `a + b > b + a` তুলনার ওপর। `cmp_to_key` বা কাস্টম সর্ট দিয়ে সব সংখ্যা সাজিয়ে জোড়া লাগাতে হয়; আর সব সংখ্যা `0` হলে `'000'` না দেখিয়ে `'0'` প্রিন্ট করতে হবে।"
+      },
+      "algorithm": [
+        { "en": "Read tokens = input().split() (as digit strings).", "bn": "সংখ্যাগুলোকে স্ট্রিং লিস্ট tokens হিসেবে পড়ুন।" },
+        { "en": "Define comparator cmp(a, b): return -1 if a + b > b + a else (1 if a + b < b + a else 0).", "bn": "a + b বনাম b + a তুলনার কম্পারেটর লিখুন।" },
+        { "en": "Sort tokens using functools.cmp_to_key(cmp).", "bn": "cmp_to_key(cmp) দিয়ে সর্ট করুন।" },
+        { "en": "If tokens[0] == '0', print '0'; else print ''.join(tokens).", "bn": "tokens[0] == '0' হলে '0', নতুবা ''.join(tokens) প্রিন্ট করুন।" }
+      ],
+      "solution": "from functools import cmp_to_key\n\ndef compare_concat(a, b):\n    if a + b > b + a:\n        return -1\n    if a + b < b + a:\n        return 1\n    return 0\n\ntokens = input().split()\ntokens.sort(key=cmp_to_key(compare_concat))\nif tokens[0] == \"0\":\n    print(\"0\")\nelse:\n    print(\"\".join(tokens))",
+      "codeExplanation": {
+        "en": "cmp_to_key adapts the pairwise comparator compare_concat for Python's Timsort. Returning -1 puts a before b whenever a + b > b + a. Checking tokens[0] == '0' handles all-zero inputs.",
+        "bn": "compare_concat ফাংশনটি a+b বড় হলে a-কে আগে রাখে। শেষে প্রথম উপাদান '0' হলে সব শূন্য বুঝে '0' প্রিন্ট করা হয়।"
+      },
+      "complexity": { "time": "O(N log N * D) where D is avg digits", "space": "O(N * D)" },
+      "testCases": [
+        { "input": "3 30 34 5 9", "expectedOutput": "9534330", "note": { "en": "Classic prefix tie-break", "bn": "প্রিফিক্স টাই-ব্রেক" } },
+        { "input": "10 2", "expectedOutput": "210", "note": { "en": "210 > 102", "bn": "210 > 102" } },
+        { "input": "0 0 0", "expectedOutput": "0", "note": { "en": "All zeros collapse to '0'", "bn": "সব শূন্য হলে '0'" } },
+        { "input": "432 43243", "expectedOutput": "43243432", "note": { "en": "Long overlapping prefix", "bn": "দীর্ঘ অভিন্ন প্রিফিক্স" } }
+      ]
+    },
+    {
+      "id": "P12-18",
+      "number": 18,
+      "title": {
+        "en": "Dutch National Flag 3-Way Sort (0, 1, 2 in O(N))",
+        "bn": "ডাচ ন্যাশনাল ফ্ল্যাগ ৩-ওয়ে সর্টিং (এক পাসে 0, 1, 2)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Three-pointer in-place partitioning", "bn": "তিন-পয়েন্টার ইন-প্লেস পার্টিশন" },
+        { "en": "Single-pass O(N) time, O(1) space sort", "bn": "এক পাসে O(N) সময় ও O(1) মেমোরি" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers consisting exclusively of `0`, `1`, and `2`. Sort them in-place in a SINGLE O(N) pass and O(1) extra space using Dijkstra's Dutch National Flag 3-pointer algorithm (do NOT use `sorted()`, `.sort()`, or 2-pass counting).",
+        "bn": "শুধুমাত্র `0`, `1`, ও `2` নিয়ে গঠিত একটি তালিকা ইনপুট নিন। বিল্ট-ইন সর্ট বা দুই পাসের গণনা পদ্ধতি ছাড়াই তিন-পয়েন্টার (ডাচ ন্যাশনাল ফ্ল্যাগ) অ্যালগরিদম দিয়ে মাত্র এক পাসে O(N) সময় ও O(1) অতিরিক্ত মেমোরিতে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers from {0, 1, 2}.",
+        "bn": "এক লাইনে {0, 1, 2}-এর স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Sorted 0s, 1s, and 2s space-separated.",
+        "bn": "সাজানো 0, 1 এবং 2।"
+      },
+      "examples": [
+        {
+          "input": "2 0 2 1 1 0",
+          "output": "0 0 1 1 2 2",
+          "explanation": {
+            "en": "low tracks next 0 slot, mid scans unknown region, high tracks next 2 slot.",
+            "bn": "low, mid ও high পয়েন্টার মাত্র এক পাসে সব 0 বামে, 1 মাঝে এবং 2 ডানে বসিয়ে দেয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Maintain 4 regions: `[0..low-1]` = 0s, `[low..mid-1]` = 1s, `[mid..high]` = unexplored, `[high+1..n-1]` = 2s.",
+        "bn": "`0..low-1`-এ সব 0, `low..mid-1`-এ সব 1, `mid..high` অজানা এবং `high+1..n-1`-এ সব 2 রাখুন।"
+      },
+      "hint2": {
+        "en": "CRITICAL bug to avoid: when `arr[mid] == 2`, swap `arr[mid]` with `arr[high]` and decrement `high -= 1`, but do NOT increment `mid` yet because the swapped value from `arr[high]` hasn't been inspected!",
+        "bn": "`arr[mid] == 2` হলে `arr[high]`-এর সাথে সোয়্যাপ করে `high -= 1` দিন, কিন্তু তখনই `mid += 1` করবেন না কারণ `high` থেকে আসা নতুন মান এখনো পরীক্ষা করা হয়নি!"
+      },
+      "logicBreakdown": {
+        "en": "Dutch National Flag is the cornerstone of 3-way Quick Sort (making Quick Sort fast even with millions of duplicates!). On `arr[mid] == 0`, swap with `low` and advance both `low` and `mid` (since `arr[low]` was already examined as `1` or equals `mid`). On `arr[mid] == 1`, simply advance `mid += 1`. On `arr[mid] == 2`, swap with `high` and decrement `high -= 1`, leaving `mid` to inspect the incoming element.",
+        "bn": "ডাচ ন্যাশনাল ফ্ল্যাগ অ্যালগরিদম মাত্র একটি `while mid <= high` লুপে কাজ শেষ করে। `arr[mid] == 0` হলে `low` ও `mid` উভয়ই বাড়ে, `1` হলে শুধু `mid` বাড়ে, আর `2` হলে শুধু `high` কমে যাতে নতুন আসা উপাদান পুনরায় পরীক্ষা করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read arr and set low = 0, mid = 0, high = len(arr) - 1.", "bn": "low = 0, mid = 0, high = len(arr) - 1 ধরুন।" },
+        { "en": "While mid <= high: if arr[mid] == 0 swap(low, mid), low += 1, mid += 1; elif arr[mid] == 1 mid += 1; else swap(mid, high), high -= 1.", "bn": "তিনটি শাখায় পয়েন্টার আপডেট ও সোয়্যাপ করুন।" },
+        { "en": "Print sorted arr.", "bn": "সাজানো তালিকা প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\nlow, mid, high = 0, 0, len(arr) - 1\nwhile mid <= high:\n    if arr[mid] == 0:\n        arr[low], arr[mid] = arr[mid], arr[low]\n        low += 1\n        mid += 1\n    elif arr[mid] == 1:\n        mid += 1\n    else:\n        arr[mid], arr[high] = arr[high], arr[mid]\n        high -= 1\nprint(\" \".join(str(x) for x in arr))",
+      "codeExplanation": {
+        "en": "Each iteration shrinks the unknown window [mid, high] by 1 (either mid increases or high decreases), completing in at most N steps in-place.",
+        "bn": "প্রতি ধাপে অজানা অংশ [mid, high] ১ করে কমে (হয় mid বাড়ে বা high কমে), ফলে ঠিক ১ পাসে ইন-প্লেস সর্টিং সম্পন্ন হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N) input, O(1) auxiliary" },
+      "testCases": [
+        { "input": "2 0 2 1 1 0", "expectedOutput": "0 0 1 1 2 2", "note": { "en": "Balanced 0, 1, 2", "bn": "মিশ্র ০, ১, ২" } },
+        { "input": "2 2 1 0", "expectedOutput": "0 1 2 2", "note": { "en": "Swapping 2 into 0 then 0 into 2", "bn": "২ ও ০ পরপর সোয়্যাপ" } },
+        { "input": "1 1 1", "expectedOutput": "1 1 1", "note": { "en": "All ones", "bn": "সব ১" } },
+        { "input": "0", "expectedOutput": "0", "note": { "en": "Single item", "bn": "একটি উপাদান" } }
+      ]
+    },
+    {
+      "id": "P12-19",
+      "number": 19,
+      "title": {
+        "en": "Count Array Inversions via Merge Sort",
+        "bn": "মার্জ সর্ট ব্যবহার করে অ্যারে ইনভার্সন গণনা (O(N log N))"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Divide-and-conquer inversion counting", "bn": "ডিভাইড-অ্যান্ড-কনকার পদ্ধতিতে ইনভার্সন গণনা" },
+        { "en": "Bulk cross-inversion count (len(left) - i)", "bn": "একসাথে ক্রস-ইনভার্সন যোগ (len(left) - i)" }
+      ],
+      "description": {
+        "en": "An inversion is a pair of indices `i < j` such that `arr[i] > arr[j]`. Read a line of space-separated integers and count the total number of inversions in O(N log N) time by augmenting Merge Sort (not O(N^2) nested loops).",
+        "bn": "কোনো তালিকায় `i < j` এবং `arr[i] > arr[j]` হলে `(i, j)`-কে একটি ইনভার্সন বলে (তালিকাটি সাজানো থেকে কত দূরে তার মাপ)। O(N^2) নেস্টেড লুপের বদলে মার্জ সর্ট ব্যবহার করে O(N log N) সময়ে মোট ইনভার্সন সংখ্যা নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Integer count of inversions.",
+        "bn": "মোট ইনভার্সন সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "2 4 1 3 5",
+          "output": "3",
+          "explanation": {
+            "en": "Inversions: (2, 1), (4, 1), and (4, 3) -> 3 total.",
+            "bn": "ইনভার্সনগুলো হলো (2, 1), (4, 1) এবং (4, 3) — মোট ৩টি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Total inversions = inversions inside `left` + inversions inside `right` + split inversions where `left[i] > right[j]`.",
+        "bn": "মোট ইনভার্সন = বাম অংশের ইনভার্সন + ডান অংশের ইনভার্সন + মার্জ করার সময় দুই অংশের ক্রস ইনভার্সন।"
+      },
+      "hint2": {
+        "en": "During `merge`, whenever `left[i] > right[j]`, because `left` is ALREADY sorted, `right[j]` is strictly smaller than EVERY remaining element `left[i], left[i+1], ..., left[-1]`—adding `len(left) - i` inversions in O(1)!",
+        "bn": "মার্জ ধাপে `left[i] > right[j]` হওয়া মানেই `left`-এর বাকি সব উপাদান `left[i:]` প্রত্যেকেই `right[j]`-এর চেয়ে বড়—তাই সরাসরি `len(left) - i` যোগ করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Inversion count measures how 'unsorted' an array is (matching Bubble Sort's exact swap count!). Computing it via nested loops takes O(N^2), whereas inside Merge Sort's merge step, `left` and `right` are both sorted. So the instant `right[j] < left[i]`, all `len(left) - i` remaining items in `left` form inversions with `right[j]` simultaneously, reducing total runtime to O(N log N).",
+        "bn": "ইনভার্সন সংখ্যা বাবল সর্টের প্রয়োজনীয় সোয়্যাপের সমান। মার্জ করার সময় `left` এবং `right` আলাদাভাবে সাজানো থাকে বলে যখনই `right[j] < left[i]` হয়, তখনই `left`-এর `i` থেকে শেষ পর্যন্ত সব `len(left) - i`টি উপাদান একসাথে ইনভার্সন তৈরি করে।"
+      },
+      "algorithm": [
+        { "en": "Define merge_count(left, right) returning (merged_list, split_inversions).", "bn": "মার্জ ও ইনভার্সন গণনা করা merge_count লিখুন।" },
+        { "en": "When left[i] <= right[j], append left[i]; else append right[j] and add len(left) - i to inv.", "bn": "left[i] > right[j] হলে inv += len(left) - i করুন।" },
+        { "en": "Define sort_count(arr) recursively returning (sorted_arr, left_inv + right_inv + split_inv).", "bn": "রিকার্সিভভাবে মোট ইনভার্সন যোগ করুন।" },
+        { "en": "Print total inversion count.", "bn": "মোট ইনভার্সন প্রিন্ট করুন।" }
+      ],
+      "solution": "def merge_count(left, right):\n    merged = []\n    i = j = inv = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            merged.append(left[i])\n            i += 1\n        else:\n            merged.append(right[j])\n            inv += len(left) - i  # All remaining elements in left exceed right[j]\n            j += 1\n    merged.extend(left[i:])\n    merged.extend(right[j:])\n    return merged, inv\n\ndef sort_count(arr):\n    if len(arr) <= 1:\n        return arr, 0\n    mid = len(arr) // 2\n    left, inv_l = sort_count(arr[:mid])\n    right, inv_r = sort_count(arr[mid:])\n    merged, inv_m = merge_count(left, right)\n    return merged, inv_l + inv_r + inv_m\n\narr = [int(x) for x in input().split()]\n_, total_inv = sort_count(arr)\nprint(total_inv)",
+      "codeExplanation": {
+        "en": "Each recursive call returns both its sorted slice and its internal inversion count. When right[j] < left[i], len(left) - i cross-inversions are counted in O(1).",
+        "bn": "রিকার্সনের প্রতি ধাপে সাজানো তালিকা ও ইনভার্সন সংখ্যা ফেরত আসে এবং মার্জ ধাপে একসাথে len(left) - i যোগ হয়ে O(N log N) সময়ে মোট ইনভার্সন বের হয়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "2 4 1 3 5", "expectedOutput": "3", "note": { "en": "3 inversions", "bn": "৩টি ইনভার্সন" } },
+        { "input": "1 2 3 4 5", "expectedOutput": "0", "note": { "en": "Sorted -> 0 inversions", "bn": "সাজানো -> ০" } },
+        { "input": "5 4 3 2 1", "expectedOutput": "10", "note": { "en": "Reverse sorted -> N*(N-1)/2 = 10", "bn": "উল্টো ক্রমে সর্বোচ্চ ১০" } },
+        { "input": "3 3 3", "expectedOutput": "0", "note": { "en": "Equal elements do not count (strict >)", "bn": "সমান উপাদানে ইনভার্সন হয় না" } }
+      ]
+    },
+    {
+      "id": "P12-20",
+      "number": 20,
+      "title": {
+        "en": "Minimum Meeting Rooms (Sort Start & End Events)",
+        "bn": "ন্যূনতম মিটিং রুম নির্ণয় (ইভেন্ট সর্টিং)"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Sweep-line event sorting", "bn": "সুইপ-লাইন ইভেন্ট সর্টিং" },
+        { "en": "Separated start/end pointer sweep", "bn": "আলাদা স্টার্ট ও এন্ড পয়েন্টার" }
+      ],
+      "description": {
+        "en": "Read N (N >= 1) meeting intervals `[start, end)` (one line each: `start end`). If a meeting ends at time T and another starts at time T, they can reuse the SAME room. Using sorting in O(N log N) time, find and print the minimum number of conference rooms required simultaneously.",
+        "bn": "প্রথমে N এবং পরের N লাইনে প্রতিটি মিটিংয়ের সময়সীমা `start end` (`[start, end)`) ইনপুট নিন। একটি মিটিং T সময়ে শেষ হয়ে আরেকটি T সময়ে শুরু হলে একই রুম ব্যবহার করতে পারবে। O(N log N) সময়ে সর্টিং ব্যবহার করে সর্বোচ্চ একসাথে ন্যূনতম কতটি রুম প্রয়োজন তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N (N >= 1). Next N lines: two integers start end (start < end).",
+        "bn": "১ম লাইন: N। পরের N লাইনে start ও end (start < end)।"
+      },
+      "expectedOutput": {
+        "en": "Minimum integer number of rooms needed.",
+        "bn": "ন্যূনতম মিটিং রুমের সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "3\n0 30\n5 10\n15 20",
+          "output": "2",
+          "explanation": {
+            "en": "[0, 30) overlaps [5, 10) (2 rooms), then frees before [15, 20) reuses the 2nd room -> max 2 rooms.",
+            "bn": "[0, 30)-এর ভেতর [5, 10) চলাকালে ২টি রুম লাগে; পরে [15, 20) সেই খালি রুমই ব্যবহার করতে পারে -> মোট ২টি রুম।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "You don't even need to track WHICH room each meeting gets—only how many meetings are active at the same moment!",
+        "bn": "কোন মিটিং কোন রুম পেল তা জানার দরকার নেই—কেবল যেকোনো মুহূর্তে সর্বোচ্চ কতটি মিটিং একসাথে চলছে তা বের করলেই হবে!"
+      },
+      "hint2": {
+        "en": "Sort `starts` and `ends` separately. Sweep with `s` and `e`: if `starts[s] < ends[e]`, a new room opens (`rooms += 1, s += 1`); else an old meeting ends first (`rooms -= 1, e += 1`)!",
+        "bn": "`starts` ও `ends` আলাদাভাবে সাজান। `starts[s] < ends[e]` হলে একটি রুম বাড়ান (`rooms += 1`), নতুবা একটি শেষ হওয়ায় `rooms -= 1` করুন!"
+      },
+      "logicBreakdown": {
+        "en": "Separating interval endpoints into sorted `starts` and `ends` arrays turns room allocation into a clean chronological event sweep in O(N log N). Note why strict `<` in `starts[s] < ends[e]` is vital: when `starts[s] == ends[e]`, the `else` branch runs first, freeing the ending room BEFORE the new meeting claims one!",
+        "bn": "শুরু ও শেষের সময় আলাদাভাবে সর্ট করলে সময়ের সাথে সাথে মিটিং শুরু ও শেষের ঘটনাগুলো পরপর পাওয়া যায়। `starts[s] == ends[e]` হলে `else` অংশটি আগে চলায় পুরোনো মিটিংয়ের রুম খালি হয়ে যায় এবং নতুন মিটিং সেটিই পুনর্ব্যবহার করে।"
+      },
+      "algorithm": [
+        { "en": "Read n intervals into starts and ends lists.", "bn": "starts ও ends লিস্টে ইনপুট নিন।" },
+        { "en": "Sort both starts and ends ascending.", "bn": "starts ও ends উভয়ই সর্ট করুন।" },
+        { "en": "Sweep s = 0, e = 0, cur = 0, best = 0 while s < n: if starts[s] < ends[e], cur += 1, best = max(best, cur), s += 1; else cur -= 1, e += 1.", "bn": "দুই পয়েন্টারে সুইপ করে সর্বোচ্চ সমসাময়িক মিটিং সংখ্যা best বের করুন।" },
+        { "en": "Print best.", "bn": "best প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nstarts = []\nends = []\nfor _ in range(n):\n    s, e = map(int, input().split())\n    starts.append(s)\n    ends.append(e)\n\nstarts.sort()\nends.sort()\n\ns = e = 0\ncur = best = 0\nwhile s < n:\n    if starts[s] < ends[e]:\n        cur += 1\n        if cur > best:\n            best = cur\n        s += 1\n    else:\n        cur -= 1\n        e += 1\nprint(best)",
+      "codeExplanation": {
+        "en": "Sorting starts and ends chronologically decouples room counting from specific meeting pairs. Whenever a start strictly precedes the earliest active end, cur increments and updates best; on ties (starts[s] == ends[e]), the ending meeting releases its room first.",
+        "bn": "starts ও ends সাজিয়ে নিয়ে প্রতিটি শুরুর সময়ের আগে কতটি মিটিং শেষ হলো তা বাদ দিয়ে যেকোনো মুহূর্তে সর্বোচ্চ সক্রিয় মিটিংয়ের সংখ্যা নির্ণয় করা হয়েছে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\n0 30\n5 10\n15 20", "expectedOutput": "2", "note": { "en": "Reuse room after gap", "bn": "খালি রুম পুনর্ব্যবহার" } },
+        { "input": "3\n1 5\n5 10\n10 15", "expectedOutput": "1", "note": { "en": "Back-to-back touching boundary takes 1 room", "bn": "পরপর লাগোয়া সময়ে মাত্র ১ রুম" } },
+        { "input": "4\n1 10\n2 9\n3 8\n4 7", "expectedOutput": "4", "note": { "en": "All nested overlapping", "bn": "সবগুলোই পরস্পর ওভারল্যাপ" } }
+      ]
+    }
+  ]
+}

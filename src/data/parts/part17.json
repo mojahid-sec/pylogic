@@ -1,0 +1,1452 @@
+{
+  "partId": "part-17",
+  "partNumber": 17,
+  "problems": [
+    {
+      "id": "P17-01",
+      "number": 1,
+      "title": {
+        "en": "Stack ADT (`PUSH`, `POP`, `PEEK`, `SIZE`) with Underflow Guard",
+        "bn": "স্ট্যাক ADT (`PUSH`, `POP`, `PEEK`, `SIZE`) ও আন্ডারফ্লো নিয়ন্ত্রণ"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Browser back-history navigation, editor undo stacks, and Python call-stack frame tracking all rely on Last-In, First-Out (LIFO) semantics.",
+        "bn": "ব্রাউজারের ব্যাক বাটন, টেক্সট এডিটরের Undo ইতিহাস এবং ফাংশন কল-স্ট্যাক সবই LIFO নীতিতে কাজ করে।"
+      },
+      "requiredConcepts": [
+        { "en": "LIFO (Last-In, First-Out) stack invariant", "bn": "LIFO (শেষে প্রবেশ, প্রথমে প্রস্থান) নীতি" },
+        { "en": "O(1) list append/pop & empty underflow handling", "bn": "O(1) append/pop এবং খালি স্ট্যাক আন্ডারফ্লো প্রতিরোধ" }
+      ],
+      "description": {
+        "en": "Implement a Stack Abstract Data Type backed by a Python list. Read integer `Q` followed by `Q` commands (`PUSH x`, `POP`, `PEEK`, `SIZE`, `IS_EMPTY`). For `POP` and `PEEK`, print `EMPTY` if the stack has no elements instead of raising `IndexError`.",
+        "bn": "একটি স্ট্যাক ডেটা স্ট্রাকচার তৈরি করুন। প্রথমে কমান্ড সংখ্যা `Q` এবং পরের `Q` লাইনে `PUSH x`, `POP`, `PEEK`, `SIZE`, `IS_EMPTY` কমান্ড পড়ে উত্তর প্রিন্ট করুন। খালি স্ট্যাকে `POP` বা `PEEK` এলে ত্রুটি না দেখিয়ে `EMPTY` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "First line: integer Q. Next Q lines: stack commands.",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যা Q এবং পরবর্তী Q লাইনে স্ট্যাক কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "One output line per POP, PEEK, SIZE, or IS_EMPTY command.",
+        "bn": "প্রতিটি POP, PEEK, SIZE বা IS_EMPTY কমান্ডের ফলাফল এক লাইনে।"
+      },
+      "examples": [
+        {
+          "input": "6\nPUSH 10\nPUSH 20\nPEEK\nPOP\nPOP\nPOP",
+          "output": "20\n20\n10\nEMPTY",
+          "explanation": {
+            "en": "20 was pushed last, so PEEK and the first POP return 20; the third POP hits an empty stack.",
+            "bn": "২০ শেষে যুক্ত হওয়ায় PEEK ও প্রথম POP-এ ২০ আসে এবং তৃতীয় POP-এ খালি থাকায় EMPTY প্রিন্ট হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `stack.append(val)` for push and `stack.pop()` only after verifying `if stack:`.",
+        "bn": "পপ করার আগে `if stack:` দিয়ে স্ট্যাক খালি কি না যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "`stack[-1]` reads the top element without removing it.",
+        "bn": "`stack[-1]` ব্যবহার করে উপরের উপাদান না সরিয়েই দেখা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "In Python, `list.append()` and `list.pop()` operate at the right end in amortized `O(1)` time without shifting earlier items. Guarding `POP` and `PEEK` with emptiness checks prevents runtime crashes.",
+        "bn": "পাইথন লিস্টের ডান প্রান্তে `append()` ও `pop()` গড়ে `O(1)` সময়ে কাজ করে। পপ/পিক করার আগে খালি কি না দেখলে `IndexError` এড়ানো যায়।"
+      },
+      "algorithm": [
+        { "en": "Initialize an empty list `stack = []` and read `Q`.", "bn": "খালি লিস্ট `stack` তৈরি করে `Q` পড়ুন।" },
+        { "en": "For each command line, split tokens.", "bn": "প্রতিটি কমান্ড লাইন স্প্লিট করুন।" },
+        { "en": "Handle PUSH by appending; POP/PEEK by checking emptiness first; SIZE with len(stack); IS_EMPTY with boolean check.", "bn": "PUSH এ যোগ করুন, POP/PEEK এ খালি পরীক্ষা করে মান দিন, SIZE ও IS_EMPTY যথাযথভাবে প্রিন্ট করুন।" }
+      ],
+      "solution": "class Stack:\n    def __init__(self):\n        self._items = []\n\n    def push(self, val):\n        self._items.append(val)\n\n    def pop(self):\n        if not self._items:\n            return \"EMPTY\"\n        return self._items.pop()\n\n    def peek(self):\n        if not self._items:\n            return \"EMPTY\"\n        return self._items[-1]\n\n    def size(self):\n        return len(self._items)\n\n    def is_empty(self):\n        return len(self._items) == 0\n\nq = int(input().strip())\nst = Stack()\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"PUSH\":\n        st.push(parts[1])\n    elif cmd == \"POP\":\n        print(st.pop())\n    elif cmd == \"PEEK\":\n        print(st.peek())\n    elif cmd == \"SIZE\":\n        print(st.size())\n    elif cmd == \"IS_EMPTY\":\n        print(st.is_empty())",
+      "codeExplanation": {
+        "en": "Encapsulating `_items` inside `Stack` cleanly separates stack operations from input parsing while maintaining `O(1)` push and pop.",
+        "bn": "`Stack` ক্লাসের ভেতর `_items` তালিকা রেখে প্রতিটি অপারেশনকে পরিষ্কারভাবে সংজ্ঞায়িত করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Using `list.insert(0, x)` and `list.pop(0)` for a stack, which degrades every operation from `O(1)` to `O(N)`.",
+        "bn": "স্ট্যাকের জন্য `insert(0, x)` বা `pop(0)` ব্যবহার করলে প্রতিটি কাজের সময় `O(N)` হয়ে যায়।"
+      },
+      "complexity": { "time": "O(1) per operation", "space": "O(N)" },
+      "testCases": [
+        { "input": "6\nPUSH 10\nPUSH 20\nPEEK\nPOP\nPOP\nPOP", "expectedOutput": "20\n20\n10\nEMPTY", "note": { "en": "LIFO order and underflow", "bn": "LIFO ক্রম ও আন্ডারফ্লো" } },
+        { "input": "4\nIS_EMPTY\nPUSH A\nSIZE\nIS_EMPTY", "expectedOutput": "True\n1\nFalse", "note": { "en": "Empty and size checks", "bn": "খালি ও সাইজ পরীক্ষা" } },
+        { "input": "3\nPEEK\nSIZE\nPOP", "expectedOutput": "EMPTY\n0\nEMPTY", "note": { "en": "Operations on empty stack", "bn": "শূন্য স্ট্যাকে অপারেশন" } }
+      ]
+    },
+    {
+      "id": "P17-02",
+      "number": 2,
+      "title": {
+        "en": "FIFO Queue Simulation Using `collections.deque`",
+        "bn": "`collections.deque` দিয়ে FIFO কিউ সিমুলেশন"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Task schedulers, print spoolers, request queues, and Breadth-First Search (BFS) require `O(1)` enqueue and dequeue operations.",
+        "bn": "টাস্ক শিডিউলার, প্রিন্ট কিউ, সার্ভার রিকোয়েস্ট লাইন এবং BFS অ্যালগরিদমে `O(1)` সময়ে কিউ পরিচালনার প্রয়োজন হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "FIFO (First-In, First-Out) queue ordering", "bn": "FIFO (প্রথমে প্রবেশ, প্রথমে প্রস্থান) ক্রম" },
+        { "en": "O(1) collections.deque.popleft() vs O(N) list.pop(0)", "bn": "O(1) popleft() বনাম O(N) list.pop(0)" }
+      ],
+      "description": {
+        "en": "Build a FIFO task queue using `collections.deque` (never `list.pop(0)`). Process `Q` operations: `ENQUEUE x`, `DEQUEUE`, `FRONT`, and `SIZE`. Print `EMPTY` if `DEQUEUE` or `FRONT` is called on an empty queue.",
+        "bn": "`collections.deque` ব্যবহার করে একটি FIFO কিউ তৈরি করুন (`list.pop(0)` নয়)। `Q` সংখ্যক `ENQUEUE x`, `DEQUEUE`, `FRONT`, `SIZE` কমান্ড পরিচালনা করুন; খালি হলে `EMPTY` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q queue commands.",
+        "bn": "পূর্ণসংখ্যা Q এবং পরবর্তী Q লাইনে কিউ কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Output line for each DEQUEUE, FRONT, and SIZE command.",
+        "bn": "প্রতিটি DEQUEUE, FRONT ও SIZE কমান্ডের আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "5\nENQUEUE job1\nENQUEUE job2\nFRONT\nDEQUEUE\nDEQUEUE",
+          "output": "job1\njob1\njob2",
+          "explanation": {
+            "en": "job1 arrived first, so FRONT and first DEQUEUE yield job1, followed by job2.",
+            "bn": "job1 আগে প্রবেশ করায় FRONT ও প্রথম DEQUEUE-তে job1 এবং পরে job2 পাওয়া যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `q.append(x)` to add at the back and `q.popleft()` to remove from the front.",
+        "bn": "পিছনে যোগ করতে `append(x)` এবং সামনে থেকে সরাতে `popleft()` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Check `if q:` before indexing `q[0]` or calling `q.popleft()`.",
+        "bn": "`q[0]` বা `popleft()` চালানোর আগে `if q:` যাচাই করুন।"
+      },
+      "logicBreakdown": {
+        "en": "A standard Python `list` shifts every remaining item when deleting index `0`, costing `O(N)`. `collections.deque` is implemented as a doubly linked list of blocks, guaranteeing `O(1)` insertions and removals on both ends.",
+        "bn": "সাধারণ `list.pop(0)` প্রথম উপাদান সরাতে বাকি সব উপাদান সরায় (`O(N)`)। অন্যদিকে `deque` উভয় প্রান্তে `O(1)` সময়ে যুক্ত ও অপসারণ করতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Import `deque` from `collections` and instantiate `q = deque()`.", "bn": "`collections` থেকে `deque` ইমপোর্ট করে খালি কিউ তৈরি করুন।" },
+        { "en": "On ENQUEUE x, call `q.append(x)`.", "bn": "ENQUEUE x এ `q.append(x)` করুন।" },
+        { "en": "On DEQUEUE or FRONT, print `EMPTY` if empty; else `q.popleft()` or `q[0]`.", "bn": "DEQUEUE বা FRONT এ খালি হলে `EMPTY`, নতুবা যথাক্রমে `popleft()` বা `q[0]` প্রিন্ট করুন।" }
+      ],
+      "solution": "from collections import deque\n\nn = int(input().strip())\nq = deque()\nfor _ in range(n):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"ENQUEUE\":\n        q.append(parts[1])\n    elif cmd == \"DEQUEUE\":\n        print(q.popleft() if q else \"EMPTY\")\n    elif cmd == \"FRONT\":\n        print(q[0] if q else \"EMPTY\")\n    elif cmd == \"SIZE\":\n        print(len(q))",
+      "codeExplanation": {
+        "en": "`deque.append` and `deque.popleft` maintain strict arrival ordering in constant time.",
+        "bn": "`append` ও `popleft` স্থির `O(1)` সময়ে আগমন ক্রম বজায় রাখে।"
+      },
+      "commonMistakes": {
+        "en": "Using `list.pop(0)` in interview tasks or forgetting to guard `q[0]` on an empty queue.",
+        "bn": "`list.pop(0)` ব্যবহার করে পারফরম্যান্স নষ্ট করা অথবা খালি কিউয়ে `q[0]` অ্যাক্সেস করা।"
+      },
+      "complexity": { "time": "O(1) per operation", "space": "O(N)" },
+      "testCases": [
+        { "input": "5\nENQUEUE job1\nENQUEUE job2\nFRONT\nDEQUEUE\nDEQUEUE", "expectedOutput": "job1\njob1\njob2", "note": { "en": "Basic FIFO ordering", "bn": "মৌলিক FIFO ক্রম" } },
+        { "input": "4\nDEQUEUE\nENQUEUE alpha\nSIZE\nDEQUEUE", "expectedOutput": "EMPTY\n1\nalpha", "note": { "en": "Underflow recovery", "bn": "খালি অবস্থার পর এনকিউ" } },
+        { "input": "5\nENQUEUE 1\nENQUEUE 2\nDEQUEUE\nENQUEUE 3\nFRONT", "expectedOutput": "1\n2", "note": { "en": "Interleaved operations", "bn": "মিশ্র ইনপুট অপারেশন" } }
+      ]
+    },
+    {
+      "id": "P17-03",
+      "number": 3,
+      "title": {
+        "en": "Fixed-Capacity Circular Queue (Ring Buffer)",
+        "bn": "নির্দিষ্ট ধারণক্ষমতার সার্কুলার কিউ (রিং বাফার)"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Network interface packet buffers, audio streaming rings, and OS kernel log buffers use fixed-size circular arrays to avoid memory reallocation.",
+        "bn": "নেটওয়ার্ক কার্ডের প্যাকেট বাফার, অডিও স্ট্রিমিং এবং কার্নেল লগ বাফারে অতিরিক্ত মেমরি বরাদ্দ এড়াতে রিং বাফার ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Modular wrap-around `(idx + 1) % capacity`", "bn": "মডুলার র‍্যাপ-অ্যারাউন্ড `(idx + 1) % capacity`" },
+        { "en": "Head, tail, and count state tracking", "bn": "হেড, টেইল ও কাউন্ট ট্র্যাকিং" }
+      ],
+      "description": {
+        "en": "Implement a circular ring buffer of fixed `capacity` (`>= 1`). Read `capacity` and `Q` on line 1, then `Q` commands: `ENQ x` (print `OK` or `FULL`), `DEQ` (print removed value or `EMPTY`), and `STATUS` (print `count/capacity`).",
+        "bn": "নির্দিষ্ট `capacity` (`>= 1`)-এর একটি সার্কুলার কিউ তৈরি করুন। প্রথম লাইনে `capacity Q`, এরপর `Q`টি কমান্ড (`ENQ x` -> `OK`/`FULL`, `DEQ` -> মান/`EMPTY`, `STATUS` -> `count/capacity`) পরিচালনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: capacity and Q. Next Q lines: commands.",
+        "bn": "প্রথম লাইনে capacity ও Q, পরের Q লাইনে কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "One output line per command.",
+        "bn": "প্রতিটি কমান্ডের ফলাফল এক লাইনে।"
+      },
+      "examples": [
+        {
+          "input": "2 6\nENQ 5\nENQ 8\nENQ 9\nDEQ\nENQ 9\nSTATUS",
+          "output": "OK\nOK\nFULL\n5\nOK\n2/2",
+          "explanation": {
+            "en": "Third ENQ fails with FULL; after DEQ removes 5, slot 0 wraps around and accepts 9.",
+            "bn": "তৃতীয় ENQ-তে FULL হয়; DEQ ৫ সরানোর পর মডুলার র‍্যাপ-অ্যারাউন্ডে ৯ আবার জায়গা পায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Maintain `head = 0`, `tail = 0`, `count = 0`, and `buf = [None] * cap`.",
+        "bn": "`head = 0`, `tail = 0`, `count = 0` এবং `[None] * cap` অ্যারে রাখুন।"
+      },
+      "hint2": {
+        "en": "Tracking `count` cleanly distinguishes `count == 0` (empty) from `count == cap` (full) without wasting a slot.",
+        "bn": "`count` রাখলে কোনো স্লট নষ্ট না করেই খালি ও পূর্ণ অবস্থা আলাদা করা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "When `tail` reaches `capacity - 1`, advancing `(tail + 1) % capacity` wraps back to index `0`. Because `buf` is pre-allocated once, no elements are ever shifted in memory.",
+        "bn": "`tail` শেষ সূচকে পৌঁছালে `(tail + 1) % capacity` আবার `0`-তে ফিরে আসে, ফলে কোনো উপাদান সরাতে হয় না।"
+      },
+      "algorithm": [
+        { "en": "Read `cap, q` and allocate `buf = [None] * cap` with `head = tail = count = 0`.", "bn": "`cap, q` পড়ে নির্ধারিত আকারের বাফার ও সূচক শূন্যে সেট করুন।" },
+        { "en": "On ENQ x: if `count == cap`, print `FULL`; else write `buf[tail] = x`, update `tail = (tail + 1) % cap`, `count += 1`, print `OK`.", "bn": "ENQ এ পূর্ণ না থাকলে `buf[tail]`-এ লিখে `tail` ও `count` বাড়ান।" },
+        { "en": "On DEQ: if `count == 0`, print `EMPTY`; else read `buf[head]`, update `head = (head + 1) % cap`, `count -= 1`, print value.", "bn": "DEQ এ খালি না থাকলে `buf[head]` প্রিন্ট করে `head` ও `count` হালনাগাদ করুন।" }
+      ],
+      "solution": "cap, q = map(int, input().split())\nbuf = [None] * cap\nhead = 0\ntail = 0\ncount = 0\n\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"ENQ\":\n        if count == cap:\n            print(\"FULL\")\n        else:\n            buf[tail] = parts[1]\n            tail = (tail + 1) % cap\n            count += 1\n            print(\"OK\")\n    elif cmd == \"DEQ\":\n        if count == 0:\n            print(\"EMPTY\")\n        else:\n            val = buf[head]\n            buf[head] = None\n            head = (head + 1) % cap\n            count -= 1\n            print(val)\n    elif cmd == \"STATUS\":\n        print(f\"{count}/{cap}\")",
+      "codeExplanation": {
+        "en": "Pre-allocated storage plus modulo wrap-around gives strict `O(1)` space stability and `O(1)` time per operation.",
+        "bn": "আগে থেকে নির্ধারিত বাফার ও মডুলো অপারেটর দিয়ে ধ্রুব সময়ে রিং বাফার পরিচালিত হয়।"
+      },
+      "commonMistakes": {
+        "en": "Checking `head == tail` for both empty and full without keeping a `count` variable or reserved sentinel cell.",
+        "bn": "`count` না রেখে কেবল `head == tail` দিয়ে খালি ও পূর্ণ উভয় অবস্থা ধরতে গেলে অস্পষ্টতা তৈরি হয়।"
+      },
+      "complexity": { "time": "O(1) per operation", "space": "O(capacity)" },
+      "testCases": [
+        { "input": "2 6\nENQ 5\nENQ 8\nENQ 9\nDEQ\nENQ 9\nSTATUS", "expectedOutput": "OK\nOK\nFULL\n5\nOK\n2/2", "note": { "en": "Wrap-around reuse", "bn": "র‍্যাপ-অ্যারাউন্ড পুনর্ব্যবহার" } },
+        { "input": "3 4\nDEQ\nENQ A\nDEQ\nSTATUS", "expectedOutput": "EMPTY\nOK\nA\n0/3", "note": { "en": "Empty boundary", "bn": "খালি বাফার সীমানা" } },
+        { "input": "1 4\nENQ X\nENQ Y\nDEQ\nENQ Z", "expectedOutput": "OK\nFULL\nX\nOK", "note": { "en": "Capacity 1 edge case", "bn": "১ ধারণক্ষমতার বাফার" } }
+      ]
+    },
+    {
+      "id": "P17-04",
+      "number": 4,
+      "title": {
+        "en": "Singly Linked List Construction & Traversal",
+        "bn": "সিঙ্গলি লিঙ্কড লিস্ট গঠন ও ট্রাভার্সাল"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Understanding pointer-linked nodes underpins dynamic memory allocators, hash-table collision chains, and LRU caches.",
+        "bn": "নোড ও পয়েন্টার সংযোগের ধারণা ডাইনামিক মেমরি, হ্যাশ-টেবিল চেইনিং ও LRU ক্যাশের ভিত্তি।"
+      },
+      "requiredConcepts": [
+        { "en": "Node object with value and next reference", "bn": "মান ও next রেফারেন্সসহ নোড কাঠামো" },
+        { "en": "Head/tail pointer construction & traversal", "bn": "হেড/টেইল পয়েন্টারে তালিকা নির্মাণ ও ভ্রমণ" }
+      ],
+      "description": {
+        "en": "Read space-separated integers on a single line (the line may be empty `NONE`). Construct a genuine Singly Linked List using a `Node` class (do not format directly from a Python list), traverse from `head` to `None`, and print `n1 -> n2 -> ... -> None` followed on the next line by `Length: <k>`.",
+        "bn": "স্পেস-আলাদা করা পূর্ণসংখ্যা (অথবা খালি থাকলে `NONE`) পড়ে একটি `Node` ক্লাস দিয়ে প্রকৃত সিঙ্গলি লিঙ্কড লিস্ট তৈরি করুন। এরপর `head` থেকে `None` পর্যন্ত ঘুরে `n1 -> n2 -> ... -> None` এবং পরের লাইনে `Length: <k>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Space-separated integers or `NONE`.",
+        "bn": "স্পেস-আলাদা পূর্ণসংখ্যা অথবা `NONE`।"
+      },
+      "expectedOutput": {
+        "en": "Arrow chain ending in `None`, plus `Length: <k>`.",
+        "bn": "`None` দিয়ে শেষ হওয়া তীর-সংযোগ শৃঙ্খল এবং `Length: <k>`।"
+      },
+      "examples": [
+        {
+          "input": "4 7 11 2",
+          "output": "4 -> 7 -> 11 -> 2 -> None\nLength: 4",
+          "explanation": {
+            "en": "Four Node objects are linked sequentially via `.next`, ending at None.",
+            "bn": "চারটি নোড `.next` পয়েন্টারে যুক্ত হয়ে শেষে `None`-এ থামে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Keep both `head` and `tail` pointers so appending each new `Node` takes `O(1)` time.",
+        "bn": "`head` ও `tail` উভয় পয়েন্টার রাখলে প্রতিটি নতুন নোড `O(1)` সময়ে যুক্ত করা যায়।"
+      },
+      "hint2": {
+        "en": "Traverse with `curr = head; while curr is not None: curr = curr.next`.",
+        "bn": "`curr = head` থেকে `curr is not None` শর্তে সামনে এগোন।"
+      },
+      "logicBreakdown": {
+        "en": "Unlike contiguous arrays, linked list elements live at arbitrary object references connected solely by `.next`. Keeping a `tail` pointer avoids scanning from `head` on every insertion.",
+        "bn": "অ্যারের মতো পাশাপাশি না থেকে লিঙ্কড লিস্টের নোডগুলো `.next` রেফারেন্সে যুক্ত থাকে। `tail` পয়েন্টার রাখায় সংযোজন `O(1)` হয়।"
+      },
+      "algorithm": [
+        { "en": "Define `Node(val, next=None)`.", "bn": "`Node` ক্লাস তৈরি করুন।" },
+        { "en": "Read line; if `NONE`, `head = None`; else build nodes linking via `tail.next`.", "bn": "ইনপুট `NONE` না হলে প্রতিটি সংখ্যায় `Node` বানিয়ে যুক্ত করুন।" },
+        { "en": "Walk from `head`, collect formatted node values, append `None`, and print chain + node count.", "bn": "`head` থেকে ঘুরে মানগুলো `->` দিয়ে জুড়ে এবং মোট দৈর্ঘ্য প্রিন্ট করুন।" }
+      ],
+      "solution": "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nline = input().strip()\nhead = None\ntail = None\nif line and line != \"NONE\":\n    for tok in line.split():\n        node = Node(int(tok))\n        if head is None:\n            head = tail = node\n        else:\n            tail.next = node\n            tail = node\n\nparts = []\ncount = 0\ncurr = head\nwhile curr is not None:\n    parts.append(str(curr.val))\n    count += 1\n    curr = curr.next\nparts.append(\"None\")\nprint(\" -> \".join(parts))\nprint(f\"Length: {count}\")",
+      "codeExplanation": {
+        "en": "First loop constructs the linked nodes; second loop strictly traverses pointers from `head` to count nodes and build output.",
+        "bn": "প্রথম লুপে নোড চেইন তৈরি এবং দ্বিতীয় লুপে পয়েন্টার অনুসরণ করে দৈর্ঘ্য ও শৃঙ্খল প্রিন্ট করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Advancing `head = head.next` during traversal and accidentally losing the reference to the start of the list.",
+        "bn": "ট্রাভার্স করার সময় আলাদা `curr` না নিয়ে সরাসরি `head` এগোলে তালিকার শুরুর ঠিকানা হারিয়ে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 7 11 2", "expectedOutput": "4 -> 7 -> 11 -> 2 -> None\nLength: 4", "note": { "en": "Four-node chain", "bn": "চার নোডের চেইন" } },
+        { "input": "NONE", "expectedOutput": "None\nLength: 0", "note": { "en": "Empty linked list", "bn": "খালি লিঙ্কড লিস্ট" } },
+        { "input": "-5", "expectedOutput": "-5 -> None\nLength: 1", "note": { "en": "Single-node edge case", "bn": "একক নোড" } }
+      ]
+    },
+    {
+      "id": "P17-05",
+      "number": 5,
+      "title": {
+        "en": "O(N) Hash Map Frequency Aggregation vs Nested Loops",
+        "bn": "নেস্টেড লুপের বদলে O(N) হ্যাশ-ম্যাপ ফ্রিকোয়েন্সি গণনা"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Log telemetry grouping, e-commerce SKU counting, and indexing search keywords replace slow `O(N^2)` scans with constant-time hash lookups.",
+        "bn": "সার্ভার লগ বিশ্লেষণ, পণ্যের সংখ্যা গণনা এবং সার্চ ইনডেক্সিংয়ে `O(N^2)` এর বদলে `O(N)` হ্যাশ-ম্যাপ ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Dictionary hash-lookup accumulation `O(N)`", "bn": "ডিকশনারি হ্যাশ লুকআপে O(N) গণনা" },
+        { "en": "Deterministic lexicographical reporting", "bn": "সুনির্দিষ্ট বর্ণানুক্রমিক ফলাফল প্রদর্শন" }
+      ],
+      "description": {
+        "en": "Given space-separated tokens on one line, count occurrences of every token in a single `O(N)` pass using a Python dictionary (`dict`) rather than calling `.count()` inside a loop (`O(N^2)`). Print `token: count` sorted alphabetically by token.",
+        "bn": "এক লাইনে স্পেস-আলাদা টোকেন দেওয়া আছে। লুপের ভেতর `.count()` (`O(N^2)`) ব্যবহার না করে ডিকশনারি দিয়ে এক পাসে (`O(N)`) প্রতিটি টোকেনের সংখ্যা গণনা করুন এবং বর্ণানুক্রমে `token: count` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated string tokens.",
+        "bn": "এক লাইনে স্পেস-আলাদা টোকেন।"
+      },
+      "expectedOutput": {
+        "en": "Sorted `token: count` lines, or `EMPTY` if input is blank.",
+        "bn": "বর্ণানুক্রমিক `token: count` লাইন অথবা ইনপুট খালি হলে `EMPTY`।"
+      },
+      "examples": [
+        {
+          "input": "cat dog cat bird dog cat",
+          "output": "bird: 1\ncat: 3\ndog: 2",
+          "explanation": {
+            "en": "Counts are accumulated in O(N) and keys are sorted alphabetically.",
+            "bn": "O(N) পাসে গণনা শেষে কী অনুযায়ী বর্ণানুক্রমে সাজানো হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `counts[tok] = counts.get(tok, 0) + 1` in one loop.",
+        "bn": "`counts[tok] = counts.get(tok, 0) + 1` দিয়ে এক লুপে গণনা করুন।"
+      },
+      "hint2": {
+        "en": "Iterate `for key in sorted(counts):` to guarantee deterministic output.",
+        "bn": "সুনির্দিষ্ট আউটপুটের জন্য `sorted(counts)` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Calling `tokens.count(x)` inside `for x in tokens` scans the entire list `N` times (`O(N^2)`). Hash-table lookup via `dict` maps each key to a slot in `O(1)` average time.",
+        "bn": "লুপের ভেতর `.count()` ডাকলে বারবার পুরো লিস্ট স্ক্যান হয়ে `O(N^2)` হয়। ডিকশনারি হ্যাশিং প্রতিটি কী-কে গড়ে `O(1)` সময়ে খুঁজে পায়।"
+      },
+      "algorithm": [
+        { "en": "Split input line into tokens; if empty, print `EMPTY`.", "bn": "ইনপুট টোকেনে ভাগ করুন; খালি হলে `EMPTY` প্রিন্ট করুন।" },
+        { "en": "Accumulate counts into a dictionary `freq`.", "bn": "এক পাসে `freq` ডিকশনারিতে মান বাড়ান।" },
+        { "en": "Sort unique keys (`K log K`) and print `key: freq[key]`.", "bn": "কীগুলো সাজিয়ে প্রতিটি মান প্রিন্ট করুন।" }
+      ],
+      "solution": "tokens = input().strip().split()\nif not tokens:\n    print(\"EMPTY\")\nelse:\n    freq = {}\n    for tok in tokens:\n        freq[tok] = freq.get(tok, 0) + 1\n    for key in sorted(freq):\n        print(f\"{key}: {freq[key]}\")",
+      "codeExplanation": {
+        "en": "`freq.get(tok, 0) + 1` safely initializes unseen keys without needing separate existence branches.",
+        "bn": "`freq.get(tok, 0) + 1` নতুন কী স্বয়ংক্রিয়ভাবে ০ থেকে শুরু করে।"
+      },
+      "commonMistakes": {
+        "en": "Calling `tokens.count(t)` inside a loop over `tokens` or iterating unsorted keys when insertion order varies.",
+        "bn": "লুপের ভেতর `.count()` চালানো বা সাজানো ছাড়া ডিকশনারি প্রিন্ট করা।"
+      },
+      "complexity": { "time": "O(N + K log K)", "space": "O(K)" },
+      "testCases": [
+        { "input": "cat dog cat bird dog cat", "expectedOutput": "bird: 1\ncat: 3\ndog: 2", "note": { "en": "Repeated tokens", "bn": "পুনরাবৃত্ত টোকেন" } },
+        { "input": "http tcp tcp udp http tcp", "expectedOutput": "http: 2\ntcp: 3\nudp: 1", "note": { "en": "Protocol distribution", "bn": "প্রোটোকল গণনা" } },
+        { "input": "single", "expectedOutput": "single: 1", "note": { "en": "Single element", "bn": "একক টোকেন" } }
+      ]
+    },
+    {
+      "id": "P17-06",
+      "number": 6,
+      "title": {
+        "en": "Singly Linked List Insert & Delete Operations",
+        "bn": "সিঙ্গলি লিঙ্কড লিস্টে ইনসার্ট ও ডিলিট অপারেশন"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Dynamic task lists and symbol chains require inserting at the head, appending at the tail, and deleting the first matching entry safely.",
+        "bn": "ডাইনামিক টাস্ক তালিকা ও ডেটা চেইনে শুরু বা শেষে নতুন নোড যোগ এবং নির্দিষ্ট নোড নিরাপদে মুছে ফেলার প্রয়োজন হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Head pointer update on head insertion/deletion", "bn": "শুরুতে সংযোজন বা মোছার সময় head হালনাগাদ" },
+        { "en": "Previous-node re-linking `prev.next = curr.next`", "bn": "পূর্ববর্তী নোড সংযোগ `prev.next = curr.next`" }
+      ],
+      "description": {
+        "en": "Implement a `LinkedList` supporting `INSERT_HEAD x`, `INSERT_TAIL x`, `DELETE_VAL x` (delete first node equal to `x`; print `DELETED` or `NOT_FOUND`), and `PRINT` (`a -> b -> None`, or `None` if empty). Execute `Q` operations.",
+        "bn": "`LinkedList` ক্লাস তৈরি করে `Q`টি অপারেশন চালান: `INSERT_HEAD x`, `INSERT_TAIL x`, `DELETE_VAL x` (প্রথম মিল থাকা নোড মুছে `DELETED`, না পেলে `NOT_FOUND`) এবং `PRINT`।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q commands.",
+        "bn": "পূর্ণসংখ্যা Q ও পরবর্তী Q লাইনে কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Status lines for DELETE_VAL and chain lines for PRINT.",
+        "bn": "DELETE_VAL ও PRINT কমান্ডের আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "6\nINSERT_TAIL 10\nINSERT_HEAD 5\nINSERT_TAIL 20\nDELETE_VAL 10\nDELETE_VAL 99\nPRINT",
+          "output": "DELETED\nNOT_FOUND\n5 -> 20 -> None",
+          "explanation": {
+            "en": "List becomes 5 -> 10 -> 20, deleting 10 relinks 5 -> 20, deleting 99 returns NOT_FOUND.",
+            "bn": "তালিকা ৫ -> ১০ -> ২০ থেকে ১০ মুছে ৫ -> ২০ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use a `dummy = Node(0)` node pointing to `head` so deleting the head node uses the exact same `prev.next = curr.next` logic.",
+        "bn": "`dummy` নোড `head`-এর আগে রাখলে প্রথম নোড মোছা ও মাঝের নোড মোছার কোড একই থাকে।"
+      },
+      "hint2": {
+        "en": "Update `self.head = dummy.next` after deletion.",
+        "bn": "ডিলিট শেষে `self.head = dummy.next` আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Head-deletion is the most common source of linked-list bugs. A sentinel dummy node ensures every real node has a valid `prev` predecessor, unifying edge cases cleanly.",
+        "bn": "প্রথম নোড মুছতে গেলে প্রায়ই বাগ হয়। শুরুতে একটি `dummy` নোড রাখলে প্রতিটি আসল নোডের আগে একটি পূর্বসূরি থাকে।"
+      },
+      "algorithm": [
+        { "en": "Maintain `self.head = None`.", "bn": "`self.head = None` দিয়ে শুরু করুন।" },
+        { "en": "INSERT_HEAD creates node with `next = head` and resets `head`.", "bn": "INSERT_HEAD এ নতুন নোডের `next`-কে `head` করে `head` বদলান।" },
+        { "en": "INSERT_TAIL walks to last node (or sets `head` if empty).", "bn": "INSERT_TAIL এ শেষ নোডের পরে যুক্ত করুন।" },
+        { "en": "DELETE_VAL walks with `dummy` + `prev`/`curr` and relinks first match.", "bn": "DELETE_VAL এ `dummy` ব্যবহার করে প্রথম মিল মোছুন।" }
+      ],
+      "solution": "class Node:\n    def __init__(self, val, nxt=None):\n        self.val = val\n        self.next = nxt\n\nclass LinkedList:\n    def __init__(self):\n        self.head = None\n\n    def insert_head(self, val):\n        self.head = Node(val, self.head)\n\n    def insert_tail(self, val):\n        node = Node(val)\n        if self.head is None:\n            self.head = node\n            return\n        curr = self.head\n        while curr.next is not None:\n            curr = curr.next\n        curr.next = node\n\n    def delete_val(self, val):\n        dummy = Node(None, self.head)\n        prev, curr = dummy, self.head\n        while curr is not None:\n            if curr.val == val:\n                prev.next = curr.next\n                self.head = dummy.next\n                return \"DELETED\"\n            prev, curr = curr, curr.next\n        return \"NOT_FOUND\"\n\n    def format_list(self):\n        out = []\n        curr = self.head\n        while curr is not None:\n            out.append(str(curr.val))\n            curr = curr.next\n        out.append(\"None\")\n        return \" -> \".join(out)\n\nq = int(input().strip())\nll = LinkedList()\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"INSERT_HEAD\":\n        ll.insert_head(parts[1])\n    elif cmd == \"INSERT_TAIL\":\n        ll.insert_tail(parts[1])\n    elif cmd == \"DELETE_VAL\":\n        print(ll.delete_val(parts[1]))\n    elif cmd == \"PRINT\":\n        print(ll.format_list())",
+      "codeExplanation": {
+        "en": "The sentinel `dummy` node handles deleting the first node, a middle node, or the only node identically without extra conditionals.",
+        "bn": "সেন্টিনেল `dummy` নোড থাকায় প্রথম, মাঝের বা একমাত্র নোড মোছা সবই এক নিয়মে চলে।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting to reassign `self.head` when the deleted element is the first node.",
+        "bn": "প্রথম নোড মুছে ফেলার পর `self.head` আপডেট করতে ভুলে যাওয়া।"
+      },
+      "complexity": { "time": "O(1) insert_head; O(N) tail/delete", "space": "O(N)" },
+      "testCases": [
+        { "input": "6\nINSERT_TAIL 10\nINSERT_HEAD 5\nINSERT_TAIL 20\nDELETE_VAL 10\nDELETE_VAL 99\nPRINT", "expectedOutput": "DELETED\nNOT_FOUND\n5 -> 20 -> None", "note": { "en": "Head, tail, delete middle", "bn": "হেড, টেইল ও মধ্যবর্তী ডিলিট" } },
+        { "input": "4\nINSERT_HEAD A\nDELETE_VAL A\nDELETE_VAL A\nPRINT", "expectedOutput": "DELETED\nNOT_FOUND\nNone", "note": { "en": "Delete sole head node", "bn": "একমাত্র হেড নোড মোছা" } },
+        { "input": "4\nINSERT_TAIL 1\nINSERT_TAIL 1\nDELETE_VAL 1\nPRINT", "expectedOutput": "DELETED\n1 -> None", "note": { "en": "Deletes only first match", "bn": "শুধু প্রথম মিল মোছা" } }
+      ]
+    },
+    {
+      "id": "P17-07",
+      "number": 7,
+      "title": {
+        "en": "Hash-Lookup Two-Sum Index Pair (`O(N)`)",
+        "bn": "হ্যাশ লুকআপে টু-সাম সূচক জোড়া (`O(N)`)"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Replacing quadratic brute-force pair matching with hash-complement lookups in financial ledger reconciliation and interview coding screens.",
+        "bn": "আর্থিক লেনদেন মিলানো ও কোডিং ইন্টারভিউতে `O(N^2)` লুপের বদলে হ্যাশ-ম্যাপ কমপ্লিমেন্ট খোঁজা ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Complement lookup `target - num`", "bn": "পরিপূরক মান `target - num` খোঁজা" },
+        { "en": "Single-pass index map avoiding self-reuse", "bn": "একই সূচক দুবার ব্যবহার না করার নিয়ম" }
+      ],
+      "description": {
+        "en": "Given space-separated integers on line 1 and integer `target` on line 2, find the earliest pair of distinct indices `(i, j)` (`i < j`) such that `nums[i] + nums[j] == target` (specifically the first closing index `j`). Print `i j`, or `NO_PAIR` if none exists.",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যার তালিকা এবং দ্বিতীয় লাইনে `target` ইনপুট নিন। `O(N)` সময়ে প্রথম জোড়া ভিন্ন সূচক `(i, j)` (`i < j`) খুঁজুন যাদের যোগফল `target`। `i j` অথবা না পেলে `NO_PAIR` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: target integer.",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যা, দ্বিতীয় লাইনে target।"
+      },
+      "expectedOutput": {
+        "en": "`i j` or `NO_PAIR`.",
+        "bn": "`i j` অথবা `NO_PAIR`।"
+      },
+      "examples": [
+        {
+          "input": "2 7 11 15\n9",
+          "output": "0 1",
+          "explanation": {
+            "en": "nums[0] + nums[1] = 2 + 7 = 9.",
+            "bn": "সূচক ০ ও ১-এর মানের যোগফল: ২ + ৭ = ৯।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check if `need = target - x` is already in `seen` BEFORE inserting `seen[x] = j`.",
+        "bn": "`seen[x] = j` সংরক্ষণের আগেই `target - x` ডিকশনারিতে আছে কি না দেখুন।"
+      },
+      "hint2": {
+        "en": "Checking first prevents matching an element with itself (like `4` pairing with `4` for target `8`).",
+        "bn": "আগে পরীক্ষা করলে একই সূচক দুবার ব্যবহৃত হয় না।"
+      },
+      "logicBreakdown": {
+        "en": "Checking `seen` before storing guarantees `i < j` and `O(1)` lookup per element. Storing `seen.setdefault(x, j)` preserves the earliest index `i` if duplicates appear.",
+        "bn": "সংরক্ষণের আগে লুকআপ করায় সর্বদা `i < j` নিশ্চিত হয় এবং প্রতিটি উপাদানে `O(1)` সময় লাগে।"
+      },
+      "algorithm": [
+        { "en": "Parse `nums` and `target`; initialize `seen = {}`.", "bn": "`nums`, `target` পড়ে খালি ডিকশনারি `seen` নিন।" },
+        { "en": "Iterate `j, val in enumerate(nums)`: compute `need = target - val`.", "bn": "প্রতিটি উপাদানের জন্য `need = target - val` বের করুন।" },
+        { "en": "If `need in seen`, print `seen[need] j` and stop; else `seen.setdefault(val, j)`.", "bn": "`seen`-এ পেলে সূচক জোড়া প্রিন্ট করুন, নতুবা `seen.setdefault(val, j)` রাখুন।" }
+      ],
+      "solution": "raw = input().strip()\nnums = [int(x) for x in raw.split()] if raw else []\ntarget = int(input().strip())\nseen = {}\nfound = None\nfor j, val in enumerate(nums):\n    need = target - val\n    if need in seen:\n        found = (seen[need], j)\n        break\n    seen.setdefault(val, j)\nprint(f\"{found[0]} {found[1]}\" if found else \"NO_PAIR\")",
+      "codeExplanation": {
+        "en": "Single pass over `nums` achieves `O(N)` time instead of nested loops.",
+        "bn": "একটি লুপে প্রতিটি সংখ্যা একবার দেখেই সমাধান পাওয়া যায় (`O(N)`)।"
+      },
+      "commonMistakes": {
+        "en": "Pre-populating the dictionary first and accidentally pairing `nums[i]` with itself when `2 * nums[i] == target`.",
+        "bn": "আগে সব মান ডিকশনারিতে ভরলে `target == 2 * nums[i]` হলে নিজের সাথেই জুড়ে যাওয়ার ভুল হতে পারে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "2 7 11 15\n9", "expectedOutput": "0 1", "note": { "en": "Standard pair", "bn": "সাধারণ জোড়া" } },
+        { "input": "3 3 4\n6", "expectedOutput": "0 1", "note": { "en": "Duplicate values at distinct indices", "bn": "ভিন্ন সূচকে সমান মান" } },
+        { "input": "4 1 9\n8", "expectedOutput": "NO_PAIR", "note": { "en": "Must not reuse index 0 twice", "bn": "নিজের সাথে জোড়া না বানানো" } }
+      ]
+    },
+    {
+      "id": "P17-08",
+      "number": 8,
+      "title": {
+        "en": "Stack-Based Balanced Delimiter & Error Position Checker",
+        "bn": "স্ট্যাক দিয়ে বন্ধনী সামঞ্জস্য ও ভুল অবস্থান নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Compilers, JSON parsers, and IDE syntax highlighters match nested scopes `( )`, `[ ]`, `{ }` using a parser stack.",
+        "bn": "কম্পাইলার, JSON পার্সার ও কোড এডিটরে নেস্টেড বন্ধনী `( )`, `[ ]`, `{ }` যাচাই করতে স্ট্যাক ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Stack matching of opening/closing pairs", "bn": "খোলা ও বন্ধ বন্ধনীর স্ট্যাক ম্যাচিং" },
+        { "en": "Reporting exact 0-based mismatch index", "bn": "সঠিক ০-ভিত্তিক ভুল সূচক নির্ণয়" }
+      ],
+      "description": {
+        "en": "Read an expression string containing letters, operators, and brackets `()`, `[]`, `{}`. Ignoring non-bracket characters, verify if all brackets are balanced and properly nested. Print `BALANCED`, or `UNBALANCED_AT <idx>` giving the 0-based index of the first unmatched closing bracket (or the earliest unclosed opening bracket remaining on the stack if end-of-string is reached).",
+        "bn": "অক্ষর ও `()`, `[]`, `{}` সমেত একটি এক্সপ্রেশন পড়ুন। বন্ধনীগুলো সঠিকভাবে নেস্টেড ও ব্যালেন্সড হলে `BALANCED`, নতুবা প্রথম অমিল বন্ধনীর ০-ভিত্তিক সূচকসহ `UNBALANCED_AT <idx>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an expression string.",
+        "bn": "এক লাইনে এক্সপ্রেশন স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "`BALANCED` or `UNBALANCED_AT <idx>`.",
+        "bn": "`BALANCED` অথবা `UNBALANCED_AT <idx>`।"
+      },
+      "examples": [
+        {
+          "input": "func(arr[0] + {x})",
+          "output": "BALANCED",
+          "explanation": {
+            "en": "All three delimiter pairs open and close in LIFO nesting order.",
+            "bn": "সবগুলো বন্ধনী LIFO নিয়মে খোলা ও বন্ধ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Push `(char, index)` onto the stack for each opening bracket so unclosed indices are preserved.",
+        "bn": "খোলার সময় অক্ষরের সাথে তার সূচক `(char, idx)` স্ট্যাকে রাখুন।"
+      },
+      "hint2": {
+        "en": "If the loop finishes and `stack` is non-empty, `stack[0][1]` is the earliest unclosed bracket index.",
+        "bn": "শেষে স্ট্যাক খালি না হলে `stack[0][1]` প্রথম অসম্পূর্ণ বন্ধনীর সূচক।"
+      },
+      "logicBreakdown": {
+        "en": "Simply counting opening vs closing brackets fails on `([)]`. A stack enforces LIFO nesting: the most recently opened delimiter must match the next closing delimiter.",
+        "bn": "শুধু সংখ্যা গুনলে `([)]`-কে ঠিক মনে হতে পারে, তাই সঠিক নেস্টিং ধরতে স্ট্যাক অপরিহার্য।"
+      },
+      "algorithm": [
+        { "en": "Define `pairs = {')': '(', ']': '[', '}': '{'}` and empty `stack`.", "bn": "জোড়া ম্যাপ এবং খালি স্ট্যাক নিন।" },
+        { "en": "Scan `i, ch` in `s`: push `(ch, i)` for openings; for closings verify stack top matches `pairs[ch]` else report `UNBALANCED_AT i`.", "bn": "স্ট্রিং স্ক্যান করে খোলা হলে পুশ ও বন্ধ হলে স্ট্যাক টপ মিলিয়ে দেখুন।" },
+        { "en": "After scan, if stack non-empty print `UNBALANCED_AT {stack[0][1]}`, else `BALANCED`.", "bn": "লুপ শেষে স্ট্যাকে বাকি থাকলে প্রথম অসংলগ্ন সূচক, নতুবা `BALANCED` প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().rstrip(\"\\n\")\npairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\nopeners = set(pairs.values())\nstack = []\nerror_idx = None\n\nfor i, ch in enumerate(s):\n    if ch in openers:\n        stack.append((ch, i))\n    elif ch in pairs:\n        if not stack or stack[-1][0] != pairs[ch]:\n            error_idx = i\n            break\n        stack.pop()\n\nif error_idx is not None:\n    print(f\"UNBALANCED_AT {error_idx}\")\nelif stack:\n    print(f\"UNBALANCED_AT {stack[0][1]}\")\nelse:\n    print(\"BALANCED\")",
+      "codeExplanation": {
+        "en": "Storing `(ch, i)` on the stack pinpoints both premature closing errors and unclosed openings left at EOF.",
+        "bn": "স্ট্যাকে `(ch, i)` রাখায় তাৎক্ষণিক ত্রুটি ও শেষে রয়ে যাওয়া খোলা বন্ধনী উভয়ের সূচক নির্ভুলভাবে পাওয়া যায়।"
+      },
+      "commonMistakes": {
+        "en": "Using counters instead of a stack (failing on `([)]`) or forgetting unclosed brackets left on the stack at the end.",
+        "bn": "স্ট্যাকের বদলে কাউন্টার ব্যবহার করা বা শেষে অবশিষ্ট খোলা বন্ধনী পরীক্ষা না করা।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "func(arr[0] + {x})", "expectedOutput": "BALANCED", "note": { "en": "Valid mixed nesting", "bn": "সঠিক মিশ্র বন্ধনী" } },
+        { "input": "([)]", "expectedOutput": "UNBALANCED_AT 2", "note": { "en": "Crossed nesting error", "bn": "ভুল নেস্টিং ক্রম" } },
+        { "input": "{a + (b * c)", "expectedOutput": "UNBALANCED_AT 0", "note": { "en": "Unclosed opening brace", "bn": "অসমাপ্ত খোলা ব্র্যাকেট" } },
+        { "input": "a + b)", "expectedOutput": "UNBALANCED_AT 5", "note": { "en": "Extra closing parenthesis", "bn": "অতিরিক্ত বন্ধ বন্ধনী" } }
+      ]
+    },
+    {
+      "id": "P17-09",
+      "number": 9,
+      "title": {
+        "en": "Two-Pointer Sorted Pair Sum & Unique Filter (`O(1)` Space)",
+        "bn": "টু-পয়েন্টারে সর্টেড পেয়ার সাম ও ডুপ্লিকেট অপসারণ (`O(1)` স্পেস)"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Two-pointer convergence solves sorted matching and array compaction in memory-constrained systems without allocating hash maps.",
+        "bn": "হ্যাশ-ম্যাপ ছাড়াই কম মেমরিতে সর্টেড ডেটা থেকে জোড়া খোঁজা ও অনন্য মান সংরক্ষণে টু-পয়েন্টার ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Opposite-end two-pointer squeeze (`left < right`)", "bn": "বিপরীত প্রান্তের টু-পয়েন্টার সংকোচন" },
+        { "en": "Slow/fast write-pointer deduplication", "bn": "স্লো/ফাস্ট পয়েন্টারে ডুপ্লিকেট ছাড়াই সাজানো" }
+      ],
+      "description": {
+        "en": "Given a sorted non-decreasing integer list on line 1 and `target` on line 2: (1) count distinct value pairs `(a, b)` summing to `target` using opposite-end two pointers, and (2) compact the array in-place with slow/fast pointers to print the deduplicated sorted values. Print `Pairs: <cnt>` then `Unique: <space-joined values>`.",
+        "bn": "সর্টেড পূর্ণসংখ্যা তালিকা ও `target` নিন। বিপরীত প্রান্তের টু-পয়েন্টার দিয়ে `target` সমষ্টির অনন্য মানের জোড়া সংখ্যা এবং স্লো/ফাস্ট পয়েন্টারে ডুপ্লিকেটহীন তালিকা বের করে `Pairs: <cnt>` ও `Unique: <মানসমূহ>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: sorted integers. Line 2: target integer.",
+        "bn": "প্রথম লাইনে সর্টেড পূর্ণসংখ্যা, দ্বিতীয় লাইনে target।"
+      },
+      "expectedOutput": {
+        "en": "`Pairs: <cnt>` and `Unique: <values>`.",
+        "bn": "`Pairs: <cnt>` এবং `Unique: <মানসমূহ>`।"
+      },
+      "examples": [
+        {
+          "input": "1 1 2 3 4 4 5\n6",
+          "output": "Pairs: 2\nUnique: 1 2 3 4 5",
+          "explanation": {
+            "en": "Distinct value pairs summing to 6 are (1, 5) and (2, 4). Unique elements are 1 2 3 4 5.",
+            "bn": "৬ যোগফল তৈরি করে অনন্য জোড়া (1, 5) ও (2, 4) — মোট ২টি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "When `nums[l] + nums[r] == target`, increment `pairs`, then skip duplicate `nums[l]` and `nums[r]` before moving inward.",
+        "bn": "মিল পাওয়া গেলে `pairs` বাড়িয়ে সমান ডুপ্লিকেট মানগুলো এড়িয়ে পয়েন্টার সরান।"
+      },
+      "hint2": {
+        "en": "For in-place unique compaction, `slow = 0`; whenever `nums[fast] != nums[slow]`, advance `slow += 1` and write `nums[slow] = nums[fast]`.",
+        "bn": "`nums[fast] != nums[slow]` হলে `slow` এগিয়ে মানটি লিখে দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Sorted order guarantees monotonic sum behavior: moving `left` rightward never decreases the sum, and moving `right` leftward never increases it. Skipping adjacent equals avoids duplicate pairs cleanly.",
+        "bn": "সর্টেড থাকায় বাম পয়েন্টার ডানে নিলে যোগফল বাড়ে ও ডান পয়েন্টার বামে নিলে কমে—ফলে এক পাসে জোড়া পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Run `left = 0, right = len(nums) - 1` skipping duplicates upon match to count distinct pairs.", "bn": "`left` ও `right` দিয়ে অনন্য জোড়া গুনুন।" },
+        { "en": "Run slow/fast write pointers in-place on `nums` to keep unique elements up to `slow + 1`.", "bn": "স্লো ও ফাস্ট পয়েন্টারে অনন্য মানগুলো সামনে আনুন।" },
+        { "en": "Print pair count and sliced unique values.", "bn": "জোড়ার সংখ্যা এবং অনন্য মানগুলো প্রিন্ট করুন।" }
+      ],
+      "solution": "raw = input().strip()\nnums = [int(x) for x in raw.split()] if raw else []\ntarget = int(input().strip())\n\nleft, right = 0, len(nums) - 1\npairs = 0\nwhile left < right:\n    s = nums[left] + nums[right]\n    if s == target:\n        pairs += 1\n        lv, rv = nums[left], nums[right]\n        while left < right and nums[left] == lv:\n            left += 1\n        while left < right and nums[right] == rv:\n            right -= 1\n    elif s < target:\n        left += 1\n    else:\n        right -= 1\n\nif not nums:\n    unique_str = \"NONE\"\nelse:\n    slow = 0\n    for fast in range(1, len(nums)):\n        if nums[fast] != nums[slow]:\n            slow += 1\n            nums[slow] = nums[fast]\n    unique_str = \" \".join(str(x) for x in nums[:slow + 1])\n\nprint(f\"Pairs: {pairs}\")\nprint(f\"Unique: {unique_str}\")",
+      "codeExplanation": {
+        "en": "Both phases run in linear `O(N)` time and `O(1)` auxiliary memory using two pointers.",
+        "bn": "দুটি ধাপই অতিরিক্ত কোনো হ্যাশ-টেবিল ছাড়া `O(N)` সময় ও `O(1)` অতিরিক্ত মেমরিতে চলে।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting to skip duplicate values after finding a matching pair, causing `(1, 5)` to be counted multiple times.",
+        "bn": "জোড়া পাওয়ার পর পাশের সমান উপাদানগুলো বাদ না দিলে একই জোড়া একাধিকবার গোনা হয়ে যায়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) extra" },
+      "testCases": [
+        { "input": "1 1 2 3 4 4 5\n6", "expectedOutput": "Pairs: 2\nUnique: 1 2 3 4 5", "note": { "en": "Duplicates present", "bn": "ডুপ্লিকেটসহ সর্টেড তালিকা" } },
+        { "input": "3 3 3 3\n6", "expectedOutput": "Pairs: 1\nUnique: 3", "note": { "en": "All equal values forming one distinct pair", "bn": "সব সমান মান" } },
+        { "input": "1 2 4 8\n20", "expectedOutput": "Pairs: 0\nUnique: 1 2 4 8", "note": { "en": "No matching sum", "bn": "কোনো জোড়া নেই" } }
+      ]
+    },
+    {
+      "id": "P17-10",
+      "number": 10,
+      "title": {
+        "en": "Prefix Sum Precomputation for O(1) Range Queries",
+        "bn": "O(1) রেঞ্জ সাম কুয়েরির জন্য প্রিফিক্স সাম অ্যারে"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Analytics dashboards, time-series metric rollups, and histogram integrations query millions of `[L, R]` windows instantaneously using prefix sums.",
+        "bn": "অ্যানালিটিক্স ড্যাশবোর্ড ও টাইম-সিরিজ ডেটায় দ্রুত `[L, R]` সীমার যোগফল বের করতে প্রিফিক্স সাম ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Cumulative prefix table `pref[i+1] = pref[i] + nums[i]`", "bn": "ক্রমযোজিত প্রিফিক্স টেবিল" },
+        { "en": "O(1) slice sum via `pref[R+1] - pref[L]`", "bn": "`pref[R+1] - pref[L]` সূত্রে ধ্রুব-সময় হিসাব" }
+      ],
+      "description": {
+        "en": "Read an array of integers on line 1, `Q` on line 2, and `Q` inclusive 0-based index queries `L R`. Build a prefix sum array in `O(N)` so each query answers in `O(1)` time. Print `INVALID_RANGE` if `L < 0`, `R >= N`, or `L > R`.",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যার তালিকা, দ্বিতীয় লাইনে `Q` এবং পরের `Q` লাইনে ০-ভিত্তিক রেঞ্জ `L R` নিন। `O(N)` প্রি-কম্পিউটেশনে প্রিফিক্স সাম অ্যারে বানিয়ে প্রতিটি কুয়েরি `O(1)` সময়ে উত্তর দিন (সীমা অবৈধ হলে `INVALID_RANGE`)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: integers. Line 2: Q. Next Q lines: L R.",
+        "bn": "প্রথম লাইনে সংখ্যা, দ্বিতীয় লাইনে Q, পরের Q লাইনে L R।"
+      },
+      "expectedOutput": {
+        "en": "Range sum or `INVALID_RANGE` per query.",
+        "bn": "প্রতিটি কুয়েরির যোগফল অথবা `INVALID_RANGE`।"
+      },
+      "examples": [
+        {
+          "input": "3 -1 4 2 5\n3\n0 2\n1 4\n3 1",
+          "output": "6\n10\nINVALID_RANGE",
+          "explanation": {
+            "en": "sum[0..2]=3-1+4=6, sum[1..4]=-1+4+2+5=10, and 3 > 1 is invalid.",
+            "bn": "০ থেকে ২ পর্যন্ত যোগফল ৬ এবং ১ থেকে ৪ পর্যন্ত ১০; ৩ > ১ হওয়ায় INVALID_RANGE।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Make `pref` length `N + 1` with `pref[0] = 0` so `L = 0` needs no `if L == 0` branch.",
+        "bn": "`pref[0] = 0` নিয়ে `N + 1` দৈর্ঘ্যের অ্যারে বানালে `L = 0` আলাদা শর্ত ছাড়াই কাজ করে।"
+      },
+      "hint2": {
+        "en": "Then `sum(nums[L..R])` equals `pref[R + 1] - pref[L]`.",
+        "bn": "সূত্রটি হলো `pref[R + 1] - pref[L]`।"
+      },
+      "logicBreakdown": {
+        "en": "Summing inside each query costs `O(Q * N)`. Precomputing `pref[k]` = sum of first `k` elements turns every query into one subtraction `pref[R + 1] - pref[L]` (`O(N + Q)` total).",
+        "bn": "প্রতিবার লুপ চালিয়ে যোগ করলে `O(Q * N)` লাগে; কিন্তু প্রিফিক্স সাম একবার তৈরি করলে প্রতিটি কুয়েরি মাত্র একটি বিয়োগেই (`O(1)`) শেষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse `nums` (`N = len(nums)`).", "bn": "`nums` পড়ে দৈর্ঘ্য `N` বের করুন।" },
+        { "en": "Build `pref = [0] * (N + 1)` with `pref[i+1] = pref[i] + nums[i]`.", "bn": "`pref` অ্যারে তৈরি করুন।" },
+        { "en": "For each `L, R`, check bounds `0 <= L <= R < N`, else print `INVALID_RANGE`, otherwise `pref[R + 1] - pref[L]`.", "bn": "সীমা ঠিক থাকলে `pref[R + 1] - pref[L]` প্রিন্ট করুন।" }
+      ],
+      "solution": "raw = input().strip()\nnums = [int(x) for x in raw.split()] if raw else []\nn = len(nums)\npref = [0] * (n + 1)\nfor i, x in enumerate(nums):\n    pref[i + 1] = pref[i] + x\n\nq = int(input().strip())\nfor _ in range(q):\n    l, r = map(int, input().split())\n    if l < 0 or r >= n or l > r:\n        print(\"INVALID_RANGE\")\n    else:\n        print(pref[r + 1] - pref[l])",
+      "codeExplanation": {
+        "en": "Zero-indexed sentinel `pref[0] = 0` keeps range indexing clean and handles negative numbers effortlessly.",
+        "bn": "`pref[0] = 0` থাকায় `L = 0` ও ঋণাত্মক সংখ্যাতেও সূত্র নির্ভুল থাকে।"
+      },
+      "commonMistakes": {
+        "en": "Off-by-one indexing (`pref[R] - pref[L]` instead of `pref[R + 1] - pref[L]`) or forgetting `L > R` validation.",
+        "bn": "`pref[R] - pref[L]` লিখে অফ-বাই-ওয়ান ভুল করা বা `L > R` যাচাই না করা।"
+      },
+      "complexity": { "time": "O(N + Q)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3 -1 4 2 5\n3\n0 2\n1 4\n3 1", "expectedOutput": "6\n10\nINVALID_RANGE", "note": { "en": "Mixed queries and inverted range", "bn": "সঠিক ও উল্টো রেঞ্জ" } },
+        { "input": "10 20 30\n2\n2 2\n0 3", "expectedOutput": "30\nINVALID_RANGE", "note": { "en": "Single index and out-of-bounds R", "bn": "একক সূচক ও সীমা-বহির্ভূত R" } },
+        { "input": "-5 -2 -8\n1\n0 2", "expectedOutput": "-15", "note": { "en": "All negative numbers", "bn": "সব ঋণাত্মক সংখ্যা" } }
+      ]
+    },
+    {
+      "id": "P17-11",
+      "number": 11,
+      "title": {
+        "en": "In-Place Iterative Linked List Reversal (`O(1)` Space)",
+        "bn": "O(1) স্পেসে ইন-প্লেস লিঙ্কড লিস্ট রিভার্সাল"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "Reversing pointer chains without extra memory allocation is one of the most frequent linked-list interview fundamentals.",
+        "bn": "অতিরিক্ত মেমরি ছাড়াই পয়েন্টারের দিক উল্টে দেওয়া সফটওয়্যার ইঞ্জিনিয়ারিং ইন্টারভিউয়ের অন্যতম প্রধান সমস্যা।"
+      },
+      "requiredConcepts": [
+        { "en": "Three-pointer invariant (`prev`, `curr`, `nxt`)", "bn": "তিন-পয়েন্টার ইনভ্যারিয়েন্ট (`prev`, `curr`, `nxt`)" },
+        { "en": "Pointer re-orientation without list copying", "bn": "কপি না করেই `.next` দিক পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Build a Singly Linked List from space-separated integers (or `NONE`), then reverse it strictly in-place by re-pointing `.next` links with three pointers (`prev`, `curr`, `nxt`)—do NOT copy values into a Python array and reverse that. Print both `Original: ...` and `Reversed: ...`.",
+        "bn": "ইনপুট থেকে সিঙ্গলি লিঙ্কড লিস্ট গড়ে `prev`, `curr`, `nxt` তিনটি পয়েন্টার ব্যবহার করে মেমরিতেই `.next` দিক উল্টে দিন (লিস্টে মান কপি করে নয়)। `Original: ...` ও `Reversed: ...` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Space-separated integers or `NONE`.",
+        "bn": "স্পেস-আলাদা পূর্ণসংখ্যা অথবা `NONE`।"
+      },
+      "expectedOutput": {
+        "en": "`Original: ... -> None` and `Reversed: ... -> None`.",
+        "bn": "`Original: ... -> None` এবং `Reversed: ... -> None`।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 4",
+          "output": "Original: 1 -> 2 -> 3 -> 4 -> None\nReversed: 4 -> 3 -> 2 -> 1 -> None",
+          "explanation": {
+            "en": "Each node's `.next` is flipped to point to `prev` as `curr` walks forward.",
+            "bn": "প্রতিটি নোডের `.next` আগের নোডের দিকে ঘুরিয়ে দিয়ে হেড বদলানো হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Before overwriting `curr.next = prev`, save `nxt = curr.next` so you do not drop the remaining chain.",
+        "bn": "`curr.next = prev` করার আগেই `nxt = curr.next` সংরক্ষণ করে রাখুন।"
+      },
+      "hint2": {
+        "en": "When `curr` reaches `None`, `prev` is the new `head` of the reversed list.",
+        "bn": "লুপ শেষে `prev`-ই উল্টানো লিস্টের নতুন `head`।"
+      },
+      "logicBreakdown": {
+        "en": "At each step: (1) save `nxt = curr.next`, (2) flip `curr.next = prev`, (3) advance `prev = curr`, (4) advance `curr = nxt`. That preserves reachability of both halves simultaneously.",
+        "bn": "প্রতি ধাপে পরের নোড `nxt`-এ ধরে রেখে `curr.next` পিছনে ঘুরিয়ে সামনে এগোলে কোনো অংশ হারিয়ে যায় না।"
+      },
+      "algorithm": [
+        { "en": "Construct linked list and format `Original:` string.", "bn": "লিঙ্কড লিস্ট বানিয়ে `Original:` ফরম্যাট করুন।" },
+        { "en": "Set `prev = None, curr = head`.", "bn": "`prev = None, curr = head` সেট করুন।" },
+        { "en": "While `curr`: save `nxt`, flip `curr.next = prev`, advance `prev, curr`.", "bn": "লুপ চালিয়ে প্রতিটি পয়েন্টার উল্টে দিন।" },
+        { "en": "Set `head = prev` and print `Reversed:` traversal.", "bn": "`head = prev` সেট করে `Reversed:` প্রিন্ট করুন।" }
+      ],
+      "solution": "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\ndef build_list(raw):\n    if not raw or raw == \"NONE\":\n        return None\n    head = tail = None\n    for tok in raw.split():\n        node = Node(int(tok))\n        if head is None:\n            head = tail = node\n        else:\n            tail.next = node\n            tail = node\n    return head\n\ndef fmt(head):\n    vals = []\n    curr = head\n    while curr:\n        vals.append(str(curr.val))\n        curr = curr.next\n    vals.append(\"None\")\n    return \" -> \".join(vals)\n\ndef reverse_in_place(head):\n    prev = None\n    curr = head\n    while curr is not None:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    return prev\n\nhead = build_list(input().strip())\nprint(f\"Original: {fmt(head)}\")\nhead = reverse_in_place(head)\nprint(f\"Reversed: {fmt(head)}\")",
+      "codeExplanation": {
+        "en": "Every node object stays at the exact same memory identity; only `.next` references change.",
+        "bn": "নতুন নোড তৈরি না করেই শুধু `.next` রেফারেন্স পরিবর্তন করে উল্টানো হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Mutating `curr.next = prev` before saving `curr.next`, losing the rest of the list.",
+        "bn": "`nxt = curr.next` সংরক্ষণ করার আগেই `curr.next = prev` লিখে ফেলা।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "1 2 3 4", "expectedOutput": "Original: 1 -> 2 -> 3 -> 4 -> None\nReversed: 4 -> 3 -> 2 -> 1 -> None", "note": { "en": "Four nodes", "bn": "চার নোডের তালিকা" } },
+        { "input": "99", "expectedOutput": "Original: 99 -> None\nReversed: 99 -> None", "note": { "en": "Single node", "bn": "একক নোড" } },
+        { "input": "NONE", "expectedOutput": "Original: None\nReversed: None", "note": { "en": "Empty list", "bn": "খালি তালিকা" } }
+      ]
+    },
+    {
+      "id": "P17-12",
+      "number": 12,
+      "title": {
+        "en": "Separate-Chaining Hash Table From Scratch",
+        "bn": "সেপারেট-চেইনিং হ্যাশ টেবিল নির্মাণ"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Reveals how dictionary lookups achieve `O(1)` average complexity, how hash collisions occur, and how bucket chains isolate colliding keys.",
+        "bn": "ডিকশনারি কীভাবে গড়ে `O(1)` গতিতে কাজ করে এবং কলিশন হলে বাকেট চেইনে কীভাবে কী সংরক্ষিত হয় তা বুঝতে সাহায্য করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Deterministic hash function `sum(ord(c)) % cap`", "bn": "নির্দিষ্ট হ্যাশ ফাংশন `sum(ord(c)) % cap`" },
+        { "en": "Collision resolution by bucket chaining", "bn": "বাকেট চেইনিংয়ের মাধ্যমে কলিশন সমাধান" }
+      ],
+      "description": {
+        "en": "Implement a `HashTable(cap)` without using a Python `dict` inside the table. Use `h(key) = sum(ord(ch) for ch in key) % cap` and store `[key, value]` pairs in bucket lists (`self.buckets = [[] for _ in range(cap)]`). Read `cap Q` on line 1, then execute `PUT k v` (update if `k` exists), `GET k` (print value or `MISS`), `DEL k` (print `OK` or `MISS`), and `BUCKET i` (print `k1=v1, k2=v2` or `EMPTY`).",
+        "bn": "ভেতরে Python `dict` না নিয়ে `HashTable(cap)` তৈরি করুন, যেখানে হ্যাশ সূত্র `sum(ord(ch)) % cap` ও প্রতিটি বাকেটে কলিশন চেইন থাকবে। `PUT k v`, `GET k`, `DEL k`, এবং `BUCKET i` কমান্ড পরিচালনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: cap and Q. Next Q lines: commands.",
+        "bn": "প্রথম লাইনে cap ও Q, পরের Q লাইনে কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Output lines for GET, DEL, and BUCKET commands.",
+        "bn": "GET, DEL ও BUCKET কমান্ডের আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "5 6\nPUT ab 10\nPUT ba 20\nBUCKET 0\nGET ab\nPUT ab 99\nGET ab",
+          "output": "ab=10, ba=20\n10\n99",
+          "explanation": {
+            "en": "'ab' and 'ba' both have ASCII sum 195 (195 % 5 = 0), so both collide into bucket 0; updating 'ab' overwrites 10 with 99.",
+            "bn": "'ab' ও 'ba' উভয়ের ASCII যোগফল ১৯৫ হওয়ায় বাকেট ০-তে কলিশন চেইনে থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "On `PUT k v`, scan `self.buckets[idx]` first; if a pair has `pair[0] == k`, update `pair[1] = v` and return without appending a duplicate.",
+        "bn": "`PUT`-এ বাকেটের ভেতর `k` আগে থেকেই থাকলে নতুন করে যোগ না করে মানটি আপডেট করুন।"
+      },
+      "hint2": {
+        "en": "Notice how anagrams like `'ab'` and `'ba'` intentionally test collision chaining because `ord('a')+ord('b')` is symmetric.",
+        "bn": "`'ab'` ও `'ba'` একই হ্যাশ দেওয়ায় কলিশন চেইনিং সঠিকভাবে পরীক্ষা করা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Even good hash functions collide across finite buckets. Separate chaining isolates collisions inside bucket lists so `PUT`, `GET`, and `DEL` stay `O(1 + alpha)` where `alpha = N / cap` is the load factor.",
+        "bn": "সীমিত বাকেটে কলিশন অনিবার্য। সেপারেট চেইনিং প্রতিটি বাকেটে একটি ছোট তালিকা রেখে কীগুলো আলাদা করে রাখে।"
+      },
+      "algorithm": [
+        { "en": "Allocate `cap` empty bucket lists.", "bn": "`cap`টি খালি বাকেট তালিকা তৈরি করুন।" },
+        { "en": "Compute `idx = sum(ord(c) for c in key) % cap`.", "bn": "কী-এর হ্যাশ সূচক `idx` বের করুন।" },
+        { "en": "PUT scans bucket to update or append `[key, val]`; GET returns value or `MISS`; DEL pops matching entry.", "bn": "বাকেটের ভেতর খুঁজে আপডেট, অনুসন্ধান বা অপসারণ করুন।" }
+      ],
+      "solution": "class HashTable:\n    def __init__(self, cap):\n        self.cap = cap\n        self.buckets = [[] for _ in range(cap)]\n\n    def _hash(self, key):\n        return sum(ord(c) for c in key) % self.cap\n\n    def put(self, key, val):\n        bucket = self.buckets[self._hash(key)]\n        for pair in bucket:\n            if pair[0] == key:\n                pair[1] = val\n                return\n        bucket.append([key, val])\n\n    def get(self, key):\n        bucket = self.buckets[self._hash(key)]\n        for k, v in bucket:\n            if k == key:\n                return v\n        return \"MISS\"\n\n    def delete(self, key):\n        bucket = self.buckets[self._hash(key)]\n        for i, (k, _) in enumerate(bucket):\n            if k == key:\n                bucket.pop(i)\n                return \"OK\"\n        return \"MISS\"\n\n    def bucket_str(self, idx):\n        bucket = self.buckets[idx]\n        if not bucket:\n            return \"EMPTY\"\n        return \", \".join(f\"{k}={v}\" for k, v in bucket)\n\ncap, q = map(int, input().split())\nht = HashTable(cap)\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"PUT\":\n        ht.put(parts[1], parts[2])\n    elif cmd == \"GET\":\n        print(ht.get(parts[1]))\n    elif cmd == \"DEL\":\n        print(ht.delete(parts[1]))\n    elif cmd == \"BUCKET\":\n        print(ht.bucket_str(int(parts[1])))",
+      "codeExplanation": {
+        "en": "Updating existing `[key, val]` in place keeps key uniqueness invariant within each collision bucket.",
+        "bn": "আগে থেকেই থাকা কী আপডেট করায় প্রতিটি বাকেটে ডুপ্লিকেট এন্ট্রি জমে না।"
+      },
+      "commonMistakes": {
+        "en": "Appending duplicate `[key, new_val]` entries on repeated `PUT` instead of overwriting the existing key's value.",
+        "bn": "একই কী আবার `PUT` করলে পুরোনোটি আপডেট না করে নতুন এন্ট্রি যোগ করে দেওয়া।"
+      },
+      "complexity": { "time": "O(1 + alpha) avg", "space": "O(N + cap)" },
+      "testCases": [
+        { "input": "5 6\nPUT ab 10\nPUT ba 20\nBUCKET 0\nGET ab\nPUT ab 99\nGET ab", "expectedOutput": "ab=10, ba=20\n10\n99", "note": { "en": "Collision chain and update", "bn": "কলিশন ও মান হালনাগাদ" } },
+        { "input": "4 5\nPUT ab 1\nPUT ba 2\nDEL ab\nGET ab\nBUCKET 3", "expectedOutput": "OK\nMISS\nba=2", "note": { "en": "Delete from collision chain", "bn": "কলিশন চেইন থেকে ডিলিট" } },
+        { "input": "3 3\nGET none\nDEL none\nBUCKET 1", "expectedOutput": "MISS\nMISS\nEMPTY", "note": { "en": "Misses on empty table", "bn": "খালি টেবিলে MISS" } }
+      ]
+    },
+    {
+      "id": "P17-13",
+      "number": 13,
+      "title": {
+        "en": "Sliding Window: Longest Substring Without Repeating Characters",
+        "bn": "স্লাইডিং উইন্ডো: পুনরাবৃত্তিহীন দীর্ঘতম সাবস্ট্রিং"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "Streaming deduplication buffers and variable-window sequence scanners achieve linear `O(N)` speed instead of `O(N^2)` slicing.",
+        "bn": "স্ট্রিমিং ডেটা উইন্ডো বিশ্লেষণ ও সিকোয়েন্স স্ক্যানিংয়ে `O(N^2)` এর বদলে `O(N)` স্লাইডিং উইন্ডো ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Dynamic two-pointer window `[left, right]`", "bn": "পরিবর্তনশীল দুই-পয়েন্টার উইন্ডো `[left, right]`" },
+        { "en": "Last-seen index jump `left = max(left, last[ch] + 1)`", "bn": "সর্বশেষ সূচক দেখে বাম পয়েন্টার অগ্রসর" }
+      ],
+      "description": {
+        "en": "Read a string `S` (empty string possible). Using a `O(N)` sliding window with a last-seen index map, find the longest contiguous substring without duplicate characters. Print `Length: <L>` and `Substring: <first_longest>` (or `EMPTY` if `S` is empty).",
+        "bn": "একটি স্ট্রিং `S` পড়ুন। `O(N)` স্লাইডিং উইন্ডো ও সর্বশেষ-দেখা সূচকের ডিকশনারি ব্যবহার করে কোনো অক্ষরের পুনরাবৃত্তি ছাড়া দীর্ঘতম সাবস্ট্রিং খুঁজুন। `Length: <L>` এবং `Substring: <প্রথম_দীর্ঘতম>` প্রিন্ট করুন (খালি হলে `EMPTY`)।"
+      },
+      "inputDescription": {
+        "en": "One line containing string S (use `EMPTY_STR` for empty test input if needed, or empty line).",
+        "bn": "এক লাইনে স্ট্রিং S।"
+      },
+      "expectedOutput": {
+        "en": "`Length: <L>` and `Substring: <sub_or_EMPTY>`.",
+        "bn": "`Length: <L>` এবং `Substring: <সাবস্ট্রিং_বা_EMPTY>`।"
+      },
+      "examples": [
+        {
+          "input": "abcabcbb",
+          "output": "Length: 3\nSubstring: abc",
+          "explanation": {
+            "en": "'abc' has length 3 with all unique characters and appears first.",
+            "bn": "'abc' ৩ দৈর্ঘ্যের প্রথম অনন্য সাবস্ট্রিং।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "When `ch` is in `last_seen`, only jump `left` forward if `last_seen[ch] >= left`—never move `left` backward!",
+        "bn": "`last_seen[ch] >= left` হলেই কেবল `left`-কে সামনে নিন; কখনো পিছিয়ে নেবেন না।"
+      },
+      "hint2": {
+        "en": "Update `best_len` and `best_start` only when `right - left + 1 > best_len` to preserve the earliest tie.",
+        "bn": "দৈর্ঘ্য বড় হলে `best_len` ও `best_start` আপডেট করলে প্রথম দীর্ঘতম অংশ সংরক্ষিত থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "Maintaining `left` monotonically non-decreasing (`left = max(left, last[ch] + 1)`) guarantees each character is visited once (`O(N)`). Using `max()` prevents `left` from jumping backward to stale occurrences outside the active window.",
+        "bn": "`left`-কে শুধু সামনে এগিয়ে রাখলে প্রতিটি অক্ষর মাত্র একবার পরীক্ষা হয় (`O(N)`) এবং পুরোনো অবস্থানে ফিরে যাওয়ার ভুল ঘটে না।"
+      },
+      "algorithm": [
+        { "en": "Read `s`; if empty print `Length: 0` and `Substring: EMPTY`.", "bn": "স্ট্রিং খালি হলে ০ ও `EMPTY` প্রিন্ট করুন।" },
+        { "en": "Track `left = 0`, `last = {}`, `best_len = 0`, `best_start = 0`.", "bn": "চলক ও `last` ম্যাপ সেট করুন।" },
+        { "en": "For `right, ch in enumerate(s)`: if `ch in last and last[ch] >= left`, set `left = last[ch] + 1`; update `last[ch] = right` and best slice.", "bn": "প্রতিটি অক্ষরে উইন্ডো ও সর্বোত্তম ফলাফল আপডেট করুন।" }
+      ],
+      "solution": "s = input().rstrip(\"\\n\")\nif not s:\n    print(\"Length: 0\")\n    print(\"Substring: EMPTY\")\nelse:\n    last = {}\n    left = 0\n    best_len = 0\n    best_start = 0\n    for right, ch in enumerate(s):\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right\n        win = right - left + 1\n        if win > best_len:\n            best_len = win\n            best_start = left\n    print(f\"Length: {best_len}\")\n    print(f\"Substring: {s[best_start:best_start + best_len]}\")",
+      "codeExplanation": {
+        "en": "Because `left` only advances and `right` steps once per character, total time is strictly linear `O(N)`.",
+        "bn": "`left` কখনো না পেছানোয় এবং `right` একপথে এগোনোয় পুরো অ্যালগরিদম `O(N)` সময়ে চলে।"
+      },
+      "commonMistakes": {
+        "en": "Writing `left = last[ch] + 1` without `>= left` (causing `left` to move backward on `'abba'`).",
+        "bn": "`last[ch] >= left` শর্ত না দিয়ে `left` সরালে `'abba'`-এর মতো ইনপুটে `left` পিছিয়ে গিয়ে ভুল হয়।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(min(N, alphabet))" },
+      "testCases": [
+        { "input": "abcabcbb", "expectedOutput": "Length: 3\nSubstring: abc", "note": { "en": "Repeating cycle", "bn": "পুনরাবৃত্ত প্যাটার্ন" } },
+        { "input": "abba", "expectedOutput": "Length: 2\nSubstring: ab", "note": { "en": "Guards against left moving backward", "bn": "বাম পয়েন্টার পেছানো প্রতিরোধ" } },
+        { "input": "pwwkew", "expectedOutput": "Length: 3\nSubstring: wke", "note": { "en": "Middle longest window", "bn": "মাঝের দীর্ঘতম উইন্ডো" } },
+        { "input": "zzzz", "expectedOutput": "Length: 1\nSubstring: z", "note": { "en": "All identical characters", "bn": "সব একই অক্ষর" } }
+      ]
+    },
+    {
+      "id": "P17-14",
+      "number": 14,
+      "title": {
+        "en": "Merge Overlapping Time & IP Ranges",
+        "bn": "ওভারল্যাপিং সময় বা আইপি রেঞ্জ মার্জ করা"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Calendar availability blocks, firewall CIDR aggregation, and distributed reservation windows merge overlapping `[start, end]` intervals.",
+        "bn": "ক্যালেন্ডার সময়সূচি, ফায়ারওয়াল আইপি ব্লক একত্রীকরণ ও রিসোর্স বুকিংয়ে ওভারল্যাপিং ইন্টারভাল মার্জ করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Sort intervals by `(start, end)`", "bn": "`(start, end)` অনুযায়ী ইন্টারভাল সাজানো" },
+        { "en": "Overlap condition `next_start <= curr_end`", "bn": "ওভারল্যাপ শর্ত `next_start <= curr_end`" }
+      ],
+      "description": {
+        "en": "Read integer `N` followed by `N` intervals `start end` (`start <= end`). Merge all overlapping or touching intervals (`[1, 3]` and `[3, 5]` merge into `[1, 5]`). Print each merged interval as `[start, end]` in ascending order, or `NONE` if `N == 0`.",
+        "bn": "`N` ও পরবর্তী `N` লাইনে `start end` ইন্টারভাল পড়ে ওভারল্যাপিং বা স্পর্শকাতর ইন্টারভালগুলো (`[1, 3]` ও `[3, 5]` -> `[1, 5]`) একত্র করে আরোহী ক্রমে `[start, end]` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer N followed by N lines of `start end`.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইনে `start end`।"
+      },
+      "expectedOutput": {
+        "en": "One `[start, end]` per line, or `NONE`.",
+        "bn": "প্রতি লাইনে `[start, end]` অথবা `NONE`।"
+      },
+      "examples": [
+        {
+          "input": "4\n8 10\n1 3\n2 6\n15 18",
+          "output": "[1, 6]\n[8, 10]\n[15, 18]",
+          "explanation": {
+            "en": "After sorting, [1, 3] and [2, 6] overlap and merge into [1, 6].",
+            "bn": "সাজানোর পর [1, 3] এবং [2, 6] মিলে [1, 6] হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sorting by start guarantees any interval capable of overlapping the current merged tail sits immediately next.",
+        "bn": "শুরু অনুযায়ী সাজালে ওভারল্যাপ করার মতো পরের ইন্টারভালগুলো পরপরই আসে।"
+      },
+      "hint2": {
+        "en": "When merging, update `merged[-1][1] = max(merged[-1][1], end)`—not simply `end`—because an inner interval may end earlier.",
+        "bn": "মার্জ করার সময় `max(merged[-1][1], end)` নিন, কারণ পরেরটি আগেরটির ভেতরেও থাকতে পারে।"
+      },
+      "logicBreakdown": {
+        "en": "Sorting brings order `O(N log N)`. A single linear sweep then checks whether `s <= merged[-1][1]` and extends the tail with `max(...)`, handling full containment like `[1, 10]` + `[2, 4]` properly.",
+        "bn": "`O(N log N)` সর্টিংয়ের পর এক পাসে ওভারল্যাপ পরীক্ষা এবং `max()` দিয়ে শেষ সীমা বাড়ানো হয়।"
+      },
+      "algorithm": [
+        { "en": "Read `N` pairs; if `N == 0`, print `NONE`.", "bn": "`N`টি জোড়া পড়ুন; `N == 0` হলে `NONE`।" },
+        { "en": "Sort intervals by `(start, end)`.", "bn": "ইন্টারভালগুলো সাজান।" },
+        { "en": "Initialize `merged = [intervals[0]]`; for each `(s, e)`, either extend `merged[-1][1]` or append `[s, e]`.", "bn": "ওভারল্যাপ হলে আগেরটির শেষ সীমা বাড়ান, নতুবা নতুন যুক্ত করুন।" }
+      ],
+      "solution": "n = int(input().strip())\nif n == 0:\n    print(\"NONE\")\nelse:\n    intervals = []\n    for _ in range(n):\n        s, e = map(int, input().split())\n        intervals.append([s, e])\n    intervals.sort()\n    merged = [intervals[0]]\n    for s, e in intervals[1:]:\n        if s <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], e)\n        else:\n            merged.append([s, e])\n    for s, e in merged:\n        print(f\"[{s}, {e}]\")",
+      "codeExplanation": {
+        "en": "`max(merged[-1][1], e)` ensures `[1, 10]` followed by `[3, 5]` does not shrink the end boundary to `5`.",
+        "bn": "`max(merged[-1][1], e)` ব্যবহার করায় `[1, 10]`-এর পর `[3, 5]` এলেও শেষ সীমা কমে ৫ হয়ে যায় না।"
+      },
+      "commonMistakes": {
+        "en": "Overwriting `merged[-1][1] = e` without `max()`, which shrinks intervals when one range fully encloses the next.",
+        "bn": "`max()` ছাড়া সরাসরি `merged[-1][1] = e` বসালে ছোট অন্তর্ভুক্ত ইন্টারভালের কারণে সীমা ছোট হয়ে যায়।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\n8 10\n1 3\n2 6\n15 18", "expectedOutput": "[1, 6]\n[8, 10]\n[15, 18]", "note": { "en": "Unsorted overlapping inputs", "bn": "অসজ্জিত ওভারল্যাপিং ইনপুট" } },
+        { "input": "3\n1 10\n2 4\n10 12", "expectedOutput": "[1, 12]", "note": { "en": "Nested and touching boundaries", "bn": "ভেতরে থাকা ও স্পর্শ করা সীমা" } },
+        { "input": "0", "expectedOutput": "NONE", "note": { "en": "Empty interval set", "bn": "শূন্য ইনপুট" } }
+      ]
+    },
+    {
+      "id": "P17-15",
+      "number": 15,
+      "title": {
+        "en": "Top-K Frequent Items Using Bucket Sort (`O(N)`)",
+        "bn": "বাকেট সর্ট ব্যবহার করে O(N) সময়ে Top-K সর্বাধিক উপাদান"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "Trending hashtag ranking, hotspot error diagnostics, and noisy-neighbor telemetry surface top-K heavy hitters efficiently.",
+        "bn": "ট্রেন্ডিং ট্যাগ র‍্যাংকিং ও সিস্টেমের সর্বাধিক ত্রুটি শনাক্তকরণে Top-K অ্যালগরিদম ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Frequency map + frequency-indexed buckets", "bn": "ফ্রিকোয়েন্সি ম্যাপ ও ফ্রিকোয়েন্সি-সূচক বাকেট" },
+        { "en": "Linear `O(N)` heavy-hitter extraction", "bn": "রৈখিক `O(N)` সময়ে Top-K সংগ্রহ" }
+      ],
+      "description": {
+        "en": "Read space-separated integers on line 1 and integer `K` on line 2. Find the `K` most frequent distinct integers using frequency-indexed buckets in `O(N)` worst-case time (instead of sorting all distinct values). Break frequency ties by smaller integer value first. Print `item (count)` per line (or all items if `K > distinct`).",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যা ও দ্বিতীয় লাইনে `K` ইনপুট নিন। ফ্রিকোয়েন্সি-বাকেট পদ্ধতিতে `O(N)` সময়ে সর্বাধিক পুনরাবৃত্ত `K`টি সংখ্যা বের করুন (সমান ফ্রিকোয়েন্সিতে ছোট সংখ্যা আগে)। প্রতিটি `item (count)` আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: positive integer K.",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যা, দ্বিতীয় লাইনে ধনাত্মক K।"
+      },
+      "expectedOutput": {
+        "en": "Up to K lines formatted `item (count)`.",
+        "bn": "সর্বোচ্চ K লাইন `item (count)` ফরম্যাটে।"
+      },
+      "examples": [
+        {
+          "input": "4 1 2 2 3 1 4 4\n2",
+          "output": "4 (3)\n1 (2)",
+          "explanation": {
+            "en": "4 appears 3 times; 1 and 2 both appear 2 times, and 1 < 2 breaks the tie.",
+            "bn": "৪ এসেছে ৩ বার; ১ ও ২ উভয়ই ২ বার আসায় ছোট মান ১ আগে এসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Since max possible frequency of any element is `N`, create `buckets = [[] for _ in range(N + 1)]`.",
+        "bn": "সর্বোচ্চ ফ্রিকোয়েন্সি `N` হওয়ায় `N + 1` দৈর্ঘ্যের বাকেট তালিকা তৈরি করুন।"
+      },
+      "hint2": {
+        "en": "Walk `freq` downward from `N` to `1`, sorting each bucket (only colliding counts) or picking until `K` elements are gathered.",
+        "bn": "`N` থেকে `1` পর্যন্ত নিচে নেমে প্রতিটি বাকেট থেকে সংখ্যা সংগ্রহ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Bucket indexing by count maps frequencies `[1..N]` straight to array indices in `O(N)` without comparing elements globally, avoiding `O(U log U)` sorting when finding Top-K.",
+        "bn": "ফ্রিকোয়েন্সিকেই অ্যারে সূচক হিসেবে ব্যবহার করায় পুরো ডেটা সর্ট না করেই `O(N)` সময়ে সর্বাধিক পুনরাবৃত্ত মান বের হয়।"
+      },
+      "algorithm": [
+        { "en": "Count occurrences in `counts = {}`.", "bn": "`counts` ডিকশনারিতে প্রতিটি সংখ্যার গণনা রাখুন।" },
+        { "en": "Place each `(num, c)` into `buckets[c]`.", "bn": "প্রতিটি সংখ্যাকে `buckets[c]`-এ রাখুন।" },
+        { "en": "Scan `c` from `N` down to `1`, sort `buckets[c]` ascending for deterministic tie-breaks, and collect up to `K` items.", "bn": "বড় ফ্রিকোয়েন্সি থেকে নিচে নেমে সমান হলে ছোট সংখ্যা আগে নিয়ে `K`টি প্রিন্ট করুন।" }
+      ],
+      "solution": "raw = input().strip()\nnums = [int(x) for x in raw.split()] if raw else []\nk = int(input().strip())\nif not nums or k <= 0:\n    print(\"EMPTY\")\nelse:\n    counts = {}\n    for x in nums:\n        counts[x] = counts.get(x, 0) + 1\n    buckets = [[] for _ in range(len(nums) + 1)]\n    for val, c in counts.items():\n        buckets[c].append(val)\n    printed = 0\n    for c in range(len(nums), 0, -1):\n        if buckets[c]:\n            for val in sorted(buckets[c]):\n                print(f\"{val} ({c})\")\n                printed += 1\n                if printed == k:\n                    break\n        if printed == k:\n            break",
+      "codeExplanation": {
+        "en": "Buckets group identical frequencies; iterating downward stops immediately once `K` items are emitted.",
+        "bn": "উচ্চ থেকে নিম্ন ফ্রিকোয়েন্সি বাকেট ঘুরে `K`টি পাওয়া মাত্র লুপ থেমে যায়।"
+      },
+      "commonMistakes": {
+        "en": "Allocating `len(counts)` buckets instead of `len(nums) + 1` (causing `IndexError` when one value repeats multiple times).",
+        "bn": "`len(nums) + 1`-এর বদলে `len(counts)` বাকেট নিলে পুনরাবৃত্ত সংখ্যায় `IndexError` হয়।"
+      },
+      "complexity": { "time": "O(N) average", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 1 2 2 3 1 4 4\n2", "expectedOutput": "4 (3)\n1 (2)", "note": { "en": "Tie-break on equal count", "bn": "সমান ফ্রিকোয়েন্সিতে টাই-ব্রেক" } },
+        { "input": "9 9 9\n5", "expectedOutput": "9 (3)", "note": { "en": "K larger than unique count", "bn": "অনন্য সংখ্যার চেয়ে বড় K" } },
+        { "input": "-1 -2 -1 -3 -2\n3", "expectedOutput": "-2 (2)\n-1 (2)\n-3 (1)", "note": { "en": "Negative integers tie-break", "bn": "ঋণাত্মক সংখ্যা টাই-ব্রেক" } }
+      ]
+    },
+    {
+      "id": "P17-16",
+      "number": 16,
+      "title": {
+        "en": "Floyd's Cycle Detection & Entry Node Locator (`O(1)` Space)",
+        "bn": "ফ্লয়েডের কচ্ছপ-খরগোশ পদ্ধতিতে সাইকেল ও প্রবেশ নোড নির্ণয়"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Deadlock cycle detection, pseudo-random period finding, and linked-structure corruption checks detect loops in `O(1)` extra memory.",
+        "bn": "অতিরিক্ত মেমরি ছাড়াই লিঙ্কড ডেটায় অসীম লুপ বা ডেডলক চক্র শনাক্ত করতে ফ্লয়েডের অ্যালগরিদম ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Slow (+1) and fast (+2) meeting invariant", "bn": "স্লো (+১) ও ফাস্ট (+২) পয়েন্টার মিলন নীতি" },
+        { "en": "Phase-2 head-to-meeting distance proof", "bn": "দ্বিতীয় ধাপে সাইকেলের প্রারম্ভিক নোড নির্ণয়" }
+      ],
+      "description": {
+        "en": "Build a Singly Linked List from space-separated integers on line 1, and connect the tail node's `.next` to the node at 0-based index `pos` on line 2 (`-1` means no cycle). Detect whether a cycle exists in `O(1)` extra space (no `set` of visited nodes) using Floyd's slow/fast pointers, and if cyclic locate the cycle entry value. Print `NO_CYCLE` or `CYCLE_AT <val>`.",
+        "bn": "প্রথম লাইনে নোড মান ও দ্বিতীয় লাইনে টেইল-সংযোগ সূচক `pos` (`-1` মানে সাইকেল নেই) দিয়ে লিঙ্কড লিস্ট গড়ুন। কোনো ভিজিটেড সেট ছাড়াই `O(1)` স্পেসে ফ্লয়েডের স্লো/ফাস্ট পয়েন্টারে সাইকেল ও তার শুরুর নোডের মান (`CYCLE_AT <val>` বা `NO_CYCLE`) বের করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: cycle target index `pos` (`-1` if acyclic).",
+        "bn": "প্রথম লাইনে পূর্ণসংখ্যা, দ্বিতীয় লাইনে `pos`।"
+      },
+      "expectedOutput": {
+        "en": "`CYCLE_AT <val>` or `NO_CYCLE`.",
+        "bn": "`CYCLE_AT <val>` অথবা `NO_CYCLE`।"
+      },
+      "examples": [
+        {
+          "input": "3 2 0 -4\n1",
+          "output": "CYCLE_AT 2",
+          "explanation": {
+            "en": "Tail (-4) links back to index 1 (node 2); Phase 2 locates 2 as the cycle entry.",
+            "bn": "শেষ নোড (-৪) সূচক ১-এর নোড ২-তে যুক্ত হওয়ায় সাইকেল শুরুর মান ২।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Phase 1: advance `slow = slow.next` and `fast = fast.next.next` while `fast and fast.next`. If they meet, a cycle exists.",
+        "bn": "প্রথম ধাপে `slow` এক ধাপ ও `fast` দুই ধাপ এগিয়ে মিলিত হলে সাইকেল আছে।"
+      },
+      "hint2": {
+        "en": "Phase 2: reset `ptr1 = head` and leave `ptr2 = slow`; step both by 1 until `ptr1 is ptr2`—that node is the exact cycle entry.",
+        "bn": "দ্বিতীয় ধাপে `ptr1 = head` ও `ptr2 = slow` এক ধাপ করে এগোলে তারা সাইকেলের শুরুতে মিলিত হবে।"
+      },
+      "logicBreakdown": {
+        "en": "If the non-cyclic prefix has length `F` and cycle length is `C`, when slow enters at step `F`, fast is inside the loop and catches up at step `k` (`F + k` steps). Algebraic identity guarantees `F ≡ (kC - k) (mod C)`, so walking from `head` and the meeting spot at speed 1 meets at the cycle entry.",
+        "bn": "প্রারম্ভিক দৈর্ঘ্য `F` ও চক্র `C` হলে মিলনবিন্দু থেকে ও `head` থেকে সমান ১ গতিতে হাঁটলে ঠিক চক্রের মুখেই দুটি পয়েন্টার মিলিত হয়।"
+      },
+      "algorithm": [
+        { "en": "Build nodes in a temporary builder list solely to wire `tail.next = nodes[pos]` when `pos >= 0`.", "bn": "লিস্ট গড়ে `pos >= 0` হলে `tail.next = nodes[pos]` যুক্ত করুন।" },
+        { "en": "Run Phase 1 slow/fast pointer chase; if `fast` or `fast.next` becomes `None`, return `NO_CYCLE`.", "bn": "স্লো/ফাস্ট পয়েন্টারে মিলন খোঁজুন; শেষ হলে `NO_CYCLE`।" },
+        { "en": "Run Phase 2 (`head` and `slow` stepping +1) until identical object `is`; return `CYCLE_AT {entry.val}`.", "bn": "দ্বিতীয় ধাপে সাইকেলের প্রারম্ভিক নোড প্রিন্ট করুন।" }
+      ],
+      "solution": "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nraw = input().strip()\npos = int(input().strip())\n\nhead = None\nif raw and raw != \"NONE\":\n    nodes = [Node(int(x)) for x in raw.split()]\n    for i in range(len(nodes) - 1):\n        nodes[i].next = nodes[i + 1]\n    if 0 <= pos < len(nodes):\n        nodes[-1].next = nodes[pos]\n    head = nodes[0]\n\nslow = fast = head\ncyclic = False\nwhile fast is not None and fast.next is not None:\n    slow = slow.next\n    fast = fast.next.next\n    if slow is fast:\n        cyclic = True\n        break\n\nif not cyclic:\n    print(\"NO_CYCLE\")\nelse:\n    p1 = head\n    p2 = slow\n    while p1 is not p2:\n        p1 = p1.next\n        p2 = p2.next\n    print(f\"CYCLE_AT {p1.val}\")",
+      "codeExplanation": {
+        "en": "Uses object identity (`is`) rather than `.val ==` so duplicate numeric values elsewhere in the list cannot confuse cycle detection.",
+        "bn": "নোডের মানের বদলে `is` দিয়ে অবজেক্টের পরিচয় তুলনা করায় একই সংখ্যা দুবার থাকলেও ভুল হয় না।"
+      },
+      "commonMistakes": {
+        "en": "Comparing `slow.val == fast.val` instead of `slow is fast`, or forgetting `fast.next is not None` in the loop guard.",
+        "bn": "`slow is fast`-এর বদলে মান তুলনা করা বা লুপে `fast.next is not None` না দেখা।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) algorithm extra" },
+      "testCases": [
+        { "input": "3 2 0 -4\n1", "expectedOutput": "CYCLE_AT 2", "note": { "en": "Cycle to middle node", "bn": "মাঝের নোডে সাইকেল" } },
+        { "input": "10 20 10\n0", "expectedOutput": "CYCLE_AT 10", "note": { "en": "Self-loop to head with duplicate values", "bn": "সমান মানসহ হেডে সাইকেল" } },
+        { "input": "1 2 3 4\n-1", "expectedOutput": "NO_CYCLE", "note": { "en": "Acyclic list", "bn": "সাইকেলহীন তালিকা" } }
+      ]
+    },
+    {
+      "id": "P17-17",
+      "number": 17,
+      "title": {
+        "en": "Binary Tree Level-Order Builder & All Four Traversals",
+        "bn": "বাইনারি ট্রি গঠন ও ৪টি ট্রাভার্সাল (BFS ও DFS)"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Abstract syntax trees (ASTs), DOM trees, and decision trees use Preorder/Inorder/Postorder DFS and Level-Order BFS traversals.",
+        "bn": "সিনট্যাক্স ট্রি, ওয়েব DOM ও ডিসিশন ট্রিতে Preorder, Inorder, Postorder এবং Level-Order ট্রাভার্সাল ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Level-order deserialization with `null` markers", "bn": "`null` মার্কারসহ লেভেল-অর্ডার ট্রি নির্মাণ" },
+        { "en": "Preorder, Inorder, Postorder DFS & BFS Level-Order", "bn": "Preorder, Inorder, Postorder DFS ও BFS" }
+      ],
+      "description": {
+        "en": "Read space-separated level-order node tokens where `null` represents an empty child (e.g., `1 2 3 null 4`). Construct a `TreeNode` binary tree using a queue, then print all four traversals (`Preorder`, `Inorder`, `Postorder`, `Level`) as space-separated node values (or `EMPTY` if tree is empty).",
+        "bn": "`null` মার্কারসহ লেভেল-অর্ডার টোকেন থেকে একটি বাইনারি ট্রি তৈরি করুন এবং এর `Preorder`, `Inorder`, `Postorder` ও `Level` ট্রাভার্সাল স্পেস-আলাদা করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of level-order tokens (`int` or `null`).",
+        "bn": "এক লাইনে লেভেল-অর্ডার টোকেন (`int` বা `null`)।"
+      },
+      "expectedOutput": {
+        "en": "Four lines labeled `Preorder:`, `Inorder:`, `Postorder:`, and `Level:`, or `EMPTY`.",
+        "bn": "`Preorder:`, `Inorder:`, `Postorder:`, `Level:` শিরোনামে ৪টি লাইন অথবা `EMPTY`।"
+      },
+      "examples": [
+        {
+          "input": "1 2 3 null 4",
+          "output": "Preorder: 1 2 4 3\nInorder: 2 4 1 3\nPostorder: 4 2 3 1\nLevel: 1 2 3 4",
+          "explanation": {
+            "en": "Node 1 has left=2, right=3; node 2 has left=null, right=4.",
+            "bn": "১-এর বাম ২ ও ডান ৩; ২-এর ডান সন্তান ৪।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use a `deque` during construction: pop a parent, read next token for `.left` and the following token for `.right`, enqueueing any non-null children.",
+        "bn": "নির্মাণের সময় কিউ থেকে প্যারেন্ট বের করে পরবর্তী দুটি টোকেন বাম ও ডান সন্তানে বসান।"
+      },
+      "hint2": {
+        "en": "Inorder visits `left -> root -> right`; Postorder visits `left -> right -> root`.",
+        "bn": "Inorder-এ `বাম -> রুট -> ডান` এবং Postorder-এ `বাম -> ডান -> রুট`।"
+      },
+      "logicBreakdown": {
+        "en": "Queue-based level-order construction matches standard serialized tree notation where missing children under `null` do not consume child tokens. Separating DFS orders clarifies node-processing timing: top-down (`Preorder`), sorted on BST (`Inorder`), and bottom-up teardown (`Postorder`).",
+        "bn": "কিউ দিয়ে নির্মাণে `null` নোডের নিচে সন্তান খোঁজা হয় না। আর তিন ধরনের DFS নোড প্রসেসিংয়ের তিনটি ভিন্ন সময়ক্রম তুলে ধরে।"
+      },
+      "algorithm": [
+        { "en": "Deserialize root and link children level by level using `deque`.", "bn": "`deque` ব্যবহার করে লেভেল অনুযায়ী ট্রি তৈরি করুন।" },
+        { "en": "Run recursive DFS functions collecting Preorder, Inorder, and Postorder lists.", "bn": "রিকার্সিভ DFS দিয়ে তিনটি তালিকা সংগ্রহ করুন।" },
+        { "en": "Run BFS with `deque` to collect non-null level-order values.", "bn": "BFS কিউ দিয়ে লেভেল-অর্ডার মান প্রিন্ট করুন।" }
+      ],
+      "solution": "from collections import deque\n\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef build_tree(tokens):\n    if not tokens or tokens[0] == \"null\":\n        return None\n    root = TreeNode(int(tokens[0]))\n    q = deque([root])\n    idx = 1\n    while q and idx < len(tokens):\n        node = q.popleft()\n        if idx < len(tokens) and tokens[idx] != \"null\":\n            node.left = TreeNode(int(tokens[idx]))\n            q.append(node.left)\n        idx += 1\n        if idx < len(tokens) and tokens[idx] != \"null\":\n            node.right = TreeNode(int(tokens[idx]))\n            q.append(node.right)\n        idx += 1\n    return root\n\ndef preorder(node, out):\n    if node:\n        out.append(str(node.val))\n        preorder(node.left, out)\n        preorder(node.right, out)\n\ndef inorder(node, out):\n    if node:\n        inorder(node.left, out)\n        out.append(str(node.val))\n        inorder(node.right, out)\n\ndef postorder(node, out):\n    if node:\n        postorder(node.left, out)\n        postorder(node.right, out)\n        out.append(str(node.val))\n\ndef level_order(root):\n    out = []\n    q = deque([root])\n    while q:\n        cur = q.popleft()\n        out.append(str(cur.val))\n        if cur.left:\n            q.append(cur.left)\n        if cur.right:\n            q.append(cur.right)\n    return out\n\ntoks = input().strip().split()\nroot = build_tree(toks)\nif root is None:\n    print(\"EMPTY\")\nelse:\n    pre, ino, post = [], [], []\n    preorder(root, pre)\n    inorder(root, ino)\n    postorder(root, post)\n    lvl = level_order(root)\n    print(\"Preorder: \" + \" \".join(pre))\n    print(\"Inorder: \" + \" \".join(ino))\n    print(\"Postorder: \" + \" \".join(post))\n    print(\"Level: \" + \" \".join(lvl))",
+      "codeExplanation": {
+        "en": "Queue deserialization ensures sparse trees (`null` gaps) wire children accurately before the four traversal helpers run.",
+        "bn": "কিউ ডিসিরিয়ালাইজেশন ফাঁকা শাখাসহ ট্রি নিখুঁতভাবে গড়ে তোলে।"
+      },
+      "commonMistakes": {
+        "en": "Assuming array indices `2i+1` and `2i+2` work on sparse `null`-compressed inputs; queue tracking is required whenever `null` parents omit children.",
+        "bn": "`null` বাদ দিয়ে সংকুচিত ইনপুটে `2i+1` সূত্র কাজ করে না—সঠিক নির্মাণের জন্য কিউ দরকার।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "1 2 3 null 4", "expectedOutput": "Preorder: 1 2 4 3\nInorder: 2 4 1 3\nPostorder: 4 2 3 1\nLevel: 1 2 3 4", "note": { "en": "Sparse tree with null left child", "bn": "`null` সন্তানসহ ট্রি" } },
+        { "input": "10 null 20 null 30", "expectedOutput": "Preorder: 10 20 30\nInorder: 10 20 30\nPostorder: 30 20 10\nLevel: 10 20 30", "note": { "en": "Right-skewed chain", "bn": "ডান-ঝোঁকা ট্রি" } },
+        { "input": "null", "expectedOutput": "EMPTY", "note": { "en": "Empty tree", "bn": "খালি ট্রি" } }
+      ]
+    },
+    {
+      "id": "P17-18",
+      "number": 18,
+      "title": {
+        "en": "Binary Search Tree (Insert, Search, Height & Range Validation)",
+        "bn": "বাইনারি সার্চ ট্রি (Insert, Search, উচ্চতা ও সীমা যাচাই)"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "22 min", "bn": "২২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Ordered indexes, range lookups, and balanced tree implementations rely on strict BST ordering (`left < root < right`) across whole subtrees.",
+        "bn": "সর্টেড ডেটাবেজ ইনডেক্স ও রেঞ্জ সার্চে পুরো সাবট্রিতে `বাম < রুট < ডান` BST নিয়ম মেনে চলা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Binary Search Tree insertion & lookup", "bn": "BST ইনসার্শন ও সার্চ" },
+        { "en": "Global `(low, high)` subtree invariant check", "bn": "সর্বজনীন `(low, high)` সাবট্রি বৈধতা যাচাই" }
+      ],
+      "description": {
+        "en": "Implement a `BST` ignoring duplicate insertions. Read `Q` commands: `INSERT x`, `SEARCH x` (`FOUND`/`NOT_FOUND`), `HEIGHT` (edge-empty `-1` or node count height — use node-level height: empty `0`, leaf `1`), `INORDER` (sorted space-separated or `EMPTY`), and `IS_VALID` (strict `(low, high)` invariant returning `True`/`False`).",
+        "bn": "ডুপ্লিকেট বাদ দিয়ে একটি `BST` ক্লাস তৈরি করুন এবং `Q`টি কমান্ড (`INSERT x`, `SEARCH x`, `HEIGHT` যেখানে খালি ট্রি ০ ও পাতা ১, `INORDER`, `IS_VALID`) পরিচালনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q commands.",
+        "bn": "পূর্ণসংখ্যা Q ও পরবর্তী Q কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Output line for SEARCH, HEIGHT, INORDER, IS_VALID.",
+        "bn": "SEARCH, HEIGHT, INORDER ও IS_VALID-এর আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "7\nINSERT 8\nINSERT 3\nINSERT 10\nINSERT 1\nSEARCH 10\nHEIGHT\nINORDER",
+          "output": "FOUND\n3\n1 3 8 10",
+          "explanation": {
+            "en": "Path 8 -> 3 -> 1 has 3 node levels; Inorder yields sorted 1 3 8 10.",
+            "bn": "৮ -> ৩ -> ১ পথে উচ্চতা ৩ এবং Inorder-এ সর্টেড ১ ৩ ৮ ১০ আসে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`IS_VALID` must check `low < node.val < high` recursively, updating `(low, node.val)` left and `(node.val, high)` right.",
+        "bn": "`IS_VALID` যাচাইয়ে প্রতিটি সাবট্রির জন্য `(low, node.val)` ও `(node.val, high)` সীমা পাঠাতে হয়।"
+      },
+      "hint2": {
+        "en": "Height formula: `0 if node is None else 1 + max(height(node.left), height(node.right))`.",
+        "bn": "উচ্চতার সূত্র: `0` অথবা `1 + max(বাম, ডান)`।"
+      },
+      "logicBreakdown": {
+        "en": "Checking only `node.left.val < node.val < node.right.val` is insufficient because a right descendant of the left child could violate the ancestor bound. Passing `(low, high)` bounds enforces the global BST property.",
+        "bn": "কেবল সরাসরি সন্তান দেখলে হবে না—দূরবর্তী নাতি-সন্তানও রুটের সীমা লঙ্ঘন করতে পারে, তাই `(low, high)` সীমা প্রেরণ জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Insert recursively skipping duplicates.", "bn": "ডুপ্লিকেট বাদ দিয়ে রিকার্সিভভাবে ইনসার্ট করুন।" },
+        { "en": "Search iteratively/recursively comparing against `node.val`.", "bn": "তুলনা করে সার্চ করুন।" },
+        { "en": "Compute height and Inorder traversal.", "bn": "উচ্চতা ও Inorder প্রিন্ট করুন।" },
+        { "en": "Validate global `(low, high)` bounds using `-inf` and `+inf`.", "bn": "`-inf` ও `+inf` দিয়ে BST বৈধতা যাচাই করুন।" }
+      ],
+      "solution": "class BSTNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass BST:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, val):\n        def _ins(node):\n            if node is None:\n                return BSTNode(val)\n            if val < node.val:\n                node.left = _ins(node.left)\n            elif val > node.val:\n                node.right = _ins(node.right)\n            return node\n        self.root = _ins(self.root)\n\n    def search(self, val):\n        curr = self.root\n        while curr is not None:\n            if val == curr.val:\n                return \"FOUND\"\n            curr = curr.left if val < curr.val else curr.right\n        return \"NOT_FOUND\"\n\n    def height(self):\n        def _h(node):\n            if node is None:\n                return 0\n            return 1 + max(_h(node.left), _h(node.right))\n        return _h(self.root)\n\n    def inorder(self):\n        out = []\n        def _walk(node):\n            if node:\n                _walk(node.left)\n                out.append(str(node.val))\n                _walk(node.right)\n        _walk(self.root)\n        return \" \".join(out) if out else \"EMPTY\"\n\n    def is_valid(self):\n        def _val(node, lo, hi):\n            if node is None:\n                return True\n            if not (lo < node.val < hi):\n                return False\n            return _val(node.left, lo, node.val) and _val(node.right, node.val, hi)\n        return _val(self.root, float(\"-inf\"), float(\"inf\"))\n\nq = int(input().strip())\nbst = BST()\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"INSERT\":\n        bst.insert(int(parts[1]))\n    elif cmd == \"SEARCH\":\n        print(bst.search(int(parts[1])))\n    elif cmd == \"HEIGHT\":\n        print(bst.height())\n    elif cmd == \"INORDER\":\n        print(bst.inorder())\n    elif cmd == \"IS_VALID\":\n        print(bst.is_valid())",
+      "codeExplanation": {
+        "en": "`search` runs iteratively in `O(H)` space `O(1)`, while `is_valid` verifies full-tree correctness in `O(N)`.",
+        "bn": "`search` `O(1)` স্পেসে চলে এবং `is_valid` পুরো ট্রির শুদ্ধতা যাচাই করে।"
+      },
+      "commonMistakes": {
+        "en": "Allowing duplicate keys into one subtree without consistent convention or validating only immediate parent-child values.",
+        "bn": "ডুপ্লিকেট নিয়ন্ত্রণ না করা বা কেবল তাৎক্ষণিক প্যারেন্ট-সন্তান তুলনা করা।"
+      },
+      "complexity": { "time": "O(H) search/insert; O(N) walk", "space": "O(N)" },
+      "testCases": [
+        { "input": "7\nINSERT 8\nINSERT 3\nINSERT 10\nINSERT 1\nSEARCH 10\nHEIGHT\nINORDER", "expectedOutput": "FOUND\n3\n1 3 8 10", "note": { "en": "Insert, search, height, sorted inorder", "bn": "ইনসার্ট, সার্চ, উচ্চতা ও ইনঅর্ডার" } },
+        { "input": "6\nINSERT 5\nINSERT 5\nINSERT 2\nSEARCH 9\nIS_VALID\nINORDER", "expectedOutput": "NOT_FOUND\nTrue\n2 5", "note": { "en": "Duplicate ignored and validity true", "bn": "ডুপ্লিকেট অগ্রাহ্য ও বৈধতা যাচাই" } },
+        { "input": "3\nHEIGHT\nINORDER\nIS_VALID", "expectedOutput": "0\nEMPTY\nTrue", "note": { "en": "Empty BST", "bn": "খালি BST" } }
+      ]
+    },
+    {
+      "id": "P17-19",
+      "number": 19,
+      "title": {
+        "en": "Graph BFS Shortest Hop Path & DFS Connected Components",
+        "bn": "গ্রাফে BFS সংক্ষিপ্ততম পথ ও DFS সংযুক্ত উপাদান"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "24 min", "bn": "২৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Network hop routing, social-graph friend distance, and unreachable subnet partitioning model systems as undirected adjacency lists.",
+        "bn": "নেটওয়ার্ক রাউটিং হপ গণনা, সংযোগ বিশ্লেষণ এবং আইসোলেটেড সাবনেট নির্ণয়ে গ্রাফ BFS/DFS ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Adjacency list graph representation", "bn": "অ্যাডজাসেন্সি লিস্ট গ্রাফ কাঠামো" },
+        { "en": "BFS parent map for shortest unweighted path + DFS components", "bn": "BFS প্যারেন্ট ম্যাপ ও DFS সংযুক্ত উপাদান" }
+      ],
+      "description": {
+        "en": "Read `V E` (vertices `0..V-1` and `E` undirected edges), followed by `E` lines `u v`, and final line `src dst`. Sort each vertex's adjacency list ascending so traversals are deterministic. Compute: (1) total connected components using DFS, and (2) shortest unweighted path from `src` to `dst` using BFS (`UNREACHABLE` if disconnected).",
+        "bn": "প্রথম লাইনে নোড `V` ও এজ `E`, পরের `E` লাইনে অনির্দেশিত এজ `u v` এবং শেষ লাইনে `src dst` পড়ুন। DFS দিয়ে মোট সংযুক্ত উপাদান সংখ্যা এবং BFS দিয়ে `src` থেকে `dst`-এর সংক্ষিপ্ততম হপ পথ প্রিন্ট করুন (পৌঁছানো না গেলে `UNREACHABLE`)।"
+      },
+      "inputDescription": {
+        "en": "Line 1: V E. Next E lines: u v. Last line: src dst.",
+        "bn": "প্রথম লাইনে V E, পরের E লাইনে u v, শেষ লাইনে src dst।"
+      },
+      "expectedOutput": {
+        "en": "`Components: <c>` and `Shortest Path: <u -> ... -> v>` (or `UNREACHABLE`).",
+        "bn": "`Components: <c>` এবং `Shortest Path: <পথ>` (অথবা `UNREACHABLE`)।"
+      },
+      "examples": [
+        {
+          "input": "6 5\n0 1\n1 2\n0 2\n2 3\n4 5\n0 3",
+          "output": "Components: 2\nShortest Path: 0 -> 2 -> 3",
+          "explanation": {
+            "en": "{0,1,2,3} and {4,5} form 2 components; BFS finds 2-hop path 0 -> 2 -> 3.",
+            "bn": "{0,1,2,3} ও {4,5} মিলে ২টি উপাদান; BFS-এ সর্বনিম্ন পথ 0 -> 2 -> 3।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Mark BFS neighbors as visited (`parent[nxt] = cur`) the moment they are enqueued—not when popped—to prevent duplicate queuing.",
+        "bn": "কিউ থেকে বের করার সময় নয়, বরং কিউতে ঢোকানোর সময়ই ভিজিটেড/প্যারেন্ট মার্ক করুন।"
+      },
+      "hint2": {
+        "en": "Reconstruct the path backward from `dst` to `src` via `parent`, then reverse it.",
+        "bn": "`parent` ধরে `dst` থেকে `src` পর্যন্ত পিছিয়ে এসে পথটি উল্টে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "DFS explores one entire component per unvisited start vertex, giving exact component count. BFS visits nodes in strictly non-decreasing hop distance, guaranteeing the first time `dst` is reached yields a shortest path.",
+        "bn": "DFS প্রতিটি অদেখা নোড থেকে একটি পূর্ণ উপাদান ভ্রমণ করে, আর BFS ধাপে ধাপে দূরত্ব বাড়ানোয় প্রথম সাক্ষাতেই সংক্ষিপ্ততম পথ পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Build sorted undirected adjacency lists for `0..V-1`.", "bn": "সর্টেড অ্যাডজাসেন্সি লিস্ট গড়ুন।" },
+        { "en": "Count connected components with iterative/recursive DFS.", "bn": "DFS দিয়ে সংযুক্ত উপাদান গুনুন।" },
+        { "en": "Run BFS from `src` recording `parent` until `dst` is found, then reconstruct and print path.", "bn": "BFS চালিয়ে `parent` ম্যাপ থেকে পথ পুনর্গঠন করে প্রিন্ট করুন।" }
+      ],
+      "solution": "from collections import deque\n\nv, e = map(int, input().split())\nadj = [[] for _ in range(v)]\nfor _ in range(e):\n    a, b = map(int, input().split())\n    adj[a].append(b)\n    adj[b].append(a)\nfor lst in adj:\n    lst.sort()\n\nsrc, dst = map(int, input().split())\n\nvisited = [False] * v\ncomp = 0\nfor start in range(v):\n    if not visited[start]:\n        comp += 1\n        stack = [start]\n        visited[start] = True\n        while stack:\n            node = stack.pop()\n            for nb in adj[node]:\n                if not visited[nb]:\n                    visited[nb] = True\n                    stack.append(nb)\n\nparent = {src: None}\nq = deque([src])\nwhile q:\n    cur = q.popleft()\n    if cur == dst:\n        break\n    for nb in adj[cur]:\n        if nb not in parent:\n            parent[nb] = cur\n            q.append(nb)\n\nprint(f\"Components: {comp}\")\nif dst not in parent:\n    print(\"Shortest Path: UNREACHABLE\")\nelse:\n    path = []\n    cur = dst\n    while cur is not None:\n        path.append(str(cur))\n        cur = parent[cur]\n    path.reverse()\n    print(\"Shortest Path: \" + \" -> \".join(path))",
+      "codeExplanation": {
+        "en": "Iterative DFS avoids Python recursion limits on large graphs while BFS `parent` mapping guarantees minimal hop reconstruction.",
+        "bn": "ইটারেটিভ DFS রিকার্শন সীমা এড়ায় এবং BFS প্যারেন্ট ম্যাপ সংক্ষিপ্ততম পথ তৈরি করে।"
+      },
+      "commonMistakes": {
+        "en": "Assuming DFS finds the shortest path (it does not in general graphs) or marking visited on pop instead of enqueue in BFS.",
+        "bn": "DFS দিয়ে সংক্ষিপ্ততম পথ খুঁজতে যাওয়া বা BFS-এ পপের পর ভিজিটেড মার্ক করা।"
+      },
+      "complexity": { "time": "O(V + E log E)", "space": "O(V + E)" },
+      "testCases": [
+        { "input": "6 5\n0 1\n1 2\n0 2\n2 3\n4 5\n0 3", "expectedOutput": "Components: 2\nShortest Path: 0 -> 2 -> 3", "note": { "en": "Two components & shortest 2-hop path", "bn": "২ উপাদান ও ২-হপ পথ" } },
+        { "input": "4 2\n0 1\n2 3\n0 3", "expectedOutput": "Components: 2\nShortest Path: UNREACHABLE", "note": { "en": "Disconnected source and target", "bn": "বিচ্ছিন্ন উৎস ও গন্তব্য" } },
+        { "input": "3 0\n1 1", "expectedOutput": "Components: 3\nShortest Path: 1", "note": { "en": "Trivial self-path on isolated nodes", "bn": "নিজে থেকে নিজের পথ" } }
+      ]
+    },
+    {
+      "id": "P17-20",
+      "number": 20,
+      "title": {
+        "en": "O(1) LRU Cache Using Doubly Linked List & Hash Map",
+        "bn": "ডাবলি লিঙ্কড লিস্ট ও হ্যাশ-ম্যাপে O(1) LRU ক্যাশ"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "25 min", "bn": "২৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "CPU caches, Redis eviction policies, database buffer pools, and DNS/CDN caches evict Least Recently Used keys in strict `O(1)` time.",
+        "bn": "প্রসেসর ক্যাশ, Redis ও CDN ক্যাশে সবচেয়ে পুরোনো ব্যবহৃত কী O(1) সময়ে অপসারণ করতে LRU ক্যাশ ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Doubly linked list with sentinel head/tail nodes", "bn": "সেন্টিনেল হেড/টেইলসহ ডাবলি লিঙ্কড লিস্ট" },
+        { "en": "Hash map storing direct node references for O(1) move/evict", "bn": "O(1) মুভ ও ইভিকশনের জন্য নোড-রেফারেন্স হ্যাশ ম্যাপ" }
+      ],
+      "description": {
+        "en": "Implement an `LRUCache(capacity)` from scratch using a custom Doubly Linked List (`_DNode` with sentinel `head` and `tail`) paired with a `dict` (do NOT use `OrderedDict` or `functools.lru_cache`). Read `cap Q` on line 1, then execute `GET k` (print value or `-1`, promoting hit to MRU), `PUT k v` (insert/update and promote to MRU; evict LRU if capacity exceeded), and `ORDER` (print keys from MRU to LRU, or `EMPTY`).",
+        "bn": "`OrderedDict` ছাড়াই নিজস্ব ডাবলি লিঙ্কড লিস্ট ও ডিকশনারি যুক্ত করে `O(1)` সময়ে `LRUCache(capacity)` তৈরি করুন। `GET k`, `PUT k v` ও `ORDER` (MRU থেকে LRU ক্রমে কী) কমান্ড পরিচালনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: capacity and Q. Next Q lines: GET, PUT, or ORDER.",
+        "bn": "প্রথম লাইনে capacity ও Q, পরের Q লাইনে কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Outputs for GET and ORDER commands.",
+        "bn": "GET ও ORDER কমান্ডের আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "2 7\nPUT 1 10\nPUT 2 20\nGET 1\nPUT 3 30\nGET 2\nGET 3\nORDER",
+          "output": "10\n-1\n30\n3 1",
+          "explanation": {
+            "en": "GET 1 promotes key 1 ahead of 2, so PUT 3 evicts 2; ORDER prints MRU->LRU as 3 1.",
+            "bn": "GET 1 কী ১-কে সামনে আনায় PUT 3-এ ২ অপসারিত হয়; শেষ ক্রম ৩ ১।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Sentinel nodes `self.head` (MRU side) and `self.tail` (LRU side) eliminate every `None` pointer corner case when removing or inserting.",
+        "bn": "`head` (নবীন) ও `tail` (পুরাতন) সেন্টিনেল নোড নিলে `None` চেকের ঝামেলা থাকে না।"
+      },
+      "hint2": {
+        "en": "Decompose link surgery into two helpers: `_remove(node)` and `_insert_front(node)`.",
+        "bn": "`_remove(node)` ও `_insert_front(node)` দুটি হেল্পার মেথড লিখলে পুরো ক্যাশ অনেক সহজ হয়।"
+      },
+      "logicBreakdown": {
+        "en": "A hash map alone cannot track recency order in `O(1)`, and a list alone cannot find arbitrary keys in `O(1)`. Pairing them—where the dict points directly to doubly linked nodes—makes lookup, promotion, insertion, and eviction all `O(1)`.",
+        "bn": "হ্যাশ ম্যাপ খুঁজে দেয় এবং ডাবলি লিঙ্কড লিস্টের নোডের সরাসরি রেফারেন্স থাকায় যেকোনো নোডকে `O(1)` সময়ে সামনে আনা বা মুছে ফেলা যায়।"
+      },
+      "algorithm": [
+        { "en": "Define `_DNode(key, val)` with `prev` and `next` pointers.", "bn": "`prev` ও `next` সহ `_DNode` ক্লাস বানান।" },
+        { "en": "Link `head <-> tail` sentinels and create `cache = {}`.", "bn": "সেন্টিনেল `head <-> tail` ও `cache` ডিকশনারি তৈরি করুন।" },
+        { "en": "On GET: if missing return `-1`; else `_remove(node)` + `_insert_front(node)` and return `node.val`.", "bn": "GET-এ পাওয়া গেলে নোডটি সামনে এনে মান দিন।" },
+        { "en": "On PUT: update/insert node at front; if `len(cache) > cap`, remove `tail.prev` and delete from `cache`.", "bn": "PUT-এ সামনে যোগ করে ধারণক্ষমতা ছাড়ালে `tail.prev` মুছে ফেলুন।" }
+      ],
+      "solution": "class DNode:\n    def __init__(self, key=\"\", val=\"\"):\n        self.key = key\n        self.val = val\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, cap):\n        self.cap = cap\n        self.cache = {}\n        self.head = DNode()\n        self.tail = DNode()\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def _remove(self, node):\n        p, n = node.prev, node.next\n        p.next = n\n        n.prev = p\n\n    def _insert_front(self, node):\n        first = self.head.next\n        node.prev = self.head\n        node.next = first\n        self.head.next = node\n        first.prev = node\n\n    def get(self, key):\n        if key not in self.cache:\n            return \"-1\"\n        node = self.cache[key]\n        self._remove(node)\n        self._insert_front(node)\n        return node.val\n\n    def put(self, key, val):\n        if key in self.cache:\n            node = self.cache[key]\n            node.val = val\n            self._remove(node)\n            self._insert_front(node)\n            return\n        if self.cap == 0:\n            return\n        if len(self.cache) == self.cap:\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.cache[lru.key]\n        node = DNode(key, val)\n        self.cache[key] = node\n        self._insert_front(node)\n\n    def order(self):\n        keys = []\n        cur = self.head.next\n        while cur is not self.tail:\n            keys.append(cur.key)\n            cur = cur.next\n        return \" \".join(keys) if keys else \"EMPTY\"\n\ncap, q = map(int, input().split())\nlru = LRUCache(cap)\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"PUT\":\n        lru.put(parts[1], parts[2])\n    elif cmd == \"GET\":\n        print(lru.get(parts[1]))\n    elif cmd == \"ORDER\":\n        print(lru.order())",
+      "codeExplanation": {
+        "en": "Every `get` and `put` touches only 4 pointer links plus one hash-map lookup, guaranteeing strict `O(1)` latency regardless of cache capacity.",
+        "bn": "প্রতিটি `get` ও `put` কেবল ৪টি পয়েন্টার ও ১টি ডিকশনারি লুকআপে `O(1)` সময়ে সম্পন্ন হয়।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting to store `key` inside `DNode`—without it, you cannot delete `lru.key` from `self.cache` upon eviction.",
+        "bn": "`DNode`-এর ভেতর `key` সংরক্ষণ না করলে `tail.prev` মুছে ফেলার সময় `cache` ডিকশনারি থেকে কী সরানো যায় না।"
+      },
+      "complexity": { "time": "O(1) per GET/PUT", "space": "O(capacity)" },
+      "testCases": [
+        { "input": "2 7\nPUT 1 10\nPUT 2 20\nGET 1\nPUT 3 30\nGET 2\nGET 3\nORDER", "expectedOutput": "10\n-1\n30\n3 1", "note": { "en": "Hit promotion and LRU eviction", "bn": "হিট প্রমোশন ও LRU ইভিকশন" } },
+        { "input": "2 5\nPUT a 1\nPUT b 2\nPUT a 99\nGET a\nORDER", "expectedOutput": "99\na b", "note": { "en": "Update existing key without evicting b", "bn": "বিদ্যমান কী আপডেট" } },
+        { "input": "1 4\nORDER\nPUT x 7\nPUT y 8\nORDER", "expectedOutput": "EMPTY\ny", "note": { "en": "Capacity 1 replacement", "bn": "১ ধারণক্ষমতার ক্যাশ" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1464 @@
+{
+  "partId": "part-16",
+  "partNumber": 16,
+  "problems": [
+    {
+      "id": "P16-01",
+      "number": 1,
+      "title": {
+        "en": "Binary Bit-Position Weights & Byte Breakdown",
+        "bn": "বাইনারি বিট অবস্থান ও বাইট ওজন বিশ্লেষণ"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Understanding how hardware registers, IPv4 octets, and ASCII characters map each 1/0 bit inside a 8-bit byte to powers of 2.",
+        "bn": "হার্ডওয়্যার রেজিস্টার, IPv4 অক্টেট ও ASCII অক্ষরের প্রতিটি ১/০ বিট কীভাবে ২-এর ঘাতে মান তৈরি করে তা বোঝা।"
+      },
+      "requiredConcepts": [
+        { "en": "Base-2 positional weights (2^0 .. 2^7)", "bn": "বেস-২ স্থানীয় মান (2^0 .. 2^7)" },
+        { "en": "MSB vs LSB bit ordering", "bn": "সর্বোচ্চ (MSB) ও সর্বনিম্ন (LSB) বিট" }
+      ],
+      "description": {
+        "en": "Computers store all numbers in base-2 using bits (0 or 1), where position `k` from the right (starting at 0) carries weight `2^k`. Read an 8-bit binary string (e.g., `00101101`). Validate that it contains only `0` and `1` (otherwise print `INVALID_BINARY`), then decompose it by printing `<bit_weight>` for every `1` bit from left to right (MSB to LSB) as `<sum_expr> = <decimal>` (or `0 = 0` if all zeros).",
+        "bn": "কম্পিউটার প্রতিটি সংখ্যা ০ ও ১ বিটের মাধ্যমে বেস-২ পদ্ধতিতে সংরক্ষণ করে, যেখানে ডানদিক থেকে `k` অবস্থানের ওজন `2^k`। একটি ৮-বিট বাইনারি স্ট্রিং ইনপুট নিয়ে বৈধ কি না যাচাই করুন (অবৈধ হলে `INVALID_BINARY`) এবং বাম থেকে ডানে প্রতিটি `1` বিটের মানের যোগফল আকারে `<যোগফল_ধারা> = <দশমিক>` প্রিন্ট করুন (সব শূন্য হলে `0 = 0`)।"
+      },
+      "inputDescription": {
+        "en": "One line containing an 8-character string.",
+        "bn": "এক লাইনে ৮ অক্ষরের একটি স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "Positional expansion `<w1> + <w2> ... = <decimal>`, `0 = 0`, or `INVALID_BINARY`.",
+        "bn": "স্থানীয় মানের বিস্তার `<w1> + <w2> ... = <দশমিক>`, `0 = 0`, অথবা `INVALID_BINARY`।"
+      },
+      "examples": [
+        {
+          "input": "00101101",
+          "output": "32 + 8 + 4 + 1 = 45",
+          "explanation": {
+            "en": "Bits at weights 32, 8, 4, and 1 are set to 1; 32 + 8 + 4 + 1 = 45.",
+            "bn": "৩২, ৮, ৪ ও ১ ওজনের বিটগুলো ১ থাকায় মোট মান ৪৫।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `len(s) == 8 and all(ch in ('0', '1') for ch in s)` before computing weights.",
+        "bn": "হিসাব শুরুর আগে দৈর্ঘ্য ৮ এবং প্রতিটি অক্ষর `0` বা `1` কি না যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "For index `i` in `range(8)` (left to right), the bit's power of 2 is `2 ** (7 - i)`.",
+        "bn": "বাম থেকে ডানে `i` সূচকের বিটের স্থানীয় মান হলো `2 ** (7 - i)`।"
+      },
+      "logicBreakdown": {
+        "en": "In an 8-bit byte, the leftmost bit (Most Significant Bit, index 0) represents `2^7 = 128` and the rightmost bit (Least Significant Bit, index 7) represents `2^0 = 1`. Explicitly separating positional weights builds intuition for binary masks and network octets without relying on `int(s, 2)` shortcuts.",
+        "bn": "৮-বিটের একটি বাইটে বামের প্রথম বিটের মান `128` (`2^7`) এবং ডানের শেষ বিটের মান `1` (`2^0`)। এভাবে প্রতিটি বিটের ওজন দেখলে নেটওয়ার্ক মাস্ক ও বিট-ফ্ল্যাগ বোঝা সহজ হয়।"
+      },
+      "algorithm": [
+        { "en": "Read string s and strip whitespace.", "bn": "স্ট্রিং s পড়ে বাড়তি স্পেস বাদ দিন।" },
+        { "en": "Validate length is 8 and all characters are '0' or '1'.", "bn": "দৈর্ঘ্য ৮ ও শুধু '0'/'1' আছে কি না পরীক্ষা করুন।" },
+        { "en": "Loop i from 0 to 7: if s[i] == '1', append 2 ** (7 - i) to terms.", "bn": "প্রতিটি '1' বিটের জন্য 2 ** (7 - i) সংগ্রহ করুন।" },
+        { "en": "Print '0 = 0' if terms is empty, else join terms with ' + ' and print '= sum(terms)'.", "bn": "ফাঁকা হলে '0 = 0', নতুবা যোগফলসহ প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().strip()\nif len(s) != 8 or not all(c in (\"0\", \"1\") for c in s):\n    print(\"INVALID_BINARY\")\nelse:\n    terms = []\n    for i, bit in enumerate(s):\n        if bit == \"1\":\n            terms.append(2 ** (7 - i))\n    if not terms:\n        print(\"0 = 0\")\n    else:\n        expr = \" + \".join(str(t) for t in terms)\n        print(f\"{expr} = {sum(terms)}\")",
+      "codeExplanation": {
+        "en": "enumerate(s) maps left-to-right index i to exponent (7 - i). Collecting active weights in terms lets us format both the human-readable breakdown and total decimal sum.",
+        "bn": "enumerate(s) দিয়ে প্রতিটি অবস্থানের ঘাত (7 - i) বের করে কেবল '1' বিটের ওজনগুলো যোগ করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Reversing exponent order (using `2 ** i` instead of `2 ** (7 - i)`) or forgetting to validate non-binary characters like `'2'` or wrong byte lengths.",
+        "bn": "ঘাতের ক্রম উল্টে `2 ** i` ব্যবহার করা বা `0`/`1` ছাড়া অন্য অক্ষর যাচাই না করা।"
+      },
+      "complexity": { "time": "O(1) fixed 8 bits", "space": "O(1)" },
+      "testCases": [
+        { "input": "00101101", "expectedOutput": "32 + 8 + 4 + 1 = 45", "note": { "en": "Mixed byte", "bn": "মিশ্র বিট" } },
+        { "input": "00000000", "expectedOutput": "0 = 0", "note": { "en": "All zero byte", "bn": "শূন্য বাইট" } },
+        { "input": "11111111", "expectedOutput": "128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255", "note": { "en": "Max unsigned byte 255", "bn": "সর্বোচ্চ বাইট ২৫৫" } },
+        { "input": "10102010", "expectedOutput": "INVALID_BINARY", "note": { "en": "Invalid digit '2'", "bn": "অবৈধ অঙ্ক '2'" } }
+      ]
+    },
+    {
+      "id": "P16-02",
+      "number": 2,
+      "title": {
+        "en": "Decimal to Fixed-Width Binary Converter (No `bin()`)",
+        "bn": "দশমিক থেকে নির্দিষ্ট প্রস্থের বাইনারি রূপান্তর (`bin()` ছাড়া)"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Formatting fixed-width 8-bit bytes, 16-bit port numbers, and 32-bit machine words for protocol packet inspection and memory dumps.",
+        "bn": "নেটওয়ার্ক প্যাকেট ও মেমরি ডাম্প বিশ্লেষণে নির্দিষ্ট ৮-বিট বা ১৬-বিট প্রস্থে বাইনারি রূপ সাজানো।"
+      },
+      "requiredConcepts": [
+        { "en": "Repeated division by 2 & remainder extraction", "bn": "২ দিয়ে ক্রমাগত ভাগ ও ভাগশেষ" },
+        { "en": "Zero-padding to fixed register width", "bn": "নির্দিষ্ট বিট প্রস্থে শূন্য-প্যাডিং" }
+      ],
+      "description": {
+        "en": "Read two integers `N` (non-negative) and `width` (`1 <= width <= 32`) on one line. Convert `N` to binary WITHOUT using `bin()`, `format()`, or f-string `:b`, and pad with leading zeros to reach `width` bits (if `N` needs more than `width` bits, print `OVERFLOW`).",
+        "bn": "এক লাইনে অ-ঋণাত্মক পূর্ণসংখ্যা `N` ও বিট প্রস্থ `width` (`1 <= width <= 32`) ইনপুট নিন। `bin()`, `format()` বা `:b` ছাড়া `N`-কে বাইনারিতে রূপান্তর করে বামে শূন্য বসিয়ে `width` বিট পূর্ণ করুন (সংখ্যাটি `width` বিটে না ধরলে `OVERFLOW` প্রিন্ট করুন)।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated integers `N width` (`N >= 0`, `1 <= width <= 32`).",
+        "bn": "দুটি পূর্ণসংখ্যা `N width` (`N >= 0`, `1 <= width <= 32`)।"
+      },
+      "expectedOutput": {
+        "en": "`width`-bit binary string, or `OVERFLOW`.",
+        "bn": "`width` দৈর্ঘ্যের বাইনারি স্ট্রিং, অথবা `OVERFLOW`।"
+      },
+      "examples": [
+        {
+          "input": "13 8",
+          "output": "00001101",
+          "explanation": {
+            "en": "13 in binary is 1101 (4 bits); padded to 8 bits gives 00001101.",
+            "bn": "১৩-এর বাইনারি ১১০১; ৮ বিট পূর্ণ করতে বামে চারটি শূন্য বসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First check the maximum unsigned value that fits in `width` bits: `2 ** width - 1` (equivalently `(1 << width) - 1`).",
+        "bn": "`width` বিটে সর্বোচ্চ `(1 << width) - 1` মান রাখা যায়—তাই শুরুতেই `N >= (1 << width)` হলে `OVERFLOW` দিন।"
+      },
+      "hint2": {
+        "en": "Run a loop `width` times extracting `n % 2` from right to left and updating `n //= 2`, then reverse the collected bits.",
+        "bn": "ঠিক `width` বার লুপ চালিয়ে `n % 2` সংগ্রহ ও `n //= 2` করে শেষে বিটগুলো উল্টে দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Running exactly `width` division steps after checking `N >= (1 << width)` solves zero-padding AND the `N = 0` edge case simultaneously without special `if n == 0` branches. Real hardware registers always have fixed widths (8, 16, 32, 64 bits), so overflow detection is critical.",
+        "bn": "ওভারফ্লো যাচাইয়ের পর ঠিক `width` বার ভাগ করলে `N = 0` এবং শূন্য-প্যাডিং উভয়ই স্বয়ংক্রিয়ভাবে সঠিক হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integers n and width.", "bn": "পূর্ণসংখ্যা n ও width পড়ুন।" },
+        { "en": "If n < 0 or width < 1 or n >= (1 << width), print OVERFLOW.", "bn": "n ঋণাত্মক বা n >= (1 << width) হলে OVERFLOW প্রিন্ট করুন।" },
+        { "en": "Loop width times: append str(n % 2) and set n //= 2.", "bn": "width বার লুপে str(n % 2) সংগ্রহ করে n //= 2 করুন।" },
+        { "en": "Reverse collected bits and print joined string.", "bn": "বিটগুলো উল্টে জোড়া দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "n, width = [int(x) for x in input().split()]\nif n < 0 or width < 1 or n >= (1 << width):\n    print(\"OVERFLOW\")\nelse:\n    bits = []\n    for _ in range(width):\n        bits.append(str(n % 2))\n        n //= 2\n    bits.reverse()\n    print(\"\".join(bits))",
+      "codeExplanation": {
+        "en": "Fixed-iteration division emits LSB first for every slot up to width, guaranteeing exact leading zero padding.",
+        "bn": "নির্দিষ্ট width বার ভাগশেষ নেওয়ায় ডান থেকে বাম পর্যন্ত প্রতিটি বিট ও বামের শূন্য সঠিকভাবে তৈরি হয়।"
+      },
+      "commonMistakes": {
+        "en": "Using `while n > 0` without padding, which prints empty output for `n = 0` and omits leading zeros, or forgetting `n == 2 ** width` overflows.",
+        "bn": "`while n > 0` দিয়ে `n = 0` ক্ষেত্রে ফাঁকা প্রিন্ট করা অথবা `2 ** width` মানটি `width` বিটে ধরে না তা ভুলে যাওয়া।"
+      },
+      "complexity": { "time": "O(width)", "space": "O(width)" },
+      "testCases": [
+        { "input": "13 8", "expectedOutput": "00001101", "note": { "en": "8-bit padded", "bn": "৮-বিট প্যাডিং" } },
+        { "input": "0 4", "expectedOutput": "0000", "note": { "en": "Zero fills all bits", "bn": "শূন্যের জন্য সব বিট শূন্য" } },
+        { "input": "16 4", "expectedOutput": "OVERFLOW", "note": { "en": "16 requires 5 bits", "bn": "১৬-এর জন্য ৫ বিট লাগে" } },
+        { "input": "255 8", "expectedOutput": "11111111", "note": { "en": "Exact max 8-bit unsigned", "bn": "সর্বোচ্চ ৮-বিট মান" } }
+      ]
+    },
+    {
+      "id": "P16-03",
+      "number": 3,
+      "title": {
+        "en": "Binary String to Decimal via Horner's Method",
+        "bn": "হর্নারের পদ্ধতিতে বাইনারি থেকে দশমিক রূপান্তর"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Parsing bitstreams and flag headers sequentially left-to-right in decoders without precomputing string length.",
+        "bn": "ডিকোডারে আগত বিটস্ট্রিম দৈর্ঘ্য আগে না জেনেই বাম থেকে ডানে রূপান্তর করা।"
+      },
+      "requiredConcepts": [
+        { "en": "Horner's accumulator (val = val * 2 + bit)", "bn": "হর্নার অ্যাকিউমুলেটর (val = val * 2 + bit)" },
+        { "en": "Input bit validation", "bn": "ইনপুট বিট যাচাই" }
+      ],
+      "description": {
+        "en": "Read a binary string of arbitrary non-empty length (ignoring optional leading `'0b'`). Convert it to a decimal integer WITHOUT using `int(s, 2)` or `2 ** k` exponentiation, using Horner's left-to-right doubling rule (`val = val * 2 + bit`). Print `INVALID_BINARY` if the string is empty or contains non-binary characters.",
+        "bn": "ঐচ্ছিক `'0b'` প্রিফিক্সসহ যেকোনো দৈর্ঘ্যের একটি বাইনারি স্ট্রিং ইনপুট নিন। `int(s, 2)` বা `2 ** k` ব্যবহার না করে হর্নারের বাম-থেকে-ডান নিয়মে (`val = val * 2 + bit`) দশমিকে রূপান্তর করুন; অবৈধ ইনপুটে `INVALID_BINARY` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single line string representing a binary number (optionally starting with `0b`).",
+        "bn": "বাইনারি সংখ্যার স্ট্রিং (শুরুতে `0b` থাকতে পারে)।"
+      },
+      "expectedOutput": {
+        "en": "Converted decimal integer, or `INVALID_BINARY`.",
+        "bn": "দশমিক পূর্ণসংখ্যা, অথবা `INVALID_BINARY`।"
+      },
+      "examples": [
+        {
+          "input": "0b10110",
+          "output": "22",
+          "explanation": {
+            "en": "Stripping 0b leaves 10110: 0->1->2->5->11->22.",
+            "bn": "0b বাদে 10110: ধাপে ধাপে দ্বিগুণ ও যোগ হয়ে ২২ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Strip `'0b'` only once from the start if `s.startswith('0b')`, then verify `s` is still non-empty!",
+        "bn": "শুরুতে `0b` থাকলে একবার বাদ দিয়ে দেখুন স্ট্রিংটি শূন্য হয়ে যায়নি তো!"
+      },
+      "hint2": {
+        "en": "For each `ch` in `s`, double `acc`: `acc = acc * 2 + (1 if ch == '1' else 0)`.",
+        "bn": "প্রতিটি অক্ষরে `acc = acc * 2 + int(ch)` আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Computing `2 ** k` for every position takes extra power operations, whereas Horner's rule (`acc = (acc << 1) + bit`) multiplies by 2 at each step as bits stream in left-to-right in strict `O(N)` arithmetic operations.",
+        "bn": "প্রতিবার ঘাত হিসাবের চেয়ে হর্নারের নিয়মে প্রতিটি নতুন বিট এলে আগের মান দ্বিগুণ করে যোগ করাই সবচেয়ে দ্রুত ও প্রচলিত স্ট্রিমিং পদ্ধতি।"
+      },
+      "algorithm": [
+        { "en": "Read string s; if it starts with '0b', slice s = s[2:].", "bn": "s পড়ে '0b' থাকলে বাদ দিন।" },
+        { "en": "If s is empty or any character is not in '01', print INVALID_BINARY.", "bn": "ফাঁকা হলে বা '0'/'1' ছাড়া কিছু থাকলে INVALID_BINARY প্রিন্ট করুন।" },
+        { "en": "Initialize acc = 0; for each ch in s, acc = acc * 2 + int(ch).", "bn": "acc = 0 থেকে প্রতিটি বিটে acc = acc * 2 + int(ch) করুন।" },
+        { "en": "Print acc.", "bn": "acc প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().strip()\nif s.startswith(\"0b\"):\n    s = s[2:]\nif not s or not all(c in (\"0\", \"1\") for c in s):\n    print(\"INVALID_BINARY\")\nelse:\n    acc = 0\n    for ch in s:\n        acc = acc * 2 + (1 if ch == \"1\" else 0)\n    print(acc)",
+      "codeExplanation": {
+        "en": "Every step shifts the accumulated value left by 1 base-2 place (* 2) and places the incoming bit into the units slot.",
+        "bn": "প্রতিটি ধাপে মানটি বামে এক ঘর সরে (* 2) এবং নতুন বিট এককের স্থানে যুক্ত হয়।"
+      },
+      "commonMistakes": {
+        "en": "Accepting bare `'0b'` (which becomes empty after slicing `[2:]`) or using `s.lstrip('0b')` which accidentally strips leading `'0'` bits of `'0b001'`.",
+        "bn": "`s.lstrip('0b')` ব্যবহার করা—এতে `'0b001'`-এর সামনের আসল শূন্য বিটও মুছে যায়, কিংবা শুধু `'0b'` ইনপুটকে বৈধ ধরা।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "0b10110", "expectedOutput": "22", "note": { "en": "Prefixed binary", "bn": "0b প্রিফিক্সসহ" } },
+        { "input": "0000", "expectedOutput": "0", "note": { "en": "All zeros", "bn": "সব শূন্য" } },
+        { "input": "0b", "expectedOutput": "INVALID_BINARY", "note": { "en": "Empty after 0b prefix", "bn": "0b-এর পর কোনো বিট নেই" } },
+        { "input": "1111111111", "expectedOutput": "1023", "note": { "en": "10-bit max value", "bn": "১০-বিটের সর্বোচ্চ মান" } }
+      ]
+    },
+    {
+      "id": "P16-04",
+      "number": 4,
+      "title": {
+        "en": "Binary Addition Simulator With Carry Propagation",
+        "bn": "ক্যারি প্রোপাগেশনসহ বাইনারি যোগ সিমুলেটর"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Core arithmetic logic unit (ALU) full-adder circuitry and big-integer addition beyond CPU register widths.",
+        "bn": "CPU-এর অ্যারিথমেটিক লজিক ইউনিট (ALU) ও ফুল-অ্যাডার সার্কিটের মূল কার্যক্রম।"
+      },
+      "requiredConcepts": [
+        { "en": "Full-adder logic (sum = total % 2, carry = total // 2)", "bn": "ফুল-অ্যাডার লজিক (যোগফল % 2, ক্যারি // 2)" },
+        { "en": "Right-to-left two-pointer alignment", "bn": "ডান থেকে বামে বিট মেলানো" }
+      ],
+      "description": {
+        "en": "Read two binary strings `A` and `B` (which may have different lengths) on separate lines. Add them bit-by-bit from right to left using full-adder carry logic WITHOUT converting `A` or `B` to decimal (`int(..., 2)`), and print the binary sum (no extra leading zeros unless the sum itself is `0`).",
+        "bn": "দুটি লাইনে ভিন্ন দৈর্ঘ্যের হতে পারে এমন দুটি বাইনারি স্ট্রিং `A` ও `B` ইনপুট নিন। দশমিকে রূপান্তর না করে ডান থেকে বামে বিট-বাই-বিট ফুল-অ্যাডার ক্যারি লজিক ব্যবহার করে যোগফল নির্ণয় করুন এবং বাড়তি বামের শূন্য ছাড়া প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: binary string A. Line 2: binary string B.",
+        "bn": "১ম লাইন: বাইনারি A। ২য় লাইন: বাইনারি B।"
+      },
+      "expectedOutput": {
+        "en": "Normalized binary sum string.",
+        "bn": "যোগফলের বাইনারি স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "1011\n111",
+          "output": "10010",
+          "explanation": {
+            "en": "11 + 7 = 18 -> 10010 via 4 right-to-left full-adder steps plus final carry 1.",
+            "bn": "১০১১ (১১) + ১১১ (৭) = ১০০১০ (১৮), শেষে ক্যারি ১ যুক্ত হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Point `i = len(a) - 1`, `j = len(b) - 1`, `carry = 0` and loop `while i >= 0 or j >= 0 or carry:`.",
+        "bn": "`i = len(a)-1`, `j = len(b)-1` ও `carry = 0` নিয়ে `while i >= 0 or j >= 0 or carry:` লুপ চালান।"
+      },
+      "hint2": {
+        "en": "At each step: `total = carry + bit_a + bit_b`; append `str(total % 2)` and set `carry = total // 2`.",
+        "bn": "প্রতি ধাপে `total = carry + bit_a + bit_b` হলে ফল বিট `total % 2` এবং পরের `carry = total // 2`।"
+      },
+      "logicBreakdown": {
+        "en": "In base 2, `1 + 1 = 10_2` (bit `0`, carry `1`) and `1 + 1 + 1 = 11_2` (bit `1`, carry `1`). Continuing the loop while `carry` is non-zero handles overflow out of the MSB cleanly without fixed width limits.",
+        "bn": "বাইনারিতে `১+১=১০` ও `১+১+১=১১`। লুপে `or carry` শর্ত রাখলে সবচেয়ে বামের অতিরিক্ত ক্যারিও বাদ পড়ে না।"
+      },
+      "algorithm": [
+        { "en": "Read binary strings a and b.", "bn": "বাইনারি স্ট্রিং a ও b পড়ুন।" },
+        { "en": "Set i = len(a)-1, j = len(b)-1, carry = 0, out = [].", "bn": "দুই শেষ ইনডেক্স ও carry = 0 নিন।" },
+        { "en": "Loop while i >= 0 or j >= 0 or carry: sum active bits + carry, append total % 2, update carry = total // 2.", "bn": "বিট ও ক্যারি যোগ করে ভাগশেষ সংরক্ষণ ও নতুন ক্যারি নিন।" },
+        { "en": "Reverse out, strip leading zeros (keeping '0' if empty), and print.", "bn": "উল্টে বামের বাড়তি শূন্য সরিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "a = input().strip()\nb = input().strip()\ni, j = len(a) - 1, len(b) - 1\ncarry = 0\nout = []\nwhile i >= 0 or j >= 0 or carry:\n    total = carry\n    if i >= 0:\n        total += 1 if a[i] == \"1\" else 0\n        i -= 1\n    if j >= 0:\n        total += 1 if b[j] == \"1\" else 0\n        j -= 1\n    out.append(str(total % 2))\n    carry = total // 2\nres = \"\".join(reversed(out)).lstrip(\"0\") or \"0\"\nprint(res)",
+      "codeExplanation": {
+        "en": "Both pointers walk backward independently so unequal string lengths align at their LSBs naturally.",
+        "bn": "দুটি পয়েন্টার ডানদিক থেকে আলাদাভাবে চলায় অসমান দৈর্ঘ্যের স্ট্রিংও স্বয়ংক্রিয়ভাবে LSB অনুযায়ী মিলে যায়।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting the final `or carry` check, which drops the top carry bit (e.g., `1 + 1` yielding `0` instead of `10`), or `.lstrip('0')` returning `''` on `0 + 0`.",
+        "bn": "শেষ `carry` যোগ করতে ভুলে যাওয়া বা `0 + 0`-তে `lstrip('0')` করে ফাঁকা স্ট্রিং প্রিন্ট করা।"
+      },
+      "complexity": { "time": "O(max(N, M))", "space": "O(max(N, M))" },
+      "testCases": [
+        { "input": "1011\n111", "expectedOutput": "10010", "note": { "en": "Unequal lengths with carry chain", "bn": "অসমান দৈর্ঘ্য ও ক্যারি" } },
+        { "input": "000\n00", "expectedOutput": "0", "note": { "en": "Zero plus zero normalized", "bn": "শূন্য যোগ শূন্য" } },
+        { "input": "1111\n1", "expectedOutput": "10000", "note": { "en": "Ripple carry across all bits", "bn": "সব বিটে রিপল ক্যারি" } }
+      ]
+    },
+    {
+      "id": "P16-05",
+      "number": 5,
+      "title": {
+        "en": "Binary Subtraction via Two's Complement Addition",
+        "bn": "টু-স কমপ্লিমেন্ট (Two's Complement) দিয়ে বাইনারি বিয়োগ"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "How modern CPUs compute subtraction (`A - B = A + (~B + 1)`) using a single hardware adder circuit and signed 8-bit registers.",
+        "bn": "আধুনিক CPU যেভাবে আলাদা বিয়োগ সার্কিট ছাড়াই `A + (~B + 1)` যোগ করে বিয়োগ সম্পন্ন করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Bitwise inversion & Two's Complement (~B + 1)", "bn": "বিট উল্টানো ও টু-স কমপ্লিমেন্ট (~B + 1)" },
+        { "en": "8-bit overflow carry discard", "bn": "৮-বিটের অতিরিক্ত ক্যারি বর্জন" }
+      ],
+      "description": {
+        "en": "Read two 8-bit unsigned binary strings `A` and `B` representing integers with `A >= B`. Subtract `A - B` WITHOUT decimal conversion by: (1) flipping all 8 bits of `B` (one's complement), (2) adding `1` in binary (two's complement of `B`), (3) adding `A + two_comp(B)` in 8 bits while discarding the 9th carry-out bit. Print the 8-bit binary result.",
+        "bn": "`A >= B` শর্তে দুটি ৮-বিট বাইনারি স্ট্রিং `A` ও `B` ইনপুট নিন। দশমিকে রূপান্তর না করে টু-স কমপ্লিমেন্ট নিয়মে `(১) B-এর সব বিট উল্টানো, (২) ১ যোগ করা, (৩) A-এর সাথে ৮ বিটে যোগ করে ৯ম ক্যারি-আউট বাদ দেওয়া` পদ্ধতিতে `A - B` নির্ণয় করে ৮-বিট বাইনারি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: 8-bit binary A. Line 2: 8-bit binary B (with A >= B).",
+        "bn": "১ম লাইন: ৮-বিট বাইনারি A। ২য় লাইন: ৮-বিট বাইনারি B (A >= B)।"
+      },
+      "expectedOutput": {
+        "en": "8-bit binary difference `A - B`.",
+        "bn": "`A - B`-এর ৮-বিট বাইনারি ফল।"
+      },
+      "examples": [
+        {
+          "input": "00101101\n00010011",
+          "output": "00011010",
+          "explanation": {
+            "en": "45 - 19 = 26 (00011010). ~B = 11101100, +1 = 11101101; A + 11101101 = (1)00011010 -> drop carry -> 00011010.",
+            "bn": "~B + 1 = 11101101; A-এর সাথে যোগ করে বামের ৯ম ক্যারি ১ বাদ দিলে 00011010 (২৬) পাওয়া যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Write a tiny `add_8bit(x, y)` helper that adds two 8-bit strings right-to-left and returns ONLY the lower 8 bits.",
+        "bn": "দুটি ৮-বিট স্ট্রিং যোগ করে কেবল ডানের ৮ বিট রিটার্ন করে এমন একটি `add_8bit(x, y)` হেল্পার লিখুন।"
+      },
+      "hint2": {
+        "en": "Flip `B` using `'1' if ch == '0' else '0'`, add `'00000001'`, then add `A`!",
+        "bn": "`B`-এর প্রতিটি বিট উল্টে `'00000001'` যোগ করুন, তারপর `A` যোগ করুন!"
+      },
+      "logicBreakdown": {
+        "en": "In modulo-`2^8` arithmetic, `-B ≡ (2^8 - B) = ((2^8 - 1) - B) + 1 = ~B + 1`. Discarding the 9th bit mathematically subtracts `2^8`, leaving the exact unsigned difference `A - B` whenever `A >= B`.",
+        "bn": "মডুলো-`2^8` পাটিগণিতে `-B` মানে `(~B + 1)`। যোগের পর ৯ম ক্যারি বিট ফেলে দেওয়া মানে `2^8` বাদ দেওয়া—ফলে নিখুঁত `A - B` পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read 8-bit strings a and b.", "bn": "৮-বিট স্ট্রিং a ও b পড়ুন।" },
+        { "en": "Define add_8bit(x, y) performing right-to-left 8-step binary addition.", "bn": "৮-বিট যোগ করার হেল্পার add_8bit(x, y) লিখুন।" },
+        { "en": "Compute inv_b by flipping every bit of b, then neg_b = add_8bit(inv_b, '00000001').", "bn": "b-এর বিট উল্টে ও ১ যোগ করে টু-স কমপ্লিমেন্ট neg_b বানান।" },
+        { "en": "Print add_8bit(a, neg_b).", "bn": "add_8bit(a, neg_b) প্রিন্ট করুন।" }
+      ],
+      "solution": "def add_8bit(x, y):\n    carry = 0\n    res = [\"0\"] * 8\n    for i in range(7, -1, -1):\n        bx = 1 if x[i] == \"1\" else 0\n        by = 1 if y[i] == \"1\" else 0\n        total = bx + by + carry\n        res[i] = str(total % 2)\n        carry = total // 2\n    return \"\".join(res)\n\na = input().strip()\nb = input().strip()\nones_comp = \"\".join(\"1\" if c == \"0\" else \"0\" for c in b)\ntwos_comp = add_8bit(ones_comp, \"00000001\")\nprint(add_8bit(a, twos_comp))",
+      "codeExplanation": {
+        "en": "add_8bit naturally discards carry after index 0, so both (~b + 1) wrapping on b=00000000 and final A + (-B) subtraction work cleanly.",
+        "bn": "add_8bit ইনডেক্স ০-এর পর ক্যারি ফেলে দেওয়ায় b=00000000 হলেও সঠিকভাবে ০ থাকে এবং A - B নিখুঁত হয়।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting the `+ 1` step (leaving one's complement instead of two's complement, which is off by 1) or keeping the 9th carry-out bit.",
+        "bn": "বিট উল্টানোর পর `+ 1` যোগ করতে ভুলে যাওয়া (যা ১-কম হওয়া ফল দেয়) অথবা ৯ম ক্যারি বিট রেখে দেওয়া।"
+      },
+      "complexity": { "time": "O(1) fixed 8 bits", "space": "O(1)" },
+      "testCases": [
+        { "input": "00101101\n00010011", "expectedOutput": "00011010", "note": { "en": "45 - 19 = 26", "bn": "৪৫ - ১৯ = ২৬" } },
+        { "input": "00001010\n00001010", "expectedOutput": "00000000", "note": { "en": "Equal subtraction = 0", "bn": "সমান সংখ্যা বিয়োগ" } },
+        { "input": "11111111\n00000000", "expectedOutput": "11111111", "note": { "en": "Subtracting zero wraps cleanly", "bn": "শূন্য বিয়োগ" } }
+      ]
+    },
+    {
+      "id": "P16-06",
+      "number": 6,
+      "title": {
+        "en": "Binary Multiplication via Shift-and-Add Fundamentals",
+        "bn": "শিফট-অ্যান্ড-অ্যাড পদ্ধতিতে বাইনারি গুণ"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Russian Peasant multiplication and hardware multiplier circuits that multiply numbers using only bit shifts and addition.",
+        "bn": "হার্ডওয়্যার মাল্টিপ্লায়ার সার্কিট যেভাবে কেবল বিট শিফট ও যোগ ব্যবহার করে গুণ সম্পন্ন করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Shift-and-add binary multiplication", "bn": "শিফট-অ্যান্ড-অ্যাড গুণ পদ্ধতি" },
+        { "en": "Testing LSB (b & 1) and shifting (a << 1, b >> 1)", "bn": "শেষ বিট পরীক্ষা ও বিট শিফটিং" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers `A` and `B`. Multiply `A * B` using ONLY bitwise shifts (`<<`, `>>`), bitwise `& 1`, and addition (`+`) — NO `*` multiplication operator! Print the product on line 1 and the number of shift-add loop iterations performed on line 2 (if `A == 0` or `B == 0`, return `0` in `0` iterations).",
+        "bn": "দুটি অ-ঋণাত্মক পূর্ণসংখ্যা `A` ও `B` ইনপুট নিন। `*` গুণ চিহ্ন ছাড়াই কেবল বিটওয়াইজ শিফট (`<<`, `>>`), `& 1` এবং যোগ (`+`) ব্যবহার করে `A * B` নির্ণয় করুন। ১ম লাইনে গুণফল এবং ২য় লাইনে মোট কয়টি লুপ ধাপ লেগেছে তা প্রিন্ট করুন (`0` হলে ০ ধাপ)।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated non-negative integers `A B`.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি অ-ঋণাত্মক পূর্ণসংখ্যা `A B`।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: integer product `A * B`. Line 2: iteration count.",
+        "bn": "১ম লাইন: গুণফল `A * B`। ২য় লাইন: ধাপ সংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "13 6",
+          "output": "78\n3",
+          "explanation": {
+            "en": "B=6 (110_2) takes 3 iterations: bit0=0 skip, bit1=1 add 26, bit2=1 add 52 -> 78.",
+            "bn": "B=6 (110_2)-এ ৩টি বিট থাকায় ৩ ধাপে ২৬+৫২ = ৭৮ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "While `b > 0`: if `b & 1` is `1`, add `a` to `product`; then double `a` (`a <<= 1`) and halve `b` (`b >>= 1`).",
+        "bn": "`b > 0` পর্যন্ত: `b & 1` সত্য হলে `product += a` করুন; এরপর `a <<= 1` ও `b >>= 1` চালান।"
+      },
+      "hint2": {
+        "en": "Count each pass of `while b > 0` (when `a == 0`, exit immediately after checking `a == 0 or b == 0` so 0 steps are counted).",
+        "bn": "শুরুতেই `if a == 0 or b == 0:` সামলে নিন যাতে শূন্য গুণনে ০ ধাপ দেখায়।"
+      },
+      "logicBreakdown": {
+        "en": "Long binary multiplication simply adds shifted copies of `A` wherever `B` has a `1` bit (`A * (2^k) = A << k`). Because `b >>= 1` shrinks `B` by half each step, it completes in `O(log2 B)` steps regardless of `A` or `B` magnitude.",
+        "bn": "বাইনারি গুণে `B`-এর যেখানে `1` বিট থাকে সেখানেই কেবল `A << k` যোগ হয়। প্রতি ধাপে `b >>= 1` হওয়ায় `O(log2 B)` ধাপে গুণ শেষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Read a and b.", "bn": "a এবং b পড়ুন।" },
+        { "en": "If a == 0 or b == 0, print 0 and 0.", "bn": "a == 0 বা b == 0 হলে 0 এবং 0 প্রিন্ট করুন।" },
+        { "en": "Initialize prod = 0, steps = 0. While b > 0: if b & 1: prod += a; a <<= 1; b >>= 1; steps += 1.", "bn": "b > 0 পর্যন্ত b & 1 হলে prod += a এবং শিফট করে steps বাড়ান।" },
+        { "en": "Print prod and steps.", "bn": "prod ও steps প্রিন্ট করুন।" }
+      ],
+      "solution": "a, b = [int(x) for x in input().split()]\nif a == 0 or b == 0:\n    print(0)\n    print(0)\nelse:\n    prod = 0\n    steps = 0\n    while b > 0:\n        if b & 1:\n            prod += a\n        a <<= 1\n        b >>= 1\n        steps += 1\n    print(prod)\n    print(steps)",
+      "codeExplanation": {
+        "en": "b & 1 tests the current lowest bit of multiplier b in O(1); a <<= 1 prepares A * 2^k for the next bit position.",
+        "bn": "b & 1 বর্তমান শেষ বিট পরীক্ষা করে এবং a <<= 1 পরের বিটের জন্য A-কে দ্বিগুণ করে।"
+      },
+      "commonMistakes": {
+        "en": "Adding `a` unconditionally without checking `if b & 1`, or looping `while b > 0` when `a == 0` and reporting non-zero steps.",
+        "bn": "`if b & 1` পরীক্ষা না করেই প্রতিবার `a` যোগ করা অথবা `a == 0` অবস্থায় অকারণে লুপ চালানো।"
+      },
+      "complexity": { "time": "O(log2 B)", "space": "O(1)" },
+      "testCases": [
+        { "input": "13 6", "expectedOutput": "78\n3", "note": { "en": "3-bit multiplier", "bn": "৩-বিট গুণক" } },
+        { "input": "0 25", "expectedOutput": "0\n0", "note": { "en": "Zero multiplicand", "bn": "শূন্য গুণ্য" } },
+        { "input": "7 15", "expectedOutput": "105\n4", "note": { "en": "All-ones 4-bit multiplier", "bn": "সব ১-যুক্ত ৪-বিট গুণক" } }
+      ]
+    },
+    {
+      "id": "P16-07",
+      "number": 7,
+      "title": {
+        "en": "Boolean Logic Gates & Compound Expression Evaluator",
+        "bn": "বুলিয়ান লজিক গেট ও যৌগিক এক্সপ্রেশন মূল্যায়ন"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Firewall packet rules, digital circuit verification, and multi-condition policy evaluators (`(A AND B) OR (NOT C)`).",
+        "bn": "ফায়ারওয়াল রুল, ডিজিটাল লজিক গেট যাচাই ও নীতিমালা ইঞ্জিন তৈরি।"
+      },
+      "requiredConcepts": [
+        { "en": "Boolean precedence: NOT > AND > XOR > OR", "bn": "বুলিয়ান অগ্রাধিকার: NOT > AND > XOR > OR" },
+        { "en": "Safe token-based boolean evaluation", "bn": "eval() ছাড়া নিরাপদ টোকেন মূল্যায়ন" }
+      ],
+      "description": {
+        "en": "Read values `A B C` (each `0` or `1`) on line 1, and a single boolean expression on line 2 containing variables `A`, `B`, `C` and keywords `NOT`, `AND`, `XOR`, `OR` (no parentheses, using standard precedence `NOT` highest, then `AND`, then `XOR`, then `OR`). Safely parse and evaluate WITHOUT `eval()`, and print `TRUE` or `FALSE`.",
+        "bn": "১ম লাইনে `A B C` (০ বা ১) এবং ২য় লাইনে `A, B, C` ও `NOT, AND, XOR, OR` যুক্ত একটি বুলিয়ান এক্সপ্রেশন ইনপুট নিন। `eval()` ছাড়াই অগ্রাধিকার ক্রম (`NOT > AND > XOR > OR`) মেনে মান নির্ণয় করে `TRUE` বা `FALSE` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: three `0`/`1` integers `A B C`. Line 2: space-separated boolean expression tokens.",
+        "bn": "১ম লাইন: `A B C`। ২য় লাইন: স্পেস-বিচ্ছিন্ন বুলিয়ান এক্সপ্রেশন।"
+      },
+      "expectedOutput": {
+        "en": "`TRUE` or `FALSE`.",
+        "bn": "`TRUE` অথবা `FALSE`।"
+      },
+      "examples": [
+        {
+          "input": "1 0 1\nNOT B AND A OR C",
+          "output": "TRUE",
+          "explanation": {
+            "en": "NOT B = 1; 1 AND A(1) = 1; 1 OR C(1) = 1 -> TRUE.",
+            "bn": "প্রথমে NOT B=1; এরপর 1 AND 1=1 এবং শেষে 1 OR 1=1 হওয়ায় উত্তর TRUE।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never pass raw user strings into Python's `eval()`—that creates arbitrary code execution vulnerabilities!",
+        "bn": "ব্যবহারকারীর স্ট্রিংয়ে কখনোই `eval()` চালাবেন না—এটি গুরুতর নিরাপত্তা ঝুঁকি তৈরি করে।"
+      },
+      "hint2": {
+        "en": "Evaluate in 4 passes on the token list: first collapse `NOT x`, then `x AND y`, then `x XOR y`, then `x OR y`.",
+        "bn": "টোকেন লিস্টে ৪ ধাপে অপারেটর সংকুচিত করুন: প্রথমে `NOT`, তারপর `AND`, তারপর `XOR`, শেষে `OR`।"
+      },
+      "logicBreakdown": {
+        "en": "Multi-pass operator reduction enforces strict precedence without `eval()` and eliminates injection risks completely. Understanding `NOT > AND > XOR > OR` avoids subtle condition bugs in complex conditionals and firewall policies.",
+        "bn": "অগ্রাধিকার অনুযায়ী ধাপে ধাপে টোকেন সংকুচিত করলে `eval()`-এর নিরাপত্তা ঝুঁকি ছাড়াই নির্ভুল ফলাফল পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Map A, B, C to booleans and split expression into tokens.", "bn": "A, B, C-কে বুলিয়ানে ম্যাপ করে এক্সপ্রেশন টোকেনাইজ করুন।" },
+        { "en": "Pass 1: replace variable tokens with booleans and collapse unary NOT.", "bn": "১ম ধাপে ভ্যারিয়েবল বসিয়ে unary NOT সমাধান করুন।" },
+        { "en": "Pass 2..4: reduce binary AND, then XOR (`!=`), then OR left-to-right.", "bn": "পরবর্তী ধাপে যথাক্রমে AND, XOR ও OR বাম থেকে ডানে সংকুচিত করুন।" },
+        { "en": "Print TRUE if final single token is True else FALSE.", "bn": "চূড়ান্ত মান অনুযায়ী TRUE বা FALSE প্রিন্ট করুন।" }
+      ],
+      "solution": "def reduce_binary(tokens, op_name, fn):\n    out = []\n    i = 0\n    while i < len(tokens):\n        if tokens[i] == op_name:\n            left = out.pop()\n            right = tokens[i + 1]\n            out.append(fn(left, right))\n            i += 2\n        else:\n            out.append(tokens[i])\n            i += 1\n    return out\n\na, b, c = [x == \"1\" for x in input().split()]\nenv = {\"A\": a, \"B\": b, \"C\": c}\nraw = input().split()\n\n# Pass 1: resolve variables and unary NOT right-to-left/chained\ntokens = []\nnegate = False\nfor tok in raw:\n    if tok == \"NOT\":\n        negate = not negate\n    elif tok in env:\n        val = not env[tok] if negate else env[tok]\n        tokens.append(val)\n        negate = False\n    else:\n        tokens.append(tok)\n\ntokens = reduce_binary(tokens, \"AND\", lambda x, y: x and y)\ntokens = reduce_binary(tokens, \"XOR\", lambda x, y: x != y)\ntokens = reduce_binary(tokens, \"OR\", lambda x, y: x or y)\nprint(\"TRUE\" if tokens[0] else \"FALSE\")",
+      "codeExplanation": {
+        "en": "Chained NOT toggles a negate flag before reading the variable, then reduce_binary applies AND, XOR, and OR in exact precedence order.",
+        "bn": "এক বা একাধিক NOT ফ্ল্যাগ উল্টে ভ্যারিয়েবল নেয় এবং reduce_binary ক্রমানুসারে AND, XOR ও OR প্রয়োগ করে।"
+      },
+      "commonMistakes": {
+        "en": "Evaluating purely left-to-right (where `A OR B AND C` evaluates `OR` before `AND`), or using unsafe `eval()`.",
+        "bn": "অগ্রাধিকার না মেনে বাম থেকে ডানে সব অপারেটর চালানো বা অনিরাপদ `eval()` ব্যবহার করা।"
+      },
+      "complexity": { "time": "O(T) where T = tokens", "space": "O(T)" },
+      "testCases": [
+        { "input": "1 0 1\nNOT B AND A OR C", "expectedOutput": "TRUE", "note": { "en": "NOT > AND > OR precedence", "bn": "সঠিক অপারেটর অগ্রাধিকার" } },
+        { "input": "1 1 0\nC AND A OR A XOR B", "expectedOutput": "FALSE", "note": { "en": "(0 AND 1) OR (1 XOR 1) = FALSE", "bn": "XOR ও AND সমন্বয়" } },
+        { "input": "0 0 0\nNOT NOT A OR B", "expectedOutput": "FALSE", "note": { "en": "Double NOT cancels", "bn": "দ্বৈত NOT বাতিল" } }
+      ]
+    },
+    {
+      "id": "P16-08",
+      "number": 8,
+      "title": {
+        "en": "8-Bit Bitwise `&`, `|`, `^`, and Masked `~` Operations",
+        "bn": "৮-বিট বাইটের ওপর `&`, `|`, `^` ও মাস্কড `~` অপারেশন"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Manipulating unsigned bytes (`uint8_t`) in Python for checksums, hardware registers, and cryptographic XOR streams without Python's infinite-sign-bit `~` surprise.",
+        "bn": "চেকসাম, হার্ডওয়্যার রেজিস্টার ও XOR স্ট্রিমে Python-এর অসীম চিহ্ন-বিট সমস্যা ছাড়াই ৮-বিট অপারেশন।"
+      },
+      "requiredConcepts": [
+        { "en": "Bitwise &, |, ^, and 8-bit ~x & 0xFF", "bn": "বিটওয়াইজ &, |, ^ এবং ৮-বিট ~x & 0xFF" },
+        { "en": "Why Python ~5 equals -6", "bn": "কেন Python-এ ~5 সমান -6 হয়" }
+      ],
+      "description": {
+        "en": "Read two unsigned 8-bit integers `A` and `B` (`0 <= A, B <= 255`). Compute and print their 8-bit bitwise results in BOTH decimal and 8-bit binary (`08b`):\n`AND: <val> (<8b>)`\n`OR: <val> (<8b>)`\n`XOR: <val> (<8b>)`\n`NOT_A: <val> (<8b>)` (masked strictly to 8 bits via `(~A) & 0xFF`).",
+        "bn": "দুটি ৮-বিট অ-ঋণাত্মক সংখ্যা `A` ও `B` (`0 <= A, B <= 255`) ইনপুট নিন। `&`, `|`, `^` এবং ৮-বিটে সীমাবদ্ধ `(~A) & 0xFF` নির্ণয় করে প্রতিটির দশমিক ও ৮-বিট বাইনারি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated integers `A B` (`0 <= A, B <= 255`).",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি পূর্ণসংখ্যা `A B` (`0 <= A, B <= 255`)।"
+      },
+      "expectedOutput": {
+        "en": "Four lines for `AND`, `OR`, `XOR`, and `NOT_A`.",
+        "bn": "`AND`, `OR`, `XOR` এবং `NOT_A`-এর চারটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "12 10",
+          "output": "AND: 8 (00001000)\nOR: 14 (00001110)\nXOR: 6 (00000110)\nNOT_A: 243 (11110011)",
+          "explanation": {
+            "en": "12=00001100, 10=00001010 -> AND=8, OR=14, XOR=6, and 8-bit ~12 = 243 (11110011).",
+            "bn": "12=00001100 ও 10=00001010 থেকে AND=8, OR=14, XOR=6 এবং 8-bit NOT(12)=243।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In Python, integers have infinite two's complement sign bits, so `~12` evaluates to `-13` (`-(12 + 1)`), NOT `243`.",
+        "bn": "Python-এ পূর্ণসংখ্যার বিট সীমাবদ্ধ নয় বলে `~12` দিলে `-13` আসে, `243` নয়।"
+      },
+      "hint2": {
+        "en": "Mask with `0xFF` (`255` = `11111111_2`) via `(~a) & 0xFF` to keep only the unsigned 8-bit inversion.",
+        "bn": "শুধুমাত্র ৮-বিট ইনভার্স পেতে `(~a) & 0xFF` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Python integers have arbitrary precision, so `~x` flips infinitely many implicit leading `0`s into `1`s (`-(x + 1)`). When emulating 8-bit bytes (`uint8`) or 32-bit network masks (`0xFFFFFFFF`), explicitly applying `& 0xFF` or `& 0xFFFFFFFF` prevents negative-number bugs.",
+        "bn": "Python-এ `~x` করলে সব অসীম বামের শূন্যও ১ হয়ে ঋণাত্মক মান দেয়। তাই ৮-বিট বা ৩২-বিট প্রোটোকল কাজে `& 0xFF` বা `& 0xFFFFFFFF` দিয়ে মাস্ক করা অপরিহার্য।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "পূর্ণসংখ্যা a ও b পড়ুন।" },
+        { "en": "Compute a_and = a & b, a_or = a | b, a_xor = a ^ b, and not_a = (~a) & 0xFF.", "bn": "AND, OR, XOR ও (~a) & 0xFF নির্ণয় করুন।" },
+        { "en": "Format each integer both directly and with `:08b`.", "bn": "প্রতিটি মান দশমিক ও ৮-বিট ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "a, b = [int(x) for x in input().split()]\nops = [\n    (\"AND\", a & b),\n    (\"OR\", a | b),\n    (\"XOR\", a ^ b),\n    (\"NOT_A\", (~a) & 0xFF),\n]\nfor label, val in ops:\n    print(f\"{label}: {val} ({val:08b})\")",
+      "codeExplanation": {
+        "en": "(~a) & 0xFF truncates the infinite sign-extended bits of ~a to the lowest 8 bits, matching unsigned hardware byte negation.",
+        "bn": "(~a) & 0xFF অসীম চিহ্ন-বিটগুলো কেটে কেবল নিচের ৮টি বিট রাখে, যা প্রকৃত বাইট ইনভার্সনের সমান।"
+      },
+      "commonMistakes": {
+        "en": "Printing `~a` directly without `& 0xFF`, which outputs negative `-13 (-0001101)` instead of `243 (11110011)`.",
+        "bn": "`& 0xFF` ছাড়া সরাসরি `~a` প্রিন্ট করা, যাতে ঋণাত্মক ফল আসে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12 10", "expectedOutput": "AND: 8 (00001000)\nOR: 14 (00001110)\nXOR: 6 (00000110)\nNOT_A: 243 (11110011)", "note": { "en": "Standard 8-bit operations", "bn": "সাধারণ ৮-বিট অপারেশন" } },
+        { "input": "0 255", "expectedOutput": "AND: 0 (00000000)\nOR: 255 (11111111)\nXOR: 255 (11111111)\nNOT_A: 255 (11111111)", "note": { "en": "Zero and all-ones byte", "bn": "০ ও ২৫৫ বাইট" } },
+        { "input": "170 85", "expectedOutput": "AND: 0 (00000000)\nOR: 255 (11111111)\nXOR: 255 (11111111)\nNOT_A: 85 (01010101)", "note": { "en": "Alternating bit patterns", "bn": "পর্যায়ক্রমিক বিট প্যাটার্ন" } }
+      ]
+    },
+    {
+      "id": "P16-09",
+      "number": 9,
+      "title": {
+        "en": "XOR Even-Parity Checksum & Single-Bit Error Detector",
+        "bn": "XOR ইভেন-প্যারিটি চেকসাম ও বিট ত্রুটি শনাক্তকরণ"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Serial UART frames, ECC memory parity checks, and RAID-5 XOR parity recovery.",
+        "bn": "সিরিয়াল ট্রান্সমিশন, ECC মেমরি এবং RAID-5 স্টোরেজে এক-বিট ত্রুটি শনাক্তকরণ।"
+      },
+      "requiredConcepts": [
+        { "en": "XOR parity folding (parity ^= bit)", "bn": "XOR দিয়ে প্যারিটি নির্ণয়" },
+        { "en": "Error detection via parity verification", "bn": "প্যারিটি যাচাইয়ে ত্রুটি শনাক্তকরণ" }
+      ],
+      "description": {
+        "en": "In even-parity transmission, an extra parity bit is appended to a 7-bit data frame so that the total number of `1` bits in the 8-bit frame becomes even (i.e. XOR of all 8 bits equals `0`). Read a 7-bit data string on line 1 (to generate its 8-bit even-parity frame) and a received 8-bit frame on line 2 (to verify). Print `Encoded: <8bits>` and `Received: VALID` or `Received: CORRUPT`.",
+        "bn": "ইভেন-প্যারিটি প্রোটোকলে ৭-বিট ডেটার শেষে এমন একটি প্যারিটি বিট বসানো হয় যাতে মোট `1` বিটের সংখ্যা জোড় হয় (অর্থাৎ ৮ বিটের XOR = `0`)। ১ম লাইনে ৭-বিট ডেটা ও ২য় লাইনে প্রাপ্ত ৮-বিট ফ্রেম পড়ে `Encoded: <8bits>` এবং `Received: VALID` বা `CORRUPT` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: 7-bit binary string. Line 2: received 8-bit binary string.",
+        "bn": "১ম লাইন: ৭-বিট ডেটা। ২য় লাইন: প্রাপ্ত ৮-বিট ফ্রেম।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: `Encoded: <8bits>`. Line 2: `Received: <VALID|CORRUPT>`.",
+        "bn": "১ম লাইন: `Encoded: <8bits>`। ২য় লাইন: `Received: <VALID|CORRUPT>`।"
+      },
+      "examples": [
+        {
+          "input": "1011001\n10110010",
+          "output": "Encoded: 10110010\nReceived: VALID",
+          "explanation": {
+            "en": "1011001 has four 1s (even), so parity bit is 0 -> 10110010; received frame XORs to 0 -> VALID.",
+            "bn": "১-এর সংখ্যা ৪ (জোড়) হওয়ায় প্যারিটি ০ বসে; প্রাপ্ত ফ্রেমের XOR ০ হওয়ায় VALID।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize `p = 0` and XOR each bit (`p ^= int(b)`). `p` directly equals the even-parity bit!",
+        "bn": "`p = 0` নিয়ে প্রতিটি বিটে `p ^= int(b)` করলেই সরাসরি ইভেন-প্যারিটি বিট পাওয়া যায়।"
+      },
+      "hint2": {
+        "en": "An 8-bit frame is valid under even parity if and only if XORing all 8 of its bits produces `0`.",
+        "bn": "প্রাপ্ত ৮ বিটের সবগুলো XOR করলে ফলাফল `0` হলেই কেবল ফ্রেমটি VALID।"
+      },
+      "logicBreakdown": {
+        "en": "XOR is addition modulo 2: each `1` flips parity between `0` and `1`. Therefore XORing all data bits yields `1` when the count of `1`s is odd (making the full frame even by appending `1`) and `0` when already even.",
+        "bn": "XOR হলো মডুলো-২ যোগ: প্রতিটি `1` বিট অবস্থা উল্টে দেয়। তাই ডেটায় বিজোড় সংখ্যক ১ থাকলে XOR ১ দেয় এবং প্যারিটি বিট ১ যুক্ত হয়ে মোট সংখ্যা জোড় হয়।"
+      },
+      "algorithm": [
+        { "en": "Read 7-bit data and 8-bit received frame.", "bn": "৭-বিট ডেটা ও ৮-বিট প্রাপ্ত ফ্রেম পড়ুন।" },
+        { "en": "Fold XOR across data bits to get parity bit `p` and append `str(p)`.", "bn": "সব বিট XOR করে প্যারিটি বিট যোগ করুন।" },
+        { "en": "Fold XOR across received 8 bits; `0` means `VALID`, `1` means `CORRUPT`.", "bn": "প্রাপ্ত ৮ বিটের XOR ০ হলে VALID, নতুবা CORRUPT।" },
+        { "en": "Print Encoded and Received lines.", "bn": "উভয় লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "def xor_fold(bits):\n    p = 0\n    for ch in bits:\n        p ^= 1 if ch == \"1\" else 0\n    return p\n\ndata = input().strip()\nreceived = input().strip()\nparity_bit = xor_fold(data)\nencoded = data + str(parity_bit)\nstatus = \"VALID\" if xor_fold(received) == 0 else \"CORRUPT\"\nprint(f\"Encoded: {encoded}\")\nprint(f\"Received: {status}\")",
+      "codeExplanation": {
+        "en": "xor_fold computes parity in O(L) time and O(1) space, serving both as encoder (on 7 bits) and integrity verifier (on 8 bits).",
+        "bn": "xor_fold ফাংশনটি এনকোডার (৭ বিটে) এবং যাচাইকারী (৮ বিটে) উভয় হিসেবেই কাজ করে।"
+      },
+      "commonMistakes": {
+        "en": "Confusing even parity (`XOR == 0`) with odd parity (`XOR == 1`), or assuming single-bit parity can detect 2-bit simultaneous flips (two flips cancel out!).",
+        "bn": "ইভেন ও অড প্যারিটি গুলিয়ে ফেলা—এবং মনে রাখা যে সাধারণ প্যারিটি ১টি বিট ভুল ধরতে পারে, কিন্তু একসাথে ২টি বিট উল্টালে ধরতে পারে না।"
+      },
+      "complexity": { "time": "O(1) fixed frame size", "space": "O(1)" },
+      "testCases": [
+        { "input": "1011001\n10110010", "expectedOutput": "Encoded: 10110010\nReceived: VALID", "note": { "en": "Even 1s in data", "bn": "জোড় সংখ্যক ১" } },
+        { "input": "1110000\n11100000", "expectedOutput": "Encoded: 11100001\nReceived: CORRUPT", "note": { "en": "Single-bit flip detected", "bn": "এক বিট ত্রুটি শনাক্ত" } },
+        { "input": "0000000\n00000000", "expectedOutput": "Encoded: 00000000\nReceived: VALID", "note": { "en": "All zeros valid", "bn": "সব শূন্য বৈধ" } }
+      ]
+    },
+    {
+      "id": "P16-10",
+      "number": 10,
+      "title": {
+        "en": "Bit Shifting (`<<` & `>>`) — Power-of-2 Scaling & 8-Bit Truncation",
+        "bn": "বিট শিফটিং (`<<` ও `>>`) — ২-এর ঘাতে গুণ-ভাগ ও ৮-বিট ট্রাঙ্কেশন"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Fast pixel channel packing (`(r << 16) | (g << 8) | b`), memory address alignment, and protocol header offsets.",
+        "bn": "গ্রাফিক্সে RGB প্যাকিং (`(r << 16) | (g << 8) | b`), মেমরি অ্যালাইনমেন্ট ও প্রোটোকল হেডার অফসেট।"
+      },
+      "requiredConcepts": [
+        { "en": "Left shift (x << k == x * 2^k) & right shift (x >> k == x // 2^k)", "bn": "বাম শিফট (<<) ও ডান শিফট (>>)" },
+        { "en": "8-bit unsigned register truncation (& 0xFF)", "bn": "৮-বিট রেজিস্টার সীমা (& 0xFF)" }
+      ],
+      "description": {
+        "en": "Read an unsigned 8-bit integer `N` (`0 <= N <= 255`) and a shift count `k` (`0 <= k <= 7`). Compute:\n1) Arbitrary-precision left shift `N << k`\n2) 8-bit hardware register left shift `(N << k) & 0xFF` (showing overflow bits lost)\n3) Right shift `N >> k`\nPrint each result in decimal and 8-bit binary (arbitrary left shift in full binary).",
+        "bn": "৮-বিট পূর্ণসংখ্যা `N` (`0 <= N <= 255`) ও শিফট সংখ্যা `k` (`0 <= k <= 7`) ইনপুট নিন। অসীম-প্রিসিশন বাম শিফট `N << k`, ৮-বিট রেজিস্টার বাম শিফট `(N << k) & 0xFF` এবং ডান শিফট `N >> k` নির্ণয় করে দশমিক ও বাইনারিতে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated integers `N k` (`0 <= N <= 255`, `0 <= k <= 7`).",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি পূর্ণসংখ্যা `N k` (`0 <= N <= 255`, `0 <= k <= 7`)।"
+      },
+      "expectedOutput": {
+        "en": "Three lines: `PyLeft`, `ByteLeft`, and `Right`.",
+        "bn": "তিনটি লাইন: `PyLeft`, `ByteLeft` এবং `Right`।"
+      },
+      "examples": [
+        {
+          "input": "130 1",
+          "output": "PyLeft: 260 (100000100)\nByteLeft: 4 (00000100)\nRight: 65 (01000001)",
+          "explanation": {
+            "en": "130 << 1 = 260 in Python, but in an 8-bit byte bit 7 (128) overflows leaving 4 (00000100). 130 >> 1 = 65.",
+            "bn": "১৩০ << ১ Python-এ ২৬০ হয়, কিন্তু ৮-বিট রেজিস্টারে বামের ১ হারিয়ে ৪ (00000100) থাকে; ডান শিফটে ১৩০ >> ১ = ৬৫।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`n << k` shifts bits left by `k` places (multiplying by `2^k`), while `n >> k` drops the `k` lowest bits (floor-dividing by `2^k`).",
+        "bn": "`n << k` বামে `k` ঘর সরিয়ে `2^k` দিয়ে গুণ করে, আর `n >> k` ডানের `k` বিট বাদ দিয়ে `2^k` দিয়ে ভাগ করে।"
+      },
+      "hint2": {
+        "en": "Compare `n << k` against `(n << k) & 0xFF` to observe fixed-width register wraparound.",
+        "bn": "`n << k` এবং `(n << k) & 0xFF` পাশাপাশি দেখলেই ৮-বিট ওভারফ্লো পরিষ্কার বোঝা যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Unlike C/CPU `uint8_t` registers where shifting bit 7 left discards it permanently, Python `int` dynamically expands to fit `260`. Knowing when to mask (`& 0xFF`, `& 0xFFFFFFFF`) prevents subtle mismatches when porting C/networking algorithms into Python.",
+        "bn": "C বা হার্ডওয়্যার রেজিস্টারে বামের বিট হারিয়ে যায়, কিন্তু Python-এ সংখ্যা বড় হতে থাকে। প্রোটোকল ও হার্ডওয়্যার লজিক অনুকরণে `& 0xFF` দিয়ে মাস্কিং দরকার হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n and k.", "bn": "n ও k পড়ুন।" },
+        { "en": "Compute py_left = n << k, byte_left = py_left & 0xFF, right = n >> k.", "bn": "py_left, byte_left এবং right নির্ণয় করুন।" },
+        { "en": "Print PyLeft with `:b`, ByteLeft with `:08b`, and Right with `:08b`.", "bn": "নির্ধারিত ফরম্যাটে তিনটি লাইন প্রিন্ট করুন।" }
+      ],
+      "solution": "n, k = [int(x) for x in input().split()]\npy_left = n << k\nbyte_left = py_left & 0xFF\nright = n >> k\nprint(f\"PyLeft: {py_left} ({py_left:b})\")\nprint(f\"ByteLeft: {byte_left} ({byte_left:08b})\")\nprint(f\"Right: {right} ({right:08b})\")",
+      "codeExplanation": {
+        "en": "py_left shows exact Python arbitrary-width shifting; & 0xFF shows what survives inside an 8-bit CPU byte; n >> k performs unsigned floor division by 2^k.",
+        "bn": "py_left Python-এর পূর্ণ শিফট, & 0xFF ৮-বিট রেজিস্টারের ফল এবং n >> k ডান শিফট ভাগফল দেখায়।"
+      },
+      "commonMistakes": {
+        "en": "Assuming `a << k` always equals `a * (2 ** k)` in fixed-width systems (it overflows!) or forgetting right shift on negative integers performs arithmetic sign extension.",
+        "bn": "নির্দিষ্ট-বিট সিস্টেমে বাম শিফট ওভারফ্লো হতে পারে তা ভুলে যাওয়া, অথবা ঋণাত্মক সংখ্যায় ডান শিফট `-1`-এ আটকে যাওয়া।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "130 1", "expectedOutput": "PyLeft: 260 (100000100)\nByteLeft: 4 (00000100)\nRight: 65 (01000001)", "note": { "en": "MSB overflow in 8-bit byte", "bn": "৮-বিট ওভারফ্লো" } },
+        { "input": "15 2", "expectedOutput": "PyLeft: 60 (111100)\nByteLeft: 60 (00111100)\nRight: 3 (00000011)", "note": { "en": "No overflow, 15 >> 2 = 3", "bn": "ওভারফ্লোহীন শিফট" } },
+        { "input": "42 0", "expectedOutput": "PyLeft: 42 (101010)\nByteLeft: 42 (00101010)\nRight: 42 (00101010)", "note": { "en": "Zero shift identity", "bn": "শূন্য শিফট" } }
+      ]
+    },
+    {
+      "id": "P16-11",
+      "number": 11,
+      "title": {
+        "en": "Even/Odd Classification Using Bitwise `& 1`",
+        "bn": "বিটওয়াইজ `& 1` ব্যবহার করে জোড়/বিজোড় বিভাজন"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Low-level memory alignment checks (even addresses vs unaligned odd addresses) and high-throughput parity partitioning.",
+        "bn": "মেমরি অ্যাড্রেস অ্যালাইনমেন্ট যাচাই ও দ্রুত প্যারিটি বিভাজন।"
+      },
+      "requiredConcepts": [
+        { "en": "LSB test: (n & 1) == 0 for even", "bn": "সর্বনিম্ন বিট পরীক্ষা: (n & 1) == 0" },
+        { "en": "Two's complement parity invariance for negatives", "bn": "ঋণাত্মক সংখ্যাতেও LSB-র অপরিবর্তনশীলতা" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (positive, zero, or negative). Partition them into Evens and Odds (preserving order) WITHOUT using `%` or division (`/`, `//`), using ONLY bitwise `(n & 1)`. Print `Evens: <space-list or NONE>` and `Odds: <space-list or NONE>`.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা (ধনাত্মক, শূন্য বা ঋণাত্মক) ইনপুট নিন। `%` বা ভাগ ব্যবহার না করে কেবল বিটওয়াইজ `(n & 1)` দিয়ে জোড় ও বিজোড় সংখ্যা ক্রম বজায় রেখে আলাদা করুন এবং প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "`Evens: ...` and `Odds: ...` (using `NONE` if a group is empty).",
+        "bn": "`Evens: ...` ও `Odds: ...` (ফাঁকা হলে `NONE`)।"
+      },
+      "examples": [
+        {
+          "input": "-4 7 0 -3 12",
+          "output": "Evens: -4 0 12\nOdds: 7 -3",
+          "explanation": {
+            "en": "In two's complement, even numbers always end in bit 0 (`n & 1 == 0`) and odd numbers end in bit 1 (`n & 1 == 1`), even when negative!",
+            "bn": "টু-স কমপ্লিমেন্টেও জোড় সংখ্যার শেষ বিট ০ এবং বিজোড়ের শেষ বিট ১ থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Masking with `1` (`000...0001_2`) clears every bit except the units (`2^0`) bit.",
+        "bn": "`1` দিয়ে `&` করলে এককের (`2^0`) বিট ছাড়া বাকি সব বিট শূন্য হয়ে যায়।"
+      },
+      "hint2": {
+        "en": "`if (n & 1) == 0:` -> even, `else:` -> odd. Note parentheses matter: `n & 1 == 0` in Python parses `1 == 0` first if unparenthesized? Actually `&` binds tighter than `==`, yet writing `(n & 1) == 0` makes intent unmistakable!",
+        "bn": "`(n & 1) == 0` লিখলে জোড় এবং অন্যথায় বিজোড় হয়—সর্বদা বন্ধনী ব্যবহার করে স্পষ্ট রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Every power of 2 above `2^0` (`2, 4, 8, ...`) is already divisible by 2. Therefore parity depends ONLY on the `2^0` bit. Checking `n & 1` avoids integer division hardware instructions completely.",
+        "bn": "`2^0` ছাড়া বাকি সব বিটের স্থানীয় মান ২ দিয়ে বিভাজ্য; তাই সংখ্যার জোড়-বিজোড় কেবল শেষ বিটের ওপরই নির্ভর করে।"
+      },
+      "algorithm": [
+        { "en": "Parse input integers into nums.", "bn": "ইনপুট সংখ্যাগুলো nums লিস্টে নিন।" },
+        { "en": "Initialize evens = [] and odds = [].", "bn": "evens ও odds দুটি লিস্ট নিন।" },
+        { "en": "For x in nums: if (x & 1) == 0 append to evens else append to odds.", "bn": "(x & 1) == 0 হলে evens, নতুবা odds-এ যোগ করুন।" },
+        { "en": "Print formatted Evens and Odds lines.", "bn": "উভয় গ্রুপ প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nevens = []\nodds = []\nfor x in nums:\n    if (x & 1) == 0:\n        evens.append(str(x))\n    else:\n        odds.append(str(x))\nprint(\"Evens: \" + (\" \".join(evens) if evens else \"NONE\"))\nprint(\"Odds: \" + (\" \".join(odds) if odds else \"NONE\"))",
+      "codeExplanation": {
+        "en": "(x & 1) inspects only the 2^0 bit across positive, zero, and negative two's complement integers alike.",
+        "bn": "(x & 1) ধনাত্মক, শূন্য বা ঋণাত্মক সব সংখ্যার ক্ষেত্রেই কেবল এককের বিটটি পরীক্ষা করে।"
+      },
+      "commonMistakes": {
+        "en": "Writing `x & 1 == 1` forgetting operator precedence traps in other languages (e.g., C/Java where `==` binds tighter than `&`!), or assuming negative numbers invert their LSB.",
+        "bn": "C/Java-তে `==` অপারেটর `&`-এর চেয়ে বেশি অগ্রাধিকার পাওয়ায় `(x & 1)` বন্ধনী ছাড়া বাগ তৈরি করে—তাই সবসময় `(x & 1)` ব্যবহার করুন।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "-4 7 0 -3 12", "expectedOutput": "Evens: -4 0 12\nOdds: 7 -3", "note": { "en": "Negatives and zero", "bn": "ঋণাত্মক ও শূন্যসহ" } },
+        { "input": "1 3 5", "expectedOutput": "Evens: NONE\nOdds: 1 3 5", "note": { "en": "No evens", "bn": "কোনো জোড় নেই" } },
+        { "input": "2 4 8", "expectedOutput": "Evens: 2 4 8\nOdds: NONE", "note": { "en": "No odds", "bn": "কোনো বিজোড় নেই" } }
+      ]
+    },
+    {
+      "id": "P16-12",
+      "number": 12,
+      "title": {
+        "en": "Power-of-Two Verifier Using `n > 0 and (n & (n - 1)) == 0`",
+        "bn": "বিটওয়াইজ `(n & (n - 1)) == 0` দিয়ে ২-এর ঘাত যাচাই"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Ring buffer capacity validation (`2^k` sizes allow fast `idx & (cap - 1)` wraparound instead of `%`), slab allocators, and FFT sizing.",
+        "bn": "রিং বাফার ক্যাপাসিটি যাচাই, মেমরি স্ল্যাব অ্যালোকেটর ও ফাস্ট মডুলো অ্যারিথমেটিক।"
+      },
+      "requiredConcepts": [
+        { "en": "Single set-bit property of powers of 2", "bn": "২-এর ঘাতের একমাত্র ১-বিট বৈশিষ্ট্য" },
+        { "en": "Subtracting 1 flips trailing zeros to ones", "bn": "১ বিয়োগে শেষের শূন্যগুলো ১ হওয়া" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers (including 0, 1, negatives, and large values). For each integer `n`, determine in `O(1)` time WITHOUT loops or logarithms whether `n` is an exact power of two (`1, 2, 4, 8, ...`). Print `<n>: YES` or `<n>: NO` for each.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা (০, ১ ও ঋণাত্মকসহ) ইনপুট নিন। লুপ বা লগারিদম ছাড়াই `O(1)` সময়ে প্রতিটি সংখ্যা ২-এর ঘাত কি না যাচাই করে `<n>: YES` অথবা `<n>: NO` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers.",
+        "bn": "এক লাইনে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "One line per integer: `<n>: YES` or `<n>: NO`.",
+        "bn": "প্রতিটি সংখ্যার জন্য `<n>: YES` বা `<n>: NO`।"
+      },
+      "examples": [
+        {
+          "input": "0 1 8 12 -4",
+          "output": "0: NO\n1: YES\n8: YES\n12: NO\n-4: NO",
+          "explanation": {
+            "en": "1 = 2^0 and 8 = 2^3 pass; 0 fails n > 0; 12 (1100 & 1011 = 1000 != 0) fails; negatives fail n > 0.",
+            "bn": "১ ও ৮-এর একটিমাত্র ১-বিট থাকায় YES; ০ ও ঋণাত্মক n > 0 শর্তে এবং ১২-এ একাধিক ১-বিট থাকায় NO।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In binary, every power of 2 has EXACTLY one `1` bit (e.g., `8 = 1000_2`), and `n - 1` flips that bit to `0` and all lower bits to `1` (`7 = 0111_2`).",
+        "bn": "২-এর ঘাতে কেবল একটি `1` বিট থাকে (যেমন `8 = 1000`) এবং `n - 1` করলে সেটি `0` ও ডানের সব `1` (`7 = 0111`) হয়।"
+      },
+      "hint2": {
+        "en": "ALWAYS guard with `n > 0` first! Without it, `0 & -1 == 0` would falsely report `0` as a power of two.",
+        "bn": "অবশ্যই `n > 0` আগে যাচাই করুন—নইলে `0 & -1 == 0` শূন্যকে ভুল করে YES দেখাবে!"
+      },
+      "logicBreakdown": {
+        "en": "Subtracting `1` clears the rightmost set bit and sets all bits below it to `1`. When a positive number has only ONE set bit, `n` and `n - 1` share zero overlapping `1` bits, so `n & (n - 1) == 0` in `O(1)` time.",
+        "bn": "১ বিয়োগ করলে ডানদিকের প্রথম ১ বিটটি ০ হয়ে নিচের সব বিট ১ হয়। সংখ্যাটিতে মাত্র একটিই ১ বিট থাকলে `n & (n - 1)` সর্বদা ০ হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse input integers.", "bn": "ইনপুট সংখ্যাগুলো পড়ুন।" },
+        { "en": "For each n, evaluate is_pow2 = n > 0 and (n & (n - 1)) == 0.", "bn": "প্রতিটির জন্য `n > 0 and (n & (n - 1)) == 0` পরীক্ষা করুন।" },
+        { "en": "Print `<n>: YES` or `<n>: NO`.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "nums = [int(x) for x in input().split()]\nfor n in nums:\n    is_pow2 = n > 0 and (n & (n - 1)) == 0\n    print(f\"{n}: {'YES' if is_pow2 else 'NO'}\")",
+      "codeExplanation": {
+        "en": "n > 0 excludes zero and negative numbers before (n & (n - 1)) == 0 checks for a single set bit.",
+        "bn": "n > 0 শূন্য ও ঋণাত্মক সংখ্যা বাদ দেয় এবং (n & (n - 1)) == 0 একটিমাত্র ১ বিট থাকার প্রমাণ দেয়।"
+      },
+      "commonMistakes": {
+        "en": "Omitting `n > 0` (which misclassifies `0`), or forgetting `1 = 2^0` IS a valid power of two.",
+        "bn": "`n > 0` না দিলে `0` ভুল করে YES হয়, অথবা `1 = 2^0` যে ২-এর ঘাত তা ভুলে যাওয়া।"
+      },
+      "complexity": { "time": "O(K) for K integers, O(1) per number", "space": "O(K)" },
+      "testCases": [
+        { "input": "0 1 8 12 -4", "expectedOutput": "0: NO\n1: YES\n8: YES\n12: NO\n-4: NO", "note": { "en": "Zero, 1, power, non-power, negative", "bn": "বিভিন্ন এজ কেস" } },
+        { "input": "1024 1023", "expectedOutput": "1024: YES\n1023: NO", "note": { "en": "2^10 boundary", "bn": "2^10 সীমান্ত" } },
+        { "input": "2 3 4 64", "expectedOutput": "2: YES\n3: NO\n4: YES\n64: YES", "note": { "en": "Small powers", "bn": "ছোট ঘাত" } }
+      ]
+    },
+    {
+      "id": "P16-13",
+      "number": 13,
+      "title": {
+        "en": "Count Set Bits (Brian Kernighan's Algorithm) & Hamming Distance",
+        "bn": "সেট বিট গণনা (কার্নিঘান অ্যালগরিদম) ও হ্যামিং দূরত্ব"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Population count (`popcount`), perceptual image hash similarity (Hamming distance), and CIDR subnet host bit calculations.",
+        "bn": "পপুলেশন কাউন্ট (`popcount`), ইমেজ হ্যাশ সাদৃশ্য (Hamming distance) এবং সাবনেট বিট গণনা।"
+      },
+      "requiredConcepts": [
+        { "en": "Brian Kernighan's bit-clearing trick (n &= n - 1)", "bn": "কার্নিঘানের কৌশল (n &= n - 1)" },
+        { "en": "Hamming distance = popcount(A ^ B)", "bn": "হ্যামিং দূরত্ব = popcount(A ^ B)" }
+      ],
+      "description": {
+        "en": "Read two non-negative integers `A` and `B`. Using Brian Kernighan's algorithm (`n &= n - 1` loop, NO `bin().count('1')` or `.bit_count()`), count:\n1) Set bits in `A` (`popcount(A)`)\n2) Set bits in `B` (`popcount(B)`)\n3) Hamming distance between `A` and `B` (number of bit positions where `A` and `B` differ, equal to `popcount(A ^ B)`).\nPrint `SetA: <c1> | SetB: <c2> | Hamming: <hd>`.",
+        "bn": "দুটি অ-ঋণাত্মক পূর্ণসংখ্যা `A` ও `B` ইনপুট নিন। `bin().count('1')` বা `.bit_count()` ছাড়া ব্রায়ান কার্নিঘানের `n &= n - 1` অ্যালগরিদম দিয়ে `A`-এর ১-বিট সংখ্যা, `B`-এর ১-বিট সংখ্যা এবং `A` ও `B`-এর হ্যামিং দূরত্ব (`popcount(A ^ B)`) নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two space-separated non-negative integers `A B`.",
+        "bn": "স্পেস-বিচ্ছিন্ন দুটি অ-ঋণাত্মক পূর্ণসংখ্যা `A B`।"
+      },
+      "expectedOutput": {
+        "en": "`SetA: <c1> | SetB: <c2> | Hamming: <hd>`.",
+        "bn": "নির্ধারিত ফরম্যাটে আউটপুট: `SetA: <c1> | SetB: <c2> | Hamming: <hd>`।"
+      },
+      "examples": [
+        {
+          "input": "29 15",
+          "output": "SetA: 4 | SetB: 4 | Hamming: 2",
+          "explanation": {
+            "en": "29 = 11101 (4 ones), 15 = 01111 (4 ones). 29 ^ 15 = 10010 (2 differing bits).",
+            "bn": "২৯ (11101) ও ১৫ (01111)-এর ৪টি করে ১-বিট আছে; XOR (10010) হওয়ায় ২টি অবস্থানে ভিন্নতা রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Each `n &= (n - 1)` strips away ONLY the lowest `1` bit, so a 64-bit integer with two `1` bits finishes in just 2 iterations!",
+        "bn": "`n &= (n - 1)` প্রতিটি ধাপে কেবল ডানের সর্বনিম্ন ১-বিটটি মুছে দেয়—তাই মাত্র ২টি ১-বিট থাকলে ২টি ধাপেই লুপ শেষ হয়!"
+      },
+      "hint2": {
+        "en": "Because `A ^ B` produces `1` strictly at bit positions where `A` and `B` differ, Hamming distance is just `popcount(A ^ B)`.",
+        "bn": "`A ^ B` কেবল ভিন্ন বিটগুলোতে `1` দেয়, তাই হ্যামিং দূরত্ব মানেই `popcount(A ^ B)`।"
+      },
+      "logicBreakdown": {
+        "en": "Checking bit-by-bit (`n & 1; n >>= 1`) always takes up to `log2(N)` iterations even if `N = 2^30` has a single `1` bit. Kernighan's trick skips every zero gap in `O(set_bits)` time, and pairing it with `A ^ B` solves Hamming distance directly.",
+        "bn": "এক বিট করে সরালে অনেক শূন্য বিট অকারণে ঘুরতে হয়, কিন্তু কার্নিঘানের কৌশল শূন্যগুলো লাফিয়ে কেবল `1` বিটগুলোর সমান সংখ্যক ধাপ চালায়।"
+      },
+      "algorithm": [
+        { "en": "Define popcount(n): loop while n > 0 doing n &= n - 1 and count += 1.", "bn": "n > 0 পর্যন্ত n &= n - 1 ও count += 1 চালানো popcount(n) লিখুন।" },
+        { "en": "Read non-negative integers a and b.", "bn": "a ও b পড়ুন।" },
+        { "en": "Compute popcount(a), popcount(b), and popcount(a ^ b).", "bn": "তিনটি popcount নির্ণয় করুন।" },
+        { "en": "Print formatted result.", "bn": "ফরম্যাট অনুযায়ী প্রিন্ট করুন।" }
+      ],
+      "solution": "def popcount(n):\n    count = 0\n    while n > 0:\n        n &= n - 1\n        count += 1\n    return count\n\na, b = [int(x) for x in input().split()]\nprint(f\"SetA: {popcount(a)} | SetB: {popcount(b)} | Hamming: {popcount(a ^ b)}\")",
+      "codeExplanation": {
+        "en": "n &= n - 1 repeatedly zeroes the rightmost set bit until n reaches 0; applying popcount to a ^ b measures differing bit positions.",
+        "bn": "n &= n - 1 প্রতিটি ধাপে ডানের ১ বিট শূন্য করে এবং a ^ b-তে popcount চালিয়ে হ্যামিং দূরত্ব পাওয়া যায়।"
+      },
+      "commonMistakes": {
+        "en": "Passing negative integers into `while n > 0` (which skips negative two's complement bits) or using `n &= n + 1` instead of `n - 1`.",
+        "bn": "ভুলে `n - 1`-এর বদলে `n + 1` লেখা বা ঋণাত্মক সংখ্যার ক্ষেত্রে ইনফিনিট-বিট চিহ্ন-বিটের কথা ভুলে যাওয়া।"
+      },
+      "complexity": { "time": "O(k) where k = set bits (<= log2 N)", "space": "O(1)" },
+      "testCases": [
+        { "input": "29 15", "expectedOutput": "SetA: 4 | SetB: 4 | Hamming: 2", "note": { "en": "Two differing bits", "bn": "২টি ভিন্ন বিট" } },
+        { "input": "0 0", "expectedOutput": "SetA: 0 | SetB: 0 | Hamming: 0", "note": { "en": "Identical zeros", "bn": "উভয়ই শূন্য" } },
+        { "input": "255 0", "expectedOutput": "SetA: 8 | SetB: 0 | Hamming: 8", "note": { "en": "All 8 bits differ", "bn": "সব ৮টি বিট ভিন্ন" } }
+      ]
+    },
+    {
+      "id": "P16-14",
+      "number": 14,
+      "title": {
+        "en": "Find Single Unique Element in O(1) Space Using XOR Cancellation",
+        "bn": "XOR ক্যানসেলেশন ব্যবহার করে O(1) স্পেসে অনন্য উপাদান নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Classic streaming-data interview optimization: finding an unpaired packet/ID in `O(N)` time and `O(1)` memory without building a hash map.",
+        "bn": "ডেটা স্ট্রিম থেকে হ্যাশ-টেবিল ছাড়াই O(N) সময় ও O(1) মেমরিতে জোড়াহীন আইডি শনাক্ত করা।"
+      },
+      "requiredConcepts": [
+        { "en": "XOR self-inverse (x ^ x = 0) and identity (x ^ 0 = x)", "bn": "XOR স্ব-বিপরীত (x ^ x = 0) ও অভেদ (x ^ 0 = x)" },
+        { "en": "Commutativity & associativity of XOR", "bn": "XOR-এর বিনিময় ও সংযোগ বিধি" }
+      ],
+      "description": {
+        "en": "Read a line of space-separated integers where EVERY integer appears an EVEN number of times (e.g., twice) EXCEPT one unique integer which appears an ODD number of times (once). Find and print that unique integer in `O(N)` time and `O(1)` auxiliary space using XOR (NO sets, dictionaries, or sorting).",
+        "bn": "স্পেস-বিচ্ছিন্ন এমন একটি পূর্ণসংখ্যার তালিকা নিন যেখানে একটিমাত্র সংখ্যা ছাড়া বাকি প্রতিটি সংখ্যা জোড়সংখ্যক বার (যেমন ২ বার) এসেছে। ডিকশনারি, সেট বা সর্টিং ছাড়াই কেবল XOR ব্যবহার করে `O(N)` সময় ও `O(1)` মেমরিতে সেই অনন্য সংখ্যাটি বের করুন।"
+      },
+      "inputDescription": {
+        "en": "One line of space-separated integers containing one unpaired element.",
+        "bn": "একটি অনন্য সংখ্যা ও বাকি জোড়ায় থাকা সংখ্যাগুলোর লাইন।"
+      },
+      "expectedOutput": {
+        "en": "The single unpaired integer.",
+        "bn": "একমাত্র জোড়াহীন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "4 1 2 1 2",
+          "output": "4",
+          "explanation": {
+            "en": "(1 ^ 1) ^ (2 ^ 2) ^ 4 = 0 ^ 0 ^ 4 = 4 regardless of element order.",
+            "bn": "ক্রম যা-ই হোক, (1 ^ 1)=0 এবং (2 ^ 2)=0 হয়ে শেষে 4 বাকি থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Because XOR is both commutative and associative, paired elements do NOT need to sit adjacent to cancel out!",
+        "bn": "XOR বিনিময় ও সংযোগ বিধি মানায় সমান সংখ্যাগুলো পাশাপাশি না থাকলেও একে অপরকে শূন্য করে দেয়।"
+      },
+      "hint2": {
+        "en": "Start `unique = 0` and apply `unique ^= x` for every number `x`.",
+        "bn": "`unique = 0` থেকে প্রতিটি সংখ্যায় `unique ^= x` চালান।"
+      },
+      "logicBreakdown": {
+        "en": "A frequency dictionary uses `O(N)` extra memory, and sorting takes `O(N log N)` time. XOR cancellation achieves optimal `O(N)` time and `O(1)` space—though remember its limitation: if duplicates appeared 3 times instead of 2, `x ^ x ^ x = x` would NOT cancel, requiring bit-position counting mod 3 instead.",
+        "bn": "ডিকশনারিতে O(N) মেমরি ও সর্টিংয়ে O(N log N) সময় লাগে, কিন্তু XOR কেবল O(1) মেমরিতে কাজ করে। তবে প্রতিটি উপাদান ৩ বার থাকলে XOR কাজ করবে না—সেক্ষেত্রে বিট-পজিশন মড ৩ গণনা লাগে।"
+      },
+      "algorithm": [
+        { "en": "Initialize unique = 0.", "bn": "unique = 0 ধরুন।" },
+        { "en": "Stream each integer token from input().split() and update unique ^= int(tok).", "bn": "প্রতিটি সংখ্যায় unique ^= int(tok) চালান।" },
+        { "en": "Print unique.", "bn": "unique প্রিন্ট করুন।" }
+      ],
+      "solution": "unique = 0\nfor tok in input().split():\n    unique ^= int(tok)\nprint(unique)",
+      "codeExplanation": {
+        "en": "Iterating directly over input().split() keeps even input processing stream-friendly while XOR folds every pair down to 0.",
+        "bn": "প্রতিটি টোকেন সরাসরি XOR করায় সব জোড়া ০ হয়ে যায় এবং শেষে অনন্য সংখ্যাটি অবশিষ্ট থাকে।"
+      },
+      "commonMistakes": {
+        "en": "Assuming XOR works when *two* distinct unique elements exist (it yields `u1 ^ u2`, requiring a split bit mask) or when duplicates appear an odd number of times (3x).",
+        "bn": "একটির বদলে দুটি অনন্য উপাদান বা ৩ বার করে পুনরাবৃত্তি থাকলেও সরাসরি `unique ^= x` কাজ করবে বলে ধরে নেওয়া।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(1) auxiliary" },
+      "testCases": [
+        { "input": "4 1 2 1 2", "expectedOutput": "4", "note": { "en": "Standard pair cancellation", "bn": "জোড়া বাতিল" } },
+        { "input": "-7 9 -7 3 9", "expectedOutput": "3", "note": { "en": "Negative pairs also cancel", "bn": "ঋণাত্মক জোড়াও বাতিল হয়" } },
+        { "input": "99", "expectedOutput": "99", "note": { "en": "Single element", "bn": "একক উপাদান" } }
+      ]
+    },
+    {
+      "id": "P16-15",
+      "number": 15,
+      "title": {
+        "en": "XOR In-Place Swap & Self-Aliasing Bug Guard",
+        "bn": "XOR ইন-প্লেস অদলবদল ও সেল্ফ-অ্যালিয়াসিং বাগ প্রতিরোধ"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Understanding why XOR swap (`a ^= b; b ^= a; a ^= b`) fails catastrophically when two pointers alias the same array slot (`i == j`), and why Python tuple swap is safer in production.",
+        "bn": "একই মেমরি ঠিকানায় (`i == j`) XOR সোয়্যাপ করলে মান শূন্য হয়ে যাওয়ার বাগ বোঝা এবং পাইথনে নিরাপদ অদলবদল।"
+      },
+      "requiredConcepts": [
+        { "en": "3-step XOR swap identity", "bn": "৩-ধাপের XOR সোয়্যাপ" },
+        { "en": "Memory aliasing bug when index i == j", "bn": "i == j হলে মেমরি অ্যালিয়াসিং বাগ" }
+      ],
+      "description": {
+        "en": "Read space-separated integers into `arr`, followed by two 0-based indices `i j`. Swap `arr[i]` and `arr[j]` using the 3-step XOR swap (`arr[i] ^= arr[j]; arr[j] ^= arr[i]; arr[i] ^= arr[j]`) ONLY after guarding against the classic self-aliasing bug (`if i != j`), and ALSO show what the buggy unguarded XOR swap produces on a copy when `i == j` (`SelfAlias: <buggy_arr[i]>`). Print the safely swapped array on line 1 and `Safe` or `Guarded (buggy value would be 0)` on line 2.",
+        "bn": "স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা `arr` এবং দুটি সূচক `i j` ইনপুট নিন। `i != j` হলে ৩-ধাপের XOR সোয়্যাপ করুন এবং `i == j` হলে কেন অ্যালিয়াসিংয়ের কারণে মান শূন্য হয়ে যেত তা সুরক্ষা দিয়ে দেখান। ১ম লাইনে নিরাপদ লিস্ট ও ২য় লাইনে স্ট্যাটাস প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: space-separated integers. Line 2: two 0-based indices `i j`.",
+        "bn": "১ম লাইন: পূর্ণসংখ্যা তালিকা। ২য় লাইন: দুটি ০-ভিত্তিক সূচক `i j`।"
+      },
+      "expectedOutput": {
+        "en": "Line 1: safely swapped integers. Line 2: `Swapped` if `i != j`, else `Guarded self-alias (unguarded XOR gives 0)`.",
+        "bn": "১ম লাইন: নিরাপদে অদলবদল করা সংখ্যা। ২য় লাইন: `Swapped` অথবা গার্ড বার্তা।"
+      },
+      "examples": [
+        {
+          "input": "10 20 30\n1 1",
+          "output": "10 20 30\nGuarded self-alias (unguarded XOR gives 0)",
+          "explanation": {
+            "en": "When i == j, arr[i] and arr[j] refer to the SAME element, so arr[i] ^= arr[j] zeroes it immediately!",
+            "bn": "i == j হলে দুটি রেফারেন্স একই স্থানে থাকায় প্রথম ধাপেই `arr[i] ^= arr[i]` মানটি ০ করে ফেলে!"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `if i == j:` BEFORE executing the 3 XOR assignments!",
+        "bn": "৩ ধাপের XOR সোয়্যাপের আগে `if i == j:` যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "When `i != j`, execute `arr[i] ^= arr[j]; arr[j] ^= arr[i]; arr[i] ^= arr[j]`.",
+        "bn": "`i != j` হলে ৩ ধাপে XOR সোয়্যাপ সম্পাদন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "XOR swap is a famous bit-manipulation trick, yet in real production Python you should use `a, b = b, a` because: (1) XOR fails when swapping a mutable container slot with itself (`i == j`), (2) XOR only works on integers (not floats/strings/objects), and (3) modern CPUs optimize temporary registers faster than 3 dependent XORs.",
+        "bn": "XOR সোয়্যাপ কেবল পূর্ণসংখ্যায় কাজ করে, `i == j` হলে মান ধ্বংস করে এবং আধুনিক Python-এ `a, b = b, a`-এর চেয়ে ধীর—এই সীমাবদ্ধতা জানা ইন্টারভিউয়ের জন্য অত্যন্ত জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Parse integer list arr and indices i, j.", "bn": "লিস্ট arr ও সূচক i, j পড়ুন।" },
+        { "en": "If i != j, perform 3-step XOR swap on arr[i] and arr[j].", "bn": "i != j হলে ৩ ধাপে XOR সোয়্যাপ করুন।" },
+        { "en": "Print space-joined arr.", "bn": "সুরক্ষিত arr প্রিন্ট করুন।" },
+        { "en": "Print 'Swapped' if i != j else 'Guarded self-alias (unguarded XOR gives 0)'.", "bn": "সংশ্লিষ্ট অবস্থা বার্তা প্রিন্ট করুন।" }
+      ],
+      "solution": "arr = [int(x) for x in input().split()]\ni, j = [int(x) for x in input().split()]\n\nif i != j:\n    arr[i] ^= arr[j]\n    arr[j] ^= arr[i]\n    arr[i] ^= arr[j]\n    status = \"Swapped\"\nelse:\n    # Guard prevents arr[i] ^= arr[i] from erasing the value to 0\n    status = \"Guarded self-alias (unguarded XOR gives 0)\"\n\nprint(\" \".join(str(x) for x in arr))\nprint(status)",
+      "codeExplanation": {
+        "en": "Guarding i != j prevents arr[i] ^= arr[j] from becoming x ^ x = 0 when both indices point to the exact same slot.",
+        "bn": "i != j শর্ত থাকায় একই সূচকের সাথে সোয়্যাপ করতে গিয়ে মান শূন্য হওয়ার ঝুঁকি থাকে না।"
+      },
+      "commonMistakes": {
+        "en": "Running XOR swap blindly inside sorting/partition loops (e.g., QuickSort `swap(arr, i, j)` when `i == j`), silently zeroing elements!",
+        "bn": "সর্টিংয়ের পার্টিশন লুপে `i == j` পরীক্ষা না করেই XOR সোয়্যাপ চালিয়ে ডেটা শূন্য করে ফেলা।"
+      },
+      "complexity": { "time": "O(N) input parsing, O(1) swap", "space": "O(N) list" },
+      "testCases": [
+        { "input": "10 20 30\n1 1", "expectedOutput": "10 20 30\nGuarded self-alias (unguarded XOR gives 0)", "note": { "en": "Self-alias protected", "bn": "সেল্ফ-অ্যালিয়াস সুরক্ষিত" } },
+        { "input": "10 20 30\n0 2", "expectedOutput": "30 20 10\nSwapped", "note": { "en": "Distinct indices swapped", "bn": "ভিন্ন সূচকে সোয়্যাপ" } },
+        { "input": "5 5 9\n0 1", "expectedOutput": "5 5 9\nSwapped", "note": { "en": "Equal values at DIFFERENT indices swap safely!", "bn": "ভিন্ন সূচকে সমান মান নিরাপদ" } }
+      ]
+    },
+    {
+      "id": "P16-16",
+      "number": 16,
+      "title": {
+        "en": "Set, Clear, Toggle & Inspect Specific Bits in an 8-Bit Register",
+        "bn": "৮-বিট রেজিস্টারে নির্দিষ্ট বিট সেট, ক্লিয়ার ও টগল"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Embedded microcontroller GPIO pin control, hardware status registers, and Bloom filter bit-arrays.",
+        "bn": "এমবেডেড মাইক্রোকন্ট্রোলারের GPIO পিন নিয়ন্ত্রণ ও হার্ডওয়্যার স্ট্যাটাস রেজিস্টার।"
+      },
+      "requiredConcepts": [
+        { "en": "Set: reg |= (1 << bit)", "bn": "সেট: reg |= (1 << bit)" },
+        { "en": "Clear: reg &= ~(1 << bit) and Toggle: reg ^= (1 << bit)", "bn": "ক্লিয়ার ও টগল অপারেশন" }
+      ],
+      "description": {
+        "en": "Simulate an 8-bit hardware control register initialized to integer `reg` (`0..255`). Read initial `reg` and `Q` operations on bit indices `0..7` (where `0` is LSB): `SET k`, `CLEAR k`, `TOGGLE k`, and `CHECK k`. Print `1` or `0` for each `CHECK k`, and finish with `Register: <dec> (<8b>)`.",
+        "bn": "একটি ৮-বিট হার্ডওয়্যার রেজিস্টার `reg` (`0..255`) ও Qটি বিট অপারেশন (`SET k`, `CLEAR k`, `TOGGLE k`, `CHECK k`, যেখানে `0` হলো LSB) ইনপুট নিন। প্রতিটি `CHECK k`-তে `1` বা `0` এবং শেষে `Register: <দশমিক> (<৮-বিট>)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: initial integer `reg` (`0..255`). Line 2: integer Q. Next Q lines: `<SET|CLEAR|TOGGLE|CHECK> <bit_0_to_7>`.",
+        "bn": "১ম লাইন: `reg`। ২য় লাইন: Q। পরবর্তী Q লাইন: বিট কমান্ড ও সূচক `0..7`।"
+      },
+      "expectedOutput": {
+        "en": "Line per `CHECK`, ending with `Register: <dec> (<08b>)`.",
+        "bn": "প্রতিটি `CHECK`-এর উত্তর এবং শেষে `Register: <দশমিক> (<08b>)`।"
+      },
+      "examples": [
+        {
+          "input": "0\n4\nSET 3\nSET 0\nTOGGLE 3\nCHECK 0",
+          "output": "1\nRegister: 1 (00000001)",
+          "explanation": {
+            "en": "SET 3 -> 8; SET 0 -> 9; TOGGLE 3 -> 1; CHECK 0 -> 1. Final register = 1 (00000001).",
+            "bn": "বিট ৩ ও ০ সেট করে ৯ হয়, বিট ৩ টগল করলে ১ থাকে; বিট ০ হলো ১।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Build a single-bit mask `mask = 1 << k`: `reg |= mask` sets bit `k`, `reg &= (~mask) & 0xFF` clears it, and `reg ^= mask` toggles it.",
+        "bn": "`mask = 1 << k` তৈরি করে `|=` সেট, `&= (~mask) & 0xFF` ক্লিয়ার এবং `^=` টগল করে।"
+      },
+      "hint2": {
+        "en": "For `CHECK k`, print `(reg >> k) & 1` (or `1 if (reg & mask) else 0`).",
+        "bn": "`CHECK k`-এ `(reg >> k) & 1` প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Operating on one pin/flag inside a shared byte register must NEVER disturb the other 7 bits. Using `1 << k` isolates bit `k` precisely with OR (force 1), AND-NOT (force 0), and XOR (invert).",
+        "bn": "একটি বাইটের নির্দিষ্ট ১টি পিন বা ফ্ল্যাগ বদলানোর সময় বাকি ৭টি বিট অক্ষত রাখতে `1 << k` মাস্কিং অপরিহার্য।"
+      },
+      "algorithm": [
+        { "en": "Read initial reg and Q.", "bn": "reg এবং Q পড়ুন।" },
+        { "en": "For each command, compute mask = 1 << k.", "bn": "প্রতিটি কমান্ডে mask = 1 << k বানান।" },
+        { "en": "Apply SET (|=), CLEAR (&= ~mask & 0xFF), TOGGLE (^=), or print CHECK ((reg >> k) & 1).", "bn": "কমান্ড অনুযায়ী বিট সেট, ক্লিয়ার, টগল বা চেক করুন।" },
+        { "en": "Print final Register decimal and 8-bit binary.", "bn": "চূড়ান্ত রেজিস্টার মান প্রিন্ট করুন।" }
+      ],
+      "solution": "reg = int(input()) & 0xFF\nq = int(input())\nfor _ in range(q):\n    op, k_s = input().split()\n    k = int(k_s)\n    mask = 1 << k\n    if op == \"SET\":\n        reg |= mask\n    elif op == \"CLEAR\":\n        reg &= (~mask) & 0xFF\n    elif op == \"TOGGLE\":\n        reg ^= mask\n    elif op == \"CHECK\":\n        print((reg >> k) & 1)\nprint(f\"Register: {reg} ({reg:08b})\")",
+      "codeExplanation": {
+        "en": "mask = 1 << k targets exact bit k; & 0xFF keeps reg cleanly within 8-bit unsigned bounds.",
+        "bn": "mask = 1 << k ঠিক k-তম বিটকে লক্ষ্য করে এবং & 0xFF মানকে ৮ বিটে সীমাবদ্ধ রাখে।"
+      },
+      "commonMistakes": {
+        "en": "Using `reg -= (1 << k)` instead of `reg &= ~mask` to clear a bit—if bit `k` was ALREADY 0, subtraction borrows across neighboring bits and corrupts the whole register!",
+        "bn": "বিট ক্লিয়ার করতে `& ~mask`-এর বদলে `- (1 << k)` বিয়োগ করা—বিট আগে থেকেই ০ হলে বিয়োগ অন্য সব বিট নষ্ট করে দেয়।"
+      },
+      "complexity": { "time": "O(Q)", "space": "O(1)" },
+      "testCases": [
+        { "input": "0\n4\nSET 3\nSET 0\nTOGGLE 3\nCHECK 0", "expectedOutput": "1\nRegister: 1 (00000001)", "note": { "en": "Set, toggle, check", "bn": "সেট, টগল ও চেক" } },
+        { "input": "255\n3\nCLEAR 7\nCLEAR 7\nCHECK 7", "expectedOutput": "0\nRegister: 127 (01111111)", "note": { "en": "Idempotent double clear", "bn": "পরপর দুইবার ক্লিয়ার নিরাপদ" } },
+        { "input": "10\n3\nTOGGLE 1\nSET 2\nCHECK 2", "expectedOutput": "1\nRegister: 12 (00001100)", "note": { "en": "Idempotent set on bit 2", "bn": "টগল ও সেট সমন্বয়" } }
+      ]
+    },
+    {
+      "id": "P16-17",
+      "number": 17,
+      "title": {
+        "en": "Bit Masking — Unpack & Repack 32-Bit Network Packet Header",
+        "bn": "বিট মাস্কিং — ৩২-বিট নেটওয়ার্ক প্যাকেট হেডার আনপ্যাক ও প্যাক"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "Decoding IPv4/TCP headers, VLAN tags, and compact binary telemetry formats where multiple fields share one 32-bit word.",
+        "bn": "IPv4/TCP হেডার, VLAN ট্যাগ ও বাইনারি টেলিমেট্রিতে এক ৩২-বিট ওয়ার্ডের ভেতর থেকে একাধিক ফিল্ড বের করা।"
+      },
+      "requiredConcepts": [
+        { "en": "Bitfield extraction: (word >> shift) & mask", "bn": "বিটফিল্ড নিষ্কাশন: (word >> shift) & mask" },
+        { "en": "Bitfield packing via OR and left shifts", "bn": "OR ও বাম শিফট দিয়ে প্যাকিং" }
+      ],
+      "description": {
+        "en": "A custom 32-bit telemetry packet header packs 4 unsigned fields from MSB to LSB:\n- `version` (4 bits, bits 31..28)\n- `flags` (4 bits, bits 27..24)\n- `channel` (8 bits, bits 23..16)\n- `length` (16 bits, bits 15..0)\nRead a 32-bit hexadecimal packet header (e.g., `0x4A030100`). Unpack all four fields, then increment `flags` modulo 16 (`(flags + 1) & 0xF`) and repack into an updated 32-bit hex header. Print:\n`Version: <v> | Flags: <f> | Channel: <c> | Length: <l>`\n`Updated: 0x<HEX8>`",
+        "bn": "একটি ৩২-বিট প্যাকেট হেডারে ৪টি ফিল্ড রয়েছে: `version` (৪ বিট, ৩১..২৮), `flags` (৪ বিট, ২৭..২৪), `channel` (৮ বিট, ২৩..১৬) এবং `length` (১৬ বিট, ১৫..০)। একটি ৩২-বিট হেক্সাডেসিমাল হেডার ইনপুট নিয়ে চারটি ফিল্ড বের করুন, এরপর `flags` ১ বাড়িয়ে (মডুলো ১৬) নতুন ৩২-বিট হেক্স হেডার প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single 32-bit hexadecimal integer string (e.g., `0x4A030100`).",
+        "bn": "একটি ৩২-বিট হেক্সাডেসিমাল স্ট্রিং (যেমন `0x4A030100`)।"
+      },
+      "expectedOutput": {
+        "en": "Unpacked fields on line 1, updated `0x<8 uppercase hex digits>` on line 2.",
+        "bn": "১ম লাইনে চারটি ফিল্ড, ২য় লাইনে আপডেট করা `0x<৮ হেক্স অঙ্ক>`।"
+      },
+      "examples": [
+        {
+          "input": "0x4A030100",
+          "output": "Version: 4 | Flags: 10 | Channel: 3 | Length: 256\nUpdated: 0x4B030100",
+          "explanation": {
+            "en": "0x4=4, 0xA=10, 0x03=3, 0x0100=256. Incrementing flags 10->11 (0xB) repacks to 0x4B030100.",
+            "bn": "৪, ১০, ৩, ২৫৬ বের হয়; flags ১ বেড়ে ১১ (0xB) হওয়ায় আপডেটেড হেডার 0x4B030100।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use masks `0xF` (4 bits), `0xFF` (8 bits), and `0xFFFF` (16 bits) after shifting right by `28`, `24`, `16`, and `0`.",
+        "bn": "`28`, `24`, `16`, `0` ঘর ডানে শিফট করে যথাক্রমে `0xF`, `0xF`, `0xFF`, `0xFFFF` দিয়ে `&` করুন।"
+      },
+      "hint2": {
+        "en": "Repack with `(version << 28) | (new_flags << 24) | (channel << 16) | length` and format as `0x{repacked:08X}`.",
+        "bn": "পুনরায় প্যাক করতে `(version << 28) | (new_flags << 24) | (channel << 16) | length` লিখে `0x{val:08X}` ফরম্যাট দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Network protocols minimize bandwidth overhead by packing tiny integers (like 4-bit IP version) tightly into bitfields instead of wasting separate bytes. Shift-then-mask unpacks fields cleanly in O(1); shift-then-OR reassembles them.",
+        "bn": "নেটওয়ার্ক প্রোটোকল ব্যান্ডউইথ বাঁচাতে ছোট ছোট মানগুলোকে আলাদা বাইট না দিয়ে এক ৩২-বিট হেডারে প্যাক করে রাখে।"
+      },
+      "algorithm": [
+        { "en": "Parse hex string via int(s, 16) & 0xFFFFFFFF.", "bn": "হেক্স স্ট্রিং int(s, 16) দিয়ে ৩২-বিট পূর্ণসংখ্যায় নিন।" },
+        { "en": "Extract version, flags, channel, length using >> and bit masks.", "bn": "শিফট ও মাস্ক দিয়ে চারটি ফিল্ড বের করুন।" },
+        { "en": "Increment new_flags = (flags + 1) & 0xF and repack all 4 fields with |.", "bn": "flags ১ বাড়িয়ে (মড ১৬) পুনরায় প্যাক করুন।" },
+        { "en": "Print unpacked summary and 0x{:08X} updated header.", "bn": "ফিল্ডগুলো ও নতুন হেক্স হেডার প্রিন্ট করুন।" }
+      ],
+      "solution": "header = int(input().strip(), 16) & 0xFFFFFFFF\nversion = (header >> 28) & 0xF\nflags = (header >> 24) & 0xF\nchannel = (header >> 16) & 0xFF\nlength = header & 0xFFFF\n\nnew_flags = (flags + 1) & 0xF\nupdated = (version << 28) | (new_flags << 24) | (channel << 16) | length\n\nprint(f\"Version: {version} | Flags: {flags} | Channel: {channel} | Length: {length}\")\nprint(f\"Updated: 0x{updated:08X}\")",
+      "codeExplanation": {
+        "en": "Each field's width determines its mask (4 bits -> 0xF, 8 bits -> 0xFF, 16 bits -> 0xFFFF) and bit offset determines its shift.",
+        "bn": "প্রতিটি ফিল্ডের বিট-প্রস্থ তার মাস্ক (0xF/0xFF/0xFFFF) এবং অবস্থান তার শিফট নির্ধারণ করে।"
+      },
+      "commonMistakes": {
+        "en": "Using wrong bitmasks (e.g., `0xFF` for a 4-bit field) or forgetting `& 0xF` when wrapping `flags + 1` from `15` back to `0` (which would bleed into `version`!).",
+        "bn": "ভুল মাস্ক দেওয়া বা `flags = 15` থেকে `16` হলে `& 0xF` দিয়ে সীমাবদ্ধ না করা—নইলে বাড়তি বিট `version`-এ ঢুকে পড়বে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "0x4A030100", "expectedOutput": "Version: 4 | Flags: 10 | Channel: 3 | Length: 256\nUpdated: 0x4B030100", "note": { "en": "Standard packet header", "bn": "সাধারণ প্যাকেট হেডার" } },
+        { "input": "0x6F000040", "expectedOutput": "Version: 6 | Flags: 15 | Channel: 0 | Length: 64\nUpdated: 0x60000040", "note": { "en": "Flags wrap 15->0 without bleeding into Version 6", "bn": "ফ্ল্যাগ ১৫ থেকে ০-তে র‍্যাপ" } },
+        { "input": "0x00FF0001", "expectedOutput": "Version: 0 | Flags: 0 | Channel: 255 | Length: 1\nUpdated: 0x01FF0001", "note": { "en": "Leading zero nibble preserved in 08X", "bn": "বামের শূন্য বজায় থাকে" } }
+      ]
+    },
+    {
+      "id": "P16-18",
+      "number": 18,
+      "title": {
+        "en": "Unix File Permission Flags (`rwx` Bitmask) Engine",
+        "bn": "ইউনিক্স ফাইল পারমিশন ফ্ল্যাগ (`rwx` বিটমাস্ক) ইঞ্জিন"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "POSIX `chmod 755` / `os.chmod` access-control models in Linux servers, Docker containers, and RBAC permission bitmasks.",
+        "bn": "Linux সার্ভারে `chmod 755`, OS ফাইল পারমিশন ও RBAC অ্যাক্সেস কন্ট্রোল।"
+      },
+      "requiredConcepts": [
+        { "en": "Named bitflags (READ=4, WRITE=2, EXEC=1)", "bn": "বিটফ্ল্যাগ ধ্রুবক (READ=4, WRITE=2, EXEC=1)" },
+        { "en": "Grant (|=), revoke (&= ~), and check (&)", "bn": "অনুমতি দেওয়া, প্রত্যাহার ও যাচাই" }
+      ],
+      "description": {
+        "en": "Model a single Unix permission triplet using `READ = 4` (`100_2`), `WRITE = 2` (`010_2`), `EXEC = 1` (`001_2`). Read an initial permission integer `perm` (`0..7`) and `Q` operations: `GRANT <R|W|X>`, `REVOKE <R|W|X>`, and `CAN <R|W|X>`. Print `ALLOW` or `DENY` for each `CAN`, and finish with `Final: <perm> (<rwx_string>)` (e.g., `5` -> `r-x`).",
+        "bn": "`READ = 4`, `WRITE = 2`, `EXEC = 1` বিটফ্ল্যাগ ব্যবহার করে একটি ফাইল পারমিশন (`0..7`) মডেল করুন। প্রাথমিক `perm` ও Qটি অপারেশন (`GRANT`, `REVOKE`, `CAN` সহ `R`/`W`/`X`) নিয়ে প্রতি `CAN`-এ `ALLOW`/`DENY` এবং শেষে `Final: <perm> (<rwx>)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: initial integer `perm` (`0..7`). Line 2: integer Q. Next Q lines: `<GRANT|REVOKE|CAN> <R|W|X>`.",
+        "bn": "১ম লাইন: `perm` (`0..7`)। ২য় লাইন: Q। পরবর্তী Q লাইন: `<GRANT|REVOKE|CAN> <R|W|X>`।"
+      },
+      "expectedOutput": {
+        "en": "Line per `CAN` (`ALLOW`/`DENY`), ending with `Final: <dec> (<rwx>)`.",
+        "bn": "প্রতিটি `CAN`-এ `ALLOW`/`DENY` এবং শেষে `Final: <dec> (<rwx>)`।"
+      },
+      "examples": [
+        {
+          "input": "4\n4\nGRANT X\nCAN W\nCAN X\nREVOKE R",
+          "output": "DENY\nALLOW\nFinal: 1 (--x)",
+          "explanation": {
+            "en": "Start R(4); GRANT X -> R|X(5); CAN W -> DENY; CAN X -> ALLOW; REVOKE R -> X(1 = --x).",
+            "bn": "৪ থেকে X যোগ হয়ে ৫ (`r-x`), W নেই (DENY), X আছে (ALLOW), R সরালে ১ (`--x`) থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Map `FLAGS = {'R': 4, 'W': 2, 'X': 1}` so every command reads cleanly without nested `if` chains.",
+        "bn": "`FLAGS = {'R': 4, 'W': 2, 'X': 1}` ডিকশনারি রাখলে কোড অনেক পরিষ্কার হয়।"
+      },
+      "hint2": {
+        "en": "Check access with `(perm & flag) != 0`; format `rwx` by testing each of `(4, 'r'), (2, 'w'), (1, 'x')`.",
+        "bn": "`(perm & flag) != 0` দিয়ে অনুমতি যাচাই করুন এবং `4, 2, 1` পরীক্ষা করে `rwx` স্ট্রিং বানান।"
+      },
+      "logicBreakdown": {
+        "en": "Storing 3 boolean permissions inside a single 3-bit digit (`0..7`) is why `chmod 755` compresses 9 user/group/other permissions into just 3 octal digits. Bitwise `|=`, `&= ~`, and `&` execute permission updates atomically.",
+        "bn": "তিনটি আলাদা বুলিয়ান ভ্যারিয়েবল রাখার বদলে ৩ বিটের এক সংখ্যা (`0..7`) রাখায় `chmod 755`-এর মতো সংক্ষিপ্ত কোডে ৯টি অনুমতি রাখা সম্ভব হয়।"
+      },
+      "algorithm": [
+        { "en": "Define FLAGS = {'R': 4, 'W': 2, 'X': 1}; read perm and q.", "bn": "FLAGS ম্যাপ তৈরি করে perm ও q পড়ুন।" },
+        { "en": "Process commands: GRANT -> perm |= flag; REVOKE -> perm &= ~flag; CAN -> print ALLOW/DENY.", "bn": "GRANT, REVOKE ও CAN কমান্ড প্রয়োগ করুন।" },
+        { "en": "Build 3-char rwx string from bits 4, 2, 1 and print Final.", "bn": "rwx স্ট্রিং তৈরি করে চূড়ান্ত ফল প্রিন্ট করুন।" }
+      ],
+      "solution": "FLAGS = {\"R\": 4, \"W\": 2, \"X\": 1}\nperm = int(input()) & 7\nq = int(input())\nfor _ in range(q):\n    op, key = input().split()\n    flag = FLAGS[key]\n    if op == \"GRANT\":\n        perm |= flag\n    elif op == \"REVOKE\":\n        perm &= (~flag) & 7\n    elif op == \"CAN\":\n        print(\"ALLOW\" if (perm & flag) else \"DENY\")\n\nrwx = \"\".join(ch if (perm & bit) else \"-\" for bit, ch in ((4, \"r\"), (2, \"w\"), (1, \"x\")))\nprint(f\"Final: {perm} ({rwx})\")",
+      "codeExplanation": {
+        "en": "perm & 7 keeps values in 0..7; bitwise operations grant, revoke, and query permissions in O(1) without touching other bits.",
+        "bn": "perm & 7 মানকে ০..৭-এ রাখে এবং বিটওয়াইজ অপারেশন অন্য বিট অক্ষুণ্ণ রেখে O(1) সময়ে অনুমতি নিয়ন্ত্রণ করে।"
+      },
+      "commonMistakes": {
+        "en": "Granting by adding (`perm += flag`, which corrupts bits if already granted: `4 + 4 = 8`!) instead of `perm |= flag`.",
+        "bn": "`perm |= flag`-এর বদলে `perm += flag` লেখা—একই অনুমতি দুবার দিলে যোগফল বিট নষ্ট করে!"
+      },
+      "complexity": { "time": "O(Q)", "space": "O(1)" },
+      "testCases": [
+        { "input": "4\n4\nGRANT X\nCAN W\nCAN X\nREVOKE R", "expectedOutput": "DENY\nALLOW\nFinal: 1 (--x)", "note": { "en": "Grant, check, revoke", "bn": "প্রদান, যাচাই ও প্রত্যাহার" } },
+        { "input": "6\n3\nGRANT W\nREVOKE X\nCAN R", "expectedOutput": "ALLOW\nFinal: 6 (rw-)", "note": { "en": "Idempotent grant and revoke", "bn": "বিদ্যমান অনুমতি পুনরায় প্রদান নিরাপদ" } },
+        { "input": "7\n2\nREVOKE R\nREVOKE W", "expectedOutput": "Final: 1 (--x)", "note": { "en": "Revoke multiple", "bn": "একাধিক প্রত্যাহার" } }
+      ]
+    },
+    {
+      "id": "P16-19",
+      "number": 19,
+      "title": {
+        "en": "Configuration Feature Flags & Subset Submask Policy Checker",
+        "bn": "কনফিগারেশন ফিচার ফ্ল্যাগ ও সাবমাস্ক নীতিমালা যাচাই"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Service capability negotiation, feature-flag authorization bitmasks, and firewall rule compliance audits.",
+        "bn": "মাইক্রোসার্ভিস ফিচার ফ্ল্যাগ অনুমোদন, সক্ষমতা বিনিময় ও কনফিগারেশন নীতিমালা নিরীক্ষা।"
+      },
+      "requiredConcepts": [
+        { "en": "Subset mask test: (enabled & required) == required", "bn": "সাবসেট মাস্ক পরীক্ষা: (enabled & required) == required" },
+        { "en": "Symmetric flag diff via XOR (a ^ b)", "bn": "XOR দিয়ে ফ্ল্যাগের পার্থক্য নির্ণয়" }
+      ],
+      "description": {
+        "en": "System security capabilities use 8 bitflags (`0..7`): `TLS=1, MFA=2, AUDIT=4, RBAC=8, RATE_LIMIT=16, SANDBOX=32, BACKUP=64, WAF=128`. Read an integer `current_cfg` (`0..255`), an integer `required_cfg` (`0..255`), and an integer `baseline_cfg` (`0..255`). Check:\n1) Compliance: does `current_cfg` have ALL bits required by `required_cfg`? (`(current & required) == required`). If not, list the missing flag names (`missing = required & ~current`) in ascending bit order.\n2) Drift from `baseline_cfg`: list all flag names that differ (`current ^ baseline`) in ascending bit order.\nPrint `Compliant: YES` or `Compliant: NO (Missing: <comma-names>)` and `Drift: <comma-names or NONE>`.",
+        "bn": "সিস্টেম নিরাপত্তার ৮টি বিটফ্ল্যাগ (`TLS=1, MFA=2, AUDIT=4, RBAC=8, RATE_LIMIT=16, SANDBOX=32, BACKUP=64, WAF=128`) রয়েছে। তিনটি সংখ্যা `current_cfg`, `required_cfg` এবং `baseline_cfg` (`0..255`) ইনপুট নিন। `current`-এ `required`-এর সব ফ্ল্যাগ আছে কি না (`(current & required) == required`) ও না থাকলে অনুপস্থিত ফ্ল্যাগগুলো বের করুন, এবং `current ^ baseline` দিয়ে পার্থক্য (`Drift`) নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three space-separated integers `current required baseline` (`0..255`).",
+        "bn": "স্পেস-বিচ্ছিন্ন তিনটি পূর্ণসংখ্যা `current required baseline` (`0..255`)।"
+      },
+      "expectedOutput": {
+        "en": "`Compliant: ...` and `Drift: ...`.",
+        "bn": "`Compliant: ...` এবং `Drift: ...`।"
+      },
+      "examples": [
+        {
+          "input": "13 7 9",
+          "output": "Compliant: NO (Missing: MFA)\nDrift: AUDIT",
+          "explanation": {
+            "en": "current=13 (TLS,AUDIT,RBAC), required=7 (TLS,MFA,AUDIT) -> missing MFA(2). baseline=9 (TLS,RBAC) -> 13 ^ 9 = 4 (AUDIT).",
+            "bn": "current(13)-এ MFA(2) নেই বলে অসম্পূর্ণ এবং baseline(9)-এর সাথে AUDIT(4) ভিন্ন।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `(current & required) == required` (NOT `!= 0`, which checks *any* overlap instead of *all* required bits!).",
+        "bn": "`!= 0` শুধু যেকোনো একটি মিল দেখে, কিন্তু সব আবশ্যিক ফ্ল্যাগ আছে কি না তা দেখতে `(current & required) == required` লাগে।"
+      },
+      "hint2": {
+        "en": "Missing bits are `required & (~current) & 0xFF`; drifted bits are `current ^ baseline`.",
+        "bn": "অনুপস্থিত বিট হলো `required & (~current) & 0xFF` এবং ভিন্নতা হলো `current ^ baseline`।"
+      },
+      "logicBreakdown": {
+        "en": "Testing multi-flag compliance (`(A & B) == B`), isolating missing requirements (`B & ~A`), and computing symmetric configuration drift (`A ^ C`) demonstrate how compact bitmasks express rich set algebra in `O(1)` CPU instructions.",
+        "bn": "সেট-সাবসেট যাচাই (`(A & B) == B`), অনুপস্থিত উপাদান (`B & ~A`) ও সিমেট্রিক পার্থক্য (`A ^ C`)—সেট তত্ত্বের পুরো কাজ মাত্র তিনটি `O(1)` বিটওয়াইজ অপারেশনে করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Define ordered tuple of 8 flag names.", "bn": "৮টি ফ্ল্যাগ নামের ক্রমবদ্ধ টাপল নিন।" },
+        { "en": "Read current, required, baseline (masked & 0xFF).", "bn": "তিনটি কনফিগারেশন মান পড়ুন।" },
+        { "en": "Compute missing = required & (~current) & 0xFF and drift = current ^ baseline.", "bn": "missing এবং drift বিটমাস্ক বের করুন।" },
+        { "en": "Helper decode_names(mask) extracts names for set bits 0..7; print Compliant and Drift.", "bn": "নাম ডিকোড করে Compliant ও Drift প্রিন্ট করুন।" }
+      ],
+      "solution": "NAMES = (\"TLS\", \"MFA\", \"AUDIT\", \"RBAC\", \"RATE_LIMIT\", \"SANDBOX\", \"BACKUP\", \"WAF\")\n\ndef decode_flags(mask):\n    return [NAMES[i] for i in range(8) if (mask >> i) & 1]\n\ncur, req, base = [int(x) & 0xFF for x in input().split()]\nmissing_mask = req & (~cur) & 0xFF\ndrift_mask = cur ^ base\n\nif missing_mask == 0:\n    print(\"Compliant: YES\")\nelse:\n    print(\"Compliant: NO (Missing: \" + \", \".join(decode_flags(missing_mask)) + \")\")\n\ndrift_names = decode_flags(drift_mask)\nprint(\"Drift: \" + (\", \".join(drift_names) if drift_names else \"NONE\"))",
+      "codeExplanation": {
+        "en": "missing_mask == 0 is algebraically equivalent to (cur & req) == req, and directly yields the exact missing flag bits for diagnostics.",
+        "bn": "missing_mask == 0 এবং (cur & req) == req গাণিতিকভাবে সমতুল্য এবং সরাসরি অনুপস্থিত ফ্ল্যাগগুলোর নামও বের করে দেয়।"
+      },
+      "commonMistakes": {
+        "en": "Checking `(cur & req) > 0` instead of `(cur & req) == req`, which wrongly marks partial compliance as `YES`!",
+        "bn": "`(cur & req) > 0` ব্যবহার করা—এতে একটি ফ্ল্যাগ মিললেও ভুল করে সম্পূর্ণ Compliant দেখাবে।"
+      },
+      "complexity": { "time": "O(1) 8 flags", "space": "O(1)" },
+      "testCases": [
+        { "input": "13 7 9", "expectedOutput": "Compliant: NO (Missing: MFA)\nDrift: AUDIT", "note": { "en": "Missing one required flag and one drifted", "bn": "১টি অনুপস্থিত ও ১টি পরিবর্তিত" } },
+        { "input": "255 15 255", "expectedOutput": "Compliant: YES\nDrift: NONE", "note": { "en": "Superset compliant, zero drift", "bn": "সম্পূর্ণ অনুগত ও কোনো পরিবর্তন নেই" } },
+        { "input": "0 3 4", "expectedOutput": "Compliant: NO (Missing: TLS, MFA)\nDrift: AUDIT", "note": { "en": "Multiple missing flags", "bn": "একাধিক অনুপস্থিত ফ্ল্যাগ" } }
+      ]
+    },
+    {
+      "id": "P16-20",
+      "number": 20,
+      "title": {
+        "en": "32-Bit IPv4 Subnet Calculator Using Pure Bitwise Logic",
+        "bn": "বিশুদ্ধ বিটওয়াইজ লজিকে ৩২-বিট IPv4 সাবনেট ক্যালকুলেটর"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Routing tables, cloud VPC CIDR planning, firewall ACL subnet matching, and kernel network stacks.",
+        "bn": "রাউটিং টেবিল, ক্লাউড VPC CIDR পরিকল্পনা এবং ফায়ারওয়াল ACL সাবনেট ম্যাচিং।"
+      },
+      "requiredConcepts": [
+        { "en": "Packing/unpacking 4 octets into a 32-bit unsigned integer", "bn": "৪টি অক্টেটকে ৩২-বিট সংখ্যায় প্যাক ও আনপ্যাক" },
+        { "en": "Bitwise network, broadcast, and host range derivation", "bn": "বিটওয়াইজ নেটওয়ার্ক, ব্রডকাস্ট ও হোস্ট সীমা" }
+      ],
+      "description": {
+        "en": "Read an IPv4 CIDR string `<a.b.c.d>/<prefix>` (with `1 <= prefix <= 30`, valid octets `0..255`). Using ONLY 32-bit bitwise operations (`<<`, `>>`, `&`, `|`, `~ & 0xFFFFFFFF`), compute:\n- `Subnet Mask` (`(0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF`)\n- `Network Address` (`ip_int & mask`)\n- `Broadcast Address` (`network | (~mask & 0xFFFFFFFF)`)\n- `Usable Hosts` (`(1 << (32 - prefix)) - 2`) and range `<first_ip> - <last_ip>`.\nPrint:\n`Network: <net>`\n`Broadcast: <bcast>`\n`Mask: <mask>`\n`Usable: <count> (<first> - <last>)`",
+        "bn": "একটি IPv4 CIDR `<a.b.c.d>/<prefix>` (`1 <= prefix <= 30`) ইনপুট নিন। বিশুদ্ধ ৩২-বিট বিটওয়াইজ অপারেশন ব্যবহার করে সাবনেট মাস্ক, নেটওয়ার্ক ঠিকানা, ব্রডকাস্ট ঠিকানা এবং ব্যবহারযোগ্য হোস্ট সংখ্যা ও রেঞ্জ নির্ণয় করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line `<a.b.c.d>/<prefix>` (`1 <= prefix <= 30`).",
+        "bn": "এক লাইনে `<a.b.c.d>/<prefix>` (`1 <= prefix <= 30`)।"
+      },
+      "expectedOutput": {
+        "en": "Four lines: Network, Broadcast, Mask, and Usable host count + range.",
+        "bn": "চারটি লাইন: Network, Broadcast, Mask এবং Usable সংখ্যা ও রেঞ্জ।"
+      },
+      "examples": [
+        {
+          "input": "192.168.10.45/26",
+          "output": "Network: 192.168.10.0\nBroadcast: 192.168.10.63\nMask: 255.255.255.192\nUsable: 62 (192.168.10.1 - 192.168.10.62)",
+          "explanation": {
+            "en": "/26 leaves 6 host bits (64 addresses total, 62 usable): .0 network, .1-.62 hosts, .63 broadcast.",
+            "bn": "/26-এ ৬টি হোস্ট বিট থাকায় মোট ৬৪টি ঠিকানা (.0 নেটওয়ার্ক, .1-.62 হোস্ট, .63 ব্রডকাস্ট) থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Pack 4 octets `[o1, o2, o3, o4]` via `(o1 << 24) | (o2 << 16) | (o3 << 8) | o4`, and unpack any 32-bit integer `x` using `(x >> shift) & 0xFF` for shifts `24, 16, 8, 0`.",
+        "bn": "৪টি অক্টেটকে `(o1 << 24) | (o2 << 16) | (o3 << 8) | o4` দিয়ে ৩২-বিট পূর্ণসংখ্যায় নিয়ে `24, 16, 8, 0` শিফটে আনপ্যাক করুন।"
+      },
+      "hint2": {
+        "en": "`first_host = network + 1`, `last_host = broadcast - 1`.",
+        "bn": "`first_host = network + 1` এবং `last_host = broadcast - 1`।"
+      },
+      "logicBreakdown": {
+        "en": "Every IPv4 address is physically a single 32-bit unsigned integer; dotted-decimal notation is merely a human-readable view of its 4 bytes. Packing into 32 bits lets bitwise `&` and `|` calculate any CIDR boundary in `O(1)` regardless of octet splits.",
+        "bn": "প্রতিটি IPv4 ঠিকানা আসলেই একটি ৩২-বিট পূর্ণসংখ্যা। তাই ৩২ বিটে প্যাক করে `&` ও `|` চালালে যেকোনো CIDR প্রিফিক্স (`/1` থেকে `/30`) মুহূর্তেই হিসাব করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Split input at '/' into ip_str and prefix.", "bn": "`/` দিয়ে IP ও prefix আলাদা করুন।" },
+        { "en": "Pack 4 octets into 32-bit ip_int.", "bn": "৪ অক্টেটকে ৩২-বিট ip_int-এ প্যাক করুন।" },
+        { "en": "Compute mask = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF, net = ip_int & mask, bcast = net | (~mask & 0xFFFFFFFF).", "bn": "mask, net ও bcast বিটওয়াইজ সূত্র দিয়ে বের করুন।" },
+        { "en": "Unpack net, bcast, mask, net+1, bcast-1 to dotted decimal and print.", "bn": "সব ঠিকানা ডটেড-ডেসিমালে রূপান্তর করে প্রিন্ট করুন।" }
+      ],
+      "solution": "def ip_to_int(ip_str):\n    o1, o2, o3, o4 = [int(x) for x in ip_str.split(\".\")]\n    return (o1 << 24) | (o2 << 16) | (o3 << 8) | o4\n\ndef int_to_ip(val):\n    return \".\".join(str((val >> shift) & 0xFF) for shift in (24, 16, 8, 0))\n\nip_str, prefix_s = input().strip().split(\"/\")\nprefix = int(prefix_s)\nip_int = ip_to_int(ip_str)\nhost_bits = 32 - prefix\nmask = (0xFFFFFFFF << host_bits) & 0xFFFFFFFF\nnet = ip_int & mask\nbcast = net | ((~mask) & 0xFFFFFFFF)\nusable = (1 << host_bits) - 2\n\nprint(f\"Network: {int_to_ip(net)}\")\nprint(f\"Broadcast: {int_to_ip(bcast)}\")\nprint(f\"Mask: {int_to_ip(mask)}\")\nprint(f\"Usable: {usable} ({int_to_ip(net + 1)} - {int_to_ip(bcast - 1)})\")",
+      "codeExplanation": {
+        "en": "Shifting 0xFFFFFFFF left by (32 - prefix) creates exact leading 1s followed by trailing 0s; bitwise AND/OR derive network and broadcast directly.",
+        "bn": "0xFFFFFFFF-কে (32 - prefix) ঘর বামে সরিয়ে `& 0xFFFFFFFF` করলে নিখুঁত সাবনেট মাস্ক পাওয়া যায়।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting `& 0xFFFFFFFF` on `~mask` or `(0xFFFFFFFF << host_bits)`, which turns Python ints negative or wider than 32 bits.",
+        "bn": "`~mask` বা `(0xFFFFFFFF << host_bits)`-এর পর `& 0xFFFFFFFF` না দেওয়া—যাতে মান ৩২ বিটের বাইরে চলে যায় বা ঋণাত্মক হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "192.168.10.45/26", "expectedOutput": "Network: 192.168.10.0\nBroadcast: 192.168.10.63\nMask: 255.255.255.192\nUsable: 62 (192.168.10.1 - 192.168.10.62)", "note": { "en": "Class C /26 subnet", "bn": "/26 সাবনেট" } },
+        { "input": "10.0.5.130/25", "expectedOutput": "Network: 10.0.5.128\nBroadcast: 10.0.5.255\nMask: 255.255.255.128\nUsable: 126 (10.0.5.129 - 10.0.5.254)", "note": { "en": "Upper half /25 subnet", "bn": "উপরের অর্ধেক /25 সাবনেট" } },
+        { "input": "172.16.45.9/16", "expectedOutput": "Network: 172.16.0.0\nBroadcast: 172.16.255.255\nMask: 255.255.0.0\nUsable: 65534 (172.16.0.1 - 172.16.255.254)", "note": { "en": "/16 multi-octet network", "bn": "/16 বৃহৎ সাবনেট" } }
+      ]
+    }
+  ]
+}

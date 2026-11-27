@@ -1,0 +1,886 @@
+[
+  {
+    "id": "PRJ-01",
+    "number": 1,
+    "title": {
+      "en": "Intelligent File Management and Organization System",
+      "bn": "বুদ্ধিমত্তাভিত্তিক ফাইল ম্যানেজমেন্ট ও সংগঠন সিস্টেম"
+    },
+    "level": "Level 01",
+    "difficulty": "Beginner",
+    "estimatedTime": {
+      "en": "6–8 hours",
+      "bn": "৬–৮ ঘণ্টা"
+    },
+    "category": "Python Foundations",
+    "overview": {
+      "en": "Build a rule-driven CLI utility that inspects cluttered directories, classifies files by extension and content signature, detects exact duplicates via cryptographic hashing, supports safe dry-run previews, and writes reversible move manifests.",
+      "bn": "একটি নিয়মভিত্তিক সিএলআই ইউটিলিটি তৈরি করুন যা বিশৃঙ্খল ডিরেক্টরি বিশ্লেষণ করে এক্সটেনশন ও কনটেন্ট সিগনেচার অনুযায়ী ফাইল সাজায়, হ্যাশ দিয়ে ডুপ্লিকেট ধরে, ড্রাই-রান প্রিভিউ দেখায় এবং রোলব্যাক ম্যানিফেস্ট সংরক্ষণ করে।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Filesystem traversal & path normalization",
+        "bn": "ফাইলসিস্টেম ট্র্যাভার্সাল ও পাথ স্বাভাবিকীকরণ"
+      },
+      {
+        "en": "Deterministic hashing & deduplication",
+        "bn": "হ্যাশভিত্তিক ডুপ্লিকেট শনাক্তকরণ"
+      },
+      {
+        "en": "CLI argument design & audit logging",
+        "bn": "সিএলআই কমান্ড ডিজাইন ও অডিট লগিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      },
+      {
+        "en": "IT Support & Automation Engineer",
+        "bn": "আইটি সাপোর্ট ও অটোমেশন ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-02",
+    "number": 2,
+    "title": {
+      "en": "Advanced Personal Expense and Financial Analysis System",
+      "bn": "উন্নত ব্যক্তিগত ব্যয় ও আর্থিক বিশ্লেষণ সিস্টেম"
+    },
+    "level": "Level 01",
+    "difficulty": "Beginner",
+    "estimatedTime": {
+      "en": "8–10 hours",
+      "bn": "৮–১০ ঘণ্টা"
+    },
+    "category": "Data & Storage",
+    "overview": {
+      "en": "Design a multi-currency-aware ledger and financial analytics CLI using exact decimal arithmetic, CSV bank import deduplication, monthly budget threshold alerts, and category spending trend reports.",
+      "bn": "নির্ভুল ডেসিম্যাল হিসাব, CSV ব্যাংক স্টেটমেন্ট ইম্পোর্ট, মাসিক বাজেট সতর্কতা এবং ক্যাটাগরিভিত্তিক ব্যয় প্রবণতা বিশ্লেষণসহ একটি আর্থিক লেজার সিস্টেম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Exact monetary arithmetic (Decimal)",
+        "bn": "নির্ভুল আর্থিক গণনা (Decimal)"
+      },
+      {
+        "en": "Idempotent CSV parsing & normalization",
+        "bn": "আইডেমপোটেন্ট CSV পার্সিং"
+      },
+      {
+        "en": "Relational persistence & analytical grouping",
+        "bn": "ডেটাবেস সংরক্ষণ ও গ্রুপিং বিশ্লেষণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      },
+      {
+        "en": "Backend / Data Engineering Trainee",
+        "bn": "ব্যাকএন্ড ও ডেটা ইঞ্জিনিয়ারিং ট্রেইনি"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-03",
+    "number": 3,
+    "title": {
+      "en": "Student Performance Analytics System",
+      "bn": "শিক্ষার্থী পারফরম্যান্স বিশ্লেষণ সিস্টেম"
+    },
+    "level": "Level 01",
+    "difficulty": "Beginner",
+    "estimatedTime": {
+      "en": "8–10 hours",
+      "bn": "৮–১০ ঘণ্টা"
+    },
+    "category": "Data & Storage",
+    "overview": {
+      "en": "Create an academic analytics platform that ingests multi-subject student rosters and assessments, calculates weighted GPAs, medians, percentiles, attendance correlations, and flags at-risk learners with clean cohort reports.",
+      "bn": "একাধিক বিষয়ের নম্বর ও উপস্থিতির ডেটা বিশ্লেষণ করে ওয়েটেড জিপিএ, মিডিয়ান, পারসেন্টাইল নির্ণয় এবং ঝুঁকিপূর্ণ শিক্ষার্থীদের শনাক্ত করার একটি বিশ্লেষণ সিস্টেম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Descriptive statistics & percentile calculation",
+        "bn": "পরিসংখ্যান ও পারসেন্টাইল গণনা"
+      },
+      {
+        "en": "Weighted grading rubric evaluation",
+        "bn": "ওয়েটেড গ্রেডিং রুব্রিক মূল্যায়ন"
+      },
+      {
+        "en": "Data validation & anomaly flagging",
+        "bn": "ডেটা যাচাই ও ঝুঁকি শনাক্তকরণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      },
+      {
+        "en": "Junior Data Analyst",
+        "bn": "জুনিয়র ডেটা অ্যানালিস্ট"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-04",
+    "number": 4,
+    "title": {
+      "en": "Automated Backup and Recovery System",
+      "bn": "স্বয়ংক্রিয় ব্যাকআপ ও রিকভারি সিস্টেম"
+    },
+    "level": "Level 01",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "10–12 hours",
+      "bn": "১০–১২ ঘণ্টা"
+    },
+    "category": "Automation & Ops",
+    "overview": {
+      "en": "Engineer an incremental snapshot backup and verified restore system using SHA-256 file manifests, compressed `.tar.gz` or `.zip` archives, retention pruning policies, and post-restore checksum verification.",
+      "bn": "SHA-256 ম্যানিফেস্ট, কমপ্রেসড আর্কাইভ, রিটেনশন প্রুনিং এবং রিস্টোর-পরবর্তী চেকসাম যাচাইসহ একটি ইনক্রিমেন্টাল ব্যাকআপ ও রিকভারি সিস্টেম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Incremental diffing via mtime + SHA-256",
+        "bn": "সময় ও SHA-256 দিয়ে পরিবর্তন শনাক্তকরণ"
+      },
+      {
+        "en": "Archive packaging & path-safe extraction",
+        "bn": "আর্কাইভ প্যাকেজিং ও নিরাপদ এক্সট্র্যাকশন"
+      },
+      {
+        "en": "Retention policy management & integrity checks",
+        "bn": "রিটেনশন নীতি ও অখণ্ডতা যাচাই"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior System Administrator",
+        "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর"
+      },
+      {
+        "en": "Junior Software Developer",
+        "bn": "জুনিয়র সফটওয়্যার ডেভেলপার"
+      },
+      {
+        "en": "IT Support Engineer",
+        "bn": "আইটি সাপোর্ট ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-05",
+    "number": 5,
+    "title": {
+      "en": "Database-Driven Inventory and Asset Management System",
+      "bn": "ডেটাবেসভিত্তিক ইনভেন্টরি ও অ্যাসেট ম্যানেজমেন্ট সিস্টেম"
+    },
+    "level": "Level 01",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "12–14 hours",
+      "bn": "১২–১৪ ঘণ্টা"
+    },
+    "category": "Data & Storage",
+    "overview": {
+      "en": "Architect a normalized SQLite asset and stock ledger tracking hardware/IT inventory, check-out assignments, atomic stock adjustments inside SQL transactions, low-stock alerts, and full audit history.",
+      "bn": "হার্ডওয়্যার ও আইটি অ্যাসেট ট্র্যাকিং, অ্যাসাইনমেন্ট চেক-আউট, SQL ট্রানজ্যাকশনের মাধ্যমে অ্যাটমিক স্টক পরিবর্তন, লো-স্টক সতর্কতা এবং পূর্ণ অডিট লগসহ একটি ইনভেন্টরি সিস্টেম গড়ে তুলুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Relational database schema normalization (3NF)",
+        "bn": "রিলেশনাল ডেটাবেস স্কিমা নরমালাইজেশন"
+      },
+      {
+        "en": "ACID transaction & rollback handling",
+        "bn": "ACID ট্রানজ্যাকশন ও রোলব্যাক নিয়ন্ত্রণ"
+      },
+      {
+        "en": "Immutable audit log design",
+        "bn": "অপরিবর্তনীয় অডিট লগ ডিজাইন"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      },
+      {
+        "en": "Junior Software Developer",
+        "bn": "জুনিয়র সফটওয়্যার ডেভেলপার"
+      },
+      {
+        "en": "IT Asset / Operations Analyst",
+        "bn": "আইটি অ্যাসেট ও অপারেশনস অ্যানালিস্ট"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-06",
+    "number": 6,
+    "title": {
+      "en": "REST API Monitoring and Reliability Tool",
+      "bn": "REST API মনিটরিং ও নির্ভরযোগ্যতা পর্যবেক্ষণ টুল"
+    },
+    "level": "Level 02",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "10–12 hours",
+      "bn": "১০–১২ ঘণ্টা"
+    },
+    "category": "Automation & Ops",
+    "overview": {
+      "en": "Build a configurable synthetic probe monitor that polls authorized/local HTTP endpoints, measures DNS/connect/response latencies, validates JSON schema and status assertions, handles timeouts and exponential backoff retries, and computes SLA uptime and P95 latency.",
+      "bn": "অনুমোদিত বা লোকাল HTTP এন্ডপয়েন্ট পোলিং করে ল্যাটেন্সি মাপা, JSON স্কিমা ও স্ট্যাটাস যাচাই, টাইমআউট ও রিট্রাই সামলানো এবং SLA আপটাইম ও P95 হিসাব করার একটি মনিটরিং টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "HTTP client timeouts & retry policies",
+        "bn": "HTTP টাইমআউট ও রিট্রাই নীতি"
+      },
+      {
+        "en": "Percentile latency & SLA calculation",
+        "bn": "পারসেন্টাইল ল্যাটেন্সি ও SLA গণনা"
+      },
+      {
+        "en": "Structured JSON schema assertions",
+        "bn": "JSON স্কিমা ও কনট্র্যাক্ট যাচাই"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Software Developer",
+        "bn": "জুনিয়র সফটওয়্যার ডেভেলপার"
+      },
+      {
+        "en": "Site Reliability / DevOps Trainee",
+        "bn": "সাইট রিলায়েবিলিটি ও ডেভঅপস ট্রেইনি"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-07",
+    "number": 7,
+    "title": {
+      "en": "Secure Authentication and Access Management System",
+      "bn": "নিরাপদ অথেনটিকেশন ও অ্যাক্সেস ম্যানেজমেন্ট সিস্টেম"
+    },
+    "level": "Level 02",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "12–15 hours",
+      "bn": "১২–১৫ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Implement an authentication and authorization core module featuring PBKDF2-HMAC-SHA256 salted password storage, constant-time verification, expiring HMAC-signed session tokens, exponential login lockout, and RBAC + resource-ownership checks.",
+      "bn": "সল্টেড PBKDF2 পাসওয়ার্ড সংরক্ষণ, সময়-নিরপেক্ষ যাচাই, মেয়াদোত্তীর্ণ-সচেতন সেশন টোকেন, এক্সপোনেনশিয়াল লকআউট এবং RBAC ও মালিকানা যাচাইসহ একটি নিরাপদ অথেনটিকেশন সিস্টেম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Password key derivation & constant-time checks",
+        "bn": "পাসওয়ার্ড কী ডেরিভেশন ও টাইমিং-নিরাপদ তুলনা"
+      },
+      {
+        "en": "Cryptographic randomness & session lifecycle",
+        "bn": "ক্রিপ্টোগ্রাফিক র‍্যান্ডমনেস ও সেশন পরিচালনা"
+      },
+      {
+        "en": "Default-deny RBAC & ownership enforcement",
+        "bn": "ডিফল্ট-ডিনাই RBAC ও মালিকানা নীতি"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Application Security Learner",
+        "bn": "অ্যাপ্লিকেশন সিকিউরিটি শিক্ষার্থী"
+      },
+      {
+        "en": "Junior Security Analyst",
+        "bn": "জুনিয়র সিকিউরিটি অ্যানালিস্ট"
+      },
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-08",
+    "number": 8,
+    "title": {
+      "en": "Automated Server Health Monitoring Tool",
+      "bn": "স্বয়ংক্রিয় সার্ভার হেলথ মনিটরিং টুল"
+    },
+    "level": "Level 02",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "10–12 hours",
+      "bn": "১০–১২ ঘণ্টা"
+    },
+    "category": "Automation & Ops",
+    "overview": {
+      "en": "Develop a cross-platform Python host-health agent that samples CPU load, memory pressure, disk space, open-port/process checks on the local machine, evaluates threshold rules, suppresses alert flapping via cooldowns, and writes structured telemetry reports.",
+      "bn": "নিজের কম্পিউটার বা লোকাল ল্যাবের CPU, মেমরি, ডিস্ক ও প্রক্রিয়ার স্বাস্থ্য সংগ্রহ করে থ্রেশহোল্ড নীতি যাচাই, ফ্ল্যাপিং-নিরোধী কুলডাউন ও টেলিমেট্রি রিপোর্ট তৈরির টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "OS resource inspection (CPU, RAM, disk)",
+        "bn": "ওএস রিসোর্স পরিমাপ (CPU, RAM, ডিস্ক)"
+      },
+      {
+        "en": "Threshold & alert-cooldown state machines",
+        "bn": "থ্রেশহোল্ড ও কুলডাউন স্টেট মেশিন"
+      },
+      {
+        "en": "JSONL / SQLite metric retention",
+        "bn": "মেট্রিক ইতিহাস সংরক্ষণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior System Administrator",
+        "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর"
+      },
+      {
+        "en": "IT Support & Ops Engineer",
+        "bn": "আইটি সাপোর্ট ও অপস ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-09",
+    "number": 9,
+    "title": {
+      "en": "Application Error and Log Analysis Platform",
+      "bn": "অ্যাপ্লিকেশন ত্রুটি ও লগ বিশ্লেষণ প্ল্যাটফর্ম"
+    },
+    "level": "Level 02",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "12–14 hours",
+      "bn": "১২–১৪ ঘণ্টা"
+    },
+    "category": "Automation & Ops",
+    "overview": {
+      "en": "Create a streaming log parser and error-triage engine capable of reading huge multi-megabyte application logs line-by-line, collapsing multi-line Python tracebacks into normalized error signatures, ranking top recurring exceptions, and generating time-bucketed spike reports.",
+      "bn": "বড় অ্যাপ্লিকেশন লগ স্ট্রিমিং পদ্ধতিতে পড়ে মাল্টি-লাইন পাইথন ট্রেসব্যাক একত্রিত করা, বারবার ঘটা ত্রুটির সিগনেচার র‍্যাংক করা এবং সময়ভিত্তিক স্পাইক রিপোর্ট তৈরির প্ল্যাটফর্ম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Memory-bounded streaming file iteration",
+        "bn": "মেমরি-সাশ্রয়ী স্ট্রিমিং ফাইল পঠন"
+      },
+      {
+        "en": "Regex & multi-line state-machine log parsing",
+        "bn": "রেজেক্স ও মাল্টি-লাইন স্টেট মেশিন পার্সিং"
+      },
+      {
+        "en": "Exception signature normalization & time bucketing",
+        "bn": "ত্রুটির সিগনেচার স্বাভাবিকীকরণ ও টাইম বাকেটিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Python Developer",
+        "bn": "জুনিয়র পাইথন ডেভেলপার"
+      },
+      {
+        "en": "Junior Software Developer",
+        "bn": "জুনিয়র সফটওয়্যার ডেভেলপার"
+      },
+      {
+        "en": "SOC / Production Support Analyst",
+        "bn": "সক ও প্রোডাকশন সাপোর্ট অ্যানালিস্ট"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-10",
+    "number": 10,
+    "title": {
+      "en": "Database Backup, Audit and Recovery Manager",
+      "bn": "ডেটাবেস ব্যাকআপ, অডিট ও রিকভারি ম্যানেজার"
+    },
+    "level": "Level 02",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "12–15 hours",
+      "bn": "১২–১৫ ঘণ্টা"
+    },
+    "category": "Data & Storage",
+    "overview": {
+      "en": "Build a safe SQLite lifecycle manager that creates hot consistent snapshots using SQLite's online backup API (never raw `cp` during writes), verifies `PRAGMA integrity_check`, diffs schema/row counts between backups, and runs sandboxed restore drills.",
+      "bn": "SQLite-এর অনলাইন ব্যাকআপ API ব্যবহার করে নিরাপদ হট স্ন্যাপশট তৈরি, `PRAGMA integrity_check` যাচাই, ব্যাকআপের মধ্যে স্কিমা ও সারি সংখ্যার তুলনা এবং স্যান্ডবক্সড রিস্টোর পরীক্ষার টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Transaction-consistent database snapshots",
+        "bn": "ট্রানজ্যাকশন-নিরাপদ ডেটাবেস স্ন্যাপশট"
+      },
+      {
+        "en": "Schema inspection & drift comparison",
+        "bn": "স্কিমা পরিদর্শন ও পরিবর্তন তুলনা"
+      },
+      {
+        "en": "Integrity verification & sandbox restore drills",
+        "bn": "অখণ্ডতা যাচাই ও স্যান্ডবক্স রিস্টোর মহড়া"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Junior Software Developer",
+        "bn": "জুনিয়র সফটওয়্যার ডেভেলপার"
+      },
+      {
+        "en": "Junior System Administrator",
+        "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর"
+      },
+      {
+        "en": "Database / Reliability Trainee",
+        "bn": "ডেটাবেস ও রিলায়েবিলিটি ট্রেইনি"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-11",
+    "number": 11,
+    "title": {
+      "en": "Network Diagnostic and Connectivity Analysis Tool",
+      "bn": "নেটওয়ার্ক ডায়াগনস্টিক ও সংযোগ বিশ্লেষণ টুল"
+    },
+    "level": "Level 03",
+    "difficulty": "Intermediate",
+    "estimatedTime": {
+      "en": "12–15 hours",
+      "bn": "১২–১৫ ঘণ্টা"
+    },
+    "category": "Networking",
+    "overview": {
+      "en": "Build an authorized host-and-lab network diagnostic suite that validates IPv4/IPv6 CIDR notation, performs DNS resolution checks, measures TCP handshake latency against localhost or authorized lab sockets, inspects TLS certificate metadata, and generates structured connectivity diagnostics.",
+      "bn": "অনুমোদিত ল্যাব ও লোকালহোস্টের জন্য একটি নেটওয়ার্ক ডায়াগনস্টিক টুল তৈরি করুন যা IPv4/IPv6 CIDR যাচাই করে, DNS রেজোলিউশন পরীক্ষা করে, TCP সংযোগ ল্যাটেন্সি পরিমাপ করে, TLS সনদের তথ্য দেখে এবং গোছানো ডায়াগনস্টিক রিপোর্ট তৈরি করে।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "TCP/IP addressing & subnet math",
+        "bn": "TCP/IP অ্যাড্রেসিং ও সাবনেট গণনা"
+      },
+      {
+        "en": "DNS, TCP socket & TLS diagnostics",
+        "bn": "DNS, TCP সকেট ও TLS ডায়াগনস্টিক্স"
+      },
+      {
+        "en": "Latency statistics & timeout control",
+        "bn": "ল্যাটেন্সি পরিসংখ্যান ও টাইমআউট নিয়ন্ত্রণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Network Automation Engineer",
+        "bn": "নেটওয়ার্ক অটোমেশন ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Site Reliability Engineer",
+        "bn": "সাইট রিলায়েবিলিটি ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-12",
+    "number": 12,
+    "title": {
+      "en": "Network Traffic Analysis Learning Tool",
+      "bn": "নেটওয়ার্ক ট্র্যাফিক বিশ্লেষণ লার্নিং টুল"
+    },
+    "level": "Level 03",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "15–18 hours",
+      "bn": "১৫–১৮ ঘণ্টা"
+    },
+    "category": "Networking",
+    "overview": {
+      "en": "Build an offline packet-header and flow-telemetry learning analyzer that parses sanitized text packet dumps or synthetic flow captures (CSV/JSONL/hex-frame fixtures), reconstructs protocol conversations, surfaces top talkers and DNS/port spikes, and visualizes traffic anomalies ethically offline.",
+      "bn": "স্যানিটাইজড অফলাইন প্যাকেট ডাম্প বা সিন্থেটিক ফ্লো ক্যাপচার (CSV/JSONL/হেক্স-ফ্রেম) বিশ্লেষণ করে প্রোটোকল কনভারসেশন পুনর্গঠন, শীর্ষ টকার, পোর্ট/DNS স্পাইক এবং অসঙ্গতি শনাক্ত করার একটি অফলাইন শিক্ষামূলক টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Binary frame & IPv4/TCP/UDP header decoding",
+        "bn": "বাইনারি ফ্রেম ও IPv4/TCP/UDP হেডার ডিকোডিং"
+      },
+      {
+        "en": "5-tuple flow aggregation & session tracking",
+        "bn": "৫-টাপল ফ্লো একত্রীকরণ ও সেশন ট্র্যাকিং"
+      },
+      {
+        "en": "Statistical traffic anomaly heuristics",
+        "bn": "পরিসংখ্যানভিত্তিক ট্র্যাফিক অসঙ্গতি বিশ্লেষণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "SOC Analyst (Tier 1/2)",
+        "bn": "SOC বিশ্লেষক (টিয়ার ১/২)"
+      },
+      {
+        "en": "Network Security Engineer",
+        "bn": "নেটওয়ার্ক সিকিউরিটি ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-13",
+    "number": 13,
+    "title": {
+      "en": "Security Log Analyzer and Threat Detection System",
+      "bn": "সিকিউরিটি লগ বিশ্লেষক ও থ্রেট ডিটেকশন সিস্টেম"
+    },
+    "level": "Level 03",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "14–16 hours",
+      "bn": "১৪–১৬ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Build a rule-driven SIEM-style defensive log analyzer that ingests multi-format security logs (SSH auth logs, Nginx/Apache access logs, firewall events), normalizes events into a unified timeline, evaluates sliding-window detection rules (brute force, password spraying, path enumeration), and assigns MITRE ATT&CK-inspired severity context.",
+      "bn": "SSH auth লগ, ওয়েব অ্যাক্সেস লগ ও ফায়ারওয়াল ইভেন্ট সংগ্রহ করে অভিন্ন টাইমলাইনে সাজানো, স্লাইডিং-উইন্ডো নিয়মে ব্রুট-ফোর্স বা পাসওয়ার্ড স্প্রেয়িং শনাক্ত করা এবং তীব্রতা অনুযায়ী অ্যালার্ট তৈরির একটি SIEM-ধাঁচের প্রতিরক্ষামূলক বিশ্লেষক তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Multi-source log normalization",
+        "bn": "একাধিক উৎস লগ স্বাভাবিকীকরণ"
+      },
+      {
+        "en": "Sliding-window correlation & rule engine design",
+        "bn": "স্লাইডিং-উইন্ডো কোরিলেশন ও রুল ইঞ্জিন"
+      },
+      {
+        "en": "Alert deduplication & false-positive tuning",
+        "bn": "অ্যালার্ট ডিডুপ্লিকেশন ও ভুল-পজিটিভ নিয়ন্ত্রণ"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Detection Engineer",
+        "bn": "ডিটেকশন ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Security Operations Analyst",
+        "bn": "সিকিউরিটি অপারেশনস বিশ্লেষক"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-14",
+    "number": 14,
+    "title": {
+      "en": "File Integrity Monitoring System",
+      "bn": "ফাইল ইন্টিগ্রিটি মনিটরিং সিস্টেম"
+    },
+    "level": "Level 03",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "12–15 hours",
+      "bn": "১২–১৫ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Build a host-based File Integrity Monitoring (FIM) tool that captures cryptographically signed baselines (SHA-256 hashes, file sizes, permissions, mtimes, symlink targets) of critical lab directories, verifies baseline integrity against tampering, and classifies Added, Modified, Deleted, and Permission-Changed anomalies.",
+      "bn": "গুরুত্বপূর্ণ ল্যাব ডিরেক্টরির SHA-256 হ্যাশ, সাইজ, পারমিশন ও মডিফিকেশন সময়সহ ক্রিপ্টোগ্রাফিকভাবে স্বাক্ষরিত বেসলাইন তৈরি, বেসলাইন টেম্পারিং যাচাই এবং Added, Modified, Deleted ও Permission-Changed পরিবর্তন শনাক্তকারী একটি FIM সিস্টেম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Cryptographic file hashing & HMAC baseline signing",
+        "bn": "ক্রিপ্টোগ্রাফিক ফাইল হ্যাশিং ও HMAC স্বাক্ষর"
+      },
+      {
+        "en": "POSIX file metadata & permission bit auditing",
+        "bn": "ফাইল মেটাডেটা ও পারমিশন বিট অডিট"
+      },
+      {
+        "en": "Baseline diff classification & ignore-glob rules",
+        "bn": "বেসলাইন ডিফ শ্রেণিবিন্যাস ও এক্সক্লুশন নিয়ম"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Security Engineer",
+        "bn": "সিকিউরিটি ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Linux Systems & Compliance Administrator",
+        "bn": "লিনাক্স সিস্টেমস ও কমপ্লায়েন্স অ্যাডমিন"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-15",
+    "number": 15,
+    "title": {
+      "en": "Phishing URL Detection and Analysis Tool",
+      "bn": "ফিশিং URL শনাক্তকরণ ও বিশ্লেষণ টুল"
+    },
+    "level": "Level 03",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "12–14 hours",
+      "bn": "১২–১৪ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Build a static, offline-first URL lexical and heuristic analyzer that parses suspicious URLs safely without fetching them, detects obfuscation tricks (punycode/IDN homographs, IP-literal hosts, '@' credential traps, excessive subdomains, typosquatting edit distance), and outputs transparent risk scores with human-readable evidence.",
+      "bn": "কোনো সন্দেহজনক URL ভিজিট না করেই সেফ অফলাইন লেক্সিক্যাল বিশ্লেষণের মাধ্যমে পুনিকোড হোমোগ্রাফ, সরাসরি IP হোস্ট, '@' ইউজারনেম ফাঁদ, অতিরিক্ত সাবডোমেইন এবং টাইপোস্কোয়াটিং দূরত্ব যাচাই করে স্বচ্ছ ঝুঁকি স্কোর ও প্রমাণ প্রদানকারী একটি ফিশিং বিশ্লেষক টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "RFC URL parsing & obfuscation analysis",
+        "bn": "RFC URL পার্সিং ও ছদ্মবেশ বিশ্লেষণ"
+      },
+      {
+        "en": "Homograph, IDN & edit-distance detection",
+        "bn": "হোমোগ্রাফ, IDN ও এডিট-ডিসট্যান্স শনাক্তকরণ"
+      },
+      {
+        "en": "Explainable weighted risk scoring",
+        "bn": "ব্যাখ্যাযোগ্য ওয়েটেড ঝুঁকি স্কোরিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Threat Intelligence Analyst",
+        "bn": "থ্রেট ইন্টেলিজেন্স বিশ্লেষক"
+      },
+      {
+        "en": "Email & SOC Security Analyst",
+        "bn": "ইমেইল ও SOC সিকিউরিটি বিশ্লেষক"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-16",
+    "number": 16,
+    "title": {
+      "en": "Linux Security Configuration Auditor",
+      "bn": "লিনাক্স সিকিউরিটি কনফিগারেশন অডিটর"
+    },
+    "level": "Level 04",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "14–16 hours",
+      "bn": "১৪–১৬ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Build a read-only Linux hardening auditor that evaluates simulated or authorized local host configurations (SSH daemon configs, file permissions on sensitive files, sudoers/user privilege settings, password aging policies, and open-listener baselines) against a declarative CIS-inspired rulebook and outputs actionable remediation guidance.",
+      "bn": "সিমুলেটেড বা অনুমোদিত লোকাল লিনাক্স সিস্টেমের SSH কনফিগ, সংবেদনশীল ফাইলের পারমিশন, ব্যবহারকারী ও sudo নীতি, পাসওয়ার্ড মেয়াদ এবং পোর্ট বেসলাইন যাচাই করে CIS-ধাঁচের নিয়ম অনুযায়ী সংশোধন নির্দেশনাসহ একটি রিড-ওনলি সিকিউরিটি অডিটর তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Linux hardening & CIS-style policy checks",
+        "bn": "লিনাক্স হার্ডেনিং ও CIS-ধাঁচের নীতি যাচাই"
+      },
+      {
+        "en": "POSIX permissions & privilege auditing",
+        "bn": "POSIX পারমিশন ও প্রিভিলেজ অডিটিং"
+      },
+      {
+        "en": "Read-only configuration parsing & remediation reporting",
+        "bn": "রিড-ওনলি কনফিগ পার্সিং ও সংশোধন রিপোর্ট"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "DevSecOps Engineer",
+        "bn": "DevSecOps ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Linux Security & Infrastructure Engineer",
+        "bn": "লিনাক্স সিকিউরিটি ও অবকাঠামো ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-17",
+    "number": 17,
+    "title": {
+      "en": "Security Incident Investigation and Response Tracker",
+      "bn": "সিকিউরিটি ইনসিডেন্ট তদন্ত ও রেসপন্স ট্র্যাকার"
+    },
+    "level": "Level 04",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "14–16 hours",
+      "bn": "১৪–১৬ ঘণ্টা"
+    },
+    "category": "Defensive Security",
+    "overview": {
+      "en": "Build a DFIR & SOC case-management application backed by SQLite that tracks security incidents through structured NIST-inspired lifecycle stages, links normalized IOCs (IPs, domains, file hashes) across cases, computes chain-of-custody evidence hashes, tracks SLA response times (MTTD/MTTR), and exports audit-ready post-incident reports.",
+      "bn": "SQLite-ভিত্তিক একটি DFIR ও SOC কেস-ম্যানেজমেন্ট সিস্টেম তৈরি করুন যা NIST-ধাঁচের ধাপ অনুযায়ী ইনসিডেন্ট পরিচালনা করে, বিভিন্ন কেসের মধ্যে IOC (IP, ডোমেইন, ফাইল হ্যাশ) যুক্ত করে, প্রমাণপত্রের চেইন-অব-কাস্টডি হ্যাশ রাখে, MTTD/MTTR হিসাব করে এবং পোস্ট-ইনসিডেন্ট রিপোর্ট রপ্তানি করে।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Incident lifecycle state modeling",
+        "bn": "ইনসিডেন্ট লাইফসাইকেল স্টেট মডেলিং"
+      },
+      {
+        "en": "Relational IOC & evidence schema design",
+        "bn": "রিলেশনাল IOC ও প্রমাণপত্র ডেটাবেজ ডিজাইন"
+      },
+      {
+        "en": "Chain-of-custody integrity & SLA metrics",
+        "bn": "চেইন-অব-কাস্টডি অখণ্ডতা ও SLA মেট্রিক্স"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Incident Response Analyst (DFIR)",
+        "bn": "ইনসিডেন্ট রেসপন্স বিশ্লেষক (DFIR)"
+      },
+      {
+        "en": "SOC Lead / Security Tooling Developer",
+        "bn": "SOC লিড / সিকিউরিটি টুলিং ডেভেলপার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-18",
+    "number": 18,
+    "title": {
+      "en": "API Security Assessment Tool",
+      "bn": "API সিকিউরিটি অ্যাসেসমেন্ট টুল"
+    },
+    "level": "Level 04",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "14–16 hours",
+      "bn": "১৪–১৬ ঘণ্টা"
+    },
+    "category": "AppSec & Risk",
+    "overview": {
+      "en": "Build an authorized defensive API security baseline checker that inspects OpenAPI/Swagger specs alongside local/lab HTTP test endpoints to verify authentication enforcement, CORS policy safety, HTTP security headers, TLS/HTTPS usage, rate-limit header presence, and sensitive-data leakage in error responses.",
+      "bn": "অনুমোদিত লোকাল বা ল্যাব API ও OpenAPI স্পেক বিশ্লেষণ করে অথেনটিকেশন প্রয়োগ, নিরাপদ CORS নীতি, HTTP সিকিউরিটি হেডার, রেট-লিমিট হেডার এবং ত্রুটি বার্তায় সংবেদনশীল তথ্য ফাঁস যাচাইকারী একটি প্রতিরক্ষামূলক API সিকিউরিটি অ্যাসেসমেন্ট টুল তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "OWASP API Security Top 10 defensive awareness",
+        "bn": "OWASP API সিকিউরিটি টপ ১০ প্রতিরক্ষামূলক ধারণা"
+      },
+      {
+        "en": "OpenAPI spec linting & HTTP header auditing",
+        "bn": "OpenAPI স্পেক বিশ্লেষণ ও HTTP হেডার অডিট"
+      },
+      {
+        "en": "Controlled local-target AppSec reporting",
+        "bn": "নিয়ন্ত্রিত লোকাল-টার্গেট AppSec রিপোর্টিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Application Security (AppSec) Engineer",
+        "bn": "অ্যাপ্লিকেশন সিকিউরিটি (AppSec) ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Backend Security Engineer",
+        "bn": "ব্যাকএন্ড সিকিউরিটি ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-19",
+    "number": 19,
+    "title": {
+      "en": "Password Security and Authentication Risk Analyzer",
+      "bn": "পাসওয়ার্ড সিকিউরিটি ও অথেনটিকেশন ঝুঁকি বিশ্লেষক"
+    },
+    "level": "Level 04",
+    "difficulty": "Advanced",
+    "estimatedTime": {
+      "en": "12–15 hours",
+      "bn": "১২–১৫ ঘণ্টা"
+    },
+    "category": "AppSec & Risk",
+    "overview": {
+      "en": "Build a defensive password-policy and authentication-architecture analyzer that estimates pattern-aware entropy (detecting keyboard walks, years, l33tspeak substitutions, and common dictionary patterns), audits password storage scheme strength (MD5/SHA1 vs salted PBKDF2/Argon2 parameters), and evaluates MFA/lockout policy posture.",
+      "bn": "কিবোর্ড প্যাটার্ন, সাল, লিটস্পিক ও সাধারণ অভিধান শব্দ শনাক্ত করে পাসওয়ার্ডের প্রকৃত এনট্রপি নির্ণয়, পাসওয়ার্ড হ্যাশিং স্কিমের শক্তি (দুর্বল MD5/SHA1 বনাম সল্টেড PBKDF2/Argon2) অডিট এবং MFA/লকআউট নীতি মূল্যায়নকারী একটি প্রতিরক্ষামূলক ঝুঁকি বিশ্লেষক তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Pattern-aware entropy & crack-resistance estimation",
+        "bn": "প্যাটার্ন-সচেতন এনট্রপি ও ঝুঁকি বিশ্লেষণ"
+      },
+      {
+        "en": "Cryptographic KDF & hash-format auditing",
+        "bn": "ক্রিপ্টোগ্রাফিক KDF ও হ্যাশ-ফরম্যাট অডিটিং"
+      },
+      {
+        "en": "Authentication posture scoring (NIST 800-63B)",
+        "bn": "অথেনটিকেশন নিরাপত্তা স্কোরিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Product Security Engineer",
+        "bn": "প্রোডাক্ট সিকিউরিটি ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Identity & Access Management (IAM) Engineer",
+        "bn": "IAM ও অথেনটিকেশন ইঞ্জিনিয়ার"
+      }
+    ]
+  },
+  {
+    "id": "PRJ-20",
+    "number": 20,
+    "title": {
+      "en": "Vulnerability Assessment and Risk Prioritization Platform",
+      "bn": "ভালনারেবিলিটি অ্যাসেসমেন্ট ও রিস্ক প্রাইওরিটাইজেশন প্ল্যাটফর্ম"
+    },
+    "level": "Level 04",
+    "difficulty": "Capstone",
+    "estimatedTime": {
+      "en": "18–22 hours",
+      "bn": "১৮–২২ ঘণ্টা"
+    },
+    "category": "AppSec & Risk",
+    "overview": {
+      "en": "Build a capstone vulnerability management and risk-prioritization platform that ingests software dependency inventories/SBOM-like asset manifests and scanner JSON feeds, matches versions against a local offline vulnerability advisory database, enriches findings with exploitability, asset criticality, and exposure context, deduplicates cross-scanner noise, and produces remediation roadmaps and SLA tracking.",
+      "bn": "সফটওয়্যার ডিপেন্ডেন্সি ও অ্যাসেট ইনভেন্টরি এবং স্ক্যানার JSON রিপোর্ট গ্রহণ করে অফলাইন অ্যাডভাইজরি ডেটাবেজের সাথে ভার্সন মিলানো, অ্যাসেটের গুরুত্ব ও এক্সপোজার অনুযায়ী প্রকৃত ঝুঁকি স্কোর করা, ডুপ্লিকেট কমানো এবং সংশোধন রোডম্যাপ ও SLA ট্র্যাকিং প্রদানকারী একটি ক্যাপস্টোন প্ল্যাটফর্ম তৈরি করুন।"
+    },
+    "requiredTechnicalSkills": [
+      {
+        "en": "Semantic version comparison & advisory matching",
+        "bn": "সিম্যান্টিক ভার্সন তুলনা ও অ্যাডভাইজরি ম্যাচিং"
+      },
+      {
+        "en": "Contextual risk-scoring & finding deduplication",
+        "bn": "প্রাসঙ্গিক রিস্ক স্কোরিং ও ডিডুপ্লিকেশন"
+      },
+      {
+        "en": "SQLite asset/finding lifecycle & SLA tracking",
+        "bn": "SQLite অ্যাসেট/ফাইন্ডিং লাইফসাইকেল ও SLA ট্র্যাকিং"
+      }
+    ],
+    "jobRoles": [
+      {
+        "en": "Vulnerability Management & AppSec Engineer",
+        "bn": "ভালনারেবিলিটি ম্যানেজমেন্ট ও AppSec ইঞ্জিনিয়ার"
+      },
+      {
+        "en": "Security Platform Software Engineer",
+        "bn": "সিকিউরিটি প্ল্যাটফর্ম সফটওয়্যার ইঞ্জিনিয়ার"
+      }
+    ]
+  }
+]

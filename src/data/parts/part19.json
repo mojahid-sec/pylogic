@@ -1,0 +1,1447 @@
+{
+  "partId": "part-19",
+  "partNumber": 19,
+  "problems": [
+    {
+      "id": "P19-01",
+      "number": 1,
+      "title": {
+        "en": "Defensive Password Complexity & Weak-List Scorer",
+        "bn": "প্রতিরক্ষামূলক পাসওয়ার্ড জটিলতা ও দুর্বল তালিকা যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Registration forms evaluate candidate password entropy proxies and block known breached passwords (NIST SP 800-63B baseline) before hashing.",
+        "bn": "অ্যাকাউন্ট তৈরির সময় দুর্বল বা ফাঁস হওয়া পাসওয়ার্ড নিষিদ্ধ করে ন্যূনতম নিরাপত্তা মান নিশ্চিত করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Character-class diversity checks (upper/lower/digit/symbol)", "bn": "বড়-ছোট অক্ষর, অঙ্ক ও প্রতীক বৈচিত্র্য যাচাই" },
+        { "en": "Common breached password rejection", "bn": "সাধারণ দুর্বল পাসওয়ার্ড বাতিল করা" }
+      ],
+      "description": {
+        "en": "Score a candidate password defensively across 5 criteria (+1 point each): (1) `len >= 12`, (2) has uppercase `A–Z`, (3) has lowercase `a–z`, (4) has digit `0–9`, (5) has special symbol (`not isalnum()` and no whitespace). If the password contains whitespace OR its lowercase form matches a weak list (`123456`, `password`, `qwerty`, `admin123`, `letmein`), force `Score: 0/5 | Rating: REJECTED`. Otherwise map `0–2 -> WEAK`, `3–4 -> MODERATE`, `5 -> STRONG`.",
+        "bn": "৫টি মানদণ্ডে একটি পাসওয়ার্ড যাচাই করুন: দৈর্ঘ্য >= ১২, বড় হাতের অক্ষর, ছোট হাতের অক্ষর, অঙ্ক এবং বিশেষ প্রতীক। ফাঁকা স্থান থাকলে বা দুর্বল তালিকায় (`password`, `123456`, `qwerty`, `admin123`, `letmein`) পড়লে `REJECTED`, নতুবা `WEAK`, `MODERATE` বা `STRONG` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a candidate password.",
+        "bn": "এক লাইনে পাসওয়ার্ড স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "`Score: <n>/5 | Rating: <WEAK|MODERATE|STRONG|REJECTED>`",
+        "bn": "`Score: <n>/5 | Rating: <মান>`"
+      },
+      "examples": [
+        {
+          "input": "P@ssw0rd!Secure9",
+          "output": "Score: 5/5 | Rating: STRONG",
+          "explanation": {
+            "en": "Length >= 12, upper, lower, digit, and symbols present; not in weak list.",
+            "bn": "১২+ অক্ষর ও সব শ্রেণির অক্ষর থাকায় ৫/৫ STRONG।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check the whitespace / breached-list rejection FIRST before computing points.",
+        "bn": "পয়েন্ট গুনার আগেই ফাঁকা স্থান ও দুর্বল তালিকা পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Use `any(c.isupper() for c in pw)` and `any(not c.isalnum() and not c.isspace() for c in pw)`.",
+        "bn": "`isupper()`, `islower()`, `isdigit()` ও `not c.isalnum()` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Length matters most against offline guessing, while breached-password blacklists catch dictionary traps like `Password123!` quickly. Rejecting whitespace prevents copy-paste confusion.",
+        "bn": "দীর্ঘ পাসওয়ার্ড ব্রুট-ফোর্স কঠিন করে এবং দুর্বল তালিকা পরীক্ষা পরিচিত সহজ পাসওয়ার্ড আটকায়।"
+      },
+      "algorithm": [
+        { "en": "Read password without stripping internal spaces (only strip trailing `\\n`).", "bn": "পাসওয়ার্ড পড়ুন (ভেতরের স্পেস না কেটে)।" },
+        { "en": "Reject if empty, contains whitespace, or `.lower()` is in `WEAK_SET`.", "bn": "স্পেস বা দুর্বল তালিকায় থাকলে `0/5 REJECTED`।" },
+        { "en": "Sum the 5 boolean criteria and print score + rating.", "bn": "৫টি শর্ত যোগ করে স্কোর ও রেটিং প্রিন্ট করুন।" }
+      ],
+      "solution": "WEAK = {\"123456\", \"password\", \"qwerty\", \"admin123\", \"letmein\"}\npw = input().rstrip(\"\\n\")\n\nif not pw or any(c.isspace() for c in pw) or pw.lower() in WEAK:\n    print(\"Score: 0/5 | Rating: REJECTED\")\nelse:\n    score = sum([\n        len(pw) >= 12,\n        any(c.isupper() for c in pw),\n        any(c.islower() for c in pw),\n        any(c.isdigit() for c in pw),\n        any(not c.isalnum() for c in pw),\n    ])\n    if score <= 2:\n        rating = \"WEAK\"\n    elif score <= 4:\n        rating = \"MODERATE\"\n    else:\n        rating = \"STRONG\"\n    print(f\"Score: {score}/5 | Rating: {rating}\")",
+      "codeExplanation": {
+        "en": "Checks blacklist and whitespace upfront, then evaluates all five strength dimensions cleanly.",
+        "bn": "প্রথমে বাতিল শর্তগুলো দেখে পরে ৫টি মানদণ্ডে স্কোর হিসাব করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Using `.strip()` on input password, accidentally hiding leading/trailing whitespace errors.",
+        "bn": "`.strip()` চালালে শুরু বা শেষের স্পেস বাদ পড়ে ভুল বৈধতা দেখাতে পারে।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(1)" },
+      "testCases": [
+        { "input": "P@ssw0rd!Secure9", "expectedOutput": "Score: 5/5 | Rating: STRONG", "note": { "en": "All 5 criteria met", "bn": "৫টি শর্ত পূর্ণ" } },
+        { "input": "Admin123", "expectedOutput": "Score: 0/5 | Rating: REJECTED", "note": { "en": "Case-insensitive weak list match", "bn": "দুর্বল তালিকা ম্যাচ" } },
+        { "input": "short1!", "expectedOutput": "Score: 3/5 | Rating: MODERATE", "note": { "en": "Missing length >=12 and uppercase", "bn": "দৈর্ঘ্য ও বড় হাতের অক্ষর কম" } }
+      ]
+    },
+    {
+      "id": "P19-02",
+      "number": 2,
+      "title": {
+        "en": "Enterprise Password Policy & Context-Leak Validator",
+        "bn": "এন্টারপ্রাইজ পাসওয়ার্ড নীতি ও ইউজারনেম-লিকেজ যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "IAM identity providers enforce contextual checks so employees cannot embed their username, company domain, or triple-repeated characters inside passwords.",
+        "bn": "IAM সিস্টেমে ব্যবহারকারীরা যেন নিজেদের ইউজারনেম বা পুনরাবৃত্ত অক্ষর দিয়ে পাসওয়ার্ড না বানায় সেজন্য নীতি যাচাই করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Context-aware username exclusion (`user in pw.lower()`)", "bn": "পাসওয়ার্ডে ইউজারনেম অনুপস্থিতি যাচাই" },
+        { "en": "Consecutive identical-character run limit (`< 3`)", "bn": "পরপর ৩টি সমান অক্ষর নিষিদ্ধকরণ" }
+      ],
+      "description": {
+        "en": "Read `<username>` on line 1 and `<password>` on line 2. Enforce 4 rules and collect all failing rule codes in order: `MIN_LEN_10` (`len < 10`), `NO_USERNAME` (`username.lower()` appears in `password.lower()` when `len(username) >= 3`), `NO_TRIPLE_REPEAT` (3 identical consecutive characters like `aaa` or `111`), and `MIN_3_CLASSES` (fewer than 3 of {upper, lower, digit, symbol}). Print `COMPLIANT` or `VIOLATIONS: <comma-separated codes>`.",
+        "bn": "প্রথম লাইনে `<username>` এবং দ্বিতীয় লাইনে `<password>` পড়ুন। ৪টি নিয়ম (`MIN_LEN_10`, `NO_USERNAME`, `NO_TRIPLE_REPEAT`, `MIN_3_CLASSES`) যাচাই করে পাস হলে `COMPLIANT` বা ব্যর্থ কোডগুলোর তালিকা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: username. Line 2: candidate password.",
+        "bn": "প্রথম লাইনে ইউজারনেম, দ্বিতীয় লাইনে পাসওয়ার্ড।"
+      },
+      "expectedOutput": {
+        "en": "`COMPLIANT` or `VIOLATIONS: <codes>`.",
+        "bn": "`COMPLIANT` অথবা `VIOLATIONS: <কোডসমূহ>`।"
+      },
+      "examples": [
+        {
+          "input": "sajid\nSajid2026!aaa",
+          "output": "VIOLATIONS: NO_USERNAME, NO_TRIPLE_REPEAT",
+          "explanation": {
+            "en": "Contains 'sajid' (case-insensitive) and triple 'aaa'.",
+            "bn": "ইউজারনেম 'sajid' এবং পরপর তিনটি 'a' থাকায় দুটি নীতি ভঙ্গ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check triple repeats cleanly with `any(pw[i] == pw[i+1] == pw[i+2] for i in range(len(pw) - 2))`.",
+        "bn": "`pw[i] == pw[i+1] == pw[i+2]` দিয়ে পরপর ৩টি সমান অক্ষর ধরুন।"
+      },
+      "hint2": {
+        "en": "Do not short-circuit on the first violation—evaluate all 4 rules so the user receives complete feedback.",
+        "bn": "প্রথম ভুলে থেমে না গিয়ে সব ৪টি নিয়মের তালিকা একসাথে দেখান।"
+      },
+      "logicBreakdown": {
+        "en": "Reporting every violated constraint in one pass improves UX and enforces contextual safety beyond blind character counting.",
+        "bn": "একই সাথে সব নীতি-লঙ্ঘন দেখালে ব্যবহারকারী একবারেই নিরাপদ পাসওয়ার্ড ঠিক করতে পারেন।"
+      },
+      "algorithm": [
+        { "en": "Read `user` and `pw`.", "bn": "`user` ও `pw` পড়ুন।" },
+        { "en": "Check all 4 policy predicates independently, appending failed rule names.", "bn": "৪টি শর্ত আলাদাভাবে যাচাই করে ব্যর্থ নামগুলো সংগ্রহ করুন।" },
+        { "en": "Print `COMPLIANT` if empty, else `VIOLATIONS: ...`.", "bn": "ত্রুটি না থাকলে `COMPLIANT`, নতুবা তালিকা প্রিন্ট করুন।" }
+      ],
+      "solution": "user = input().strip().lower()\npw = input().rstrip(\"\\n\")\nviol = []\n\nif len(pw) < 10:\n    viol.append(\"MIN_LEN_10\")\nif len(user) >= 3 and user in pw.lower():\n    viol.append(\"NO_USERNAME\")\nif any(pw[i] == pw[i + 1] == pw[i + 2] for i in range(len(pw) - 2)):\n    viol.append(\"NO_TRIPLE_REPEAT\")\n\nclasses = sum([\n    any(c.isupper() for c in pw),\n    any(c.islower() for c in pw),\n    any(c.isdigit() for c in pw),\n    any(not c.isalnum() and not c.isspace() for c in pw),\n])\nif classes < 3:\n    viol.append(\"MIN_3_CLASSES\")\n\nprint(\"COMPLIANT\" if not viol else \"VIOLATIONS: \" + \", \".join(viol))",
+      "codeExplanation": {
+        "en": "Each check operates independently so every policy gap is surfaced cleanly.",
+        "bn": "প্রতিটি শর্ত স্বাধীনভাবে যাচাই হওয়ায় কোনো নীতি বাদ পড়ে না।"
+      },
+      "commonMistakes": {
+        "en": "Stopping after the first `if` failure using `elif`, which hides subsequent policy violations.",
+        "bn": "`elif` ব্যবহার করলে প্রথম ত্রুটির পরের নিয়মগুলো আর পরীক্ষা হয় না।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(1)" },
+      "testCases": [
+        { "input": "sajid\nSajid2026!aaa", "expectedOutput": "VIOLATIONS: NO_USERNAME, NO_TRIPLE_REPEAT", "note": { "en": "Context leak & triple repeat", "bn": "ইউজারনেম ও তিনবার পুনরাবৃত্তি" } },
+        { "input": "alex\nBlueHorizon#94", "expectedOutput": "COMPLIANT", "note": { "en": "Fully compliant", "bn": "সম্পূর্ণ নীতিসম্মত" } },
+        { "input": "dev\nshort", "expectedOutput": "VIOLATIONS: MIN_LEN_10, MIN_3_CLASSES", "note": { "en": "Short single-class password", "bn": "ছোট ও এক-শ্রেণির পাসওয়ার্ড" } }
+      ]
+    },
+    {
+      "id": "P19-03",
+      "number": 3,
+      "title": {
+        "en": "Cryptographically Secure Password Generator (`secrets`)",
+        "bn": "`secrets` মডিউলে নিরাপদ পাসওয়ার্ড জেনারেটর"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "API tokens, reset links, and temporary passwords MUST use OS CSPRNG (`secrets`), never predictable `random` Mersenne Twister.",
+        "bn": "টোকেন ও অস্থায়ী পাসওয়ার্ড তৈরিতে অনুমানযোগ্য `random`-এর বদলে ক্রিপ্টোগ্রাফিক `secrets` ব্যবহার করা বাধ্যতামূলক।"
+      },
+      "requiredConcepts": [
+        { "en": "CSPRNG (`secrets.choice`, `secrets.SystemRandom.shuffle`)", "bn": "CSPRNG (`secrets.choice` ও `SystemRandom.shuffle`)" },
+        { "en": "Guaranteed class minimums + Shannon pool entropy", "bn": "ন্যূনতম শ্রেণি নিশ্চয়তা ও এনট্রপি গণনা" }
+      ],
+      "description": {
+        "en": "Read `<length> <min_upper> <min_digits> <min_symbols>`. Validate `length >= 8` and `min_upper + min_digits + min_symbols <= length` (else `INVALID_POLICY`). Generate a real password using Python's CSPRNG `secrets` module (including at least 1 lowercase if space allows, filling remaining slots from the full 72-char pool, and shuffling with `secrets.SystemRandom().shuffle`). Verify all character counts pass and print `Engine:secrets | Length:<L> | PolicyVerified:True | EntropyBits:<bits:.1f>` (`bits = L * log2(72)`).",
+        "bn": "`<length> <min_upper> <min_digits> <min_symbols>` পড়ে `secrets` CSPRNG ব্যবহার করে প্রকৃত পাসওয়ার্ড তৈরি করুন (সর্বোচ্চ নিরাপদ অ-অনুমানযোগ্য পদ্ধতিতে)। তৈরিকৃত পাসওয়ার্ডে সব শর্ত পূরণ হয়েছে কি না যাচাই করে ফলাফল ও এনট্রপি বিট প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Four integers: length, min_upper, min_digits, min_symbols.",
+        "bn": "চারটি পূর্ণসংখ্যা: length, min_upper, min_digits, min_symbols।"
+      },
+      "expectedOutput": {
+        "en": "`Engine:secrets | Length:<L> | PolicyVerified:True | EntropyBits:<bits>` or `INVALID_POLICY`.",
+        "bn": "`Engine:secrets | Length:<L> | PolicyVerified:True | EntropyBits:<বিট>` অথবা `INVALID_POLICY`।"
+      },
+      "examples": [
+        {
+          "input": "16 2 2 2",
+          "output": "Engine:secrets | Length:16 | PolicyVerified:True | EntropyBits:98.7",
+          "explanation": {
+            "en": "Generates a 16-char password using secrets CSPRNG from 72-char pool (log2(72^16) ≈ 98.7 bits).",
+            "bn": "৭২ অক্ষরের পুল থেকে ১৬ অক্ষরের `secrets` পাসওয়ার্ডের এনট্রপি প্রায় ৯৮.৭ বিট।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never use `random.choice()` or `random.shuffle()` for security credentials—always use `secrets.choice()` and `secrets.SystemRandom().shuffle()`.",
+        "bn": "নিরাপত্তা টোকেনের জন্য কখনোই `random` নয়, বরং `secrets.choice()` ও `secrets.SystemRandom().shuffle()` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Symbol pool `!@#$%^&*()-_=+` (14 chars) + 26 upper + 26 lower + 10 digits -> keep exact 72-char pool (10 symbols `!@#$%^&*-_`).",
+        "bn": "২৬+২৬+১০+১০ = ৭২ অক্ষরের সুনির্দিষ্ট পুল তৈরি করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Why not `random`? Python's `random` module uses Mersenne Twister whose internal 624-word state can be reconstructed from observed outputs. `secrets` draws directly from OS entropy (`/dev/urandom`).",
+        "bn": "সাধারণ `random` পূর্বের আউটপুট দেখে অনুমান করা সম্ভব, কিন্তু `secrets` সরাসরি OS এনট্রপি ব্যবহার করে।"
+      },
+      "algorithm": [
+        { "en": "Validate `length >= 8` and required class sum `<= length`.", "bn": "`length >= 8` ও শ্রেণি যোগফল যাচাই করুন।" },
+        { "en": "Sample mandatory characters via `secrets.choice`, fill rest from 72-char pool, shuffle via `secrets.SystemRandom().shuffle`.", "bn": "`secrets` দিয়ে বাধ্যতামূলক ও বাকি অক্ষর নিয়ে এলোমেলো করুন।" },
+        { "en": "Assert generated counts match minimums, compute `length * math.log2(len(POOL))`, and print.", "bn": "তৈরিকৃত পাসওয়ার্ড যাচাই করে এনট্রপিসহ প্রিন্ট করুন।" }
+      ],
+      "solution": "import math\nimport secrets\nimport string\n\nlength, min_u, min_d, min_s = map(int, input().split())\nSYM = \"!@#$%^&*-_\"\nPOOL = string.ascii_uppercase + string.ascii_lowercase + string.digits + SYM\n\nif length < 8 or min(min_u, min_d, min_s) < 0 or (min_u + min_d + min_s) > length:\n    print(\"INVALID_POLICY\")\nelse:\n    chars = (\n        [secrets.choice(string.ascii_uppercase) for _ in range(min_u)]\n        + [secrets.choice(string.digits) for _ in range(min_d)]\n        + [secrets.choice(SYM) for _ in range(min_s)]\n    )\n    while len(chars) < length:\n        chars.append(secrets.choice(POOL))\n    secrets.SystemRandom().shuffle(chars)\n    pw = \"\".join(chars)\n    verified = (\n        len(pw) == length\n        and sum(c.isupper() for c in pw) >= min_u\n        and sum(c.isdigit() for c in pw) >= min_d\n        and sum(c in SYM for c in pw) >= min_s\n    )\n    entropy = length * math.log2(len(POOL))\n    print(f\"Engine:secrets | Length:{len(pw)} | PolicyVerified:{verified} | EntropyBits:{entropy:.1f}\")",
+      "codeExplanation": {
+        "en": "Uses `secrets` for every selection and shuffle, then programmatically verifies the generated output meets every requirement.",
+        "bn": "প্রতিটি নির্বাচন ও শাফল `secrets` দিয়ে সম্পন্ন করে উৎপন্ন পাসওয়ার্ডের বৈধতা নিশ্চিত করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Putting mandatory characters at fixed positions (e.g., upper first, digits last) without shuffling, which reduces effective entropy.",
+        "bn": "বাধ্যতামূলক অক্ষরগুলো নির্দিষ্ট অবস্থানে রেখে শাফল না করলে অনুমান সহজ হয়ে যায়।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(L)" },
+      "testCases": [
+        { "input": "16 2 2 2", "expectedOutput": "Engine:secrets | Length:16 | PolicyVerified:True | EntropyBits:98.7", "note": { "en": "16-char 98.7-bit secret", "bn": "১৬ অক্ষরের পাসওয়ার্ড" } },
+        { "input": "8 4 4 4", "expectedOutput": "INVALID_POLICY", "note": { "en": "Minimums exceed length", "bn": "ন্যূনতম যোগফল দৈর্ঘ্যের বেশি" } },
+        { "input": "6 1 1 1", "expectedOutput": "INVALID_POLICY", "note": { "en": "Length below minimum 8", "bn": "দৈর্ঘ্য ৮-এর কম" } }
+      ]
+    },
+    {
+      "id": "P19-04",
+      "number": 4,
+      "title": {
+        "en": "Salted PBKDF2-HMAC-SHA256 Password Storage (Why Plain SHA-256 Fails)",
+        "bn": "সল্টেড PBKDF2-HMAC-SHA256 পাসওয়ার্ড হ্যাশিং (সাধারণ SHA-256 কেন অনিরাপদ)"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Never store passwords with bare `hashlib.sha256(pw)`—modern GPUs compute billions of raw SHA-256 hashes per second and rainbow tables break unsalted digests. Production systems use salted, high-iteration KDFs like `pbkdf2_hmac`.",
+        "bn": "সাধারণ `SHA-256` দিয়ে পাসওয়ার্ড রাখলে রেইনবো টেবিল ও দ্রুত GPU আক্রমণে তা ভেঙে যায়; তাই সল্ট ও বেশি ইটারেশনসহ `pbkdf2_hmac` ব্যবহার করতে হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Why unsalted fast SHA-256 is unsafe for passwords", "bn": "দ্রুত ও সল্টবিহীন SHA-256 কেন পাসওয়ার্ডের জন্য অনিরাপদ" },
+        { "en": "Salted key-stretching via `hashlib.pbkdf2_hmac`", "bn": "`hashlib.pbkdf2_hmac` দিয়ে সল্টেড হ্যাশিং" }
+      ],
+      "description": {
+        "en": "Read `<password> <salt_hex> <iterations>` (in real apps, generate a fresh 16-byte salt with `secrets.token_bytes(16)` per user; here `salt_hex` is supplied for deterministic verification). Reject `iterations < 100000` (`UNSAFE_WORK_FACTOR`) or invalid hex/short salt (`< 8` bytes -> `UNSAFE_SALT`). Compute `hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), bytes.fromhex(salt_hex), iterations)` and output `pbkdf2_sha256$<iterations>$<salt_hex>$<digest_hex>`.",
+        "bn": "`<password> <salt_hex> <iterations>` ইনপুট নিন (`iterations >= 100000` ও `salt >= 8` বাইট না হলে প্রত্যাখ্যান করুন)। `hashlib.pbkdf2_hmac('sha256', ...)` দিয়ে হ্যাশ বের করে `pbkdf2_sha256$<iters>$<salt_hex>$<digest_hex>` ফরম্যাটে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line: `<password> <salt_hex> <iterations>`.",
+        "bn": "এক লাইনে `<password> <salt_hex> <iterations>`।"
+      },
+      "expectedOutput": {
+        "en": "PHC-style record `pbkdf2_sha256$<iters>$<salt>$<hex>` or error code.",
+        "bn": "`pbkdf2_sha256$<iters>$<salt>$<hex>` অথবা ত্রুটি কোড।"
+      },
+      "examples": [
+        {
+          "input": "CorrectHorse99 00112233445566778899aabbccddeeff 100000",
+          "output": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451",
+          "explanation": {
+            "en": "Exact hex digest is produced deterministically by hashlib.pbkdf2_hmac('sha256', ...) with 100,000 iterations and a 16-byte salt.",
+            "bn": "সল্ট ও ১,০০,০০০ ইটারেশনসহ `pbkdf2_hmac` নির্ভুল হেক্স ডাইজেস্ট তৈরি করে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert `salt_hex` via `bytes.fromhex(salt_hex)` inside `try/except ValueError` and check `len(salt) >= 8`.",
+        "bn": "`bytes.fromhex()` দিয়ে সল্ট বাইট বের করে `len >= 8` দেখুন।"
+      },
+      "hint2": {
+        "en": "Call `hashlib.pbkdf2_hmac('sha256', pw.encode('utf-8'), salt, iters).hex()`.",
+        "bn": "`hashlib.pbkdf2_hmac('sha256', ...).hex()` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Plain SHA-256 is designed to be blazing fast (for file checksums), making brute-force cheap. PBKDF2 deliberately repeats HMAC-SHA256 `100,000+` times with a unique per-user salt, neutralizing rainbow tables and slowing offline guessing by orders of magnitude.",
+        "bn": "ফাইল যাচাইয়ের জন্য SHA-256 খুব দ্রুত কাজ করে, যা পাসওয়ার্ডের জন্য বিপজ্জনক। PBKDF2-এ সল্ট ও ১ লক্ষ+ ইটারেশন যোগ করে ব্রুট-ফোর্স অত্যন্ত ব্যয়বহুল করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse `pw, salt_hex, iters`.", "bn": "`pw, salt_hex, iters` পড়ুন।" },
+        { "en": "Validate `salt` decodes to `>= 8` bytes and `iters >= 100000`.", "bn": "সল্ট ও ইটারেশন সীমা যাচাই করুন।" },
+        { "en": "Compute `pbkdf2_hmac('sha256', ...)` and format output string.", "bn": "`pbkdf2_hmac` চালিয়ে নির্ধারিত ফরম্যাটে প্রিন্ট করুন।" }
+      ],
+      "solution": "import hashlib\n\npw, salt_hex, iters_s = input().strip().split()\niters = int(iters_s)\nsalt_hex = salt_hex.lower()\ntry:\n    salt = bytes.fromhex(salt_hex)\nexcept ValueError:\n    salt = b\"\"\n\nif len(salt) < 8:\n    print(\"UNSAFE_SALT\")\nelif iters < 100000:\n    print(\"UNSAFE_WORK_FACTOR\")\nelse:\n    dk = hashlib.pbkdf2_hmac(\"sha256\", pw.encode(\"utf-8\"), salt, iters)\n    print(f\"pbkdf2_sha256${iters}${salt_hex}${dk.hex()}\")",
+      "codeExplanation": {
+        "en": "Enforces minimum work factor (`100000`) and salt entropy (`>= 8` bytes) before running PBKDF2-HMAC-SHA256.",
+        "bn": "সর্বনিম্ন ১,০০,০০০ ইটারেশন ও ৮+ বাইট সল্ট নিশ্চিত করে হ্যাশ তৈরি করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Using bare `hashlib.sha256(pw.encode()).hexdigest()`, reusing one global static salt across all users, or setting `iterations=1`.",
+        "bn": "সরাসরি `sha256()` ব্যবহার করা, সব ব্যবহারকারীর জন্য একই স্ট্যাটিক সল্ট রাখা বা কম ইটারেশন দেওয়া।"
+      },
+      "complexity": { "time": "O(iterations)", "space": "O(1)" },
+      "testCases": [
+        { "input": "CorrectHorse99 00112233445566778899aabbccddeeff 100000", "expectedOutput": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451", "note": { "en": "Valid 100k PBKDF2 digest", "bn": "১ লক্ষ ইটারেশনের বৈধ হ্যাশ" } },
+        { "input": "MySecret99 0011223344556677 1000", "expectedOutput": "UNSAFE_WORK_FACTOR", "note": { "en": "Too few iterations", "bn": "অপর্যাপ্ত ইটারেশন" } },
+        { "input": "MySecret99 abcd 100000", "expectedOutput": "UNSAFE_SALT", "note": { "en": "Salt too short", "bn": "খুব ছোট সল্ট" } }
+      ]
+    },
+    {
+      "id": "P19-05",
+      "number": 5,
+      "title": {
+        "en": "Constant-Time PBKDF2 Verification (`hmac.compare_digest`)",
+        "bn": "সময়-নিরপেক্ষ PBKDF2 যাচাই (`hmac.compare_digest`)"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Verifying stored password hashes, HMAC webhook signatures, and CSRF tokens with `hmac.compare_digest` prevents timing side-channel leaks.",
+        "bn": "পাসওয়ার্ড হ্যাশ, ওয়েবহুক সিগনেচার ও টোকেন তুলনায় টাইমিং সাইড-চ্যানেল আক্রমণ ঠেকাতে `hmac.compare_digest` ব্যবহৃত হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Parsing stored `algo$iters$salt$digest` credential records", "bn": "`algo$iters$salt$digest` রেকর্ড পার্সিং" },
+        { "en": "Timing-safe equality via `hmac.compare_digest`", "bn": "`hmac.compare_digest` দিয়ে টাইমিং-নিরাপদ তুলনা" }
+      ],
+      "description": {
+        "en": "Read line 1 containing a stored PBKDF2 hash record (`pbkdf2_sha256$<iters>$<salt_hex>$<digest_hex>`) and line 2 containing a candidate password. Validate the record format (else `MALFORMED_RECORD`), re-derive the PBKDF2 digest, and verify using `hmac.compare_digest` (never `==`). Print `AUTH_VALID` or `AUTH_FAILED`.",
+        "bn": "প্রথম লাইনে সংরক্ষিত `pbkdf2_sha256$<iters>$<salt>$<digest>` রেকর্ড এবং দ্বিতীয় লাইনে পাসওয়ার্ড পড়ে `hmac.compare_digest` দিয়ে যাচাই করে `AUTH_VALID`, `AUTH_FAILED` বা `MALFORMED_RECORD` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: stored PBKDF2 record. Line 2: candidate password.",
+        "bn": "প্রথম লাইনে হ্যাশ রেকর্ড, দ্বিতীয় লাইনে পাসওয়ার্ড।"
+      },
+      "expectedOutput": {
+        "en": "`AUTH_VALID`, `AUTH_FAILED`, or `MALFORMED_RECORD`.",
+        "bn": "`AUTH_VALID`, `AUTH_FAILED` বা `MALFORMED_RECORD`।"
+      },
+      "examples": [
+        {
+          "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\nCorrectHorse99",
+          "output": "AUTH_VALID",
+          "explanation": {
+            "en": "Recomputed digest matches stored hex in constant time.",
+            "bn": "পুনর্গণিত ডাইজেস্ট সংরক্ষিত হ্যাশের সাথে সময়-নিরপেক্ষভাবে মিলে গেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split stored string on `$` into 4 fields and verify `parts[0] == 'pbkdf2_sha256'` and integer `iters >= 100000`.",
+        "bn": "`$` দিয়ে ৪ অংশে ভেঙে অ্যালগরিদম ও ইটারেশন যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Compare `bytes` or ASCII strings with `hmac.compare_digest(actual_digest, expected_digest)`.",
+        "bn": "`hmac.compare_digest(actual, expected)` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Standard `==` returns `False` on the very first mismatching byte, creating measurable microsecond timing differences for secrets/HMACs. `hmac.compare_digest` examines every byte uniformly.",
+        "bn": "সাধারণ `==` প্রথম অমিল বাইটেই থেমে যায়, কিন্তু `hmac.compare_digest` সম্পূর্ণ দৈর্ঘ্য সমান সময়ে পরীক্ষা করে।"
+      },
+      "algorithm": [
+        { "en": "Parse and validate 4 `$`-delimited fields and decode salt/expected bytes.", "bn": "৪টি ফিল্ড ভেঙে সল্ট ও হ্যাশ ডিকোড করুন।" },
+        { "en": "Compute `hashlib.pbkdf2_hmac('sha256', candidate, salt, iters)`.", "bn": "`pbkdf2_hmac` চালিয়ে নতুন ডাইজেস্ট বের করুন।" },
+        { "en": "Compare with `hmac.compare_digest` and print verdict.", "bn": "`hmac.compare_digest` দিয়ে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "import hashlib\nimport hmac\n\nrecord = input().strip()\ncandidate = input().rstrip(\"\\n\")\nparts = record.split(\"$\")\n\ntry:\n    if len(parts) != 4 or parts[0] != \"pbkdf2_sha256\":\n        raise ValueError\n    iters = int(parts[1])\n    salt = bytes.fromhex(parts[2])\n    expected = bytes.fromhex(parts[3])\n    if iters < 100000 or not salt or len(expected) != 32:\n        raise ValueError\nexcept ValueError:\n    print(\"MALFORMED_RECORD\")\nelse:\n    actual = hashlib.pbkdf2_hmac(\"sha256\", candidate.encode(\"utf-8\"), salt, iters)\n    print(\"AUTH_VALID\" if hmac.compare_digest(actual, expected) else \"AUTH_FAILED\")",
+      "codeExplanation": {
+        "en": "Compares raw 32-byte digests with `hmac.compare_digest` after strict record parsing.",
+        "bn": "রেকর্ড যাচাইয়ের পর ৩২-বাইট ডাইজেস্ট `hmac.compare_digest` দিয়ে তুলনা করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Comparing digests with `==` or trusting corrupted `iters` values below policy minimums.",
+        "bn": "`==` দিয়ে তুলনা করা বা নষ্ট হওয়া রেকর্ড ফরম্যাট না ধরা।"
+      },
+      "complexity": { "time": "O(iterations)", "space": "O(1)" },
+      "testCases": [
+        { "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\nCorrectHorse99", "expectedOutput": "AUTH_VALID", "note": { "en": "Matching password", "bn": "সঠিক পাসওয়ার্ড" } },
+        { "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\nWrongPass99", "expectedOutput": "AUTH_FAILED", "note": { "en": "Wrong password", "bn": "ভুল পাসওয়ার্ড" } },
+        { "input": "sha256$100$abcd$deadbeef\nabc", "expectedOutput": "MALFORMED_RECORD", "note": { "en": "Legacy weak record rejected", "bn": "অনিরাপদ বা ভুল রেকর্ড বাতিল" } }
+      ]
+    },
+    {
+      "id": "P19-06",
+      "number": 6,
+      "title": {
+        "en": "Streaming Chunked SHA-256 File Integrity Hasher",
+        "bn": "চাংক-ভিত্তিক স্ট্রিমিং SHA-256 ফাইল অখণ্ডতা যাচাই"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Software release verification (`sha256sum`) streams large ISO/archive files in fixed memory chunks (4KB–64KB) instead of loading entire gigabytes into RAM.",
+        "bn": "বড় সফটওয়্যার ইমেজ বা আর্কাইভের SHA-256 যাচাই করতে পুরো ফাইল RAM-এ না তুলে ছোট ছোট চাংকে পড়া হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Incremental `hashlib.sha256().update(chunk)` streaming", "bn": "`hasher.update(chunk)` দিয়ে স্ট্রিমিং হ্যাশিং" },
+        { "en": "Sandboxed file I/O via `tempfile.TemporaryDirectory`", "bn": "`TemporaryDirectory` ব্যবহার করে নিরাপদ ফাইল পরীক্ষা" }
+      ],
+      "description": {
+        "en": "Read `<text_unit> <repeat_count>` (`repeat_count >= 0`). Write `<text_unit>` repeated `repeat_count` times to a temporary binary file inside `tempfile.TemporaryDirectory()`, then hash the file by reading in `4096`-byte chunks (`while chunk := f.read(4096): hasher.update(chunk)`). Print `Bytes:<total> | ChunksRead:<c> | SHA256:<hex>`.",
+        "bn": "`<text_unit> <repeat_count>` পড়ে `TemporaryDirectory()`-র একটি টেম্প ফাইলে `repeat_count` বার লিখুন। এরপর পুরো ফাইল একবারে না পড়ে `4096` বাইট করে চাংকে `hashlib.sha256()` আপডেট করে `Bytes:<মোট> | ChunksRead:<চাংক> | SHA256:<হেক্স>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line: `<text_unit> <repeat_count>`.",
+        "bn": "এক লাইনে `<টেক্সট> <পুনরাবৃত্তি_সংখ্যা>`।"
+      },
+      "expectedOutput": {
+        "en": "`Bytes:<n> | ChunksRead:<c> | SHA256:<64-hex>`",
+        "bn": "`Bytes:<n> | ChunksRead:<c> | SHA256:<হেক্স>`"
+      },
+      "examples": [
+        {
+          "input": "PYLOGIC- 1000",
+          "output": "Bytes:8000 | ChunksRead:2 | SHA256:9249093a88f667ad97ebe1e46cc6a9a8e8a2f6a55eee76fd02724dd719a9cc27",
+          "explanation": {
+            "en": "8000 bytes takes two 4096-byte reads (4096 + 3904) while keeping RAM usage constant.",
+            "bn": "৮০০০ বাইট ৪KB করে ২টি চাংকে পড়া হয়েছে এবং মেমরি খরচ ধ্রুব রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Open the file in binary mode `'rb'`—text mode alters newline translations and breaks cross-platform hashes.",
+        "bn": "হ্যাশিংয়ের জন্য সবসময় বাইনারি মোডে (`'rb'`) ফাইল খুলতে হয়।"
+      },
+      "hint2": {
+        "en": "Count how many non-empty `chunk = f.read(4096)` reads ran until EOF `b''`.",
+        "bn": "`f.read(4096)` যতবার শূন্য-বাইট নয় এমন ডেটা দেয় ততবার গণনা বাড়ান।"
+      },
+      "logicBreakdown": {
+        "en": "Streaming hashes decouple memory footprint (`O(4KB)`) from file size (`O(N)`), enabling integrity checks on multi-gigabyte backups cleanly.",
+        "bn": "চাংকিং পদ্ধতিতে ১০ GB ফাইলও মাত্র ৪ KB মেমরি ব্যবহার করে নির্ভুল SHA-256 হ্যাশ দেয়।"
+      },
+      "algorithm": [
+        { "en": "Create temporary file inside `TemporaryDirectory()` and write `unit.encode('utf-8') * repeat`.", "bn": "টেম্প ফাইলে বাইটগুলো লিখুন।" },
+        { "en": "Open in `'rb'`, read `4096` bytes per loop, update `sha256`, accumulate byte count and chunk count.", "bn": "`rb` মোডে ৪KB চাংকে পড়ে হ্যাশ ও কাউন্টার আপডেট করুন।" },
+        { "en": "Print byte count, chunks read, and `hexdigest()`.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "import hashlib\nimport os\nimport tempfile\n\nunit, rep_s = input().strip().split()\nrep = int(rep_s)\npayload = unit.encode(\"utf-8\") * rep\n\nwith tempfile.TemporaryDirectory() as tmp:\n    fpath = os.path.join(tmp, \"artifact.bin\")\n    with open(fpath, \"wb\") as wf:\n        wf.write(payload)\n\n    h = hashlib.sha256()\n    total = 0\n    chunks = 0\n    with open(fpath, \"rb\") as rf:\n        while True:\n            buf = rf.read(4096)\n            if not buf:\n                break\n            h.update(buf)\n            total += len(buf)\n            chunks += 1\n    print(f\"Bytes:{total} | ChunksRead:{chunks} | SHA256:{h.hexdigest()}\")",
+      "codeExplanation": {
+        "en": "`TemporaryDirectory()` cleans up automatically after computing the chunked SHA-256 digest.",
+        "bn": "`TemporaryDirectory()` কাজ শেষে অস্থায়ী ফাইল মুছে ফেলে এবং হ্যাশ `O(1)` বাফার মেমরিতে গণনা হয়।"
+      },
+      "commonMistakes": {
+        "en": "Calling `hashlib.sha256(open(p, 'rb').read())`, which loads the entire file into RAM at once.",
+        "bn": "`.read()` দিয়ে পুরো ফাইল একবারে মেমরিতে নিলে বড় ফাইলে RAM পূর্ণ হয়ে যায়।"
+      },
+      "complexity": { "time": "O(N bytes)", "space": "O(1) 4KB buffer" },
+      "testCases": [
+        { "input": "PYLOGIC- 1000", "expectedOutput": "Bytes:8000 | ChunksRead:2 | SHA256:9249093a88f667ad97ebe1e46cc6a9a8e8a2f6a55eee76fd02724dd719a9cc27", "note": { "en": "Multi-chunk file", "bn": "একাধিক চাংকের ফাইল" } },
+        { "input": "abc 0", "expectedOutput": "Bytes:0 | ChunksRead:0 | SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "note": { "en": "Empty file standard SHA-256", "bn": "শূন্য-বাইট ফাইলের SHA-256" } },
+        { "input": "A 4096", "expectedOutput": "Bytes:4096 | ChunksRead:1 | SHA256:6896d9ea3f73a4434f5832bc65714e7d066f177373f36f34dc8a6f735daa41b1", "note": { "en": "Exact 4096-byte boundary", "bn": "ঠিক ৪KB সীমানা" } }
+      ]
+    },
+    {
+      "id": "P19-07",
+      "number": 7,
+      "title": {
+        "en": "Cryptographic Integrity Manifest & Tamper Detector",
+        "bn": "ফাইল অখণ্ডতা ম্যানিফেস্ট ও পরিবর্তন শনাক্তকারী"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "File Integrity Monitoring (FIM) tools like Tripwire/AIDE detect unauthorized config modifications or missing system binaries against signed baseline manifests.",
+        "bn": "ফাইল ইন্টিগ্রিটি মনিটরিং (FIM) টুল অনুমোদিত হ্যাশ ম্যানিফেস্টের সাথে মিলিয়ে কোনো ফাইল বদলেছে বা মুছে গেছে কি না ধরে।"
+      },
+      "requiredConcepts": [
+        { "en": "Baseline SHA-256 manifest generation", "bn": "বেসলাইন SHA-256 ম্যানিফেস্ট তৈরি" },
+        { "en": "Three-way audit (`OK`, `TAMPERED`, `MISSING`, `UNTRACKED`)", "bn": "অবস্থা যাচাই (`OK`, `TAMPERED`, `MISSING`, `UNTRACKED`)" }
+      ],
+      "description": {
+        "en": "Inside a `TemporaryDirectory()`, simulate a baseline directory containing files `app.conf=port=8080`, `auth.conf=mfa=true`, and `routes.json=[]`. Record their baseline SHA-256 manifest. Then apply `M` simulated post-deployment events (`MODIFY <file> <new_content>`, `DELETE <file>`, `ADD <file> <content>`) and run the FIM verifier against the baseline. Report sorted file statuses (`OK`, `TAMPERED`, `MISSING`, `UNTRACKED`).",
+        "bn": "`TemporaryDirectory()`-র ভেতরে `app.conf`, `auth.conf`, `routes.json`-এর বেসলাইন SHA-256 ম্যানিফেস্ট তৈরি করুন। এরপর `M`টি ইভেন্ট (`MODIFY`, `DELETE`, `ADD`) প্রয়োগ করে প্রতিটি ফাইলের অবস্থা (`OK`, `TAMPERED`, `MISSING`, `UNTRACKED`) বর্ণানুক্রমে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer M followed by M event lines (`MODIFY f content`, `DELETE f`, `ADD f content`).",
+        "bn": "পূর্ণসংখ্যা M ও পরবর্তী M লাইনে ফাইল ইভেন্ট।"
+      },
+      "expectedOutput": {
+        "en": "Sorted `<filename>: <STATUS>` lines.",
+        "bn": "বর্ণানুক্রমে `<ফাইল>: <অবস্থা>` লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "2\nMODIFY auth.conf mfa=false\nDELETE routes.json",
+          "output": "app.conf: OK\nauth.conf: TAMPERED\nroutes.json: MISSING",
+          "explanation": {
+            "en": "auth.conf hash diverges from baseline; routes.json disappeared.",
+            "bn": "auth.conf-এর হ্যাশ বদলে যাওয়ায় TAMPERED এবং routes.json মুছে যাওয়ায় MISSING।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compute `all_names = sorted(set(manifest) | set(os.listdir(tmp)))` to catch both missing baseline files and newly added untracked files.",
+        "bn": "`set(manifest) | set(os.listdir(tmp))` একত্র করলে হারানো ও নতুন অজ্ঞাত উভয় ফাইলই ধরা পড়ে।"
+      },
+      "hint2": {
+        "en": "Sanitize simulated filenames with `os.path.basename` so test filenames stay strictly inside `tmp`.",
+        "bn": "টেম্প ডিরেক্টরির নিরাপত্তার জন্য `os.path.basename` ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Comparing cryptographic digests detects even a 1-bit change (e.g., flipping `mfa=true` to `mfa=false`) regardless of file modification timestamps, which attackers can spoof.",
+        "bn": "ফাইলের পরিবর্তনের সময় (mtime) নকল করা সহজ, কিন্তু SHA-256 হ্যাশ ১ বিট বদলালেও তাৎক্ষণিক ধরা পড়ে।"
+      },
+      "algorithm": [
+        { "en": "Write 3 baseline files in `TemporaryDirectory()` and hash each into `manifest` dict.", "bn": "৩টি বেসলাইন ফাইল লিখে ম্যানিফেস্টে হ্যাশ সংরক্ষণ করুন।" },
+        { "en": "Apply `MODIFY`, `DELETE`, `ADD` operations safely inside `tmp`.", "bn": "`tmp`-এর ভেতরে ইভেন্টগুলো প্রয়োগ করুন।" },
+        { "en": "Verify union of manifest keys and current filenames, printing sorted statuses.", "bn": "উভয় সেটের ফাইল মিলিয়ে বর্ণানুক্রমে অবস্থা প্রিন্ট করুন।" }
+      ],
+      "solution": "import hashlib\nimport os\nimport tempfile\n\ndef sha256_file(path):\n    h = hashlib.sha256()\n    with open(path, \"rb\") as f:\n        while True:\n            b = f.read(4096)\n            if not b:\n                break\n            h.update(b)\n    return h.hexdigest()\n\nm = int(input().strip())\nevents = [input().strip().split(maxsplit=2) for _ in range(m)]\n\nwith tempfile.TemporaryDirectory() as tmp:\n    baseline = {\"app.conf\": \"port=8080\", \"auth.conf\": \"mfa=true\", \"routes.json\": \"[]\"}\n    manifest = {}\n    for name, body in baseline.items():\n        p = os.path.join(tmp, name)\n        with open(p, \"w\", encoding=\"utf-8\") as f:\n            f.write(body)\n        manifest[name] = sha256_file(p)\n\n    for ev in events:\n        op = ev[0]\n        fname = os.path.basename(ev[1])\n        p = os.path.join(tmp, fname)\n        if op in (\"MODIFY\", \"ADD\") and len(ev) == 3:\n            with open(p, \"w\", encoding=\"utf-8\") as f:\n                f.write(ev[2])\n        elif op == \"DELETE\" and os.path.exists(p):\n            os.remove(p)\n\n    present = set(os.listdir(tmp))\n    for name in sorted(set(manifest) | present):\n        p = os.path.join(tmp, name)\n        if name not in manifest:\n            print(f\"{name}: UNTRACKED\")\n        elif not os.path.exists(p):\n            print(f\"{name}: MISSING\")\n        elif sha256_file(p) != manifest[name]:\n            print(f\"{name}: TAMPERED\")\n        else:\n            print(f\"{name}: OK\")",
+      "codeExplanation": {
+        "en": "Cleanly exercises all four File Integrity Monitoring outcomes inside an isolated temporary workspace.",
+        "bn": "আলাদা টেম্প ডিরেক্টরিতে FIM-এর ৪টি সম্ভাব্য অবস্থা নির্ভুলভাবে যাচাই করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Looping only over `os.listdir()` (missing `MISSING` files) or only over `manifest` (missing `UNTRACKED` rogue files).",
+        "bn": "শুধু `os.listdir()` বা শুধু `manifest` দেখলে যথাক্রমে মুছে যাওয়া বা নতুন অজানা ফাইল বাদ পড়ে যায়।"
+      },
+      "complexity": { "time": "O(total file bytes + F log F)", "space": "O(F)" },
+      "testCases": [
+        { "input": "2\nMODIFY auth.conf mfa=false\nDELETE routes.json", "expectedOutput": "app.conf: OK\nauth.conf: TAMPERED\nroutes.json: MISSING", "note": { "en": "Tampered and deleted files", "bn": "পরিবর্তিত ও মুছে যাওয়া ফাইল" } },
+        { "input": "1\nADD backdoor.sh echo hi", "expectedOutput": "app.conf: OK\nauth.conf: OK\nbackdoor.sh: UNTRACKED\nroutes.json: OK", "note": { "en": "Detects rogue untracked file", "bn": "অজানা নতুন ফাইল শনাক্তকরণ" } },
+        { "input": "0", "expectedOutput": "app.conf: OK\nauth.conf: OK\nroutes.json: OK", "note": { "en": "Clean baseline integrity", "bn": "সকল ফাইল অক্ষত" } }
+      ]
+    },
+    {
+      "id": "P19-08",
+      "number": 8,
+      "title": {
+        "en": "Path Traversal Defense & Sandbox Path Canonicalizer",
+        "bn": "পাথ ট্র্যাভার্সাল প্রতিরোধ ও নিরাপদ স্যান্ডবক্স পাথ যাচাই"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "File download APIs must canonicalize user paths and verify confinement inside an intended `base_dir` to defeat `../etc/passwd`, percent-encoded `%2e%2e`, and null-byte attacks.",
+        "bn": "ফাইল ডাউনলোড API-তে `../` বা এনকোডেড পাথ দিয়ে স্যান্ডবক্সের বাইরে যাওয়া ঠেকাতে ক্যানোনিকাল পাথ যাচাই জরুরি।"
+      },
+      "requiredConcepts": [
+        { "en": "Null-byte, URL-decode & backslash normalization", "bn": "নাল-বাইট, URL ডিকোড ও ব্যাকস্ল্যাশ স্বাভাবিকীকরণ" },
+        { "en": "Canonical boundary check via `os.path.realpath` + `commonpath`", "bn": "`realpath` ও `commonpath` দিয়ে সীমানা নিশ্চিতকরণ" }
+      ],
+      "description": {
+        "en": "Given a safe workspace directory `/srv/pylogic/uploads` (simulated via a `TemporaryDirectory()` base or normalized POSIX path), inspect a candidate user-supplied relative path string. Defense steps: (1) reject null bytes (`\\x00`), (2) URL-unquote (`urllib.parse.unquote`) and normalize `\\` to `/`, (3) reject absolute paths (`starts with /` or Windows drive `C:`), and (4) resolve `real_target = os.path.realpath(os.path.join(base_real, candidate))` verifying `os.path.commonpath([base_real, real_target]) == base_real` AND `real_target != base_real`. Print `SAFE: <rel_posix>` or `BLOCKED_TRAVERSAL`.",
+        "bn": "একটি ব্যবহারকারী-প্রদত্ত ফাইল পাথ যাচাই করে `/srv/pylogic/uploads` স্যান্ডবক্স ডিরেক্টরির ভেতরেই সীমাবদ্ধ রাখুন। নাল-বাইট, URL-এনকোডেড `%2e%2e`, ব্যাকস্ল্যাশ বা `../` দিয়ে বাইরে যেতে চাইলে `BLOCKED_TRAVERSAL`, নতুবা নিরাপদ আপেক্ষিক পাথ `SAFE: <rel>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a candidate path string.",
+        "bn": "এক লাইনে পরীক্ষামূলক ফাইল পাথ।"
+      },
+      "expectedOutput": {
+        "en": "`SAFE: <rel_path>` or `BLOCKED_TRAVERSAL`.",
+        "bn": "`SAFE: <আপেক্ষিক_পাথ>` অথবা `BLOCKED_TRAVERSAL`।"
+      },
+      "examples": [
+        {
+          "input": "reports/2026/../q1/summary.csv",
+          "output": "SAFE: reports/q1/summary.csv",
+          "explanation": {
+            "en": "Resolves cleanly inside base_dir without escaping above the root.",
+            "bn": "অভ্যন্তরীণ `..` স্যান্ডবক্সের ভেতরেই সীমাবদ্ধ থাকায় পাথটি নিরাপদ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never use `startswith(base_dir)` alone! Without a trailing slash, `/srv/uploads_secret` passes `startswith('/srv/uploads')`. Always use `os.path.commonpath([base_real, target_real]) == base_real`.",
+        "bn": "শুধু `startswith(base)` ব্যবহার বিপজ্জনক—`/uploads_secret`-ও মিলে যায়; তাই `os.path.commonpath` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "URL-decode (`unquote`) and check for `\\x00` BEFORE calling `os.path.realpath`.",
+        "bn": "`realpath`-এর আগেই `unquote` ও নাল-বাইট পরীক্ষা করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Attackers chain `%2e%2e%2f`, mixed slashes, or sibling-prefix directory names to bypass naive string filters like `.replace('../', '')`. Canonical resolution followed by `commonpath` defeats all of them.",
+        "bn": "`replace('../', '')`-কে `....//` দিয়ে ফাঁকি দেওয়া যায়, কিন্তু ক্যানোনিকাল `realpath` + `commonpath` সব ধরনের ট্র্যাভার্সাল আটকায়।"
+      },
+      "algorithm": [
+        { "en": "Create isolated `base` inside `TemporaryDirectory()`, take `base_real = os.path.realpath(base)`.", "bn": "স্যান্ডবক্স `base_real` ঠিক করুন।" },
+        { "en": "Check non-empty, no `\\x00`, unquote URL encoding, replace `\\` with `/`, reject leading `/` or `:` drive.", "bn": "নাল-বাইট, এনকোডিং ও অ্যাবসলিউট পাথ যাচাই করুন।" },
+        { "en": "Resolve `target_real` and enforce `commonpath([base_real, target_real]) == base_real` and `target_real != base_real`.", "bn": "`commonpath` দিয়ে সীমানা নিশ্চিত করে ফলাফল দিন।" }
+      ],
+      "solution": "import os\nimport tempfile\nfrom urllib.parse import unquote\n\nraw = input().rstrip(\"\\n\")\ndecoded = unquote(raw).replace(\"\\\\\", \"/\")\n\nwith tempfile.TemporaryDirectory() as base:\n    base_real = os.path.realpath(base)\n    if not decoded or \"\\x00\" in decoded or decoded.startswith(\"/\") or (len(decoded) >= 2 and decoded[1] == \":\"):\n        print(\"BLOCKED_TRAVERSAL\")\n    else:\n        target_real = os.path.realpath(os.path.join(base_real, decoded))\n        try:\n            inside = os.path.commonpath([base_real, target_real]) == base_real\n        except ValueError:\n            inside = False\n        if not inside or target_real == base_real:\n            print(\"BLOCKED_TRAVERSAL\")\n        else:\n            rel = os.path.relpath(target_real, base_real).replace(\"\\\\\", \"/\")\n            print(f\"SAFE: {rel}\")",
+      "codeExplanation": {
+        "en": "Resolves paths relative to an authentic filesystem `TemporaryDirectory()` and enforces `commonpath` confinement.",
+        "bn": "আসল ফাইলসিস্টেম বেস ডিরেক্টরিতে পাথ রিজলভ করে `commonpath` দিয়ে স্যান্ডবক্স নিশ্চিত করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Doing `path.replace('../', '')` (bypassed by `....//`) or `target.startswith(base)` (bypassed by sibling dirs sharing prefix).",
+        "bn": "`replace('../', '')` বা `startswith()` ব্যবহার করা—উভয়ই সহজেই বাইপাস করা যায়।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(L)" },
+      "testCases": [
+        { "input": "reports/2026/../q1/summary.csv", "expectedOutput": "SAFE: reports/q1/summary.csv", "note": { "en": "Benign internal collapse", "bn": "নিরাপদ অভ্যন্তরীণ পাথ" } },
+        { "input": "../../etc/passwd", "expectedOutput": "BLOCKED_TRAVERSAL", "note": { "en": "Classic parent escape", "bn": "প্যারেন্ট ট্র্যাভার্সাল ব্লক" } },
+        { "input": "%2e%2e/%2e%2e/secrets.env", "expectedOutput": "BLOCKED_TRAVERSAL", "note": { "en": "Percent-encoded traversal", "bn": "এনকোডেড ট্র্যাভার্সাল ব্লক" } },
+        { "input": "/etc/shadow", "expectedOutput": "BLOCKED_TRAVERSAL", "note": { "en": "Absolute path override", "bn": "অ্যাবসলিউট পাথ বাতিল" } }
+      ]
+    },
+    {
+      "id": "P19-09",
+      "number": 9,
+      "title": {
+        "en": "Input Allowlist & Context-Safe HTML Escaper (`html.escape`)",
+        "bn": "ইনপুট অ্যালোলিস্ট যাচাই ও নিরাপদ HTML এস্কেপিং (`html.escape`)"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Preventing Cross-Site Scripting (XSS) requires both strict allowlist validation on structured identifiers (usernames) and context-aware output encoding (`html.escape`) on free text.",
+        "bn": "XSS আক্রমণ ঠেকাতে ইউজারনেমের মতো ডেটায় কঠোর অ্যালোলিস্ট এবং মুক্ত টেক্সটে `html.escape` ব্যবহার করতে হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Strict identifier allowlist (`[a-z0-9_]{3,20}`)", "bn": "কঠোর ইউজারনেম অ্যালোলিস্ট যাচাই" },
+        { "en": "HTML entity encoding via `html.escape(..., quote=True)`", "bn": "`html.escape` দিয়ে XSS প্রতিরোধী এনকোডিং" }
+      ],
+      "description": {
+        "en": "Read `<username>` on line 1 and `<bio_text>` on line 2. Strictly validate `<username>` against an allowlist: `3–20` chars, lowercase ASCII letters/digits/underscore only, starting with a letter (`INVALID_USERNAME` otherwise). For `<bio_text>`, strip control characters (`ord < 32`) and safely neutralize HTML metacharacters `& < > \" '` using `html.escape(..., quote=True)`. Print `<p data-user=\"<user>\"><escaped_bio></p>`.",
+        "bn": "প্রথম লাইনে `<username>` (৩–২০ অক্ষর, কেবল ছোট হাতের বর্ণ/অঙ্ক/`_` ও বর্ণ দিয়ে শুরু) যাচাই করুন এবং দ্বিতীয় লাইনের `<bio>` টেক্সট থেকে কন্ট্রোল ক্যারেক্টার বাদ দিয়ে `html.escape(..., quote=True)`-এ নিরাপদ করে `<p data-user=\"...\">...</p>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: username. Line 2: untrusted bio string.",
+        "bn": "প্রথম লাইনে ইউজারনেম, দ্বিতীয় লাইনে অবিশ্বস্ত বায়ো টেক্সট।"
+      },
+      "expectedOutput": {
+        "en": "Safe escaped HTML `<p data-user=\"...\">...</p>` or `INVALID_USERNAME`.",
+        "bn": "নিরাপদ HTML ট্যাগ অথবা `INVALID_USERNAME`।"
+      },
+      "examples": [
+        {
+          "input": "sajid_01\nHello <script>alert('xss')</script> & team",
+          "output": "<p data-user=\"sajid_01\">Hello &lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt; &amp; team</p>",
+          "explanation": {
+            "en": "Angle brackets, quotes, and ampersand are converted into safe HTML entities.",
+            "bn": "বিপজ্জনক `<`, `>`, `&` ও উদ্ধৃতিচিহ্ন নিরাপদ HTML এন্টিটিতে রূপান্তরিত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Never rely on blocklisting `<script>`—attackers use `<img onerror=...>` or `<svg onload=...>`. Escaping all HTML special chars neutralizes every tag.",
+        "bn": "শুধু `<script>` ব্লক করলে `<img onerror=...>` দিয়ে আক্রমণ করা যায়; তাই সব HTML বিশেষ চিহ্ন এস্কেপ করতে হয়।"
+      },
+      "hint2": {
+        "en": "`html.escape(cleaned, quote=True)` handles `&`, `<`, `>`, `\"`, and `'` cleanly.",
+        "bn": "`html.escape(cleaned, quote=True)` ৫টি বিশেষ চিহ্নকেই নিরাপদ করে।"
+      },
+      "logicBreakdown": {
+        "en": "Allowlisting enforces strict grammar on identifiers before storage, while `html.escape(..., quote=True)` preserves user punctuation visually without letting browsers interpret text as markup or attributes.",
+        "bn": "অ্যালোলিস্ট ভুল আইডি আটকায় এবং `html.escape` ব্যবহারকারীর লেখা প্রদর্শন করলেও ব্রাউজারকে কোড হিসেবে চালাতে দেয় না।"
+      },
+      "algorithm": [
+        { "en": "Validate username length `3..20`, starts with `a..z`, all chars in `a..z0..9_`.", "bn": "ইউজারনেমের দৈর্ঘ্য ও অক্ষর-সীমা যাচাই করুন।" },
+        { "en": "Remove ASCII control characters (`ord(c) < 32`) from bio.", "bn": "বায়ো থেকে কন্ট্রোল অক্ষর সরান।" },
+        { "en": "Escape with `html.escape(bio, quote=True)` and render safely.", "bn": "`html.escape` দিয়ে নিরাপদ HTML প্রিন্ট করুন।" }
+      ],
+      "solution": "import html\nimport string\n\nuser = input().strip()\nbio = input().rstrip(\"\\n\")\nallowed = set(string.ascii_lowercase + string.digits + \"_\")\n\nif not (3 <= len(user) <= 20) or user[0] not in string.ascii_lowercase or not all(c in allowed for c in user):\n    print(\"INVALID_USERNAME\")\nelse:\n    clean_bio = \"\".join(ch for ch in bio if ord(ch) >= 32)\n    safe_bio = html.escape(clean_bio, quote=True)\n    print(f'<p data-user=\"{user}\">{safe_bio}</p>')",
+      "codeExplanation": {
+        "en": "Combines structural allowlisting for attributes with standard-library `html.escape` for body text.",
+        "bn": "অ্যাট্রিবিউটে অ্যালোলিস্ট ও টেক্সটে স্ট্যান্ডার্ড `html.escape` প্রয়োগ করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Replacing only `<script>` tags (`text.replace('<script>', '')`) or forgetting `quote=True`.",
+        "bn": "শুধু `<script>` সরানো বা `quote=True` বাদ দেওয়া।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(L)" },
+      "testCases": [
+        { "input": "sajid_01\nHello <script>alert('xss')</script> & team", "expectedOutput": "<p data-user=\"sajid_01\">Hello &lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt; &amp; team</p>", "note": { "en": "Escapes XSS tags & quotes", "bn": "XSS ট্যাগ এস্কেপিং" } },
+        { "input": "bad\"user\nhi", "expectedOutput": "INVALID_USERNAME", "note": { "en": "Attribute breakout character blocked", "bn": "অবৈধ ইউজারনেম ব্লক" } },
+        { "input": "analyst_9\n5 > 3 && \"ok\"", "expectedOutput": "<p data-user=\"analyst_9\">5 &gt; 3 &amp;&amp; &quot;ok&quot;</p>", "note": { "en": "Preserves legitimate math symbols safely", "bn": "নিরাপদ গাণিতিক চিহ্ন সংরক্ষণ" } }
+      ]
+    },
+    {
+      "id": "P19-10",
+      "number": 10,
+      "title": {
+        "en": "RBAC & Ownership Authorization Gate (Default-Deny)",
+        "bn": "RBAC ও মালিকানাভিত্তিক অনুমোদন নিয়ন্ত্রণ (Default-Deny)"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Preventing Broken Object Level Authorization (BOLA / IDOR)—the #1 API vulnerability—requires verifying BOTH role permission and resource ownership on every request.",
+        "bn": "API-এর প্রধান দুর্বলতা BOLA/IDOR ঠেকাতে প্রতিটি অনুরোধে রোল ও রিসোর্স মালিকানা উভয়ই যাচাই করতে হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Default-deny authorization matrix", "bn": "ডিফল্ট-বাতিল (Default-Deny) নীতি" },
+        { "en": "Role permissions + resource ownership (`IDOR` defense)", "bn": "রোল অনুমতি ও মালিকানা মিলানো (IDOR প্রতিরোধ)" }
+      ],
+      "description": {
+        "en": "Implement a default-deny RBAC+Ownership policy engine. Role matrix: `viewer` -> `{read}`; `editor` -> `{read, write}`; `admin` -> `{read, write, delete}`. Rules: (1) unknown role or action -> `DENY (INVALID_POLICY)`, (2) action missing from role set -> `DENY (ROLE_FORBIDDEN)`, (3) if resource scope is `private` and `actor != owner` and `role != 'admin'` -> `DENY (OWNERSHIP_REQUIRED)`, (4) otherwise -> `ALLOW`. Process `Q` requests `<actor> <role> <action> <owner> <scope>`.",
+        "bn": "ডিফল্ট-ডিনাই RBAC ও মালিকানা যাচাই ইঞ্জিন তৈরি করুন। `Q`টি অনুরোধ `<actor> <role> <action> <owner> <scope>` পড়ে রোল অনুমতি ও প্রাইভেট রিসোর্সের মালিকানা যাচাই করে `ALLOW` বা `DENY (...)` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q lines `<actor> <role> <action> <owner> <scope>`.",
+        "bn": "পূর্ণসংখ্যা Q ও পরবর্তী Q লাইনে অনুরোধ তথ্য।"
+      },
+      "expectedOutput": {
+        "en": "`ALLOW` or `DENY (<REASON>)` per request.",
+        "bn": "প্রতিটি অনুরোধে `ALLOW` বা `DENY (<কারণ>)`।"
+      },
+      "examples": [
+        {
+          "input": "3\nalice editor write alice private\nbob editor write alice private\nroot admin delete alice private",
+          "output": "ALLOW\nDENY (OWNERSHIP_REQUIRED)\nALLOW",
+          "explanation": {
+            "en": "bob has editor write permission, yet cannot overwrite alice's private document (IDOR blocked).",
+            "bn": "ববের এডিটর রোল থাকলেও অ্যালিসের প্রাইভেট নথিতে লেখার মালিকানা না থাকায় IDOR প্রতিরোধ হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check role validity and action permission first, then enforce ownership when `scope == 'private'`.",
+        "bn": "প্রথমে রোল ও অ্যাকশন অনুমতি এবং পরে প্রাইভেট স্কোপের মালিকানা পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Only `scope in ('public', 'private')` are valid scopes; anything else fails closed (`DENY`).",
+        "bn": "অজানা স্কোপ বা রোল পেলে সবসময় `DENY` করুন (fail closed)।"
+      },
+      "logicBreakdown": {
+        "en": "Checking only `if role == 'editor'` without `actor == owner` creates IDOR vulnerabilities where any authenticated user can alter another user's private records.",
+        "bn": "শুধু রোল পরীক্ষা করে মালিকানা না দেখলে এক ব্যবহারকারী অন্য ব্যবহারকারীর প্রাইভেট ডেটা পরিবর্তন করতে পারে।"
+      },
+      "algorithm": [
+        { "en": "Define `ROLE_PERMS` dict and valid scope set.", "bn": "রোল অনুমতি ডিকশনারি তৈরি করুন।" },
+        { "en": "For each line, fail closed on unknown role, action, or scope.", "bn": "অজানা রোল, অ্যাকশন বা স্কোপে সরাসরি বাতিল করুন।" },
+        { "en": "Check role allows action, then check `scope != 'private' or role == 'admin' or actor == owner`.", "bn": "রোল ও মালিকানা মিলিয়ে `ALLOW` বা `DENY` দিন।" }
+      ],
+      "solution": "ROLE_PERMS = {\n    \"viewer\": {\"read\"},\n    \"editor\": {\"read\", \"write\"},\n    \"admin\": {\"read\", \"write\", \"delete\"},\n}\nVALID_ACTIONS = {\"read\", \"write\", \"delete\"}\n\nq = int(input().strip())\nfor _ in range(q):\n    actor, role, action, owner, scope = input().strip().split()\n    if role not in ROLE_PERMS or action not in VALID_ACTIONS or scope not in (\"public\", \"private\"):\n        print(\"DENY (INVALID_POLICY)\")\n    elif action not in ROLE_PERMS[role]:\n        print(\"DENY (ROLE_FORBIDDEN)\")\n    elif scope == \"private\" and role != \"admin\" and actor != owner:\n        print(\"DENY (OWNERSHIP_REQUIRED)\")\n    else:\n        print(\"ALLOW\")",
+      "codeExplanation": {
+        "en": "Fails closed on any unrecognized input and enforces both RBAC and object-level ownership.",
+        "bn": "ডিফল্ট-বাতিল নীতিতে রোল ও রিসোর্স মালিকানা উভয়ই নিশ্চিত করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Failing open (`else: ALLOW`) or ignoring ownership checks for `editor` on `private` objects.",
+        "bn": "অজানা ক্ষেত্রে `ALLOW` করে দেওয়া বা প্রাইভেট ডেটায় মালিকানা না দেখা।"
+      },
+      "complexity": { "time": "O(Q)", "space": "O(1)" },
+      "testCases": [
+        { "input": "3\nalice editor write alice private\nbob editor write alice private\nroot admin delete alice private", "expectedOutput": "ALLOW\nDENY (OWNERSHIP_REQUIRED)\nALLOW", "note": { "en": "Blocks horizontal IDOR", "bn": "হরিজন্টাল IDOR প্রতিরোধ" } },
+        { "input": "2\nsam viewer delete sam public\nbob unknown_role read x public", "expectedOutput": "DENY (ROLE_FORBIDDEN)\nDENY (INVALID_POLICY)", "note": { "en": "Blocks vertical escalation & unknown role", "bn": "অতিরিক্ত অধিকার ও অজানা রোল ব্লক" } },
+        { "input": "2\nbob viewer read alice public\nguest viewer read bob private", "expectedOutput": "ALLOW\nDENY (OWNERSHIP_REQUIRED)", "note": { "en": "Public read vs private isolation", "bn": "পাবলিক বনাম প্রাইভেট সীমা" } }
+      ]
+    },
+    {
+      "id": "P19-11",
+      "number": 11,
+      "title": {
+        "en": "Upload Gatekeeper: Extension, Size & Magic-Byte Verifier",
+        "bn": "নিরাপদ ফাইল আপলোড যাচাই (ডাবল এক্সটেনশন ও ম্যাজিক বাইট)"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Attackers disguise executables or scripts as `invoice.pdf.exe` or upload malicious binaries renamed to `.png`; upload handlers inspect extension structure, size bounds, and leading file magic bytes.",
+        "bn": "হামলাকারীরা প্রায়ই ক্ষতিকর ফাইলের শেষে `.png` বা `.pdf.exe` নাম দেয়; তাই ফাইলের আসল ম্যাজিক বাইট যাচাই করা দরকার।"
+      },
+      "requiredConcepts": [
+        { "en": "Detecting double/dangerous extensions (`invoice.pdf.exe`)", "bn": "ডাবল এক্সটেনশন ও অননুমোদিত ধরন শনাক্তকরণ" },
+        { "en": "Validating binary magic-byte signatures (`PNG`, `PDF`, `JPEG`)", "bn": "ফাইলের আসল হেডার ম্যাজিক বাইট যাচাই" }
+      ],
+      "description": {
+        "en": "Validate file uploads against an allowlist (`png`, `jpg`, `pdf`; max `5_000_000` bytes). Read `<filename> <size_bytes> <header_hex>` (first 4+ bytes in hex). Reject in strict priority order: (1) empty/invalid size or `size_bytes > 5000000` -> `REJECT: SIZE_LIMIT`, (2) dangerous/double executable extensions (`exe`, `sh`, `php`, `js`, `bat`, `py` anywhere among dot segments) or final extension not in `{png, jpg, pdf}` -> `REJECT: BAD_EXTENSION`, (3) magic bytes mismatch (`png` must start with `89504e47`, `jpg` with `ffd8ff`, `pdf` with `25504446`) -> `REJECT: MAGIC_MISMATCH`. Otherwise `ACCEPT`.",
+        "bn": "আপলোড ফাইল যাচাই করুন (সর্বোচ্চ ৫MB; অনুমোদিত `png`, `jpg`, `pdf`)। `<filename> <size> <header_hex>` পড়ে ক্রমানুসারে আকার, ডাবল/নিষিদ্ধ এক্সটেনশন এবং ম্যাজিক বাইট (`89504e47`, `ffd8ff`, `25504446`) মিলিয়ে `ACCEPT` বা `REJECT: ...` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line: `<filename> <size_bytes> <header_hex>`.",
+        "bn": "এক লাইনে `<filename> <size_bytes> <header_hex>`।"
+      },
+      "expectedOutput": {
+        "en": "`ACCEPT` or `REJECT: <SIZE_LIMIT|BAD_EXTENSION|MAGIC_MISMATCH>`.",
+        "bn": "`ACCEPT` অথবা `REJECT: <কারণ>`।"
+      },
+      "examples": [
+        {
+          "input": "photo.png 20480 4d5a9000",
+          "output": "REJECT: MAGIC_MISMATCH",
+          "explanation": {
+            "en": "4D5A ('MZ') is a Windows PE executable spoofed with a `.png` filename!",
+            "bn": "4D5A ('MZ') হলো এক্সিকিউটেবল হেডার, যা `.png` নাম দিয়ে ছদ্মবেশ নিয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split filename on `.` after `os.path.basename` and check if any segment after the stem (or second-to-last segment) is a banned extension, AND check `ext = parts[-1].lower()`.",
+        "bn": "ফাইলের নামের সব ডট-অংশ পরীক্ষা করে `.exe`, `.php`, `.sh` লুকানো আছে কি না দেখুন।"
+      },
+      "hint2": {
+        "en": "Normalize `header_hex.lower()` before comparing against magic signatures.",
+        "bn": "তুলনার আগে `header_hex.lower()` করে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "Trusting `filename.endswith('.png')` or HTTP `Content-Type` lets attackers upload scripts/executables easily. Combining filename allowlists with magic-byte signature validation catches disguised payloads.",
+        "bn": "কেবল নামের শেষাংশ বা MIME টাইপ বিশ্বাস করলে ছদ্মবেশী ফাইল ঢুকে পড়ে—ম্যাজিক বাইট ফাইলের প্রকৃত ধরন প্রকাশ করে।"
+      },
+      "algorithm": [
+        { "en": "Validate `0 < size <= 5_000_000`.", "bn": "ফাইলের আকার `0 < size <= 5_000_000` দেখুন।" },
+        { "en": "Inspect extension segments for banned types and require final extension in `{png, jpg, pdf}`.", "bn": "এক্সটেনশন ও ডাবল-এক্সটেনশন পরীক্ষা করুন।" },
+        { "en": "Match `header_hex.lower()` prefix against expected signature.", "bn": "ম্যাজিক বাইট মিলিয়ে `ACCEPT` বা `REJECT` প্রিন্ট করুন।" }
+      ],
+      "solution": "fname, size_s, magic = input().strip().split()\nsize = int(size_s)\nmagic = magic.lower()\nALLOWED = {\"png\": \"89504e47\", \"jpg\": \"ffd8ff\", \"pdf\": \"25504446\"}\nDANGEROUS = {\"exe\", \"sh\", \"php\", \"js\", \"bat\", \"py\"}\n\nparts = fname.lower().split(\".\")\nfinal_ext = parts[-1] if len(parts) >= 2 else \"\"\n\nif size <= 0 or size > 5_000_000:\n    print(\"REJECT: SIZE_LIMIT\")\nelif len(parts) < 2 or final_ext not in ALLOWED or any(seg in DANGEROUS for seg in parts[1:]):\n    print(\"REJECT: BAD_EXTENSION\")\nelif not magic.startswith(ALLOWED[final_ext]):\n    print(\"REJECT: MAGIC_MISMATCH\")\nelse:\n    print(\"ACCEPT\")",
+      "codeExplanation": {
+        "en": "Rejects sneaky double extensions like `avatar.php.png` alongside spoofed magic headers.",
+        "bn": "`avatar.php.png`-এর মতো ডাবল এক্সটেনশন এবং জাল ম্যাজিক হেডার উভয়ই বাতিল হয়।"
+      },
+      "commonMistakes": {
+        "en": "Accepting `report.php.jpg` because `.endswith('.jpg')` is true, or trusting client-provided MIME headers without checking bytes.",
+        "bn": "শুধু শেষ `.jpg` দেখে `report.php.jpg` গ্রহণ করা বা ফাইলের প্রকৃত বাইট না দেখা।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(L)" },
+      "testCases": [
+        { "input": "photo.png 20480 4d5a9000", "expectedOutput": "REJECT: MAGIC_MISMATCH", "note": { "en": "Spoofed executable bytes", "bn": "ছদ্মবেশী বাইনারি হেডার" } },
+        { "input": "avatar.php.jpg 1024 ffd8ffe0", "expectedOutput": "REJECT: BAD_EXTENSION", "note": { "en": "Double extension trap", "bn": "ডাবল এক্সটেনশন" } },
+        { "input": "spec.pdf 150000 255044462d312e37", "expectedOutput": "ACCEPT", "note": { "en": "Valid PDF signature & size", "bn": "বৈধ PDF ফাইল" } }
+      ]
+    },
+    {
+      "id": "P19-12",
+      "number": 12,
+      "title": {
+        "en": "Authentication Log Failure Aggregator & Alert Summary",
+        "bn": "অথেনটিকেশন লগ ব্যর্থতা বিশ্লেষণ ও সতর্কবার্তা"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "16 min", "bn": "১৬ মিনিট" },
+      "realWorldApplication": {
+        "en": "SOC analysts summarize SSH/API authentication logs to pinpoint noisy IP addresses, targeted accounts, and credential stuffing pressure.",
+        "bn": "সিকিউরিটি অপারেশনস (SOC) বিশ্লেষকরা লগ থেকে সর্বাধিক আক্রমণের উৎস আইপি ও লক্ষ্যবস্তু অ্যাকাউন্ট চিহ্নিত করেন।"
+      },
+      "requiredConcepts": [
+        { "en": "Key-value log event parsing (`FAILED`/`ACCEPTED`)", "bn": "লগ থেকে `FAILED`/`ACCEPTED` ইভেন্ট পার্সিং" },
+        { "en": "Threshold alerting & deterministic top-attacker ranking", "bn": "থ্রেশহোল্ড অ্যালার্ট ও শীর্ষ উৎস র‍্যাংকিং" }
+      ],
+      "description": {
+        "en": "Read `<N> <alert_threshold>`, followed by `N` log lines formatted `<STATUS> ip=<ip> user=<user>` (`STATUS` in `FAILED`, `ACCEPTED`). Tally total `FAILED` events, total `ACCEPTED` events, and flag all IPs with `failed_count >= alert_threshold` sorted by `(-failed_count, ip)` as `ALERT <ip>: <cnt> failures (<unique_users> users)` (or `NONE`).",
+        "bn": "`<N> <threshold>` ও `N`টি লগ লাইন (`FAILED/ACCEPTED ip=... user=...`) পড়ে মোট সফল ও ব্যর্থ লগইন গণনা করুন এবং `threshold`-এর সমান বা বেশি ব্যর্থ হওয়া আইপিগুলো ক্রমানুসারে অ্যালার্ট আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N and alert_threshold. Next N lines: log entries.",
+        "bn": "প্রথম লাইনে N ও threshold, পরের N লাইনে লগ।"
+      },
+      "expectedOutput": {
+        "en": "Summary line `Failed:<f> Accepted:<a>` plus alert lines (or `Alerts: NONE`).",
+        "bn": "`Failed:<f> Accepted:<a>` ও অ্যালার্ট লাইনসমূহ (অথবা `Alerts: NONE`)।"
+      },
+      "examples": [
+        {
+          "input": "5 3\nFAILED ip=10.0.0.5 user=admin\nFAILED ip=10.0.0.5 user=root\nACCEPTED ip=10.0.0.2 user=sajid\nFAILED ip=10.0.0.5 user=admin\nFAILED ip=10.0.0.9 user=guest",
+          "output": "Failed:4 Accepted:1\nALERT 10.0.0.5: 3 failures (2 users)",
+          "explanation": {
+            "en": "10.0.0.5 generated 3 failures targeting 2 distinct accounts (admin, root).",
+            "bn": "10.0.0.5 আইপি থেকে ২টি ভিন্ন ইউজারে ৩ বার ব্যর্থ চেষ্টা হওয়ায় অ্যালার্ট তৈরি হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Maintain `ip_fails[ip]` count and `ip_users[ip]` `set` only for `FAILED` events.",
+        "bn": "শুধু `FAILED` ইভেন্টে আইপি অনুযায়ী কাউন্টার ও `set` আপডেট করুন।"
+      },
+      "hint2": {
+        "en": "Sort flagged IPs by `key=lambda item: (-item[1], item[0])`.",
+        "bn": "`(-count, ip)` কী ব্যবহার করে সাজান।"
+      },
+      "logicBreakdown": {
+        "en": "Tracking both total failure volume and distinct targeted accounts distinguishes targeted brute force (`1 user`) from broad spray (`many users`).",
+        "bn": "মোট ব্যর্থতার পাশাপাশি লক্ষ্যবস্তু ইউজারনেম সংখ্যা দেখলে আক্রমণের ধরন স্পষ্ট হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse each line extracting status, IP, and username.", "bn": "প্রতিটি লগ লাইন থেকে স্ট্যাটাস, আইপি ও ইউজার আলাদা করুন।" },
+        { "en": "Increment global counts and per-IP failure count + user set on `FAILED`.", "bn": "`FAILED` হলে কাউন্টার ও ইউজার সেট আপডেট করুন।" },
+        { "en": "Filter IPs `>= threshold`, sort `(-cnt, ip)`, and print report.", "bn": "সীমা পার হওয়া আইপি সাজিয়ে রিপোর্ট প্রিন্ট করুন।" }
+      ],
+      "solution": "n, thresh = map(int, input().split())\nfails = acc = 0\nip_fails = {}\nip_users = {}\n\nfor _ in range(n):\n    parts = input().strip().split()\n    if len(parts) < 3:\n        continue\n    status = parts[0]\n    kv = dict(p.split(\"=\", 1) for p in parts[1:] if \"=\" in p)\n    ip = kv.get(\"ip\", \"unknown\")\n    user = kv.get(\"user\", \"unknown\")\n    if status == \"ACCEPTED\":\n        acc += 1\n    elif status == \"FAILED\":\n        fails += 1\n        ip_fails[ip] = ip_fails.get(ip, 0) + 1\n        ip_users.setdefault(ip, set()).add(user)\n\nprint(f\"Failed:{fails} Accepted:{acc}\")\nalerts = [(ip, cnt) for ip, cnt in ip_fails.items() if cnt >= thresh]\nif not alerts:\n    print(\"Alerts: NONE\")\nelse:\n    alerts.sort(key=lambda x: (-x[1], x[0]))\n    for ip, cnt in alerts:\n        print(f\"ALERT {ip}: {cnt} failures ({len(ip_users[ip])} users)\")",
+      "codeExplanation": {
+        "en": "Uses a set per IP to count unique targeted users in `O(1)` amortized per log event.",
+        "bn": "প্রতিটি আইপির বিপরীতে সেট রাখায় অদ্বিতীয় ইউজার সংখ্যা সহজেই পাওয়া যায়।"
+      },
+      "commonMistakes": {
+        "en": "Counting `ACCEPTED` logins into the failure alert bucket.",
+        "bn": "সফল লগইনকেও ব্যর্থতা অ্যালার্টে যোগ করে ফেলা।"
+      },
+      "complexity": { "time": "O(N + K log K)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5 3\nFAILED ip=10.0.0.5 user=admin\nFAILED ip=10.0.0.5 user=root\nACCEPTED ip=10.0.0.2 user=sajid\nFAILED ip=10.0.0.5 user=admin\nFAILED ip=10.0.0.9 user=guest", "expectedOutput": "Failed:4 Accepted:1\nALERT 10.0.0.5: 3 failures (2 users)", "note": { "en": "Single flagged source IP", "bn": "একটি আইপি অ্যালার্ট" } },
+        { "input": "2 5\nFAILED ip=1.2.3.4 user=a\nACCEPTED ip=1.2.3.5 user=b", "expectedOutput": "Failed:1 Accepted:1\nAlerts: NONE", "note": { "en": "Below threshold", "bn": "সীমার নিচে থাকায় অ্যালার্ট নেই" } },
+        { "input": "4 2\nFAILED ip=10.0.0.2 user=a\nFAILED ip=10.0.0.1 user=b\nFAILED ip=10.0.0.2 user=a\nFAILED ip=10.0.0.1 user=c", "expectedOutput": "Failed:4 Accepted:0\nALERT 10.0.0.1: 2 failures (2 users)\nALERT 10.0.0.2: 2 failures (1 users)", "note": { "en": "Tie-break sorted ascending by IP", "bn": "সমান সংখ্যায় আইপি ক্রমে" } }
+      ]
+    },
+    {
+      "id": "P19-13",
+      "number": 13,
+      "title": {
+        "en": "Sliding-Window Brute-Force Burst Detector (`deque`)",
+        "bn": "স্লাইডিং উইন্ডোতে ব্রুট-ফোর্স প্রচেষ্টা শনাক্তকরণ"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Tools like Fail2Ban and API WAFs evaluate burst rates inside rolling `W`-second time windows so scattered accidental typos hours apart never trigger false lockouts.",
+        "bn": "Fail2Ban বা WAF নির্দিষ্ট `W` সেকেন্ডের স্লাইডিং উইন্ডোতে ঘনঘন ব্যর্থ লগইন ধরে যেন সাধারণ মানুষের ভুলে অ্যাকাউন্ট লক না হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Per-IP timestamp `deque` sliding window `[t - W, t]`", "bn": "প্রতি আইপিতে `deque` স্লাইডিং টাইম উইন্ডো" },
+        { "en": "Evicting expired events `while dq and dq[0] < t - W`", "bn": "মেয়াদোত্তীর্ণ ইভেন্ট `popleft()` দিয়ে বাদ দেওয়া" }
+      ],
+      "description": {
+        "en": "Read `<N> <window_sec> <threshold_K>`, followed by `N` chronologically sorted failed-login events `<ts_sec> <ip>`. For each IP, maintain a sliding time window `[ts - window_sec, ts]` (inclusive). Whenever an IP reaches `threshold_K` failures within that window for the FIRST time (or report every IP that breaches `>= K` with its earliest breach timestamp), print sorted by IP: `BREACH <ip> at t=<first_breach_ts>` (or `NO_BREACH`).",
+        "bn": "`<N> <window_sec> <K>` এবং `N`টি সময়ানুক্রমিক ব্যর্থ লগইন `<ts> <ip>` পড়ুন। প্রতিটি আইপির জন্য `[ts - window_sec, ts]` সময়ের স্লাইডিং উইন্ডো রেখে কোন কোন আইপি প্রথমবার `>= K` সীমা অতিক্রম করেছে তা `BREACH <ip> at t=<ts>` আকারে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N W K. Next N lines: `<ts> <ip>` sorted by `ts`.",
+        "bn": "প্রথম লাইনে N W K, পরের N লাইনে `<ts> <ip>`।"
+      },
+      "expectedOutput": {
+        "en": "`BREACH <ip> at t=<ts>` sorted by IP, or `NO_BREACH`.",
+        "bn": "আইপি ক্রমে `BREACH <ip> at t=<ts>` অথবা `NO_BREACH`।"
+      },
+      "examples": [
+        {
+          "input": "5 60 3\n10 192.0.2.10\n25 192.0.2.10\n90 192.0.2.10\n105 192.0.2.10\n120 192.0.2.10",
+          "output": "BREACH 192.0.2.10 at t=120",
+          "explanation": {
+            "en": "At t=90, window [30, 90] holds only t=90 (t=10,25 expired). At t=120, window [60, 120] holds 90, 105, 120 -> 3 hits!",
+            "bn": "t=৯০-এ আগেরগুলো মেয়াদোত্তীর্ণ হলেও t=১২০-এ `[60, 120]` উইন্ডোতে ৯০, ১০৫ ও ১২০ মিলে ৩টি হিট হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `from collections import deque`: append `ts`, then `while dq[0] < ts - w: dq.popleft()`.",
+        "bn": "`ts` যোগ করে `dq[0] < ts - w` হলেই সামনে থেকে বাদ দিন।"
+      },
+      "hint2": {
+        "en": "Record `breached[ip] = ts` only `if ip not in breached and len(dq) >= k:`.",
+        "bn": "প্রথমবার `len(dq) >= k` হলেই সময়টি `breached[ip]`-তে সংরক্ষণ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Each timestamp enters and leaves its IP's `deque` at most once, guaranteeing `O(N)` linear processing across arbitrary log volume.",
+        "bn": "প্রতিটি টাইমস্ট্যাম্প একবার প্রবেশ করে ও একবার বের হয়—ফলে বিশাল লগও `O(N)` সময়ে প্রসেস হয়।"
+      },
+      "algorithm": [
+        { "en": "Read `N, W, K`.", "bn": "`N, W, K` পড়ুন।" },
+        { "en": "For each `ts, ip`: append `ts` to `windows[ip]`, evict timestamps `< ts - W`, record first `ts` where `len >= K`.", "bn": "উইন্ডো আপডেট করে `>= K` হলে প্রথম সময় নোট করুন।" },
+        { "en": "Print sorted breach entries or `NO_BREACH`.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "from collections import deque\n\nn, w, k = map(int, input().split())\nwindows = {}\nbreached = {}\n\nfor _ in range(n):\n    ts_s, ip = input().strip().split()\n    ts = int(ts_s)\n    dq = windows.setdefault(ip, deque())\n    dq.append(ts)\n    while dq and dq[0] < ts - w:\n        dq.popleft()\n    if ip not in breached and len(dq) >= k:\n        breached[ip] = ts\n\nif not breached:\n    print(\"NO_BREACH\")\nelse:\n    for ip in sorted(breached):\n        print(f\"BREACH {ip} at t={breached[ip]}\")",
+      "codeExplanation": {
+        "en": "`deque.popleft()` trims stale timestamps in `O(1)` amortized per log record.",
+        "bn": "`deque.popleft()` স্থির সময়ে মেয়াদোত্তীর্ণ টাইমস্ট্যাম্প সরিয়ে দেয়।"
+      },
+      "commonMistakes": {
+        "en": "Using total cumulative failure count without evicting timestamps older than `ts - W`, causing false positives across long periods.",
+        "bn": "পুরোনো ইভেন্ট বাদ না দিয়ে মোট সংখ্যা গুনলে দীর্ঘ সময় পরের ভুল চেষ্টাও ব্রুট-ফোর্স হিসেবে ধরা পড়ে।"
+      },
+      "complexity": { "time": "O(N + U log U)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5 60 3\n10 192.0.2.10\n25 192.0.2.10\n90 192.0.2.10\n105 192.0.2.10\n120 192.0.2.10", "expectedOutput": "BREACH 192.0.2.10 at t=120", "note": { "en": "Window eviction then burst", "bn": "পুরোনো বাদ পড়ে পরে সীমা ভঙ্গ" } },
+        { "input": "3 10 3\n0 10.0.0.1\n11 10.0.0.1\n22 10.0.0.1", "expectedOutput": "NO_BREACH", "note": { "en": "Slow spaced attempts stay safe", "bn": "ধীর প্রচেষ্টা সীমার নিচে" } },
+        { "input": "3 0 2\n50 10.0.0.8\n50 10.0.0.8\n51 10.0.0.8", "expectedOutput": "BREACH 10.0.0.8 at t=50", "note": { "en": "Same-second burst", "bn": "একই সেকেন্ডে বিস্ফোরণ" } }
+      ]
+    },
+    {
+      "id": "P19-14",
+      "number": 14,
+      "title": {
+        "en": "Password Spraying vs Targeted Brute-Force Anomaly Classifier",
+        "bn": "পাসওয়ার্ড স্প্রেয়িং বনাম টার্গেটেড ব্রুট-ফোর্স শনাক্তকরণ"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Modern attackers evade per-account lockout rules via Password Spraying: trying one common password across dozens of accounts from a single IP. Defensive telemetry must inspect fan-out across distinct usernames.",
+        "bn": "অ্যাকাউন্ট লকআউট এড়াতে হামলাকারীরা একটি পাসওয়ার্ড অনেক অ্যাকাউন্টে একবার করে চেষ্টা করে (পাসওয়ার্ড স্প্রেয়িং)—এটি ধরতে ভিন্ন ইউজারনেম সংখ্যা দেখতে হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Fan-out detection (`distinct_users` per IP)", "bn": "প্রতি আইপিতে ভিন্ন ইউজারনেম ফ্যান-আউট বিশ্লেষণ" },
+        { "en": "Differentiating brute-force vs password spraying", "bn": "ব্রুট-ফোর্স ও পাসওয়ার্ড স্প্রেয়িং আলাদা করা" }
+      ],
+      "description": {
+        "en": "Read `<N> <spray_user_thresh> <bruteforce_acct_thresh>`, followed by `N` failed login events `<ip> <username>`. Classify each source IP: `SPRAY_AND_BRUTE` if it both touched `>= spray_user_thresh` distinct users AND hit at least one single user `>= bruteforce_acct_thresh` times; `PASSWORD_SPRAY` if only distinct users `>= spray_user_thresh`; `TARGETED_BRUTE_FORCE` if only a single user hit `>= bruteforce_acct_thresh`; else `NORMAL`. Print sorted non-`NORMAL` IPs (or `ALL_NORMAL`).",
+        "bn": "`<N> <spray_thresh> <brute_thresh>` এবং `N`টি ব্যর্থ লগইন `<ip> <user>` পড়ুন। প্রতিটি আইপিকে ভিন্ন ইউজার সংখ্যা ও একক ইউজারে পুনরাবৃত্তির ভিত্তিতে `PASSWORD_SPRAY`, `TARGETED_BRUTE_FORCE` বা `SPRAY_AND_BRUTE` হিসেবে চিহ্নিত করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: N spray_thresh brute_thresh. Next N lines: `<ip> <username>`.",
+        "bn": "প্রথম লাইনে N ও দুটি থ্রেশহোল্ড, পরের N লাইনে `<ip> <user>`।"
+      },
+      "expectedOutput": {
+        "en": "Sorted `<ip>: <CLASS> (attempts=..., distinct_users=...)` lines, or `ALL_NORMAL`.",
+        "bn": "সর্টেড `<ip>: <ধরন> (attempts=..., distinct_users=...)` অথবা `ALL_NORMAL`।"
+      },
+      "examples": [
+        {
+          "input": "4 4 3\n198.51.100.7 alice\n198.51.100.7 bob\n198.51.100.7 carol\n198.51.100.7 dave",
+          "output": "198.51.100.7: PASSWORD_SPRAY (attempts=4, distinct_users=4)",
+          "explanation": {
+            "en": "Only 1 attempt per account (below per-account lockout 3), yet 4 distinct users were sprayed.",
+            "bn": "প্রতি অ্যাকাউন্টে ১ বার চেষ্টা হলেও মোট ৪টি ভিন্ন অ্যাকাউন্টে প্রচেষ্টা হওয়ায় এটি PASSWORD_SPRAY।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Track a nested map `ip_user_counts[ip][user] += 1`.",
+        "bn": "নেস্টেড ডিকশনারি `ip_user_counts[ip][user]` রাখুন।"
+      },
+      "hint2": {
+        "en": "Then `distinct_users = len(ip_user_counts[ip])`, `max_per_user = max(ip_user_counts[ip].values())`, and `total = sum(ip_user_counts[ip].values())`.",
+        "bn": "`len()` থেকে ভিন্ন ইউজার ও `max(.values())` থেকে একক ইউজারে সর্বোচ্চ চেষ্টা পাবেন।"
+      },
+      "logicBreakdown": {
+        "en": "Because each individual account only sees 1 failed attempt during password spraying, account-level lockouts stay silent. Only IP-level distinct-username fan-out catches horizontal spraying.",
+        "bn": "প্রতি অ্যাকাউন্টে মাত্র ১টি ভুল হওয়ায় সাধারণ অ্যাকাউন্ট-লক কাজ করে না; কেবল আইপি-স্তরের ভিন্ন ইউজার গণনায় স্প্রেয়িং ধরা পড়ে।"
+      },
+      "algorithm": [
+        { "en": "Read thresholds and build nested counts `ip -> user -> count`.", "bn": "আইপি ও ইউজার অনুযায়ী নেস্টেড গণনা সংগ্রহ করুন।" },
+        { "en": "Evaluate `is_spray = len(uc) >= spray_t` and `is_brute = max(uc.values()) >= brute_t`.", "bn": "`is_spray` এবং `is_brute` বুলিয়ান যাচাই করুন।" },
+        { "en": "Print sorted flagged IPs with stats or `ALL_NORMAL`.", "bn": "শনাক্তকৃত আইপি ও পরিসংখ্যান প্রিন্ট করুন।" }
+      ],
+      "solution": "n, spray_t, brute_t = map(int, input().split())\ndata = {}\nfor _ in range(n):\n    ip, user = input().strip().split()\n    uc = data.setdefault(ip, {})\n    uc[user] = uc.get(user, 0) + 1\n\nflagged = []\nfor ip in sorted(data):\n    uc = data[ip]\n    distinct = len(uc)\n    max_u = max(uc.values())\n    total = sum(uc.values())\n    is_spray = distinct >= spray_t\n    is_brute = max_u >= brute_t\n    if is_spray and is_brute:\n        kind = \"SPRAY_AND_BRUTE\"\n    elif is_spray:\n        kind = \"PASSWORD_SPRAY\"\n    elif is_brute:\n        kind = \"TARGETED_BRUTE_FORCE\"\n    else:\n        continue\n    flagged.append(f\"{ip}: {kind} (attempts={total}, distinct_users={distinct})\")\n\nprint(\"\\n\".join(flagged) if flagged else \"ALL_NORMAL\")",
+      "codeExplanation": {
+        "en": "Nested per-IP frequency dictionary captures both horizontal fan-out (`len`) and vertical intensity (`max`) in `O(N)`.",
+        "bn": "নেস্টেড ডিকশনারিতে অনুভূমিক ফ্যান-আউট ও উল্লম্ব পুনরাবৃত্তি একসাথে `O(N)`-এ বিশ্লেষণ করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Checking `total_attempts >= spray_t` instead of `len(distinct_users) >= spray_t`, which confuses targeted brute force with spraying.",
+        "bn": "ভিন্ন ইউজার সংখ্যার বদলে মোট চেষ্টা গুনলে স্প্রেয়িং ও ব্রুট-ফোর্স গুলিয়ে যায়।"
+      },
+      "complexity": { "time": "O(N + U log U)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4 4 3\n198.51.100.7 alice\n198.51.100.7 bob\n198.51.100.7 carol\n198.51.100.7 dave", "expectedOutput": "198.51.100.7: PASSWORD_SPRAY (attempts=4, distinct_users=4)", "note": { "en": "Low-and-slow horizontal spray", "bn": "পাসওয়ার্ড স্প্রেয়িং" } },
+        { "input": "3 4 3\n198.51.100.9 root\n198.51.100.9 root\n198.51.100.9 root", "expectedOutput": "198.51.100.9: TARGETED_BRUTE_FORCE (attempts=3, distinct_users=1)", "note": { "en": "Single-account brute force", "bn": "একক অ্যাকাউন্ট ব্রুট-ফোর্স" } },
+        { "input": "2 4 3\n10.0.0.1 a\n10.0.0.1 b", "expectedOutput": "ALL_NORMAL", "note": { "en": "Benign failures below thresholds", "bn": "স্বাভাবিক সীমা" } }
+      ]
+    },
+    {
+      "id": "P19-15",
+      "number": 15,
+      "title": {
+        "en": "Structured Security Event Log Parser & Severity Triage",
+        "bn": "কাঠামোবদ্ধ নিরাপত্তা ইভেন্ট লগ পার্সার ও তীব্রতা শ্রেণিবিন্যাস"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "SIEM ingestion pipelines normalize heterogeneous log events into typed schemas (`CRITICAL`, `HIGH`, `MEDIUM`, `INFO`) while stripping log-injection newlines.",
+        "bn": "SIEM পাইপলাইনে বিভিন্ন লগ লাইনকে একক ফরম্যাটে এনে ঝুঁকির মাত্রা (`CRITICAL`, `HIGH`, `MEDIUM`, `INFO`) নির্ধারণ করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Parsing quoted `key=\"value with spaces\"` telemetry via `shlex`", "bn": "`shlex` দিয়ে উদ্ধৃত লগ ফিল্ড পার্সিং" },
+        { "en": "Event severity triage & control-char sanitization", "bn": "তীব্রতা শ্রেণিবিন্যাস ও লগ-ইনজেকশন প্রতিরোধ" }
+      ],
+      "description": {
+        "en": "Read `N` semi-structured security log lines containing quoted values (e.g., `ts=2026-05-01T10:00Z event=PRIV_ESC_DENIED actor=bob msg=\"role admin rejected\"`). Parse safely using `shlex.split`, skip malformed lines missing `event` or `ts`, assign severity (`TAMPER_DETECTED`/`ROOT_LOGIN_FAIL` -> `CRITICAL`; `PRIV_ESC_DENIED`/`TRAVERSAL_BLOCKED` -> `HIGH`; `RATE_LIMIT_HIT` -> `MEDIUM`; else `INFO`), count totals per severity, and print `CRITICAL:<c> HIGH:<h> MEDIUM:<m> INFO:<i>` plus each `CRITICAL`/`HIGH` alert line.",
+        "bn": "`shlex.split` ব্যবহার করে উদ্ধৃত মানসহ `N`টি নিরাপত্তা লগ লাইন পার্স করুন। ইভেন্টের ধরন অনুযায়ী `CRITICAL`, `HIGH`, `MEDIUM`, `INFO` মাত্রা নির্ধারণ করে সারাংশ এবং উচ্চ-তীব্রতার সতর্কবার্তা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer N followed by N log lines.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইনে লগ।"
+      },
+      "expectedOutput": {
+        "en": "`CRITICAL:<c> HIGH:<h> MEDIUM:<m> INFO:<i>` followed by `[CRITICAL/HIGH]` event lines.",
+        "bn": "তীব্রতা গণনার লাইন এবং `[CRITICAL]`/`[HIGH]` ইভেন্ট তালিকা।"
+      },
+      "examples": [
+        {
+          "input": "3\nts=10:00 event=USER_LOGIN actor=alice msg=\"ok login\"\nts=10:01 event=TRAVERSAL_BLOCKED actor=anon msg=\"blocked ../etc/passwd\"\nts=10:02 event=TAMPER_DETECTED actor=sys msg=\"auth.conf hash drift\"",
+          "output": "CRITICAL:1 HIGH:1 MEDIUM:0 INFO:1\n[HIGH] 10:01 TRAVERSAL_BLOCKED actor=anon msg=blocked ../etc/passwd\n[CRITICAL] 10:02 TAMPER_DETECTED actor=sys msg=auth.conf hash drift",
+          "explanation": {
+            "en": "shlex preserves spaces inside msg=\"...\", and triage classifies TAMPER_DETECTED (CRITICAL) and TRAVERSAL_BLOCKED (HIGH).",
+            "bn": "`shlex.split` উদ্ধৃতির ভেতরের স্পেস অক্ষত রেখেই তীব্রতা অনুযায়ী সতর্কবার্তা প্রিন্ট করেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Using `str.split()` breaks `msg=\"role admin rejected\"` into 3 broken tokens; `shlex.split(line)` preserves quoted tokens cleanly.",
+        "bn": "সাধারণ `split()` কোটেশনের ভেতরের লেখা ভেঙে ফেলে; তাই `shlex.split()` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Wrap `shlex.split` in `try/except ValueError` in case an untrusted log line has an unclosed quote.",
+        "bn": "ভাঙা কোটেশন সামলাতে `try/except ValueError` দিন।"
+      },
+      "logicBreakdown": {
+        "en": "Logs generated from untrusted input can contain spaces, unbalanced quotes, or control chars. Safe `shlex` tokenization plus severity rules extracts actionable SOC alerts cleanly.",
+        "bn": "অবিশ্বস্ত লগে স্পেস বা অসম্পূর্ণ কোট থাকতে পারে; তাই নিরাপদ টোকেনাইজেশন ও শ্রেণিবিন্যাস প্রয়োজন।"
+      },
+      "algorithm": [
+        { "en": "Define severity lookup map for known security events.", "bn": "পরিচিত ইভেন্টগুলোর তীব্রতা ম্যাপ তৈরি করুন।" },
+        { "en": "Parse each line with `shlex.split`, extract `k=v` pairs, increment severity counter.", "bn": "`shlex.split` দিয়ে `k=v` বের করে মাত্রা অনুযায়ী গুনুন।" },
+        { "en": "Print summary counts and all `HIGH`/`CRITICAL` normalized alerts.", "bn": "সারাংশ ও উচ্চ-ঝুঁকির সতর্কবার্তা প্রিন্ট করুন।" }
+      ],
+      "solution": "import shlex\n\nSEV = {\n    \"TAMPER_DETECTED\": \"CRITICAL\",\n    \"ROOT_LOGIN_FAIL\": \"CRITICAL\",\n    \"PRIV_ESC_DENIED\": \"HIGH\",\n    \"TRAVERSAL_BLOCKED\": \"HIGH\",\n    \"RATE_LIMIT_HIT\": \"MEDIUM\",\n}\n\nn = int(input().strip())\ncounts = {\"CRITICAL\": 0, \"HIGH\": 0, \"MEDIUM\": 0, \"INFO\": 0}\nhigh_alerts = []\n\nfor _ in range(n):\n    line = input().strip()\n    if not line:\n        continue\n    try:\n        tokens = shlex.split(line)\n    except ValueError:\n        continue\n    kv = {}\n    for tok in tokens:\n        if \"=\" in tok:\n            k, v = tok.split(\"=\", 1)\n            kv[k] = v\n    if \"ts\" not in kv or \"event\" not in kv:\n        continue\n    sev = SEV.get(kv[\"event\"], \"INFO\")\n    counts[sev] += 1\n    if sev in (\"CRITICAL\", \"HIGH\"):\n        actor = kv.get(\"actor\", \"unknown\")\n        msg = kv.get(\"msg\", \"\")\n        high_alerts.append(f\"[{sev}] {kv['ts']} {kv['event']} actor={actor} msg={msg}\")\n\nprint(f\"CRITICAL:{counts['CRITICAL']} HIGH:{counts['HIGH']} MEDIUM:{counts['MEDIUM']} INFO:{counts['INFO']}\")\nfor a in high_alerts:\n    print(a)",
+      "codeExplanation": {
+        "en": "Handles quoted message strings reliably and skips malformed/unclosed-quote entries without crashing the parser.",
+        "bn": "উদ্ধৃতিযুক্ত মেসেজ নির্ভুলভাবে পড়ে ও ভাঙা লাইন এড়িয়ে ক্র্যাশ প্রতিরোধ করে।"
+      },
+      "commonMistakes": {
+        "en": "Crashing on unclosed quotes from `shlex.split()` or breaking quoted values via plain `.split()`.",
+        "bn": "অসমাপ্ত কোটেশনে এরর সামাল না দেওয়া বা `.split()` ব্যবহার করা।"
+      },
+      "complexity": { "time": "O(N * L)", "space": "O(N * L)" },
+      "testCases": [
+        { "input": "3\nts=10:00 event=USER_LOGIN actor=alice msg=\"ok login\"\nts=10:01 event=TRAVERSAL_BLOCKED actor=anon msg=\"blocked ../etc/passwd\"\nts=10:02 event=TAMPER_DETECTED actor=sys msg=\"auth.conf hash drift\"", "expectedOutput": "CRITICAL:1 HIGH:1 MEDIUM:0 INFO:1\n[HIGH] 10:01 TRAVERSAL_BLOCKED actor=anon msg=blocked ../etc/passwd\n[CRITICAL] 10:02 TAMPER_DETECTED actor=sys msg=auth.conf hash drift", "note": { "en": "Mixed severities with quoted msg", "bn": "মিশ্র তীব্রতার লগ" } },
+        { "input": "2\nts=12:00 event=RATE_LIMIT_HIT actor=ip1 msg=\"429\"\nbroken=\"unclosed quote", "expectedOutput": "CRITICAL:0 HIGH:0 MEDIUM:1 INFO:0", "note": { "en": "Gracefully skips malformed line", "bn": "ত্রুটিপূর্ণ লাইন নিরাপদে উপেক্ষা" } },
+        { "input": "1\nts=09:00 event=PRIV_ESC_DENIED actor=guest msg=\"admin panel\"", "expectedOutput": "CRITICAL:0 HIGH:1 MEDIUM:0 INFO:0\n[HIGH] 09:00 PRIV_ESC_DENIED actor=guest msg=admin panel", "note": { "en": "High alert extraction", "bn": "উচ্চ সতর্কতা নিষ্কাশন" } }
+      ]
+    },
+    {
+      "id": "P19-16",
+      "number": 16,
+      "title": {
+        "en": "Threat-Intel CIDR Blocklist Correlator (`ipaddress`)",
+        "bn": "থ্রেট-ইন্টেল CIDR ব্লকলিস্ট কোরিলেটর"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Defensive firewalls and threat-intelligence pipelines correlate incoming traffic logs against vetted CIDR indicator feeds (`ipaddress.ip_network`) to measure blocked exposure.",
+        "bn": "ডিফেন্সিভ ফায়ারওয়াল ও থ্রেট-ইন্টেল সিস্টেম আগত লগগুলো পরিচিত ক্ষতিকর CIDR তালিকার সাথে মিলিয়ে ব্লক ও রিপোর্ট করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Parsing IPv4 addresses & networks via `ipaddress`", "bn": "`ipaddress` মডিউলে আইপি ও নেটওয়ার্ক যাচাই" },
+        { "en": "CIDR containment checks (`ip in network`) & hit reporting", "bn": "`ip in network` দিয়ে ব্লকলিস্ট ম্যাচিং" }
+      ],
+      "description": {
+        "en": "Read `<M> <K>`: `M` threat-intel IPv4 CIDR block entries (`strict=False` networks) followed by `K` incoming request records `<ip> <endpoint>`. Safely skip any malformed IP lines (`MALFORMED` counter), check whether each valid IP falls inside any blocklist CIDR, and output `Blocked:<b_cnt> Allowed:<a_cnt> Malformed:<m_cnt>` plus blocked hit details `[BLOCK] <ip> -> <endpoint> (matched <cidr>)` in input order (match first matching CIDR).",
+        "bn": "`<M> <K>` এবং `M`টি ব্লকলিস্ট CIDR নেটওয়ার্ক ও `K`টি রিকোয়েস্ট `<ip> <endpoint>` পড়ুন। প্রতিটি বৈধ আইপি ব্লকলিস্টে পড়ে কি না পরীক্ষা করে `Blocked`, `Allowed`, `Malformed` সংখ্যা ও ব্লক হওয়া রিকোয়েস্টগুলোর তালিকা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: M K. Next M lines: CIDRs. Next K lines: `<ip> <endpoint>`.",
+        "bn": "প্রথম লাইনে M K, পরের M লাইনে CIDR, পরের K লাইনে `<ip> <endpoint>`।"
+      },
+      "expectedOutput": {
+        "en": "Summary line `Blocked:<b> Allowed:<a> Malformed:<m>` plus `[BLOCK]` lines.",
+        "bn": "`Blocked:<b> Allowed:<a> Malformed:<m>` এবং `[BLOCK]` লাইনসমূহ।"
+      },
+      "examples": [
+        {
+          "input": "2 4\n203.0.113.0/24\n198.51.100.128/25\n203.0.113.45 /login\n8.8.8.8 /health\n198.51.100.200 /admin\nbad.ip /",
+          "output": "Blocked:2 Allowed:1 Malformed:1\n[BLOCK] 203.0.113.45 -> /login (matched 203.0.113.0/24)\n[BLOCK] 198.51.100.200 -> /admin (matched 198.51.100.128/25)",
+          "explanation": {
+            "en": "Two IPs fall within threat-intel CIDRs, 8.8.8.8 is allowed, and bad.ip is counted as malformed.",
+            "bn": "দুটি আইপি ব্লকলিস্ট সাবনেটে মিলেছে, একটি বৈধ আইপি অনুমোদিত ও একটি ভুল আইপি আলাদা গোনা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use `ipaddress.ip_network(s, strict=False)` and `ipaddress.ip_address(ip_s)` inside `try/except ValueError`.",
+        "bn": "`ipaddress.ip_network` ও `ipaddress.ip_address` ব্যবহার করে `ValueError` সামলান।"
+      },
+      "hint2": {
+        "en": "Note `ipaddress.ip_address('203.0.113.45') in ipaddress.ip_network('203.0.113.0/24')` works cleanly in Python stdlib!",
+        "bn": "পাইথনের `ip in net` অপারেটর সরাসরি সাবনেট অন্তর্ভুক্তি যাচাই করে।"
+      },
+      "logicBreakdown": {
+        "en": "Using Python's `ipaddress` library prevents subtle string-prefix matching bugs (e.g., `'10.0.0.1'.startswith('10.0.0.1')` falsely matching `'10.0.0.10'`).",
+        "bn": "স্ট্রিং প্রিফিক্স দিয়ে আইপি মেলালে `10.0.0.1` ও `10.0.0.10` গুলিয়ে যায়, কিন্তু `ipaddress` বাইনারি স্তরে নিখুঁত ম্যাচ দেয়।"
+      },
+      "algorithm": [
+        { "en": "Parse `M` CIDR networks safely via `ip_network(..., strict=False)`.", "bn": "`ip_network` দিয়ে ব্লকলিস্ট নেটওয়ার্ক তালিকা তৈরি করুন।" },
+        { "en": "For each request line, parse `ip_address`; increment `malformed` on `ValueError`.", "bn": "প্রতিটি আইপি পার্স করে ভুল হলে `malformed` বাড়ান।" },
+        { "en": "Check against networks; record first matching CIDR and print summary + blocks.", "bn": "ব্লকলিস্টে মিললে `[BLOCK]` সংগ্রহ করে সারাংশসহ প্রিন্ট করুন।" }
+      ],
+      "solution": "import ipaddress\n\nm, k = map(int, input().split())\nnets = []\nfor _ in range(m):\n    raw_net = input().strip()\n    try:\n        nets.append(ipaddress.ip_network(raw_net, strict=False))\n    except ValueError:\n        pass\n\nblocked = allowed = malformed = 0\nhits = []\nfor _ in range(k):\n    parts = input().strip().split()\n    if len(parts) < 2:\n        malformed += 1\n        continue\n    ip_s, ep = parts[0], parts[1]\n    try:\n        ip_obj = ipaddress.ip_address(ip_s)\n    except ValueError:\n        malformed += 1\n        continue\n    matched = None\n    for net in nets:\n        if ip_obj.version == net.version and ip_obj in net:\n            matched = str(net)\n            break\n    if matched:\n        blocked += 1\n        hits.append(f\"[BLOCK] {ip_s} -> {ep} (matched {matched})\")\n    else:\n        allowed += 1\n\nprint(f\"Blocked:{blocked} Allowed:{allowed} Malformed:{malformed}\")\nfor h in hits:\n    print(h)",
+      "codeExplanation": {
+        "en": "Guards version parity (`ip_obj.version == net.version`) alongside `ValueError` exception handling.",
+        "bn": "আইপি ভার্সন মিল ও `ValueError` হ্যান্ডলিংসহ নিরাপদ ব্লকলিস্ট ম্যাচিং করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Doing naive string prefix checks like `ip.startswith('198.51.100.')`, which fails completely for `/25` or `/22` CIDR boundaries.",
+        "bn": "স্ট্রিং `startswith` দিয়ে `/25` বা `/22` সাবনেট মেলাতে গেলে সম্পূর্ণ ভুল ফলাফল আসে।"
+      },
+      "complexity": { "time": "O(K * M)", "space": "O(M + K)" },
+      "testCases": [
+        { "input": "2 4\n203.0.113.0/24\n198.51.100.128/25\n203.0.113.45 /login\n8.8.8.8 /health\n198.51.100.200 /admin\nbad.ip /", "expectedOutput": "Blocked:2 Allowed:1 Malformed:1\n[BLOCK] 203.0.113.45 -> /login (matched 203.0.113.0/24)\n[BLOCK] 198.51.100.200 -> /admin (matched 198.51.100.128/25)", "note": { "en": "CIDR /24 and /25 hits plus malformed", "bn": "CIDR হিট ও অবৈধ আইপি" } },
+        { "input": "1 2\n192.0.2.0/26\n192.0.2.63 /api\n192.0.2.64 /api", "expectedOutput": "Blocked:1 Allowed:1 Malformed:0\n[BLOCK] 192.0.2.63 -> /api (matched 192.0.2.0/26)", "note": { "en": "Exact /26 boundary .63 vs .64", "bn": "/26 সীমানা পরীক্ষা" } },
+        { "input": "0 1\n1.1.1.1 /", "expectedOutput": "Blocked:0 Allowed:1 Malformed:0", "note": { "en": "Empty threat feed", "bn": "ফাঁকা ব্লকলিস্ট" } }
+      ]
+    },
+    {
+      "id": "P19-17",
+      "number": 17,
+      "title": {
+        "en": "Defensive Phishing URL Indicator Triage Analyzer",
+        "bn": "প্রতিরক্ষামূলক ফিশিং URL ঝুঁকি বিশ্লেষক"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Email security gateways and browser safe-browsing filters inspect URL structural anomalies (`@` deception, IP hosts, punycode `xn--`, credential lures on plain HTTP) before users click.",
+        "bn": "ইমেইল গেটওয়ে ও ব্রাউজার প্রটেকশন লিংকে ক্লিক করার আগেই `@` বিভ্রান্তি, আইপি হোস্ট বা `xn--` ফিশিং সংকেত যাচাই করে।"
+      },
+      "requiredConcepts": [
+        { "en": "URL deception indicators (`@` userinfo, IP literal, `xn--` homograph)", "bn": "`@` ছদ্মবেশ, আইপি হোস্ট ও হোমোগ্রাফ `xn--` সংকেত" },
+        { "en": "Multi-signal risk scoring & triage labeling", "bn": "বহু-সংকেত ঝুঁকি স্কোরিং ও শ্রেণিবিন্যাস" }
+      ],
+      "description": {
+        "en": "Inspect an HTTP/HTTPS URL for 6 defensive phishing risk indicators (adding specified points and flag name): (1) `HAS_USERINFO_AT` (`'@' in parsed.netloc`, +3), (2) `IP_AS_HOST` (host is IPv4/IPv6 literal, +3), (3) `PUNYCODE_IDN` (`'xn--' in host`, +2), (4) `EXCESSIVE_SUBDOMAINS` (`len(host.split('.')) >= 4` when not IP, +2), (5) `INSECURE_HTTP` (`scheme == 'http'`, +1), (6) `CREDENTIAL_LURE_KW` (path or query contains `login`, `verify`, `secure`, `password`, or `bank`, +1). Print `RiskScore:<score> | Verdict:<LOW|MEDIUM|HIGH> | Flags:<sorted_flags_or_NONE>` (`0–1 -> LOW`, `2–4 -> MEDIUM`, `>=5 -> HIGH`).",
+        "bn": "একটি HTTP/HTTPS URL-এ ৬টি ফিশিং ঝুঁকি-সংকেত (`HAS_USERINFO_AT`, `IP_AS_HOST`, `PUNYCODE_IDN`, `EXCESSIVE_SUBDOMAINS`, `INSECURE_HTTP`, `CREDENTIAL_LURE_KW`) পরীক্ষা করে স্কোর ও ঝুঁকির মাত্রা (`LOW`, `MEDIUM`, `HIGH`) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an HTTP/HTTPS URL.",
+        "bn": "এক লাইনে HTTP/HTTPS URL।"
+      },
+      "expectedOutput": {
+        "en": "`RiskScore:<s> | Verdict:<V> | Flags:<comma_list>` or `INVALID_URL`.",
+        "bn": "`RiskScore:<s> | Verdict:<V> | Flags:<তালিকা>` অথবা `INVALID_URL`।"
+      },
+      "examples": [
+        {
+          "input": "http://paypal.com@198.51.100.4/verify?user=1",
+          "output": "RiskScore:8 | Verdict:HIGH | Flags:CREDENTIAL_LURE_KW, HAS_USERINFO_AT, INSECURE_HTTP, IP_AS_HOST",
+          "explanation": {
+            "en": "Browser ignores 'paypal.com@' and connects over unencrypted HTTP to raw IP 198.51.100.4 at '/verify'.",
+            "bn": "`paypal.com@` বিভ্রান্তিকর ইউজারইনফো এবং প্রকৃতপক্ষে এটি এনক্রিপশন ছাড়া IP-তে `/verify` খোলে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Extract `host = (parsed.hostname or '').lower()`—note `urlparse` strips userinfo and port cleanly inside `.hostname`!",
+        "bn": "`parsed.hostname` স্বয়ংক্রিয়ভাবে `@`-এর আগের অংশ ও পোর্ট বাদ দিয়ে আসল হোস্ট দেয়।"
+      },
+      "hint2": {
+        "en": "Test `IP_AS_HOST` with `ipaddress.ip_address(host)` inside `try/except ValueError`.",
+        "bn": "`ipaddress.ip_address(host)` দিয়ে আইপি হোস্ট নির্ভুলভাবে চিনুন।"
+      },
+      "logicBreakdown": {
+        "en": "Classic phishing links exploit `https://trusted.com@evil.example` (everything before `@` is ignored username info) or Unicode punycode lookalikes (`xn--`). Checking `.hostname` exposes the true destination.",
+        "bn": "ফিশিং লিংকে প্রায়ই `@`-এর আগে পরিচিত সাইটের নাম লিখে ব্যবহারকারীকে বোকা বানানো হয়; `.hostname` প্রকৃত গন্তব্য দেখায়।"
+      },
+      "algorithm": [
+        { "en": "Parse URL via `urlparse`; reject non-http(s) or missing hostname.", "bn": "`urlparse` দিয়ে স্কিম ও হোস্টনেম যাচাই করুন।" },
+        { "en": "Evaluate all 6 defensive heuristics, summing points and collecting sorted flag names.", "bn": "৬টি ঝুঁকি সংকেত পরীক্ষা করে পয়েন্ট যোগ করুন।" },
+        { "en": "Map total score to `LOW`/`MEDIUM`/`HIGH` and print.", "bn": "স্কোর অনুযায়ী ভার্ডিক্ট প্রিন্ট করুন।" }
+      ],
+      "solution": "import ipaddress\nfrom urllib.parse import urlparse\n\nraw = input().strip()\np = urlparse(raw)\nhost = (p.hostname or \"\").lower()\nif p.scheme not in (\"http\", \"https\") or not host:\n    print(\"INVALID_URL\")\nelse:\n    score = 0\n    flags = []\n    if \"@\" in p.netloc:\n        score += 3\n        flags.append(\"HAS_USERINFO_AT\")\n    is_ip = False\n    try:\n        ipaddress.ip_address(host)\n        is_ip = True\n    except ValueError:\n        is_ip = False\n    if is_ip:\n        score += 3\n        flags.append(\"IP_AS_HOST\")\n    elif len(host.split(\".\")) >= 4:\n        score += 2\n        flags.append(\"EXCESSIVE_SUBDOMAINS\")\n    if \"xn--\" in host:\n        score += 2\n        flags.append(\"PUNYCODE_IDN\")\n    if p.scheme == \"http\":\n        score += 1\n        flags.append(\"INSECURE_HTTP\")\n    pq = (p.path + \"?\" + p.query).lower()\n    if any(kw in pq for kw in (\"login\", \"verify\", \"secure\", \"password\", \"bank\")):\n        score += 1\n        flags.append(\"CREDENTIAL_LURE_KW\")\n\n    verdict = \"HIGH\" if score >= 5 else (\"MEDIUM\" if score >= 2 else \"LOW\")\n    flags_str = \", \".join(sorted(flags)) if flags else \"NONE\"\n    print(f\"RiskScore:{score} | Verdict:{verdict} | Flags:{flags_str}\")",
+      "codeExplanation": {
+        "en": "Uses `p.hostname` to inspect the genuine network destination and checks IP literals vs excessive subdomains cleanly.",
+        "bn": "`p.hostname` আসল গন্তব্য বের করে এবং আইপি হোস্ট ও অতিরিক্ত সাবডোমেইন আলাদাভাবে পরীক্ষা করে।"
+      },
+      "commonMistakes": {
+        "en": "Inspecting `host.split('.')` on an IPv4 address (`4` octets!) and mistakenly counting `IP_AS_HOST` + `EXCESSIVE_SUBDOMAINS` simultaneously.",
+        "bn": "আইপি অ্যাড্রেসেও ৪টি অংশ থাকায় আইপি না কি ডোমেইন তা আলাদা না করলে `EXCESSIVE_SUBDOMAINS` ভুলবশত যোগ হয়ে যায়।"
+      },
+      "complexity": { "time": "O(L)", "space": "O(L)" },
+      "testCases": [
+        { "input": "http://paypal.com@198.51.100.4/verify?user=1", "expectedOutput": "RiskScore:8 | Verdict:HIGH | Flags:CREDENTIAL_LURE_KW, HAS_USERINFO_AT, INSECURE_HTTP, IP_AS_HOST", "note": { "en": "Multiple critical phishing cues", "bn": "একাধিক উচ্চ-ঝুঁকির সংকেত" } },
+        { "input": "https://login.xn--pypal-4ve.example.com/login", "expectedOutput": "RiskScore:5 | Verdict:HIGH | Flags:CREDENTIAL_LURE_KW, EXCESSIVE_SUBDOMAINS, PUNYCODE_IDN", "note": { "en": "Punycode + deep subdomains + lure", "bn": "পুনিকোড ও গভীর সাবডোমেইন" } },
+        { "input": "https://docs.python.org/3/library/hmac.html", "expectedOutput": "RiskScore:0 | Verdict:LOW | Flags:NONE", "note": { "en": "Legitimate HTTPS documentation URL", "bn": "নিরাপদ HTTPS লিংক" } }
+      ]
+    },
+    {
+      "id": "P19-18",
+      "number": 18,
+      "title": {
+        "en": "Configuration Hardening & Secret-Leakage Auditor",
+        "bn": "কনফিগারেশন হার্ডেনিং ও সিক্রেট-লিকেজ অডিটর"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "DevSecOps CI checks scan `.env` and service config files before deployment to catch `DEBUG=true`, weak TLS versions, insecure cookies, wildcard CORS, and hardcoded credentials—while redacting exposed secrets from logs!",
+        "bn": "ডিপ্লয়মেন্টের আগে CI/CD স্ক্যানার কনফিগারেশনে `DEBUG=true`, দুর্বল TLS বা হার্ডকোডেড সিক্রেট খুঁজে সতর্ক করে এবং সিক্রেট মাস্ক করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Security baseline rules (Debug, TLS >= 1.2, Cookie flags, CORS)", "bn": "সিকিউরিটি বেসলাইন নিয়ম (Debug, TLS, Cookie, CORS)" },
+        { "en": "Detecting hardcoded secrets with redacted log reporting", "bn": "গোপন কী শনাক্তকরণ ও আউটপুটে লাল/মাস্কড প্রদর্শন" }
+      ],
+      "description": {
+        "en": "Audit `N` configuration lines (`KEY=VALUE`, ignoring comments `#` and blanks). Flag violations: (1) `DEBUG=true` -> `HIGH: DEBUG_ENABLED`, (2) `TLS_MIN` in `{'1.0', '1.1'}` -> `HIGH: WEAK_TLS`, (3) `COOKIE_SECURE=false` or `COOKIE_HTTPONLY=false` -> `MEDIUM: INSECURE_COOKIE`, (4) `CORS_ORIGIN=*` -> `MEDIUM: WILDCARD_CORS`, (5) any key containing `SECRET`, `PASSWORD`, `TOKEN`, or `API_KEY` whose value is non-empty and does NOT start with `${` (env reference) -> `CRITICAL: HARDCODED_SECRET (<KEY>=***REDACTED***)`. Print `Findings:<cnt>` plus sorted findings (by severity `CRITICAL->HIGH->MEDIUM`, then text), or `HARDENED` if zero findings.",
+        "bn": "`N`টি কনফিগারেশন লাইন অডিট করে `DEBUG=true`, দুর্বল TLS (`1.0`/`1.1`), অনিরাপদ কুকি, `*` CORS এবং হার্ডকোডেড সিক্রেট (`${...}` রেফারেন্স ছাড়া) খুঁজে বের করুন এবং সিক্রেট মাস্ক করে (`***REDACTED***`) রিপোর্ট প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer N followed by N config lines.",
+        "bn": "পূর্ণসংখ্যা N ও N লাইনের কনফিগ।"
+      },
+      "expectedOutput": {
+        "en": "`Findings:<n>` plus findings sorted by severity, or `HARDENED`.",
+        "bn": "`Findings:<n>` ও তীব্রতা ক্রমে তালিকা, নতুবা `HARDENED`।"
+      },
+      "examples": [
+        {
+          "input": "4\nDEBUG=true\nTLS_MIN=1.2\nAPI_KEY=sk_live_987654321\nDB_PASS=${DB_PASS}",
+          "output": "Findings:2\nCRITICAL: HARDCODED_SECRET (API_KEY=***REDACTED***)\nHIGH: DEBUG_ENABLED",
+          "explanation": {
+            "en": "DB_PASS uses safe env substitution ${DB_PASS}; API_KEY exposes a literal secret (redacted in output) and DEBUG is enabled.",
+            "bn": "`DB_PASS` এনভায়রনমেন্ট ভ্যারিয়েবল ব্যবহার করায় নিরাপদ, কিন্তু `API_KEY` ও `DEBUG=true` ধরা পড়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "NEVER echo the leaked secret value into audit stdout—always replace with `***REDACTED***` so CI logs don't re-leak it!",
+        "bn": "অডিট লগে আসল সিক্রেট মান কখনোই প্রিন্ট করবেন না—সবসময় `***REDACTED***` দেখান।"
+      },
+      "hint2": {
+        "en": "Sort findings using a priority tuple `(RANK[sev], msg)` where `CRITICAL=0, HIGH=1, MEDIUM=2`.",
+        "bn": "সাজানোর জন্য `(RANK[sev], msg)` টাপল ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Security scanners must both identify weak runtime defaults and avoid becoming secondary secret leaks by printing discovered tokens verbatim in build logs.",
+        "bn": "অডিট টুলের নিজের লগে যেন আবার পাসওয়ার্ড বা টোকেন ফাঁস না হয় সেজন্য রিড্যাকশন বাধ্যতামূলক।"
+      },
+      "algorithm": [
+        { "en": "Parse non-comment `KEY=VALUE` pairs cleanly.", "bn": "কমেন্ট বাদ দিয়ে `KEY=VALUE` পড়ুন।" },
+        { "en": "Evaluate all 5 hardening checks, storing `(sev_rank, formatted_msg)`.", "bn": "৫টি নীতি পরীক্ষা করে ফলাফল সংগ্রহ করুন।" },
+        { "en": "Sort findings and print count + redacted messages (or `HARDENED`).", "bn": "ফলাফল সাজিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "RANK = {\"CRITICAL\": 0, \"HIGH\": 1, \"MEDIUM\": 2}\nSECRET_KEYS = (\"SECRET\", \"PASSWORD\", \"PASS\", \"TOKEN\", \"API_KEY\")\n\nn = int(input().strip())\nfindings = []\n\nfor _ in range(n):\n    line = input().strip()\n    if not line or line.startswith(\"#\") or \"=\" not in line:\n        continue\n    k, v = line.split(\"=\", 1)\n    k_up = k.strip().upper()\n    v_clean = v.strip()\n    v_low = v_clean.lower()\n\n    if k_up == \"DEBUG\" and v_low == \"true\":\n        findings.append((0 if False else RANK[\"HIGH\"], \"HIGH: DEBUG_ENABLED\"))\n    elif k_up == \"TLS_MIN\" and v_clean in (\"1.0\", \"1.1\"):\n        findings.append((RANK[\"HIGH\"], \"HIGH: WEAK_TLS\"))\n    elif k_up in (\"COOKIE_SECURE\", \"COOKIE_HTTPONLY\") and v_low == \"false\":\n        findings.append((RANK[\"MEDIUM\"], \"MEDIUM: INSECURE_COOKIE\"))\n    elif k_up == \"CORS_ORIGIN\" and v_clean == \"*\":\n        findings.append((RANK[\"MEDIUM\"], \"MEDIUM: WILDCARD_CORS\"))\n\n    if any(sk in k_up for sk in SECRET_KEYS):\n        if v_clean and not (v_clean.startswith(\"${\") and v_clean.endswith(\"}\")):\n            findings.append((RANK[\"CRITICAL\"], f\"CRITICAL: HARDCODED_SECRET ({k_up}=***REDACTED***)\"))\n\nif not findings:\n    print(\"HARDENED\")\nelse:\n    findings.sort()\n    print(f\"Findings:{len(findings)}\")\n    for _, msg in findings:\n        print(msg)",
+      "codeExplanation": {
+        "en": "Enforces safe `${VAR}` indirection for secret keys while redacting hardcoded credentials cleanly.",
+        "bn": "সিক্রেট কীগুলোতে `${VAR}` রেফারেন্স আছে কি না পরীক্ষা করে হার্ডকোডেড মান গোপন রাখা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Printing the discovered password/API key directly inside the audit output, creating a secret leak in CI/CD logs.",
+        "bn": "অডিট রিপোর্টে আসল API কী প্রিন্ট করে দেওয়া—যা লগে নতুন ঝুঁকি তৈরি করে।"
+      },
+      "complexity": { "time": "O(N log N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4\nDEBUG=true\nTLS_MIN=1.2\nAPI_KEY=sk_live_987654321\nDB_PASS=${DB_PASS}", "expectedOutput": "Findings:2\nCRITICAL: HARDCODED_SECRET (API_KEY=***REDACTED***)\nHIGH: DEBUG_ENABLED", "note": { "en": "Flags hardcoded secret & debug mode", "bn": "সিক্রেট ও ডিবাগ মোড শনাক্ত" } },
+        { "input": "4\nDEBUG=false\nTLS_MIN=1.3\nCOOKIE_SECURE=true\nJWT_SECRET=${JWT_SECRET}", "expectedOutput": "HARDENED", "note": { "en": "Fully hardened config", "bn": "সম্পূর্ণ নিরাপদ কনফিগারেশন" } },
+        { "input": "3\nTLS_MIN=1.0\nCORS_ORIGIN=*\nCOOKIE_HTTPONLY=false", "expectedOutput": "Findings:3\nHIGH: WEAK_TLS\nMEDIUM: INSECURE_COOKIE\nMEDIUM: WILDCARD_CORS", "note": { "en": "Transport, cookie & CORS gaps", "bn": "TLS, কুকি ও CORS দুর্বলতা" } }
+      ]
+    },
+    {
+      "id": "P19-19",
+      "number": 19,
+      "title": {
+        "en": "Rate-Limited Auth Gate with Exponential Lockout & PBKDF2",
+        "bn": "এক্সপোনেনশিয়াল লকআউটসহ রেট-লিমিটেড অথেনটিকেশন গেট"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "24 min", "bn": "২৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Production login endpoints combine PBKDF2 + `hmac.compare_digest` verification with exponential cooldown lockouts (`30s, 60s, 120s`) to thwart credential brute-forcing without permanent account denial.",
+        "bn": "বাস্তব লগইন সিস্টেম PBKDF2 যাচাইয়ের সাথে ধারাবাহিক ব্যর্থতায় ৩০, ৬০, ১২০ সেকেন্ড লকআউট যুক্ত করে ব্রুট-ফোর্স আটকায়।"
+      },
+      "requiredConcepts": [
+        { "en": "Stateful per-user lockout (`3` fails -> `30 * 2^(k)` backoff)", "bn": "ব্যর্থতায় এক্সপোনেনশিয়াল লকআউট স্টেট মেশিন" },
+        { "en": "Timing-safe PBKDF2 verification gated behind lockout check", "bn": "লকআউট পরীক্ষার পর PBKDF2 + `compare_digest` যাচাই" }
+      ],
+      "description": {
+        "en": "Line 1 gives stored user `alice`'s PBKDF2 record (`pbkdf2_sha256$<iters>$<salt>$<digest>`). Line 2 gives integer `Q` login attempts `<ts_sec> <candidate_password>`. Policy: (1) if `ts_sec < locked_until`, immediately reject BEFORE hashing with `LOCKED (retry_at=<locked_until>)` (saves CPU/DoS!), (2) verify password with `pbkdf2_hmac` + `hmac.compare_digest`, (3) on match: reset `fails = 0, lock_tier = 0, locked_until = 0` and print `LOGIN_OK`, (4) on mismatch: `fails += 1`; if `fails % 3 == 0`, set `dur = 30 * (2 ** lock_tier)`, `locked_until = ts_sec + dur`, `lock_tier += 1`, and print `DENIED_LOCKED (<dur>s)`, else `DENIED (<fails> fails)`.",
+        "bn": "প্রথম লাইনে `alice`-এর PBKDF2 হ্যাশ রেকর্ড এবং এরপর `Q`টি লগইন চেষ্টা `<ts> <password>` পড়ুন। লকআউট সময়ের মধ্যে এলে হ্যাশিং না করেই `LOCKED` দিন; নতুবা যাচাই করে সঠিক হলে কাউন্টার শূন্য ও `LOGIN_OK`, ভুল হলে প্রতি ৩ ব্যর্থতায় ৩০s, ৬০s, ১২০s করে লকআউট দিন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: stored PBKDF2 hash. Line 2: Q. Next Q lines: `<ts> <candidate_password>`.",
+        "bn": "প্রথম লাইনে PBKDF2 রেকর্ড, দ্বিতীয় লাইনে Q ও পরবর্তী Q লাইনে চেষ্টা।"
+      },
+      "expectedOutput": {
+        "en": "Decision line per login attempt.",
+        "bn": "প্রতিটি প্রচেষ্টার সিদ্ধান্ত।"
+      },
+      "examples": [
+        {
+          "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\n6\n10 bad1\n12 bad2\n15 bad3\n20 CorrectHorse99\n45 bad4\n50 CorrectHorse99",
+          "output": "DENIED (1 fails)\nDENIED (2 fails)\nDENIED_LOCKED (30s)\nLOCKED (retry_at=45)\nDENIED (4 fails)\nLOGIN_OK",
+          "explanation": {
+            "en": "3rd failure at t=15 locks until t=45; t=20 is rejected immediately; t=45 unlocks for attempt and t=50 succeeds, resetting counters.",
+            "bn": "t=১৫-তে ৩য় ব্যর্থতায় ৪৫ পর্যন্ত লক হয়েছে, ২০-এ `LOCKED`, ৪৫-এ ভুল চেষ্টা এবং ৫০-এ সঠিক পাসওয়ার্ডে `LOGIN_OK`।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check `if ts < locked_until:` FIRST before running expensive `pbkdf2_hmac` so locked attackers cannot trigger CPU DoS!",
+        "bn": "হ্যাশিং চালানোর আগেই `ts < locked_until` পরীক্ষা করলে CPU অপচয় ও DoS ঝুঁকি কমে।"
+      },
+      "hint2": {
+        "en": "Reset `fails`, `lock_tier`, and `locked_until` on a valid `LOGIN_OK`.",
+        "bn": "সফল লগইনে `fails`, `lock_tier` ও `locked_until` রিসেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Checking lockout before PBKDF2 prevents CPU exhaustion DoS, while exponential cooldowns (`30s -> 60s -> 120s`) exponentially slow brute force without locking legitimate users out permanently.",
+        "bn": "হ্যাশিংয়ের আগে লক পরীক্ষা CPU-র ওপর চাপ কমায় এবং দ্বিগুণ বিরতি আক্রমণ অসম্ভব করে তোলে।"
+      },
+      "algorithm": [
+        { "en": "Parse stored `pbkdf2_sha256$iters$salt$digest` record once.", "bn": "সংরক্ষিত PBKDF2 রেকর্ড একবার পার্স করুন।" },
+        { "en": "Track `fails = 0`, `tier = 0`, `locked_until = 0`.", "bn": "`fails`, `tier`, `locked_until` শূন্যে সেট করুন।" },
+        { "en": "For each `(ts, pw)`: guard `ts < locked_until`, verify PBKDF2 via `compare_digest`, update state and print outcome.", "bn": "প্রতিটি প্রচেষ্টায় লকআউট ও পাসওয়ার্ড যাচাই করে ফলাফল দিন।" }
+      ],
+      "solution": "import hashlib\nimport hmac\n\n_, iters_s, salt_hex, digest_hex = input().strip().split(\"$\")\niters = int(iters_s)\nsalt = bytes.fromhex(salt_hex)\nexpected = bytes.fromhex(digest_hex)\n\nq = int(input().strip())\nfails = 0\ntier = 0\nlocked_until = 0\n\nfor _ in range(q):\n    ts_s, pw = input().strip().split(maxsplit=1)\n    ts = int(ts_s)\n    if ts < locked_until:\n        print(f\"LOCKED (retry_at={locked_until})\")\n        continue\n    actual = hashlib.pbkdf2_hmac(\"sha256\", pw.encode(\"utf-8\"), salt, iters)\n    if hmac.compare_digest(actual, expected):\n        fails = 0\n        tier = 0\n        locked_until = 0\n        print(\"LOGIN_OK\")\n    else:\n        fails += 1\n        if fails % 3 == 0:\n            dur = 30 * (2 ** tier)\n            locked_until = ts + dur\n            tier += 1\n            print(f\"DENIED_LOCKED ({dur}s)\")\n        else:\n            print(f\"DENIED ({fails} fails)\")",
+      "codeExplanation": {
+        "en": "Enforces lockout gating before PBKDF2 work and uses constant-time `hmac.compare_digest` on match checks.",
+        "bn": "লকআউট গেটিং এবং `hmac.compare_digest` একসাথে নিরাপদ অথেনটিকেশন পাইপলাইন তৈরি করেছে।"
+      },
+      "commonMistakes": {
+        "en": "Running `pbkdf2_hmac` even when locked (wasting CPU) or failing to reset `tier` after successful login.",
+        "bn": "লক থাকা অবস্থায়ও `pbkdf2_hmac` চালানো অথবা সফল লগইনের পর `tier` রিসেট না করা।"
+      },
+      "complexity": { "time": "O(Q * iterations)", "space": "O(1)" },
+      "testCases": [
+        { "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\n6\n10 bad1\n12 bad2\n15 bad3\n20 CorrectHorse99\n45 bad4\n50 CorrectHorse99", "expectedOutput": "DENIED (1 fails)\nDENIED (2 fails)\nDENIED_LOCKED (30s)\nLOCKED (retry_at=45)\nDENIED (4 fails)\nLOGIN_OK", "note": { "en": "Lockout blocks attempt at t=20 even with valid password", "bn": "লক থাকা অবস্থায় সঠিক পাসওয়ার্ডও আটকে যায়" } },
+        { "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\n8\n1 x\n2 x\n3 x\n35 x\n36 x\n37 x\n40 x\n100 CorrectHorse99", "expectedOutput": "DENIED (1 fails)\nDENIED (2 fails)\nDENIED_LOCKED (30s)\nDENIED (4 fails)\nDENIED (5 fails)\nDENIED_LOCKED (60s)\nLOCKED (retry_at=97)\nLOGIN_OK", "note": { "en": "Exponential 30s -> 60s escalation", "bn": "৩০s থেকে ৬০s লকআউট বৃদ্ধি" } },
+        { "input": "pbkdf2_sha256$100000$00112233445566778899aabbccddeeff$cdfb391bbaa357eb533b93896c309ce80a81a7a1b8a1b1e82c9f817330ca2451\n2\n0 CorrectHorse99\n5 bad", "expectedOutput": "LOGIN_OK\nDENIED (1 fails)", "note": { "en": "Clean start & immediate success", "bn": "তাৎক্ষণিক সফল লগইন" } }
+      ]
+    },
+    {
+      "id": "P19-20",
+      "number": 20,
+      "title": {
+        "en": "Capstone: Automated Defensive Security Posture Audit",
+        "bn": "ক্যাপস্টোন: স্বয়ংক্রিয় প্রতিরক্ষামূলক নিরাপত্তা অডিট পাইপলাইন"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "25 min", "bn": "২৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Production security automation chains path confinement, file integrity verification, config hardening, and brute-force log telemetry into one auditable compliance verdict.",
+        "bn": "প্রোডাকশন সিকিউরিটি অটোমেশনে পাথ নিরাপত্তা, ফাইল অখণ্ডতা, কনফিগ হার্ডেনিং ও লগ বিশ্লেষণ একসাথে চালিয়ে চূড়ান্ত রিপোর্ট তৈরি করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Defense-in-depth multi-layer audit pipeline", "bn": "বহু-স্তরীয় প্রতিরক্ষামূলক অডিট পাইপলাইন" },
+        { "en": "Path confinement + SHA-256 FIM + hardening + log triage", "bn": "পাথ নিরাপত্তা, SHA-256 যাচাই, কনফিগ ও লগ অডিট সমন্বয়" }
+      ],
+      "description": {
+        "en": "Build a capstone defensive audit inside an isolated `TemporaryDirectory()`. Seed `config/server.cfg` (`TLS_MIN=1.2\\nDEBUG=false`) with its baseline SHA-256 hash. Read 3 lines from stdin: (1) `<rel_config_path>` (must resolve safely inside the workspace to `config/server.cfg`, else abort with `Posture: FAIL | Reason: PATH_TRAVERSAL`), (2) `<override_line_or_OK>` (if not `OK`, overwrite `config/server.cfg` simulating drift/misconfiguration), and (3) `<failed_auth_count_from_198_51_100_9>` (threshold `>= 5` flags `BRUTE_FORCE_ALERT`). Run all checks (path confinement -> SHA-256 integrity -> `DEBUG=true`/`TLS_MIN=1.0` config check -> auth threshold) and output `Posture: PASS | Issues: NONE` or `Posture: ACTION_REQUIRED | Issues: <comma_list>`.",
+        "bn": "একটি `TemporaryDirectory()` স্যান্ডবক্সে ৪ ধাপের পূর্ণাঙ্গ ডিফেন্সিভ অডিট পাইপলাইন তৈরি করুন: (১) পাথ ট্র্যাভার্সাল প্রতিরোধ, (২) `server.cfg`-এর SHA-256 অখণ্ডতা যাচাই, (৩) কনফিগ হার্ডেনিং (`DEBUG=false`, `TLS_MIN>=1.2`) এবং (৪) লগইন ব্যর্থতা থ্রেশহোল্ড (`>= 5`)। সবশেষে `Posture: PASS` বা `Posture: ACTION_REQUIRED | Issues: ...` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: requested config relative path. Line 2: `OK` or simulated config line. Line 3: integer failed login count.",
+        "bn": "৩ লাইনে আপেক্ষিক পাথ, `OK`/কনফিগ লাইন এবং ব্যর্থ লগইন সংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Final posture verdict with exact sorted/ordered issue codes.",
+        "bn": "চূড়ান্ত নিরাপত্তা অবস্থান ও সমস্যা কোড তালিকা।"
+      },
+      "examples": [
+        {
+          "input": "config/server.cfg\nDEBUG=true\n7",
+          "output": "Posture: ACTION_REQUIRED | Issues: CONFIG_DEBUG_ON, INTEGRITY_DRIFT, LOG_BRUTE_FORCE",
+          "explanation": {
+            "en": "Path is safe, yet overwriting config caused INTEGRITY_DRIFT + CONFIG_DEBUG_ON, and 7 failures triggered LOG_BRUTE_FORCE.",
+            "bn": "পাথ নিরাপদ হলেও কনফিগ পরিবর্তনে INTEGRITY_DRIFT ও CONFIG_DEBUG_ON এবং ৭টি ব্যর্থতায় LOG_BRUTE_FORCE ধরা পড়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Verify path confinement (`commonpath`) BEFORE opening or hashing the requested file!",
+        "bn": "ফাইল খোলা বা হ্যাশ করার আগেই `commonpath` দিয়ে পাথ যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Collect issue flags into a set/list and sort alphabetically (`sorted(issues)`) for clean deterministic compliance reports.",
+        "bn": "সব সমস্যা সংগ্রহ করে বর্ণানুক্রমে সাজিয়ে প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Security posture depends on layered controls working together: preventing path escapes protects file reads, SHA-256 catches tampering, config scans enforce hardening, and telemetry flags active abuse.",
+        "bn": "একটি স্তরেই নিরাপত্তা সীমাবদ্ধ থাকে না—পাথ নিয়ন্ত্রণ, হ্যাশ অখণ্ডতা, হার্ডেনিং ও লগ নজরদারি মিলেই পূর্ণ প্রতিরক্ষা ব্যবস্থা গড়ে ওঠে।"
+      },
+      "algorithm": [
+        { "en": "Initialize `TemporaryDirectory()`, create `config/server.cfg`, and record baseline SHA-256.", "bn": "টেম্প স্যান্ডবক্সে `server.cfg` লিখে বেসলাইন হ্যাশ নিন।" },
+        { "en": "Validate requested path using `os.path.realpath` + `commonpath`; stop immediately on traversal.", "bn": "`commonpath` দিয়ে পাথ ট্র্যাভার্সাল পরীক্ষা করুন।" },
+        { "en": "Apply simulated config drift if not `OK`, then run SHA-256 integrity, hardening rules, and auth threshold checks.", "bn": "অখণ্ডতা, হার্ডেনিং ও লগ থ্রেশহোল্ড পরীক্ষা করে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "import hashlib\nimport os\nimport tempfile\n\ndef sha256_bytes(path):\n    h = hashlib.sha256()\n    with open(path, \"rb\") as f:\n        while True:\n            b = f.read(4096)\n            if not b:\n                break\n            h.update(b)\n    return h.hexdigest()\n\nreq_path = input().strip()\noverride = input().strip()\nfail_cnt = int(input().strip())\n\nwith tempfile.TemporaryDirectory() as ws:\n    ws_real = os.path.realpath(ws)\n    cfg_dir = os.path.join(ws_real, \"config\")\n    os.makedirs(cfg_dir, exist_ok=True)\n    cfg_path = os.path.join(cfg_dir, \"server.cfg\")\n    with open(cfg_path, \"w\", encoding=\"utf-8\") as f:\n        f.write(\"TLS_MIN=1.2\\nDEBUG=false\\n\")\n    baseline_hash = sha256_bytes(cfg_path)\n\n    if override != \"OK\":\n        with open(cfg_path, \"w\", encoding=\"utf-8\") as f:\n            f.write(override + \"\\n\")\n\n    norm_req = req_path.replace(\"\\\\\", \"/\")\n    if not norm_req or norm_req.startswith(\"/\") or \"\\x00\" in norm_req:\n        print(\"Posture: FAIL | Reason: PATH_TRAVERSAL\")\n    else:\n        target = os.path.realpath(os.path.join(ws_real, norm_req))\n        try:\n            inside = os.path.commonpath([ws_real, target]) == ws_real\n        except ValueError:\n            inside = False\n        if not inside or target == ws_real:\n            print(\"Posture: FAIL | Reason: PATH_TRAVERSAL\")\n        elif not os.path.isfile(target):\n            print(\"Posture: FAIL | Reason: FILE_NOT_FOUND\")\n        else:\n            issues = []\n            if sha256_bytes(target) != baseline_hash:\n                issues.append(\"INTEGRITY_DRIFT\")\n            with open(target, \"r\", encoding=\"utf-8\") as rf:\n                for line in rf:\n                    if \"=\" in line:\n                        k, v = (x.strip() for x in line.split(\"=\", 1))\n                        if k == \"DEBUG\" and v.lower() == \"true\":\n                            issues.append(\"CONFIG_DEBUG_ON\")\n                        if k == \"TLS_MIN\" and v in (\"1.0\", \"1.1\"):\n                            issues.append(\"CONFIG_WEAK_TLS\")\n            if fail_cnt >= 5:\n                issues.append(\"LOG_BRUTE_FORCE\")\n            if not issues:\n                print(\"Posture: PASS | Issues: NONE\")\n            else:\n                print(\"Posture: ACTION_REQUIRED | Issues: \" + \", \".join(sorted(issues)))",
+      "codeExplanation": {
+        "en": "Chains path validation, cryptographic baseline comparison, policy parsing, and log threshold checks cleanly.",
+        "bn": "পাথ নিরাপত্তা, হ্যাশ তুলনা, কনফিগ নীতি ও লগ সীমা—সবগুলো স্তর ক্রমানুসারে সমন্বিত করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Continuing to read or hash files when path traversal fails, or forgetting to verify file existence before opening.",
+        "bn": "পাথ ট্র্যাভার্সাল ধরা পড়ার পরও ফাইল খোলার চেষ্টা করা।"
+      },
+      "complexity": { "time": "O(file_bytes)", "space": "O(1)" },
+      "testCases": [
+        { "input": "config/server.cfg\nDEBUG=true\n7", "expectedOutput": "Posture: ACTION_REQUIRED | Issues: CONFIG_DEBUG_ON, INTEGRITY_DRIFT, LOG_BRUTE_FORCE", "note": { "en": "Multi-layer findings", "bn": "একাধিক নিরাপত্তা ইস্যু" } },
+        { "input": "config/server.cfg\nOK\n2", "expectedOutput": "Posture: PASS | Issues: NONE", "note": { "en": "Clean posture passes all controls", "bn": "সম্পূর্ণ নিরাপদ অবস্থা" } },
+        { "input": "../../etc/passwd\nOK\n0", "expectedOutput": "Posture: FAIL | Reason: PATH_TRAVERSAL", "note": { "en": "Blocks traversal immediately", "bn": "ট্র্যাভার্সাল তাৎক্ষণিক ব্লক" } }
+      ]
+    }
+  ]
+}

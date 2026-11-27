@@ -1,0 +1,823 @@
+{
+  "level": "Level 03",
+  "levelNumber": 3,
+  "projects": [
+    {
+      "id": "PRJ-11",
+      "number": 11,
+      "title": {
+        "en": "Network Diagnostic and Connectivity Analysis Tool",
+        "bn": "নেটওয়ার্ক ডায়াগনস্টিক ও সংযোগ বিশ্লেষণ টুল"
+      },
+      "level": "Level 03",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "12–15 hours",
+        "bn": "১২–১৫ ঘণ্টা"
+      },
+      "category": "Networking",
+      "overview": {
+        "en": "Build an authorized host-and-lab network diagnostic suite that validates IPv4/IPv6 CIDR notation, performs DNS resolution checks, measures TCP handshake latency against localhost or authorized lab sockets, inspects TLS certificate metadata, and generates structured connectivity diagnostics.",
+        "bn": "অনুমোদিত ল্যাব ও লোকালহোস্টের জন্য একটি নেটওয়ার্ক ডায়াগনস্টিক টুল তৈরি করুন যা IPv4/IPv6 CIDR যাচাই করে, DNS রেজোলিউশন পরীক্ষা করে, TCP সংযোগ ল্যাটেন্সি পরিমাপ করে, TLS সনদের তথ্য দেখে এবং গোছানো ডায়াগনস্টিক রিপোর্ট তৈরি করে।"
+      },
+      "realWorldProblem": {
+        "en": "When services become unreachable in staging or office networks, engineers often waste time guessing whether the failure stems from DNS, routing, firewall drops, closed ports, or expired TLS certificates.",
+        "bn": "স্টেজিং বা অফিস নেটওয়ার্কে কোনো সার্ভিস বন্ধ হলে সমস্যাটি DNS, পোর্ট বন্ধ থাকা, ফায়ারওয়াল নাকি মেয়াদোত্তীর্ণ TLS সনদের কারণে হয়েছে তা আলাদা করতে অনেক সময় নষ্ট হয়।"
+      },
+      "whyItMatters": {
+        "en": "Network engineers, SREs, and SOC analysts rely on layered diagnostics—separating name resolution, transport reachability, and TLS handshake verification—to isolate infrastructure outages quickly.",
+        "bn": "নেটওয়ার্ক ইঞ্জিনিয়ার ও SRE-রা অবকাঠামোগত ত্রুটি দ্রুত শনাক্ত করতে নাম রেজোলিউশন, ট্রান্সপোর্ট সংযোগ এবং TLS যাচাইকরণ আলাদাভাবে পরীক্ষা করেন।"
+      },
+      "realWorldUseCases": [
+        { "en": "Pre-deployment connectivity verification against authorized staging endpoints", "bn": "ডিপ্লয়মেন্টের আগে অনুমোদিত স্টেজিং এন্ডপয়েন্টের সংযোগ যাচাই" },
+        { "en": "Local lab troubleshooting across multi-service Docker or localhost ports", "bn": "লোকালহোস্ট বা ল্যাব পরিবেশে একাধিক সার্ভিস পোর্টের ত্রুটি নির্ণয়" },
+        { "en": "Automated TLS expiry and cipher metadata auditing for owned hosts", "bn": "নিজস্ব হোস্টের TLS সনদের মেয়াদ ও মেটাডেটা স্বয়ংক্রিয়ভাবে পরীক্ষা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "TCP/IP addressing & subnet math", "bn": "TCP/IP অ্যাড্রেসিং ও সাবনেট গণনা" },
+        { "en": "DNS, TCP socket & TLS diagnostics", "bn": "DNS, TCP সকেট ও TLS ডায়াগনস্টিক্স" },
+        { "en": "Latency statistics & timeout control", "bn": "ল্যাটেন্সি পরিসংখ্যান ও টাইমআউট নিয়ন্ত্রণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "ipaddress module for IPv4/IPv6 validation & subnetting", "bn": "IPv4/IPv6 ও সাবনেট যাচাইয়ের জন্য ipaddress মডিউল" },
+        { "en": "socket timeouts, AF_INET/AF_INET6 & getaddrinfo", "bn": "socket টাইমআউট ও getaddrinfo ব্যবহার" },
+        { "en": "ssl.create_default_context certificate inspection", "bn": "ssl মডিউল দিয়ে সনদের তথ্য পরিদর্শন" },
+        { "en": "concurrent.futures for bounded parallel port checks on authorized labs", "bn": "অনুমোদিত ল্যাবে সীমিত সমান্তরাল পরীক্ষার জন্য concurrent.futures" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (socket, ssl, ipaddress, time, concurrent.futures, json)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (socket, ssl, ipaddress, time, concurrent.futures, json)" },
+        { "en": "Local test socket servers on 127.0.0.1 for safe verification", "bn": "নিরাপদ যাচাইয়ের জন্য 127.0.0.1 লোকাল টেস্ট সকেট সার্ভার" }
+      ],
+      "functionalRequirements": [
+        { "en": "Validate hostnames, IPv4/IPv6 addresses, and CIDR ranges cleanly without crashing on malformed inputs.", "bn": "ভুল ইনপুটে ক্র্যাশ না করে হোস্টনেম, IPv4/IPv6 এবং CIDR রেঞ্জ সঠিকভাবে যাচাই করা।" },
+        { "en": "Perform layered checks: DNS lookup -> TCP connect latency (min/avg/max/jitter) -> optional TLS certificate expiry inspection.", "bn": "ধাপে ধাপে DNS লুকআপ, TCP সংযোগ ল্যাটেন্সি ও ঐচ্ছিক TLS সনদ মেয়াদ পরীক্ষা করা।" },
+        { "en": "Enforce an explicit target allowlist file or localhost-only safety mode by default.", "bn": "ডিফল্টভাবে কেবল অনুমোদিত টার্গেট তালিকা বা লোকালহোস্ট মোড বাধ্যতামূলক রাখা।" },
+        { "en": "Export diagnostic snapshots in readable terminal tables and JSON.", "bn": "টার্মিনাল টেবিল ও JSON ফরম্যাটে ডায়াগনস্টিক রিপোর্ট রপ্তানি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Respect strict per-probe timeouts so unreachable hosts never hang the CLI.", "bn": "কঠোর টাইমআউট মেনে চলা যাতে সাড়া না দেওয়া হোস্টে CLI আটকে না যায়।" },
+        { "en": "Bound thread pool concurrency to prevent socket descriptor exhaustion.", "bn": "সকেট সংকট এড়াতে কনকারেন্সি সীমা নির্ধারণ করা।" },
+        { "en": "Distinguish refused connections from timeouts and DNS failures clearly.", "bn": "সংযোগ প্রত্যাখ্যান, টাইমআউট এবং DNS ব্যর্থতা স্পষ্টভাবে আলাদা করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "CIDR subnet calculator displaying network, broadcast, usable host count, and private/loopback flags", "bn": "নেটওয়ার্ক, ব্রডকাস্ট ও প্রাইভেট ফ্ল্যাগসহ CIDR সাবনেট ক্যালকুলেটর" },
+        { "en": "Multi-sample TCP latency probe with packet-loss/failure rate calculation", "bn": "ব্যর্থতার হারসহ একাধিক স্যাম্পলের TCP ল্যাটেন্সি প্রোব" },
+        { "en": "TLS certificate summary showing subject, issuer, SANs, and days remaining", "bn": "সাবজেক্ট, ইস্যুকার ও অবশিষ্ট দিনসহ TLS সনদ সারাংশ" },
+        { "en": "Built-in allowlist guard preventing unauthorized external target probing", "bn": "অননুমোদিত বাইরের টার্গেট আটকানোর বিল্ট-ইন অনুমোদন সুরক্ষা" }
+      ],
+      "constraints": [
+        { "en": "Authorized targets only: default to 127.0.0.1 / local lab listeners or user-approved allowlist entries; no stealth or evasive scanning.", "bn": "কেবল অনুমোদিত টার্গেট: ডিফল্টভাবে 127.0.0.1 বা অনুমোদিত তালিকা; কোনো অননুমোদিত স্ক্যানিং নয়।" },
+        { "en": "Use standard library networking modules without raw packet injection.", "bn": "র প্যাকেট ইনজেকশন ছাড়া কেবল স্ট্যান্ডার্ড লাইব্রেরি নেটওয়ার্কিং মডিউল ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "net_diagnostics/",
+        "├── README.md",
+        "├── allowlist.example.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── target_guard.py",
+        "│   ├── subnet_analyzer.py",
+        "│   ├── probes.py",
+        "│   └── tls_inspector.py",
+        "└── tests/",
+        "    ├── test_subnet_analyzer.py",
+        "    └── test_local_probes.py"
+      ],
+      "folderStructureNote": {
+        "en": "Enforce target allowlist checks inside target_guard.py before probes.py ever opens a socket.",
+        "bn": "probes.py কোনো সকেট খোলার আগেই target_guard.py-এ অনুমোদন যাচাই বাধ্যতামূলক করুন।"
+      },
+      "dataStorageRequirements": {
+        "en": "Maintain an explicit target allowlist JSON file and write diagnostic history records to timestamped JSON reports.",
+        "bn": "একটি অনুমোদিত টার্গেট JSON তালিকা রাখুন এবং ডায়াগনস্টিক ফলাফল সময়চিহ্নিত JSON রিপোর্টে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Spin up ephemeral localhost TCP servers in tests to verify open vs closed vs slow-timeout port outcomes.", "bn": "টেস্টে লোকালহোস্ট TCP সার্ভার চালু করে খোলা, বন্ধ ও টাইমআউট পোর্ট আচরণ যাচাই করা।" },
+        { "en": "Test IPv4 and IPv6 CIDR parsing edge cases including /32 and /31 subnets.", "bn": "/32 এবং /31 সাবনেটসহ IPv4 ও IPv6 CIDR পার্সিং পরীক্ষা করা।" },
+        { "en": "Verify target_guard rejects non-allowlisted external targets when safety mode is active.", "bn": "সেফটি মোডে অনুমোদনের বাইরের ঠিকানা প্রত্যাখ্যাত হয় কি না পরীক্ষা করা।" },
+        { "en": "Test DNS resolution failure handling gracefully.", "bn": "DNS ব্যর্থতা ত্রুটিহীনভাবে সামলানো হয় কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Enforce explicit scope validation before opening any outbound connection.", "bn": "যেকোনো আউটবাউন্ড সংযোগের আগে স্পষ্ট স্কোপ যাচাই করুন।" },
+        { "en": "Always close sockets inside context managers to avoid file-descriptor leaks.", "bn": "ফাইল-ডেসক্রিপ্টর লিক এড়াতে কনটেক্সট ম্যানেজারের ভেতরে সকেট বন্ধ করুন।" },
+        { "en": "Avoid leaking local internal topology reports into public repositories.", "bn": "অভ্যন্তরীণ নেটওয়ার্ক রিপোর্ট পাবলিক রিপোজিটরিতে প্রকাশ করবেন না।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Authorized network diagnostic CLI supporting subnet, DNS, TCP latency, and TLS checks", "bn": "সাবনেট, DNS, TCP ল্যাটেন্সি ও TLS পরীক্ষাসম্পন্ন ডায়াগনস্টিক CLI" },
+        { "en": "Local socket fixture test suite proving deterministic error classification", "bn": "লোকাল সকেট টেস্ট স্যুট যেখানে প্রতিটি ত্রুটির ধরন যাচাইকৃত" },
+        { "en": "Safety policy & usage guide in README", "bn": "README-তে নিরাপত্তা নীতি ও ব্যবহার নির্দেশিকা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Sample sanitized diagnostic JSON report from localhost checks", "bn": "লোকালহোস্ট পরীক্ষার স্যানিটাইজড নমুনা JSON রিপোর্ট" },
+        { "en": "Clear explanation of the OSI/TCP troubleshooting layers", "bn": "OSI/TCP সমস্যা সমাধানের স্তরগুলোর স্পষ্ট ব্যাখ্যা" },
+        { "en": "Explicit ethical & authorized-use disclaimer", "bn": "স্পষ্ট নৈতিক ও অনুমোদিত ব্যবহারের নির্দেশনা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "How do OS error codes distinguish a closed port (ECONNREFUSED) from a firewall packet drop (ETIMEDOUT)?", "bn": "বন্ধ পোর্ট (ECONNREFUSED) এবং ফায়ারওয়াল ড্রপ (ETIMEDOUT) OS ত্রুটি কোডে কীভাবে আলাদা বোঝা যায়?" },
+        { "en": "Why should you measure handshake latency using a monotonic clock right around socket connection?", "bn": "সকেট সংযোগের ঠিক আগে ও পরে মনোটোনিক ঘড়ি দিয়ে সময় মাপা কেন জরুরি?" },
+        { "en": "What happens in CIDR analysis for point-to-point /31 vs single-host /32 networks?", "bn": "পয়েন্ট-টু-পয়েন্ট /31 এবং একক হোস্ট /32 নেটওয়ার্কের CIDR বিশ্লেষণে কী পার্থক্য থাকে?" },
+        { "en": "How does DNS returning both IPv4 and IPv6 addresses affect TCP connection fallback?", "bn": "DNS একই সাথে IPv4 ও IPv6 দিলে TCP সংযোগ প্রচেষ্টায় কী প্রভাব পড়ে?" },
+        { "en": "Why is checking TLS expiry on an expired cert tricky if default verification rejects the handshake first?", "bn": "ডিফল্ট ভেরিফিকেশন হ্যান্ডশেক আটকে দিলে মেয়াদোত্তীর্ণ TLS সনদের তারিখ কীভাবে নিরাপদে পড়বেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Treat connectivity checking as a pipeline of independent stages—address validation, name resolution, transport reachability, and TLS inspection—where each stage emits a structured result object.",
+          "bn": "সংযোগ পরীক্ষাকে চারটি স্বাধীন ধাপের পাইপলাইন হিসেবে ধরুন—ঠিকানা যাচাই, নাম রেজোলিউশন, ট্রান্সপোর্ট সংযোগ এবং TLS পরিদর্শন—যেখানে প্রতিটি ধাপ স্ট্রাকচার্ড ফলাফল দেয়।"
+        },
+        "level2": {
+          "en": "Use ipaddress.ip_network(strict=False) for CIDR summaries, socket.getaddrinfo for dual-stack resolution, socket.create_connection with explicit timeout, and time.perf_counter for round-trip connect timing.",
+          "bn": "CIDR-এর জন্য ipaddress.ip_network, ডুয়াল-স্ট্যাক রেজোলিউশনের জন্য socket.getaddrinfo, টাইমআউটসহ socket.create_connection এবং সময় মাপতে time.perf_counter ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Gate every probe call through a TargetPolicy validator object first; isolate socket tests by binding an ephemeral localhost socket on port 0 inside test setup.",
+          "bn": "প্রতিটি প্রোব কলের আগে TargetPolicy যাচাই স্তর বসান এবং টেস্টে পোর্ট ০-এ অস্থায়ী লোকালহোস্ট সকেট চালু করে নির্ভুল পরীক্ষা নিশ্চিত করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add HTTP header security baseline check alongside TLS inspection on authorized local servers.", "bn": "অনুমোদিত লোকাল সার্ভারে TLS পরীক্ষার পাশাপাশি HTTP সিকিউরিটি হেডার যাচাই যোগ করুন।" },
+        { "en": "Compute jitter (mean consecutive latency delta) across multiple TCP probe samples.", "bn": "একাধিক TCP প্রোব স্যাম্পলের মধ্যে জিটার (ল্যাটেন্সি পরিবর্তন) হিসাব করুন।" },
+        { "en": "Compare current diagnostic snapshot against a saved baseline JSON to flag newly opened/closed ports.", "bn": "আগে সংরক্ষিত বেসলাইন JSON-এর সাথে তুলনা করে নতুন খোলা বা বন্ধ পোর্ট চিহ্নিত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Network Automation Engineer", "bn": "নেটওয়ার্ক অটোমেশন ইঞ্জিনিয়ার" },
+          { "en": "Site Reliability Engineer", "bn": "সাইট রিলায়েবিলিটি ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Teaches practical layered troubleshooting across DNS, IPv4/IPv6, TCP sockets, and TLS—core daily diagnostics for cloud, SRE, and SecOps engineers.",
+          "bn": "ক্লাউড, SRE ও SecOps ইঞ্জিনিয়ারদের দৈনন্দিন কাজের মূল ভিত্তি—DNS, IPv4/IPv6, TCP সকেট ও TLS স্তরের বাস্তব সমস্যা সমাধান শেখায়।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Layered TCP/TLS network diagnostics", "bn": "স্তরভিত্তিক TCP/TLS নেটওয়ার্ক ডায়াগনস্টিক্স" },
+          { "en": "IPv4/IPv6 CIDR math & validation", "bn": "IPv4/IPv6 CIDR গণনা ও যাচাইকরণ" },
+          { "en": "Policy-gated concurrency", "bn": "নীতি-নিয়ন্ত্রিত সমান্তরাল নেটওয়ার্কিং" }
+        ],
+        "interviewTopics": [
+          { "en": "TCP 3-way handshake failure modes (RST vs timeout)", "bn": "TCP ৩-ধাপ হ্যান্ডশেক ব্যর্থতার ধরন (RST বনাম টাইমআউট)" },
+          { "en": "How TLS certificate chain & validity dates are verified", "bn": "TLS সনদের চেইন ও মেয়াদ যাচাইকরণ প্রক্রিয়া" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Strong systems/network utility proving you understand real socket diagnostics rather than shelling out blindly to ping.",
+          "bn": "পদ্ধতিগত সকেট ডায়াগনস্টিক দক্ষতা প্রদর্শনকারী একটি শক্তিশালী নেটওয়ার্কিং পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-12",
+      "number": 12,
+      "title": {
+        "en": "Network Traffic Analysis Learning Tool",
+        "bn": "নেটওয়ার্ক ট্র্যাফিক বিশ্লেষণ লার্নিং টুল"
+      },
+      "level": "Level 03",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "15–18 hours",
+        "bn": "১৫–১৮ ঘণ্টা"
+      },
+      "category": "Networking",
+      "overview": {
+        "en": "Build an offline packet-header and flow-telemetry learning analyzer that parses sanitized text packet dumps or synthetic flow captures (CSV/JSONL/hex-frame fixtures), reconstructs protocol conversations, surfaces top talkers and DNS/port spikes, and visualizes traffic anomalies ethically offline.",
+        "bn": "স্যানিটাইজড অফলাইন প্যাকেট ডাম্প বা সিন্থেটিক ফ্লো ক্যাপচার (CSV/JSONL/হেক্স-ফ্রেম) বিশ্লেষণ করে প্রোটোকল কনভারসেশন পুনর্গঠন, শীর্ষ টকার, পোর্ট/DNS স্পাইক এবং অসঙ্গতি শনাক্ত করার একটি অফলাইন শিক্ষামূলক টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Beginners struggle to connect abstract OSI/TCP header diagrams with real forensic triage—identifying beaconing intervals, unusual outbound port surges, or DNS tunneling symptoms inside noisy captures.",
+        "bn": "শুরুতে অনেকেই তাত্ত্বিক OSI/TCP হেডার ধারণাকে বাস্তব ফরেনসিক বিশ্লেষণের সাথে মেলাতে পারেন না—যেমন বিকনিং ইন্টারভাল বা অস্বাভাবিক আউটবাউন্ড পোর্ট স্পাইক চিহ্নিত করা।"
+      },
+      "whyItMatters": {
+        "en": "SOC analysts and packet forensics engineers spend hours dissecting captured flows to separate benign background noise from command-and-control or exfiltration patterns.",
+        "bn": "SOC বিশ্লেষক ও ফরেনসিক ইঞ্জিনিয়াররা ক্যাপচার করা নেটওয়ার্ক ফ্লো বিশ্লেষণ করে স্বাভাবিক ট্র্যাফিক থেকে সন্দেহজনক যোগাযোগ আলাদা করেন।"
+      },
+      "realWorldUseCases": [
+        { "en": "Offline blue-team lab triage of sanitized CTF or synthetic enterprise packet logs", "bn": "স্যানিটাইজড CTF বা সিন্থেটিক অফিস প্যাকেট লগের অফলাইন ব্লু-টিম বিশ্লেষণ" },
+        { "en": "Educational binary header decoding for Ethernet, IPv4, TCP, and UDP frames", "bn": "ইথারনেট, IPv4, TCP ও UDP ফ্রেমের শিক্ষামূলক বাইনারি হেডার ডিকোডিং" },
+        { "en": "Bandwidth talker attribution and port-scan signature detection from flow records", "bn": "ফ্লো রেকর্ড থেকে সর্বাধিক ব্যান্ডউইথ ব্যবহারকারী ও পোর্ট-স্ক্যান আচরণ শনাক্তকরণ" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Binary frame & IPv4/TCP/UDP header decoding", "bn": "বাইনারি ফ্রেম ও IPv4/TCP/UDP হেডার ডিকোডিং" },
+        { "en": "5-tuple flow aggregation & session tracking", "bn": "৫-টাপল ফ্লো একত্রীকরণ ও সেশন ট্র্যাকিং" },
+        { "en": "Statistical traffic anomaly heuristics", "bn": "পরিসংখ্যানভিত্তিক ট্র্যাফিক অসঙ্গতি বিশ্লেষণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "struct.unpack & bitwise masking for protocol header offsets", "bn": "প্রোটোকল হেডার ডিকোড করতে struct.unpack ও বিটওয়াইজ মাস্কিং" },
+        { "en": "collections.Counter & defaultdict for 5-tuple flow aggregation", "bn": "৫-টাপল ফ্লো গণনার জন্য collections.Counter ও defaultdict" },
+        { "en": "Streaming generators over large capture files", "bn": "বড় ক্যাপচার ফাইল পড়ার জন্য স্ট্রিমিং জেনারেটর" },
+        { "en": "statistics module for packet size & inter-arrival variance", "bn": "সময় ব্যবধান ও সাইজ বৈচিত্র্য হিসাবের জন্য statistics মডিউল" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (struct, ipaddress, csv, json, collections, statistics)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (struct, ipaddress, csv, json, collections, statistics)" },
+        { "en": "Synthetic packet/flow sample dataset (included in repo)", "bn": "সিন্থেটিক প্যাকেট ও ফ্লো নমুনা ডেটাসেট" }
+      ],
+      "functionalRequirements": [
+        { "en": "Decode sample raw hex packet bytes (Ethernet/IPv4/TCP/UDP headers) using explicit byte-offset parsing.", "bn": "নির্দিষ্ট বাইট-অফসেট ব্যবহার করে নমুনা হেক্স প্যাকেটের Ethernet/IPv4/TCP/UDP হেডার ডিকোড করা।" },
+        { "en": "Aggregate captured records into 5-tuple flows (src_ip, dst_ip, src_port, dst_port, protocol) with packet and byte totals.", "bn": "রেকর্ডগুলোকে ৫-টাপল ফ্লো হিসেবে একত্র করে মোট প্যাকেট ও বাইট হিসাব করা।" },
+        { "en": "Flag heuristic patterns: high distinct destination-port fan-out (horizontal/vertical scan behavior), repetitive low-variance intervals (beaconing), and abnormally long DNS query labels.", "bn": "উচ্চ পোর্ট ফ্যান-আউট, নিয়মিত সময়ের বিকনিং এবং অস্বাভাবিক দীর্ঘ DNS কোয়েরি লেবেল চিহ্নিত করা।" },
+        { "en": "Produce a readable forensic triage summary with filter options by IP, protocol, or port.", "bn": "IP, প্রোটোকল বা পোর্ট ফিল্টারসহ সহজবোধ্য ফরেনসিক ট্রায়াজ রিপোর্ট তৈরি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Operate 100% offline on static sample captures without requiring root privileges or live packet sniffing.", "bn": "রুট অনুমতি বা লাইভ স্নিফিং ছাড়াই সম্পূর্ণ অফলাইনে নমুনা ফাইলে কাজ করা।" },
+        { "en": "Stream input records efficiently so multi-hundred-megabyte flow CSVs do not exhaust memory.", "bn": "বড় ফ্লো CSV পড়ার সময় অতিরিক্ত মেমোরি ব্যবহার না করা।" },
+        { "en": "Explain clearly why each heuristic triggered (evidence counts and thresholds).", "bn": "প্রতিটি অ্যালার্ট কেন ট্রিগার হয়েছে তার প্রমাণ ও সীমা স্পষ্টভাবে দেখানো।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Interactive hex-frame educational dissector showing bit flags (SYN, ACK, FIN, RST)", "bn": "SYN, ACK, FIN, RST ফ্ল্যাগ প্রদর্শনকারী শিক্ষামূলক হেক্স-ফ্রেম ডিসেক্টর" },
+        { "en": "Top talkers, protocol breakdown, and destination port histogram", "bn": "শীর্ষ টকার, প্রোটোকল অনুপাত ও গন্তব্য পোর্ট তালিকা" },
+        { "en": "Configurable anomaly thresholds for scan fan-out, beaconing jitter, and DNS entropy/length", "bn": "স্ক্যান, বিকনিং জিটার ও DNS এনট্রপির জন্য কনফিগারযোগ্য সীমা" },
+        { "en": "Exportable incident investigation JSON/Markdown brief", "bn": "রপ্তানিযোগ্য JSON বা মার্কডাউন বিশ্লেষণ সংক্ষেপ" }
+      ],
+      "constraints": [
+        { "en": "Offline capture/log analysis only—do not capture live third-party network traffic.", "bn": "কেবল অফলাইন ক্যাপচার বিশ্লেষণ; কোনো লাইভ বা তৃতীয় পক্ষের ট্র্যাফিক স্নিফিং নয়।" },
+        { "en": "Ship clean, synthetic, privacy-safe sample fixtures for demonstration.", "bn": "প্রদর্শনের জন্য পরিষ্কার ও গোপনীয়তা-নিরাপদ সিন্থেটিক নমুনা ডেটা ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "traffic_analyzer/",
+        "├── README.md",
+        "├── sample_captures/",
+        "│   ├── sample_hex_frames.txt",
+        "│   └── synthetic_flows.csv",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── frame_decoder.py",
+        "│   ├── flow_aggregator.py",
+        "│   ├── anomaly_detectors.py",
+        "│   └── reporter.py",
+        "└── tests/",
+        "    ├── test_frame_decoder.py",
+        "    └── test_anomaly_detectors.py"
+      ],
+      "folderStructureNote": {
+        "en": "Decouple raw binary frame parsing from flow aggregation so both low-level hex packets and high-level flow CSVs feed one unified analyzer pipeline.",
+        "bn": "বাইনারি ফ্রেম পার্সিং ও ফ্লো অ্যাগ্রিগেশন আলাদা রাখুন যাতে উভয় ইনপুট একই বিশ্লেষক পাইপলাইনে যুক্ত হতে পারে।"
+      },
+      "dataStorageRequirements": {
+        "en": "Read synthetic hex frames and CSV/JSONL flow fixtures; output structured triage findings and flow tables to JSON/Markdown files.",
+        "bn": "সিন্থেটিক হেক্স ফ্রেম ও CSV/JSONL ফ্লো ফাইল পড়ে গোছানো ফলাফল JSON/Markdown ফাইলে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Unit-test binary IPv4 IHL (header length options) and TCP flags bitmask extraction.", "bn": "IPv4 হেডার দৈর্ঘ্য ও TCP ফ্ল্যাগ বিটমাস্ক নিষ্কাশনের ইউনিট টেস্ট করা।" },
+        { "en": "Test synthetic scan burst fixture triggers port-fanout detection without false-positiving on normal HTTP traffic.", "bn": "সিন্থেটিক পোর্ট-স্ক্যান ডেটায় শনাক্তকরণ কাজ করে এবং স্বাভাবিক HTTP-তে ভুল অ্যালার্ট দেয় না তা যাচাই করা।" },
+        { "en": "Test beaconing detector identifies steady periodic intervals amid background traffic.", "bn": "পটভূমির ট্র্যাফিকের মাঝে নিয়মিত বিকনিং ইন্টারভাল শনাক্ত হয় কি না পরীক্ষা করা।" },
+        { "en": "Test malformed or truncated hex frames fail safely with clear error diagnostics.", "bn": "অসম্পূর্ণ হেক্স ফ্রেমে নিরাপদ ত্রুটি রিপোর্ট দেয় কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Validate declared IP/TCP header lengths against actual buffer length before slicing to avoid parsing crashes.", "bn": "অসম্পূর্ণ বা বিকৃত প্যাকেটে ক্র্যাশ ঠেকাতে বাফার দৈর্ঘ্যের বিপরীতে হেডার দৈর্ঘ্য যাচাই করুন।" },
+        { "en": "Treat payload ASCII previews as untrusted data—escape control characters before terminal rendering.", "bn": "পেলোড প্রিভিউয়ে অবিশ্বস্ত কন্ট্রোল ক্যারেক্টার টার্মিনালে প্রদর্শনের আগে এস্কেপ করুন।" },
+        { "en": "Use synthetic or properly anonymized captures to uphold privacy.", "bn": "গোপনীয়তা রক্ষায় সিন্থেটিক বা অ্যানোনিমাইজড ক্যাপচার ব্যবহার করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Offline hex-packet decoder and flow anomaly analyzer CLI", "bn": "অফলাইন হেক্স-প্যাকেট ডিকোডার ও ফ্লো অসঙ্গতি বিশ্লেষক CLI" },
+        { "en": "Synthetic test captures demonstrating normal traffic, scan burst, and beaconing", "bn": "স্বাভাবিক, স্ক্যান ও বিকনিং ট্র্যাফিকের সিন্থেটিক নমুনা ক্যাপচার" },
+        { "en": "Automated verification suite covering bit-level parsing and heuristics", "bn": "বিট-লেভেল পার্সিং ও শনাক্তকরণ লজিকের টেস্ট স্যুট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Annotated packet byte-map diagram in README explaining header offsets", "bn": "README-তে হেডার অফসেটের বিবরণসহ ডায়াগ্রাম" },
+        { "en": "Sample investigation report generated from synthetic capture", "bn": "সিন্থেটিক ক্যাপচার থেকে তৈরি নমুনা তদন্ত রিপোর্ট" },
+        { "en": "Zero third-party personal IP captures committed", "bn": "কোনো ব্যক্তিগত বা বাস্তব আইপি ক্যাপচার কমিট না করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why is the IPv4 IHL (Internet Header Length) nibble multiplied by 4 to find where the TCP header starts?", "bn": "TCP হেডার কোথা থেকে শুরু হয় তা জানতে IPv4 IHL-কে কেন ৪ দিয়ে গুণ করতে হয়?" },
+        { "en": "How does network byte order (big-endian) affect decoding 16-bit ports and 32-bit sequence numbers?", "bn": "নেটওয়ার্ক বাইট অর্ডার (বিগ-এন্ডিয়ান) ১৬-বিট পোর্ট ও ৩২-বিট সিকোয়েন্স নম্বর ডিকোডিংয়ে কীভাবে কাজ করে?" },
+        { "en": "How can you separate genuine port-scanning behavior from a busy web server replying to thousands of clients?", "bn": "হাজারো ক্লায়েন্টকে উত্তর দেওয়া ব্যস্ত ওয়েব সার্ভার থেকে প্রকৃত পোর্ট স্ক্যানিং কীভাবে আলাদা করবেন?" },
+        { "en": "Why might low-variance inter-arrival times signal automated beaconing even when total byte volume is small?", "bn": "মোট ডেটা কম হলেও সময় ব্যবধানের সামঞ্জস্য কেন স্বয়ংক্রিয় বিকনিংয়ের ইঙ্গিত দেয়?" },
+        { "en": "What makes abnormally high character entropy in DNS subdomain labels suspicious?", "bn": "DNS সাবডোমেইন লেবেলে অস্বাভাবিক উচ্চ এনট্রপি কেন সন্দেহজনক বলে বিবেচিত হয়?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think in two layers: byte-exact header decoding (turning raw octets into typed packet metadata) and behavioral aggregation (grouping packets into conversations over time).",
+          "bn": "দুটি স্তরে ভাবুন: বাইট-নির্ভুল হেডার ডিকোডিং এবং সময়ের সাথে কনভারসেশন অনুযায়ী আচরণগত বিশ্লেষণ।"
+        },
+        "level2": {
+          "en": "Use big-endian format prefixes ('!') with struct.unpack to extract Ethernet/IPv4/TCP fields cleanly, and track sorted timestamps per (src, dst, dst_port) pair to compute inter-arrival variance.",
+          "bn": "হেক্স ফ্রেম ডিকোড করতে struct.unpack-এ বিগ-এন্ডিয়ান ('!') ফরম্যাট ব্যবহার করুন এবং বিকনিং খুঁজতে প্রতি (src, dst, dst_port) জোড়ার টাইমস্ট্যাম্প পার্থক্য মাপুন।"
+        },
+        "level3": {
+          "en": "Normalize both hex-frame records and CSV flow rows into one canonical PacketRecord/FlowSummary model so downstream detectors stay source-agnostic.",
+          "bn": "হেক্স ফ্রেম ও CSV ফ্লো—উভয় ইনপুটকে একটি অভিন্ন অভ্যন্তরীণ মডেলের আওতায় আনুন যাতে ডিটেক্টরগুলো স্বাধীনভাবে কাজ করতে পারে।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Compute Shannon entropy over DNS query subdomains to highlight encoded data exfiltration.", "bn": "DNS কোয়েরি সাবডোমেইনের শ্যানন এনট্রপি হিসাব করে সম্ভাব্য ডেটা এক্সফিল্ট্রেশন চিহ্নিত করুন।" },
+        { "en": "Reconstruct ASCII conversation timelines for unencrypted sample HTTP/text flows.", "bn": "এনক্রিপশনবিহীন নমুনা টেক্সট ফ্লোয়ের কালানুক্রমিক কনভারসেশন সারাংশ তৈরি করুন।" },
+        { "en": "Add baseline diffing between two captures to highlight newly observed destination ASNs/ports.", "bn": "দুটি ক্যাপচারের তুলনা করে নতুন দেখা গন্তব্য পোর্ট চিহ্নিত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "SOC Analyst (Tier 1/2)", "bn": "SOC বিশ্লেষক (টিয়ার ১/২)" },
+          { "en": "Network Security Engineer", "bn": "নেটওয়ার্ক সিকিউরিটি ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Demonstrates rare packet-level literacy combined with flow-analytics heuristics—directly matching junior SOC analyst and threat detection interviews.",
+          "bn": "প্যাকেট-লেভেল ডিকোডিং এবং ফ্লো অসঙ্গতি শনাক্তকরণের বিরল সমন্বয় প্রদর্শন করে যা জুনিয়র SOC ও থ্রেট ডিটেকশন পদের জন্য অত্যন্ত কার্যকর।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Binary protocol header dissection", "bn": "বাইনারি প্রোটোকল হেডার বিশ্লেষণ" },
+          { "en": "5-tuple network flow analytics", "bn": "৫-টাপল নেটওয়ার্ক ফ্লো অ্যানালিটিক্স" },
+          { "en": "Beaconing & scan heuristic design", "bn": "বিকনিং ও স্ক্যান শনাক্তকরণ হিউরিস্টিক" }
+        ],
+        "interviewTopics": [
+          { "en": "Anatomy of TCP/IP headers and TCP flag combinations", "bn": "TCP/IP হেডার গঠন ও TCP ফ্ল্যাগ সমন্বয়" },
+          { "en": "Detecting C2 beaconing and DNS tunneling in flow telemetry", "bn": "ফ্লো টেলিমেট্রিতে বিকনিং ও DNS টানেলিং শনাক্তকরণ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "An educational binary packet + flow analyzer stands out far above generic wrappers because it shows byte-level protocol mastery.",
+          "bn": "সাধারণ টুলের র‍্যাপারের বদলে বাইট-লেভেল প্রোটোকল দক্ষতা প্রদর্শনকারী একটি অনন্য পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-13",
+      "number": 13,
+      "title": {
+        "en": "Security Log Analyzer and Threat Detection System",
+        "bn": "সিকিউরিটি লগ বিশ্লেষক ও থ্রেট ডিটেকশন সিস্টেম"
+      },
+      "level": "Level 03",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "14–16 hours",
+        "bn": "১৪–১৬ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Build a rule-driven SIEM-style defensive log analyzer that ingests multi-format security logs (SSH auth logs, Nginx/Apache access logs, firewall events), normalizes events into a unified timeline, evaluates sliding-window detection rules (brute force, password spraying, path enumeration), and assigns MITRE ATT&CK-inspired severity context.",
+        "bn": "SSH auth লগ, ওয়েব অ্যাক্সেস লগ ও ফায়ারওয়াল ইভেন্ট সংগ্রহ করে অভিন্ন টাইমলাইনে সাজানো, স্লাইডিং-উইন্ডো নিয়মে ব্রুট-ফোর্স বা পাসওয়ার্ড স্প্রেয়িং শনাক্ত করা এবং তীব্রতা অনুযায়ী অ্যালার্ট তৈরির একটি SIEM-ধাঁচের প্রতিরক্ষামূলক বিশ্লেষক তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Raw authentication and web logs spread attacks across thousands of normal lines; simple single-event grep misses slow password spraying, distributed brute force, or suspicious privilege escalation sequences.",
+        "bn": "সাধারণ লগ সার্চে হাজারো স্বাভাবিক লাইনের মাঝে ধীর পাসওয়ার্ড স্প্রেয়িং, ডিস্ট্রিবিউটেড ব্রুট-ফোর্স বা সন্দেহজনক প্রিভিলেজ পরিবর্তনের ধারাবাহিকতা সহজে চোখ এড়িয়ে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Detection engineering is one of the highest-demand cybersecurity skills—writing reliable, low-false-positive correlation rules over normalized event streams.",
+        "bn": "স্বাভাবিকীকৃত ইভেন্ট স্ট্রিমের ওপর কম ভুল-অ্যালার্টযুক্ত কোরিলেশন নিয়ম লেখা আধুনিক ডিটেকশন ইঞ্জিনিয়ারিংয়ের অন্যতম চাহিদাসম্পন্ন দক্ষতা।"
+      },
+      "realWorldUseCases": [
+        { "en": "Detecting SSH brute-force bursts and subsequent sudden successful logins from suspicious IPs", "bn": "SSH ব্রুট-ফোর্স চেষ্টা ও এরপর হঠাৎ সফল লগইন শনাক্তকরণ" },
+        { "en": "Identifying web scanner 404/403 path enumeration and admin-endpoint probing", "bn": "ওয়েব সার্ভারে ৪04/403 পাথ এনুমারেশন ও অ্যাডমিন এন্ডপয়েন্ট প্রোবিং শনাক্ত করা" },
+        { "en": "Correlating multiple low-severity events into prioritized incident cases", "bn": "একাধিক ছোট ইভেন্ট যুক্ত করে অগ্রাধিকারভিত্তিক ইনসিডেন্ট তৈরি করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Multi-source log normalization", "bn": "একাধিক উৎস লগ স্বাভাবিকীকরণ" },
+        { "en": "Sliding-window correlation & rule engine design", "bn": "স্লাইডিং-উইন্ডো কোরিলেশন ও রুল ইঞ্জিন" },
+        { "en": "Alert deduplication & false-positive tuning", "bn": "অ্যালার্ট ডিডুপ্লিকেশন ও ভুল-পজিটিভ নিয়ন্ত্রণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "Compiled regex patterns for SSH/HTTP/JSON security logs", "bn": "SSH/HTTP/JSON লগের জন্য কম্পাইলড regex প্যাটার্ন" },
+        { "en": "collections.deque for time-bounded sliding windows", "bn": "সময়-সীমাবদ্ধ স্লাইডিং উইন্ডোর জন্য collections.deque" },
+        { "en": "JSON/YAML-like declarative rule schema parsing", "bn": "JSON-ভিত্তিক ডিক্লারেটিভ ডিটেকশন রুল পার্সিং" },
+        { "en": "IP allowlist/CIDR exclusion checking with ipaddress", "bn": "ipaddress দিয়ে অনুমোদিত স্ক্যানার বা অভ্যন্তরীণ IP বাদ দেওয়া" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (re, collections, datetime, ipaddress, json, hashlib)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (re, collections, datetime, ipaddress, json, hashlib)" },
+        { "en": "Sample synthetic SSH, HTTP, and firewall security log fixtures", "bn": "সিন্থেটিক SSH, HTTP ও ফায়ারওয়াল নিরাপত্তা লগ নমুনা" }
+      ],
+      "functionalRequirements": [
+        { "en": "Parse at least three security log formats into a normalized SecurityEvent schema (timestamp, source, src_ip, username, action, outcome, target).", "bn": "অন্তত তিনটি লগ ফরম্যাট পার্স করে অভিন্ন SecurityEvent স্কিমায় রূপান্তর করা।" },
+        { "en": "Support declarative JSON detection rules specifying event filter, group-by key, threshold count, and sliding time window.", "bn": "ইভেন্ট ফিল্টার, গ্রুপ-কী, সীমা ও সময় উইন্ডোসহ JSON ডিটেকশন রুল সমর্থন করা।" },
+        { "en": "Detect: (a) single-IP brute force, (b) multi-user password spraying from one IP, (c) brute-force followed by successful login, and (d) web directory fuzzing bursts.", "bn": "সিঙ্গেল-IP ব্রুট-ফোর্স, পাসওয়ার্ড স্প্রেয়িং, ব্যর্থতার পর সফল লগইন ও ওয়েব পাথ ফাজিং শনাক্ত করা।" },
+        { "en": "Support allowlist suppression (e.g., authorized vulnerability scanner IPs) and emit alerts with raw evidence references.", "bn": "অনুমোদিত IP বাদ দেওয়ার সুবিধা ও কাঁচা প্রমাণের লাইন নম্বরসহ অ্যালার্ট তৈরি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Stream large logs incrementally using deque-based sliding windows rather than re-scanning lists.", "bn": "তালিকা বারবার স্ক্যান না করে deque স্লাইডিং উইন্ডোয় লগ প্রসেস করা।" },
+        { "en": "Deduplicate overlapping alert firings within configurable cooldown periods.", "bn": "কুলডাউন সময়ের মধ্যে পুনরাবৃত্ত অ্যালার্ট কমানো।" },
+        { "en": "Keep detection logic declarative so new rules do not require rewriting core engine code.", "bn": "ডিটেকশন রুল ডিক্লারেটিভ রাখা যাতে নতুন নিয়ম যোগ করতে ইঞ্জিন বদলাতে না হয়।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Unified event normalizer across SSH auth, HTTP access, and firewall logs", "bn": "SSH, HTTP ও ফায়ারওয়াল লগের অভিন্ন নরমালাইজার" },
+        { "en": "Sliding-window rule evaluator + two-stage correlation (failures -> success)", "bn": "স্লাইডিং-উইন্ডো ও দুই-ধাপ কোরিলেশন ইঞ্জিন" },
+        { "en": "Alert severity scoring and MITRE tactic tag mapping", "bn": "তীব্রতা স্কোরিং ও MITRE ট্যাকটিক ট্যাগ ম্যাপিং" },
+        { "en": "SOC triage report summarizing top attacking IPs, targeted accounts, and timeline", "bn": "শীর্ষ উৎস IP, লক্ষ্য অ্যাকাউন্ট ও টাইমলাইনসহ SOC রিপোর্ট" }
+      ],
+      "constraints": [
+        { "en": "Analyze synthetic/local logs only; do not generate active exploit traffic.", "bn": "কেবল সিন্থেটিক বা লোকাল লগ বিশ্লেষণ; কোনো সক্রিয় আক্রমণ ট্র্যাফিক নয়।" },
+        { "en": "Never embed real user credentials or sensitive production logs in sample files.", "bn": "নমুনা ফাইলে কখনোই আসল পাসওয়ার্ড বা সংবেদনশীল প্রোডাকশন লগ রাখবেন না।" }
+      ],
+      "suggestedFolderStructure": [
+        "security_log_analyzer/",
+        "├── README.md",
+        "├── rules.json",
+        "├── sample_logs/",
+        "│   ├── auth_sample.log",
+        "│   ├── web_access_sample.log",
+        "│   └── firewall_sample.jsonl",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── normalizer.py",
+        "│   ├── rule_engine.py",
+        "│   ├── correlator.py",
+        "│   └── alert_reporter.py",
+        "└── tests/",
+        "    ├── test_normalizer.py",
+        "    └── test_rule_engine.py"
+      ],
+      "folderStructureNote": {
+        "en": "Treat parsers as thin adapters outputting normalized event objects so correlation rules work consistently across all log sources.",
+        "bn": "প্রতিটি পার্সারকে আলাদা অ্যাডাপ্টার হিসেবে রাখুন যা একই স্ট্যান্ডার্ড ইভেন্ট অবজেক্ট ফেরত দেয়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store declarative rules and IP allowlists in JSON configs, and persist generated alerts plus triage summaries in JSON/CSV case exports.",
+        "bn": "রুল ও অনুমোদিত IP তালিকা JSON কনফিগে রাখুন এবং উৎপন্ন অ্যালার্ট ও সারাংশ JSON/CSV কেস ফাইলে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test sliding window boundary: N events just inside 60s fire an alert, while spread over 65s do not.", "bn": "৬০ সেকেন্ড উইন্ডোর ভেতরে অ্যালার্ট ট্রিগার ও ৬৫ সেকেন্ডে না হওয়া পরীক্ষা করা।" },
+        { "en": "Test password spraying rule counts distinct usernames rather than total repeated failures on one account.", "bn": "পাসওয়ার্ড স্প্রেয়িং রুলে মোট ব্যর্থতার বদলে স্বতন্ত্র ইউজারনেম সংখ্যা গণনা যাচাই করা।" },
+        { "en": "Test failure-then-success correlation raises severity when a brute-force source IP finally authenticates.", "bn": "ব্রুট-ফোর্সের পর সফল লগইন হলে উচ্চ তীব্রতার অ্যালার্ট হয় কি না পরীক্ষা করা।" },
+        { "en": "Test allowlisted scanner IPs suppress noisy scanner alerts cleanly.", "bn": "অনুমোদিত স্ক্যানার IP-র জন্য অ্যালার্ট সাপ্রেশন কাজ করে কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Sanitize untrusted log strings (usernames, URLs, user agents) before Markdown/HTML/terminal output.", "bn": "টার্মিনাল বা রিপোর্টে দেখানোর আগে লগের অবিশ্বস্ত ইনপুট স্যানিটাইজ করুন।" },
+        { "en": "Protect regex patterns against catastrophic backtracking (ReDoS) on malicious user-agent lines.", "bn": "বিকৃত লগ লাইনে ReDoS প্রতিরোধ করতে নিরাপদ রেজেক্স লিখুন।" },
+        { "en": "Preserve immutable raw log references alongside normalized alerts for forensic verification.", "bn": "ফরেনসিক যাচাইয়ের জন্য অ্যালার্টের সাথে মূল লগ রেফারেন্স সংরক্ষণ করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Multi-format security log normalizer & sliding-window SIEM rule engine", "bn": "মাল্টি-ফরম্যাট সিকিউরিটি লগ নরমালাইজার ও স্লাইডিং-উইন্ডো রুল ইঞ্জিন" },
+        { "en": "Synthetic attack-scenario sample logs (brute force, spray, web enumeration, compromise)", "bn": "সিন্থেটিক আক্রমণ পরিস্থিতির নমুনা লগ সেট" },
+        { "en": "Unit tests validating time windows, correlation, and allowlisting", "bn": "টাইম উইন্ডো, কোরিলেশন ও অ্যালাউলিস্ট যাচাইকারী ইউনিট টেস্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Sample detection rule catalog documented in README", "bn": "README-তে নমুনা ডিটেকশন রুল ক্যাটালগের বিবরণ" },
+        { "en": "Before/after triage example showing raw noisy logs distilled into actionable alerts", "bn": "কাঁচা লগ থেকে সুস্পষ্ট অ্যালার্টে রূপান্তরের উদাহরণ" },
+        { "en": "Tests proving zero-false-positive boundary precision", "bn": "বাউন্ডারি নির্ভুলতার টেস্ট প্রমাণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "What differentiates brute-forcing one user from password spraying 50 users once each in a 5-minute window?", "bn": "একজন ব্যবহারকারীর ওপর ব্রুট-ফোর্স এবং ৫০ জন ব্যবহারকারীর ওপর একবার করে পাসওয়ার্ড স্প্রেয়িংয়ের পার্থক্য কীভাবে ধরবেন?" },
+        { "en": "How do you maintain O(1) amortized sliding-window eviction when reading events chronologically?", "bn": "সময়ানুক্রমিক লগ পড়ার সময় O(1) অ্যাভারেজ খরচে স্লাইডিং উইন্ডো কীভাবে আপডেট রাখবেন?" },
+        { "en": "What should happen if log lines arrive slightly out of timestamp order across two merged servers?", "bn": "দুটি সার্ভারের লগ একসাথে পড়লে যদি টাইমস্ট্যাম্প সামান্য আগে-পরে থাকে তাহলে কীভাবে সামলাবেন?" },
+        { "en": "How do you avoid generating 500 duplicate alerts when a bot sends 600 failed logins after hitting threshold 5?", "bn": "থ্রেশহোল্ড ৫ পার হওয়ার পর ৬০০ বার ব্যর্থ লগইনে ৫০০টি ডুপ্লিকেট অ্যালার্ট তৈরি হওয়া কীভাবে থামাবেন?" },
+        { "en": "Why does 'failed logins followed by successful login from the same IP' dramatically raise incident urgency?", "bn": "একই IP থেকে ধারাবাহিক ব্যর্থতার পর সফল লগইন হওয়া কেন তাৎক্ষণিক জরুরি ঝুঁকি নির্দেশ করে?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think like a mini SIEM: decouple Ingestion/Normalization (producing standard events) from Stateful Rule Evaluators (sliding windows keyed by IP, user, or target).",
+          "bn": "একটি ক্ষুদ্র SIEM-এর মতো ভাবুন: লগ নরমালাইজেশন এবং স্টেটফুল রুল ইভ্যালুয়েটর আলাদা স্তরে ভাগ করুন।"
+        },
+        "level2": {
+          "en": "Use collections.defaultdict(collections.deque) keyed by (rule_id, group_value), evicting timestamps older than current_ts - window_seconds on each incoming event, and track distinct sets for spray rules.",
+          "bn": "প্রতিটি (rule_id, group_value)-এর জন্য deque ব্যবহার করে পুরনো টাইমস্ট্যাম্প বাদ দিন এবং স্প্রে রুলে স্বতন্ত্র ইউজারনেম সেট রাখুন।"
+        },
+        "level3": {
+          "en": "Maintain a cooldown dictionary keyed by (rule_id, entity) storing the next eligible alert timestamp, and emit a structured Alert object referencing exact source log line numbers.",
+          "bn": "অ্যালার্ট পুনরাবৃত্তি রোধে (rule_id, entity) অনুযায়ী কুলডাউন সময় সংরক্ষণ করুন এবং মূল লগ লাইন রেফারেন্সসহ Alert তৈরি করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add simple behavioral baseline scoring to highlight logins occurring outside an account's normal active hours.", "bn": "সাধারণ সময়ের বাইরে লগইন হলে অতিরিক্ত ঝুঁকি স্কোর যোগ করুন।" },
+        { "en": "Support cross-log correlation (e.g., suspicious web probe followed by SSH attempt from the same IP).", "bn": "একই IP থেকে ওয়েব প্রোব ও SSH চেষ্টার ক্রস-লগ কোরিলেশন যোগ করুন।" },
+        { "en": "Generate a Markdown incident timeline sorted chronologically for SOC handoff.", "bn": "SOC হ্যান্ডঅফের জন্য কালানুক্রমিক মার্কডাউন ইনসিডেন্ট টাইমলাইন তৈরি করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Detection Engineer", "bn": "ডিটেকশন ইঞ্জিনিয়ার" },
+          { "en": "Security Operations Analyst", "bn": "সিকিউরিটি অপারেশনস বিশ্লেষক" }
+        ],
+        "industryRelevance": {
+          "en": "Directly mirrors real SIEM rule authoring (Sigma/Splunk/Sentinel concepts)—one of the strongest differentiators for entry-level blue-team candidates.",
+          "bn": "বাস্তব SIEM রুল তৈরির (Sigma/Splunk/Sentinel ধারণা) সাথে সরাসরি সামঞ্জস্যপূর্ণ—ব্লু-টিম চাকরির জন্য অত্যন্ত শক্তিশালী প্রজেক্ট।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "SIEM event normalization", "bn": "SIEM ইভেন্ট স্বাভাবিকীকরণ" },
+          { "en": "Stateful sliding-window detection", "bn": "স্লাইডিং-উইন্ডো থ্রেট ডিটেকশন" },
+          { "en": "Alert fatigue suppression", "bn": "অ্যালার্ট ফ্যাটিগ নিয়ন্ত্রণ" }
+        ],
+        "interviewTopics": [
+          { "en": "Brute force vs password spraying detection logic", "bn": "ব্রুট-ফোর্স বনাম পাসওয়ার্ড স্প্রেয়িং শনাক্তকরণ লজিক" },
+          { "en": "Reducing false positives in security alerting pipelines", "bn": "সিকিউরিটি অ্যালার্ট পাইপলাইনে ফলস পজিটিভ কমানোর উপায়" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Shows employers you can engineer defensive detection pipelines rather than just running off-the-shelf scanners.",
+          "bn": "রেডিমেড টুল চালানোর বদলে নিজে প্রতিরক্ষামূলক ডিটেকশন পাইপলাইন তৈরির সক্ষমতা প্রমাণ করে।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-14",
+      "number": 14,
+      "title": {
+        "en": "File Integrity Monitoring System",
+        "bn": "ফাইল ইন্টিগ্রিটি মনিটরিং সিস্টেম"
+      },
+      "level": "Level 03",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "12–15 hours",
+        "bn": "১২–১৫ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Build a host-based File Integrity Monitoring (FIM) tool that captures cryptographically signed baselines (SHA-256 hashes, file sizes, permissions, mtimes, symlink targets) of critical lab directories, verifies baseline integrity against tampering, and classifies Added, Modified, Deleted, and Permission-Changed anomalies.",
+        "bn": "গুরুত্বপূর্ণ ল্যাব ডিরেক্টরির SHA-256 হ্যাশ, সাইজ, পারমিশন ও মডিফিকেশন সময়সহ ক্রিপ্টোগ্রাফিকভাবে স্বাক্ষরিত বেসলাইন তৈরি, বেসলাইন টেম্পারিং যাচাই এবং Added, Modified, Deleted ও Permission-Changed পরিবর্তন শনাক্তকারী একটি FIM সিস্টেম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Unauthorized modifications to configuration files, startup scripts, or web roots often go unnoticed when nobody compares current disk state against a trusted cryptographic baseline.",
+        "bn": "কনফিগারেশন ফাইল বা ওয়েব রুটে অননুমোদিত পরিবর্তন ঘটলে বিশ্বস্ত ক্রিপ্টোগ্রাফিক বেসলাইনের সাথে তুলনা না থাকায় অনেক সময় তা অজানাই থেকে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Compliance frameworks (PCI-DSS, ISO 27001, SOC 2) and endpoint security tools require reliable File Integrity Monitoring with tamper-evident baselines.",
+        "bn": "PCI-DSS ও ISO 27001-এর মতো কমপ্লায়েন্স এবং হোস্ট নিরাপত্তায় টেম্পার-প্রুফ ফাইল ইন্টিগ্রিটি মনিটরিং অপরিহার্য।"
+      },
+      "realWorldUseCases": [
+        { "en": "Monitoring simulated /etc or web-app config directories for unauthorized edits", "bn": "নমুনা কনফিগ বা ওয়েব-অ্যাপ ডিরেক্টরিতে অননুমোদিত পরিবর্তন পর্যবেক্ষণ" },
+        { "en": "Detecting privilege-bit escalation (e.g., unexpected executable/permission changes)", "bn": "অপ্রত্যাশিত পারমিশন বা এক্সিকিউটেবল বিট পরিবর্তন শনাক্তকরণ" },
+        { "en": "Post-incident filesystem drift verification against a golden build baseline", "bn": "ইনসিডেন্টের পর গোল্ডেন বেসলাইনের সাথে ফাইলসিস্টেম মিলিয়ে দেখা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Cryptographic file hashing & HMAC baseline signing", "bn": "ক্রিপ্টোগ্রাফিক ফাইল হ্যাশিং ও HMAC স্বাক্ষর" },
+        { "en": "POSIX file metadata & permission bit auditing", "bn": "ফাইল মেটাডেটা ও পারমিশন বিট অডিট" },
+        { "en": "Baseline diff classification & ignore-glob rules", "bn": "বেসলাইন ডিফ শ্রেণিবিন্যাস ও এক্সক্লুশন নিয়ম" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "hashlib.sha256 streaming & hmac.compare_digest", "bn": "hashlib.sha256 স্ট্রিমিং ও hmac.compare_digest" },
+        { "en": "os.lstat / stat.filemode for symlink-safe metadata checks", "bn": "সিমলিংক-নিরাপদ মেটাডেটার জন্য os.lstat ও stat.filemode" },
+        { "en": "fnmatch / pathlib glob exclusions for noisy temp/cache paths", "bn": "টেম্প/ক্যাশ ফাইল বাদ দিতে প্যাটার্ন ম্যাচিং" },
+        { "en": "JSON canonical serialization for deterministic HMAC signing", "bn": "স্থির HMAC স্বাক্ষরের জন্য ক্যানোনিকাল JSON" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (hashlib, hmac, os, stat, pathlib, json, fnmatch)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (hashlib, hmac, os, stat, pathlib, json, fnmatch)" },
+        { "en": "unittest / pytest with temporary sandbox trees", "bn": "টেম্পোরারি স্যান্ডবক্স ট্রি-সহ টেস্ট স্যুট" }
+      ],
+      "functionalRequirements": [
+        { "en": "Provide commands: 'init' (build baseline), 'verify' (compare disk vs baseline), and 'update' (explicitly approve legitimate changes).", "bn": "init (বেসলাইন তৈরি), verify (তুলনা) এবং update (বৈধ পরিবর্তন অনুমোদন) কমান্ড প্রদান করা।" },
+        { "en": "Capture normalized relative path, SHA-256 digest, size, permission mode, and mtime_ns for each tracked file without following external symlinks.", "bn": "অভ্যন্তরীণ বা বাইরের সিমলিংক অনুসরণ না করেই প্রতিটি ফাইলের আপেক্ষিক পাথ, SHA-256, সাইজ ও পারমিশন সংরক্ষণ করা।" },
+        { "en": "Sign the baseline manifest with HMAC-SHA256 using an external environment/key file so baseline tampering itself is detected immediately.", "bn": "বেসলাইন ফাইল পরিবর্তনের চেষ্টা ধরতে বাহ্যিক কী ব্যবহার করে HMAC-SHA256 স্বাক্ষর যোগ করা।" },
+        { "en": "Classify every discrepancy cleanly: ADDED, CONTENT_MODIFIED, METADATA_MODIFIED, PERMISSION_CHANGED, DELETED, or UNREADABLE.", "bn": "প্রতিটি পার্থক্যকে ADDED, CONTENT_MODIFIED, METADATA_MODIFIED, PERMISSION_CHANGED, DELETED বা UNREADABLE হিসেবে চিহ্নিত করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Verify baseline HMAC before trusting any stored hashes.", "bn": "সংরক্ষিত হ্যাশ ব্যবহারের আগে বেসলাইনের HMAC স্বাক্ষর যাচাই করা।" },
+        { "en": "Support exclusion patterns (e.g., '*.log', '__pycache__', '.git') to avoid noisy false alerts.", "bn": "অপ্রয়োজনীয় অ্যালার্ট কমাতে '*.log' বা ক্যাশ ফাইল বাদ দেওয়ার নিয়ম রাখা।" },
+        { "en": "Read large tracked files in bounded chunks.", "bn": "বড় ফাইল নির্দিষ্ট বাফার চাংকে পড়া।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Tamper-evident HMAC-signed JSON baseline manifest", "bn": "টেম্পার-প্রুফ HMAC-স্বাক্ষরিত JSON বেসলাইন" },
+        { "en": "Granular diff distinguishing silent timestamp touches from actual byte or mode changes", "bn": "সময় পরিবর্তন বনাম আসল বাইট বা পারমিশন পরিবর্তন পৃথকীকরণ" },
+        { "en": "Watch-interval polling loop mode emitting structured JSON alert logs", "bn": "নির্ধারিত সময় পরপর স্বয়ংক্রিয় যাচাই ও JSON অ্যালার্ট লগিং" },
+        { "en": "Explicit human-reviewed baseline promotion workflow", "bn": "বৈধ পরিবর্তন নিশ্চিত হওয়ার পর বেসলাইন আপডেটের নিরাপদ প্রক্রিয়া" }
+      ],
+      "constraints": [
+        { "en": "Operate only on sandboxed or explicitly configured directories; never hardcode the HMAC signing secret in source code.", "bn": "কেবল নির্ধারিত ডিরেক্টরিতে চলবে এবং সোর্স কোডে কখনো HMAC কী হার্ডকোড করা যাবে না।" },
+        { "en": "Keep baseline storage outside the monitored directory or exclude it strictly from self-hashing.", "bn": "বেসলাইন ফাইলকে মনিটর করা ডিরেক্টরির বাইরে বা এক্সক্লুশন তালিকায় রাখুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "fim_monitor/",
+        "├── README.md",
+        "├── fim_ignore.example.txt",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── scanner.py",
+        "│   ├── signer.py",
+        "│   ├── comparator.py",
+        "│   └── reporter.py",
+        "└── tests/",
+        "    ├── test_baseline_hmac.py",
+        "    └── test_fim_diff.py"
+      ],
+      "folderStructureNote": {
+        "en": "Separate signing/verification (signer.py) from filesystem inspection (scanner.py) and diff logic (comparator.py).",
+        "bn": "স্বাক্ষর যাচাই (signer.py), ফাইল স্ক্যানিং (scanner.py) এবং ডিফ লজিক (comparator.py) আলাদা রাখুন।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store the signed baseline JSON outside the watched tree alongside a separate read-only or environment-supplied HMAC key, plus append-only alert audit logs.",
+        "bn": "স্বাক্ষরিত বেসলাইন JSON ও অ্যালার্ট অডিট লগ পর্যবেক্ষণাধীন ডিরেক্টরির বাইরে সংরক্ষণ করুন এবং এনভায়রনমেন্ট বা আলাদা কী ফাইল থেকে HMAC কী নিন।"
+      },
+      "testingRequirements": [
+        { "en": "Test modifying a single byte in a tracked file triggers CONTENT_MODIFIED.", "bn": "ট্র্যাক করা ফাইলে ১ বাইট পরিবর্তন করলে CONTENT_MODIFIED ধরা পড়ে কি না পরীক্ষা করা।" },
+        { "en": "Test changing permissions triggers PERMISSION_CHANGED even when file bytes stay identical.", "bn": "কনটেন্ট একই রেখে কেবল পারমিশন পরিবর্তন করলে PERMISSION_CHANGED ধরা পড়ে কি না দেখা।" },
+        { "en": "Test altering the baseline JSON manually causes HMAC verification failure before comparison.", "bn": "বেসলাইন JSON-এ হাতে কোনো পরিবর্তন করলে তুলনার আগেই HMAC যাচাই ব্যর্থ হয় কি না পরীক্ষা করা।" },
+        { "en": "Test ignore glob rules skip volatile temp/log paths cleanly.", "bn": "ইগনোর গ্লব নিয়মে অস্থায়ী বা লগ ফাইল সঠিকভাবে বাদ পড়ে কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Never store the HMAC key inside the same baseline JSON file it protects.", "bn": "যেই বেসলাইন ফাইল সুরক্ষিত করা হচ্ছে তার ভেতরে কখনোই HMAC কী রাখবেন না।" },
+        { "en": "Always use constant-time hmac.compare_digest when checking signatures.", "bn": "স্বাক্ষর মিলিয়ে দেখতে সর্বদা hmac.compare_digest ব্যবহার করুন।" },
+        { "en": "Use lstat instead of stat on symlinks so malicious links cannot trick the monitor into hashing arbitrary host files.", "bn": "অন্য ফাইলের দিকে নির্দেশিত সিমলিংক এড়াতে stat-এর বদলে lstat ব্যবহার করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "CLI File Integrity Monitor with init, verify, watch, and update workflows", "bn": "init, verify, watch ও update সুবিধাসম্পন্ন FIM CLI টুল" },
+        { "en": "Tamper-detection tests proving HMAC signature validation and diff accuracy", "bn": "HMAC স্বাক্ষর ও ডিফ নির্ভুলতা যাচাইকারী টেস্ট স্যুট" },
+        { "en": "Threat-model & key-management notes in README", "bn": "README-তে থ্রেট-মডেল ও কী-ব্যবস্থাপনা নোট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Clear incident alert JSON output showing all anomaly categories", "bn": "সব ধরনের অসঙ্গতিসহ নমুনা JSON অ্যালার্ট আউটপুট" },
+        { "en": "Diagram explaining how HMAC protects the baseline from attacker edits", "bn": "আক্রমণকারীর পরিবর্তন থেকে HMAC কীভাবে বেসলাইন রক্ষা করে তার ব্যাখ্যা" },
+        { "en": "Clean exclusion config example and automated pytest/unittest evidence", "bn": "পরিষ্কার এক্সক্লুশন উদাহরণ ও টেস্ট পাসের প্রমাণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why would an attacker who gains write access to your baseline JSON defeat an unsigned FIM tool?", "bn": "হামলাকারী যদি বেসলাইন JSON ফাইলে লেখার সুযোগ পায় তবে স্বাক্ষরহীন FIM কীভাবে অকার্যকর হয়ে যায়?" },
+        { "en": "Why is sorting dictionary keys canonically critical before computing a JSON manifest's HMAC?", "bn": "JSON ম্যানিফেস্টের HMAC নেওয়ার আগে ডিকশনারির কীগুলো সাজানো কেন অপরিহার্য?" },
+        { "en": "How should your FIM handle a file that has identical content hash and size, yet its file mode changed from 0644 to 0755?", "bn": "ফাইলের হ্যাশ ও সাইজ একই থাকলেও পারমিশন 0644 থেকে 0755 হলে FIM কীভাবে প্রতিক্রিয়া দেখাবে?" },
+        { "en": "What happens if an exclusion rule is too broad (e.g., '*.conf') vs too narrow?", "bn": "এক্সক্লুশন নিয়ম অতিরিক্ত প্রশস্ত হলে নিরাপত্তায় কী ঝুঁকি তৈরি হয়?" },
+        { "en": "Why should 'mtime changed while SHA-256 unchanged' be flagged differently from content tampering?", "bn": "SHA-256 অপরিবর্তিত থেকে কেবল সময় বদলানোকে কনটেন্ট পরিবর্তনের চেয়ে আলাদা হিসেবে কেন দেখানো উচিত?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Treat the baseline as an untrusted file until its cryptographic signature verifies; only after signature verification should you compare each recorded entry against current disk metadata.",
+          "bn": "বেসলাইন ফাইলের ক্রিপ্টোগ্রাফিক স্বাক্ষর যাচাই না হওয়া পর্যন্ত সেটিকে অবিশ্বস্ত ধরে নিন; যাচাই সফল হলেই কেবল বর্তমান ডিস্কের সাথে তুলনা করুন।"
+        },
+        "level2": {
+          "en": "Compute SHA-256 over fixed streaming chunks, inspect metadata with os.lstat and stat.S_IMODE, serialize baseline records using sorted-key canonical JSON, and verify signatures via constant-time HMAC comparison.",
+          "bn": "নির্দিষ্ট বাফার চাংকে SHA-256, os.lstat ও stat.S_IMODE দিয়ে মেটাডেটা নিন এবং কী সাজানো ক্যানোনিকাল JSON-এর ওপর কনস্ট্যান্ট-টাইম HMAC তুলনা দিয়ে স্বাক্ষর যাচাই করুন।"
+        },
+        "level3": {
+          "en": "Pair the baseline payload with a verifiable HMAC envelope or detached signature file managed by signer.py, keeping excluded relative paths consistent across initialization and verification scans.",
+          "bn": "মূল বেসলাইন পে-লোডের সাথে যাচাইযোগ্য HMAC এনভেলপ বা আলাদা সিগনেচার ফাইল signer.py দিয়ে পরিচালনা করুন এবং init ও verify উভয় স্ক্যানে একই এক্সক্লুশন নিয়ম প্রয়োগ করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Detect file renames/moves cleanly by matching SHA-256 across simultaneous DELETED + ADDED pairs.", "bn": "একই সাথে একটি ফাইল মুছে অন্য নামে যোগ হলে SHA-256 মিলিয়ে রিনেম শনাক্ত করুন।" },
+        { "en": "Add key rotation support so baselines can be re-signed with a new HMAC key cleanly.", "bn": "নতুন HMAC কী দিয়ে বেসলাইন পুনরায় স্বাক্ষর করার কী-রোটেশন সুবিধা যুক্ত করুন।" },
+        { "en": "Support lightweight SQLite baseline storage alongside JSON.", "bn": "JSON-এর পাশাপাশি SQLite বেসলাইন স্টোরেজ সমর্থন করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Security Engineer", "bn": "সিকিউরিটি ইঞ্জিনিয়ার" },
+          { "en": "Linux Systems & Compliance Administrator", "bn": "লিনাক্স সিস্টেমস ও কমপ্লায়েন্স অ্যাডমিন" }
+        ],
+        "industryRelevance": {
+          "en": "Demonstrates practical defensive engineering—cryptographic integrity verification, POSIX permissions auditing, and anti-tampering design.",
+          "bn": "ক্রিপ্টোগ্রাফিক অখণ্ডতা যাচাই, POSIX পারমিশন অডিট ও অ্যান্টি-টেম্পারিং ডিজাইনের মতো বাস্তব প্রতিরক্ষামূলক দক্ষতা তুলে ধরে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Cryptographic integrity & HMAC verification", "bn": "ক্রিপ্টোগ্রাফিক ইন্টিগ্রিটি ও HMAC যাচাইকরণ" },
+          { "en": "Host filesystem auditing", "bn": "হোস্ট ফাইলসিস্টেম অডিটিং" },
+          { "en": "Tamper-evident manifest design", "bn": "টেম্পার-এভিডেন্ট ম্যানিফেস্ট ডিজাইন" }
+        ],
+        "interviewTopics": [
+          { "en": "Hash vs HMAC: why integrity alone differs from authenticated integrity", "bn": "হ্যাশ বনাম HMAC: সাধারণ অখণ্ডতা ও প্রমাণীকৃত অখণ্ডতার পার্থক্য" },
+          { "en": "Constant-time comparison and symlink attack mitigation", "bn": "কনস্ট্যান্ট-টাইম তুলনা ও সিমলিংক আক্রমণ প্রতিরোধ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "A practical host-defense project that hiring managers immediately recognize from tools like OSSEC/AIDE.",
+          "bn": "OSSEC বা AIDE-এর মতো বাস্তব হোস্ট-ডিফেন্স টুলের ধারণা প্রমাণকারী একটি আকর্ষণীয় সিকিউরিটি প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-15",
+      "number": 15,
+      "title": {
+        "en": "Phishing URL Detection and Analysis Tool",
+        "bn": "ফিশিং URL শনাক্তকরণ ও বিশ্লেষণ টুল"
+      },
+      "level": "Level 03",
+      "difficulty": "Advanced",
+      "estimatedTime": {
+        "en": "12–14 hours",
+        "bn": "১২–১৪ ঘণ্টা"
+      },
+      "category": "Defensive Security",
+      "overview": {
+        "en": "Build a static, offline-first URL lexical and heuristic analyzer that parses suspicious URLs safely without fetching them, detects obfuscation tricks (punycode/IDN homographs, IP-literal hosts, '@' credential traps, excessive subdomains, typosquatting edit distance), and outputs transparent risk scores with human-readable evidence.",
+        "bn": "কোনো সন্দেহজনক URL ভিজিট না করেই সেফ অফলাইন লেক্সিক্যাল বিশ্লেষণের মাধ্যমে পুনিকোড হোমোগ্রাফ, সরাসরি IP হোস্ট, '@' ইউজারনেম ফাঁদ, অতিরিক্ত সাবডোমেইন এবং টাইপোস্কোয়াটিং দূরত্ব যাচাই করে স্বচ্ছ ঝুঁকি স্কোর ও প্রমাণ প্রদানকারী একটি ফিশিং বিশ্লেষক টুল তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "SOC analysts and email security filters constantly receive suspicious links from phishing reports; opening them blindly risks drive-by payloads or tracking beacons, while naive regex blocklists miss lookalike domains.",
+        "bn": "ফিশিং রিপোর্ট থেকে আসা লিংক না বুঝে ওপেন করলে ট্র্যাকিং বা ম্যালওয়্যার ঝুঁকি থাকে, আর সাধারণ ব্লকলিস্ট দিয়ে ছদ্মবেশী ডোমেইন ধরা যায় না।"
+      },
+      "whyItMatters": {
+        "en": "Static URL decomposition, Unicode/IDN normalization awareness, and explainable risk scoring are fundamental building blocks for threat intelligence and email defense.",
+        "bn": "লিঙ্কে প্রবেশ না করেই স্ট্যাটিক URL বিশ্লেষণ, ইউনিকোড হোমোগ্রাফ সচেতনতা এবং ব্যাখ্যাযোগ্য ঝুঁকি স্কোরিং থ্রেট ইন্টেলিজেন্স ও ইমেইল নিরাপত্তার মূল ভিত্তি।"
+      },
+      "realWorldUseCases": [
+        { "en": "Automated triage of reported phishing URLs in SOC alert queues", "bn": "SOC অ্যালার্ট কিউতে রিপোর্ট হওয়া সন্দেহজনক লিংকের প্রাথমিক বিশ্লেষণ" },
+        { "en": "Detecting brand typosquatting and homograph impersonation against an organization's protected domain list", "bn": "নিজস্ব ডোমেইনের অনুকরণে তৈরি টাইপোস্কোয়াটিং ও হোমোগ্রাফ ডোমেইন শনাক্তকরণ" },
+        { "en": "Educational breakdown showing users exactly why a link is risky", "bn": "ব্যবহারকারীকে একটি লিংক কেন ঝুঁকিপূর্ণ তা স্পষ্টভাবে ব্যাখ্যা করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "RFC URL parsing & obfuscation analysis", "bn": "RFC URL পার্সিং ও ছদ্মবেশ বিশ্লেষণ" },
+        { "en": "Homograph, IDN & edit-distance detection", "bn": "হোমোগ্রাফ, IDN ও এডিট-ডিসট্যান্স শনাক্তকরণ" },
+        { "en": "Explainable weighted risk scoring", "bn": "ব্যাখ্যাযোগ্য ওয়েটেড ঝুঁকি স্কোরিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "urllib.parse.urlsplit & unquote iterative decoding", "bn": "urllib.parse.urlsplit ও এনকোডিং ডিকোডিং" },
+        { "en": "idna / punycode encoding & unicodedata script inspection", "bn": "পুনিকোড ও ইউনিকোড স্ক্রিপ্ট মিশ্রণ পরীক্ষা" },
+        { "en": "Levenshtein / edit-distance comparison against protected brands", "bn": "সুরক্ষিত ব্র্যান্ড ডোমেইনের বিপরীতে এডিট-ডিসট্যান্স গণনা" },
+        { "en": "Modular weighted rule signals & CSV/JSON batch triage", "bn": "মডুলার রুল সিগন্যাল ও CSV/JSON ব্যাচ বিশ্লেষণ" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (urllib.parse, ipaddress, unicodedata, difflib, json, csv)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (urllib.parse, ipaddress, unicodedata, difflib, json, csv)" },
+        { "en": "Synthetic test dataset of benign vs deceptive URL patterns", "bn": "বৈধ ও সন্দেহজনক নমুনা URL ডেটাসেট" }
+      ],
+      "functionalRequirements": [
+        { "en": "Decompose any input URL statically (never issue HTTP requests) into scheme, userinfo, host, port, path, query, and fragment.", "bn": "কোনো HTTP রিকোয়েস্ট না পাঠিয়েই স্ট্যাটিকভাবে URL-কে স্কিম, ইউজারইনফো, হোস্ট, পোর্ট, পাথ ও কোয়েরিতে ভাগ করা।" },
+        { "en": "Detect lexical & structural indicators: '@' userinfo deception, IPv4/hex/octal IP hosts, punycode ('xn--') / mixed Unicode scripts, excessive subdomains, suspicious path brand keywords, and URL shorteners.", "bn": "'@' প্রতারণা, সরাসরি IP, পুনিকোড/মিশ্র স্ক্রিপ্ট, অতিরিক্ত সাবডোমেইন এবং ব্র্যান্ড কিওয়ার্ড ছদ্মবেশ শনাক্ত করা।" },
+        { "en": "Compare registered domain similarity against a configurable protected-brands list using edit distance.", "bn": "কনফিগারযোগ্য সুরক্ষিত ব্র্যান্ড তালিকার সাথে এডিট-ডিসট্যান্স মিলিয়ে টাইপোস্কোয়াটিং ধরা।" },
+        { "en": "Output risk score (0–100), risk tier (Low/Medium/High/Critical), and per-indicator rationale, plus defanged URL output (e.g., hxxps://).", "bn": "০–১০০ ঝুঁকি স্কোর, স্তর, প্রতিটি কারণের ব্যাখ্যা এবং নিরাপদ ডিফ্যাংড আউটপুট (hxxps://) দেখানো।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Guarantee zero outbound network calls during static analysis mode.", "bn": "স্ট্যাটিক বিশ্লেষণের সময় কোনো অবস্থাতেই আউটবাউন্ড নেটওয়ার্ক কল না করা।" },
+        { "en": "Handle double/triple percent-encoded or whitespace-padded URLs cleanly.", "bn": "একাধিকবার URL-এনকোড করা বা স্পেসযুক্ত লিংক নিরাপদে ডিকোড করা।" },
+        { "en": "Explain clearly that static heuristics assist triage and do not guarantee benignity on their own.", "bn": "স্ট্যাটিক বিশ্লেষণ প্রাথমিক যাচাইয়ের সহায়ক এবং চূড়ান্ত নিশ্চয়তা নয়—তা স্পষ্ট রাখা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Safe static parser + automatic URL defanging for analyst reports", "bn": "নিরাপদ স্ট্যাটিক পার্সার ও অ্যানালিস্ট রিপোর্টের জন্য স্বয়ংক্রিয় ডিফ্যাং" },
+        { "en": "IDN homograph & mixed-script detector", "bn": "IDN হোমোগ্রাফ ও মিশ্র ইউনিকোড স্ক্রিপ্ট শনাক্তকারী" },
+        { "en": "Protected brand typosquatting matcher (Levenshtein distance)", "bn": "সুরক্ষিত ব্র্যান্ড টাইপোস্কোয়াটিং ম্যাচিং" },
+        { "en": "Batch CSV/TXT analyzer exporting ranked threat triage reports", "bn": "ব্যাচ CSV/TXT বিশ্লেষণ ও অগ্রাধিকারভিত্তিক রিপোর্ট রপ্তানি" }
+      ],
+      "constraints": [
+        { "en": "Static lexical analysis only—never fetch, crawl, or detonate unknown phishing URLs.", "bn": "কেবল স্ট্যাটিক বিশ্লেষণ; অজানা ফিশিং URL কখনোই ফেচ বা ভিজিট করবেন না।" },
+        { "en": "Use synthetic example domains (e.g., example-login-verify[.]test) rather than live malicious links.", "bn": "পরীক্ষার জন্য আসল ক্ষতিকর লিংকের বদলে সিন্থেটিক নমুনা ডোমেইন ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "phishing_url_analyzer/",
+        "├── README.md",
+        "├── protected_brands.example.json",
+        "├── sample_urls.txt",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── parser_defang.py",
+        "│   ├── indicators.py",
+        "│   ├── similarity.py",
+        "│   └── scorer.py",
+        "└── tests/",
+        "    ├── test_homograph_and_userinfo.py",
+        "    └── test_scorer.py"
+      ],
+      "folderStructureNote": {
+        "en": "Implement each indicator check as an independent detector returning a RiskSignal(name, weight, evidence) so scoring weights stay auditable and testable.",
+        "bn": "প্রতিটি যাচাইকে স্বাধীন RiskSignal ফেরত দেওয়া ফাংশন হিসেবে লিখুন যাতে স্কোরিং ওয়েট স্বচ্ছ ও পরীক্ষাযোগ্য থাকে।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store protected brand domain lists, suspicious TLDs, and scoring weights in external JSON config files, and save batch triage reports to JSON/CSV.",
+        "bn": "সুরক্ষিত ব্র্যান্ড তালিকা, সন্দেহজনক TLD ও স্কোর ওয়েট JSON কনফিগে রাখুন এবং ব্যাচ রিপোর্ট JSON/CSV-তে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test URL with '@' userinfo trap (https://trusted.example@attacker.test) extracts the true host accurately.", "bn": "'@' ফাঁদযুক্ত URL-এ প্রকৃত গন্তব্য হোস্ট সঠিকভাবে শনাক্ত হয় কি না যাচাই করা।" },
+        { "en": "Test punycode / mixed Cyrillic-Latin hostnames trigger homograph warning.", "bn": "পুনিকোড বা মিশ্র স্ক্রিপ্ট ডোমেইনে হোমোগ্রাফ সতর্কতা আসে কি না দেখা।" },
+        { "en": "Test Levenshtein distance flags 1-2 character lookalike domains while ignoring exact legitimate domains.", "bn": "আসল ডোমেইন বাদ দিয়ে ১-২ অক্ষরের টাইপোস্কোয়াটিং ডোমেইন ধরা পড়ে কি না পরীক্ষা করা।" },
+        { "en": "Verify zero socket/HTTP network calls occur during test runs.", "bn": "পরীক্ষার সময় কোনো নেটওয়ার্ক বা সকেট কল হচ্ছে না তা নিশ্চিত করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Always defang URLs ('hxxp', '[.]') in analyst outputs to prevent accidental clicks in markdown/terminals.", "bn": "ভুলবশত ক্লিক এড়াতে অ্যানালিস্ট আউটপুটে সর্বদা URL ডিফ্যাং ('hxxp', '[.]') করুন।" },
+        { "en": "Strip zero-width characters and invisible whitespace during normalization.", "bn": "নরমালাইজেশনের সময় অদৃশ্য ইউনিকোড ক্যারেক্টার বাদ দিন।" },
+        { "en": "Handle malformed bracketed IPv6 or oversized query strings safely without unhandled ValueError.", "bn": "অসম্পূর্ণ IPv6 বা অস্বাভাবিক বড় কোয়েরিতে প্রোগ্রাম ক্র্যাশ না হওয়া নিশ্চিত করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Offline phishing URL analyzer CLI with single-URL explainability and batch mode", "bn": "একক বিশ্লেষণ ও ব্যাচ মোডসহ অফলাইন ফিশিং URL বিশ্লেষক CLI" },
+        { "en": "Protected-brand config and synthetic phishing pattern fixtures", "bn": "সুরক্ষিত ব্র্যান্ড কনফিগ ও সিন্থেটিক ফিশিং প্যাটার্ন ডেটাসেট" },
+        { "en": "Comprehensive unit tests covering obfuscation tricks and scoring", "bn": "ছদ্মবেশ কৌশল ও স্কোরিং যাচাইকারী ইউনিট টেস্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Table of documented detection signals and false-positive caveats in README", "bn": "README-তে প্রতিটি সিগন্যাল ও সীমাবদ্ধতার তালিকা" },
+        { "en": "Sample analyst report with defanged URLs and itemized score reasons", "bn": "ডিফ্যাংড URL ও বিস্তারিত স্কোর কারণসহ নমুনা অ্যানালিস্ট রিপোর্ট" },
+        { "en": "Clear note emphasizing offline safety (no live malicious downloads)", "bn": "অফলাইন নিরাপত্তার ওপর স্পষ্ট ব্যাখ্যা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "How does 'https://bank.com@evil.test/login' trick humans into misreading the real destination host?", "bn": "'https://bank.com@evil.test/login' কীভাবে ব্যবহারকারীকে আসল গন্তব্য ডোমেইন সম্পর্কে বিভ্রান্ত করে?" },
+        { "en": "Why do Cyrillic letters like 'а' (U+0430) render identically to Latin 'a' (U+0061), and how does punycode expose them?", "bn": "সিরিলিক 'а' দেখতে লাতিন 'a'-এর মতো হলেও পুনিকোড কীভাবে এই ছদ্মবেশ প্রকাশ করে?" },
+        { "en": "How do you prevent a brand like 'pay' from false-positiving on legitimate words like 'payment-docs.example'?", "bn": "'pay' ব্র্যান্ডের নামে 'payment-docs.example'-এর মতো বৈধ ডোমেইনে ভুল অ্যালার্ট কীভাবে কমাবেন?" },
+        { "en": "Why should risk scoring cap individual minor signals so 4 weak hints alone do not falsely mark a site Critical?", "bn": "কয়েকটি দুর্বল সংকেত একত্রে মিলে যেন ভুলভাবে Critical স্কোর না দেয় তা কীভাবে নিয়ন্ত্রণ করবেন?" },
+        { "en": "What happens when a URL uses integer/hex IP encoding or double percent-encoding to hide keywords?", "bn": "হেক্স বা ডাবল পার্সেন্ট-এনকোডিং দিয়ে কীওয়ার্ড লুকালে পার্সার কীভাবে সেগুলো ধরবে?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "First normalize and parse the raw string safely (including iterative unquoting), extract the registered domain carefully, and then run independent RiskSignal detectors that never touch the network.",
+          "bn": "প্রথমে নিরাপদ ডিকোডিং ও পার্সিং করে আসল ডোমেইন বের করুন, তারপর নেটওয়ার্ক স্পর্শ না করে স্বাধীন ঝুঁকি সিগন্যালগুলো চালান।"
+        },
+        "level2": {
+          "en": "Use urllib.parse.urlsplit (checking parsed.username, parsed.hostname), encode host labels to ASCII punycode via '.encode(\"idna\")', inspect Unicode script names via unicodedata.name, and compute edit distance cleanly.",
+          "bn": "urlsplit দিয়ে username ও hostname আলাদা করুন, idna এনকোডিং ও unicodedata.name দিয়ে মিশ্র স্ক্রিপ্ট যাচাই করুন এবং এডিট ডিসট্যান্স মাপুন।"
+        },
+        "level3": {
+          "en": "Group RiskSignals into categories (Host Trust, Deception Structure, Brand Similarity) with per-category caps and a defang formatter that turns 'http' -> 'hxxp' and '.' -> '[.]' only in rendered output.",
+          "bn": "ঝুঁকি সিগন্যালগুলোকে আলাদা ক্যাটাগরিতে ভাগ করে প্রতিটি ক্যাটাগরির সর্বোচ্চ স্কোর সীমা দিন এবং কেবল আউটপুটে ডিফ্যাং ফরম্যাটিং প্রয়োগ করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Support extracting and scoring URLs embedded inside sample plain-text or EML email headers safely.", "bn": "নমুনা ইমেইল বা টেক্সট ফাইল থেকে লিংক আলাদা করে বিশ্লেষণ করার সুবিধা যোগ করুন।" },
+        { "en": "Detect suspicious redirect query parameters (e.g., '?next=https://...').", "bn": "কোয়েরি প্যারামিটারে লুকানো রিডাইরেক্ট লিংক শনাক্ত করুন।" },
+        { "en": "Add brand-whitelist exemptions for official partner subdomains.", "bn": "অফিশিয়াল পার্টনার সাবডোমেইনের জন্য নিরাপদ হোয়াইটলিস্ট যুক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Threat Intelligence Analyst", "bn": "থ্রেট ইন্টেলিজেন্স বিশ্লেষক" },
+          { "en": "Email & SOC Security Analyst", "bn": "ইমেইল ও SOC সিকিউরিটি বিশ্লেষক" }
+        ],
+        "industryRelevance": {
+          "en": "Covers phishing triage, IDN homographs, URL defanging, and explainable heuristics—everyday responsibilities for blue-team and anti-abuse engineering.",
+          "bn": "ফিশিং ট্রায়াজ, IDN হোমোগ্রাফ, URL ডিফ্যাং এবং ব্যাখ্যাযোগ্য হিউরিস্টিকস—ব্লু-টিম ও অ্যান্টি-ফিশিং ইঞ্জিনিয়ারিংয়ের দৈনন্দিন কাজ।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Safe static phishing link triage", "bn": "নিরাপদ স্ট্যাটিক ফিশিং লিংক বিশ্লেষণ" },
+          { "en": "IDN/Unicode homograph & typosquatting detection", "bn": "হোমোগ্রাফ ও টাইপোস্কোয়াটিং শনাক্তকরণ" },
+          { "en": "Explainable security scoring systems", "bn": "ব্যাখ্যাযোগ্য সিকিউরিটি স্কোরিং" }
+        ],
+        "interviewTopics": [
+          { "en": "URL structure traps (@, IDN homographs, multi-encoding)", "bn": "URL প্রতারণার কৌশল (@, হোমোগ্রাফ, মাল্টি-এনকোডিং)" },
+          { "en": "Balancing precision vs recall in phishing heuristics", "bn": "ফিশিং শনাক্তকরণে প্রিসিশন ও রিকলের ভারসাম্য" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Clean, practical blue-team tool that demonstrates awareness of safe analyst handling and Unicode security quirks.",
+          "bn": "অ্যানালিস্টের নিরাপদ কর্মপদ্ধতি ও ইউনিকোড নিরাপত্তার সূক্ষ্ম জ্ঞান প্রমাণকারী একটি বাস্তবসম্মত ব্লু-টিম টুল।"
+        }
+      }
+    }
+  ]
+}

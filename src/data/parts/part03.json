@@ -1,0 +1,1278 @@
+{
+  "partId": "part-03",
+  "partNumber": 3,
+  "problems": [
+    {
+      "id": "P03-01",
+      "number": 1,
+      "title": {
+        "en": "Positive, Negative, or Zero Classifier",
+        "bn": "ধনাত্মক, ঋণাত্মক বা শূন্য নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "if / elif / else", "bn": "if / elif / else" },
+        { "en": "Numeric sign check", "bn": "সংখ্যার চিহ্ন যাচাই" }
+      ],
+      "description": {
+        "en": "Read an integer n and print 'Positive' if n > 0, 'Negative' if n < 0, or 'Zero' if n == 0.",
+        "bn": "একটি পূর্ণসংখ্যা n ইনপুট নিন। n > 0 হলে 'Positive', n < 0 হলে 'Negative' এবং n == 0 হলে 'Zero' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer n.",
+        "bn": "একটি পূর্ণসংখ্যা n।"
+      },
+      "expectedOutput": {
+        "en": "One word: Positive, Negative, or Zero.",
+        "bn": "একটি শব্দ: Positive, Negative অথবা Zero।"
+      },
+      "examples": [
+        {
+          "input": "-15",
+          "output": "Negative",
+          "explanation": {
+            "en": "-15 is less than 0, so output is Negative.",
+            "bn": "-15 সংখ্যাটি 0-এর চেয়ে ছোট হওয়ায় ফলাফল Negative।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "There are three mutually exclusive outcomes, so use if, elif, and else.",
+        "bn": "এখানে তিনটি ভিন্ন সম্ভাবনা আছে, তাই if, elif এবং else ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Check n > 0 first, then n < 0, and leave 0 for the else branch.",
+        "bn": "প্রথমে n > 0, পরে n < 0 এবং শেষে else-এ Zero রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "An if-elif-else chain stops at the first true branch, ensuring exactly one label is printed.",
+        "bn": "if-elif-else চেইনে প্রথম সত্য শর্তটি চলার পর বাকিগুলো আর পরীক্ষা হয় না, ফলে ঠিক একটি উত্তর প্রিন্ট হয়।"
+      },
+      "algorithm": [
+        { "en": "Read n = int(input()).", "bn": "n পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "If n > 0 print 'Positive'.", "bn": "n > 0 হলে 'Positive' প্রিন্ট করুন।" },
+        { "en": "Elif n < 0 print 'Negative'.", "bn": "n < 0 হলে 'Negative' প্রিন্ট করুন।" },
+        { "en": "Else print 'Zero'.", "bn": "অন্যথায় 'Zero' প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nif n > 0:\n    print(\"Positive\")\nelif n < 0:\n    print(\"Negative\")\nelse:\n    print(\"Zero\")",
+      "codeExplanation": {
+        "en": "Python tests n > 0, then n < 0. If neither holds, n must be 0, handled by else.",
+        "bn": "প্রথমে n > 0 ও পরে n < 0 পরীক্ষা করা হয়েছে। দুটিই মিথ্যা হলে n অবশ্যই শূন্য, যা else অংশে প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "-15", "expectedOutput": "Negative" },
+        { "input": "42", "expectedOutput": "Positive" },
+        { "input": "0", "expectedOutput": "Zero" }
+      ]
+    },
+    {
+      "id": "P03-02",
+      "number": 2,
+      "title": {
+        "en": "Exam Pass or Fail Evaluator",
+        "bn": "পরীক্ষায় পাস বা ফেল নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "if-else branching", "bn": "if-else শাখা" },
+        { "en": "Threshold comparison (>=)", "bn": "সীমা তুলনা (>=)" }
+      ],
+      "description": {
+        "en": "A student passes an exam if their score is 40 or higher. Read an integer score (0 to 100) and print 'Pass' or 'Fail'.",
+        "bn": "একজন শিক্ষার্থীর নম্বর ৪০ বা তার বেশি হলে পাস বলে গণ্য হয়। ০ থেকে ১০০-এর মধ্যে একটি পূর্ণসংখ্যা ইনপুট নিয়ে 'Pass' বা 'Fail' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "An integer score between 0 and 100.",
+        "bn": "০ থেকে ১০০-এর মধ্যে একটি পূর্ণসংখ্যা।"
+      },
+      "expectedOutput": {
+        "en": "Pass or Fail.",
+        "bn": "Pass অথবা Fail।"
+      },
+      "examples": [
+        {
+          "input": "40",
+          "output": "Pass",
+          "explanation": {
+            "en": "40 meets the >= 40 passing boundary.",
+            "bn": "40 সংখ্যাটি >= 40 শর্ত পূরণ করায় Pass।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Pay attention to the boundary: 40 itself is a Pass, so use >= rather than >.",
+        "bn": "সীমান্ত মান খেয়াল রাখুন: ৪০ পেলেও পাস, তাই > নয় বরং >= ব্যবহার করতে হবে।"
+      },
+      "hint2": {
+        "en": "Use a simple if score >= 40 / else structure.",
+        "bn": "সহজ if score >= 40 এবং else ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Boundary values ('at least 40') are a classic source of off-by-one bugs. Always double-check > versus >=.",
+        "bn": "'কমপক্ষে ৪০' ধরনের শর্তে > দিলে ৪০ নম্বর ফেল দেখাতে পারে; তাই প্রান্তীয় মান সবসময় যাচাই করা উচিত।"
+      },
+      "algorithm": [
+        { "en": "Read score = int(input()).", "bn": "score পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "If score >= 40 print 'Pass', else print 'Fail'.", "bn": "score >= 40 হলে 'Pass', নাহলে 'Fail' প্রিন্ট করুন।" }
+      ],
+      "solution": "score = int(input())\nif score >= 40:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")",
+      "codeExplanation": {
+        "en": "score >= 40 includes 40 as passing; any value below 40 enters the else branch.",
+        "bn": "score >= 40 শর্ত ৪০-কে পাস হিসেবে ধরে, আর ৪০-এর নিচের সব মান else অংশে যায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "40", "expectedOutput": "Pass" },
+        { "input": "39", "expectedOutput": "Fail" },
+        { "input": "88", "expectedOutput": "Pass" }
+      ]
+    },
+    {
+      "id": "P03-03",
+      "number": 3,
+      "title": {
+        "en": "Larger of Two Numbers",
+        "bn": "দুটি সংখ্যার মধ্যে বড়টি নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Three-way comparison", "bn": "ত্রিমুখী তুলনা" }
+      ],
+      "description": {
+        "en": "Read two integers a and b. Print the larger integer, or print 'Equal' if both integers have the same value.",
+        "bn": "দুটি পূর্ণসংখ্যা a এবং b ইনপুট নিন। বড় সংখ্যাটি প্রিন্ট করুন, আর উভয় সংখ্যা সমান হলে 'Equal' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers a and b.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা a ও b।"
+      },
+      "expectedOutput": {
+        "en": "The larger integer or Equal.",
+        "bn": "বড় সংখ্যাটি অথবা Equal।"
+      },
+      "examples": [
+        {
+          "input": "18\n27",
+          "output": "27",
+          "explanation": {
+            "en": "27 > 18, so 27 is printed.",
+            "bn": "27 > 18 হওয়ায় 27 প্রিন্ট হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Handle a > b, b > a, and equality separately.",
+        "bn": "a > b, b > a এবং সমান—এই তিনটি ক্ষেত্র আলাদাভাবে যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Use if a > b, elif b > a, else print 'Equal'.",
+        "bn": "if a > b, elif b > a এবং শেষে else-এ 'Equal' প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using if / elif / else cleanly separates strict inequality from equality.",
+        "bn": "if / elif / else ব্যবহার করলে বড়, ছোট ও সমান—তিনটি অবস্থাই স্পষ্টভাবে পরিচালনা করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integers a and b.", "bn": "a ও b পড়ুন।" },
+        { "en": "If a > b print a; elif b > a print b; else print 'Equal'.", "bn": "তিনটি শর্ত পরীক্ষা করে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nif a > b:\n    print(a)\nelif b > a:\n    print(b)\nelse:\n    print(\"Equal\")",
+      "codeExplanation": {
+        "en": "Only one branch executes depending on whether a > b, b > a, or a == b.",
+        "bn": "a ও b-এর সম্পর্কের ওপর ভিত্তি করে তিনটি শাখার যেকোনো একটি কার্যকর হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "18\n27", "expectedOutput": "27" },
+        { "input": "50\n12", "expectedOutput": "50" },
+        { "input": "9\n9", "expectedOutput": "Equal" }
+      ]
+    },
+    {
+      "id": "P03-04",
+      "number": 4,
+      "title": {
+        "en": "Voter Eligibility Verification",
+        "bn": "ভোটার যোগ্যতা যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Multiple conditions (and)", "bn": "একাধিক শর্ত (and)" },
+        { "en": "Descriptive branching", "bn": "ব্যাখ্যামূলক শাখা" }
+      ],
+      "description": {
+        "en": "Read a person's age (integer) and citizenship status ('yes' or 'no'). Print 'Eligible' if age >= 18 and citizen is 'yes', otherwise print 'Not Eligible'.",
+        "bn": "একজন ব্যক্তির বয়স (পূর্ণসংখ্যা) এবং নাগরিকত্ব অবস্থা ('yes' বা 'no') ইনপুট নিন। বয়স >= ১৮ এবং নাগরিকত্ব 'yes' হলে 'Eligible', অন্যথায় 'Not Eligible' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: age (int). Line 2: citizen ('yes' or 'no').",
+        "bn": "লাইন ১: বয়স (int)। লাইন ২: citizen ('yes' বা 'no')।"
+      },
+      "expectedOutput": {
+        "en": "Eligible or Not Eligible.",
+        "bn": "Eligible অথবা Not Eligible।"
+      },
+      "examples": [
+        {
+          "input": "20\nyes",
+          "output": "Eligible",
+          "explanation": {
+            "en": "Both age >= 18 and citizen == 'yes' are satisfied.",
+            "bn": "বয়স >= ১৮ এবং নাগরিকত্ব 'yes' উভয়ই সত্য।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize text input using .strip().lower() in case input has uppercase letters.",
+        "bn": "বড় হাতের অক্ষর থাকলেও যেন কাজ করে, তাই .strip().lower() ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Combine both conditions inside one if statement using and.",
+        "bn": "একটি if শর্তে and দিয়ে দুটি শর্ত যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Logical conjunction (and) ensures both legal requirements hold simultaneously.",
+        "bn": "and অপারেটর নিশ্চিত করে যে উভয় শর্ত একসাথে পূরণ হলেই কেবল ব্যক্তি যোগ্য হবেন।"
+      },
+      "algorithm": [
+        { "en": "Read age and citizen.", "bn": "age ও citizen পড়ুন।" },
+        { "en": "If age >= 18 and citizen == 'yes' print 'Eligible', else 'Not Eligible'.", "bn": "উভয় শর্ত সত্য হলে 'Eligible', নাহলে 'Not Eligible' প্রিন্ট করুন।" }
+      ],
+      "solution": "age = int(input())\ncitizen = input().strip().lower()\nif age >= 18 and citizen == \"yes\":\n    print(\"Eligible\")\nelse:\n    print(\"Not Eligible\")",
+      "codeExplanation": {
+        "en": ".lower() prevents case mismatch on 'Yes', and the if condition checks both requirements together.",
+        "bn": ".lower() বড় বা ছোট হাতের অক্ষরের সমস্যা দূর করে এবং if শর্ত দুটি যোগ্যতা একসাথে যাচাই করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "20\nyes", "expectedOutput": "Eligible" },
+        { "input": "17\nyes", "expectedOutput": "Not Eligible" },
+        { "input": "25\nno", "expectedOutput": "Not Eligible" }
+      ]
+    },
+    {
+      "id": "P03-05",
+      "number": 5,
+      "title": {
+        "en": "Vowel or Consonant Checker",
+        "bn": "স্বরবর্ণ (Vowel) নাকি ব্যঞ্জনবর্ণ (Consonant)"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Membership operator (in)", "bn": "মেম্বারশিপ অপারেটর (in)" },
+        { "en": "Case normalization", "bn": "কেস সাধারণীকরণ" }
+      ],
+      "description": {
+        "en": "Read a single English alphabet character (uppercase or lowercase). Print 'Vowel' if it is a, e, i, o, or u; otherwise print 'Consonant'.",
+        "bn": "ইংরেজি বর্ণমালার একটি অক্ষর (বড় বা ছোট হাতের) ইনপুট নিন। অক্ষরটি a, e, i, o, u হলে 'Vowel' এবং অন্যথায় 'Consonant' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single alphabet character.",
+        "bn": "একটি ইংরেজি বর্ণ।"
+      },
+      "expectedOutput": {
+        "en": "Vowel or Consonant.",
+        "bn": "Vowel অথবা Consonant।"
+      },
+      "examples": [
+        {
+          "input": "E",
+          "output": "Vowel",
+          "explanation": {
+            "en": "'E' normalized to lowercase is 'e', which is a vowel.",
+            "bn": "'E'-কে ছোট হাতের অক্ষরে নিলে 'e' হয়, যা একটি স্বরবর্ণ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert the character to lowercase with ch = input().strip().lower().",
+        "bn": "ch = input().strip().lower() দিয়ে ছোট হাতের অক্ষরে রূপান্তর করুন।"
+      },
+      "hint2": {
+        "en": "Check ch in \"aeiou\" instead of writing five separate == comparisons.",
+        "bn": "পাঁচটি আলাদা == লেখার বদলে ch in \"aeiou\" ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Normalizing input to lowercase cuts the check in half, and Python's 'in' operator keeps multi-value checks concise.",
+        "bn": "ইনপুটকে lowercase করলে শর্ত অর্ধেক কমে যায় এবং in অপারেটর দিয়ে সহজেই একাধিক মানের মধ্যে খোঁজা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read ch = input().strip().lower().", "bn": "ch ইনপুট নিয়ে lowercase করুন।" },
+        { "en": "If ch in 'aeiou' print 'Vowel', else 'Consonant'.", "bn": "ch in 'aeiou' হলে 'Vowel', নাহলে 'Consonant' প্রিন্ট করুন।" }
+      ],
+      "solution": "ch = input().strip().lower()\nif ch in \"aeiou\":\n    print(\"Vowel\")\nelse:\n    print(\"Consonant\")",
+      "codeExplanation": {
+        "en": "ch in 'aeiou' tests whether ch matches any vowel character.",
+        "bn": "ch in 'aeiou' যাচাই করে অক্ষরটি স্বরবর্ণের তালিকায় আছে কিনা।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "E", "expectedOutput": "Vowel" },
+        { "input": "k", "expectedOutput": "Consonant" },
+        { "input": "u", "expectedOutput": "Vowel" }
+      ]
+    },
+    {
+      "id": "P03-06",
+      "number": 6,
+      "title": {
+        "en": "Maximum of Three Integers Using Conditionals",
+        "bn": "শর্ত ব্যবহার করে তিনটি সংখ্যার সর্বোচ্চ মান"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Compound comparisons", "bn": "যৌগিক তুলনা" },
+        { "en": "Conditional max tracking", "bn": "শর্তসাপেক্ষ সর্বোচ্চ মান" }
+      ],
+      "description": {
+        "en": "Read three integers a, b, and c. Find and print the largest among them using conditional statements only (do not use Python's built-in max()).",
+        "bn": "তিনটি পূর্ণসংখ্যা a, b এবং c ইনপুট নিন। পাইথনের max() ফাংশন ব্যবহার না করে শুধু শর্তসাপেক্ষ স্টেটমেন্ট দিয়ে সবচেয়ে বড় সংখ্যাটি নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers a, b, c.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা a, b, c।"
+      },
+      "expectedOutput": {
+        "en": "The largest integer.",
+        "bn": "সবচেয়ে বড় পূর্ণসংখ্যাটি।"
+      },
+      "examples": [
+        {
+          "input": "14\n29\n21",
+          "output": "29",
+          "explanation": {
+            "en": "29 >= 14 and 29 >= 21, so 29 is largest.",
+            "bn": "29 সংখ্যাটি 14 ও 21 উভয়ের চেয়ে বড়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use >= instead of > when comparing a >= b and a >= c so equal maximums still match.",
+        "bn": "দুটি সংখ্যা সমান হতে পারে, তাই > নয় বরং >= ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Or track largest = a, then update largest if b > largest, then if c > largest.",
+        "bn": "অথবা প্রথমে largest = a ধরে নিয়ে পর্যায়ক্রমে b ও c-এর সাথে তুলনা করে আপডেট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Tracking a running candidate variable (largest = a) scales naturally to any number of inputs and avoids duplicate comparisons.",
+        "bn": "একটি ভ্যারিয়েবলে (largest = a) সম্ভাব্য সর্বোচ্চ মান ধরে ধাপে ধাপে আপডেট করা পরিষ্কার এবং নির্ভরযোগ্য।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c.", "bn": "a, b, c পড়ুন।" },
+        { "en": "Set largest = a.", "bn": "largest = a ধরুন।" },
+        { "en": "If b > largest: largest = b.", "bn": "b > largest হলে largest = b।" },
+        { "en": "If c > largest: largest = c; print largest.", "bn": "c > largest হলে largest = c; প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nc = int(input())\nlargest = a\nif b > largest:\n    largest = b\nif c > largest:\n    largest = c\nprint(largest)",
+      "codeExplanation": {
+        "en": "Two independent if statements compare b and c against the current largest value, updating it when exceeded.",
+        "bn": "দুটি স্বতন্ত্র if স্টেটমেন্ট b এবং c-কে বর্তমান largest-এর সাথে তুলনা করে বড় হলে মান বদলে দেয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "14\n29\n21", "expectedOutput": "29" },
+        { "input": "10\n10\n5", "expectedOutput": "10" },
+        { "input": "-5\n-2\n-9", "expectedOutput": "-2" }
+      ]
+    },
+    {
+      "id": "P03-07",
+      "number": 7,
+      "title": {
+        "en": "University Grade Calculator with Validation",
+        "bn": "বৈধতা যাচাইসহ গ্রেড নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Range checking", "bn": "রেঞ্জ যাচাই" },
+        { "en": "Ordered elif ladder", "bn": "ক্রমানুসারে elif ধাপ" }
+      ],
+      "description": {
+        "en": "Read an integer mark. If mark < 0 or mark > 100 print 'Invalid'. Otherwise assign grade: 80–100 -> 'A+', 70–79 -> 'A', 60–69 -> 'A-', 50–59 -> 'B', 40–49 -> 'C', 0–39 -> 'F'.",
+        "bn": "একটি পূর্ণসংখ্যা নম্বর ইনপুট নিন। নম্বর ০-এর কম বা ১০০-এর বেশি হলে 'Invalid' প্রিন্ট করুন। নাহলে গ্রেড নির্ণয় করুন: 80–100 -> 'A+', 70–79 -> 'A', 60–69 -> 'A-', 50–59 -> 'B', 40–49 -> 'C', 0–39 -> 'F'।"
+      },
+      "inputDescription": {
+        "en": "An integer mark.",
+        "bn": "একটি পূর্ণসংখ্যা নম্বর।"
+      },
+      "expectedOutput": {
+        "en": "Grade string or Invalid.",
+        "bn": "গ্রেড অথবা Invalid।"
+      },
+      "examples": [
+        {
+          "input": "75",
+          "output": "A",
+          "explanation": {
+            "en": "75 falls in the 70–79 bracket -> A.",
+            "bn": "75 নম্বরটি ৭০–৭৯ সীমায় পড়ে, তাই গ্রেড A।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Validate the out-of-bounds case (mark < 0 or mark > 100) at the very top.",
+        "bn": "সবার আগে অবৈধ সীমা (mark < 0 or mark > 100) পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Order the remaining elif checks from highest threshold (80) down to 40.",
+        "bn": "বাকি elif ধাপগুলো বড় থেকে ছোট ক্রমে (80 থেকে 40) সাজান।"
+      },
+      "logicBreakdown": {
+        "en": "Checking invalid input first acts as a guard clause, so every subsequent elif can safely test a single lower bound.",
+        "bn": "শুরুতে অবৈধ ইনপুট আটকে দিলে পরবর্তী প্রতিটি ধাপে কেবল >= সীমা যাচাই করলেই চলে।"
+      },
+      "algorithm": [
+        { "en": "Read mark = int(input()).", "bn": "mark পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "If mark < 0 or mark > 100 print 'Invalid'.", "bn": "সীমার বাইরে হলে 'Invalid' প্রিন্ট করুন।" },
+        { "en": "Check >= 80, >= 70, >= 60, >= 50, >= 40 in descending order, else 'F'.", "bn": "বড় থেকে ছোট ক্রমে গ্রেড পরীক্ষা করুন, নাহলে 'F'।" }
+      ],
+      "solution": "mark = int(input())\nif mark < 0 or mark > 100:\n    print(\"Invalid\")\nelif mark >= 80:\n    print(\"A+\")\nelif mark >= 70:\n    print(\"A\")\nelif mark >= 60:\n    print(\"A-\")\nelif mark >= 50:\n    print(\"B\")\nelif mark >= 40:\n    print(\"C\")\nelse:\n    print(\"F\")",
+      "codeExplanation": {
+        "en": "Because elif executes top-down, reaching mark >= 70 already guarantees mark < 80.",
+        "bn": "elif ওপর থেকে নিচে চলে বলে mark >= 70-তে পৌঁছানো মানেই নম্বরটি ৮০-এর কম।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "75", "expectedOutput": "A" },
+        { "input": "80", "expectedOutput": "A+" },
+        { "input": "105", "expectedOutput": "Invalid" },
+        { "input": "32", "expectedOutput": "F" }
+      ]
+    },
+    {
+      "id": "P03-08",
+      "number": 8,
+      "title": {
+        "en": "Gregorian Leap Year Verification",
+        "bn": "গ্রেগরিয়ান অধিবর্ষ (Leap Year) যাচাই"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Combined and/or logic", "bn": "and/or লজিকের সমন্বয়" },
+        { "en": "Divisibility exceptions", "bn": "বিভাজ্যতার ব্যতিক্রম নিয়ম" }
+      ],
+      "description": {
+        "en": "Read a positive integer year. Print 'Leap Year' if it is a leap year under Gregorian calendar rules, otherwise print 'Not Leap Year'.",
+        "bn": "একটি ধনাত্মক বছর ইনপুট নিন। গ্রেগরিয়ান ক্যালেন্ডার নিয়ম অনুযায়ী অধিবর্ষ হলে 'Leap Year' এবং নাহলে 'Not Leap Year' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A positive integer year.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা year।"
+      },
+      "expectedOutput": {
+        "en": "Leap Year or Not Leap Year.",
+        "bn": "Leap Year অথবা Not Leap Year।"
+      },
+      "examples": [
+        {
+          "input": "1900",
+          "output": "Not Leap Year",
+          "explanation": {
+            "en": "1900 is divisible by 100 but not by 400, so it is NOT a leap year.",
+            "bn": "1900 সংখ্যাটি 100 দ্বারা বিভাজ্য কিন্তু 400 দ্বারা নয়, তাই এটি অধিবর্ষ নয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Simply checking year % 4 == 0 fails on century years like 1900 and 2100.",
+        "bn": "শুধু year % 4 == 0 পরীক্ষা করলে 1900-এর মতো শতাব্দী বছরগুলোতে ভুল হবে।"
+      },
+      "hint2": {
+        "en": "A year is leap if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0).",
+        "bn": "নিয়মটি হলো: (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)।"
+      },
+      "logicBreakdown": {
+        "en": "Every 4th year is leap, EXCEPT years divisible by 100, UNLESS they are also divisible by 400 (like 2000).",
+        "bn": "৪ দ্বারা বিভাজ্য বছর অধিবর্ষ হয়, তবে ১০০ দ্বারা বিভাজ্য হলে নয়—আবার ৪০০ দ্বারা বিভাজ্য হলে (যেমন ২০০০) অধিবর্ষ হয়।"
+      },
+      "algorithm": [
+        { "en": "Read year = int(input()).", "bn": "year পূর্ণসংখ্যা পড়ুন।" },
+        { "en": "Test (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0).", "bn": "অধিবর্ষের যৌগিক শর্ত পরীক্ষা করুন।" },
+        { "en": "Print 'Leap Year' or 'Not Leap Year'.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "year = int(input())\nif (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):\n    print(\"Leap Year\")\nelse:\n    print(\"Not Leap Year\")",
+      "codeExplanation": {
+        "en": "The first clause catches standard 4-year cycles excluding centuries; the second clause re-includes 400-year centuries.",
+        "bn": "প্রথম অংশ সাধারণ ৪ বছর পরের অধিবর্ষ এবং দ্বিতীয় অংশ ৪০০ দ্বারা বিভাজ্য শতাব্দী অধিবর্ষ চিহ্নিত করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2024", "expectedOutput": "Leap Year" },
+        { "input": "1900", "expectedOutput": "Not Leap Year" },
+        { "input": "2000", "expectedOutput": "Leap Year" },
+        { "input": "2023", "expectedOutput": "Not Leap Year" }
+      ]
+    },
+    {
+      "id": "P03-09",
+      "number": 9,
+      "title": {
+        "en": "Character Category Classifier",
+        "bn": "অক্ষরের ধরন শনাক্তকরণ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "ASCII range comparisons", "bn": "ASCII সীমা তুলনা" },
+        { "en": "Chained comparisons ('a' <= ch <= 'z')", "bn": "চেইনড তুলনা ('a' <= ch <= 'z')" }
+      ],
+      "description": {
+        "en": "Read a single character ch. Classify it as 'Uppercase', 'Lowercase', 'Digit', or 'Special'.",
+        "bn": "একটি একক অক্ষর ch ইনপুট নিন। এটি 'Uppercase', 'Lowercase', 'Digit' নাকি 'Special' তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "A single non-whitespace character.",
+        "bn": "একটি একক অক্ষর।"
+      },
+      "expectedOutput": {
+        "en": "One of: Uppercase, Lowercase, Digit, Special.",
+        "bn": "Uppercase, Lowercase, Digit অথবা Special।"
+      },
+      "examples": [
+        {
+          "input": "7",
+          "output": "Digit",
+          "explanation": {
+            "en": "'7' falls between '0' and '9'.",
+            "bn": "'7' অক্ষরটি '0' থেকে '9'-এর মধ্যে অবস্থিত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Python lets you compare characters directly with 'A' <= ch <= 'Z'.",
+        "bn": "পাইথনে সরাসরি 'A' <= ch <= 'Z' লিখে অক্ষরের সীমা পরীক্ষা করা যায়।"
+      },
+      "hint2": {
+        "en": "Check uppercase, lowercase, and '0' <= ch <= '9'; anything else is 'Special'.",
+        "bn": "বড় হাতের, ছোট হাতের ও অঙ্ক যাচাইয়ের পর বাকি সবকিছু 'Special'।"
+      },
+      "logicBreakdown": {
+        "en": "Chained comparisons like 'a' <= ch <= 'z' are both Pythonic and readable, relying on contiguous ASCII ranges.",
+        "bn": "ASCII টেবিলে বর্ণ ও অঙ্কগুলো ধারাবাহিকভাবে থাকায় 'a' <= ch <= 'z' পদ্ধতিতে সহজেই শ্রেণিবিভাগ করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read ch = input().strip().", "bn": "ch পড়ুন।" },
+        { "en": "Check 'A' <= ch <= 'Z', 'a' <= ch <= 'z', '0' <= ch <= '9', else 'Special'.", "bn": "তিনটি সীমা পরীক্ষা করে না মিললে 'Special' প্রিন্ট করুন।" }
+      ],
+      "solution": "ch = input().strip()\nif \"A\" <= ch <= \"Z\":\n    print(\"Uppercase\")\nelif \"a\" <= ch <= \"z\":\n    print(\"Lowercase\")\nelif \"0\" <= ch <= \"9\":\n    print(\"Digit\")\nelse:\n    print(\"Special\")",
+      "codeExplanation": {
+        "en": "Each chained comparison checks whether ch lies within that ASCII character range.",
+        "bn": "প্রতিটি চেইনড তুলনা যাচাই করে অক্ষরটি ওই নির্দিষ্ট ASCII সীমার ভেতরে আছে কিনা।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "G", "expectedOutput": "Uppercase" },
+        { "input": "m", "expectedOutput": "Lowercase" },
+        { "input": "7", "expectedOutput": "Digit" },
+        { "input": "@", "expectedOutput": "Special" }
+      ]
+    },
+    {
+      "id": "P03-10",
+      "number": 10,
+      "title": {
+        "en": "Safe Arithmetic Calculator",
+        "bn": "নিরাপদ গাণিতিক ক্যালকুলেটর"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Multi-branch dispatch", "bn": "একাধিক শাখা নির্বাচন" },
+        { "en": "Zero-division protection", "bn": "শূন্য দ্বারা ভাগ প্রতিরোধ" }
+      ],
+      "description": {
+        "en": "Read two numbers a, b and an operator (+, -, *, /). Compute the result formatted to 2 decimal places. If dividing by zero, print 'Error: Division by zero'. If the operator is unknown, print 'Invalid operator'.",
+        "bn": "দুটি সংখ্যা a, b এবং একটি অপারেটর (+, -, *, /) ইনপুট নিন। ২ দশমিক স্থান পর্যন্ত ফলাফল প্রিন্ট করুন। শূন্য দিয়ে ভাগ হলে 'Error: Division by zero' এবং অজানা অপারেটর হলে 'Invalid operator' দেখান।"
+      },
+      "inputDescription": {
+        "en": "Line 1: float a. Line 2: operator string. Line 3: float b.",
+        "bn": "লাইন ১: সংখ্যা a। লাইন ২: অপারেটর। লাইন ৩: সংখ্যা b।"
+      },
+      "expectedOutput": {
+        "en": "Result (2 decimals) or error message.",
+        "bn": "ফলাফল (২ দশমিক) অথবা ত্রুটির বার্তা।"
+      },
+      "examples": [
+        {
+          "input": "10\n/\n0",
+          "output": "Error: Division by zero",
+          "explanation": {
+            "en": "Before executing a / b, nested condition checks b == 0.",
+            "bn": "ভাগ করার আগেই নেস্টেড শর্ত দিয়ে b == 0 যাচাই করা হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Inside the '/' branch, add a nested if b == 0 check before dividing.",
+        "bn": "'/' শাখার ভেতরে ভাগ করার আগে nested if দিয়ে b == 0 যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Use else at the end to catch unsupported operator symbols.",
+        "bn": "অন্য কোনো চিহ্ন এলে ধরার জন্য শেষে else ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Defensive programming checks error states (like b == 0) before performing an operation that would otherwise crash the program with ZeroDivisionError.",
+        "bn": "প্রোগ্রাম যেন ZeroDivisionError দিয়ে ক্র্যাশ না করে সেজন্য অপারেশনের আগেই b == 0 শর্ত যাচাই করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read a = float(input()), op = input().strip(), b = float(input()).", "bn": "a, op ও b ইনপুট নিন।" },
+        { "en": "Dispatch on op (+, -, *, /).", "bn": "op অনুযায়ী শাখা বাছাই করুন।" },
+        { "en": "In '/' branch, check b == 0 first.", "bn": "'/' শাখায় আগে b == 0 পরীক্ষা করুন।" }
+      ],
+      "solution": "a = float(input())\nop = input().strip()\nb = float(input())\nif op == \"+\":\n    print(f\"{a + b:.2f}\")\nelif op == \"-\":\n    print(f\"{a - b:.2f}\")\nelif op == \"*\":\n    print(f\"{a * b:.2f}\")\nelif op == \"/\":\n    if b == 0:\n        print(\"Error: Division by zero\")\n    else:\n        print(f\"{a / b:.2f}\")\nelse:\n    print(\"Invalid operator\")",
+      "codeExplanation": {
+        "en": "A nested if inside op == '/' safely guards against zero division before formatting output.",
+        "bn": "op == '/' শাখার ভেতরের nested if শূন্য দিয়ে ভাগের ত্রুটি প্রতিরোধ করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "10\n/\n0", "expectedOutput": "Error: Division by zero" },
+        { "input": "15\n/\n4", "expectedOutput": "3.75" },
+        { "input": "7\n*\n3", "expectedOutput": "21.00" },
+        { "input": "5\n^\n2", "expectedOutput": "Invalid operator" }
+      ]
+    },
+    {
+      "id": "P03-11",
+      "number": 11,
+      "title": {
+        "en": "Triangle Validity & Type Classifier",
+        "bn": "ত্রিভুজের বৈধতা ও ধরন নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Triangle inequality theorem", "bn": "ত্রিভুজ অসমতা উপপাদ্য" },
+        { "en": "Nested classification", "bn": "নেস্টেড শ্রেণিবিভাগ" }
+      ],
+      "description": {
+        "en": "Read three integer side lengths a, b, and c. First check if they can form a valid triangle (all sides > 0 and sum of any two > third). If invalid print 'Invalid'. Otherwise classify as 'Equilateral', 'Isosceles', or 'Scalene'.",
+        "bn": "একটি ত্রিভুজের তিনটি বাহু a, b, c ইনপুট নিন। প্রথমে যাচাই করুন ত্রিভুজ গঠন সম্ভব কিনা (সব বাহু > 0 এবং যেকোনো দুই বাহুর যোগফল তৃতীয়টি থেকে বড়)। না হলে 'Invalid', আর বৈধ হলে 'Equilateral', 'Isosceles' বা 'Scalene' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers a, b, c.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা a, b, c।"
+      },
+      "expectedOutput": {
+        "en": "Invalid, Equilateral, Isosceles, or Scalene.",
+        "bn": "Invalid, Equilateral, Isosceles অথবা Scalene।"
+      },
+      "examples": [
+        {
+          "input": "5\n5\n8",
+          "output": "Isosceles",
+          "explanation": {
+            "en": "5+5 > 8, 5+8 > 5, so valid; two sides are equal -> Isosceles.",
+            "bn": "বাহুগুলো বৈধ ত্রিভুজ গঠন করে এবং দুটি বাহু সমান হওয়ায় এটি সমদ্বিবাহু (Isosceles)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Verify a > 0 and b > 0 and c > 0 and (a + b > c) and (a + c > b) and (b + c > a) first.",
+        "bn": "প্রথমে সব বাহু > 0 এবং ত্রিভুজ অসমতার তিনটি শর্তই যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Check a == b == c before checking if any pair is equal (a == b or b == c or a == c).",
+        "bn": "দুটি বাহু সমান পরীক্ষার আগে তিনটি বাহু সমান (a == b == c) কিনা দেখুন।"
+      },
+      "logicBreakdown": {
+        "en": "An equilateral triangle also has two equal sides, so checking equilateral before isosceles prevents misclassification.",
+        "bn": "সমবাহু ত্রিভুজের দুটি বাহুও সমান থাকে, তাই সমদ্বিবাহু পরীক্ষার আগেই সমবাহু পরীক্ষা করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c.", "bn": "a, b, c পড়ুন।" },
+        { "en": "Check positivity and triangle inequality; if false print 'Invalid'.", "bn": "বৈধতা যাচাই করে ব্যর্থ হলে 'Invalid' প্রিন্ট করুন।" },
+        { "en": "Else check a == b == c ('Equilateral'), pair equality ('Isosceles'), else 'Scalene'.", "bn": "নাহলে বাহুগুলোর সমতা অনুযায়ী শ্রেণি প্রিন্ট করুন।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nc = int(input())\nif a <= 0 or b <= 0 or c <= 0 or (a + b <= c) or (a + c <= b) or (b + c <= a):\n    print(\"Invalid\")\nelif a == b == c:\n    print(\"Equilateral\")\nelif a == b or b == c or a == c:\n    print(\"Isosceles\")\nelse:\n    print(\"Scalene\")",
+      "codeExplanation": {
+        "en": "The outer guard rejects degenerate or impossible triangles before classifying valid ones.",
+        "bn": "প্রথম শর্ত অযোগ্য বা অসম্ভব ত্রিভুজ বাদ দেয়, এরপর বৈধ ত্রিভুজের ধরন নির্ণয় করা হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "5\n5\n8", "expectedOutput": "Isosceles" },
+        { "input": "1\n2\n3", "expectedOutput": "Invalid" },
+        { "input": "6\n6\n6", "expectedOutput": "Equilateral" },
+        { "input": "3\n4\n5", "expectedOutput": "Scalene" }
+      ]
+    },
+    {
+      "id": "P03-12",
+      "number": 12,
+      "title": {
+        "en": "Tiered Electricity Bill Calculator",
+        "bn": "ধাপভিত্তিক বিদ্যুৎ বিল নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Progressive slab billing", "bn": "স্ল্যাবভিত্তিক হিসাব" },
+        { "en": "Piecewise linear conditions", "bn": "ধাপভিত্তিক শর্ত" }
+      ],
+      "description": {
+        "en": "Calculate an electricity bill for units consumed: first 50 units at 3.50/unit, next 100 units (51–150) at 4.50/unit, and any units above 150 at 6.00/unit. Output total bill to 2 decimals.",
+        "bn": "ব্যবহৃত বিদ্যুৎ ইউনিটের জন্য বিল হিসাব করুন: প্রথম ৫০ ইউনিট প্রতি ইউনিট ৩.৫০ টাকা, পরবর্তী ১০০ ইউনিট (৫১–১৫০) প্রতি ইউনিট ৪.৫০ টাকা এবং ১৫০-এর বেশি ইউনিট প্রতি ইউনিট ৬.০০ টাকা। মোট বিল ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer units (>= 0).",
+        "bn": "পূর্ণসংখ্যা units (>= 0)।"
+      },
+      "expectedOutput": {
+        "en": "Total bill formatted to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত মোট বিল।"
+      },
+      "examples": [
+        {
+          "input": "180",
+          "output": "805.00",
+          "explanation": {
+            "en": "50*3.50 (175) + 100*4.50 (450) + 30*6.00 (180) = 805.00.",
+            "bn": "50*3.50 (175) + 100*4.50 (450) + 30*6.00 (180) = 805.00।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Do NOT multiply all 180 units by 6.00—only the portion exceeding 150 uses the 6.00 rate.",
+        "bn": "সব ১৮০ ইউনিটকে ৬.০০ দিয়ে গুণ করবেন না—শুধু ১৫০-এর বেশি অংশটুকুর জন্য ৬.০০ হার প্রযোজ্য।"
+      },
+      "hint2": {
+        "en": "Pre-compute full tier costs: 50*3.50 = 175 and 100*4.50 = 450.",
+        "bn": "আগের স্ল্যাবগুলোর পূর্ণ খরচ যোগ করে নিন: 50*3.50 + 100*4.50।"
+      },
+      "logicBreakdown": {
+        "en": "Tiered/progressive tariffs charge each bracket of usage at its own rate, identical to income tax brackets.",
+        "bn": "ধাপভিত্তিক ট্যারিফ আয়কর স্ল্যাবের মতো কাজ করে—প্রতিটি ধাপের ইউনিটের জন্য আলাদা হার প্রযোজ্য হয়।"
+      },
+      "algorithm": [
+        { "en": "Read units = int(input()).", "bn": "units পড়ুন।" },
+        { "en": "If units <= 50: bill = units * 3.5.", "bn": "units <= 50 হলে bill = units * 3.5।" },
+        { "en": "Elif units <= 150: bill = 50 * 3.5 + (units - 50) * 4.5.", "bn": "units <= 150 হলে প্রথম ৫০ ও বাকি অংশ যোগ করুন।" },
+        { "en": "Else: bill = 50 * 3.5 + 100 * 4.5 + (units - 150) * 6.0.", "bn": "নাহলে তিন ধাপের খরচ যোগ করুন।" }
+      ],
+      "solution": "units = int(input())\nif units <= 50:\n    bill = units * 3.5\nelif units <= 150:\n    bill = 50 * 3.5 + (units - 50) * 4.5\nelse:\n    bill = 50 * 3.5 + 100 * 4.5 + (units - 150) * 6.0\nprint(f\"{bill:.2f}\")",
+      "codeExplanation": {
+        "en": "Each branch accumulates the exact cost of completed lower slabs plus the remainder in the active slab.",
+        "bn": "প্রতিটি শাখায় আগের পূর্ণ স্ল্যাবগুলোর খরচের সাথে বর্তমান স্ল্যাবের অতিরিক্ত ইউনিটের খরচ যোগ করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "180", "expectedOutput": "805.00" },
+        { "input": "50", "expectedOutput": "175.00" },
+        { "input": "120", "expectedOutput": "490.00" },
+        { "input": "0", "expectedOutput": "0.00" }
+      ]
+    },
+    {
+      "id": "P03-13",
+      "number": 13,
+      "title": {
+        "en": "2D Coordinate Quadrant & Axis Detector",
+        "bn": "কার্তেসীয় সমতলে বিন্দুর অবস্থান নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Axis vs quadrant edge cases", "bn": "অক্ষ ও চতুর্ভাগের এজ-কেস" }
+      ],
+      "description": {
+        "en": "Given integer coordinates (x, y), determine whether the point lies at 'Origin', on 'X-Axis', on 'Y-Axis', or in 'Quadrant I', 'Quadrant II', 'Quadrant III', or 'Quadrant IV'.",
+        "bn": "পূর্ণসংখ্যা স্থানাঙ্ক (x, y) দেওয়া আছে। বিন্দুটি 'Origin', 'X-Axis', 'Y-Axis', নাকি 'Quadrant I', 'Quadrant II', 'Quadrant III', বা 'Quadrant IV'-এ অবস্থিত তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines containing integers x and y.",
+        "bn": "দুটি লাইনে পূর্ণসংখ্যা x ও y।"
+      },
+      "expectedOutput": {
+        "en": "Exact location string.",
+        "bn": "অবস্থান নির্দেশক স্ট্রিং।"
+      },
+      "examples": [
+        {
+          "input": "-3\n4",
+          "output": "Quadrant II",
+          "explanation": {
+            "en": "x < 0 and y > 0 lies in Quadrant II.",
+            "bn": "x < 0 এবং y > 0 হলে বিন্দুটি দ্বিতীয় চতুর্ভাগে (Quadrant II) থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Check Origin (x == 0 and y == 0) BEFORE checking y == 0 (X-Axis) or x == 0 (Y-Axis).",
+        "bn": "অক্ষ পরীক্ষা করার আগে Origin (x == 0 and y == 0) যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "Once zeros are ruled out, check signs of x and y for Quadrants I–IV.",
+        "bn": "শূন্যের ক্ষেত্র বাদ গেলে x ও y-এর চিহ্ন দিয়ে I থেকে IV চতুর্ভাগ বের করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Testing the most specific case (Origin) before axis cases ensures (0, 0) isn't mislabeled as X-Axis.",
+        "bn": "সবচেয়ে নির্দিষ্ট শর্ত (Origin) আগে পরীক্ষা করলে (0, 0) কখনোই ভুলবশত X-Axis হিসেবে চিহ্নিত হবে না।"
+      },
+      "algorithm": [
+        { "en": "Read integers x and y.", "bn": "x ও y পড়ুন।" },
+        { "en": "Check Origin, then X-Axis (y == 0), then Y-Axis (x == 0).", "bn": "প্রথমে Origin ও অক্ষদ্বয় পরীক্ষা করুন।" },
+        { "en": "Check the four sign combinations for Quadrants I–IV.", "bn": "চিহ্ন অনুযায়ী চারটি চতুর্ভাগ নির্ণয় করুন।" }
+      ],
+      "solution": "x = int(input())\ny = int(input())\nif x == 0 and y == 0:\n    print(\"Origin\")\nelif y == 0:\n    print(\"X-Axis\")\nelif x == 0:\n    print(\"Y-Axis\")\nelif x > 0 and y > 0:\n    print(\"Quadrant I\")\nelif x < 0 and y > 0:\n    print(\"Quadrant II\")\nelif x < 0 and y < 0:\n    print(\"Quadrant III\")\nelse:\n    print(\"Quadrant IV\")",
+      "codeExplanation": {
+        "en": "Zero cases are eliminated first, leaving strict sign combinations for the four quadrants.",
+        "bn": "প্রথমে শূন্যের অবস্থাগুলো বাদ দিয়ে বাকি চারটি চিহ্নের সমন্বয়ে চতুর্ভাগ নির্ধারিত হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "-3\n4", "expectedOutput": "Quadrant II" },
+        { "input": "0\n0", "expectedOutput": "Origin" },
+        { "input": "5\n0", "expectedOutput": "X-Axis" },
+        { "input": "0\n-9", "expectedOutput": "Y-Axis" },
+        { "input": "2\n-6", "expectedOutput": "Quadrant IV" }
+      ]
+    },
+    {
+      "id": "P03-14",
+      "number": 14,
+      "title": {
+        "en": "Quadratic Equation Discriminant & Root Nature",
+        "bn": "দ্বিঘাত সমীকরণের নিশ্চায়ক ও মূলের প্রকৃতি"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Discriminant D = b^2 - 4ac", "bn": "নিশ্চায়ক D = b^2 - 4ac" },
+        { "en": "Mathematical branching", "bn": "গাণিতিক শাখা বিভাজন" }
+      ],
+      "description": {
+        "en": "Given coefficients a, b, c of ax^2 + bx + c = 0 (with a != 0), compute the discriminant D = b^2 - 4ac and print 'Two Distinct Real Roots' if D > 0, 'One Repeated Real Root' if D == 0, or 'Complex Roots' if D < 0.",
+        "bn": "ax^2 + bx + c = 0 (a != 0) সমীকরণের সহগ a, b, c দেওয়া আছে। নিশ্চায়ক D = b^2 - 4ac নির্ণয় করে D > 0 হলে 'Two Distinct Real Roots', D == 0 হলে 'One Repeated Real Root' এবং D < 0 হলে 'Complex Roots' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing numbers a, b, c (a != 0).",
+        "bn": "তিনটি লাইনে সংখ্যা a, b, c (a != 0)।"
+      },
+      "expectedOutput": {
+        "en": "Nature of roots string.",
+        "bn": "মূলের প্রকৃতি নির্দেশক বার্তা।"
+      },
+      "examples": [
+        {
+          "input": "1\n-5\n6",
+          "output": "Two Distinct Real Roots",
+          "explanation": {
+            "en": "D = (-5)^2 - 4*1*6 = 25 - 24 = 1 > 0.",
+            "bn": "D = 25 - 24 = 1 > 0, তাই দুটি ভিন্ন বাস্তব মূল রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Compute d = b * b - 4 * a * c first.",
+        "bn": "প্রথমে d = b * b - 4 * a * c হিসাব করুন।"
+      },
+      "hint2": {
+        "en": "Branch on d > 0, d == 0, and else.",
+        "bn": "d > 0, d == 0 এবং else অনুযায়ী শাখা ভাগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Checking the sign of the discriminant avoids taking square roots of negative numbers before knowing whether real roots exist.",
+        "bn": "নিশ্চায়কের চিহ্ন আগে যাচাই করলে ঋণাত্মক সংখ্যার বর্গমূল নেওয়ার আগেই মূলের ধরন নির্ণয় করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c as floats.", "bn": "a, b, c ফ্লোট পড়ুন।" },
+        { "en": "Compute d = b ** 2 - 4 * a * c.", "bn": "d = b ** 2 - 4 * a * c বের করুন।" },
+        { "en": "Print root nature based on sign of d.", "bn": "d-এর চিহ্ন অনুযায়ী আউটপুট প্রিন্ট করুন।" }
+      ],
+      "solution": "a = float(input())\nb = float(input())\nc = float(input())\nd = b ** 2 - 4 * a * c\nif d > 0:\n    print(\"Two Distinct Real Roots\")\nelif d == 0:\n    print(\"One Repeated Real Root\")\nelse:\n    print(\"Complex Roots\")",
+      "codeExplanation": {
+        "en": "d holds the discriminant value, and three branches map its sign to the algebraic root type.",
+        "bn": "d-তে নিশ্চায়ক সংরক্ষিত হয় এবং এর চিহ্ন অনুসারে তিনটি শাখার একটি প্রিন্ট হয়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "1\n-5\n6", "expectedOutput": "Two Distinct Real Roots" },
+        { "input": "1\n-4\n4", "expectedOutput": "One Repeated Real Root" },
+        { "input": "1\n2\n5", "expectedOutput": "Complex Roots" }
+      ]
+    },
+    {
+      "id": "P03-15",
+      "number": 15,
+      "title": {
+        "en": "Nested Bonus Policy Calculator",
+        "bn": "নেস্টেড শর্তে বোনাস নির্ণয়"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Nested if-else structures", "bn": "নেস্টেড if-else কাঠামো" },
+        { "en": "Business rule modeling", "bn": "বাস্তব নিয়ম মডেলিং" }
+      ],
+      "description": {
+        "en": "An employee's bonus depends on years of service and performance rating ('A' or 'B'). If years >= 5: rating 'A' gets 20% of salary, rating 'B' gets 12%. If years < 5: rating 'A' gets 10%, rating 'B' gets 5%. Any other rating gets 0. Output the bonus to 2 decimals.",
+        "bn": "একজন কর্মীর বোনাস চাকরির বয়স (years) ও পারফরম্যান্স রেটিং ('A' বা 'B')-এর ওপর নির্ভর করে। years >= 5 হলে 'A' পায় বেতনের ২০% এবং 'B' পায় ১২%। years < 5 হলে 'A' পায় ১০% এবং 'B' পায় ৫%। অন্য রেটিংয়ের জন্য ০। বোনাস ২ দশমিক স্থান পর্যন্ত প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: salary (float). Line 2: years (int). Line 3: rating (string).",
+        "bn": "লাইন ১: salary (ফ্লোট)। লাইন ২: years (int)। লাইন ৩: rating (স্ট্রিং)।"
+      },
+      "expectedOutput": {
+        "en": "Bonus amount formatted to 2 decimal places.",
+        "bn": "২ দশমিক স্থান পর্যন্ত বোনাস।"
+      },
+      "examples": [
+        {
+          "input": "50000\n6\nA",
+          "output": "10000.00",
+          "explanation": {
+            "en": "years >= 5 and rating 'A' -> 20% of 50000 = 10000.00.",
+            "bn": "years >= 5 এবং রেটিং 'A' হওয়ায় ৫০,০০০-এর ২০% = ১০,০০০.০০।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use an outer if years >= 5 / else structure, and check rating inside each branch.",
+        "bn": "বাইরে years >= 5 ও else রাখুন এবং প্রতিটি শাখার ভেতর rating পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Store rate (e.g. 0.20, 0.12, 0.10, 0.05, or 0.0) and compute salary * rate at the end.",
+        "bn": "rate ভ্যারিয়েবলে হার সংরক্ষণ করে শেষে salary * rate হিসাব করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Deciding the rate inside the decision tree and computing salary * rate once at the end keeps calculation and printing cleanly separated.",
+        "bn": "সিদ্ধান্ত কাঠামোর ভেতর শুধু বোনাসের হার ঠিক করে শেষে এক জায়গায় salary * rate হিসাব করলে কোড পরিচ্ছন্ন থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read salary, years, rating.", "bn": "salary, years, rating পড়ুন।" },
+        { "en": "Determine rate using nested if-elif-else.", "bn": "নেস্টেড শর্ত দিয়ে rate নির্ধারণ করুন।" },
+        { "en": "Print f\"{salary * rate:.2f}\".", "bn": "f\"{salary * rate:.2f}\" প্রিন্ট করুন।" }
+      ],
+      "solution": "salary = float(input())\nyears = int(input())\nrating = input().strip().upper()\nif years >= 5:\n    if rating == \"A\":\n        rate = 0.20\n    elif rating == \"B\":\n        rate = 0.12\n    else:\n        rate = 0.0\nelse:\n    if rating == \"A\":\n        rate = 0.10\n    elif rating == \"B\":\n        rate = 0.05\n    else:\n        rate = 0.0\nprint(f\"{salary * rate:.2f}\")",
+      "codeExplanation": {
+        "en": "The outer branch splits by tenure (years >= 5), and inner branches select the bonus rate by performance rating.",
+        "bn": "বাইরের শর্ত চাকরির সময় অনুযায়ী এবং ভেতরের শর্ত রেটিং অনুযায়ী বোনাসের হার নির্ণয় করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "50000\n6\nA", "expectedOutput": "10000.00" },
+        { "input": "40000\n3\nB", "expectedOutput": "2000.00" },
+        { "input": "30000\n7\nC", "expectedOutput": "0.00" }
+      ]
+    },
+    {
+      "id": "P03-16",
+      "number": 16,
+      "title": {
+        "en": "Median of Three Integers Without Sorting",
+        "bn": "সর্টিং ছাড়াই তিনটি সংখ্যার মধ্যক (Median)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Order-statistic logic", "bn": "অর্ডার-স্ট্যাটিসটিক লজিক" },
+        { "en": "Betweenness checks", "bn": "মধ্যবর্তী মান যাচাই" }
+      ],
+      "description": {
+        "en": "Read three integers a, b, and c. Find and print the middle value (median) using only conditional comparisons (no sorted(), sort(), min(), or max()).",
+        "bn": "তিনটি পূর্ণসংখ্যা a, b এবং c ইনপুট নিন। sorted(), sort(), min() বা max() ব্যবহার না করে শুধু শর্তসাপেক্ষ তুলনা দিয়ে মাঝের মানটি (median) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers a, b, c.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা a, b, c।"
+      },
+      "expectedOutput": {
+        "en": "The median integer.",
+        "bn": "মধ্যক পূর্ণসংখ্যাটি।"
+      },
+      "examples": [
+        {
+          "input": "12\n5\n9",
+          "output": "9",
+          "explanation": {
+            "en": "Ordered values are 5, 9, 12, so the median is 9.",
+            "bn": "ছোট থেকে বড় ক্রমে 5, 9, 12; তাই মধ্যক হলো 9।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A number x is the median of (a, b, c) if one of the other two is <= x and the other is >= x.",
+        "bn": "একটি সংখ্যা x মধ্যক হবে যদি বাকি দুটির একটি x-এর চেয়ে ছোট/সমান এবং অপরটি বড়/সমান হয়।"
+      },
+      "hint2": {
+        "en": "For a: (b <= a <= c) or (c <= a <= b). Check similarly for b, else c.",
+        "bn": "a-এর জন্য: (b <= a <= c) or (c <= a <= b)। একইভাবে b পরীক্ষা করুন, নাহলে c।"
+      },
+      "logicBreakdown": {
+        "en": "Testing betweenness using <= handles duplicate values like (5, 5, 9) -> 5 cleanly without skipping ties.",
+        "bn": "<= দিয়ে মধ্যবর্তী অবস্থান যাচাই করলে (5, 5, 9)-এর মতো সমান সংখ্যা থাকলেও সঠিক মধ্যক 5 পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read a, b, c.", "bn": "a, b, c পড়ুন।" },
+        { "en": "If (b <= a <= c) or (c <= a <= b): median is a.", "bn": "a মাঝে থাকলে উত্তর a।" },
+        { "en": "Elif (a <= b <= c) or (c <= b <= a): median is b.", "bn": "b মাঝে থাকলে উত্তর b।" },
+        { "en": "Else: median is c.", "bn": "নাহলে উত্তর c।" }
+      ],
+      "solution": "a = int(input())\nb = int(input())\nc = int(input())\nif (b <= a <= c) or (c <= a <= b):\n    print(a)\nelif (a <= b <= c) or (c <= b <= a):\n    print(b)\nelse:\n    print(c)",
+      "codeExplanation": {
+        "en": "Chained betweenness checks cover both ascending and descending orderings for each candidate.",
+        "bn": "চেইনড তুলনার মাধ্যমে প্রতিটি সংখ্যা বাকি দুটির মাঝে আছে কিনা তা পরীক্ষা করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "12\n5\n9", "expectedOutput": "9" },
+        { "input": "5\n5\n9", "expectedOutput": "5" },
+        { "input": "-10\n-3\n-7", "expectedOutput": "-7" }
+      ]
+    },
+    {
+      "id": "P03-17",
+      "number": 17,
+      "title": {
+        "en": "Calendar Date Validator",
+        "bn": "ক্যালেন্ডার তারিখের বৈধতা যাচাই"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Month-length mapping", "bn": "মাসের দিনের সংখ্যা নির্ণয়" },
+        { "en": "Leap year integration", "bn": "অধিবর্ষ নিয়ম সমন্বয়" }
+      ],
+      "description": {
+        "en": "Read integers day, month, and year. Print 'Valid Date' if it represents a real Gregorian calendar date (year >= 1, month 1–12, day within that month's valid range including Feb 29 on leap years), otherwise print 'Invalid Date'.",
+        "bn": "পূর্ণসংখ্যা day, month এবং year ইনপুট নিন। গ্রেগরিয়ান ক্যালেন্ডার অনুযায়ী তারিখটি বৈধ হলে (অধিবর্ষে ২৯ ফেব্রুয়ারিসহ) 'Valid Date' এবং নাহলে 'Invalid Date' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing integers day, month, year.",
+        "bn": "তিনটি লাইনে পূর্ণসংখ্যা day, month, year।"
+      },
+      "expectedOutput": {
+        "en": "Valid Date or Invalid Date.",
+        "bn": "Valid Date অথবা Invalid Date।"
+      },
+      "examples": [
+        {
+          "input": "29\n2\n2024",
+          "output": "Valid Date",
+          "explanation": {
+            "en": "2024 is a leap year, so February has 29 days.",
+            "bn": "2024 অধিবর্ষ হওয়ায় ফেব্রুয়ারি মাসে ২৯ দিন বৈধ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First reject year < 1 or month < 1 or month > 12 or day < 1.",
+        "bn": "প্রথমে year < 1, month 1–12-এর বাইরে বা day < 1 হলে বাতিল করুন।"
+      },
+      "hint2": {
+        "en": "Determine max_days for the given month: 31 for (1,3,5,7,8,10,12), 30 for (4,6,9,11), and 29 or 28 for month 2 based on leap year.",
+        "bn": "মাস অনুযায়ী সর্বোচ্চ দিন ঠিক করুন: ৩১ দিনের মাস, ৩০ দিনের মাস এবং ফেব্রুয়ারিতে অধিবর্ষ অনুযায়ী ২৯ বা ২৮।"
+      },
+      "logicBreakdown": {
+        "en": "Separating the computation of max_days from the final check day <= max_days keeps the validation logic clean and modular.",
+        "bn": "আগে ওই মাসের সর্বোচ্চ দিন max_days বের করে নিয়ে শেষে day <= max_days যাচাই করলে কোড সহজ ও ত্রুটিমুক্ত থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read day, month, year.", "bn": "day, month, year পড়ুন।" },
+        { "en": "Reject invalid year/month or day < 1.", "bn": "বছর, মাস বা day < 1 অবৈধ হলে 'Invalid Date'।" },
+        { "en": "Compute max_days using month and leap-year check.", "bn": "মাস ও অধিবর্ষ যাচাই করে max_days বের করুন।" },
+        { "en": "Check day <= max_days.", "bn": "day <= max_days যাচাই করুন।" }
+      ],
+      "solution": "day = int(input())\nmonth = int(input())\nyear = int(input())\nif year < 1 or month < 1 or month > 12 or day < 1:\n    print(\"Invalid Date\")\nelse:\n    if month in (1, 3, 5, 7, 8, 10, 12):\n        max_days = 31\n    elif month in (4, 6, 9, 11):\n        max_days = 30\n    else:\n        is_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\n        max_days = 29 if is_leap else 28\n    if day <= max_days:\n        print(\"Valid Date\")\n    else:\n        print(\"Invalid Date\")",
+      "codeExplanation": {
+        "en": "After validating month and lower bounds, max_days is computed per month and compared against day.",
+        "bn": "মাস ও নিম্নসীমা যাচাইয়ের পর প্রতিটি মাসের সর্বোচ্চ দিন হিসাব করে day-এর সাথে তুলনা করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "29\n2\n2024", "expectedOutput": "Valid Date" },
+        { "input": "29\n2\n1900", "expectedOutput": "Invalid Date" },
+        { "input": "31\n4\n2025", "expectedOutput": "Invalid Date" },
+        { "input": "31\n12\n2026", "expectedOutput": "Valid Date" }
+      ]
+    },
+    {
+      "id": "P03-18",
+      "number": 18,
+      "title": {
+        "en": "Chessboard Square Color Detector",
+        "bn": "দাবার বোর্ডের ঘরের রঙ নির্ণয়"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Coordinate parity", "bn": "স্থানাঙ্ক প্যারিটি" },
+        { "en": "ord() mapping", "bn": "ord() ম্যাপিং" }
+      ],
+      "description": {
+        "en": "On a standard 8x8 chessboard, columns are 'a' to 'h' and rows are 1 to 8, where 'a1' is Black. Given a square like 'a1' or 'e4', print 'Black' or 'White'.",
+        "bn": "একটি ৮x৮ দাবার বোর্ডে কলাম 'a' থেকে 'h' এবং সারি 1 থেকে 8, যেখানে 'a1' ঘরটি কালো ('Black')। 'a1' বা 'e4'-এর মতো একটি ঘরের অবস্থান ইনপুট নিয়ে 'Black' বা 'White' প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A two-character coordinate string (e.g., e4).",
+        "bn": "দুই অক্ষরের একটি স্থানাঙ্ক (যেমন e4)।"
+      },
+      "expectedOutput": {
+        "en": "Black or White.",
+        "bn": "Black অথবা White।"
+      },
+      "examples": [
+        {
+          "input": "e4",
+          "output": "White",
+          "explanation": {
+            "en": "'e' is column 5, row is 4. 5 + 4 = 9 (odd), and since a1 (1+1=2 even) is Black, odd sums are White.",
+            "bn": "'e' হলো ৫ম কলাম, সারি ৪। 5 + 4 = 9 (বিজোড়); a1 (1+1=2 জোড়) কালো হওয়ায় বিজোড় যোগফল সাদা (White)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert column letter to 1..8 using col = ord(pos[0]) - ord('a') + 1.",
+        "bn": "কলাম অক্ষরকে ১..৮ সংখ্যায় নিতে ord(pos[0]) - ord('a') + 1 ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Colors alternate like a checkerboard: if (col + row) % 2 == 0 it matches 'a1' (Black); otherwise White.",
+        "bn": "(col + row) জোড় হলে 'a1'-এর মতোই কালো (Black), আর বিজোড় হলে সাদা (White)।"
+      },
+      "logicBreakdown": {
+        "en": "Chessboard squares alternate color whenever either coordinate changes by 1. Therefore, color depends solely on the parity of (col + row).",
+        "bn": "পাশের যেকোনো ঘরে গেলে রঙ বদলায় বলে ঘরের রঙ নির্ভর করে কেবল (col + row) যোগফলটি জোড় নাকি বিজোড় তার ওপর।"
+      },
+      "algorithm": [
+        { "en": "Read pos = input().strip().lower().", "bn": "pos ইনপুট নিন।" },
+        { "en": "col = ord(pos[0]) - ord('a') + 1 and row = int(pos[1]).", "bn": "col এবং row সংখ্যায় বের করুন।" },
+        { "en": "If (col + row) % 2 == 0 print 'Black', else 'White'.", "bn": "(col + row) % 2 == 0 হলে 'Black', নাহলে 'White' প্রিন্ট করুন।" }
+      ],
+      "solution": "pos = input().strip().lower()\ncol = ord(pos[0]) - ord(\"a\") + 1\nrow = int(pos[1])\nif (col + row) % 2 == 0:\n    print(\"Black\")\nelse:\n    print(\"White\")",
+      "codeExplanation": {
+        "en": "ord(pos[0]) - ord('a') + 1 maps 'a'..'h' to 1..8. Even sum means Black; odd sum means White.",
+        "bn": "ord(pos[0]) - ord('a') + 1 দিয়ে 'a'..'h' কে ১..৮-এ রূপান্তর করে (col + row) জোড় হলে Black প্রিন্ট করা হয়েছে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "e4", "expectedOutput": "White" },
+        { "input": "a1", "expectedOutput": "Black" },
+        { "input": "h8", "expectedOutput": "Black" },
+        { "input": "a2", "expectedOutput": "White" }
+      ]
+    },
+    {
+      "id": "P03-19",
+      "number": 19,
+      "title": {
+        "en": "Next Calendar Day Calculator",
+        "bn": "পরবর্তী দিনের তারিখ নির্ণয়"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "State rollover logic", "bn": "তারিখ রোলওভার লজিক" },
+        { "en": "Month & year transitions", "bn": "মাস ও বছর পরিবর্তন" }
+      ],
+      "description": {
+        "en": "Given a valid date as integers day, month, and year, compute and print the next day's date in DD/MM/YYYY format, correctly handling month endings, leap years, and December 31 year rollover.",
+        "bn": "একটি বৈধ তারিখ day, month এবং year দেওয়া আছে। মাসের শেষ দিন, অধিবর্ষ এবং ৩১ ডিসেম্বর থেকে নতুন বছরের শুরু সঠিকভাবে হিসাব করে DD/MM/YYYY ফরম্যাটে পরবর্তী দিনের তারিখ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Three lines containing valid integers day, month, year.",
+        "bn": "তিনটি লাইনে বৈধ পূর্ণসংখ্যা day, month, year।"
+      },
+      "expectedOutput": {
+        "en": "Next date formatted as DD/MM/YYYY (zero-padded day and month).",
+        "bn": "DD/MM/YYYY ফরম্যাটে পরবর্তী তারিখ।"
+      },
+      "examples": [
+        {
+          "input": "28\n2\n2024",
+          "output": "29/02/2024",
+          "explanation": {
+            "en": "2024 is a leap year, so Feb 28 advances to Feb 29.",
+            "bn": "2024 অধিবর্ষ হওয়ায় ২৮ ফেব্রুয়ারির পরদিন ২৯ ফেব্রুয়ারি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First determine max_days for the current month (accounting for leap year in February).",
+        "bn": "প্রথমে বর্তমান মাসের সর্বোচ্চ দিন max_days বের করে নিন।"
+      },
+      "hint2": {
+        "en": "If day < max_days, simply increment day. Otherwise reset day = 1 and increment month (and if month > 12, reset month = 1 and increment year).",
+        "bn": "day < max_days হলে শুধু day বাড়ান। নাহলে day = 1 করে month বাড়ান (month > 12 হলে month = 1 করে year বাড়ান)।"
+      },
+      "logicBreakdown": {
+        "en": "Calendar rollover cascades from smallest unit (day) to largest (year), resetting a unit to 1 whenever it overflows its maximum.",
+        "bn": "দিন সীমা অতিক্রম করলে ১ হয়ে মাস বাড়ে, এবং মাস ১২ অতিক্রম করলে ১ হয়ে বছর বাড়ে।"
+      },
+      "algorithm": [
+        { "en": "Read day, month, year and compute max_days.", "bn": "day, month, year পড়ে max_days বের করুন।" },
+        { "en": "If day < max_days: day += 1.", "bn": "day < max_days হলে day += 1।" },
+        { "en": "Else: day = 1; if month == 12: month = 1; year += 1; else: month += 1.", "bn": "নাহলে day = 1 করে মাস ও প্রয়োজনে বছর বাড়ান।" },
+        { "en": "Print f\"{day:02d}/{month:02d}/{year}\".", "bn": "f\"{day:02d}/{month:02d}/{year}\" প্রিন্ট করুন।" }
+      ],
+      "solution": "day = int(input())\nmonth = int(input())\nyear = int(input())\nif month in (1, 3, 5, 7, 8, 10, 12):\n    max_days = 31\nelif month in (4, 6, 9, 11):\n    max_days = 30\nelse:\n    is_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\n    max_days = 29 if is_leap else 28\nif day < max_days:\n    day += 1\nelse:\n    day = 1\n    if month == 12:\n        month = 1\n        year += 1\n    else:\n        month += 1\nprint(f\"{day:02d}/{month:02d}/{year}\")",
+      "codeExplanation": {
+        "en": ":02d zero-pads single-digit days and months to two characters. Nested rollover handles Dec 31 cleanly.",
+        "bn": ":02d এক অঙ্কের দিন বা মাসের আগে শূন্য বসায় এবং নেস্টেড শর্ত ৩১ ডিসেম্বরে বছর পরিবর্তন করে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "28\n2\n2024", "expectedOutput": "29/02/2024" },
+        { "input": "28\n2\n2023", "expectedOutput": "01/03/2023" },
+        { "input": "31\n12\n2025", "expectedOutput": "01/01/2026" },
+        { "input": "30\n4\n2026", "expectedOutput": "01/05/2026" }
+      ]
+    },
+    {
+      "id": "P03-20",
+      "number": 20,
+      "title": {
+        "en": "Point Position Relative to Rectangle",
+        "bn": "আয়তক্ষেত্রের সাপেক্ষে বিন্দুর অবস্থান"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "2D boundary vs interior checks", "bn": "দ্বিমাত্রিক সীমানা ও অভ্যন্তর যাচাই" },
+        { "en": "Strict vs inclusive inequalities", "bn": "দৃঢ় বনাম অন্তর্ভুক্তিমূলক অসমতা" }
+      ],
+      "description": {
+        "en": "An axis-aligned rectangle has bottom-left corner (x1, y1) and top-right corner (x2, y2) where x1 < x2 and y1 < y2. Given a query point (px, py), determine if it is 'Inside' (strictly inside), 'Boundary' (on any edge/corner), or 'Outside'.",
+        "bn": "একটি আয়তক্ষেত্রের নিচে-বামে (x1, y1) এবং ওপরে-ডানে (x2, y2) কোণা রয়েছে (x1 < x2 ও y1 < y2)। একটি বিন্দু (px, py) আয়তক্ষেত্রের ভেতরে ('Inside'), সীমানার ওপর ('Boundary') নাকি বাইরে ('Outside') অবস্থিত তা নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Six lines containing integers x1, y1, x2, y2, px, py.",
+        "bn": "ছয়টি লাইনে পূর্ণসংখ্যা x1, y1, x2, y2, px, py।"
+      },
+      "expectedOutput": {
+        "en": "Inside, Boundary, or Outside.",
+        "bn": "Inside, Boundary অথবা Outside।"
+      },
+      "examples": [
+        {
+          "input": "0\n0\n10\n5\n10\n3",
+          "output": "Boundary",
+          "explanation": {
+            "en": "px == x2 (10) and 0 <= 3 <= 5, so the point sits on the right edge.",
+            "bn": "px == x2 (10) এবং 0 <= 3 <= 5 হওয়ায় বিন্দুটি ডান বাহুর ওপর রয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "First check if the point is strictly inside: (x1 < px < x2) and (y1 < py < y2).",
+        "bn": "প্রথমে দেখুন বিন্দুটি পুরোপুরি ভেতরে আছে কিনা: (x1 < px < x2) and (y1 < py < y2)।"
+      },
+      "hint2": {
+        "en": "If not strictly inside, check if it is still within inclusive bounds (x1 <= px <= x2 and y1 <= py <= y2); if so, it MUST be on the Boundary!",
+        "bn": "ভেতরে না থেকেও যদি x1 <= px <= x2 এবং y1 <= py <= y2 সীমায় থাকে, তবে সেটি অবশ্যই Boundary-তে আছে!"
+      },
+      "logicBreakdown": {
+        "en": "Checking strict interior first, then inclusive rectangle containment, cleanly captures all four edges and corners in one elif without enumerating 4 separate edge equations.",
+        "bn": "প্রথমে < দিয়ে ভেতরের অংশ এবং পরে <= দিয়ে সীমানাসহ অঞ্চল যাচাই করলে চারটি বাহু আলাদাভাবে না লিখেই সহজে Boundary শনাক্ত করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read x1, y1, x2, y2, px, py.", "bn": "ছয়টি স্থানাঙ্ক পড়ুন।" },
+        { "en": "If x1 < px < x2 and y1 < py < y2 print 'Inside'.", "bn": "ভেতরে হলে 'Inside' প্রিন্ট করুন।" },
+        { "en": "Elif x1 <= px <= x2 and y1 <= py <= y2 print 'Boundary'.", "bn": "সীমায় থাকলে 'Boundary' প্রিন্ট করুন।" },
+        { "en": "Else print 'Outside'.", "bn": "অন্যথায় 'Outside' প্রিন্ট করুন।" }
+      ],
+      "solution": "x1 = int(input())\ny1 = int(input())\nx2 = int(input())\ny2 = int(input())\npx = int(input())\npy = int(input())\nif x1 < px < x2 and y1 < py < y2:\n    print(\"Inside\")\nelif x1 <= px <= x2 and y1 <= py <= y2:\n    print(\"Boundary\")\nelse:\n    print(\"Outside\")",
+      "codeExplanation": {
+        "en": "Strict inequalities identify interior points; remaining points satisfying inclusive inequalities lie directly on the perimeter.",
+        "bn": "দৃঢ় অসমতা (<) ভেতরের বিন্দু ধরে এবং অবশিষ্ট অন্তর্ভুক্তিমূলক (<=) বিন্দুগুলো নিশ্চিতভাবেই সীমানার ওপর পড়ে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "0\n0\n10\n5\n10\n3", "expectedOutput": "Boundary" },
+        { "input": "0\n0\n10\n5\n4\n2", "expectedOutput": "Inside" },
+        { "input": "0\n0\n10\n5\n12\n2", "expectedOutput": "Outside" },
+        { "input": "0\n0\n10\n5\n0\n0", "expectedOutput": "Boundary" }
+      ]
+    }
+  ]
+}

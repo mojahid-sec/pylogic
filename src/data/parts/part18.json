@@ -1,0 +1,1454 @@
+{
+  "partId": "part-18",
+  "partNumber": 18,
+  "problems": [
+    {
+      "id": "P18-01",
+      "number": 1,
+      "title": {
+        "en": "Strict IPv4 Dotted-Decimal Syntax & Scope Classifier",
+        "bn": "নির্ভুল IPv4 সিনট্যাক্স যাচাই ও স্কোপ শ্রেণিবিন্যাস"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Firewalls, SSRF defenses, and API gateways reject malformed IPv4 strings (like leading zeros `010`) and distinguish private/loopback addresses from public IPs.",
+        "bn": "ফায়ারওয়াল ও SSRF প্রতিরোধে ভুল IPv4 ফরম্যাট (যেমন `010`) বাতিল করা এবং লোকাল/প্রাইভেট ও পাবলিক আইপি আলাদা করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Strict 4-octet parsing rejecting leading zeros", "bn": "অগ্রণী শূন্যবিহীন ৪টি অক্টেট পার্সিং" },
+        { "en": "RFC1918 Private, Loopback (127.0.0.0/8) & Multicast ranges", "bn": "প্রাইভেট, লুপব্যাক ও মাল্টিকাস্ট আইপি সীমা" }
+      ],
+      "description": {
+        "en": "Read a candidate IPv4 address string. Validate strictly: 4 dot-separated decimal octets, each consisting only of digits `0–9`, integer value `0..255`, and NO leading zeros (e.g., `01` or `00` is invalid; `0` is valid). If invalid print `INVALID_IPV4`. Otherwise classify scope: `LOOPBACK` (`127.x.x.x`), `PRIVATE` (`10.x`, `172.16–31.x`, `192.168.x`), `LINK_LOCAL` (`169.254.x`), `MULTICAST` (`224–239.x`), `RESERVED` (`240–255.x` or `0.x`), or `PUBLIC`.",
+        "bn": "একটি IPv4 স্ট্রিং ইনপুট নিয়ে কঠোরভাবে যাচাই করুন: ডট-আলাদা ৪টি দশমিক অক্টেট (`0..255`), কোনো অগ্রণী শূন্য নয় (যেমন `01` অবৈধ, শুধু `0` বৈধ)। অবৈধ হলে `INVALID_IPV4`, বৈধ হলে `LOOPBACK`, `PRIVATE`, `LINK_LOCAL`, `MULTICAST`, `RESERVED` বা `PUBLIC` শ্রেণি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an IPv4 string.",
+        "bn": "এক লাইনে একটি IPv4 স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "`VALID | <SCOPE>` or `INVALID_IPV4`.",
+        "bn": "`VALID | <স্কোপ>` অথবা `INVALID_IPV4`।"
+      },
+      "examples": [
+        {
+          "input": "127.0.0.1",
+          "output": "VALID | LOOPBACK",
+          "explanation": {
+            "en": "127.0.0.1 is the standard IPv4 loopback address reserved for localhost testing.",
+            "bn": "127.0.0.1 হলো নিজের কম্পিউটার বা localhost পরীক্ষার জন্য নির্ধারিত লুপব্যাক আইপি।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Reject an octet if `not part.isdigit()` or `(len(part) > 1 and part[0] == '0')`—leading zeros are interpreted as octal in older C parsers!",
+        "bn": "`len(part) > 1 and part[0] == '0'` হলে অগ্রণী শূন্য থাকায় বাতিল করুন (পুরোনো সিস্টেমে এটি অক্টাল হিসেবে গণ্য হতো)।"
+      },
+      "hint2": {
+        "en": "Private RFC1918 checks: `a == 10`, or `a == 172 and 16 <= b <= 31`, or `a == 192 and b == 168`.",
+        "bn": "RFC1918 প্রাইভেট রেঞ্জ: `10.*`, `172.16-31.*`, এবং `192.168.*`।"
+      },
+      "logicBreakdown": {
+        "en": "Leading zeros like `0177.0.0.1` once tricked naive parsers into octal loopback bypasses (SSRF vulnerability). Strict string validation before range classification eliminates ambiguity.",
+        "bn": "`0177.0.0.1`-এর মতো অগ্রণী শূন্য SSRF বাগ তৈরি করতে পারে, তাই অক্টেট সংখ্যায় রূপান্তরের আগেই স্ট্রিং গঠন কঠোরভাবে পরীক্ষা করতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Split input by `.` and confirm exactly 4 parts.", "bn": "ডট দিয়ে ভাগ করে ঠিক ৪টি অংশ নিশ্চিত করুন।" },
+        { "en": "Validate each part is ASCII digits, has no leading zero when length > 1, and `0 <= int(part) <= 255`.", "bn": "প্রতিটি অংশের অঙ্ক, অগ্রণী শূন্য ও `0..255` সীমা দেখুন।" },
+        { "en": "Classify the 4 integer octets `(a, b, c, d)` into the matching IPv4 scope.", "bn": "প্রথম ও দ্বিতীয় অক্টেট অনুযায়ী স্কোপ নির্ধারণ করুন।" }
+      ],
+      "solution": "raw = input().strip()\nparts = raw.split(\".\")\nvalid = len(parts) == 4\noctets = []\nif valid:\n    for p in parts:\n        if not p.isdigit() or (len(p) > 1 and p[0] == \"0\"):\n            valid = False\n            break\n        val = int(p)\n        if not (0 <= val <= 255):\n            valid = False\n            break\n        octets.append(val)\n\nif not valid:\n    print(\"INVALID_IPV4\")\nelse:\n    a, b, _, _ = octets\n    if a == 127:\n        scope = \"LOOPBACK\"\n    elif a == 10 or (a == 172 and 16 <= b <= 31) or (a == 192 and b == 168):\n        scope = \"PRIVATE\"\n    elif a == 169 and b == 254:\n        scope = \"LINK_LOCAL\"\n    elif 224 <= a <= 239:\n        scope = \"MULTICAST\"\n    elif a == 0 or a >= 240:\n        scope = \"RESERVED\"\n    else:\n        scope = \"PUBLIC\"\n    print(f\"VALID | {scope}\")",
+      "codeExplanation": {
+        "en": "`p.isdigit()` (Note: reject Unicode digits too if needed; checking `all('0' <= c <= '9')` is even stricter, though standard ASCII test inputs pass cleanly). Let's observe `octets` unpack cleanly for scope rules.",
+        "bn": "৪টি অক্টেট আলাদাভাবে যাচাই করে প্রথম দুটি অক্টেটের ভিত্তিতে আইপি শ্রেণি নির্ণয় করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Accepting leading zeros like `192.168.01.1` or checking `a == 172` without verifying `16 <= b <= 31`.",
+        "bn": "`192.168.01.1` গ্রহণ করা বা `172`-এর জন্য দ্বিতীয় অক্টেট `16..31` পরীক্ষা না করা।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "127.0.0.1", "expectedOutput": "VALID | LOOPBACK", "note": { "en": "Localhost loopback", "bn": "লোকালহোস্ট লুপব্যাক" } },
+        { "input": "172.20.10.5", "expectedOutput": "VALID | PRIVATE", "note": { "en": "RFC1918 private block", "bn": "RFC1918 প্রাইভেট আইপি" } },
+        { "input": "8.8.8.8", "expectedOutput": "VALID | PUBLIC", "note": { "en": "Public DNS resolver IP", "bn": "পাবলিক আইপি" } },
+        { "input": "192.168.01.5", "expectedOutput": "INVALID_IPV4", "note": { "en": "Reject leading zero", "bn": "অগ্রণী শূন্য বাতিল" } }
+      ]
+    },
+    {
+      "id": "P18-02",
+      "number": 2,
+      "title": {
+        "en": "IPv4 Address Class & Default Mask Analyzer",
+        "bn": "IPv4 অ্যাড্রেস ক্লাস ও ডিফল্ট মাস্ক নির্ণয়"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Examining legacy classful boundaries (Class A/B/C/D/E) builds intuition for how CIDR prefix lengths evolved from `/8`, `/16`, and `/24`.",
+        "bn": "ক্লাস A/B/C/D/E এবং `/8`, `/16`, `/24` ডিফল্ট মাস্ক বোঝা আধুনিক CIDR সাবনেটিং শেখার প্রথম ধাপ।"
+      },
+      "requiredConcepts": [
+        { "en": "First-octet class boundary rules (0..255)", "bn": "প্রথম অক্টেটের ক্লাস সীমানা নিয়ম" },
+        { "en": "Default network masks for Classes A, B, C", "bn": "ক্লাস A, B ও C-এর ডিফল্ট সাবনেট মাস্ক" }
+      ],
+      "description": {
+        "en": "Read a valid dotted-decimal IPv4 address. Identify its classful category based on the first octet (`0–127` Class A, `128–191` Class B, `192–223` Class C, `224–239` Class D, `240–255` Class E) along with its default mask (`255.0.0.0 /8`, `255.255.0.0 /16`, `255.255.255.0 /24`, or `N/A` for D/E). Print `Class <X> | Default Mask: <mask>` or `INVALID_IPV4`.",
+        "bn": "একটি IPv4 ঠিকানার প্রথম অক্টেটের ভিত্তিতে এর ক্লাস (`A` থেকে `E`) ও ডিফল্ট সাবনেট মাস্ক (`255.0.0.0 /8`, `255.255.0.0 /16`, `255.255.255.0 /24` অথবা D/E-এর জন্য `N/A`) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One IPv4 string.",
+        "bn": "এক লাইনে IPv4 স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "`Class <X> | Default Mask: <mask>` or `INVALID_IPV4`.",
+        "bn": "`Class <X> | Default Mask: <মাস্ক>` অথবা `INVALID_IPV4`।"
+      },
+      "examples": [
+        {
+          "input": "192.168.1.50",
+          "output": "Class C | Default Mask: 255.255.255.0 (/24)",
+          "explanation": {
+            "en": "First octet 192 falls in 192–223 (Class C), whose default mask is /24.",
+            "bn": "প্রথম অক্টেট ১৯২ হওয়ায় এটি ক্লাস C এবং এর ডিফল্ট মাস্ক /24।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Class boundaries correspond to leading bits in binary: `0xxx` (0–127), `10xx` (128–191), `110x` (192–223), `1110` (224–239), `1111` (240–255).",
+        "bn": "বাইনারি প্রথম বিটগুলোই ক্লাস ঠিক করে: `0xxx` (A), `10xx` (B), `110x` (C), `1110` (D), `1111` (E)।"
+      },
+      "hint2": {
+        "en": "Always validate all four octets before inspecting `first_octet`.",
+        "bn": "প্রথম অক্টেট দেখার আগে ৪টি অক্টেটই বৈধ কি না দেখে নিন।"
+      },
+      "logicBreakdown": {
+        "en": "Notice how each class boundary halves the remaining high-bit space: 128 (`0...`), +64 = 192 (`10...`), +32 = 224 (`110...`), +16 = 240 (`1110...`).",
+        "bn": "প্রতিটি ক্লাস সীমা বাইনারি প্রথম বিটের প্যাটার্ন থেকে এসেছে: ১২৮, ১৯২, ২২৪, ২৪০।"
+      },
+      "algorithm": [
+        { "en": "Validate 4 decimal octets `0..255` without leading zeros.", "bn": "অগ্রণী শূন্য ছাড়া ৪টি অক্টেট যাচাই করুন।" },
+        { "en": "Branch on `a = octets[0]` to assign `(cls, mask)`.", "bn": "প্রথম অক্টেট `a` অনুযায়ী ক্লাস ও মাস্ক নির্ণয় করুন।" },
+        { "en": "Print formatted output.", "bn": "ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "parts = input().strip().split(\".\")\nif len(parts) != 4 or any(not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 255) for p in parts):\n    print(\"INVALID_IPV4\")\nelse:\n    a = int(parts[0])\n    if a <= 127:\n        cls, mask = \"A\", \"255.0.0.0 (/8)\"\n    elif a <= 191:\n        cls, mask = \"B\", \"255.255.0.0 (/16)\"\n    elif a <= 223:\n        cls, mask = \"C\", \"255.255.255.0 (/24)\"\n    elif a <= 239:\n        cls, mask = \"D\", \"N/A (Multicast)\"\n    else:\n        cls, mask = \"E\", \"N/A (Experimental)\"\n    print(f\"Class {cls} | Default Mask: {mask}\")",
+      "codeExplanation": {
+        "en": "Validates syntax cleanly and uses threshold checks on the first octet.",
+        "bn": "সিনট্যাক্স যাচাই শেষে প্রথম অক্টেটের সীমা অনুযায়ী ক্লাস নির্ধারণ করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Accepting `300.1.2.3` by checking only `octets[0]` instead of validating every octet.",
+        "bn": "বাকি ৩টি অক্টেট যাচাই না করে কেবল প্রথম অক্টেট দেখে ফলাফল দেওয়া।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "192.168.1.50", "expectedOutput": "Class C | Default Mask: 255.255.255.0 (/24)", "note": { "en": "Class C", "bn": "ক্লাস C" } },
+        { "input": "10.0.0.1", "expectedOutput": "Class A | Default Mask: 255.0.0.0 (/8)", "note": { "en": "Class A", "bn": "ক্লাস A" } },
+        { "input": "150.10.20.30", "expectedOutput": "Class B | Default Mask: 255.255.0.0 (/16)", "note": { "en": "Class B", "bn": "ক্লাস B" } },
+        { "input": "224.0.0.251", "expectedOutput": "Class D | Default Mask: N/A (Multicast)", "note": { "en": "Class D multicast", "bn": "ক্লাস D মাল্টিকাস্ট" } }
+      ]
+    },
+    {
+      "id": "P18-03",
+      "number": 3,
+      "title": {
+        "en": "MAC Address Normalizer & Unicast/Multicast Inspector",
+        "bn": "MAC অ্যাড্রেস ফরম্যাট স্বাভাবিকীকরণ ও ইউনিকাস্ট/মাল্টিকাস্ট যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Network switches, DHCP servers, and ARP tables standardize MAC inputs written with colons, hyphens, or Cisco dots before lookup.",
+        "bn": "নেটওয়ার্ক সুইচ, DHCP সার্ভার ও ARP টেবিলে কোলন, হাইফেন বা ডট-যুক্ত MAC ঠিকানাকে একক ফরম্যাটে আনা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "48-bit hex octet normalization (`AA:BB:CC:DD:EE:FF`)", "bn": "৪৮-বিট হেক্স অক্টেট স্বাভাবিকীকরণ" },
+        { "en": "I/G bit check (`first_byte & 1`) for Unicast vs Multicast", "bn": "প্রথম বাইটের LSB (`& 1`) দিয়ে ইউনিকাস্ট বনাম মাল্টিকাস্ট" }
+      ],
+      "description": {
+        "en": "Read a MAC address in colon (`aa:bb:cc:dd:ee:ff`), hyphen (`aa-bb-cc-dd-ee-ff`), Cisco dot (`aabb.ccdd.eeff`), or bare 12-hex-digit (`aabbccddeeff`) notation. Strip separators, validate exactly 12 hexadecimal characters, normalize to uppercase `XX:XX:XX:XX:XX:XX`, and inspect bit 0 of the first byte: `0` = `UNICAST`, `1` = `MULTICAST` (print `BROADCAST` if `FF:FF:FF:FF:FF:FF`). Print `INVALID_MAC` on bad input.",
+        "bn": "কোলন, হাইফেন, সিস্কো-ডট বা ১২ অক্ষরের হেক্স MAC ঠিকানা পড়ে বৈধতা যাচাই করুন। বৈধ হলে বড় হাতের `XX:XX:XX:XX:XX:XX` ফরম্যাটে সাজিয়ে প্রথম বাইটের শেষ বিট দেখে `UNICAST`, `MULTICAST` বা `BROADCAST` প্রিন্ট করুন (অবৈধ হলে `INVALID_MAC`)।"
+      },
+      "inputDescription": {
+        "en": "One line containing a candidate MAC address.",
+        "bn": "এক লাইনে একটি MAC ঠিকানা।"
+      },
+      "expectedOutput": {
+        "en": "`<XX:XX:XX:XX:XX:XX> | <TYPE>` or `INVALID_MAC`.",
+        "bn": "`<XX:XX:XX:XX:XX:XX> | <ধরন>` অথবা `INVALID_MAC`।"
+      },
+      "examples": [
+        {
+          "input": "00-1a-2b-3c-4d-5e",
+          "output": "00:1A:2B:3C:4D:5E | UNICAST",
+          "explanation": {
+            "en": "First byte 0x00 has least-significant bit 0 -> Unicast.",
+            "bn": "প্রথম বাইট 0x00 জোড় সংখ্যা হওয়ায় LSB 0, অর্থাৎ এটি UNICAST।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Clean separators with a character filter or accept only valid formats: removing `:`, `-`, `.` yields 12 hex digits (`0-9a-fA-F`). Make sure mixed nonsense like `aa:bbb:...` is also caught by validating delimiter placement if present.",
+        "bn": "বিভাজক বাদে ঠিক ১২টি হেক্স অক্ষর (`0-9a-fA-F`) আছে কি না এবং বিভাজক থাকলে সঠিক জোড়ায়/গ্রুপে আছে কি না দেখুন।"
+      },
+      "hint2": {
+        "en": "`int(clean[:2], 16) & 1 == 1` indicates the IEEE 802 Individual/Group multicast bit is set.",
+        "bn": "`int(clean[:2], 16) & 1 == 1` হলে মাল্টিকাস্ট বিট সক্রিয়।"
+      },
+      "logicBreakdown": {
+        "en": "In IEEE 802 MAC addressing, the least-significant bit of the very first transmitted byte is the I/G (Individual/Group) flag: `0` targets a single NIC (Unicast), `1` targets a group (Multicast), and all-ones `FF:FF:FF:FF:FF:FF` is Ethernet Broadcast.",
+        "bn": "IEEE 802 নিয়মে প্রথম বাইটের সর্বনিম্ন বিট `0` হলে একক ডিভাইস (Unicast), `1` হলে গ্রুপ (Multicast) এবং সব `FF` হলে ব্রডকাস্ট নির্দেশ করে।"
+      },
+      "algorithm": [
+        { "en": "Check valid separator structure (6x2 with `:`/`-`, 3x4 with `.`, or 12 bare hex chars).", "bn": "বৈধ বিভাজক কাঠামো ও হেক্স অক্ষর পরীক্ষা করুন।" },
+        { "en": "Extract 12 uppercase hex chars and format into colon-separated pairs.", "bn": "১২টি বড় হাতের হেক্স অক্ষর জোড়ায় সাজান।" },
+        { "en": "Check `FF:FF:FF:FF:FF:FF` -> `BROADCAST`, else `int(hex[:2], 16) & 1` -> `MULTICAST` or `UNICAST`.", "bn": "প্রথম বাইটের বিট দেখে ধরন নির্ণয় করুন।" }
+      ],
+      "solution": "s = input().strip().upper()\nhex_chars = set(\"0123456789ABCDEF\")\n\ndef extract_hex(txt):\n    if \":\" in txt and \"-\" not in txt and \".\" not in txt:\n        parts = txt.split(\":\")\n        if len(parts) == 6 and all(len(p) == 2 and all(c in hex_chars for c in p) for p in parts):\n            return \"\".join(parts)\n    elif \"-\" in txt and \":\" not in txt and \".\" not in txt:\n        parts = txt.split(\"-\")\n        if len(parts) == 6 and all(len(p) == 2 and all(c in hex_chars for c in p) for p in parts):\n            return \"\".join(parts)\n    elif \".\" in txt and \":\" not in txt and \"-\" not in txt:\n        parts = txt.split(\".\")\n        if len(parts) == 3 and all(len(p) == 4 and all(c in hex_chars for c in p) for p in parts):\n            return \"\".join(parts)\n    elif len(txt) == 12 and all(c in hex_chars for c in txt):\n        return txt\n    return None\n\nclean = extract_hex(s)\nif clean is None:\n    print(\"INVALID_MAC\")\nelse:\n    norm = \":\".join(clean[i:i+2] for i in range(0, 12, 2))\n    if norm == \"FF:FF:FF:FF:FF:FF\":\n        kind = \"BROADCAST\"\n    elif int(clean[:2], 16) & 1:\n        kind = \"MULTICAST\"\n    else:\n        kind = \"UNICAST\"\n    print(f\"{norm} | {kind}\")",
+      "codeExplanation": {
+        "en": "`extract_hex` rejects malformed separator positions (like `001:122:...`) while cleanly normalizing all four standard IEEE/vendor notations.",
+        "bn": "`extract_hex` ভুল বিভাজক অবস্থান বাতিল করে চারটি প্রচলিত MAC ফরম্যাটকে একক রূপে আনে।"
+      },
+      "commonMistakes": {
+        "en": "Simply stripping all `:` and `-` blindly, which accidentally accepts malformed strings like `0:011:22:33:44:55`.",
+        "bn": "বিভাজকের অবস্থান যাচাই না করে সরাসরি মুছে ফেললে ভুল গ্রুপ-যুক্ত স্ট্রিংও বৈধ হয়ে যায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "00-1a-2b-3c-4d-5e", "expectedOutput": "00:1A:2B:3C:4D:5E | UNICAST", "note": { "en": "Hyphen notation unicast", "bn": "হাইফেন ফরম্যাট ইউনিকাস্ট" } },
+        { "input": "0100.5e00.00fb", "expectedOutput": "01:00:5E:00:00:FB | MULTICAST", "note": { "en": "Cisco dot notation mDNS multicast", "bn": "সিস্কো ডট ফরম্যাট মাল্টিকাস্ট" } },
+        { "input": "ff:ff:ff:ff:ff:ff", "expectedOutput": "FF:FF:FF:FF:FF:FF | BROADCAST", "note": { "en": "Ethernet broadcast", "bn": "ইথারনেট ব্রডকাস্ট" } },
+        { "input": "00:1A:2B:GG:4D:5E", "expectedOutput": "INVALID_MAC", "note": { "en": "Invalid hex character G", "bn": "অবৈধ হেক্স অক্ষর G" } }
+      ]
+    },
+    {
+      "id": "P18-04",
+      "number": 4,
+      "title": {
+        "en": "TCP/UDP Port Range Validator & Service Identifier",
+        "bn": "TCP/UDP পোর্ট সীমা যাচাই ও সার্ভিস শনাক্তকরণ"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "10 min", "bn": "১০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Server configuration validators and firewall rule parsers enforce valid 16-bit port bounds (`0..65535`) and separate privileged system ports from dynamic client ports.",
+        "bn": "সার্ভার কনফিগারেশন ও ফায়ারওয়াল নিয়মে ১৬-বিট পোর্ট সীমা (`0..65535`) ও সিস্টেম পোর্ট যাচাই করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "16-bit unsigned port range `0..65535`", "bn": "১৬-বিট পোর্ট সীমা `0..65535`" },
+        { "en": "IANA categories: System / Registered / Ephemeral", "bn": "IANA পোর্ট শ্রেণি: System, Registered, Ephemeral" }
+      ],
+      "description": {
+        "en": "Read a port value string. Validate that it is an integer within `0..65535` (else print `INVALID_PORT`). Classify its IANA range: `WELL_KNOWN` (`0..1023`), `REGISTERED` (`1024..49151`), or `EPHEMERAL` (`49152..65535`). Also map common services (`20/21->FTP`, `22->SSH`, `25->SMTP`, `53->DNS`, `80->HTTP`, `443->HTTPS`, `3306->MySQL`, `5432->PostgreSQL`, `6379->Redis`, else `UNKNOWN`).",
+        "bn": "একটি পোর্ট নম্বর পড়ে যাচাই করুন সেটি `0..65535` পূর্ণসংখ্যা কি না (নতুবা `INVALID_PORT`)। বৈধ হলে IANA শ্রেণি (`WELL_KNOWN`, `REGISTERED`, `EPHEMERAL`) এবং পরিচিত সার্ভিসের নাম প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a port string.",
+        "bn": "এক লাইনে পোর্ট নম্বর।"
+      },
+      "expectedOutput": {
+        "en": "`<CATEGORY> | <SERVICE>` or `INVALID_PORT`.",
+        "bn": "`<শ্রেণি> | <সার্ভিস>` অথবা `INVALID_PORT`।"
+      },
+      "examples": [
+        {
+          "input": "443",
+          "output": "WELL_KNOWN | HTTPS",
+          "explanation": {
+            "en": "Port 443 is in 0..1023 (privileged system port) and serves HTTPS.",
+            "bn": "৪৪৩ পোর্ট ০..১০২৩-এর মধ্যে থাকায় WELL_KNOWN এবং এটি HTTPS সার্ভিস চালায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Try parsing with `int(s)` inside `try/except ValueError`, and note that negative ports or ports `> 65535` cannot fit in a 16-bit TCP/UDP header field.",
+        "bn": "TCP/UDP হেডারে পোর্ট ১৬ বিটের হওয়ায় ০-এর কম বা ৬৫৫৩৫-এর বেশি পোর্ট অবৈধ।"
+      },
+      "hint2": {
+        "en": "Store common port mappings in a clean dictionary and look up `SERVICES.get(port, 'UNKNOWN')`.",
+        "bn": "সার্ভিস নাম ডিকশনারিতে রেখে `.get(port, 'UNKNOWN')` দিয়ে খুঁজুন।"
+      },
+      "logicBreakdown": {
+        "en": "TCP and UDP headers allocate exactly 2 bytes (16 bits) for source and destination ports, fixing the mathematical ceiling at `2^16 - 1 = 65535`.",
+        "bn": "TCP ও UDP হেডারে পোর্টের জন্য ২ বাইট বা ১৬ বিট নির্ধারিত থাকায় সর্বোচ্চ মান `2^16 - 1 = 65535` হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse input safely to integer; reject non-integers or values outside `[0, 65535]`.", "bn": "ইনপুট পূর্ণসংখ্যা ও `[0, 65535]` সীমায় আছে কি না দেখুন।" },
+        { "en": "Determine IANA tier (`< 1024`, `< 49152`, else `EPHEMERAL`).", "bn": "পোর্টের IANA ধাপ নির্ণয় করুন।" },
+        { "en": "Look up well-known service name and print.", "bn": "পরিচিত সার্ভিসের নাম মিলিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "SERVICES = {\n    20: \"FTP\", 21: \"FTP\", 22: \"SSH\", 25: \"SMTP\",\n    53: \"DNS\", 80: \"HTTP\", 443: \"HTTPS\",\n    3306: \"MySQL\", 5432: \"PostgreSQL\", 6379: \"Redis\"\n}\nraw = input().strip()\ntry:\n    if not raw or (raw[0] in \"+-\" and not raw[1:].isdigit()) or (raw[0] not in \"+-\" and not raw.isdigit()):\n        raise ValueError\n    port = int(raw)\nexcept ValueError:\n    port = -1\n\nif not (0 <= port <= 65535):\n    print(\"INVALID_PORT\")\nelse:\n    if port <= 1023:\n        cat = \"WELL_KNOWN\"\n    elif port <= 49151:\n        cat = \"REGISTERED\"\n    else:\n        cat = \"EPHEMERAL\"\n    print(f\"{cat} | {SERVICES.get(port, 'UNKNOWN')}\")",
+      "codeExplanation": {
+        "en": "Strict bounds and dictionary lookup cleanly separate validation, classification, and service annotation.",
+        "bn": "সীমা পরীক্ষা ও ডিকশনারি লুকআপ আলাদাভাবে কোডকে পরিষ্কার রেখেছে।"
+      },
+      "commonMistakes": {
+        "en": "Allowing port `65536` or `0`? Wait—port `0` is valid in sockets (ephemeral ask) within `0..65535`, whereas `65536` overflows 16 bits.",
+        "bn": "`65536` ১৬ বিটের বাইরে যাওয়ায় অবৈধ; সীমানা সবসময় `0 <= port <= 65535`।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "443", "expectedOutput": "WELL_KNOWN | HTTPS", "note": { "en": "System HTTPS port", "bn": "সিস্টেম HTTPS পোর্ট" } },
+        { "input": "5432", "expectedOutput": "REGISTERED | PostgreSQL", "note": { "en": "Registered DB port", "bn": "রেজিস্টার্ড DB পোর্ট" } },
+        { "input": "55000", "expectedOutput": "EPHEMERAL | UNKNOWN", "note": { "en": "Dynamic client port", "bn": "ইফেমেরাল পোর্ট" } },
+        { "input": "70000", "expectedOutput": "INVALID_PORT", "note": { "en": "Exceeds 16-bit max 65535", "bn": "৬৫৫৩৫-এর বেশি অবৈধ পোর্ট" } }
+      ]
+    },
+    {
+      "id": "P18-05",
+      "number": 5,
+      "title": {
+        "en": "IPv6 Canonical Zero-Expansion & Syntax Validator",
+        "bn": "IPv6 ঠিকানা পূর্ণ সম্প্রসারণ ও সিনট্যাক্স যাচাই"
+      },
+      "difficulty": "Very Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Modern cloud networking and IP allowlists normalize shorthand IPv6 addresses like `2001:db8::1` into unambiguous canonical 128-bit form before comparison.",
+        "bn": "আধুনিক ক্লাউড নেটওয়ার্কে `2001:db8::1`-এর মতো সংক্ষিপ্ত IPv6 ঠিকানাকে তুলনার আগে পূর্ণ ৩২-হেক্স রূপে সম্প্রসারিত করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Eight 16-bit hex groups (128 bits total)", "bn": "৮টি ১৬-বিট হেক্স গ্রুপ (মোট ১২৮ বিট)" },
+        { "en": "Single `::` zero-group compression expansion", "bn": "একক `::` শূন্য-সংকোচন সম্প্রসারণ" }
+      ],
+      "description": {
+        "en": "Read a string representing an IPv6 address (no zone `%` or IPv4-embedded suffix). Expand any `::` compression and pad every group to 4 lowercase hexadecimal digits (`xxxx:xxxx:...:xxxx` across 8 groups). Remember `::` may appear at most once. Print the expanded address or `INVALID_IPV6`.",
+        "bn": "একটি IPv6 স্ট্রিং পড়ে (সর্বোচ্চ একবার `::` থাকতে পারে) পূর্ণ ৮টি ৪-অঙ্কের ছোট হাতের হেক্স গ্রুপে সম্প্রসারণ করুন, অথবা ভুল হলে `INVALID_IPV6` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an IPv6 candidate string.",
+        "bn": "এক লাইনে একটি IPv6 স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "Full 39-character expanded IPv6 string or `INVALID_IPV6`.",
+        "bn": "পূর্ণ সম্প্রসারিত IPv6 স্ট্রিং অথবা `INVALID_IPV6`।"
+      },
+      "examples": [
+        {
+          "input": "2001:db8::1",
+          "output": "2001:0db8:0000:0000:0000:0000:0000:0001",
+          "explanation": {
+            "en": "`::` expands to five `0000` groups to reach 8 groups total, and `db8`/`1` zero-pad to 4 digits.",
+            "bn": "মোট ৮টি গ্রুপ পূর্ণ করতে `::`-এর জায়গায় ৫টি `0000` গ্রুপ বসেছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split on `::` first: if `s.count('::') > 1`, reject immediately. If `::` is present, expand missing `8 - (len(left) + len(right))` zero groups.",
+        "bn": "প্রথমে `::` দিয়ে ভাগ করুন: একাধিক `::` থাকলে সাথে সাথে বাতিল।"
+      },
+      "hint2": {
+        "en": "Validate each group has `1 <= len(g) <= 4` and only hex digits `0-9a-f`.",
+        "bn": "প্রতিটি গ্রুপের দৈর্ঘ্য `1..4` ও কেবল হেক্স অক্ষর আছে কি না দেখুন।"
+      },
+      "logicBreakdown": {
+        "en": "IPv6 addresses consist of 8 16-bit hextets (128 bits). Leading zeros inside a hextet can be omitted, and one contiguous run of `0000` hextets can collapse to `::`.",
+        "bn": "IPv6 হলো ১২৮-বিটের ৮টি হেক্সটেট। একটিমাত্র টানা শূন্যের দলকে `::` দিয়ে সংক্ষেপ করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Reject empty strings or `:::` / multiple `::`.", "bn": "একাধিক `::` বা অবৈধ `:::` বাতিল করুন।" },
+        { "en": "If `::` present, split into left/right groups and insert `8 - (len(L)+len(R))` `'0000'` groups (must need >= 1 missing group or match `::` edge case).", "bn": "`::` থাকলে বাম ও ডান গ্রুপের মাঝে অনুপস্থিত শূন্য গ্রুপ বসান।" },
+        { "en": "Verify 8 groups total, each 1–4 hex digits, and zero-fill to 4 digits.", "bn": "মোট ৮টি গ্রুপ ও হেক্স বৈধতা দেখে `zfill(4)` দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "s = input().strip().lower()\nhex_set = set(\"0123456789abcdef\")\n\ndef expand_ipv6(addr):\n    if not addr or addr.count(\"::\") > 1 or \":::\" in addr:\n        return None\n    if \"::\" in addr:\n        left_s, right_s = addr.split(\"::\")\n        left = left_s.split(\":\") if left_s else []\n        right = right_s.split(\":\") if right_s else []\n        missing = 8 - (len(left) + len(right))\n        if missing < 1:\n            return None\n        groups = left + [\"0\"] * missing + right\n    else:\n        groups = addr.split(\":\")\n        if len(groups) != 8:\n            return None\n    out = []\n    for g in groups:\n        if not (1 <= len(g) <= 4) or not all(c in hex_set for c in g):\n            return None\n        out.append(g.zfill(4))\n    return \":\".join(out)\n\nres = expand_ipv6(s)\nprint(res if res else \"INVALID_IPV6\")",
+      "codeExplanation": {
+        "en": "Handling `left_s` and `right_s` when empty correctly supports `::1` (`left=[]`, `right=['1']`) and `::` (`left=[]`, `right=[]`).",
+        "bn": "বাম বা ডান অংশ খালি থাকা অবস্থায়ও `::1` ও `::` সঠিকভাবে ৮টি গ্রুপে সম্প্রসারিত হয়।"
+      },
+      "commonMistakes": {
+        "en": "Accepting addresses with two `::` blocks (like `2001::db8::1`), which is ambiguous and forbidden by RFC 4291.",
+        "bn": "`2001::db8::1`-এর মতো দুই জায়গায় `::` গ্রহণ করা—যা RFC অনুযায়ী সম্পূর্ণ অবৈধ।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "2001:db8::1", "expectedOutput": "2001:0db8:0000:0000:0000:0000:0000:0001", "note": { "en": "Middle compression", "bn": "মাঝে সংকুচিত শূন্য" } },
+        { "input": "::1", "expectedOutput": "0000:0000:0000:0000:0000:0000:0000:0001", "note": { "en": "IPv6 loopback", "bn": "IPv6 লুপব্যাক" } },
+        { "input": "2001::db8::1", "expectedOutput": "INVALID_IPV6", "note": { "en": "Double compression forbidden", "bn": "দ্বিগুণ সংকোচন অবৈধ" } },
+        { "input": "2001:0db8:12345::1", "expectedOutput": "INVALID_IPV6", "note": { "en": "5-hex group invalid", "bn": "৫-অঙ্কের গ্রুপ অবৈধ" } }
+      ]
+    },
+    {
+      "id": "P18-06",
+      "number": 6,
+      "title": {
+        "en": "IPv4 to Dotted Binary & 32-Bit Unsigned Integer",
+        "bn": "IPv4 থেকে ডটেড বাইনারি ও ৩২-বিট পূর্ণসংখ্যা রূপান্তর"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "GeoIP databases, routing lookups, and subnet masking convert IPv4 strings into 32-bit integers (`uint32`) for single-instruction comparisons.",
+        "bn": "রাউটিং টেবিল ও GeoIP ডেটাবেজে দ্রুত সীমা তুলনার জন্য IPv4 ঠিকানাকে ৩২-বিট ইন্টিজারে রূপান্তর করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Big-endian bit packing `(a<<24) | (b<<16) | (c<<8) | d`", "bn": "বিগ-এন্ডিয়ান বিট প্যাকিং `(a<<24)|(b<<16)|(c<<8)|d`" },
+        { "en": "Per-octet 8-bit binary representation", "bn": "প্রতিটি অক্টেটের ৮-বিট বাইনারি রূপ" }
+      ],
+      "description": {
+        "en": "Read a valid IPv4 address. Compute both: (1) its 32-bit dotted binary string (`8.8.8.8` -> `00001000.00001000.00001000.00001000`), and (2) its 32-bit unsigned integer value via bit shifting (`(a << 24) | (b << 16) | (c << 8) | d`). Print `Binary: <bin>` and `Int32: <val>` (or `INVALID_IPV4`).",
+        "bn": "একটি বৈধ IPv4 ঠিকানা নিয়ে (১) ডটেড ৩২-বিট বাইনারি এবং (২) বিট শিফটিংয়ের মাধ্যমে ৩২-বিট পূর্ণসংখ্যা মান বের করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One IPv4 address string.",
+        "bn": "এক লাইনে IPv4 স্ট্রিং।"
+      },
+      "expectedOutput": {
+        "en": "`Binary: <8.8.8.8 bits>` and `Int32: <int>`, or `INVALID_IPV4`.",
+        "bn": "`Binary: <বাইনারি>` এবং `Int32: <সংখ্যা>`, অথবা `INVALID_IPV4`।"
+      },
+      "examples": [
+        {
+          "input": "192.168.1.1",
+          "output": "Binary: 11000000.10101000.00000001.00000001\nInt32: 3232235777",
+          "explanation": {
+            "en": "192*2^24 + 168*2^16 + 1*2^8 + 1 = 3232235777.",
+            "bn": "বিট-শিফট যোগফলে ৩২-বিট মান 3232235777 হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`f\"{octet:08b}\"` formats any `0..255` integer cleanly into 8 binary bits.",
+        "bn": "`f\"{octet:08b}\"` দিয়ে প্রতিটি অক্টেট ৮-বিট বাইনারি হয়।"
+      },
+      "hint2": {
+        "en": "Pack with `(a << 24) | (b << 16) | (c << 8) | d`.",
+        "bn": "`(a << 24) | (b << 16) | (c << 8) | d` দিয়ে ৩২-বিট মান পাবেন।"
+      },
+      "logicBreakdown": {
+        "en": "An IPv4 address is literally a 32-bit unsigned integer written in 4 base-256 chunks for human readability. Network hardware operates exclusively on the packed 32-bit form.",
+        "bn": "IPv4 আসলে মানুষের পড়ার সুবিধার জন্য ৪টি ৮-বিট খণ্ডে লেখা একটি ৩২-বিট ধনাত্মক পূর্ণসংখ্যা।"
+      },
+      "algorithm": [
+        { "en": "Strictly validate the 4 octets.", "bn": "৪টি অক্টেট কঠোরভাবে যাচাই করুন।" },
+        { "en": "Format each octet as 8 binary bits joined by `.`.", "bn": "প্রতিটি অক্টেট ৮-বিট বাইনারিতে সাজিয়ে ডটে যুক্ত করুন।" },
+        { "en": "Shift and OR octets into the 32-bit integer.", "bn": "বিট শিফট ও OR করে ৩২-বিট পূর্ণসংখ্যা বের করুন।" }
+      ],
+      "solution": "parts = input().strip().split(\".\")\nif len(parts) != 4 or any(not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 255) for p in parts):\n    print(\"INVALID_IPV4\")\nelse:\n    a, b, c, d = (int(p) for p in parts)\n    bin_str = \".\".join(f\"{x:08b}\" for x in (a, b, c, d))\n    val32 = (a << 24) | (b << 16) | (c << 8) | d\n    print(f\"Binary: {bin_str}\")\n    print(f\"Int32: {val32}\")",
+      "codeExplanation": {
+        "en": "Shifting each octet into its 8-bit lane produces the exact network byte-order integer.",
+        "bn": "প্রতিটি অক্টেটকে ২৪, ১৬, ৮ ও ০ বিট বামে সরিয়ে একত্র করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Reversing octet shift offsets (`d << 24 | ... | a`), which produces little-endian host order instead of network order.",
+        "bn": "শিফটিংয়ের ক্রম উল্টে দিলে নেটওয়ার্ক বাইট-অর্ডার নষ্ট হয়ে ভুল পূর্ণসংখ্যা পাওয়া যায়।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "192.168.1.1", "expectedOutput": "Binary: 11000000.10101000.00000001.00000001\nInt32: 3232235777", "note": { "en": "Private gateway IP", "bn": "প্রাইভেট গেটওয়ে আইপি" } },
+        { "input": "0.0.0.0", "expectedOutput": "Binary: 00000000.00000000.00000000.00000000\nInt32: 0", "note": { "en": "Minimum IPv4", "bn": "সর্বনিম্ন IPv4" } },
+        { "input": "255.255.255.255", "expectedOutput": "Binary: 11111111.11111111.11111111.11111111\nInt32: 4294967295", "note": { "en": "Maximum 32-bit broadcast", "bn": "সর্বোচ্চ ৩২-বিট ব্রডকাস্ট" } }
+      ]
+    },
+    {
+      "id": "P18-07",
+      "number": 7,
+      "title": {
+        "en": "Contiguous Subnet Mask Validator & CIDR Prefix Converter",
+        "bn": "সাবনেট মাস্ক বৈধতা যাচাই ও CIDR প্রিফিক্স রূপান্তর"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "14 min", "bn": "১৪ মিনিট" },
+      "realWorldApplication": {
+        "en": "Network OS configs and router CLIs reject non-contiguous masks like `255.0.255.0` and convert valid masks into compact `/prefix` notation.",
+        "bn": "রাউটার কনফিগারেশনে `255.0.255.0`-এর মতো বিচ্ছিন্ন মাস্ক বাতিল করে বৈধ মাস্ককে `/prefix`-এ রূপান্তর করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Contiguous leading 1-bits invariant (`1...10...0`)", "bn": "অবিচ্ছিন্ন অগ্রণী ১-বিট শর্ত (`1...10...0`)" },
+        { "en": "Bitwise contiguous-ones test on 32-bit inverse", "bn": "৩২-বিট ইনভার্সের ওপর বিটওয়াইজ পরীক্ষা" }
+      ],
+      "description": {
+        "en": "Read a dotted-decimal subnet mask string (e.g., `255.255.240.0`). Verify it is valid IPv4 AND its 32-bit binary representation consists strictly of contiguous `1`s followed by contiguous `0`s (`0.0.0.0` `/0` through `255.255.255.255` `/32` are valid). Print `VALID | /<prefix> | Wildcard: <w.x.y.z>` or `INVALID_MASK`.",
+        "bn": "একটি ডটেড সাবনেট মাস্ক নিয়ে যাচাই করুন এর ৩২-বিট বাইনারি রূপে কেবল টানা `1` ও তার পরে টানা `0` আছে কি না। বৈধ হলে `VALID | /<prefix> | Wildcard: <w.x.y.z>`, নতুবা `INVALID_MASK` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a dotted-decimal mask.",
+        "bn": "এক লাইনে ডটেড সাবনেট মাস্ক।"
+      },
+      "expectedOutput": {
+        "en": "`VALID | /<prefix> | Wildcard: <w>` or `INVALID_MASK`.",
+        "bn": "`VALID | /<প্রিফিক্স> | Wildcard: <ওয়াইল্ডকার্ড>` অথবা `INVALID_MASK`।"
+      },
+      "examples": [
+        {
+          "input": "255.255.240.0",
+          "output": "VALID | /20 | Wildcard: 0.0.15.255",
+          "explanation": {
+            "en": "255.255.240.0 has 20 leading 1-bits followed by 12 zero-bits; wildcard is ~mask & 0xFFFFFFFF.",
+            "bn": "২৫৫.২৫৫.২৪০.০-এ প্রথমে ২০টি ১ ও শেষে ১২টি ০ আছে এবং ওয়াইল্ডকার্ড 0.0.15.255।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Let `inv = (~mask32) & 0xFFFFFFFF`. A mask is contiguous iff `(inv & (inv + 1)) == 0`!",
+        "bn": "`inv = (~mask32) & 0xFFFFFFFF` হলে `(inv & (inv + 1)) == 0` শর্তে মাস্কের ১-গুলো অবিচ্ছিন্ন থাকে।"
+      },
+      "hint2": {
+        "en": "Notice `wildcard` is simply `inv` unpacked back into 4 dotted octets!",
+        "bn": "এই `inv`-ই হলো ACL-এ ব্যবহৃত Wildcard মাস্ক!"
+      },
+      "logicBreakdown": {
+        "en": "Inverting a valid mask turns `111...000` into `000...111` (all trailing ones, i.e., `2^k - 1`). Adding `1` gives `2^k`, whose AND with `2^k - 1` is zero—an instant bitwise check for contiguity.",
+        "bn": "বৈধ মাস্ককে উল্টালে শেষে টানা `1` থাকে (`2^k - 1`)। এর সাথে `1` যোগ করে AND করলে `0` পাওয়াই অবিচ্ছিন্নতার নিখুঁত বিটওয়াইজ প্রমাণ।"
+      },
+      "algorithm": [
+        { "en": "Validate IPv4 syntax and pack into `mask32`.", "bn": "IPv4 সিনট্যাক্স যাচাই করে ৩২-বিট `mask32` বানান।" },
+        { "en": "Compute `inv = (~mask32) & 0xFFFFFFFF`; verify `(inv & (inv + 1)) == 0`.", "bn": "`inv & (inv + 1) == 0` পরীক্ষা করুন।" },
+        { "en": "Count prefix `bin(mask32).count('1')` and unpack `inv` into wildcard dotted IP.", "bn": "১-বিট গুনে `/prefix` ও ওয়াইল্ডকার্ড প্রিন্ট করুন।" }
+      ],
+      "solution": "parts = input().strip().split(\".\")\nif len(parts) != 4 or any(not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 255) for p in parts):\n    print(\"INVALID_MASK\")\nelse:\n    a, b, c, d = (int(p) for p in parts)\n    mask32 = (a << 24) | (b << 16) | (c << 8) | d\n    inv = (~mask32) & 0xFFFFFFFF\n    if (inv & (inv + 1)) != 0:\n        print(\"INVALID_MASK\")\n    else:\n        prefix = bin(mask32).count(\"1\")\n        wild = f\"{(inv >> 24) & 0xFF}.{(inv >> 16) & 0xFF}.{(inv >> 8) & 0xFF}.{inv & 0xFF}\"\n        print(f\"VALID | /{prefix} | Wildcard: {wild}\")",
+      "codeExplanation": {
+        "en": "`(inv & (inv + 1)) == 0` cleanly handles `/0` (`inv = 0xFFFFFFFF`, `inv + 1 = 0x100000000`, AND is `0`) and `/32` (`inv = 0`).",
+        "bn": "`/0` ও `/32` সীমানা দুটিও `(inv & (inv + 1)) == 0` সূত্রে স্বয়ংক্রিয়ভাবে কাজ করে।"
+      },
+      "commonMistakes": {
+        "en": "Checking `octet in {0,128,192,224,240,248,252,254,255}` per byte without enforcing left-to-right monotonic transition (which fails on `255.128.255.0`).",
+        "bn": "শুধু প্রতিটি অক্টেটের বৈধ মান দেখলে `255.128.255.0`-এর মতো মাঝখানে ভাঙা মাস্ক ধরা পড়ে না।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "255.255.240.0", "expectedOutput": "VALID | /20 | Wildcard: 0.0.15.255", "note": { "en": "/20 CIDR mask", "bn": "/20 মাস্ক" } },
+        { "input": "255.0.255.0", "expectedOutput": "INVALID_MASK", "note": { "en": "Non-contiguous ones", "bn": "বিচ্ছিন্ন ১ বিট" } },
+        { "input": "255.128.255.0", "expectedOutput": "INVALID_MASK", "note": { "en": "Broken mask after 128", "bn": "১২৮-এর পর ২৫৫ অবৈধ" } },
+        { "input": "255.255.255.255", "expectedOutput": "VALID | /32 | Wildcard: 0.0.0.0", "note": { "en": "Host /32 mask", "bn": "/32 হোস্ট মাস্ক" } }
+      ]
+    },
+    {
+      "id": "P18-08",
+      "number": 8,
+      "title": {
+        "en": "IPv4 CIDR Subnet, Broadcast & Usable Host Range Calculator",
+        "bn": "IPv4 CIDR সাবনেট, ব্রডকাস্ট ও হোস্ট রেঞ্জ ক্যালকুলেটর"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Cloud VPC design (AWS/GCP), DHCP pool allocation, and route summarization compute exact network boundaries from `IP/prefix` blocks.",
+        "bn": "ক্লাউড VPC, DHCP পুল ও রাউটিং কনফিগারেশনে `IP/prefix` থেকে সঠিক নেটওয়ার্ক ও ব্রডকাস্ট ঠিকানা হিসাব করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Bitwise network (`ip & mask`) & broadcast (`net | wildcard`)", "bn": "বিটওয়াইজ নেটওয়ার্ক ও ব্রডকাস্ট নির্ণয়" },
+        { "en": "Handling `/31` point-to-point and `/32` single-host edge cases", "bn": "`/31` ও `/32` প্রিফিক্সের বিশেষ নিয়ম" }
+      ],
+      "description": {
+        "en": "Read CIDR notation `<ipv4>/<prefix>` (`0 <= prefix <= 32`). Validate both parts (else `INVALID_CIDR`), then calculate: `Network`, `Broadcast`, `Usable Range` (for `/0../30`: `net+1 - bcast-1`, `/31`: `net - bcast (P2P)`, `/32`: `Single Host`), and `Usable Hosts` (`2^(32-prefix)-2` for `<= 30`, `2` for `/31` RFC 3021, `1` for `/32`).",
+        "bn": "`<ipv4>/<prefix>` (`0 <= prefix <= 32`) ইনপুট নিয়ে `Network`, `Broadcast`, `Usable Range` এবং `Usable Hosts` হিসাব করুন (`/31` এবং `/32`-এর বিশেষ ক্ষেত্রসহ)।"
+      },
+      "inputDescription": {
+        "en": "One line `<ipv4>/<prefix>`.",
+        "bn": "এক লাইনে `<ipv4>/<prefix>`।"
+      },
+      "expectedOutput": {
+        "en": "Four lines: Network, Broadcast, Range, Usable Hosts; or `INVALID_CIDR`.",
+        "bn": "৪ লাইনে Network, Broadcast, Range ও Usable Hosts অথবা `INVALID_CIDR`।"
+      },
+      "examples": [
+        {
+          "input": "192.168.10.75/26",
+          "output": "Network: 192.168.10.64\nBroadcast: 192.168.10.127\nRange: 192.168.10.65 - 192.168.10.126\nUsable Hosts: 62",
+          "explanation": {
+            "en": "/26 uses 64-address blocks (0..63, 64..127), giving 62 usable host IPs.",
+            "bn": "/26 ব্লকের আকার ৬৪ হওয়ায় ৭৫ নম্বর আইপি 192.168.10.64-127 সাবনেটে পড়ে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Create the 32-bit mask with `mask = (0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF` (when `prefix == 0`, `mask = 0`).",
+        "bn": "`prefix > 0` হলে `(0xFFFFFFFF << (32 - prefix)) & 0xFFFFFFFF` দিয়ে মাস্ক বানান।"
+      },
+      "hint2": {
+        "en": "Write helper `int_to_ip(n)` unpacking `(n >> 24) & 0xFF` down to `n & 0xFF`.",
+        "bn": "`int_to_ip(n)` হেল্পার দিয়ে ৩২-বিট মানকে আবার ডটেড IPv4 বানান।"
+      },
+      "logicBreakdown": {
+        "en": "Using pure 32-bit bitwise operations reveals why subnet boundaries always align to powers of 2: zeroing the lowest `(32 - prefix)` bits drops directly to `network`, and setting them all to `1` reaches `broadcast`.",
+        "bn": "নিচের `(32 - prefix)` বিট `0` করলে নেটওয়ার্ক এবং `1` করলে ব্রডকাস্ট ঠিকানা পাওয়া যায়—এ কারণেই সাবনেট সর্বদা ২-এর ঘাতে হয়।"
+      },
+      "algorithm": [
+        { "en": "Split on `/` and validate IPv4 + integer prefix in `0..32`.", "bn": "`/` দিয়ে ভাগ করে IPv4 ও `0..32` প্রিফিক্স যাচাই করুন।" },
+        { "en": "Compute `ip32`, `mask32`, `net = ip32 & mask32`, `bcast = net | (~mask32 & 0xFFFFFFFF)`.", "bn": "বিটওয়াইজে `net` ও `bcast` বের করুন।" },
+        { "en": "Handle `/32`, `/31`, and standard `<= 30` host counts and ranges cleanly.", "bn": "`/32`, `/31` এবং সাধারণ সাবনেটের রেঞ্জ প্রিন্ট করুন।" }
+      ],
+      "solution": "def parse_ip(s):\n    parts = s.split(\".\")\n    if len(parts) != 4 or any(not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 255) for p in parts):\n        return None\n    a, b, c, d = (int(p) for p in parts)\n    return (a << 24) | (b << 16) | (c << 8) | d\n\ndef fmt_ip(n):\n    return f\"{(n >> 24) & 0xFF}.{(n >> 16) & 0xFF}.{(n >> 8) & 0xFF}.{n & 0xFF}\"\n\nraw = input().strip()\nif \"/\" not in raw:\n    print(\"INVALID_CIDR\")\nelse:\n    ip_s, pref_s = raw.split(\"/\", 1)\n    ip32 = parse_ip(ip_s)\n    if ip32 is None or not pref_s.isdigit() or (len(pref_s) > 1 and pref_s[0] == \"0\") or not (0 <= int(pref_s) <= 32):\n        print(\"INVALID_CIDR\")\n    else:\n        pref = int(pref_s)\n        mask = 0 if pref == 0 else ((0xFFFFFFFF << (32 - pref)) & 0xFFFFFFFF)\n        net = ip32 & mask\n        bcast = net | ((~mask) & 0xFFFFFFFF)\n        print(f\"Network: {fmt_ip(net)}\")\n        print(f\"Broadcast: {fmt_ip(bcast)}\")\n        if pref == 32:\n            print(f\"Range: {fmt_ip(net)} (Single Host)\")\n            print(\"Usable Hosts: 1\")\n        elif pref == 31:\n            print(f\"Range: {fmt_ip(net)} - {fmt_ip(bcast)} (P2P)\")\n            print(\"Usable Hosts: 2\")\n        else:\n            hosts = (1 << (32 - pref)) - 2\n            print(f\"Range: {fmt_ip(net + 1)} - {fmt_ip(bcast - 1)}\")\n            print(f\"Usable Hosts: {hosts}\")",
+      "codeExplanation": {
+        "en": "Pure bitwise shifts calculate exact network/broadcast boundaries across the full `/0` to `/32` spectrum without external modules.",
+        "bn": "কোনো বাহ্যিক লাইব্রেরি ছাড়াই বিট-শিফট দিয়ে `/0` থেকে `/32` পর্যন্ত সব সাবনেট গণনা করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Returning negative `-1` usable hosts for `/32` from blindly computing `2**(32 - prefix) - 2`.",
+        "bn": "`/32`-এ `2^0 - 2 = -1` প্রিন্ট করে দেওয়া—যেখানে `/32` একটি একক হোস্ট।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "192.168.10.75/26", "expectedOutput": "Network: 192.168.10.64\nBroadcast: 192.168.10.127\nRange: 192.168.10.65 - 192.168.10.126\nUsable Hosts: 62", "note": { "en": "/26 subnet", "bn": "/26 সাবনেট" } },
+        { "input": "10.0.0.5/32", "expectedOutput": "Network: 10.0.0.5\nBroadcast: 10.0.0.5\nRange: 10.0.0.5 (Single Host)\nUsable Hosts: 1", "note": { "en": "Single host route", "bn": "একক হোস্ট /32" } },
+        { "input": "10.0.0.1/33", "expectedOutput": "INVALID_CIDR", "note": { "en": "Invalid prefix > 32", "bn": "৩২-এর বড় প্রিফিক্স অবৈধ" } }
+      ]
+    },
+    {
+      "id": "P18-09",
+      "number": 9,
+      "title": {
+        "en": "Same-Subnet Membership & Routing Decision Checker",
+        "bn": "একই সাবনেট সদস্যতা ও রাউটিং সিদ্ধান্ত নির্ণয়"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Every host OS networking stack compares `(src_ip & mask) == (dst_ip & mask)` on every outgoing packet to choose ARP (LAN direct) vs Default Gateway.",
+        "bn": "প্রতিটি অপারেটিং সিস্টেম প্যাকেট পাঠানোর সময় `(src & mask) == (dst & mask)` দেখে ঠিক করে সরাসরি ARP করবে নাকি গেটওয়েতে পাঠাবে।"
+      },
+      "requiredConcepts": [
+        { "en": "Bitwise network equality `(ip1 & mask) == (ip2 & mask)`", "bn": "বিটওয়াইজ নেটওয়ার্ক সমতা `(ip1 & mask) == (ip2 & mask)`" },
+        { "en": "Direct LAN ARP vs Default Gateway routing decision", "bn": "ডাইরেক্ট LAN বনাম ডিফল্ট গেটওয়ে রাউটিং" }
+      ],
+      "description": {
+        "en": "Read three lines: `Source IP`, `Destination IP`, and `Subnet Mask` (accepting either dotted `255.255.255.0` or `/24` prefix). Validate all three, compute both network IDs, and print `SAME_SUBNET | DIRECT_LAN | Network: <net>` if equal, or `DIFFERENT_SUBNET | VIA_GATEWAY | SrcNet: <n1> DstNet: <n2>` otherwise.",
+        "bn": "তিন লাইনে `Source IP`, `Destination IP` এবং `Subnet Mask` (`255.255.255.0` বা `/24`) পড়ুন। দুটি আইপি একই সাবনেটে হলে `SAME_SUBNET | DIRECT_LAN`, ভিন্ন হলে `DIFFERENT_SUBNET | VIA_GATEWAY` ও নেটওয়ার্ক ঠিকানা প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: src IP. Line 2: dst IP. Line 3: dotted mask or `/prefix`.",
+        "bn": "৩ লাইনে src IP, dst IP এবং মাস্ক বা `/prefix`।"
+      },
+      "expectedOutput": {
+        "en": "Routing decision line or `INVALID_INPUT`.",
+        "bn": "রাউটিং সিদ্ধান্ত অথবা `INVALID_INPUT`।"
+      },
+      "examples": [
+        {
+          "input": "192.168.1.25\n192.168.1.200\n255.255.255.0",
+          "output": "SAME_SUBNET | DIRECT_LAN | Network: 192.168.1.0",
+          "explanation": {
+            "en": "Both IPs share network 192.168.1.0 under /24, so no router hop is required.",
+            "bn": "উভয় আইপির নেটওয়ার্ক অংশ 192.168.1.0 সমান হওয়ায় সরাসরি LAN-এ যোগাযোগ হবে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Convert `/prefix` or dotted mask into the same 32-bit `mask32` integer before applying `&`.",
+        "bn": "`/prefix` বা ডটেড মাস্ক—উভয়কে ৩২-বিট ইন্টিজারে আনলে একই বিটওয়াইজ সূত্র কাজ করে।"
+      },
+      "hint2": {
+        "en": "Remember to validate that a dotted mask actually has contiguous 1-bits!",
+        "bn": "ডটেড মাস্কে টানা ১-বিট আছে কি না যাচাই করতে ভুলবেন না।"
+      },
+      "logicBreakdown": {
+        "en": "When a computer sends traffic, it applies its own subnet mask to both its IP and the target IP. Equal masked prefixes mean Layer-2 Ethernet/Wi-Fi switching suffices; unequal prefixes send packets to the router MAC.",
+        "bn": "মাস্কিংয়ের পর নেটওয়ার্ক আইডি এক হলে সরাসরি সুইচে (Layer-2) এবং ভিন্ন হলে গেটওয়ে রাউটারে প্যাকেট যায়।"
+      },
+      "algorithm": [
+        { "en": "Parse and validate `src` and `dst` IPv4 strings.", "bn": "`src` ও `dst` IPv4 যাচাই করুন।" },
+        { "en": "Parse mask either as `/0..32` or contiguous dotted IPv4 mask.", "bn": "মাস্ক (`/prefix` বা ডটেড) যাচাই করুন।" },
+        { "en": "Compare `(src & mask)` and `(dst & mask)` and output routing path.", "bn": "`src & mask` এবং `dst & mask` তুলনা করে সিদ্ধান্ত প্রিন্ট করুন।" }
+      ],
+      "solution": "def parse_ip(s):\n    parts = s.split(\".\")\n    if len(parts) != 4 or any(not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 255) for p in parts):\n        return None\n    a, b, c, d = (int(p) for p in parts)\n    return (a << 24) | (b << 16) | (c << 8) | d\n\ndef parse_mask(m):\n    if m.startswith(\"/\"):\n        p = m[1:]\n        if not p.isdigit() or (len(p) > 1 and p[0] == \"0\") or not (0 <= int(p) <= 32):\n            return None\n        pref = int(p)\n        return 0 if pref == 0 else ((0xFFFFFFFF << (32 - pref)) & 0xFFFFFFFF)\n    val = parse_ip(m)\n    if val is None:\n        return None\n    inv = (~val) & 0xFFFFFFFF\n    return val if (inv & (inv + 1)) == 0 else None\n\ndef fmt_ip(n):\n    return f\"{(n >> 24) & 0xFF}.{(n >> 16) & 0xFF}.{(n >> 8) & 0xFF}.{n & 0xFF}\"\n\nip1 = parse_ip(input().strip())\nip2 = parse_ip(input().strip())\nmask = parse_mask(input().strip())\n\nif ip1 is None or ip2 is None or mask is None:\n    print(\"INVALID_INPUT\")\nelse:\n    n1 = ip1 & mask\n    n2 = ip2 & mask\n    if n1 == n2:\n        print(f\"SAME_SUBNET | DIRECT_LAN | Network: {fmt_ip(n1)}\")\n    else:\n        print(f\"DIFFERENT_SUBNET | VIA_GATEWAY | SrcNet: {fmt_ip(n1)} DstNet: {fmt_ip(n2)}\")",
+      "codeExplanation": {
+        "en": "Unified `parse_mask` accepts both `/prefix` and dotted-mask formats while enforcing contiguous mask validity.",
+        "bn": "`parse_mask` উভয় ফরম্যাট গ্রহণ করে এবং বিচ্ছিন্ন মাস্ক আটকায়।"
+      },
+      "commonMistakes": {
+        "en": "Comparing only the first 3 octets (`ip1.split('.')[:3] == ip2.split('.')[:3]`), which breaks completely on `/22`, `/23`, `/25`, or `/26` subnets.",
+        "bn": "কেবল প্রথম ৩ অক্টেট মিলিয়ে দেখলে `/22` বা `/26` সাবনেটে সম্পূর্ণ ভুল ফলাফল আসে।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "192.168.1.25\n192.168.1.200\n255.255.255.0", "expectedOutput": "SAME_SUBNET | DIRECT_LAN | Network: 192.168.1.0", "note": { "en": "Same /24 LAN", "bn": "একই /24 LAN" } },
+        { "input": "10.0.1.5\n10.0.2.5\n/22", "expectedOutput": "SAME_SUBNET | DIRECT_LAN | Network: 10.0.0.0", "note": { "en": "Supernet /22 spans .0-.3", "bn": "/22 সাবনেটে .1 ও .2 একই নেটওয়ার্ক" } },
+        { "input": "192.168.1.10\n192.168.1.140\n/25", "expectedOutput": "DIFFERENT_SUBNET | VIA_GATEWAY | SrcNet: 192.168.1.0 DstNet: 192.168.1.128", "note": { "en": "Split across /25 boundary", "bn": "/25 সীমায় বিভক্ত" } }
+      ]
+    },
+    {
+      "id": "P18-10",
+      "number": 10,
+      "title": {
+        "en": "TCP Control Flags Byte Decoder & Connection Phase Analyzer",
+        "bn": "TCP কন্ট্রোল ফ্ল্যাগ বাইট ডিকোডার ও সংযোগ ধাপ বিশ্লেষণ"
+      },
+      "difficulty": "Easy",
+      "estimatedTime": { "en": "12 min", "bn": "১২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Packet analyzers (Wireshark/tcpdump) and stateless firewall ACLs inspect the 6 standard TCP control bits (`URG ACK PSH RST SYN FIN`) packed into one byte.",
+        "bn": "Wireshark ও ফায়ারওয়ালে ১ বাইটে প্যাক করা ৬টি TCP ফ্ল্যাগ (`URG ACK PSH RST SYN FIN`) বিশ্লেষণ করে সংযোগের অবস্থা বোঝা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "TCP header flag bit positions (`FIN=1` .. `URG=32`)", "bn": "TCP হেডার ফ্ল্যাগ বিট অবস্থান (`FIN=1` .. `URG=32`)" },
+        { "en": "3-way handshake vs data/teardown/reset identification", "bn": "থ্রি-ওয়ে হ্যান্ডশেক, ডেটা ও সমাপ্তি শনাক্তকরণ" }
+      ],
+      "description": {
+        "en": "In a standard TCP header, the 6 classic control flags occupy bits `0..5`: `FIN=1 (bit 0)`, `SYN=2 (bit 1)`, `RST=4 (bit 2)`, `PSH=8 (bit 3)`, `ACK=16 (bit 4)`, `URG=32 (bit 5)`. Read an integer flags byte `0..63` (else `INVALID_FLAGS`). Decode active flags in high-to-low order (`URG, ACK, PSH, RST, SYN, FIN`, or `NULL_SCAN` if `0`) and classify phase: `RST` set -> `CONNECTION_RESET`; `SYN` & `ACK` -> `HANDSHAKE_SYN_ACK`; `SYN` only -> `HANDSHAKE_SYN`; `FIN` set -> `TEARDOWN_FIN`; `ACK` (no SYN/FIN/RST) -> `DATA_OR_ACK`; `0` -> `ANOMALY_NULL`; else `OTHER`.",
+        "bn": "একটি TCP ফ্ল্যাগ বাইট (`0..63`) ইনপুট নিয়ে সক্রিয় ফ্ল্যাগগুলো (`URG ACK PSH RST SYN FIN`) ডিকোড করুন এবং সংযোগ ধাপ (`HANDSHAKE_SYN`, `HANDSHAKE_SYN_ACK`, `DATA_OR_ACK`, `TEARDOWN_FIN`, `CONNECTION_RESET`, `ANOMALY_NULL`, `OTHER`) প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One integer representing the 6-bit TCP flags value.",
+        "bn": "এক লাইনে TCP ফ্ল্যাগের পূর্ণসংখ্যা মান।"
+      },
+      "expectedOutput": {
+        "en": "`Flags: <comma-list> | Phase: <PHASE>` or `INVALID_FLAGS`.",
+        "bn": "`Flags: <তালিকা> | Phase: <ধাপ>` অথবা `INVALID_FLAGS`।"
+      },
+      "examples": [
+        {
+          "input": "18",
+          "output": "Flags: ACK, SYN | Phase: HANDSHAKE_SYN_ACK",
+          "explanation": {
+            "en": "18 = 16 (ACK) + 2 (SYN), representing step 2 of the TCP 3-way handshake.",
+            "bn": "১৮ = ১৬ (ACK) + ২ (SYN), যা TCP থ্রি-ওয়ে হ্যান্ডশেকের দ্বিতীয় ধাপ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Define `FLAGS = [(32, 'URG'), (16, 'ACK'), (8, 'PSH'), (4, 'RST'), (2, 'SYN'), (1, 'FIN')]` and test `if val & bit:`.",
+        "bn": "`(bit, name)` টাপলের তালিকায় `val & bit` চালিয়ে সক্রিয় ফ্ল্যাগ খুঁজুন।"
+      },
+      "hint2": {
+        "en": "Notice `SYN & FIN` together is illegal in normal traffic, whereas `0` (`NULL_SCAN`) indicates an anomalous packet with no flags.",
+        "bn": "সকল বিট ০ হলে `ANOMALY_NULL`, আর `RST` থাকলে সংযোগ বিচ্ছিন্ন নির্দেশ করে।"
+      },
+      "logicBreakdown": {
+        "en": "TCP multiplexes connection setup (`SYN`, `SYN+ACK`, `ACK`), interactive data push (`PSH+ACK`), graceful close (`FIN+ACK`), and abort (`RST`) via bitmasks in a single header byte.",
+        "bn": "একটি মাত্র বাইটের বিটমাস্কের মাধ্যমে TCP সংযোগ শুরু, ডেটা প্রেরণ ও সমাপ্তি নিয়ন্ত্রণ করে।"
+      },
+      "algorithm": [
+        { "en": "Validate integer `0 <= val <= 63`.", "bn": "`0 <= val <= 63` যাচাই করুন।" },
+        { "en": "Extract active flag names from bit 5 down to bit 0.", "bn": "বিট ৫ থেকে ০ পর্যন্ত সক্রিয় ফ্ল্যাগ সংগ্রহ করুন।" },
+        { "en": "Classify TCP connection phase using precedence rules.", "bn": "অগ্রাধিকার অনুযায়ী সংযোগ ধাপ প্রিন্ট করুন।" }
+      ],
+      "solution": "FLAGS = [(32, \"URG\"), (16, \"ACK\"), (8, \"PSH\"), (4, \"RST\"), (2, \"SYN\"), (1, \"FIN\")]\nraw = input().strip()\ntry:\n    val = int(raw)\nexcept ValueError:\n    val = -1\n\nif not (0 <= val <= 63):\n    print(\"INVALID_FLAGS\")\nelse:\n    active = [name for bit, name in FLAGS if val & bit]\n    flag_str = \", \".join(active) if active else \"NONE\"\n    if val == 0:\n        phase = \"ANOMALY_NULL\"\n    elif val & 4:\n        phase = \"CONNECTION_RESET\"\n    elif (val & 2) and (val & 16):\n        phase = \"HANDSHAKE_SYN_ACK\"\n    elif (val & 2) and not (val & 1):\n        phase = \"HANDSHAKE_SYN\"\n    elif (val & 1) and not (val & 2):\n        phase = \"TEARDOWN_FIN\"\n    elif val & 16:\n        phase = \"DATA_OR_ACK\"\n    else:\n        phase = \"OTHER\"\n    print(f\"Flags: {flag_str} | Phase: {phase}\")",
+      "codeExplanation": {
+        "en": "Bitwise `&` tests each control flag cleanly in high-to-low display order.",
+        "bn": "বিটওয়াইজ `&` দিয়ে উচ্চ থেকে নিম্ন বিট ক্রমে ফ্ল্যাগ ডিকোড করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Checking `val == 16` instead of `val & 16`, missing `PSH+ACK` (`24`) data frames.",
+        "bn": "`val & 16`-এর বদলে `val == 16` লিখলে `PSH+ACK` (`24`) ডেটা প্যাকেট শনাক্ত হয় না।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "18", "expectedOutput": "Flags: ACK, SYN | Phase: HANDSHAKE_SYN_ACK", "note": { "en": "SYN-ACK handshake", "bn": "SYN-ACK হ্যান্ডশেক" } },
+        { "input": "24", "expectedOutput": "Flags: ACK, PSH | Phase: DATA_OR_ACK", "note": { "en": "PSH-ACK data delivery", "bn": "PSH-ACK ডেটা প্রেরণ" } },
+        { "input": "0", "expectedOutput": "Flags: NONE | Phase: ANOMALY_NULL", "note": { "en": "Anomalous null flags", "bn": "অস্বাভাবিক নাল ফ্ল্যাগ" } },
+        { "input": "64", "expectedOutput": "INVALID_FLAGS", "note": { "en": "Exceeds 6-bit mask", "bn": "৬-বিটের বেশি অবৈধ" } }
+      ]
+    },
+    {
+      "id": "P18-11",
+      "number": 11,
+      "title": {
+        "en": "TCP Stream Length-Prefixed Message Framing & Reassembly",
+        "bn": "TCP স্ট্রিমে দৈর্ঘ্য-ভিত্তিক ফ্রেম পুনর্গঠন (Framing)"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "TCP is a byte stream, NOT a message stream—real protocols (gRPC, Redis, PostgreSQL, HTTP/2) frame messages with explicit lengths or delimiters to handle split/coalesced `recv()` chunks.",
+        "bn": "TCP শুধু বাইট প্রবাহ পাঠায়, আলাদা মেসেজ নয়; তাই `recv()`-এ খণ্ডিত ডেটা জোড়া লাগাতে ফ্রেমিং অপরিহার্য।"
+      },
+      "requiredConcepts": [
+        { "en": "Stream buffer accumulation across partial `recv()` chunks", "bn": "আংশিক চাংক বাফারে জমা করে ফ্রেম আলাদা করা" },
+        { "en": "Length-header parsing `<len>:<payload>`", "bn": "দৈর্ঘ্য-হেডার `<len>:<payload>` পার্সিং" }
+      ],
+      "description": {
+        "en": "Because TCP may split one message across two `recv()` calls or merge two messages into one chunk, protocols prefix payloads with `<byte_len>:<payload>`. Read integer `C` followed by `C` incoming stream chunks (possibly splitting mid-header or mid-payload). Reassemble messages cleanly in order, reporting `Frame #<idx>: <payload>` and `BufferedRemainder: <bytes>` if incomplete trailing bytes remain.",
+        "bn": "TCP-তে একটি মেসেজ একাধিক চাংকে ভাঙতে বা দুটি মেসেজ একসাথে আসতে পারে। `C`টি চাংক (`<len>:<payload>` ফরম্যাটে) পড়ে স্ট্রিম বাফারে জমা করুন, সম্পূর্ণ মেসেজগুলো ক্রমানুসারে `Frame #<idx>: <payload>` এবং অসম্পূর্ণ অংশ থাকলে `BufferedRemainder: <সংখ্যা>` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer C followed by C chunk lines.",
+        "bn": "পূর্ণসংখ্যা C ও পরবর্তী C লাইনে স্ট্রিম চাংক।"
+      },
+      "expectedOutput": {
+        "en": "`Frame #i: <msg>` lines and `BufferedRemainder: <n>`.",
+        "bn": "`Frame #i: <মেসেজ>` লাইনগুলো ও `BufferedRemainder: <বাইট>`।"
+      },
+      "examples": [
+        {
+          "input": "3\n5:hel\nlo5:wor\nld",
+          "output": "Frame #1: hello\nFrame #2: world\nBufferedRemainder: 0",
+          "explanation": {
+            "en": "Chunk 1 ends mid-'hello', chunk 2 completes 'hello' and starts 'world', chunk 3 completes 'world'.",
+            "bn": "চাংক ১-এ 'hello' অর্ধেক আসে, চাংক ২ ও ৩-এ বাকি অংশ মিলে দুটি ফ্রেম পূর্ণ হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Append each incoming chunk to `buf += chunk`, then loop `while ':' in buf:` checking if `len(buf) >= colon_idx + 1 + msg_len`.",
+        "bn": "প্রতিটি চাংক বাফারে যোগ করে `while ':' in buf:` লুপে পূর্ণ দৈর্ঘ্য এসেছে কি না পরীক্ষা করুন।"
+      },
+      "hint2": {
+        "en": "Consume exactly `colon_idx + 1 + msg_len` bytes via `buf = buf[total:]` so multiple coalesced frames in one chunk all unpack.",
+        "bn": "একটি চাংকের ভেতর একাধিক ফ্রেম থাকলে `while` লুপ সবগুলো আলাদা করবে।"
+      },
+      "logicBreakdown": {
+        "en": "Beginner socket code wrongly assumes 1 `send()` equals 1 `recv()`. Accumulating in a loop and slicing off complete `<len>:<payload>` frames handles TCP fragmentation and coalescing reliably.",
+        "bn": "১ `send()` মানেই ১ `recv()` নয়—বাফারে জমিয়ে সম্পূর্ণ ফ্রেম কেটে নিলে খণ্ডিত ও মিশ্র উভয় অবস্থাই নির্ভুল থাকে।"
+      },
+      "algorithm": [
+        { "en": "Initialize `buf = ''` and `frames = []`.", "bn": "খালি স্ট্রিং বাফার ও ফ্রেম তালিকা নিন।" },
+        { "en": "Append each chunk to `buf`; while `':'` exists, parse `length`, verify full payload arrived, extract frame, and slice `buf`.", "bn": "চাংক যোগ করে পর্যাপ্ত দৈর্ঘ্য পাওয়া মাত্র ফ্রেম বের করুন।" },
+        { "en": "Print extracted frames and final `len(buf)`.", "bn": "সব ফ্রেম ও অবশিষ্ট বাফার দৈর্ঘ্য প্রিন্ট করুন।" }
+      ],
+      "solution": "c = int(input().strip())\nbuf = \"\"\nframes = []\n\nfor _ in range(c):\n    chunk = input().rstrip(\"\\n\")\n    buf += chunk\n    while \":\" in buf:\n        idx = buf.find(\":\")\n        len_part = buf[:idx]\n        if not len_part.isdigit():\n            break\n        need = int(len_part)\n        total = idx + 1 + need\n        if len(buf) < total:\n            break\n        frames.append(buf[idx + 1:total])\n        buf = buf[total:]\n\nfor i, f in enumerate(frames, 1):\n    print(f\"Frame #{i}: {f}\")\nprint(f\"BufferedRemainder: {len(buf)}\")",
+      "codeExplanation": {
+        "en": "Inner `while` loop drains every completed frame even if a single chunk delivers multiple messages.",
+        "bn": "ভেতরের `while` লুপ এক চাংকে একাধিক মেসেজ এলেও সবগুলো আলাদা করে নেয়।"
+      },
+      "commonMistakes": {
+        "en": "Using `if ':' in buf` instead of `while ':' in buf`, which leaves coalesced back-to-back messages stuck in the buffer.",
+        "bn": "`while`-এর বদলে `if` দিলে একসাথে আসা দ্বিতীয় মেসেজটি প্রক্রিয়াকরণ বাদ পড়ে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3\n5:hel\nlo5:wor\nld", "expectedOutput": "Frame #1: hello\nFrame #2: world\nBufferedRemainder: 0", "note": { "en": "Split and coalesced frames", "bn": "ভাঙা ও একত্রিত ফ্রেম" } },
+        { "input": "2\n2:hi6:pyth\non", "expectedOutput": "Frame #1: hi\nFrame #2: python\nBufferedRemainder: 0", "note": { "en": "Two frames across boundary", "bn": "দুই ফ্রেমের সীমা বিভাজন" } },
+        { "input": "1\n4:ab", "expectedOutput": "BufferedRemainder: 4", "note": { "en": "Incomplete frame remains buffered", "bn": "অসম্পূর্ণ ফ্রেম বাফারে থেকে যায়" } }
+      ]
+    },
+    {
+      "id": "P18-12",
+      "number": 12,
+      "title": {
+        "en": "Localhost Ephemeral TCP Echo Server & Client (`socket`)",
+        "bn": "লোকালহোস্ট (`127.0.0.1`) TCP ইকো সার্ভার ও ক্লায়েন্ট"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Understanding `socket.bind()`, `listen()`, `accept()`, `connect()`, and `sendall()` on safe loopback `127.0.0.1` forms the foundation of all Python network services.",
+        "bn": "নিরাপদ লোকালহোস্টে `bind()`, `listen()`, `accept()` ও `connect()` শেখা পাইথন নেটওয়ার্ক প্রোগ্রামিংয়ের মূল ভিত্তি।"
+      },
+      "requiredConcepts": [
+        { "en": "Loopback-only `127.0.0.1` binding with ephemeral port `0`", "bn": "লোকালহোস্ট `127.0.0.1` ও অটোমেটিক পোর্ট `0` বাইন্ডিং" },
+        { "en": "Threaded TCP server + context-managed client `sendall`", "bn": "থ্রেডেড TCP সার্ভার ও ক্লায়েন্ট রিকোয়েস্ট-রেসপন্স" }
+      ],
+      "description": {
+        "en": "Setup & Safety Notice: Always practice socket programming strictly on localhost (`127.0.0.1`)—never probe external hosts. Read a message string from stdin. Start a real Python `socket.AF_INET, socket.SOCK_STREAM` TCP echo server bound to `('127.0.0.1', 0)` (OS picks a free ephemeral port) in a background `threading.Thread` using `threading.Event` readiness signaling. Connect a client socket to that local port, send the UTF-8 message terminated by `\\n`, have the server prefix `[ECHO] `, receive it back, and close all sockets cleanly.",
+        "bn": "নিরাপত্তা ও সেটআপ নির্দেশনা: সকেট প্রোগ্রামিং সর্বদা নিজের কম্পিউটারে (`127.0.0.1`) অনুশীলন করুন। ইনপুট থেকে একটি বার্তা পড়ে বাস্তব `socket` মডিউলে `127.0.0.1:0` লোকালহোস্ট ইকো সার্ভার (থ্রেডে) ও ক্লায়েন্ট চালু করে বার্তা পাঠান এবং `[ECHO] <বার্তা>` গ্রহণ করে প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an ASCII/UTF-8 message.",
+        "bn": "এক লাইনে প্রেরণযোগ্য বার্তা।"
+      },
+      "expectedOutput": {
+        "en": "`Localhost Echo Received: [ECHO] <message>`",
+        "bn": "`Localhost Echo Received: [ECHO] <বার্তা>`"
+      },
+      "examples": [
+        {
+          "input": "Hello Loopback",
+          "output": "Localhost Echo Received: [ECHO] Hello Loopback",
+          "explanation": {
+            "en": "Message travels over OS loopback TCP stack 127.0.0.1 from client socket to server thread and back.",
+            "bn": "বার্তাটি লোকালহোস্ট লুপব্যাক সকেট দিয়ে সার্ভারে গিয়ে `[ECHO]`সহ ফিরে আসে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Bind to `('127.0.0.1', 0)` BEFORE starting the thread so `port = srv.getsockname()[1]` is already listening before the client connects.",
+        "bn": "থ্রেড চালানোর আগেই মূল থ্রেডে `bind(('127.0.0.1', 0))` ও `listen(1)` করলে পোর্ট নম্বর নিশ্চিতভাবে প্রস্তুত থাকে।"
+      },
+      "hint2": {
+        "en": "Always set `timeout` (`2.0`s) and use `with` blocks so sockets close even if an error occurs.",
+        "bn": "সর্বদা `settimeout(2.0)` ও `with` ব্লক ব্যবহার করে সকেট নিরাপদে বন্ধ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Calling `bind(('127.0.0.1', 0))` + `listen(1)` on the main thread before spawning the `accept()` worker eliminates race conditions without needing fragile `time.sleep()` delays, and stays strictly inside localhost.",
+        "bn": "প্রথমে `bind` ও `listen` করে পরে `accept` থ্রেড চালু করলে কোনো `sleep()` ছাড়াই নির্ভুল সিঙ্ক্রোনাইজেশন পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Create server TCP socket on `('127.0.0.1', 0)` and call `listen(1)`.", "bn": "`('127.0.0.1', 0)` ঠিকানায় সার্ভার সকেট বাইন্ড ও লিসেন করুন।" },
+        { "en": "Spawn daemon thread that accepts 1 client, reads line up to `\\n`, and sends `b'[ECHO] ' + data`.", "bn": "থ্রেডে ক্লায়েন্ট গ্রহণ করে `[ECHO]` যোগ করে ফেরত পাঠান।" },
+        { "en": "Connect client to `('127.0.0.1', port)`, send `msg + '\\n'`, read response until `\\n`, and join thread.", "bn": "ক্লায়েন্ট দিয়ে বার্তা পাঠিয়ে উত্তর পড়ুন ও থ্রেড শেষ করুন।" }
+      ],
+      "solution": "import socket\nimport threading\n\nmsg = input().rstrip(\"\\n\")\n\nsrv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nsrv.bind((\"127.0.0.1\", 0))\nsrv.listen(1)\nsrv.settimeout(2.0)\nport = srv.getsockname()[1]\n\ndef run_server():\n    with srv:\n        conn, _ = srv.accept()\n        with conn:\n            conn.settimeout(2.0)\n            buf = b\"\"\n            while not buf.endswith(b\"\\n\"):\n                chunk = conn.recv(1024)\n                if not chunk:\n                    break\n                buf += chunk\n            payload = buf.rstrip(b\"\\n\")\n            conn.sendall(b\"[ECHO] \" + payload + b\"\\n\")\n\nt = threading.Thread(target=run_server, daemon=True)\nt.start()\n\nwith socket.create_connection((\"127.0.0.1\", port), timeout=2.0) as cli:\n    cli.sendall((msg + \"\\n\").encode(\"utf-8\"))\n    reply = b\"\"\n    while not reply.endswith(b\"\\n\"):\n        chunk = cli.recv(1024)\n        if not chunk:\n            break\n        reply += chunk\n\nt.join(timeout=2.0)\nprint(f\"Localhost Echo Received: {reply.decode('utf-8').rstrip()}\")",
+      "codeExplanation": {
+        "en": "Both server and client loop `recv()` until newline framing `\\n` arrives, preventing partial-read truncation.",
+        "bn": "সার্ভার ও ক্লায়েন্ট উভয়ই `\\n` না পাওয়া পর্যন্ত `recv()` চালানোয় আংশিক বার্তা কাটা পড়ার ঝুঁকি থাকে না।"
+      },
+      "commonMistakes": {
+        "en": "Hardcoding a fixed port like `8080` (which fails if already in use) or calling `srv.bind()` inside the background thread (creating a connection-refused race condition).",
+        "bn": "স্থির পোর্ট ব্যবহার বা থ্রেডের ভেতর `bind()` করলে পোর্ট ব্যস্ত থাকা বা রেস-কন্ডিশন ত্রুটি ঘটতে পারে।"
+      },
+      "complexity": { "time": "O(L) message bytes", "space": "O(L)" },
+      "testCases": [
+        { "input": "Hello Loopback", "expectedOutput": "Localhost Echo Received: [ECHO] Hello Loopback", "note": { "en": "Standard loopback echo", "bn": "সাধারণ লুপব্যাক ইকো" } },
+        { "input": "PYLOGIC Socket Test 123", "expectedOutput": "Localhost Echo Received: [ECHO] PYLOGIC Socket Test 123", "note": { "en": "Alphanumeric payload", "bn": "অ্যালফানিউমেরিক বার্তা" } },
+        { "input": "Ping!", "expectedOutput": "Localhost Echo Received: [ECHO] Ping!", "note": { "en": "Short payload", "bn": "ছোট বার্তা" } }
+      ]
+    },
+    {
+      "id": "P18-13",
+      "number": 13,
+      "title": {
+        "en": "Localhost Persistent TCP Command Server & Client",
+        "bn": "লোকালহোস্ট পারসিস্টেন্ট TCP কমান্ড সার্ভার ও ক্লায়েন্ট"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "20 min", "bn": "২০ মিনিট" },
+      "realWorldApplication": {
+        "en": "Redis, SMTP, and FTP run line-oriented stateful command loops over a single persistent TCP session instead of opening a fresh socket per command.",
+        "bn": "Redis বা SMTP-এর মতো প্রোটোকল প্রতি কমান্ডে নতুন সকেট না খুলে একটি চালু TCP সংযোগে একাধিক কমান্ড আদান-প্রদান করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Line-buffered stateful TCP session over `makefile()`", "bn": "`makefile()` দিয়ে লাইন-ভিত্তিক পারসিস্টেন্ট সেশন" },
+        { "en": "Client/server protocol (`PING`, `UPPER`, `LEN`, `QUIT`)", "bn": "ক্লায়েন্ট-সার্ভার কমান্ড প্রোটোকল" }
+      ],
+      "description": {
+        "en": "Setup: Localhost `127.0.0.1` only. Read `Q` commands (`PING`, `UPPER <text>`, `LEN <text>`, followed automatically by `QUIT`). Launch a real loopback TCP server on `('127.0.0.1', 0)` that keeps a single connection open, reads line commands with `conn.makefile('r', encoding='utf-8')`, replies `PONG`, uppercase text, byte length, or `BYE` (closing on `QUIT`), and connects a client sending all commands over one persistent TCP socket.",
+        "bn": "একটি `127.0.0.1` লুপব্যাক TCP সার্ভার চালু করুন যা একটি সংযোগেই পরপর `PING`, `UPPER <text>`, `LEN <text>` ও `QUIT` কমান্ড প্রক্রিয়া করে। ক্লায়েন্ট সব কমান্ড পাঠিয়ে সার্ভারের প্রতিটি উত্তর প্রিন্ট করবে।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q command lines.",
+        "bn": "পূর্ণসংখ্যা Q ও পরবর্তী Q লাইনে কমান্ড।"
+      },
+      "expectedOutput": {
+        "en": "Server response line per command plus final `BYE`.",
+        "bn": "প্রতিটি কমান্ডের সার্ভার উত্তর ও শেষে `BYE`।"
+      },
+      "examples": [
+        {
+          "input": "3\nPING\nUPPER hello world\nLEN pylogic",
+          "output": "PONG\nHELLO WORLD\n7\nBYE",
+          "explanation": {
+            "en": "All three commands and implicit QUIT execute sequentially over one persistent TCP stream.",
+            "bn": "তিনটি কমান্ড ও সমাপ্তি সংকেত একই TCP সেশনে সম্পন্ন হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`conn.makefile('r', encoding='utf-8')` handles line-boundary buffering cleanly across TCP splits.",
+        "bn": "`makefile()` ব্যবহার করলে TCP-তে লাইন বিভাজন নিজে থেকেই ঠিকভাবে পড়া যায়।"
+      },
+      "hint2": {
+        "en": "Always flush writes or call `conn.sendall((resp + '\\n').encode('utf-8'))` immediately after processing each line so the client never deadlocks waiting.",
+        "bn": "প্রতিটি কমান্ডের পরপরই উত্তর পাঠান, নতুবা ক্লায়েন্ট ও সার্ভার একে অপরের জন্য অপেক্ষা করে আটকে যাবে (ডেডলক)।"
+      },
+      "logicBreakdown": {
+        "en": "Opening one TCP socket per request wastes 3-way handshake RTTs. Persistent framing over one stream requires careful flushing after each response to avoid request-response deadlocks.",
+        "bn": "একই সংযোগ চালু রাখায় বারবার হ্যান্ডশেকের সময় বাঁচে, তবে ডেডলক এড়াতে প্রতিটি উত্তরের পরপরই বাফার ফ্লাশ করা জরুরি।"
+      },
+      "algorithm": [
+        { "en": "Read `Q` commands and append `QUIT`.", "bn": "ইনপুট কমান্ড পড়ে শেষে `QUIT` যোগ করুন।" },
+        { "en": "Bind loopback socket, launch threaded handler looping over `conn.makefile()` lines.", "bn": "লুপব্যাক সার্ভার চালু করে লাইন-বাই-লাইন কমান্ড প্রসেস করুন।" },
+        { "en": "Connect client, send each line, read single reply line, and print.", "bn": "ক্লায়েন্ট দিয়ে প্রতিটি কমান্ড পাঠিয়ে উত্তর প্রিন্ট করুন।" }
+      ],
+      "solution": "import socket\nimport threading\n\nq = int(input().strip())\ncmds = [input().rstrip(\"\\n\") for _ in range(q)]\ncmds.append(\"QUIT\")\n\nsrv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nsrv.bind((\"127.0.0.1\", 0))\nsrv.listen(1)\nsrv.settimeout(2.0)\nport = srv.getsockname()[1]\n\ndef serve():\n    with srv:\n        conn, _ = srv.accept()\n        with conn:\n            conn.settimeout(2.0)\n            reader = conn.makefile(\"r\", encoding=\"utf-8\")\n            for raw_line in reader:\n                line = raw_line.rstrip(\"\\n\")\n                if line == \"PING\":\n                    resp = \"PONG\"\n                elif line.startswith(\"UPPER \"):\n                    resp = line[6:].upper()\n                elif line.startswith(\"LEN \"):\n                    resp = str(len(line[4:]))\n                elif line == \"QUIT\":\n                    conn.sendall(b\"BYE\\n\")\n                    break\n                else:\n                    resp = \"ERR_CMD\"\n                conn.sendall((resp + \"\\n\").encode(\"utf-8\"))\n\nt = threading.Thread(target=serve, daemon=True)\nt.start()\n\nwith socket.create_connection((\"127.0.0.1\", port), timeout=2.0) as cli:\n    cli_reader = cli.makefile(\"r\", encoding=\"utf-8\")\n    for c in cmds:\n        cli.sendall((c + \"\\n\").encode(\"utf-8\"))\n        print(cli_reader.readline().rstrip(\"\\n\"))\n\nt.join(timeout=2.0)",
+      "codeExplanation": {
+        "en": "Symmetric request-then-reply exchange keeps client and server synchronized over a single localhost TCP stream.",
+        "bn": "প্রতিটি রিকোয়েস্টের বিপরীতে সাথে সাথে একটি উত্তর পড়ায় সেশনটি সুশৃঙ্খল থাকে।"
+      },
+      "commonMistakes": {
+        "en": "Waiting for `EOF` (`recv` returning empty) before replying on a persistent connection—the client is waiting for the reply before sending `QUIT`!",
+        "bn": "ক্লায়েন্ট সংযোগ বন্ধ করা পর্যন্ত অপেক্ষা করলে উভয় পক্ষই ডেডলকে আটকে যাবে।"
+      },
+      "complexity": { "time": "O(Q + total bytes)", "space": "O(total bytes)" },
+      "testCases": [
+        { "input": "3\nPING\nUPPER hello world\nLEN pylogic", "expectedOutput": "PONG\nHELLO WORLD\n7\nBYE", "note": { "en": "Multiple commands on one socket", "bn": "এক সকেটে একাধিক কমান্ড" } },
+        { "input": "2\nUNKNOWN\nLEN ", "expectedOutput": "ERR_CMD\n0\nBYE", "note": { "en": "Unknown command & empty text", "bn": "অজানা কমান্ড ও খালি টেক্সট" } },
+        { "input": "0", "expectedOutput": "BYE", "note": { "en": "Immediate QUIT session", "bn": "তাৎক্ষণিক সমাপ্তি" } }
+      ]
+    },
+    {
+      "id": "P18-14",
+      "number": 14,
+      "title": {
+        "en": "URL & Query-Parameter Canonical Parser (`urllib.parse`)",
+        "bn": "URL ও কুয়েরি-প্যারামিটার বিশ্লেষক (`urllib.parse`)"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "15 min", "bn": "১৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "Web frameworks, SSRF URL allowlists, and API routers decompose URLs into scheme, host, effective port, path, and decoded query dictionaries.",
+        "bn": "ওয়েব ফ্রেমওয়ার্ক, SSRF প্রতিরোধ ও API রাউটিংয়ে URL ভেঙে স্কিম, হোস্ট, পোর্ট ও কুয়েরি প্যারামিটার আলাদা করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "RFC 3986 URI anatomy via `urllib.parse`", "bn": "`urllib.parse` দিয়ে URI উপাদান বিভাজন" },
+        { "en": "Default port inference (`http->80`, `https->443`) & percent-decoding", "bn": "ডিফল্ট পোর্ট অনুমান ও কুয়েরি ডিকোডিং" }
+      ],
+      "description": {
+        "en": "Read a URL string. Parse it with `urllib.parse.urlparse` and `parse_qs`. Validate that scheme is `http` or `https` and `hostname` is non-empty (else print `INVALID_URL`). Determine `Port` (explicit port or default `80` for `http`, `443` for `https`), normalize `Path` (`/` if empty), and sort decoded query keys alphabetically as `k=v1,v2` (`NONE` if no params).",
+        "bn": "একটি URL পড়ে `urllib.parse` দিয়ে স্কিম (`http`/`https`), হোস্টনেম, কার্যকর পোর্ট (৮০/৪৪৩ বা নির্ধারিত), পাথ এবং বর্ণানুক্রমে সাজানো কুয়েরি প্যারামিটার প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a URL.",
+        "bn": "এক লাইনে একটি URL।"
+      },
+      "expectedOutput": {
+        "en": "Formatted Scheme, Host, Port, Path, Params lines or `INVALID_URL`.",
+        "bn": "Scheme, Host, Port, Path ও Params লাইন অথবা `INVALID_URL`।"
+      },
+      "examples": [
+        {
+          "input": "https://api.example.com/v1/search?q=python%20logic&tag=a&tag=b#top",
+          "output": "Scheme: https\nHost: api.example.com\nPort: 443\nPath: /v1/search\nParams: q=python logic | tag=a,b",
+          "explanation": {
+            "en": "`%20` decodes to a space, multi-value `tag` joins with `,`, and `https` defaults to port 443.",
+            "bn": "`%20` স্পেসে ডিকোড হয়েছে, একাধিক `tag` একসাথে এবং `https` পোর্ট ৪৪৩ নির্ণীত হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "`parsed.port` raises `ValueError` if a URL contains a non-numeric or out-of-range port—catch `ValueError` to emit `INVALID_URL` cleanly.",
+        "bn": "অবৈধ পোর্ট থাকলে `parsed.port` `ValueError` ছুঁড়তে পারে, তাই `try/except` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "`parse_qs(parsed.query, keep_blank_values=True)` preserves empty query flags like `?debug=`.",
+        "bn": "`keep_blank_values=True` দিলে খালি মানের কুয়েরি কী-ও সংরক্ষিত থাকে।"
+      },
+      "logicBreakdown": {
+        "en": "Naive `.split('?')` and `.split(':')` parsers break on IPv6 brackets `[::1]:8000`, `@` userinfo tricks, or percent-encoded characters. Using `urllib.parse` handles standard RFC 3986 syntax reliably.",
+        "bn": "সরল `.split()` ব্যবহার করলে IPv6 হোস্ট বা পার্সেন্ট-এনকোডিংয়ে ভুল হয়, তাই স্ট্যান্ডার্ড `urllib.parse` নিরাপদ।"
+      },
+      "algorithm": [
+        { "en": "Parse URL with `urlparse` and read `parsed.port` inside `try/except`.", "bn": "`urlparse` দিয়ে URL ভেঙে পোর্ট পরীক্ষা করুন।" },
+        { "en": "Verify scheme in `('http', 'https')` and `parsed.hostname` present.", "bn": "`http`/`https` স্কিম ও হোস্টনেম যাচাই করুন।" },
+        { "en": "Decode query string via `parse_qs`, sort keys, and print summary.", "bn": "`parse_qs` দিয়ে কুয়েরি ডিকোড ও সর্ট করে প্রিন্ট করুন।" }
+      ],
+      "solution": "from urllib.parse import urlparse, parse_qs\n\nraw = input().strip()\np = urlparse(raw)\ntry:\n    explicit_port = p.port\nexcept ValueError:\n    explicit_port = -1\n\nif p.scheme not in (\"http\", \"https\") or not p.hostname or explicit_port == -1:\n    print(\"INVALID_URL\")\nelse:\n    port = explicit_port if explicit_port is not None else (443 if p.scheme == \"https\" else 80)\n    path = p.path if p.path else \"/\"\n    qs = parse_qs(p.query, keep_blank_values=True)\n    if qs:\n        params_str = \" | \".join(f\"{k}={','.join(qs[k])}\" for k in sorted(qs))\n    else:\n        params_str = \"NONE\"\n    print(f\"Scheme: {p.scheme}\")\n    print(f\"Host: {p.hostname}\")\n    print(f\"Port: {port}\")\n    print(f\"Path: {path}\")\n    print(f\"Params: {params_str}\")",
+      "codeExplanation": {
+        "en": "Validates port extraction safely and normalizes missing root path `/` and sorted query parameters.",
+        "bn": "পোর্ট ত্রুটি সামলে খালি পাথ-কে `/` এবং কুয়েরি কী সাজিয়ে প্রিন্ট করা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Splitting `netloc` on `:` manually, which fails on IPv6 URLs (`http://[::1]:8080`) and `@` credentials (`http://user:pass@host`).",
+        "bn": "ম্যানুয়ালি `:` দিয়ে `netloc` ভাগ করলে IPv6 বা `@` ইউজারনেম থাকলে ভুল হোস্ট বের হয়।"
+      },
+      "complexity": { "time": "O(L log K)", "space": "O(L)" },
+      "testCases": [
+        { "input": "https://api.example.com/v1/search?q=python%20logic&tag=a&tag=b#top", "expectedOutput": "Scheme: https\nHost: api.example.com\nPort: 443\nPath: /v1/search\nParams: q=python logic | tag=a,b", "note": { "en": "Encoded query & repeated keys", "bn": "এনকোডেড ও একাধিক কুয়েরি মান" } },
+        { "input": "http://127.0.0.1:8080", "expectedOutput": "Scheme: http\nHost: 127.0.0.1\nPort: 8080\nPath: /\nParams: NONE", "note": { "en": "Explicit port & empty path", "bn": "নির্দিষ্ট পোর্ট ও মূল পাথ" } },
+        { "input": "ftp://files.local/data", "expectedOutput": "INVALID_URL", "note": { "en": "Unsupported scheme", "bn": "অননুমোদিত স্কিম" } }
+      ]
+    },
+    {
+      "id": "P18-15",
+      "number": 15,
+      "title": {
+        "en": "HTTP/1.1 Raw Request Parser & Header Validator",
+        "bn": "HTTP/1.1 রিকোয়েস্ট পার্সার ও হেডার যাচাই"
+      },
+      "difficulty": "Medium",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Web servers and reverse proxies (Nginx/Gunicorn) parse raw HTTP/1.1 request lines and case-insensitive headers while enforcing RFC 9112 `Host` requirements.",
+        "bn": "ওয়েব সার্ভার ও রিভার্স প্রক্সি কাঁচা HTTP/1.1 রিকোয়েস্ট লাইন ও হেডার পার্স করে `Host` হেডার যাচাই করে।"
+      },
+      "requiredConcepts": [
+        { "en": "Request-line grammar (`METHOD SP TARGET SP HTTP/1.x`)", "bn": "রিকোয়েস্ট লাইনের গঠন (`METHOD TARGET HTTP/1.x`)" },
+        { "en": "Case-insensitive headers & mandatory HTTP/1.1 Host", "bn": "কেস-ইনসেনসিটিভ হেডার ও বাধ্যতামূলক Host" }
+      ],
+      "description": {
+        "en": "Read `N` lines representing a raw HTTP request up to the blank header separator (no body needed). Line 1 is the request line (`GET /items HTTP/1.1`), followed by `Key: Value` header lines. Validate: (1) method is one of `GET POST PUT PATCH DELETE HEAD OPTIONS`, (2) version is `HTTP/1.0` or `HTTP/1.1`, (3) every header contains `:`, and (4) `HTTP/1.1` MUST include a non-empty `Host` header (case-insensitive). Print `VALID | <METHOD> <TARGET> | Host: <host> | Headers: <count>` or `BAD_REQUEST`.",
+        "bn": "`N` লাইনের একটি HTTP রিকোয়েস্ট পড়ে মেথড, ভার্সন (`HTTP/1.0` বা `HTTP/1.1`), হেডার ফরম্যাট এবং `HTTP/1.1`-এ বাধ্যতামূলক `Host` হেডার যাচাই করুন। বৈধ হলে সারাংশ, নতুবা `BAD_REQUEST` প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer N followed by N lines (request line + header lines).",
+        "bn": "পূর্ণসংখ্যা N ও পরবর্তী N লাইনে রিকোয়েস্ট ও হেডার।"
+      },
+      "expectedOutput": {
+        "en": "`VALID | <METHOD> <TARGET> | Host: <host_or_NONE> | Headers: <cnt>` or `BAD_REQUEST`.",
+        "bn": "`VALID | ...` অথবা `BAD_REQUEST`।"
+      },
+      "examples": [
+        {
+          "input": "3\nGET /api/health HTTP/1.1\nhost: localhost:8000\nAccept: application/json",
+          "output": "VALID | GET /api/health | Host: localhost:8000 | Headers: 2",
+          "explanation": {
+            "en": "Header names like `host` are case-insensitive per RFC 9110.",
+            "bn": "RFC অনুযায়ী `host` হেডারের নাম কেস-ইনসেনসিটিভ হওয়ায় এটি বৈধ।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize header names with `.lower().strip()` when storing in `headers` dict.",
+        "bn": "হেডারের নাম `.lower().strip()` করে ডিকশনারিতে সংরক্ষণ করুন।"
+      },
+      "hint2": {
+        "en": "Split headers using `line.split(':', 1)` so values containing colons like `localhost:8000` are NOT cut off!",
+        "bn": "`split(':', 1)` ব্যবহার করলে `localhost:8000`-এর ভেতরের কোলন ভেঙে যাবে না।"
+      },
+      "logicBreakdown": {
+        "en": "RFC 9112 mandates `Host` on all HTTP/1.1 requests for virtual hosting and rejects header lines missing `:`. Splitting with `maxsplit=1` preserves colons inside values like URLs or host ports.",
+        "bn": "HTTP/1.1-এ `Host` হেডার বাধ্যতামূলক এবং `split(':', 1)` করলে মানের ভেতরের কোলন ঠিক থাকে।"
+      },
+      "algorithm": [
+        { "en": "Verify `N >= 1` and parse 3 tokens of request line.", "bn": "প্রথম লাইনের ৩টি অংশ (`method`, `target`, `version`) যাচাই করুন।" },
+        { "en": "Parse each subsequent header line via `split(':', 1)`; reject missing `:` or empty key.", "bn": "প্রতিটি হেডার লাইন `:` দিয়ে ভেঙে যাচাই করুন।" },
+        { "en": "Enforce non-empty `host` if `version == 'HTTP/1.1'`, then print summary.", "bn": "`HTTP/1.1` হলে `host` আছে কি না দেখে ফলাফল প্রিন্ট করুন।" }
+      ],
+      "solution": "METHODS = {\"GET\", \"POST\", \"PUT\", \"PATCH\", \"DELETE\", \"HEAD\", \"OPTIONS\"}\nn = int(input().strip())\nlines = [input().rstrip(\"\\n\") for _ in range(n)]\n\nif not lines:\n    print(\"BAD_REQUEST\")\nelse:\n    req_parts = lines[0].split()\n    ok = len(req_parts) == 3 and req_parts[0] in METHODS and req_parts[2] in (\"HTTP/1.0\", \"HTTP/1.1\") and req_parts[1].startswith(\"/\")\n    headers = {}\n    if ok:\n        for hline in lines[1:]:\n            if \":\" not in hline:\n                ok = False\n                break\n            k, v = hline.split(\":\", 1)\n            k = k.strip().lower()\n            v = v.strip()\n            if not k:\n                ok = False\n                break\n            headers[k] = v\n    if ok and req_parts[2] == \"HTTP/1.1\" and not headers.get(\"host\"):\n        ok = False\n    if not ok:\n        print(\"BAD_REQUEST\")\n    else:\n        host = headers.get(\"host\", \"NONE\")\n        print(f\"VALID | {req_parts[0]} {req_parts[1]} | Host: {host} | Headers: {len(lines) - 1}\")",
+      "codeExplanation": {
+        "en": "Enforces HTTP/1.1 virtual-host rule and preserves colons inside header values.",
+        "bn": "HTTP/1.1-এর `Host` শর্ত এবং হেডার মানের কোলন উভয়ই নিরাপদে রাখা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Treating `Host` as case-sensitive (`'Host' in headers`), which wrongly rejects valid lowercase HTTP/2/proxy headers like `host: ...`.",
+        "bn": "`Host` নামকে কেস-সেনসিটিভ ধরলে `host:` লেখা বৈধ রিকোয়েস্ট বাতিল হয়ে যায়।"
+      },
+      "complexity": { "time": "O(N * L)", "space": "O(N * L)" },
+      "testCases": [
+        { "input": "3\nGET /api/health HTTP/1.1\nhost: localhost:8000\nAccept: application/json", "expectedOutput": "VALID | GET /api/health | Host: localhost:8000 | Headers: 2", "note": { "en": "Lowercase host header", "bn": "ছোট হাতের host হেডার" } },
+        { "input": "2\nGET /index.html HTTP/1.1\nUser-Agent: TestClient", "expectedOutput": "BAD_REQUEST", "note": { "en": "Missing mandatory Host header", "bn": "বাধ্যতামূলক Host অনুপস্থিত" } },
+        { "input": "1\nGET /old HTTP/1.0", "expectedOutput": "VALID | GET /old | Host: NONE | Headers: 0", "note": { "en": "HTTP/1.0 allows omitted Host", "bn": "HTTP/1.0-এ Host ছাড়া বৈধ" } }
+      ]
+    },
+    {
+      "id": "P18-16",
+      "number": 16,
+      "title": {
+        "en": "HTTP Status Code Classifier & Retry/Redirect Policy Engine",
+        "bn": "HTTP স্ট্যাটাস কোড শ্রেণিবিন্যাস ও রিট্রাই/রিডাইরেক্ট নীতি"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Production API SDKs decide automatically whether to succeed, follow a `Location` redirect, fail permanently (`400`/`404`), or retry with backoff (`429`/`503`).",
+        "bn": "আসল API ক্লায়েন্ট স্ট্যাটাস কোড দেখে ঠিক করে কখন সফল ধরবে, কখন `Location`-এ রিডাইরেক্ট করবে এবং কখন রিট্রাই করবে।"
+      },
+      "requiredConcepts": [
+        { "en": "HTTP status classes (`1xx`..`5xx`) & idempotency", "bn": "HTTP স্ট্যাটাস শ্রেণি (`1xx`..`5xx`)" },
+        { "en": "Transient retryable (`429`, `502`, `503`, `504`) vs non-retryable `4xx`", "bn": "পুনঃচেষ্টাযোগ্য (`429`/`503`) বনাম স্থায়ী `4xx` ত্রুটি" }
+      ],
+      "description": {
+        "en": "Read line 1 `<METHOD> <STATUS_CODE>` and line 2 `<HEADER_KV_OR_NONE>` (e.g., `Retry-After=12` or `Location=/v2/users`). Validate status in `100..599` (else `INVALID_STATUS`). Classify: `2xx -> SUCCESS / DONE`, `3xx -> REDIRECT / FOLLOW:<location_or_MISSING>`, `4xx -> CLIENT_ERROR` (`RETRY_AFTER:<sec>` only for `429`, else `FAIL_FAST`), `5xx -> SERVER_ERROR` (`RETRY_BACKOFF` if method is idempotent `GET/HEAD/PUT/DELETE` OR status in `{502,503,504}`, else `FAIL_SAFE`), `1xx -> INFO / WAIT`.",
+        "bn": "প্রথম লাইনে `<METHOD> <STATUS_CODE>` এবং দ্বিতীয় লাইনে হেডার (`Retry-After=...` বা `Location=...` বা `NONE`) পড়ুন। স্ট্যাটাস ক্লাস (`2xx`, `3xx`, `4xx`, `5xx`, `1xx`) অনুযায়ী অ্যাকশন নীতি (`DONE`, `FOLLOW`, `RETRY_AFTER`, `RETRY_BACKOFF`, `FAIL_FAST`) নির্ণয় করুন।"
+      },
+      "inputDescription": {
+        "en": "Line 1: METHOD STATUS. Line 2: header key=value or NONE.",
+        "bn": "প্রথম লাইনে METHOD STATUS, দ্বিতীয় লাইনে হেডার বা NONE।"
+      },
+      "expectedOutput": {
+        "en": "`Class: <CLASS> | Action: <ACTION>` or `INVALID_STATUS`.",
+        "bn": "`Class: <শ্রেণি> | Action: <পদক্ষেপ>` অথবা `INVALID_STATUS`।"
+      },
+      "examples": [
+        {
+          "input": "POST 429\nRetry-After=30",
+          "output": "Class: CLIENT_ERROR | Action: RETRY_AFTER:30",
+          "explanation": {
+            "en": "429 Too Many Requests is retryable after honoring the server's Retry-After delay.",
+            "bn": "৪২৯ রেট-লিমিটে সার্ভারের দেওয়া `Retry-After` সময় মেনে রিট্রাই করতে হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Only retry non-idempotent `POST` blindly if the status guarantees no execution occurred (like `429` or `503`); never retry `400`/`401`/`403`/`404`.",
+        "bn": "`400`, `401`, `403`, `404`-এর মতো ত্রুটি রিট্রাই করলে কাজ হবে না, তাই `FAIL_FAST` দিতে হয়।"
+      },
+      "hint2": {
+        "en": "Check `429` specifically before general `4xx` handling.",
+        "bn": "সাধারণ `4xx`-এর আগেই `429` আলাদা করে দেখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Retrying `400 Bad Request` wastes quota, while blindly retrying `POST 500` risks double-charging a customer. Distinguishing `429`, idempotent retries, and redirects prevents production incidents.",
+        "bn": "`POST 500` রিট্রাই করলে দুবার পেমেন্ট কেটে নেওয়ার ঝুঁকি থাকে, আর `400` রিট্রাই করা অর্থহীন—এই নীতিগুলো সিস্টেমকে নিরাপদ রাখে।"
+      },
+      "algorithm": [
+        { "en": "Parse method, integer status (`100..599`), and optional `key=val` header.", "bn": "মেথড, স্ট্যাটাস ও হেডার পার্স করুন।" },
+        { "en": "Switch on `status // 100` class (`1`..`5`).", "bn": "`status // 100` দিয়ে শ্রেণি নির্ধারণ করুন।" },
+        { "en": "Apply redirect/retry/idempotency rules and print.", "bn": "রিডাইরেক্ট ও রিট্রাই নীতি প্রয়োগ করে প্রিন্ট করুন।" }
+      ],
+      "solution": "IDEMPOTENT = {\"GET\", \"HEAD\", \"PUT\", \"DELETE\", \"OPTIONS\"}\nmethod, code_s = input().strip().split()\nhdr = input().strip()\n\ntry:\n    code = int(code_s)\nexcept ValueError:\n    code = -1\n\nhkey, hval = \"\", \"\"\nif \"=\" in hdr:\n    hkey, hval = hdr.split(\"=\", 1)\n    hkey = hkey.strip().lower()\n    hval = hval.strip()\n\nif not (100 <= code <= 599):\n    print(\"INVALID_STATUS\")\nelse:\n    tier = code // 100\n    if tier == 1:\n        cls, action = \"INFO\", \"WAIT\"\n    elif tier == 2:\n        cls, action = \"SUCCESS\", \"DONE\"\n    elif tier == 3:\n        cls = \"REDIRECT\"\n        loc = hval if hkey == \"location\" and hval else \"MISSING\"\n        action = f\"FOLLOW:{loc}\"\n    elif tier == 4:\n        cls = \"CLIENT_ERROR\"\n        if code == 429:\n            wait = hval if hkey == \"retry-after\" and hval else \"DEFAULT\"\n            action = f\"RETRY_AFTER:{wait}\"\n        else:\n            action = \"FAIL_FAST\"\n    else:\n        cls = \"SERVER_ERROR\"\n        if method.upper() in IDEMPOTENT or code in (502, 503, 504):\n            action = \"RETRY_BACKOFF\"\n        else:\n            action = \"FAIL_SAFE\"\n    print(f\"Class: {cls} | Action: {action}\")",
+      "codeExplanation": {
+        "en": "Encodes real-world HTTP client resilience semantics cleanly by pairing status tier with HTTP method idempotency.",
+        "bn": "স্ট্যাটাস শ্রেণি ও মেথডের আইডেমপোটেন্সি মিলিয়ে বাস্তবসম্মত রিট্রাই নীতি লেখা হয়েছে।"
+      },
+      "commonMistakes": {
+        "en": "Retrying all `4xx` or `5xx` errors blindly on `POST` requests without checking `429`/idempotency.",
+        "bn": "`POST` রিকোয়েস্টে যাচাই ছাড়া সব `5xx` বা `4xx` রিট্রাই করে ফেলা।"
+      },
+      "complexity": { "time": "O(1)", "space": "O(1)" },
+      "testCases": [
+        { "input": "POST 429\nRetry-After=30", "expectedOutput": "Class: CLIENT_ERROR | Action: RETRY_AFTER:30", "note": { "en": "Rate-limit backoff", "bn": "রেট-লিমিট রিট্রাই" } },
+        { "input": "GET 301\nLocation=/v2/users", "expectedOutput": "Class: REDIRECT | Action: FOLLOW:/v2/users", "note": { "en": "Permanent redirect", "bn": "রিডাইরেক্ট অনুসরণ" } },
+        { "input": "POST 500\nNONE", "expectedOutput": "Class: SERVER_ERROR | Action: FAIL_SAFE", "note": { "en": "Avoid duplicate POST mutation on 500", "bn": "POST 500-এ নিরাপদ বিরতি" } },
+        { "input": "GET 404\nNONE", "expectedOutput": "Class: CLIENT_ERROR | Action: FAIL_FAST", "note": { "en": "Non-retryable 404", "bn": "রিসোর্স নেই 404" } }
+      ]
+    },
+    {
+      "id": "P18-17",
+      "number": 17,
+      "title": {
+        "en": "TTL-Aware Local DNS Stub Resolver Cache",
+        "bn": "TTL-ভিত্তিক লোকাল DNS রিজলভার ক্যাশ সিমুলেটর"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "22 min", "bn": "২২ মিনিট" },
+      "realWorldApplication": {
+        "en": "OS stub resolvers (`systemd-resolved`) and browsers cache A/AAAA records strictly up to `stored_at + ttl` to prevent stale IP routing while reducing DNS latency.",
+        "bn": "অপারেটিং সিস্টেম ও ব্রাউজার নির্দিষ্ট `TTL` সময় পর্যন্ত DNS রেকর্ড ক্যাশ করে রাখে যেন গতি বাড়ে ও পুরোনো রেকর্ড মুছে যায়।"
+      },
+      "requiredConcepts": [
+        { "en": "Time-to-Live expiration (`now >= expires_at`)", "bn": "TTL মেয়াদোত্তীর্ণ পরীক্ষা (`now >= expires_at`)" },
+        { "en": "Cache HIT vs EXPIRED vs MISS telemetry", "bn": "ক্যাশ HIT, EXPIRED এবং MISS বিশ্লেষণ" }
+      ],
+      "description": {
+        "en": "Simulate a local DNS stub resolver cache. Process `Q` timestamped events: `SET <now> <domain> <ip> <ttl>` (case-insensitive domain; stores record expiring at `now + ttl`), `RESOLVE <now> <domain>` (print `HIT <ip>` if `now < expires_at`, else `EXPIRED` if previously stored and now expired—and delete stale entry—else `MISS`), and `STATS` (print `Hits:<h> Expired:<e> Miss:<m>`).",
+        "bn": "একটি লোকাল DNS ক্যাশ তৈরি করুন। `Q`টি ইভেন্ট: `SET <now> <domain> <ip> <ttl>`, `RESOLVE <now> <domain>` (`now < expires_at` হলে `HIT <ip>`, মেয়াদ শেষ হলে পুরোনোটি মুছে `EXPIRED`, না থাকলে `MISS`) এবং `STATS` পরিচালনা করুন।"
+      },
+      "inputDescription": {
+        "en": "Integer Q followed by Q timestamped DNS cache events.",
+        "bn": "পূর্ণসংখ্যা Q ও পরবর্তী Q লাইনে DNS ইভেন্ট।"
+      },
+      "expectedOutput": {
+        "en": "Result line per RESOLVE and STATS command.",
+        "bn": "প্রতিটি RESOLVE ও STATS কমান্ডের আউটপুট।"
+      },
+      "examples": [
+        {
+          "input": "6\nSET 100 api.local 127.0.0.10 60\nRESOLVE 120 API.LOCAL\nRESOLVE 160 api.local\nRESOLVE 170 api.local\nSTATS\nRESOLVE 180 other.local",
+          "output": "HIT 127.0.0.10\nEXPIRED\nMISS\nHits:1 Expired:1 Miss:1\nMISS",
+          "explanation": {
+            "en": "Record expires at t=160: t=120 is HIT, t=160 triggers EXPIRED and evicts it, so t=170 is MISS.",
+            "bn": "t=160-এ মেয়াদ শেষ হওয়ায় ১২০-এ HIT, ১৬০-এ EXPIRED (এবং ক্যাশ থেকে অপসারণ) ও ১৭০-এ MISS হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Normalize `domain = domain.lower()` so `API.LOCAL` and `api.local` share one cache entry (DNS is case-insensitive).",
+        "bn": "DNS ডোমেইন কেস-ইনসেনসিটিভ হওয়ায় `.lower()` ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "When `now >= exp`, increment `expired`, delete `cache[domain]`, and return `EXPIRED`.",
+        "bn": "`now >= exp` হলে `expired` বাড়িয়ে ক্যাশ থেকে এন্ট্রি মুছে `EXPIRED` রিটার্ন করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Lazy expiration checks `now >= expires_at` upon lookup and evicts stale records immediately. This keeps memory clean and obeys DNS TTL contracts without background timer threads.",
+        "bn": "লুকআপের সময়ই মেয়াদ পরীক্ষা করে বাতিল এন্ট্রি মুছে ফেললে বাড়তি টাইমার থ্রেড ছাড়াই সঠিক TTL মানা যায়।"
+      },
+      "algorithm": [
+        { "en": "Keep `cache = {}` mapping `domain -> (ip, expires_at)` and counters `hits, expired, miss`.", "bn": "`cache` ডিকশনারি ও কাউন্টার সেট করুন।" },
+        { "en": "On SET: store `(ip, now + ttl)` under `domain.lower()`.", "bn": "SET-এ `(ip, now + ttl)` সংরক্ষণ করুন।" },
+        { "en": "On RESOLVE: check presence and `now < exp` for HIT vs EXPIRED vs MISS.", "bn": "RESOLVE-এ মেয়াদ পরীক্ষা করে HIT/EXPIRED/MISS প্রিন্ট করুন।" }
+      ],
+      "solution": "q = int(input().strip())\ncache = {}\nhits = expired = miss = 0\n\nfor _ in range(q):\n    parts = input().strip().split()\n    cmd = parts[0]\n    if cmd == \"SET\":\n        now = int(parts[1])\n        dom = parts[2].lower()\n        ip = parts[3]\n        ttl = int(parts[4])\n        cache[dom] = (ip, now + ttl)\n    elif cmd == \"RESOLVE\":\n        now = int(parts[1])\n        dom = parts[2].lower()\n        if dom not in cache:\n            miss += 1\n            print(\"MISS\")\n        else:\n            ip, exp = cache[dom]\n            if now < exp:\n                hits += 1\n                print(f\"HIT {ip}\")\n            else:\n                expired += 1\n                del cache[dom]\n                print(\"EXPIRED\")\n    elif cmd == \"STATS\":\n        print(f\"Hits:{hits} Expired:{expired} Miss:{miss}\")",
+      "codeExplanation": {
+        "en": "Exact boundary `now >= exp` expires stale DNS entries cleanly on the first query at or after expiration.",
+        "bn": "সঠিক সময়ে মেয়াদোত্তীর্ণ রেকর্ড মুছে ফেলায় পুরোনো আইপি আর কখনো ফিরে আসে না।"
+      },
+      "commonMistakes": {
+        "en": "Using `now <= exp` (serving expired records on the boundary) or forgetting to `del cache[dom]` upon expiration.",
+        "bn": "মেয়াদ শেষের পর ক্যাশ থেকে এন্ট্রি মুছতে ভুলে যাওয়া বা ডোমেইনের বড়-ছোট হাতের অক্ষর আলাদা ধরা।"
+      },
+      "complexity": { "time": "O(1) per op", "space": "O(domains)" },
+      "testCases": [
+        { "input": "6\nSET 100 api.local 127.0.0.10 60\nRESOLVE 120 API.LOCAL\nRESOLVE 160 api.local\nRESOLVE 170 api.local\nSTATS\nRESOLVE 180 other.local", "expectedOutput": "HIT 127.0.0.10\nEXPIRED\nMISS\nHits:1 Expired:1 Miss:1\nMISS", "note": { "en": "Hit, exact TTL expiry, then miss", "bn": "হিট, মেয়াদোত্তীর্ণ ও মিস" } },
+        { "input": "4\nSET 0 a.local 10.0.0.1 10\nSET 5 a.local 10.0.0.2 10\nRESOLVE 12 a.local\nSTATS", "expectedOutput": "HIT 10.0.0.2\nHits:1 Expired:0 Miss:0", "note": { "en": "TTL refresh on overwrite", "bn": "পুনরায় SET-এ নতুন TTL" } },
+        { "input": "2\nRESOLVE 1 unknown.local\nSTATS", "expectedOutput": "MISS\nHits:0 Expired:0 Miss:1", "note": { "en": "Cold cache miss", "bn": "খালি ক্যাশে MISS" } }
+      ]
+    },
+    {
+      "id": "P18-18",
+      "number": 18,
+      "title": {
+        "en": "JSON REST API Response Envelope & Error Safe Extractor",
+        "bn": "JSON REST API রেসপন্স এনভেলপ ও নিরাপদ ডেটা নিষ্কাশন"
+      },
+      "difficulty": "Hard",
+      "estimatedTime": { "en": "18 min", "bn": "১৮ মিনিট" },
+      "realWorldApplication": {
+        "en": "Integrating external HTTP JSON APIs safely requires defending against malformed JSON, error payloads, null/missing fields, and unexpected data types.",
+        "bn": "REST API-এর সাথে কাজ করার সময় ভাঙা JSON, ত্রুটির বার্তা এবং অনুপস্থিত ফিল্ড নিরাপদে সামাল দিতে হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Defensive `json.loads()` parsing & type validation", "bn": "`json.loads()` দিয়ে নিরাপদ পার্সিং ও টাইপ যাচাই" },
+        { "en": "Handling API `error` envelopes & optional defaults", "bn": "API ত্রুটি এনভেলপ ও ডিফল্ট মান পরিচালনা" }
+      ],
+      "description": {
+        "en": "Read a single-line JSON response string as returned by an HTTP API. Safely decode it (if invalid JSON or not a JSON object, print `PARSE_ERROR`). If `status == 'error'` or `'error'` dict is present, print `API_ERROR: <message>`. Otherwise read `data.items` (list of dicts with `service`, optional `latency_ms` numeric, and `ok` bool). Print `Total:<N> Healthy:<H> AvgLatency:<avg:.1f>ms` (exclude missing/non-numeric latencies from average, `0.0ms` if none).",
+        "bn": "এক লাইনে প্রাপ্ত HTTP API JSON রেসপন্স স্ট্রিং পড়ে নিরাপদে পার্স করুন। ভুল JSON হলে `PARSE_ERROR`, API ত্রুটি থাকলে `API_ERROR: <বার্তা>` এবং সফল হলে `data.items` থেকে মোট সার্ভিস, সুস্থ সার্ভিস ও গড় ল্যাটেন্সি প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing a JSON API payload string.",
+        "bn": "এক লাইনে JSON পেলোড।"
+      },
+      "expectedOutput": {
+        "en": "`Total:<N> Healthy:<H> AvgLatency:<avg>ms`, `API_ERROR: ...`, or `PARSE_ERROR`.",
+        "bn": "`Total:... Healthy:... AvgLatency:...ms`, `API_ERROR:...` অথবা `PARSE_ERROR`।"
+      },
+      "examples": [
+        {
+          "input": "{\"status\": \"ok\", \"data\": {\"items\": [{\"service\": \"auth\", \"latency_ms\": 12, \"ok\": true}, {\"service\": \"db\", \"latency_ms\": null, \"ok\": false}, {\"service\": \"cache\", \"latency_ms\": 8, \"ok\": true}]}}",
+          "output": "Total:3 Healthy:2 AvgLatency:10.0ms",
+          "explanation": {
+            "en": "2 services have ok=True; numeric latencies 12 and 8 average to 10.0ms while null is safely skipped.",
+            "bn": "৩টি সার্ভিসের মধ্যে ২টি সুস্থ এবং ১২ ও ৮ মি.সে.-এর গড় ১০.০ মি.সে. (null নিরাপদে বাদ পড়েছে)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Always guard nested lookups with `isinstance(obj, dict)` and `.get(...)`—never blindly chain `payload['data']['items']` on untrusted network JSON.",
+        "bn": "নেটওয়ার্ক JSON-এ `isinstance` ও `.get()` ব্যবহার করে নিশ্চিত হোন ডিকশনারি বা লিস্ট ঠিক আছে কি না।"
+      },
+      "hint2": {
+        "en": "Note in Python `isinstance(True, int)` is `True`! Exclude booleans when checking numeric latency: `isinstance(lat, (int, float)) and not isinstance(lat, bool)`.",
+        "bn": "পাইথনে `bool` হলো `int`-এর সাবক্লাস, তাই `not isinstance(lat, bool)` পরীক্ষা করা ভালো অভ্যাস।"
+      },
+      "logicBreakdown": {
+        "en": "Real API consumers fail most often not on happy paths, but when an upstream proxy sends HTML (`PARSE_ERROR`), a 500 JSON error body, or `null` inside an optional numeric field.",
+        "bn": "বাস্তব প্রোজেক্টে API থেকে হঠাৎ `null`, ভিন্ন টাইপ বা ত্রুটি এনভেলপ এলে যেন প্রোগ্রাম ক্র্যাশ না করে সেজন্য প্রতিরক্ষাশীল কোড লেখা হয়।"
+      },
+      "algorithm": [
+        { "en": "Parse JSON inside `try/except json.JSONDecodeError` and verify root is `dict`.", "bn": "`json.loads()` চালিয়ে রুট `dict` কি না দেখুন।" },
+        { "en": "Check `status == 'error'` or `isinstance(obj.get('error'), dict)` to emit `API_ERROR`.", "bn": "`error` এনভেলপ থাকলে `API_ERROR` প্রিন্ট করুন।" },
+        { "en": "Traverse `data.items`, count healthy booleans, average valid numbers, and print summary.", "bn": "সুস্থ সার্ভিস ও বৈধ ল্যাটেন্সি গড় হিসাব করে প্রিন্ট করুন।" }
+      ],
+      "solution": "import json\n\nraw = input().strip()\ntry:\n    obj = json.loads(raw)\nexcept json.JSONDecodeError:\n    obj = None\n\nif not isinstance(obj, dict):\n    print(\"PARSE_ERROR\")\nelif obj.get(\"status\") == \"error\" or isinstance(obj.get(\"error\"), dict):\n    err = obj.get(\"error\")\n    if isinstance(err, dict):\n        msg = err.get(\"message\", \"Unknown error\")\n    else:\n        msg = obj.get(\"message\", \"Unknown error\")\n    print(f\"API_ERROR: {msg}\")\nelse:\n    data = obj.get(\"data\")\n    items = data.get(\"items\") if isinstance(data, dict) else None\n    if not isinstance(items, list):\n        print(\"PARSE_ERROR\")\n    else:\n        healthy = 0\n        latencies = []\n        for item in items:\n            if not isinstance(item, dict):\n                continue\n            if item.get(\"ok\") is True:\n                healthy += 1\n            lat = item.get(\"latency_ms\")\n            if isinstance(lat, (int, float)) and not isinstance(lat, bool):\n                latencies.append(float(lat))\n        avg = sum(latencies) / len(latencies) if latencies else 0.0\n        print(f\"Total:{len(items)} Healthy:{healthy} AvgLatency:{avg:.1f}ms\")",
+      "codeExplanation": {
+        "en": "Defensive `isinstance` checks protect every nested field from malformed upstream API shapes.",
+        "bn": "প্রতিটি নেস্টেড স্তরে `isinstance` ও `.get()` থাকায় অপ্রত্যাশিত JSON কাঠামোতেও কোড ক্র্যাশ করে না।"
+      },
+      "commonMistakes": {
+        "en": "Calling `sum(x['latency_ms'])` directly, which crashes with `TypeError` when `latency_ms` is `None` or missing.",
+        "bn": "`latency_ms` `None` বা অনুপস্থিত থাকলে সরাসরি যোগ করতে গেলে `TypeError` ঘটে।"
+      },
+      "complexity": { "time": "O(N)", "space": "O(N)" },
+      "testCases": [
+        { "input": "{\"status\": \"ok\", \"data\": {\"items\": [{\"service\": \"auth\", \"latency_ms\": 12, \"ok\": true}, {\"service\": \"db\", \"latency_ms\": null, \"ok\": false}, {\"service\": \"cache\", \"latency_ms\": 8, \"ok\": true}]}}", "expectedOutput": "Total:3 Healthy:2 AvgLatency:10.0ms", "note": { "en": "Skips null latency", "bn": "`null` ল্যাটেন্সি এড়িয়ে গড়" } },
+        { "input": "{\"status\": \"error\", \"error\": {\"message\": \"Rate limit exceeded\"}}", "expectedOutput": "API_ERROR: Rate limit exceeded", "note": { "en": "Error envelope handling", "bn": "ত্রুটি এনভেলপ পরিচালনা" } },
+        { "input": "<html>502 Bad Gateway</html>", "expectedOutput": "PARSE_ERROR", "note": { "en": "Non-JSON HTML proxy page", "bn": "HTML গেটওয়ে ত্রুটি" } }
+      ]
+    },
+    {
+      "id": "P18-19",
+      "number": 19,
+      "title": {
+        "en": "Authorized Localhost-Only TCP Port Reachability Checker",
+        "bn": "অনুমোদিত লোকালহোস্ট-ভিত্তিক TCP পোর্ট সক্রিয়তা যাচাই"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "22 min", "bn": "২২ মিনিট" },
+      "realWorldApplication": {
+        "en": "Service readiness probes (Kubernetes TCP readiness checks, CI/CD wait-for-port scripts) verify local microservices are listening before sending traffic—strictly on authorized hosts.",
+        "bn": "সার্ভিস চালু হওয়ার পর লোকাল মাইক্রোসার্ভিস বা ডেটাবেজ পোর্ট প্রস্তুত কি না তা প্রোব দিয়ে পরীক্ষা করা হয়।"
+      },
+      "requiredConcepts": [
+        { "en": "Strict host allowlist (`127.0.0.1` / `localhost` only)", "bn": "শুধুমাত্র `127.0.0.1` অনুমোদিত লক্ষ্য সীমাবদ্ধতা" },
+        { "en": "`socket.connect_ex()` non-raising TCP handshake probe", "bn": "`connect_ex()` দিয়ে নিরাপদ TCP হ্যান্ডশেক যাচাই" }
+      ],
+      "description": {
+        "en": "Ethics & Safety Rule: NEVER scan external networks or public servers without explicit written permission. Practice strictly on local authorized targets (`127.0.0.1`). Read `<target_ip> <num_active_services>`. First validate `target_ip == '127.0.0.1'` (reject any other IP with `POLICY_DENIED: Localhost 127.0.0.1 only`). When authorized, spin up `num_active_services` temporary loopback TCP listener sockets on `127.0.0.1` (OS-assigned ports) plus one closed socket (bound then immediately closed so its port is guaranteed unused), then probe those ports using `connect_ex()` with timeout `0.3s` and report `OPEN` vs `CLOSED` count!",
+        "bn": "নিরাপত্তা নীতি: কখনোই অনুমতি ছাড়া কোনো পাবলিক বা বাহ্যিক আইপি স্ক্যান করবেন না। `<target_ip> <active_count>` পড়ুন: লক্ষ্য `127.0.0.1` না হলে `POLICY_DENIED: Localhost 127.0.0.1 only` দিন; বৈধ হলে স্থানীয়ভাবে কিছু সক্রিয় ও ১টি বন্ধ লোকালহোস্ট পোর্ট প্রোব করে `Probed:<total> Open:<active> Closed:1` রিপোর্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line: `<target_ip> <num_active_services>` (e.g., `127.0.0.1 2`).",
+        "bn": "এক লাইনে `<target_ip> <সক্রিয়_পোর্ট_সংখ্যা>`।"
+      },
+      "expectedOutput": {
+        "en": "`AUTHORIZED 127.0.0.1 | Probed:<N> Open:<K> Closed:1` or `POLICY_DENIED: Localhost 127.0.0.1 only`.",
+        "bn": "`AUTHORIZED 127.0.0.1 | Probed:... Open:... Closed:1` অথবা `POLICY_DENIED: Localhost 127.0.0.1 only`।"
+      },
+      "examples": [
+        {
+          "input": "127.0.0.1 2",
+          "output": "AUTHORIZED 127.0.0.1 | Probed:3 Open:2 Closed:1",
+          "explanation": {
+            "en": "2 local listener ports return connect_ex == 0 (Open), and 1 closed port returns non-zero (Closed).",
+            "bn": "২টি সক্রিয় লোকাল পোর্টে সংযোগ সফল (`Open:2`) এবং ১টি বন্ধ পোর্টে ব্যর্থ (`Closed:1`) হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Reject any target other than `127.0.0.1` BEFORE creating any probe socket.",
+        "bn": "কোনো সকেট প্রোব করার আগেই `target_ip == '127.0.0.1'` যাচাই করুন।"
+      },
+      "hint2": {
+        "en": "`probe.connect_ex((target, port))` returns `0` when the TCP 3-way handshake succeeds (`ECONNREFUSED` otherwise), avoiding exception overhead.",
+        "bn": "`connect_ex()` সফল হলে `0` রিটার্ন করে, অন্যথায় অ-শূন্য এরর কোড দেয়।"
+      },
+      "logicBreakdown": {
+        "en": "Enforcing an explicit host policy guard (`127.0.0.1` only) demonstrates defensive engineering discipline, while `connect_ex()` performs real OS TCP probes cleanly against deterministic ephemeral loopback listeners.",
+        "bn": "পলিসি-গার্ড অননুমোদিত স্ক্যানিং আটকায় এবং `connect_ex()` দিয়ে লোকাল সার্ভিসের সক্রিয়তা নিরাপদে পরীক্ষা করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read `target_ip, active_n`; verify `target_ip == '127.0.0.1'`.", "bn": "`target_ip` কেবল `127.0.0.1` কি না যাচাই করুন।" },
+        { "en": "Open `active_n` loopback listener sockets (`listen(1)`) plus bind+close 1 socket to reserve a closed port.", "bn": "`active_n`টি সক্রিয় লিসেনার এবং ১টি বন্ধ পোর্ট তৈরি করুন।" },
+        { "en": "Probe every port with `connect_ex`, tally open vs closed, close all listeners, and print report.", "bn": "`connect_ex` দিয়ে পরীক্ষা শেষে সব সকেট বন্ধ করে রিপোর্ট প্রিন্ট করুন।" }
+      ],
+      "solution": "import socket\n\ntarget, count_s = input().strip().split()\nactive_n = int(count_s)\n\nif target != \"127.0.0.1\":\n    print(\"POLICY_DENIED: Localhost 127.0.0.1 only\")\nelse:\n    listeners = []\n    ports = []\n    try:\n        for _ in range(active_n):\n            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n            s.bind((\"127.0.0.1\", 0))\n            s.listen(1)\n            listeners.append(s)\n            ports.append(s.getsockname()[1])\n\n        closed_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        closed_sock.bind((\"127.0.0.1\", 0))\n        closed_port = closed_sock.getsockname()[1]\n        closed_sock.close()\n        ports.append(closed_port)\n\n        open_cnt = 0\n        closed_cnt = 0\n        for p in ports:\n            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:\n                probe.settimeout(0.3)\n                rc = probe.connect_ex((target, p))\n                if rc == 0:\n                    open_cnt += 1\n                else:\n                    closed_cnt += 1\n        print(f\"AUTHORIZED 127.0.0.1 | Probed:{len(ports)} Open:{open_cnt} Closed:{closed_cnt}\")\n    finally:\n        for s in listeners:\n            s.close()",
+      "codeExplanation": {
+        "en": "`try...finally` guarantees all temporary loopback listening sockets are cleanly released even on unexpected exceptions.",
+        "bn": "`try...finally` ব্লক নিশ্চিত করে সব সাময়িক লিসেনার সকেট সঠিকভাবে বন্ধ হয়।"
+      },
+      "commonMistakes": {
+        "en": "Forgetting to close listener sockets or probing unverified external IP addresses.",
+        "bn": "খোলা সকেট বন্ধ করতে ভুলে যাওয়া অথবা অননুমোদিত বাহ্যিক আইপিতে প্রোব চালানো।"
+      },
+      "complexity": { "time": "O(P) ports", "space": "O(P)" },
+      "testCases": [
+        { "input": "127.0.0.1 2", "expectedOutput": "AUTHORIZED 127.0.0.1 | Probed:3 Open:2 Closed:1", "note": { "en": "Localhost probes pass policy", "bn": "লোকালহোস্ট প্রোব সফল" } },
+        { "input": "127.0.0.1 0", "expectedOutput": "AUTHORIZED 127.0.0.1 | Probed:1 Open:0 Closed:1", "note": { "en": "Zero open services", "bn": "কোনো সক্রিয় সার্ভিস নেই" } },
+        { "input": "8.8.8.8 1", "expectedOutput": "POLICY_DENIED: Localhost 127.0.0.1 only", "note": { "en": "External target blocked by policy", "bn": "বাহ্যিক লক্ষ্য পলিসিতে ব্লক" } }
+      ]
+    },
+    {
+      "id": "P18-20",
+      "number": 20,
+      "title": {
+        "en": "Localhost HTTP Health-Check Diagnostic Tool",
+        "bn": "লোকালহোস্ট HTTP হেলথ-চেক ও ডায়াগনস্টিক টুল"
+      },
+      "difficulty": "Challenge",
+      "estimatedTime": { "en": "25 min", "bn": "২৫ মিনিট" },
+      "realWorldApplication": {
+        "en": "SRE health checkers and microservice readiness monitors execute real HTTP `GET` requests over TCP, inspect status codes, parse JSON health bodies, and measure round-trip timing safely.",
+        "bn": "সিস্টেম রিলায়েবিলিটি ইঞ্জিনিয়াররা লোকাল সার্ভিসের `/health` এন্ডপয়েন্টে HTTP GET পাঠিয়ে স্ট্যাটাস কোড ও JSON অবস্থা যাচাই করেন।"
+      },
+      "requiredConcepts": [
+        { "en": "Embedded loopback HTTP server (`http.server`) + raw socket client", "bn": "লোকালহোস্ট HTTP সার্ভার ও সকেট ক্লায়েন্ট" },
+        { "en": "HTTP response header/body separation (`\\r\\n\\r\\n`) & JSON check", "bn": "HTTP হেডার-বডি পৃথকীকরণ ও JSON যাচাই" }
+      ],
+      "description": {
+        "en": "Build a complete localhost diagnostic tool using Python's stdlib `http.server.HTTPServer` + `BaseHTTPRequestHandler` on `('127.0.0.1', 0)`. Read `<endpoint_path>` (`/health` returns HTTP `200` `{\"service\":\"pylogic\",\"status\":\"healthy\"}`; `/ready` returns HTTP `503` `{\"service\":\"pylogic\",\"status\":\"warming\"}`; anything else returns `404` `{\"error\":\"not_found\"}`). Then connect a real `socket` client to `127.0.0.1:<port>`, send `GET <path> HTTP/1.1\\r\\nHost: 127.0.0.1\\r\\nConnection: close\\r\\n\\r\\n`, parse status code and JSON fields, and print `Endpoint:<path> | HTTP:<status> | Health:<status_or_error> | Bytes:<len>`.",
+        "bn": "`http.server` দিয়ে `127.0.0.1`-এ একটি লোকাল HTTP সার্ভার চালিয়ে প্রদত্ত পাথে (`/health`, `/ready` বা অন্য কিছু) প্রকৃত TCP সকেটে `GET` রিকোয়েস্ট পাঠান। উত্তর থেকে HTTP স্ট্যাটাস, JSON ফলাফল ও বডি দৈর্ঘ্য প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "One line containing an HTTP request path (e.g., `/health`).",
+        "bn": "এক লাইনে একটি HTTP পাথ (যেমন `/health`)।"
+      },
+      "expectedOutput": {
+        "en": "`Endpoint:<path> | HTTP:<code> | Health:<val> | Bytes:<len>`",
+        "bn": "`Endpoint:<পাথ> | HTTP:<কোড> | Health:<অবস্থা> | Bytes:<বাইট>`"
+      },
+      "examples": [
+        {
+          "input": "/health",
+          "output": "Endpoint:/health | HTTP:200 | Health:healthy | Bytes:40",
+          "explanation": {
+            "en": "Socket sends raw HTTP/1.1 GET over loopback; server returns 200 OK with 40-byte JSON body.",
+            "bn": "লুপব্যাক সকেটে GET পাঠানোর পর সার্ভার ২০০ স্ট্যাটাস ও ৪০ বাইট JSON উত্তর দিয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Include `Connection: close` in the client's HTTP/1.1 request so the server closes the TCP stream cleanly after sending the response body, letting `recv()` terminate cleanly at EOF.",
+        "bn": "`Connection: close` হেডার পাঠালে সার্ভার উত্তর পাঠিয়েই সংযোগ বন্ধ করে দেয়, ফলে `recv()` সহজে শেষ হয়।"
+      },
+      "hint2": {
+        "en": "Override `log_message(self, *args)` inside `BaseHTTPRequestHandler` to suppress noisy stderr access logs.",
+        "bn": "`log_message` ওভাররাইড করে অপ্রয়োজনীয় সার্ভার লগ বন্ধ রাখুন।"
+      },
+      "logicBreakdown": {
+        "en": "Combining `http.server` with a raw `socket` HTTP/1.1 client demonstrates the entire stack: TCP handshake -> raw HTTP wire bytes (`\\r\\n\\r\\n` separator) -> HTTP status line -> JSON payload verification.",
+        "bn": "এটি নেটওয়ার্কিংয়ের পূর্ণ স্তর একসাথে দেখায়: TCP হ্যান্ডশেক থেকে শুরু করে HTTP হেডার/বডি বিভাজন ও JSON বিশ্লেষণ।"
+      },
+      "algorithm": [
+        { "en": "Start silent `HTTPServer(('127.0.0.1', 0), Handler)` in background thread handling one request (`handle_request()`).", "bn": "লুপব্যাক পোর্টে `HTTPServer` চালু করে একটি রিকোয়েস্ট শোনার জন্য থ্রেড চালান।" },
+        { "en": "Open TCP socket to `127.0.0.1:port` and send HTTP/1.1 GET with `Connection: close`.", "bn": "সকেটে সংযুক্ত হয়ে `Connection: close`-সহ HTTP/1.1 GET পাঠান।" },
+        { "en": "Read until EOF, split headers/body on `\\r\\n\\r\\n`, parse status code and JSON body, and print diagnostic line.", "bn": "হেডার ও বডি আলাদা করে স্ট্যাটাস, JSON মান ও বাইট দৈর্ঘ্য প্রিন্ট করুন।" }
+      ],
+      "solution": "from http.server import BaseHTTPRequestHandler, HTTPServer\nimport json\nimport socket\nimport threading\n\npath = input().strip() or \"/\"\n\nclass Handler(BaseHTTPRequestHandler):\n    def log_message(self, fmt, *args):\n        pass\n\n    def do_GET(self):\n        if self.path == \"/health\":\n            code, body = 200, {\"service\": \"pylogic\", \"status\": \"healthy\"}\n        elif self.path == \"/ready\":\n            code, body = 503, {\"service\": \"pylogic\", \"status\": \"warming\"}\n        else:\n            code, body = 404, {\"error\": \"not_found\"}\n        raw = json.dumps(body, separators=(\",\", \":\")).encode(\"utf-8\")\n        self.send_response(code)\n        self.send_header(\"Content-Type\", \"application/json\")\n        self.send_header(\"Content-Length\", str(len(raw)))\n        self.end_headers()\n        self.wfile.write(raw)\n\nsrv = HTTPServer((\"127.0.0.1\", 0), Handler)\nport = srv.server_port\nt = threading.Thread(target=srv.handle_request, daemon=True)\nt.start()\n\nreq = f\"GET {path} HTTP/1.1\\r\\nHost: 127.0.0.1:{port}\\r\\nConnection: close\\r\\n\\r\\n\"\nchunks = []\nwith socket.create_connection((\"127.0.0.1\", port), timeout=2.0) as cli:\n    cli.sendall(req.encode(\"utf-8\"))\n    while True:\n        part = cli.recv(4096)\n        if not part:\n            break\n        chunks.append(part)\n\nt.join(timeout=2.0)\nsrv.server_close()\n\nraw_resp = b\"\".join(chunks)\nhead_b, body_b = raw_resp.split(b\"\\r\\n\\r\\n\", 1)\nstatus_line = head_b.decode(\"utf-8\").splitlines()[0]\nhttp_code = int(status_line.split()[1])\npayload = json.loads(body_b.decode(\"utf-8\"))\nhealth = payload.get(\"status\", payload.get(\"error\", \"unknown\"))\nprint(f\"Endpoint:{path} | HTTP:{http_code} | Health:{health} | Bytes:{len(body_b)}\")",
+      "codeExplanation": {
+        "en": "`srv.handle_request()` handles exactly one request cleanly without hanging, while compact `json.dumps` guarantees deterministic byte counts.",
+        "bn": "`handle_request()` এক রিকোয়েস্ট শেষেই সার্ভার থামায় এবং `separators=(',', ':')` নিশ্চিত বাইট দৈর্ঘ্য বজায় রাখে।"
+      },
+      "commonMistakes": {
+        "en": "Omitting `Connection: close` under HTTP/1.1 keep-alive, causing `while True: cli.recv()` to block until timeout.",
+        "bn": "HTTP/1.1-এ `Connection: close` না পাঠালে keep-alive-এর কারণে `recv()` টাইমআউট পর্যন্ত আটকে থাকে।"
+      },
+      "complexity": { "time": "O(response size)", "space": "O(response size)" },
+      "testCases": [
+        { "input": "/health", "expectedOutput": "Endpoint:/health | HTTP:200 | Health:healthy | Bytes:40", "note": { "en": "Healthy 200 JSON response", "bn": "হেলদি ২০০ উত্তর" } },
+        { "input": "/ready", "expectedOutput": "Endpoint:/ready | HTTP:503 | Health:warming | Bytes:40", "note": { "en": "Service warming 503", "bn": "সার্ভিস প্রস্তুত নয় ৫০০ সিরিজ" } },
+        { "input": "/unknown", "expectedOutput": "Endpoint:/unknown | HTTP:404 | Health:not_found | Bytes:21", "note": { "en": "Not found 404 endpoint", "bn": "অজানা পাথে ৪০৪" } }
+      ]
+    }
+  ]
+}

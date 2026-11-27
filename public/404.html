@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PYLOGIC — Redirecting</title>
+    <script>
+      (function () {
+        var validSections = [
+          'dashboard',
+          'logic-building',
+          'projects',
+          'my-progress',
+          'about-developer',
+          'settings',
+        ];
+        var rawPath = window.location.pathname || '/';
+        var parts = rawPath.replace(/\/+$/, '').split('/').filter(Boolean);
+        var last = parts.length > 0 ? parts[parts.length - 1] : '';
+        var isKnownSection = validSections.indexOf(last) >= 0;
+        var isGitHubPages = /\.github\.io$/i.test(window.location.hostname || '');
+
+        var basePath = '/';
+        var targetHash = '#dashboard';
+
+        if (isKnownSection) {
+          var baseParts = parts.slice(0, -1);
+          basePath = baseParts.length > 0 ? '/' + baseParts.join('/') + '/' : '/';
+          targetHash = '#' + last;
+        } else if (parts.length > 0) {
+          if (isGitHubPages && parts.length >= 2) {
+            basePath = '/' + parts[0] + '/';
+            targetHash = '#' + encodeURIComponent(parts.slice(1).join('/'));
+          } else if (isGitHubPages && parts.length === 1) {
+            basePath = '/' + parts[0] + '/';
+            targetHash = '#dashboard';
+          } else {
+            basePath = '/';
+            targetHash = '#' + encodeURIComponent(parts.join('/'));
+          }
+        }
+
+        if (rawPath !== basePath) {
+          window.location.replace(window.location.origin + basePath + targetHash);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p>PYLOGIC is loading. Return to <a href="./#dashboard">PYLOGIC Dashboard</a>.</p>
+    </noscript>
+  </body>
+</html>

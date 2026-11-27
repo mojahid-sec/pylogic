@@ -1,0 +1,797 @@
+{
+  "level": "Level 01",
+  "levelNumber": 1,
+  "projects": [
+    {
+      "id": "PRJ-01",
+      "number": 1,
+      "title": {
+        "en": "Intelligent File Management and Organization System",
+        "bn": "বুদ্ধিমত্তাভিত্তিক ফাইল ম্যানেজমেন্ট ও সংগঠন সিস্টেম"
+      },
+      "level": "Level 01",
+      "difficulty": "Beginner",
+      "estimatedTime": {
+        "en": "6–8 hours",
+        "bn": "৬–৮ ঘণ্টা"
+      },
+      "category": "Python Foundations",
+      "overview": {
+        "en": "Build a rule-driven CLI utility that inspects cluttered directories, classifies files by extension and content signature, detects exact duplicates via cryptographic hashing, supports safe dry-run previews, and writes reversible move manifests.",
+        "bn": "একটি নিয়মভিত্তিক সিএলআই ইউটিলিটি তৈরি করুন যা বিশৃঙ্খল ডিরেক্টরি বিশ্লেষণ করে এক্সটেনশন ও কনটেন্ট সিগনেচার অনুযায়ী ফাইল সাজায়, হ্যাশ দিয়ে ডুপ্লিকেট ধরে, ড্রাই-রান প্রিভিউ দেখায় এবং রোলব্যাক ম্যানিফেস্ট সংরক্ষণ করে।"
+      },
+      "realWorldProblem": {
+        "en": "Download folders, shared team drives, and incident workstations quickly accumulate thousands of unorganized files, duplicate installers, and misnamed attachments, wasting storage and slowing engineering workflows.",
+        "bn": "ডাউনলোড ফোল্ডার, শেয়ারড ড্রাইভ এবং ওয়ার্কস্টেশনে হাজারো অগোছালো ফাইল ও ডুপ্লিকেট জমে স্টোরেজ নষ্ট হয় এবং কাজ ধীর হয়ে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Automation engineers and IT specialists regularly write safe filesystem utilities where one mistake can overwrite user data. Designing dry-run modes, hash-based deduplication, and undo logs builds production engineering discipline.",
+        "bn": "অটোমেশন ইঞ্জিনিয়ার ও আইটি পেশাদারদের নিয়মিত ফাইলসিস্টেম টুল লিখতে হয় যেখানে সামান্য ভুলে ডেটা হারাতে পারে; তাই ড্রাই-রান ও আনডু লগ ডিজাইন পেশাদার দক্ষতা তৈরি করে।"
+      },
+      "realWorldUseCases": [
+        { "en": "Automated triage of developer download directories and build artifact drop-zones", "bn": "ডেভেলপার ডাউনলোড ফোল্ডার ও বিল্ড আর্টিফ্যাক্ট স্বয়ংক্রিয়ভাবে গোছানো" },
+        { "en": "Enterprise shared-drive cleanup with audit trails and duplicate quarantine", "bn": "অডিট লগসহ অফিসিয়াল শেয়ারড ড্রাইভ থেকে ডুপ্লিকেট ফাইল আলাদা করা" },
+        { "en": "Digital evidence pre-sorting before forensic indexing", "bn": "ফরেনসিক ইনডেক্সিংয়ের আগে ডিজিটাল ফাইল শ্রেণিবিন্যাস করা" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Filesystem traversal & path normalization", "bn": "ফাইলসিস্টেম ট্র্যাভার্সাল ও পাথ স্বাভাবিকীকরণ" },
+        { "en": "Deterministic hashing & deduplication", "bn": "হ্যাশভিত্তিক ডুপ্লিকেট শনাক্তকরণ" },
+        { "en": "CLI argument design & audit logging", "bn": "সিএলআই কমান্ড ডিজাইন ও অডিট লগিং" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "pathlib.Path & shutil safe file operations", "bn": "pathlib.Path ও shutil দিয়ে নিরাপদ ফাইল অপারেশন" },
+        { "en": "hashlib streaming SHA-256 chunking", "bn": "hashlib দিয়ে স্ট্রিমিং SHA-256 গণনা" },
+        { "en": "argparse CLI flags & JSON manifest serialization", "bn": "argparse ফ্ল্যাগ ও JSON ম্যানিফেস্ট সংরক্ষণ" },
+        { "en": "Exception handling for OS permissions & locked files", "bn": "অনুমতি ও লকড ফাইলের জন্য এক্সসেপশন হ্যান্ডলিং" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "Standard Library (pathlib, hashlib, argparse, json, shutil)", "bn": "স্ট্যান্ডার্ড লাইব্রেরি (pathlib, hashlib, argparse, json, shutil)" },
+        { "en": "pytest or unittest with temporary directories", "bn": "টেম্প ডিরেক্টরিসহ pytest বা unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Accept target directory, classification rule config (JSON), and --dry-run flag via CLI.", "bn": "সিএলআই থেকে টার্গেট ডিরেক্টরি, নিয়ম ফাইল (JSON) এবং --dry-run ফ্ল্যাগ গ্রহণ করা।" },
+        { "en": "Classify files into logical folders (Documents, Media, Archives, Code, Others) with collision-safe renaming.", "bn": "ফাইলগুলোকে নির্ধারিত ফোল্ডারে সাজানো এবং একই নামের সংঘাত নিরাপদে সামলানো।" },
+        { "en": "Identify byte-identical duplicate files using size pre-filtering followed by chunked SHA-256 comparison.", "bn": "প্রথমে সাইজ এবং পরে চাংকড SHA-256 মিলিয়ে প্রকৃত ডুপ্লিকেট শনাক্ত করা।" },
+        { "en": "Record every move/quarantine action in a timestamped JSON transaction log and support an --undo command.", "bn": "প্রতিটি মুভ/কোয়ারেন্টাইন কাজ JSON লগে সংরক্ষণ করে --undo কমান্ড সমর্থন করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Never lose or silently overwrite files on filename collisions.", "bn": "একই নামের কারণে কোনো ফাইল নষ্ট বা ওভাররাইট না হওয়া।" },
+        { "en": "Handle large files using constant memory chunked reads rather than loading entire files into RAM.", "bn": "বড় ফাইল RAM-এ না তুলে নির্দিষ্ট বাফারে পড়া।" },
+        { "en": "Produce clear human-readable summary tables alongside machine-readable JSON logs.", "bn": "মানুষের পড়ার উপযোগী সারাংশ ও JSON লগ উভয়ই তৈরি করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Dry-run preview showing exact planned source -> destination mappings", "bn": "ড্রাই-রান প্রিভিউয়ে উৎস থেকে গন্তব্যের সম্পূর্ণ তালিকা" },
+        { "en": "Configurable extension rules and quarantine folder for duplicates", "bn": "কাস্টম এক্সটেনশন নিয়ম ও ডুপ্লিকেট কোয়ারেন্টাইন ফোল্ডার" },
+        { "en": "Reversible undo workflow restoring original filenames and paths", "bn": "আগের অবস্থানে ফিরিয়ে নেওয়ার আনডু সুবিধা" },
+        { "en": "Skip hidden system folders or symlink escapes cleanly", "bn": "লুকানো সিস্টেম ফোল্ডার ও অনিরাপদ সিমলিংক নিরাপদে এড়িয়ে যাওয়া" }
+      ],
+      "constraints": [
+        { "en": "Run only on user-specified sandbox/test directories; refuse root filesystem paths like '/' or 'C:\\'.", "bn": "কেবল নির্ধারিত স্যান্ডবক্স ডিরেক্টরিতে চলবে; '/' বা মূল ড্রাইভ রুট প্রত্যাখ্যান করতে হবে।" },
+        { "en": "Use only Python standard library modules for core logic.", "bn": "মূল লজিকের জন্য কেবল পাইথনের স্ট্যান্ডার্ড লাইব্রেরি ব্যবহার করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "file_organizer/",
+        "├── README.md",
+        "├── rules.example.json",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── cli.py",
+        "│   ├── classifier.py",
+        "│   ├── deduplicator.py",
+        "│   └── transaction_log.py",
+        "└── tests/",
+        "    ├── test_classifier.py",
+        "    └── test_undo_safety.py"
+      ],
+      "folderStructureNote": {
+        "en": "Keep CLI parsing separate from filesystem mutation logic so rules and undo behavior can be unit-tested in isolation.",
+        "bn": "সিএলআই পার্সিং ও ফাইল পরিবর্তনের লজিক আলাদা মডিউলে রাখুন যাতে টেম্প ডিরেক্টরিতে সহজেই ইউনিট টেস্ট করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store category mapping rules in an editable JSON config file and persist each run's reversible action ledger as timestamped JSON inside a dedicated '.organizer_logs/' folder.",
+        "bn": "ক্যাটাগরি নিয়ম একটি JSON কনফিগ ফাইলে এবং প্রতিটি রানের রোলব্যাক লগ '.organizer_logs/' ফোল্ডারে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test dry-run mode verifies zero filesystem changes occurred.", "bn": "ড্রাই-রান মোডে ডিস্কে কোনো পরিবর্তন হয়নি তা যাচাই করা।" },
+        { "en": "Test filename collision (e.g., two different 'report.pdf' files) renames safely without overwrite.", "bn": "একই নামের দুটি ভিন্ন ফাইলে কোনোটি ওভাররাইট না হয়ে আলাদা নামে সংরক্ষণ পরীক্ষা করা।" },
+        { "en": "Test duplicate detection catches identical contents even with different filenames.", "bn": "ভিন্ন নামেও অভিন্ন কনটেন্ট ডুপ্লিকেট হিসেবে ধরা পড়ে কি না পরীক্ষা করা।" },
+        { "en": "Test --undo restores original directory layout cleanly.", "bn": "--undo চালালে মূল ডিরেক্টরি কাঠামো ফিরে আসে কি না যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Resolve canonical paths and skip symlinks pointing outside the target directory to prevent traversal.", "bn": "সিমলিংক দিয়ে টার্গেট ডিরেক্টরির বাইরে যাওয়া ঠেকাতে ক্যানোনিকাল পাথ যাচাই করুন।" },
+        { "en": "Block execution if the user targets critical OS directories.", "bn": "গুরুত্বপূর্ণ অপারেটিং সিস্টেম ডিরেক্টরি লক্ষ্য করলে টুল চালানো বন্ধ করুন।" },
+        { "en": "Never blindly trust file extensions alone when magic-byte verification is configured.", "bn": "কনফিগার করা থাকলে কেবল এক্সটেনশন নয়, ফাইল হেডারও যাচাই করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Working CLI Python package with dry-run, organize, and undo commands", "bn": "ড্রাই-রান, অর্গানাইজ ও আনডু কমান্ডসহ কার্যকর সিএলআই প্যাকেজ" },
+        { "en": "Sample rules.example.json and automated test suite", "bn": "নমুনা নিয়ম ফাইল ও স্বয়ংক্রিয় টেস্ট স্যুট" },
+        { "en": "Clear README documenting flags, safety guards, and undo recovery", "bn": "ফ্ল্যাগ ও নিরাপত্তা নিয়ম বর্ণনাসহ স্পষ্ট README" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Clean commit history separating classification, hashing, and rollback features", "bn": "ক্লিন কমিট হিস্ট্রি যেখানে প্রতিটি ফিচার আলাদাভাবে সংরক্ষিত" },
+        { "en": "Before/after directory tree examples and test execution proof in README", "bn": "README-তে ব্যবহার-পূর্ব ও পরবর্তী ডিরেক্টরি ট্রি ও টেস্টের প্রমাণ" },
+        { "en": "Zero personal or sensitive directories committed to git (proper .gitignore)", "bn": "সঠিক .gitignore ব্যবহার করে অপ্রয়োজনীয় বা সংবেদনশীল ফাইল বাদ দেওয়া" }
+      ],
+      "thinkingChallenges": [
+        { "en": "How can you avoid computing expensive SHA-256 hashes on thousands of unique-sized files?", "bn": "হাজারো ভিন্ন আকারের ফাইলের অপ্রয়োজনীয় SHA-256 গণনা কীভাবে এড়ানো যায়?" },
+        { "en": "What happens if the script crashes halfway through moving 500 files—how will your undo log stay consistent?", "bn": "৫০০টি ফাইল সরানোর মাঝপথে প্রোগ্রাম ক্র্যাশ করলে আনডু লগ কীভাবে অখণ্ড রাখবেন?" },
+        { "en": "How should your tool resolve a collision when moving 'notes.txt' into Documents/ where a different 'notes.txt' already exists?", "bn": "গন্তব্য ফোল্ডারে আগে থেকেই ভিন্ন কনটেন্টের 'notes.txt' থাকলে সংঘাত কীভাবে সমাধান করবেন?" },
+        { "en": "Why is following directory symlinks dangerous during recursive cleanup?", "bn": "রিকার্সিভ ক্লিনআপে ডিরেক্টরি সিমলিংক অনুসরণ করা কেন ঝুঁকিপূর্ণ হতে পারে?" },
+        { "en": "How do you prevent '--undo' from breaking if the user already renamed one of the moved folders manually?", "bn": "ব্যবহারকারী ইতিমধ্যে কোনো ফোল্ডার ম্যানুয়ালি পরিবর্তন করলে '--undo' কীভাবে নিরাপদে সতর্ক করবে?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think in two distinct phases: first build a read-only execution plan of proposed moves and hashes in memory, and only mutate the filesystem after validation passes.",
+          "bn": "দুই ধাপে ভাবুন: প্রথমে মেমরিতে সম্ভাব্য পরিবর্তনের একটি পঠনযোগ্য পরিকল্পনা তৈরি করুন, এবং কেবল যাচাই শেষে আসল ফাইল পরিবর্তন করুন।"
+        },
+        "level2": {
+          "en": "Group candidate files by st_size first with pathlib.Path.stat() before opening files for chunked hashlib.sha256() hashing; use shutil.move() safely only when not in dry-run.",
+          "bn": "প্রথমে ফাইল সাইজ অনুযায়ী গ্রুপিং করে কেবল সমান সাইজের ফাইলগুলোই hashlib.sha256()-এ চাংক করে হ্যাশ করুন এবং ড্রাই-রান না হলেই shutil.move() ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Separate a Planner module (scans directory, applies rule table, outputs Action objects) from an Executor module (logs each completed step to JSON immediately after each atomic move).",
+          "bn": "স্ক্যান ও নিয়ম প্রয়োগের জন্য একটি Planner এবং প্রতিটি সফল মুভের সাথে সাথেই JSON লগ লেখার জন্য আলাদা Executor মডিউল তৈরি করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add magic-byte file signature inspection to catch files whose extension does not match their actual header (e.g., PNG saved as .jpg).", "bn": "এক্সটেনশনের সাথে আসল ফাইল হেডার না মিললে তা ধরার জন্য ম্যাজিক-বাইট যাচাই যুক্ত করুন।" },
+        { "en": "Support optional empty-directory pruning after organizing.", "bn": "ফাইল সাজানোর পর খালি হয়ে যাওয়া উপ-ডিরেক্টরি নিরাপদে মুছে ফেলার অপশন যোগ করুন।" },
+        { "en": "Generate a terminal storage-reclaimed summary by category.", "bn": "প্রতিটি ক্যাটাগরি অনুযায়ী কত স্টোরেজ সাশ্রয় বা সংগঠিত হলো তার রিপোর্ট তৈরি করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" },
+          { "en": "IT Support & Automation Engineer", "bn": "আইটি সাপোর্ট ও অটোমেশন ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Demonstrates production-minded CLI craftsmanship—dry-run safety, hashing optimization, and transactional rollback—skills directly assessed in backend and DevOps interviews.",
+          "bn": "ড্রাই-রান নিরাপত্তা, হ্যাশ অপটিমাইজেশন এবং রোলব্যাক ডিজাইনের মতো বাস্তব সফটওয়্যার অভ্যাস প্রদর্শন করে যা ব্যাকএন্ড ও অটোমেশন ইন্টারভিউতে অত্যন্ত মূল্যবান।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Safe filesystem automation", "bn": "নিরাপদ ফাইলসিস্টেম অটোমেশন" },
+          { "en": "Streaming I/O optimization", "bn": "স্ট্রিমিং I/O অপটিমাইজেশন" },
+          { "en": "Transactional rollback logging", "bn": "রোলব্যাক লগিং ডিজাইন" }
+        ],
+        "interviewTopics": [
+          { "en": "Why size pre-filtering optimizes file deduplication", "bn": "ফাইল ডুপ্লিকেট খোঁজায় সাইজ প্রি-ফিল্টারিং কেন দ্রুততর" },
+          { "en": "Handling atomicity and partial failure in batch file moves", "bn": "ব্যাচ ফাইল মুভে আংশিক ব্যর্থতা ও অ্যাটমিসিটি নিয়ন্ত্রণ" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Strong foundational repository showing clean modular Python, safety-first CLI flags, and automated filesystem tests.",
+          "bn": "পরিচ্ছন্ন মডিউলার পাইথন কোড, নিরাপদ সিএলআই ফ্ল্যাগ ও টেস্টিং দক্ষতা প্রদর্শনের জন্য চমৎকার পোর্টফোলিও প্রজেক্ট।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-02",
+      "number": 2,
+      "title": {
+        "en": "Advanced Personal Expense and Financial Analysis System",
+        "bn": "উন্নত ব্যক্তিগত ব্যয় ও আর্থিক বিশ্লেষণ সিস্টেম"
+      },
+      "level": "Level 01",
+      "difficulty": "Beginner",
+      "estimatedTime": {
+        "en": "8–10 hours",
+        "bn": "৮–১০ ঘণ্টা"
+      },
+      "category": "Data & Storage",
+      "overview": {
+        "en": "Design a multi-currency-aware ledger and financial analytics CLI using exact decimal arithmetic, CSV bank import deduplication, monthly budget threshold alerts, and category spending trend reports.",
+        "bn": "নির্ভুল ডেসিম্যাল হিসাব, CSV ব্যাংক স্টেটমেন্ট ইম্পোর্ট, মাসিক বাজেট সতর্কতা এবং ক্যাটাগরিভিত্তিক ব্যয় প্রবণতা বিশ্লেষণসহ একটি আর্থিক লেজার সিস্টেম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Naive expense scripts use binary floating-point numbers (`float`), causing cent-rounding drift, double-counting imported bank CSV rows, and failing silently on malformed dates.",
+        "bn": "সাধারণ ব্যয় ট্র্যাকারে `float` ব্যবহার করলে পয়সার হিসাবে ভুল জমে, বারবার CSV ইম্পোর্টে একই লেনদেন দুবার যোগ হয় এবং ভুল তারিখে প্রোগ্রাম ক্র্যাশ করে।"
+      },
+      "whyItMatters": {
+        "en": "Financial software demands exact Decimal precision, strict input validation, idempotent imports, and clear analytical aggregation—core competencies for backend business systems.",
+        "bn": "আর্থিক সফটওয়্যারে নিখুঁত Decimal হিসাব, কঠোর ডেটা ভ্যালিডেশন ও আইডেমপোটেন্ট ইম্পোর্ট অপরিহার্য, যা ব্যাকএন্ড ডেভেলপমেন্টের মূল ভিত্তি।"
+      },
+      "realWorldUseCases": [
+        { "en": "Reconciling monthly bank CSV exports against personal budget targets", "bn": "মাসিক ব্যাংক CSV স্টেটমেন্টের সাথে বাজেট লক্ষ্য মেলানো" },
+        { "en": "Detecting recurring subscription creep and category overspending", "bn": "নিয়মিত সাবস্ক্রিপশন ও অতিরিক্ত ব্যয়ের খাত শনাক্ত করা" },
+        { "en": "Generating structured monthly financial summaries for tax or audit prep", "bn": "ট্যাক্স বা অডিট প্রস্তুতির জন্য মাসিক আর্থিক সারাংশ তৈরি" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Exact monetary arithmetic (Decimal)", "bn": "নির্ভুল আর্থিক গণনা (Decimal)" },
+        { "en": "Idempotent CSV parsing & normalization", "bn": "আইডেমপোটেন্ট CSV পার্সিং" },
+        { "en": "Relational persistence & analytical grouping", "bn": "ডেটাবেস সংরক্ষণ ও গ্রুপিং বিশ্লেষণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "decimal.Decimal & rounding modes", "bn": "decimal.Decimal ও রাউন্ডিং নীতি" },
+        { "en": "datetime parsing & ISO-8601 date validation", "bn": "datetime পার্সিং ও ISO-8601 তারিখ যাচাই" },
+        { "en": "csv.DictReader & sqlite3 parameterized persistence", "bn": "csv.DictReader ও sqlite3 প্যারামিটারাইজড সংরক্ষণ" },
+        { "en": "Collections & dictionary aggregation", "bn": "ডিকশনারি ও গ্রুপিং অ্যালগরিদম" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "SQLite3 & CSV datasets", "bn": "SQLite3 ও CSV ডেটাসেট" },
+        { "en": "unittest / pytest", "bn": "unittest বা pytest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Support adding income/expense records with date, amount, category, merchant, and notes.", "bn": "তারিখ, পরিমাণ, ক্যাটাগরি, মার্চেন্ট ও নোটসহ আয়-ব্যয় এন্ট্রি যোগ করা।" },
+        { "en": "Import external CSV files while detecting and skipping duplicate transactions via deterministic record fingerprints.", "bn": "বাহ্যিক CSV ফাইল ইম্পোর্টে ফিঙ্গারপ্রিন্ট মিলিয়ে ডুপ্লিকেট লেনদেন এড়িয়ে যাওয়া।" },
+        { "en": "Allow setting monthly budgets per category and flag warnings at 80% and 100% consumption.", "bn": "ক্যাটাগরি অনুযায়ী মাসিক বাজেট নির্ধারণ ও ৮০%/১০০% সীমায় সতর্কতা দেখানো।" },
+        { "en": "Export monthly summary reports showing net savings rate, top categories, and month-over-month deltas.", "bn": "মাসিক সঞ্চয় হার, শীর্ষ ব্যয় ও পূর্ববর্তী মাসের তুলনাসহ রিপোর্ট তৈরি করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Zero binary float arithmetic for currency calculations.", "bn": "মুদ্রা হিসাবের কোথাও বাইনারি float ব্যবহার না করা।" },
+        { "en": "Gracefully skip and log malformed CSV rows instead of aborting the whole import.", "bn": "ত্রুটিপূর্ণ CSV সারি পুরো ইম্পোর্ট বন্ধ না করে লগসহ বাদ দেওয়া।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Interactive or command-based entry, search, and date-range filtering", "bn": "তারিখ ও ক্যাটাগরি অনুযায়ী লেনদেন অনুসন্ধান ও ফিল্টারিং" },
+        { "en": "Budget overrun warning engine with clear percentage breakdowns", "bn": "শতাংশ হিসাবসহ বাজেট অতিক্রমের সতর্কতা" },
+        { "en": "Duplicate-safe CSV batch importer with bad-row quarantine report", "bn": "ভুল সারি আলাদা করে দেখানোসহ ডুপ্লিকেট-নিরাপদ CSV ইম্পোর্টার" },
+        { "en": "Clean text/JSON monthly analytics export", "bn": "মাসিক বিশ্লেষণের টেক্সট বা JSON রিপোর্ট এক্সপোর্ট" }
+      ],
+      "constraints": [
+        { "en": "Never store real personal banking credentials or real account numbers.", "bn": "কখনোই প্রকৃত ব্যাংক অ্যাকাউন্ট নম্বর বা পাসওয়ার্ড সংরক্ষণ করবেন না।" },
+        { "en": "All monetary values must be validated as finite Decimal amounts.", "bn": "সব আর্থিক মান বৈধ Decimal হিসেবে যাচাই করতে হবে।" }
+      ],
+      "suggestedFolderStructure": [
+        "expense_analyzer/",
+        "├── README.md",
+        "├── sample_data/",
+        "│   └── bank_export.csv",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── models.py",
+        "│   ├── storage.py",
+        "│   ├── importer.py",
+        "│   ├── analytics.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    ├── test_decimal_precision.py",
+        "    └── test_importer.py"
+      ],
+      "folderStructureNote": {
+        "en": "Keep calculation functions pure so they accept lists of validated transaction objects and can be tested without touching SQLite.",
+        "bn": "হিসাবের ফাংশনগুলোকে পিওর রাখুন যাতে ডেটাবেস ছাড়াই সহজেই ইউনিট টেস্ট চালানো যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Use SQLite with strict numeric/text schema (storing minor units as integers or exact decimal strings) and unique transaction hashes to guarantee idempotent CSV imports.",
+        "bn": "SQLite-এ পয়সা বা নির্ভুল ডেসিম্যাল টেক্সটে পরিমাণ সংরক্ষণ করুন এবং ডুপ্লিকেট ঠেকাতে ইউনিক লেনদেন হ্যাশ কলাম রাখুন।"
+      },
+      "testingRequirements": [
+        { "en": "Verify `0.10 + 0.20 == 0.30` exactness across hundreds of summed ledger rows.", "bn": "শত শত লেনদেনের যোগফলে কোনো পয়সার গরমিল না হওয়া যাচাই করা।" },
+        { "en": "Re-importing the same CSV file twice adds zero duplicate rows.", "bn": "একই CSV ফাইল দুবার ইম্পোর্ট করলে নতুন ডুপ্লিকেট যুক্ত না হওয়া।" },
+        { "en": "Verify invalid amounts (`-50` where disallowed, `NaN`, `abc`) and bad dates are rejected cleanly.", "bn": "ভুল পরিমাণ ও ভুল তারিখ সঠিকভাবে প্রত্যাখ্যান পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Guard CSV exports against spreadsheet formula injection (values starting with `=`, `+`, `-`, `@`).", "bn": "CSV এক্সপোর্টে ফর্মুলা ইনজেকশন (`=`, `+`, `-`, `@` দিয়ে শুরু) প্রতিরোধ করুন।" },
+        { "en": "Use parameterized SQL queries exclusively to eliminate SQL injection.", "bn": "SQL ইনজেকশন এড়াতে সর্বদা প্যারামিটারাইজড কোয়েরি ব্যবহার করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "CLI ledger application with SQLite persistence and CSV import", "bn": "SQLite ও CSV ইম্পোর্টসহ কার্যকর সিএলআই অ্যাপ্লিকেশন" },
+        { "en": "Anonymized sample CSV bank export and budget config", "bn": "নমুনা CSV ডেটাসেট ও বাজেট কনফিগারেশন" },
+        { "en": "Automated tests covering Decimal math, budgets, and duplicate imports", "bn": "Decimal গণনা ও ডুপ্লিকেট ইম্পোর্ট টেস্ট স্যুট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Document schema design and Decimal precision rationale in README", "bn": "README-তে ডেটাবেস স্কিমা ও Decimal ব্যবহারের কারণ ব্যাখ্যা করা" },
+        { "en": "Include sample terminal output of monthly analytics and budget alerts", "bn": "মাসিক বিশ্লেষণ ও বাজেট সতর্কতার নমুনা আউটপুট যুক্ত করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does `float` fail in financial ledgers, and should you store exact cents as integers or strings in SQLite?", "bn": "আর্থিক হিসাবে `float` কেন ব্যর্থ হয় এবং SQLite-এ কীভাবে নির্ভুল মান রাখা উচিত?" },
+        { "en": "How do you distinguish two legitimate coffee purchases of the same price on the same day from an accidental duplicate CSV import?", "bn": "একই দিনে সমান মূল্যের দুটি আসল কেনাকাটা এবং একটি ডুপ্লিকেট CSV ইম্পোর্টের পার্থক্য কীভাবে ধরবেন?" },
+        { "en": "What happens to month-over-month percentage change when last month's spending in a category was zero?", "bn": "গত মাসে কোনো খাতে ব্যয় শূন্য হলে মাসভিত্তিক শতকরা পরিবর্তনের হিসাব কীভাবে সামলাবেন?" },
+        { "en": "How can CSV fields crafted by external merchants trigger formula execution when opened in Excel?", "bn": "বাহ্যিক ডেটা থেকে আসা টেক্সট কীভাবে এক্সেল বা স্প্রেডশিটে ফর্মুলা ইনজেকশন ঘটাতে পারে?" },
+        { "en": "How should you handle CSV files using mixed date formats like `YYYY-MM-DD` vs `DD/MM/YYYY`?", "bn": "মিশ্র তারিখ ফরম্যাট থাকা CSV ফাইলগুলো কীভাবে যাচাই ও স্বাভাবিকীকরণ করবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Treat every incoming transaction—manual or CSV—through a single canonical validation boundary before it ever touches storage.",
+          "bn": "ম্যানুয়াল হোক বা CSV—প্রতিটি লেনদেন সংরক্ষণের আগে একই নির্ভুল ভ্যালিডেশন স্তরের ভেতর দিয়ে নিন।"
+        },
+        "level2": {
+          "en": "Use `decimal.Decimal` constructed from validated strings rather than floating-point numbers, and derive a deterministic SHA-256 row fingerprint from canonical transaction attributes for idempotent CSV imports.",
+          "bn": "ফ্লোটিং-পয়েন্টের বদলে স্ট্রিং থেকে তৈরি `decimal.Decimal` ব্যবহার করুন এবং পুনঃ-ইম্পোর্টে ডুপ্লিকেট ঠেকাতে লেনদেনের মূল তথ্য মিলিয়ে একটি স্থির SHA-256 ফিঙ্গারপ্রিন্ট গণনা করুন।"
+        },
+        "level3": {
+          "en": "Organize the project into Domain Models, SQLite Repository, CSV Ingestion Adapter, and Pure Analytics Engine so report calculations remain decoupled from SQL queries.",
+          "bn": "ডোমেইন মডেল, SQLite রিপোজিটরি, CSV অ্যাডাপ্টার ও পিওর অ্যানালিটিক্স ইঞ্জিন—এই চার ভাগে কোড আলাদা রাখুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Add recurring-transaction detection identifying merchants charged at regular ~30-day intervals.", "bn": "প্রায় ৩০ দিন পরপর একই মার্চেন্টের পুনরাবৃত্ত সাবস্ক্রিপশন চার্জ শনাক্ত করুন।" },
+        { "en": "Support multi-currency conversion using an offline exchange-rate table.", "bn": "অফলাইন এক্সচেঞ্জ-রেট টেবিল ব্যবহার করে একাধিক মুদ্রা সমর্থন যোগ করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" },
+          { "en": "Backend / Data Engineering Trainee", "bn": "ব্যাকএন্ড ও ডেটা ইঞ্জিনিয়ারিং ট্রেইনি" }
+        ],
+        "industryRelevance": {
+          "en": "Mirrors real fintech and billing backend invariants: exact arithmetic, idempotency keys, dirty-data quarantine, and SQLite indexing.",
+          "bn": "ফিনটেক ও বিলিং সিস্টেমের বাস্তব নীতি যেমন নির্ভুল হিসাব, আইডেমপোটেন্সি ও ত্রুটিপূর্ণ ডেটা নিয়ন্ত্রণ দক্ষতা প্রদর্শন করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Financial Decimal modeling", "bn": "আর্থিক Decimal মডেলিং" },
+          { "en": "Idempotent ETL ingestion", "bn": "আইডেমপোটেন্ট ETL ডেটা গ্রহণ" },
+          { "en": "Parameterized SQLite reporting", "bn": "প্যারামিটারাইজড SQLite রিপোর্টিং" }
+        ],
+        "interviewTopics": [
+          { "en": "IEEE-754 floating-point precision pitfalls vs Decimal", "bn": "IEEE-754 ফ্লোটিং-পয়েন্ট ত্রুটি বনাম Decimal" },
+          { "en": "Designing idempotent batch imports", "bn": "আইডেমপোটেন্ট ব্যাচ ইম্পোর্ট ডিজাইন" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Highlights attention to correctness and data integrity beyond basic CRUD apps.",
+          "bn": "সাধারণ CRUD প্রজেক্টের বাইরে গিয়ে ডেটা নির্ভুলতা ও নিরাপত্তার ওপর দক্ষতা তুলে ধরে।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-03",
+      "number": 3,
+      "title": {
+        "en": "Student Performance Analytics System",
+        "bn": "শিক্ষার্থী পারফরম্যান্স বিশ্লেষণ সিস্টেম"
+      },
+      "level": "Level 01",
+      "difficulty": "Beginner",
+      "estimatedTime": {
+        "en": "8–10 hours",
+        "bn": "৮–১০ ঘণ্টা"
+      },
+      "category": "Data & Storage",
+      "overview": {
+        "en": "Create an academic analytics platform that ingests multi-subject student rosters and assessments, calculates weighted GPAs, medians, percentiles, attendance correlations, and flags at-risk learners with clean cohort reports.",
+        "bn": "একাধিক বিষয়ের নম্বর ও উপস্থিতির ডেটা বিশ্লেষণ করে ওয়েটেড জিপিএ, মিডিয়ান, পারসেন্টাইল নির্ণয় এবং ঝুঁকিপূর্ণ শিক্ষার্থীদের শনাক্ত করার একটি বিশ্লেষণ সিস্টেম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Educators often rely on fragile spreadsheets where missing exam scores skew averages, weighted grade rules break across semesters, and declining attendance goes unnoticed until final exams.",
+        "bn": "স্প্রেডশিটে অনুপস্থিত নম্বর গড় নষ্ট করে, ওয়েটেড গ্রেডিংয়ে ভুল হয় এবং পরীক্ষার আগে ঝুঁকিপূর্ণ শিক্ষার্থীদের চিহ্নিত করা কঠিন হয়ে পড়ে।"
+      },
+      "whyItMatters": {
+        "en": "Building statistical pipelines that separate absent (`null`) records from zero (`0`) scores and compute robust metrics (median, percentile, trend slope) trains careful analytical thinking.",
+        "bn": "অনুপস্থিত (`null`) ও শূন্য (`0`) নম্বরের পার্থক্য বুঝে নির্ভুল পরিসংখ্যান (মিডিয়ান, পারসেন্টাইল) হিসাব করা ডেটা ও সফটওয়্যার প্রকৌশলের গুরুত্বপূর্ণ দক্ষতা।"
+      },
+      "realWorldUseCases": [
+        { "en": "Departmental semester-end cohort ranking and subject difficulty diagnostics", "bn": "সেমিস্টার শেষে শ্রেণি র‍্যাংকিং ও কঠিন বিষয় চিহ্নিতকরণ" },
+        { "en": "Early-warning intervention dashboards for academic advisors", "bn": "শিক্ষা উপদেষ্টাদের জন্য আগাম সতর্কতা রিপোর্ট" },
+        { "en": "Standardized JSON/Markdown transcript generation", "bn": "স্বয়ংক্রিয় JSON বা মার্কডাউন প্রোগ্রেস রিপোর্ট তৈরি" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Descriptive statistics & percentile calculation", "bn": "পরিসংখ্যান ও পারসেন্টাইল গণনা" },
+        { "en": "Weighted grading rubric evaluation", "bn": "ওয়েটেড গ্রেডিং রুব্রিক মূল্যায়ন" },
+        { "en": "Data validation & anomaly flagging", "bn": "ডেটা যাচাই ও ঝুঁকি শনাক্তকরণ" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "csv / json dataset ingestion & schema cleaning", "bn": "csv ও json ডেটা পরিষ্কারকরণ" },
+        { "en": "statistics module & custom weighted averages", "bn": "statistics মডিউল ও কাস্টম ওয়েটেড গড়" },
+        { "en": "Custom multi-key sorting & tie-breaking", "bn": "বহু-মানদণ্ডে সর্টিং ও টাই-ব্রেকিং" },
+        { "en": "Clean CLI formatting & report export", "bn": "সুন্দর সিএলআই টেবিল ও রিপোর্ট এক্সপোর্ট" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "JSON / CSV sample student datasets", "bn": "নমুনা JSON ও CSV ডেটাসেট" },
+        { "en": "unittest / pytest", "bn": "unittest বা pytest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Load student records, course weights, and attendance percentages from CSV/JSON with strict validation (marks 0–100 or explicit ABSENT).", "bn": "নম্বর (০–১০০ বা ABSENT), কোর্স ওয়েট ও উপস্থিতি CSV/JSON থেকে যাচাইসহ লোড করা।" },
+        { "en": "Compute per-student weighted GPA/percentage, rank with fair tie-handling, and per-subject mean, median, min, max, and pass rate.", "bn": "শিক্ষার্থীভিত্তিক ওয়েটেড জিপিএ, টাই-নিরপেক্ষ র‍্যাংক এবং বিষয়ভিত্তিক গড়, মিডিয়ান ও পাসের হার বের করা।" },
+        { "en": "Identify at-risk students based on configurable thresholds (e.g., attendance < 75% or score drop >= 15% across terms).", "bn": "উপস্থিতি কম বা ধারাবাহিক নম্বর কমে যাওয়া ঝুঁকিপূর্ণ শিক্ষার্থীদের তালিকা করা।" },
+        { "en": "Export cohort summary and individual student reports in Markdown and JSON.", "bn": "দলগত ও ব্যক্তিগত রিপোর্ট মার্কডাউন ও JSON-এ এক্সপোর্ট করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Distinguish ABSENT/missing scores cleanly from numeric zero (`0`).", "bn": "অনুপস্থিত ও `0` নম্বরের মধ্যে নির্ভুল পার্থক্য বজায় রাখা।" },
+        { "en": "Deterministic ranking order when multiple students tie on overall score.", "bn": "সমান নম্বরের ক্ষেত্রে নির্ধারিত টাই-ব্রেকিং নীতি অনুসরণ করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Configurable grading scale & component weights (e.g., Lab 30%, Midterm 25%, Final 45%)", "bn": "পরিবর্তনযোগ্য গ্রেডিং স্কেল ও অংশভিত্তিক ওয়েট" },
+        { "en": "At-risk learner flagging with explicit triggering reasons", "bn": "কারণ উল্লেখসহ ঝুঁকিপূর্ণ শিক্ষার্থী সতর্কতা" },
+        { "en": "Cohort distribution summary (grade buckets A+ through F)", "bn": "গ্রেড বন্টন সারাংশ" },
+        { "en": "Student lookup & comparison CLI command", "bn": "শিক্ষার্থী অনুসন্ধান ও তুলনা কমান্ড" }
+      ],
+      "constraints": [
+        { "en": "Use synthetic/anonymized sample student IDs only—never include real personal student PII.", "bn": "কেবল কৃত্রিম/ছদ্মনাম শিক্ষার্থী আইডি ব্যবহার করুন, প্রকৃত ব্যক্তিগত তথ্য নয়।" },
+        { "en": "Reject negative scores, marks > 100, or weights that do not sum to 100%.", "bn": "ঋণাত্মক নম্বর, ১০০-র বেশি মান বা ওয়েটের যোগফল ১০০% না হলে তা বাতিল করুন।" }
+      ],
+      "suggestedFolderStructure": [
+        "student_analytics/",
+        "├── README.md",
+        "├── data/",
+        "│   ├── rubric.json",
+        "│   └── students_sample.csv",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── validator.py",
+        "│   ├── metrics.py",
+        "│   ├── risk_detector.py",
+        "│   └── reporter.py",
+        "└── tests/",
+        "    └── test_metrics.py"
+      ],
+      "folderStructureNote": {
+        "en": "Separate data validation from statistical computation so invalid rows are caught early before skewing cohort averages.",
+        "bn": "পরিসংখ্যান হিসাবের আগে ডেটা ভ্যালিডেশন ধাপ আলাদা রাখুন যাতে ভুল ইনপুট গড় নষ্ট না করে।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store rubric configurations in JSON and student assessment records in CSV or SQLite; generate reports into an `output/` directory.",
+        "bn": "রুব্রিক JSON-এ এবং পরীক্ষার ডেটা CSV বা SQLite-এ রেখে `output/` ফোল্ডারে রিপোর্ট তৈরি করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Test rubric weight validation rejects sums != 100%.", "bn": "ওয়েটের যোগফল ১০০% না হলে ত্রুটি দেয় কি না পরীক্ষা করা।" },
+        { "en": "Test ABSENT vs 0 score behavior in weighted averages and subject medians.", "bn": "ABSENT বনাম 0 নম্বরে গড় ও মিডিয়ানের সঠিকতা পরীক্ষা করা।" },
+        { "en": "Test empty roster or single-student cohort edge cases.", "bn": "শূন্য বা একক শিক্ষার্থীর এজ কেস পরীক্ষা করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Anonymize exports when generating cohort-wide statistics and avoid exposing raw identifiers in shared logs.", "bn": "সম্মিলিত পরিসংখ্যানে ব্যক্তিগত পরিচয় গোপন রাখুন।" },
+        { "en": "Validate CSV headers and file paths before reading external assessment files.", "bn": "বহিঃস্থ CSV পড়ার আগে হেডার ও ফাইল পাথ যাচাই করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Modular CLI analytics tool with validation, cohort metrics, and risk flags", "bn": "ভ্যালিডেশন, কোহর্ট পরিসংখ্যান ও ঝুঁকি সতর্কতাসহ সিএলআই টুল" },
+        { "en": "Synthetic multi-term dataset + rubric config", "bn": "একাধিক টার্মের নমুনা ডেটাসেট ও রুব্রিক" },
+        { "en": "Unit tests covering edge cases and tie-breakers", "bn": "এজ কেস ও টাই-ব্রেকার কভার করা ইউনিট টেস্ট" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Clear explanation of statistical formulas and risk heuristics in README", "bn": "README-তে পরিসংখ্যান সূত্র ও ঝুঁকি নির্ণয়ের নিয়ম ব্যাখ্যা" },
+        { "en": "Sample Markdown analytics report saved under `docs/`", "bn": "`docs/` ফোল্ডারে একটি নমুনা মার্কডাউন রিপোর্ট সংরক্ষণ" }
+      ],
+      "thinkingChallenges": [
+        { "en": "How does treating ABSENT as `0` vs excluding/flagging it distort a class median and pass rate?", "bn": "অনুপস্থিতিকে `0` ধরলে শ্রেণির মিডিয়ান ও পাসের হারে কী ধরনের বিকৃতি ঘটে?" },
+        { "en": "How do you compute a deterministic dense rank when two students tie to two decimal places?", "bn": "দুজন শিক্ষার্থীর নম্বর সমান হলে ডেনস র‍্যাংক কীভাবে নির্ধারণ করবেন?" },
+        { "en": "What edge cases arise if an instructor enters `87.5` or `105` or `N/A` in a marks CSV?", "bn": "CSV-তে দশমিক নম্বর, `105` বা `N/A` থাকলে পার্সার কীভাবে আচরণ করবে?" },
+        { "en": "How would you quantify 'sudden academic decline' across three sequential terms without false positives?", "bn": "তিনটি টার্মের নম্বরে অপ্রয়োজনীয় ভুল সতর্কতা ছাড়াই হঠাৎ অবনতি কীভাবে পরিমাপ করবেন?" },
+        { "en": "How can you keep grading scale rules (e.g., letter grade cutoffs) configurable without editing Python source code?", "bn": "কোড না বদলে গ্রেডিং স্কেলের সীমা কীভাবে পরিবর্তনযোগ্য রাখবেন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Normalize every raw CSV cell into a clean domain status (Numeric score, Absent, or Invalid) before running any arithmetic.",
+          "bn": "যেকোনো গাণিতিক হিসাবের আগে প্রতিটি সেলের মানকে Numeric, Absent বা Invalid অবস্থায় আলাদা করুন।"
+        },
+        "level2": {
+          "en": "Use `statistics.median` and custom percentile interpolation alongside a validated `rubric.json` dictionary mapping assessment weights.",
+          "bn": "`statistics.median` ও কাস্টম পারসেন্টাইলের সাথে একটি যাচাইকৃত `rubric.json` ডিকশনারি ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Structure the pipeline into Ingestion -> Validation -> Cohort/Student Calculators -> Formatter, so Markdown and JSON outputs share the exact same computed summary object.",
+          "bn": "ইনজেশন -> ভ্যালিডেশন -> ক্যালকুলেটর -> ফরম্যাটার পাইপলাইনে ভাগ করুন যাতে JSON ও Markdown একই ডেটা থেকে তৈরি হয়।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Compute Pearson correlation between attendance percentage and final exam performance.", "bn": "উপস্থিতির হার ও চূড়ান্ত ফলাফলের মধ্যে পারস্পরিক সম্পর্ক (Pearson correlation) হিসাব করুন।" },
+        { "en": "Detect subject-level grading anomalies (e.g., abnormally high failure rate > 40% in one course).", "bn": "কোনো নির্দিষ্ট বিষয়ে অস্বাভাবিক অকৃতকার্য হার (> ৪০%) থাকলে তা শনাক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" },
+          { "en": "Junior Data Analyst", "bn": "জুনিয়র ডেটা অ্যানালিস্ট" }
+        ],
+        "industryRelevance": {
+          "en": "Teaches real-world data cleaning, missing-value semantics, configurable business rules, and reproducible report generation.",
+          "bn": "বাস্তব ডেটা ক্লিনিং, অনুপস্থিত মান ব্যবস্থাপনা ও পুনরাবৃত্তিযোগ্য রিপোর্টিং দক্ষতা তৈরি করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Defensive data cleaning", "bn": "প্রতিরক্ষামূলক ডেটা ক্লিনিং" },
+          { "en": "Statistical aggregation & ranking", "bn": "পরিসংখ্যান ও র‍্যাংকিং লজিক" },
+          { "en": "Multi-format reporting", "bn": "একাধিক ফরম্যাটে রিপোর্ট তৈরি" }
+        ],
+        "interviewTopics": [
+          { "en": "Handling null/missing values vs zeros in analytics", "bn": "বিশ্লেষণে null ও zero-র পার্থক্য" },
+          { "en": "Multi-key sorting and deterministic tie-breaking", "bn": "বহু-কী সর্টিং ও টাই-ব্রেকিং" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Shows clean data-pipeline thinking without needing heavy external BI frameworks.",
+          "bn": "ভারী ফ্রেমওয়ার্ক ছাড়াই পরিচ্ছন্ন ডেটা পাইপলাইন নির্মাণের সক্ষমতা প্রমাণ করে।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-04",
+      "number": 4,
+      "title": {
+        "en": "Automated Backup and Recovery System",
+        "bn": "স্বয়ংক্রিয় ব্যাকআপ ও রিকভারি সিস্টেম"
+      },
+      "level": "Level 01",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "10–12 hours",
+        "bn": "১০–১২ ঘণ্টা"
+      },
+      "category": "Automation & Ops",
+      "overview": {
+        "en": "Engineer an incremental snapshot backup and verified restore system using SHA-256 file manifests, compressed `.tar.gz` or `.zip` archives, retention pruning policies, and post-restore checksum verification.",
+        "bn": "SHA-256 ম্যানিফেস্ট, কমপ্রেসড আর্কাইভ, রিটেনশন প্রুনিং এবং রিস্টোর-পরবর্তী চেকসাম যাচাইসহ একটি ইনক্রিমেন্টাল ব্যাকআপ ও রিকভারি সিস্টেম তৈরি করুন।"
+      },
+      "realWorldProblem": {
+        "en": "Unverified backups give false confidence—teams only discover corrupted archives, missing hidden files, or broken symlinks during an emergency outage when recovery is critical.",
+        "bn": "চেকসাম যাচাইবিহীন ব্যাকআপ জরুরি বিপর্যয়ের সময় অকেজো বা অসম্পূর্ণ প্রমাণিত হয়—তাই ভেরিফায়েড রিকভারি পরীক্ষা অত্যন্ত গুরুত্বপূর্ণ।"
+      },
+      "whyItMatters": {
+        "en": "In IT operations and cybersecurity (ransomware resilience), 'a backup is not a backup until restore is tested and hash-verified.'",
+        "bn": "আইটি অপারেশন ও সাইবার নিরাপত্তায় র‍্যানসমওয়্যার প্রতিরোধের জন্য যাচাইকৃত ব্যাকআপ ও রিকভারি ব্যবস্থা অপরিহার্য।"
+      },
+      "realWorldUseCases": [
+        { "en": "Nightly incremental snapshots of critical local project workspaces and configs", "bn": "গুরুত্বপূর্ণ প্রজেক্ট ও কনফিগ ফাইলের ইনক্রিমেন্টাল ব্যাকআপ" },
+        { "en": "Pre-deployment safety snapshots with deterministic rollback restore", "bn": "আপগ্রেডের আগে নিরাপদ স্ন্যাপশট ও দ্রুত রিস্টোর" },
+        { "en": "Offline verifiable backup verification drills", "bn": "অফলাইন ব্যাকআপ অখণ্ডতা যাচাই মহড়া" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Incremental diffing via mtime + SHA-256", "bn": "সময় ও SHA-256 দিয়ে পরিবর্তন শনাক্তকরণ" },
+        { "en": "Archive packaging & path-safe extraction", "bn": "আর্কাইভ প্যাকেজিং ও নিরাপদ এক্সট্র্যাকশন" },
+        { "en": "Retention policy management & integrity checks", "bn": "রিটেনশন নীতি ও অখণ্ডতা যাচাই" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "zipfile or tarfile safe archive creation/inspection", "bn": "zipfile বা tarfile দিয়ে নিরাপদ আর্কাইভ পরিচালনা" },
+        { "en": "hashlib SHA-256 manifest comparison", "bn": "hashlib SHA-256 ম্যানিফেস্ট তুলনা" },
+        { "en": "os.walk / pathlib with exclusion glob patterns", "bn": "বাদ দেওয়ার নিয়মসহ ডিরেক্টরি স্ক্যান" },
+        { "en": "Atomic temp-file writes before finalizing snapshots", "bn": "স্ন্যাপশট চূড়ান্ত করার আগে অ্যাটমিক ফাইল লেখা" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "tarfile / zipfile / hashlib / json", "bn": "tarfile / zipfile / hashlib / json" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Support `backup` (full or incremental vs last manifest), `verify` (check archive integrity against manifest), `restore` (extract to clean target + verify every file hash), and `prune` (retain last N snapshots).", "bn": "`backup`, `verify`, `restore` (প্রতিটি ফাইলের হ্যাশ মিলানোসহ) এবং `prune` কমান্ড সমর্থন করা।" },
+        { "en": "Support `.backupignore` exclusion patterns (e.g., `*.tmp`, `__pycache__/`, `.git/`).", "bn": "`.backupignore` প্যাটার্ন অনুযায়ী অপ্রয়োজনীয় ফাইল বাদ দেওয়া।" },
+        { "en": "Skip unchanged files in incremental runs while linking them cleanly in the snapshot manifest.", "bn": "অপরিবর্তিত ফাইল পুনরায় কপি না করে ম্যানিফেস্টে রেফারেন্স রাখা।" },
+        { "en": "Defend archive extraction against Zip-Slip / path-traversal (`../`) entries inside archives.", "bn": "আর্কাইভ এক্সট্র্যাকশনে Zip-Slip (`../`) আক্রমণ প্রতিহত করা।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Write archives to a temporary filename and atomically rename only upon completion.", "bn": "আর্কাইভ সম্পূর্ণ হলে তবেই চূড়ান্ত নামে রিনেম করা।" },
+        { "en": "Restore command must refuse overwriting a non-empty destination unless `--force` or isolated target directory is chosen.", "bn": "খালি নয় এমন ফোল্ডারে অসাবধানতায় রিস্টোর ওভাররাইট ঠেকানো।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Full and incremental snapshot modes with byte-savings statistics", "bn": "পূর্ণ ও ইনক্রিমেন্টাল ব্যাকআপ মোড ও স্টোরেজ সাশ্রয় রিপোর্ট" },
+        { "en": "Bit-rot / archive corruption verifier", "bn": "আর্কাইভ নষ্ট হয়েছে কি না ধরার ভেরিফায়ার" },
+        { "en": "Zip-Slip protected archive extractor", "bn": "Zip-Slip প্রতিরোধী নিরাপদ এক্সট্র্যাক্টর" },
+        { "en": "Retention pruning keeping newest K snapshots intact", "bn": "সর্বশেষ K সংখ্যক ব্যাকআপ রেখে পুরোনোগুলো ছাঁটাই" }
+      ],
+      "constraints": [
+        { "en": "Never store backups inside the same source directory being backed up (prevent infinite recursion).", "bn": "ব্যাকআপ ফোল্ডারকে উৎস ডিরেক্টরির ভেতর রাখা যাবে না (অসীম লুপ এড়াতে)।" },
+        { "en": "Operate exclusively on local sandbox directories.", "bn": "কেবল স্থানীয় স্যান্ডবক্স ডিরেক্টরিতে কাজ করবে।" }
+      ],
+      "suggestedFolderStructure": [
+        "backup_manager/",
+        "├── README.md",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── scanner.py",
+        "│   ├── manifest.py",
+        "│   ├── archiver.py",
+        "│   ├── restorer.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    ├── test_incremental.py",
+        "    └── test_zip_slip_defense.py"
+      ],
+      "folderStructureNote": {
+        "en": "Isolate archive extraction safety checks inside `restorer.py` so Zip-Slip defense can be tested directly with crafted malicious paths.",
+        "bn": "`restorer.py`-তে পাথ-নিরাপত্তা যাচাই আলাদা রাখুন যাতে Zip-Slip প্রতিরোধ সহজেই টেস্ট করা যায়।"
+      },
+      "dataStorageRequirements": {
+        "en": "Store each snapshot archive alongside its signed/hashed `manifest.json` inside a centralized `backups/<snapshot_id>/` directory.",
+        "bn": "প্রতিটি স্ন্যাপশট আর্কাইভ ও তার `manifest.json` আলাদা `backups/<snapshot_id>/` ফোল্ডারে সংরক্ষণ করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Verify incremental run skips unmodified files and detects modified/deleted files.", "bn": "ইনক্রিমেন্টাল ব্যাকআপে অপরিবর্তিত ফাইল বাদ পড়া ও পরিবর্তিত ফাইল ধরা পড়া যাচাই করা।" },
+        { "en": "Corrupt one byte in an archive and confirm `verify` detects and reports failure.", "bn": "আর্কাইভের ১ বাইট পরিবর্তন করলে `verify` ব্যর্থতা ধরে কি না পরীক্ষা করা।" },
+        { "en": "Test crafted archive entry `../../evil.txt` is rejected before writing to disk.", "bn": "`../../evil.txt` জাতীয় Zip-Slip এন্ট্রি ব্লক হয় কি না টেস্ট করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Canonicalize every archive member extraction path and verify it stays strictly inside the target restore root.", "bn": "প্রতিটি এক্সট্র্যাক্ট পাথ ক্যানোনিকালাইজ করে রিস্টোর রুটের ভেতর থাকা নিশ্চিত করুন।" },
+        { "en": "Ignore or reject symlinks inside untrusted archives.", "bn": "আর্কাইভের ভেতরের সিমলিংক এন্ট্রি প্রত্যাখ্যান করুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "CLI backup, verify, restore, and prune tool", "bn": "ব্যাকআপ, ভেরিফাই, রিস্টোর ও প্রুন সিএলআই টুল" },
+        { "en": "Tamper/corruption & Zip-Slip security tests", "bn": "আর্কাইভ ত্রুটি ও Zip-Slip নিরাপত্তা টেস্ট" },
+        { "en": "Operational recovery runbook in README", "bn": "README-তে পুনরুদ্ধার নির্দেশিকা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Document manifest schema and incremental recovery steps", "bn": "ম্যানিফেস্ট গঠন ও ইনক্রিমেন্টাল রিকভারি ধাপ নথিভুক্ত করা" },
+        { "en": "Highlight Zip-Slip security test coverage", "bn": "Zip-Slip প্রতিরোধ ও টেস্ট কাভারেজ উল্লেখ করা" }
+      ],
+      "thinkingChallenges": [
+        { "en": "If snapshot 3 is incremental and relies on files from snapshot 1 and 2, what happens if `prune` deletes snapshot 1?", "bn": "স্ন্যাপশট ৩ যদি ১ ও ২-এর ওপর নির্ভরশীল হয়, তবে `prune` করে ১ মুছে দিলে রিস্টোর কীভাবে কাজ করবে?" },
+        { "en": "How do you guarantee a backup folder placed next to or inside the source tree does not back itself up recursively?", "bn": "উৎস ও ব্যাকআপ ডিরেক্টরি ওভারল্যাপ করলে অসীম রিকার্সন কীভাবে ঠেকাবেন?" },
+        { "en": "Why is checking `tarfile.extractall()` without filtering paths a major security vulnerability?", "bn": "ফিল্টার ছাড়া `extractall()` চালানো কেন গুরুতর নিরাপত্তা ঝুঁকি (Zip-Slip)?" },
+        { "en": "How do you detect that a file was deleted between Snapshot 1 and Snapshot 2 during restore?", "bn": "দুই স্ন্যাপশটের মাঝখানে কোনো ফাইল মুছে গেলে রিস্টোরে তা কীভাবে সঠিক থাকবে?" },
+        { "en": "Why should archives be written to `.tmp` and renamed via `os.replace` at the end?", "bn": "সরাসরি ফাইনাল নামে না লিখে প্রথমে `.tmp` ফাইলে লিখে শেষে `os.replace` করা কেন জরুরি?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think carefully about full vs chain-dependent incremental restores: either store complete per-snapshot manifests referencing immutable content blobs, or resolve the snapshot dependency chain before pruning.",
+          "bn": "ইনক্রিমেন্টাল রিস্টোরে ফাইল হারানো এড়াতে প্রতিটি স্ন্যাপশটে পূর্ণ ফাইল-তালিকাসহ অপরিবর্তনীয় ব্লব বা নির্ভরতা শৃঙ্খল নির্ণয় করুন।"
+        },
+        "level2": {
+          "en": "Use `fnmatch` for `.backupignore` rules, `hashlib.sha256` for content verification, and canonical common-path containment checks via `os.path.commonpath` before writing any extracted archive member.",
+          "bn": "ইগনোর নিয়মের জন্য `fnmatch`, হ্যাশের জন্য `hashlib.sha256` এবং পাথ-ট্র্যাভার্সাল ঠেকাতে ফাইল লেখার আগে `os.path.commonpath` দিয়ে ক্যানোনিকাল পাথ সীমা যাচাই করুন।"
+        },
+        "level3": {
+          "en": "Design a Content-Addressable Snapshot layout (`objects/<sha256_prefix>` + `snapshots/<timestamp>.json`) OR baseline+delta chains with explicit parent IDs checked by `prune`.",
+          "bn": "Content-Addressable লেআউট (`objects/` + `snapshots/*.json`) অথবা প্যারেন্ট-চেকড ডেল্টা শৃঙ্খল আর্কিটেকচার ব্যবহার করুন।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Implement content-addressable deduplicated object storage so identical files across snapshots consume disk space once.", "bn": "কনটেন্ট-অ্যাড্রেসেবল স্টোরেজ যুক্ত করুন যাতে একাধিক স্ন্যাপশটে একই ফাইল একবারই জায়গা নেয়।" },
+        { "en": "Add simulated ransomware-extension surge warning before overwriting healthy manifests.", "bn": "হঠাৎ বিপুল ফাইল পরিবর্তিত হলে সতর্কবার্তা দেওয়ার ফিচার যুক্ত করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior System Administrator", "bn": "জুনিয়র সিস্টেম অ্যাডমিনিস্ট্রেটর" },
+          { "en": "Junior Software Developer", "bn": "জুনিয়র সফটওয়্যার ডেভেলপার" },
+          { "en": "IT Support Engineer", "bn": "আইটি সাপোর্ট ইঞ্জিনিয়ার" }
+        ],
+        "industryRelevance": {
+          "en": "Directly addresses disaster recovery engineering, archive security (CVE-class Zip-Slip mitigation), and storage deduplication.",
+          "bn": "দুর্যোগ পুনরুদ্ধার, আর্কাইভ নিরাপত্তা (Zip-Slip প্রতিরোধ) ও স্টোরেজ দক্ষতার মতো বাস্তব সিস্টেম দক্ষতা তৈরি করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Snapshot & manifest engineering", "bn": "স্ন্যাপশট ও ম্যানিফেস্ট প্রকৌশল" },
+          { "en": "Archive path-traversal defense", "bn": "আর্কাইভ পাথ-ট্র্যাভার্সাল প্রতিরক্ষা" },
+          { "en": "Atomic write & verification discipline", "bn": "অ্যাটমিক রাইট ও হ্যাশ যাচাই" }
+        ],
+        "interviewTopics": [
+          { "en": "Full vs incremental vs differential backup trade-offs", "bn": "ফুল, ইনক্রিমেন্টাল ও ডিফারেনশিয়াল ব্যাকআপের তুলনা" },
+          { "en": "Explaining and preventing Zip-Slip vulnerabilities", "bn": "Zip-Slip দুর্বলতা ও তার প্রতিকার" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Stands out strongly to DevOps and infrastructure interviewers because it proves reliability and security mindset.",
+          "bn": "নির্ভরযোগ্যতা ও নিরাপত্তামূলক চিন্তাধারা প্রমাণ করায় DevOps ও সিস্টেম ইন্টারভিউতে বিশেষ গুরুত্ব পায়।"
+        }
+      }
+    },
+    {
+      "id": "PRJ-05",
+      "number": 5,
+      "title": {
+        "en": "Database-Driven Inventory and Asset Management System",
+        "bn": "ডেটাবেসভিত্তিক ইনভেন্টরি ও অ্যাসেট ম্যানেজমেন্ট সিস্টেম"
+      },
+      "level": "Level 01",
+      "difficulty": "Intermediate",
+      "estimatedTime": {
+        "en": "12–14 hours",
+        "bn": "১২–১৪ ঘণ্টা"
+      },
+      "category": "Data & Storage",
+      "overview": {
+        "en": "Architect a normalized SQLite asset and stock ledger tracking hardware/IT inventory, check-out assignments, atomic stock adjustments inside SQL transactions, low-stock alerts, and full audit history.",
+        "bn": "হার্ডওয়্যার ও আইটি অ্যাসেট ট্র্যাকিং, অ্যাসাইনমেন্ট চেক-আউট, SQL ট্রানজ্যাকশনের মাধ্যমে অ্যাটমিক স্টক পরিবর্তন, লো-স্টক সতর্কতা এবং পূর্ণ অডিট লগসহ একটি ইনভেন্টরি সিস্টেম গড়ে তুলুন।"
+      },
+      "realWorldProblem": {
+        "en": "Organizations lose track of laptops, servers, licenses, and spare parts when spreadsheets lack concurrency control, audit trails of who checked out an item, and negative-stock guards.",
+        "bn": "স্প্রেডশিটে কে কোন ডিভাইস নিয়েছে তার হিসাব, ঋণাত্মক স্টক প্রতিরোধ এবং পরিবর্তন লগ না থাকায় প্রতিষ্ঠানের আইটি অ্যাসেট হারিয়ে যায়।"
+      },
+      "whyItMatters": {
+        "en": "Knowing how to model relational foreign keys, enforce CHECK constraints, and guarantee ACID transactions across multi-step stock updates is essential for any backend or security engineer managing asset inventories.",
+        "bn": "রিলেশনাল ফরেন কী, CHECK কনস্ট্রেইন্ট এবং ACID ট্রানজ্যাকশন ব্যবহার করে অ্যাসেট ডেটাবেস ডিজাইন করা যেকোনো ব্যাকএন্ড ও সিকিউরিটি ইঞ্জিনিয়ারের মৌলিক দক্ষতা।"
+      },
+      "realWorldUseCases": [
+        { "en": "IT department hardware asset lifecycle tracking (In-Stock, Assigned, Repair, Retired)", "bn": "আইটি বিভাগের হার্ডওয়্যার অ্যাসেট লাইফসাইকেল ট্র্যাকিং" },
+        { "en": "Warehouse stock management with atomic batch order fulfillment", "bn": "অ্যাটমিক অর্ডার প্রসেসিংসহ স্টক পরিচালনা" },
+        { "en": "SOC/Compliance hardware & endpoint inventory ledger", "bn": "সিকিউরিটি কমপ্লায়েন্সের জন্য হার্ডওয়্যার ও এন্ডপয়েন্ট ইনভেন্টরি" }
+      ],
+      "requiredTechnicalSkills": [
+        { "en": "Relational database schema normalization (3NF)", "bn": "রিলেশনাল ডেটাবেস স্কিমা নরমালাইজেশন" },
+        { "en": "ACID transaction & rollback handling", "bn": "ACID ট্রানজ্যাকশন ও রোলব্যাক নিয়ন্ত্রণ" },
+        { "en": "Immutable audit log design", "bn": "অপরিবর্তনীয় অডিট লগ ডিজাইন" }
+      ],
+      "requiredPythonConcepts": [
+        { "en": "sqlite3 context-managed transactions & PRAGMA foreign_keys=ON", "bn": "sqlite3 ট্রানজ্যাকশন ও foreign_keys সক্রিয়করণ" },
+        { "en": "Parameterized SQL queries & custom domain exceptions", "bn": "প্যারামিটারাইজড SQL ও কাস্টম এক্সসেপশন" },
+        { "en": "Dataclasses / typed domain entities", "bn": "ড্যাটাক্লাস ও টাইপড ডোমেইন মডেল" },
+        { "en": "CSV export & CLI tabular reporting", "bn": "CSV এক্সপোর্ট ও সিএলআই রিপোর্টিং" }
+      ],
+      "requiredToolsAndTech": [
+        { "en": "Python 3.10+", "bn": "Python 3.10+" },
+        { "en": "SQLite3 with relational constraints", "bn": "রিলেশনাল কনস্ট্রেইন্টসহ SQLite3" },
+        { "en": "pytest / unittest", "bn": "pytest / unittest" }
+      ],
+      "functionalRequirements": [
+        { "en": "Manage assets/items (`sku`, `serial`, `category`, `quantity`, `reorder_level`, `status`) and assignee records in normalized SQLite tables.", "bn": "নরমালাইজড SQLite টেবিলে অ্যাসেট ও বরাদ্দকৃত ব্যবহারকারীর তথ্য সংরক্ষণ করা।" },
+        { "en": "Support atomic multi-item checkout/transfer: if item #2 lacks stock, roll back the entire checkout cleanly.", "bn": "বহু-আইটেম অর্ডারে একটিতে স্টক কম থাকলে পুরো ট্রানজ্যাকশন রোলব্যাক করা।" },
+        { "en": "Write an immutable entry to `audit_movements` on every stock adjustment, checkout, return, or status transition.", "bn": "প্রতিটি স্টক পরিবর্তন, চেক-আউট বা রিটার্নে অপরিবর্তনীয় অডিট এন্ট্রি লেখা।" },
+        { "en": "Query low-stock warnings, overdue checkouts, and asset history by serial/SKU.", "bn": "কম স্টক সতর্কতা, ফেরত-বকেয়া এবং সিরিয়াল অনুযায়ী অ্যাসেট ইতিহাস অনুসন্ধান।" }
+      ],
+      "nonFunctionalRequirements": [
+        { "en": "Enforce `quantity >= 0` and valid asset status values at both Python validation AND SQLite schema level.", "bn": "পাইথন কোড ও SQLite স্কিমা উভয় স্তরেই `quantity >= 0` এবং বৈধ স্ট্যাটাস নিশ্চিত করা।" },
+        { "en": "Never allow raw string interpolation inside SQL statements.", "bn": "SQL কোয়েরিতে কখনোই স্ট্রিং ইন্টারপোলেশন না করা।" }
+      ],
+      "expectedFeatures": [
+        { "en": "Full asset lifecycle transitions (`IN_STOCK -> ASSIGNED -> MAINTENANCE -> RETIRED`)", "bn": "অ্যাসেট লাইফসাইকেল ধাপ নিয়ন্ত্রণ" },
+        { "en": "Atomic batch checkout with automatic rollback on insufficient quantity", "bn": "অপর্যাপ্ত স্টকে অটোমেটিক রোলব্যাকসহ ব্যাচ চেক-আউট" },
+        { "en": "Low-stock alert report & full audit trail viewer", "bn": "লো-স্টক রিপোর্ট ও পূর্ণ অডিট ইতিহাস" },
+        { "en": "Searchable CLI + CSV inventory snapshot export", "bn": "অনুসন্ধানযোগ্য সিএলআই ও CSV এক্সপোর্ট" }
+      ],
+      "constraints": [
+        { "en": "Explicitly enable `PRAGMA foreign_keys = ON` on every SQLite connection.", "bn": "প্রতিটি SQLite সংযোগে `PRAGMA foreign_keys = ON` সক্রিয় রাখতে হবে।" },
+        { "en": "Audit log records must be append-only (no update/delete commands exposed).", "bn": "অডিট লগ টেবিল কেবল সংযোজনযোগ্য হতে হবে।" }
+      ],
+      "suggestedFolderStructure": [
+        "asset_inventory/",
+        "├── README.md",
+        "├── schema.sql",
+        "├── src/",
+        "│   ├── __init__.py",
+        "│   ├── db.py",
+        "│   ├── models.py",
+        "│   ├── repository.py",
+        "│   ├── service.py",
+        "│   └── cli.py",
+        "└── tests/",
+        "    ├── test_transactions.py",
+        "    └── test_lifecycle.py"
+      ],
+      "folderStructureNote": {
+        "en": "Place pure SQL DDL in `schema.sql`, database access in `repository.py`, and business rules (lifecycle transitions, rollback) in `service.py`.",
+        "bn": "SQL স্কিমা `schema.sql`-এ, ডেটাবেস কোয়েরি `repository.py`-তে এবং বিজনেস লজিক `service.py`-তে আলাদা রাখুন।"
+      },
+      "dataStorageRequirements": {
+        "en": "SQLite relational database with at least 3 tables (`assets`, `assignees`, `audit_movements`) using foreign keys, indexes on SKU/serial, and CHECK constraints.",
+        "bn": "ফরেন কী, ইনডেক্স ও CHECK কনস্ট্রেইন্টসহ কমপক্ষে ৩টি টেবিল (`assets`, `assignees`, `audit_movements`) তৈরি করুন।"
+      },
+      "testingRequirements": [
+        { "en": "Simulate mid-transaction failure on item 2 of a 2-item checkout and verify item 1's stock was rolled back.", "bn": "২-আইটেমের চেকআউটে ২য় আইটেম ব্যর্থ হলে ১ম আইটেমের স্টক রোলব্যাক হয়েছে কি না টেস্ট করা।" },
+        { "en": "Verify invalid status transition (e.g., `RETIRED -> ASSIGNED`) raises domain error.", "bn": "অবৈধ স্ট্যাটাস পরিবর্তন (`RETIRED -> ASSIGNED`) ব্লক হয় কি না পরীক্ষা করা।" },
+        { "en": "Verify SQL injection payload in SKU search returns no unintended rows.", "bn": "SKU অনুসন্ধানে SQL ইনজেকশন ইনপুট নিরাপদে সামলানো যাচাই করা।" }
+      ],
+      "securityConsiderations": [
+        { "en": "Use `?` placeholders for all SQL parameters—zero `f-strings` in queries.", "bn": "সব SQL প্যারামিটারে `?` প্লেসহোল্ডার ব্যবহার করুন।" },
+        { "en": "Sanitize CSV exports against formula injection and protect audit history from tampering.", "bn": "CSV ফর্মুলা ইনজেকশন থেকে রক্ষা করুন ও অডিট লগ পরিবর্তন অযোগ্য রাখুন।" }
+      ],
+      "expectedDeliverables": [
+        { "en": "Normalized SQLite schema (`schema.sql`) and CLI application", "bn": "নরমালাইজড SQLite স্কিমা ও সিএলআই অ্যাপ্লিকেশন" },
+        { "en": "Transaction rollback & lifecycle unit test suite", "bn": "ট্রানজ্যাকশন রোলব্যাক ও লাইফসাইকেল টেস্ট স্যুট" },
+        { "en": "ER diagram / schema explanation in README", "bn": "README-তে ডেটাবেস ডায়াগ্রাম ও স্কিমা ব্যাখ্যা" }
+      ],
+      "githubPortfolioRequirements": [
+        { "en": "Document relational constraints, state machine rules, and ACID rollback demo", "bn": "রিলেশনাল কনস্ট্রেইন্ট ও ACID রোলব্যাক উদাহরণ নথিভুক্ত করা" },
+        { "en": "Seed script for realistic demo IT asset data", "bn": "নমুনা আইটি অ্যাসেট ডেটা তৈরির সিড স্ক্রিপ্ট" }
+      ],
+      "thinkingChallenges": [
+        { "en": "Why does SQLite ignore foreign key constraints by default unless you explicitly enable `PRAGMA foreign_keys = ON` per connection?", "bn": "প্রতিটি সংযোগে `PRAGMA foreign_keys = ON` না দিলে SQLite ফরেন কী কেন কার্যকর করে না?" },
+        { "en": "How do you prevent race-condition negative stock if two processes try to reserve the last unit simultaneously?", "bn": "দুটি প্রক্রিয়া একসাথে শেষ ইউনিট নিতে চাইলে কীভাবে ঋণাত্মক স্টক ঠেকাবেন?" },
+        { "en": "Why is an append-only movement ledger superior to just overwriting a single `current_holder` column?", "bn": "শুধু `current_holder` আপডেট করার চেয়ে অপরিবর্তনীয় মুভমেন্ট লেজার রাখা কেন ভালো?" },
+        { "en": "How should you model asset state transitions so illegal jumps like `RETIRED -> IN_STOCK` are impossible?", "bn": "অবৈধ স্ট্যাটাস পরিবর্তন ঠেকাতে স্টেট মেশিন কীভাবে ডিজাইন করবেন?" },
+        { "en": "What indexes would keep SKU lookup and audit history queries fast as the table grows to 100,000 rows?", "bn": "১ লক্ষ সারিতে পৌঁছালেও অনুসন্ধান দ্রুত রাখতে কোন কলামগুলোতে ইনডেক্স প্রয়োজন?" }
+      ],
+      "hints": {
+        "level1": {
+          "en": "Think of inventory changes not as overwriting numbers, but as state-validated events recorded atomically alongside balance updates.",
+          "bn": "ইনভেন্টরি পরিবর্তনকে শুধু সংখ্যা বদল হিসেবে নয়, বরং অ্যাটমিক ইভেন্ট ও লেনদেন হিসেবে ভাবুন।"
+        },
+        "level2": {
+          "en": "Use `sqlite3` atomic transaction boundaries, schema-level non-negative quantity constraints, and an explicit allowed-transitions lookup table for asset states.",
+          "bn": "`sqlite3`-এ অ্যাটমিক ট্রানজ্যাকশন সীমা, ডেটাবেজ স্কিমায় ঋণাত্মক পরিমাণ প্রতিরোধক শর্ত এবং অ্যাসেট স্টেট পরিবর্তনের অনুমোদিত তালিকা ব্যবহার করুন।"
+        },
+        "level3": {
+          "en": "Apply a Repository + Service architecture: the Service opens one database transaction, validates all items and state rules, executes all updates + audit inserts, and commits only if every step succeeds.",
+          "bn": "রিপোজিটরি + সার্ভিস আর্কিটেকচারে সার্ভিস একটি একক ট্রানজ্যাকশনের ভেতর সব আপডেট ও অডিট এন্ট্রি চালাবে—কোনো ধাপ ব্যর্থ হলে স্বয়ংক্রিয় রোলব্যাক হবে।"
+        }
+      },
+      "bonusChallenges": [
+        { "en": "Implement database schema migration versioning (`schema_version` table) for future upgrades.", "bn": "ভবিষ্যৎ আপডেটের জন্য স্কিমা মাইগ্রেশন ভার্সনিং যুক্ত করুন।" },
+        { "en": "Add warranty-expiration and audit-due alerting.", "bn": "ওয়ারেন্টি মেয়াদ শেষ হওয়ার আগাম সতর্কতা যোগ করুন।" }
+      ],
+      "careerRelevance": {
+        "jobRoles": [
+          { "en": "Junior Python Developer", "bn": "জুনিয়র পাইথন ডেভেলপার" },
+          { "en": "Junior Software Developer", "bn": "জুনিয়র সফটওয়্যার ডেভেলপার" },
+          { "en": "IT Asset / Operations Analyst", "bn": "আইটি অ্যাসেট ও অপারেশনস অ্যানালিস্ট" }
+        ],
+        "industryRelevance": {
+          "en": "Demonstrates core backend engineering mastery: relational normalization, ACID transactions, state machines, and auditability.",
+          "bn": "রিলেশনাল নরমালাইজেশন, ACID ট্রানজ্যাকশন, স্টেট মেশিন ও অডিট লগিংয়ের মতো মূল ব্যাকএন্ড দক্ষতা প্রমাণ করে।"
+        },
+        "practicalSkillsDemonstrated": [
+          { "en": "Relational SQLite schema design", "bn": "রিলেশনাল SQLite স্কিমা ডিজাইন" },
+          { "en": "ACID transaction & rollback safety", "bn": "ACID ট্রানজ্যাকশন ও রোলব্যাক" },
+          { "en": "Asset lifecycle state machines", "bn": "অ্যাসেট লাইফসাইকেল স্টেট মেশিন" }
+        ],
+        "interviewTopics": [
+          { "en": "Database transactions, atomicity, and rollback guarantees", "bn": "ডেটাবেস ট্রানজ্যাকশন ও অ্যাটমিসিটি" },
+          { "en": "Parameterized queries and schema constraints", "bn": "প্যারামিটারাইজড কোয়েরি ও স্কিমা কনস্ট্রেইন্ট" }
+        ],
+        "githubPortfolioValue": {
+          "en": "Shows employers you can design reliable data models and clean layered Python beyond single-file scripts.",
+          "bn": "একক স্ক্রিপ্টের বাইরে গিয়ে নির্ভরযোগ্য ডেটা মডেল ও লেয়ার্ড পাইথন আর্কিটেকচার তৈরির সক্ষমতা দেখায়।"
+        }
+      }
+    }
+  ]
+}

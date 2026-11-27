@@ -1,0 +1,1287 @@
+{
+  "partId": "part-05",
+  "partNumber": 5,
+  "problems": [
+    {
+      "id": "P05-01",
+      "number": 1,
+      "title": {
+        "en": "Solid Rectangular Star Grid",
+        "bn": "আয়তাকার তারকা গ্রিড"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Nested for loops", "bn": "নেস্টেড for লুপ" },
+        { "en": "Row and column iteration", "bn": "সারি ও কলাম পুনরাবৃত্তি" },
+        { "en": "print(..., end='')", "bn": "print(..., end='') ব্যবহার" }
+      ],
+      "description": {
+        "en": "Read two positive integers R (rows) and C (columns). Print a solid rectangle of asterisks (*) consisting of R rows and C columns.",
+        "bn": "দুটি ধনাত্মক পূর্ণসংখ্যা R (সারি) এবং C (কলাম) ইনপুট নিন। Rটি সারি এবং Cটি কলামের একটি পূর্ণ তারকা (*) আয়তক্ষেত্র প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "Two lines: integer R on the first line and integer C on the second line.",
+        "bn": "দুটি লাইন: প্রথম লাইনে R এবং দ্বিতীয় লাইনে C।"
+      },
+      "expectedOutput": {
+        "en": "R lines, each containing C asterisks with no spaces.",
+        "bn": "Rটি লাইন, প্রতিটি লাইনে স্পেস ছাড়া Cটি * চিহ্ন।"
+      },
+      "examples": [
+        {
+          "input": "3\n5",
+          "output": "*****\n*****\n*****",
+          "explanation": {
+            "en": "3 rows, each containing 5 stars.",
+            "bn": "৩টি সারি এবং প্রতি সারিতে ৫টি করে তারকা।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Use an outer loop that runs R times for rows and an inner loop that runs C times for columns.",
+        "bn": "সারির জন্য R বার চলা একটি বাইরের লুপ এবং কলামের জন্য C বার চলা একটি ভেতরের লুপ ব্যবহার করুন।"
+      },
+      "hint2": {
+        "en": "Build each row string or use print('*', end='') inside the inner loop followed by print() after it finishes.",
+        "bn": "ভেতরের লুপে print('*', end='') ব্যবহার করে এবং লুপ শেষে print() দিয়ে নতুন লাইনে যান।"
+      },
+      "logicBreakdown": {
+        "en": "Nested iteration models two-dimensional coordinates directly: the outer loop selects the current row index i from 0 to R-1, while the inner loop visits every column j from 0 to C-1 within that row before advancing to a newline.",
+        "bn": "নেস্টেড লুপ দ্বিমাত্রিক গ্রিড সরাসরি প্রকাশ করে: বাইরের লুপ প্রতিটি সারি নির্বাচন করে এবং ভেতরের লুপ সেই সারির প্রতিটি কলামে * বসায়। ভেতরের লুপ শেষ হলে একটি নতুন লাইন প্রিন্ট করা হয়।"
+      },
+      "algorithm": [
+        { "en": "Read R and C as integers.", "bn": "R এবং C পূর্ণসংখ্যা হিসেবে ইনপুট নিন।" },
+        { "en": "Loop row from 0 to R - 1.", "bn": "row 0 থেকে R - 1 পর্যন্ত চালান।" },
+        { "en": "Inside, loop col from 0 to C - 1 and append '*' to the row output.", "bn": "ভেতরে col 0 থেকে C - 1 পর্যন্ত চালিয়ে সারিতে '*' যোগ করুন।" },
+        { "en": "Print the completed row.", "bn": "সম্পন্ন সারিটি প্রিন্ট করুন।" }
+      ],
+      "solution": "r = int(input())\nc = int(input())\nfor _ in range(r):\n    line = \"\"\n    for _ in range(c):\n        line += \"*\"\n    print(line)",
+      "codeExplanation": {
+        "en": "For each of the r rows, an inner loop repeats c times, appending '*' to an empty string line. Once the inner loop finishes, print(line) outputs that complete row.",
+        "bn": "rটি সারির প্রতিটির জন্য ভেতরের লুপ c বার ঘুরে line স্ট্রিংয়ে '*' যোগ করে। ভেতরের লুপ শেষ হলে print(line) সম্পূর্ণ সারিটি প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(R * C)", "space": "O(C)" },
+      "testCases": [
+        { "input": "3\n5", "expectedOutput": "*****\n*****\n*****", "note": { "en": "Standard rectangle", "bn": "সাধারণ আয়তক্ষেত্র" } },
+        { "input": "1\n4", "expectedOutput": "****", "note": { "en": "Single row", "bn": "একক সারি" } },
+        { "input": "2\n2", "expectedOutput": "**\n**", "note": { "en": "2x2 square", "bn": "২x২ বর্গ" } }
+      ]
+    },
+    {
+      "id": "P05-02",
+      "number": 2,
+      "title": {
+        "en": "Right-Angled Star Triangle",
+        "bn": "সমকোণী তারকা ত্রিভুজ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Outer row dependency", "bn": "বাইরের সারির ওপর নির্ভরশীলতা" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Given a positive integer N, print a left-aligned right-angled triangle of stars where row i (from 1 to N) contains exactly i asterisks.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N দেওয়া হলে, বাম-সারিবদ্ধ একটি সমকোণী তারকা ত্রিভুজ প্রিন্ট করুন যেখানে i-তম সারিতে (1 থেকে N) ঠিক iটি * থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, with row i having i asterisks.",
+        "bn": "Nটি লাইন, যেখানে i-তম লাইনে iটি * চিহ্ন থাকবে।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "*\n**\n***\n****",
+          "explanation": {
+            "en": "Row 1 has 1 star, row 2 has 2, row 3 has 3, and row 4 has 4.",
+            "bn": "১ম সারিতে ১টি, ২য় সারিতে ২টি, ৩য় সারিতে ৩টি এবং ৪র্থ সারিতে ৪টি তারকা।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice that the number of stars in each row equals the 1-based row number i.",
+        "bn": "লক্ষ্য করুন প্রতিটি সারিতে তারকার সংখ্যা সারি নম্বর i-এর সমান।"
+      },
+      "hint2": {
+        "en": "Set the inner loop range to range(i) when the outer loop runs for i in range(1, n + 1).",
+        "bn": "বাইরের লুপ range(1, n + 1) হলে ভেতরের লুপ range(i) পর্যন্ত চালান।"
+      },
+      "logicBreakdown": {
+        "en": "In triangular patterns, the inner loop bound depends on the outer loop variable. Setting outer i from 1 to N and running the inner loop i times produces a strictly growing count of symbols per line.",
+        "bn": "ত্রিভুজাকার প্যাটার্নে ভেতরের লুপের সীমা বাইরের লুপের চলক i-এর ওপর নির্ভর করে। i = 1 থেকে N হলে প্রতিটি সারিতে ভেতরের লুপ i বার চলে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n ইনপুট নিন।" },
+        { "en": "Loop i from 1 to n inclusive.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Build a string of i stars using an inner loop of length i.", "bn": "i দৈর্ঘ্যের ভেতরের লুপ দিয়ে iটি তারকার সারি তৈরি করুন।" },
+        { "en": "Print the row.", "bn": "সারিটি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(i):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "The outer loop iterates i from 1 to n. For each row, the inner loop runs i times to append i stars to row before printing.",
+        "bn": "বাইরের লুপ i = 1 থেকে n পর্যন্ত চলে। প্রতিটি সারিতে ভেতরের লুপ i বার ঘুরে row-তে iটি * যোগ করে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "*\n**\n***\n****", "note": { "en": "4-row triangle", "bn": "৪ সারির ত্রিভুজ" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Minimal N=1", "bn": "ন্যূনতম N=1" } },
+        { "input": "3", "expectedOutput": "*\n**\n***", "note": { "en": "3-row triangle", "bn": "৩ সারির ত্রিভুজ" } }
+      ]
+    },
+    {
+      "id": "P05-03",
+      "number": 3,
+      "title": {
+        "en": "Repeated Row-Number Triangle",
+        "bn": "একই সারিসংখ্যা ত্রিভুজ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Outer index printing", "bn": "বাইরের সূচক প্রিন্টিং" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N (1 <= N <= 9). Print a triangle of N rows where row i displays the digit i repeated i times without spaces.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N (1 <= N <= 9) ইনপুট নিন। Nটি সারির এমন একটি ত্রিভুজ প্রিন্ট করুন যেখানে i-তম সারিতে অঙ্ক i পরপর i বার থাকবে (কোনো স্পেস ছাড়া)।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (1 <= N <= 9).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 9)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, with row i containing digit i repeated i times.",
+        "bn": "Nটি লাইন, প্রতিটি i-তম লাইনে i সংখ্যাটি i বার।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "1\n22\n333\n4444",
+          "explanation": {
+            "en": "Each row repeats its own row number.",
+            "bn": "প্রতিটি সারিতে তার নিজস্ব সারি নম্বরই পুনরাবৃত্তি হয়েছে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Instead of printing '*', print str(i) inside the inner loop.",
+        "bn": "ভেতরের লুপে '*' এর বদলে str(i) যোগ করুন।"
+      },
+      "hint2": {
+        "en": "Make sure i runs from 1 to n, not 0 to n - 1.",
+        "bn": "খেয়াল রাখুন যেন i 0 থেকে নয়, বরং 1 থেকে n পর্যন্ত চলে।"
+      },
+      "logicBreakdown": {
+        "en": "The printed value comes from the outer loop counter i while the repetition count is also i. This reinforces distinguishing what changes per row versus per column.",
+        "bn": "এখানে প্রিন্ট হওয়া মানটি বাইরের লুপ কাউন্টার i থেকে আসে এবং একইসাথে কতবার প্রিন্ট হবে তাও i নির্ধারণ করে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Run an inner loop i times appending str(i).", "bn": "ভেতরের লুপ i বার চালিয়ে str(i) যোগ করুন।" },
+        { "en": "Print the resulting string.", "bn": "তৈরি হওয়া স্ট্রিংটি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(i):\n        row += str(i)\n    print(row)",
+      "codeExplanation": {
+        "en": "str(i) converts the current row number into text, and the inner loop appends it i times to form row before printing.",
+        "bn": "str(i) বর্তমান সারি সংখ্যাটিকে টেক্সটে রূপান্তর করে এবং ভেতরের লুপ সেটি i বার row-তে যুক্ত করে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "1\n22\n333\n4444", "note": { "en": "4 rows", "bn": "৪ সারি" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single row", "bn": "একক সারি" } },
+        { "input": "5", "expectedOutput": "1\n22\n333\n4444\n55555", "note": { "en": "5 rows", "bn": "৫ সারি" } }
+      ]
+    },
+    {
+      "id": "P05-04",
+      "number": 4,
+      "title": {
+        "en": "Column-Number Triangle",
+        "bn": "কলাম-সংখ্যা ত্রিভুজ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Inner loop index", "bn": "ভেতরের লুপের সূচক" },
+        { "en": "Space-separated row formatting", "bn": "স্পেস-বিচ্ছিন্ন সারি ফরম্যাটিং" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print N rows where row i prints the integers from 1 up to i separated by single spaces.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। Nটি সারি প্রিন্ট করুন যেখানে i-তম সারিতে 1 থেকে i পর্যন্ত সংখ্যাগুলো একটি করে স্পেস দিয়ে আলাদা থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, with row i containing 1 2 ... i (no trailing space).",
+        "bn": "Nটি লাইন, প্রতিটি i-তম লাইনে 1 2 ... i (লাইনের শেষে কোনো অতিরিক্ত স্পেস থাকবে না)।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "1\n1 2\n1 2 3\n1 2 3 4",
+          "explanation": {
+            "en": "Each row starts at 1 and counts up to the current row index.",
+            "bn": "প্রতিটি সারি 1 থেকে শুরু হয়ে বর্তমান সারি নম্বর পর্যন্ত গণনা করে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Collect numbers in a list of strings inside the inner loop and join them with ' '.join(...).",
+        "bn": "ভেতরের লুপে সংখ্যাগুলো স্ট্রিং হিসেবে লিস্টে জমা করে ' '.join(...) দিয়ে যুক্ত করুন।"
+      },
+      "hint2": {
+        "en": "Using ' '.join(...) automatically avoids extra trailing spaces at the end of a line.",
+        "bn": "' '.join(...) ব্যবহার করলে লাইনের শেষে অতিরিক্ত স্পেস পড়ার ঝুঁকি থাকে না।"
+      },
+      "logicBreakdown": {
+        "en": "Here the printed value depends on the inner column counter j (from 1 to i). Storing column values in a list per row and joining with a single space guarantees clean output without trailing whitespace.",
+        "bn": "এখানে প্রিন্ট হওয়া মান ভেতরের কলাম কাউন্টার j (1 থেকে i)-এর ওপর নির্ভরশীল। প্রতিটি সারির মান লিস্টে নিয়ে স্পেস দিয়ে join করলে নিখুঁত আউটপুট পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Create an empty list cols, then loop j from 1 to i and append str(j).", "bn": "খালি লিস্ট cols নিন এবং j = 1 থেকে i পর্যন্ত চালিয়ে str(j) যোগ করুন।" },
+        { "en": "Print ' '.join(cols).", "bn": "' '.join(cols) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    cols = []\n    for j in range(1, i + 1):\n        cols.append(str(j))\n    print(\" \".join(cols))",
+      "codeExplanation": {
+        "en": "For each row i, the inner loop appends str(j) for j from 1 to i. Joining cols with ' ' formats the row cleanly with single spaces between numbers.",
+        "bn": "প্রতিটি সারি i-এর জন্য ভেতরের লুপ j = 1 থেকে i পর্যন্ত str(j) লিস্টে রাখে। শেষে ' '.join(cols) সংখ্যাগুলোর মাঝে একটি করে স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "1\n1 2\n1 2 3\n1 2 3 4", "note": { "en": "Standard 4 rows", "bn": "৪ সারির প্যাটার্ন" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single row", "bn": "একক সারি" } },
+        { "input": "3", "expectedOutput": "1\n1 2\n1 2 3", "note": { "en": "3 rows", "bn": "৩ সারি" } }
+      ]
+    },
+    {
+      "id": "P05-05",
+      "number": 5,
+      "title": {
+        "en": "Inverted Star Triangle",
+        "bn": "উল্টানো তারকা ত্রিভুজ"
+      },
+      "difficulty": "Very Easy",
+      "requiredConcepts": [
+        { "en": "Reverse range iteration", "bn": "উল্টো range পুনরাবৃত্তি" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print an inverted right-angled star triangle starting with N stars on the first row down to 1 star on the last row.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। প্রথম সারিতে Nটি * থেকে শুরু করে শেষ সারিতে 1টি * পর্যন্ত উল্টানো সমকোণী ত্রিভুজ প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, with row 1 having N stars and row N having 1 star.",
+        "bn": "Nটি লাইন, প্রথম লাইনে Nটি এবং শেষ লাইনে ১টি *।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "****\n***\n**\n*",
+          "explanation": {
+            "en": "Stars decrease by 1 on each successive line.",
+            "bn": "প্রতিটি পরবর্তী সারিতে তারকার সংখ্যা ১ করে কমে যায়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Run the outer loop downwards using range(n, 0, -1).",
+        "bn": "বাইরের লুপটি নিচের দিকে চালান: range(n, 0, -1)।"
+      },
+      "hint2": {
+        "en": "Alternatively, for row index i from 0 to n - 1, print n - i stars.",
+        "bn": "বিকল্পভাবে, i = 0 থেকে n - 1 হলে প্রতিটি সারিতে n - iটি তারকা প্রিন্ট করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Stepping the outer loop backward from N down to 1 with step -1 directly gives the exact star count needed for each row.",
+        "bn": "বাইরের লুপকে N থেকে -1 ধাপে 1 পর্যন্ত চালালে প্রতিটি সারিতে প্রয়োজনীয় তারকার সংখ্যা সরাসরি পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop count from n down to 1 (step -1).", "bn": "count-কে n থেকে 1 পর্যন্ত (-1 ধাপে) চালান।" },
+        { "en": "Use an inner loop of length count to build '*' characters.", "bn": "count দৈর্ঘ্যের ভেতরের লুপ দিয়ে '*' যোগ করুন।" },
+        { "en": "Print each row.", "bn": "প্রতিটি সারি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor count in range(n, 0, -1):\n    row = \"\"\n    for _ in range(count):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "range(n, 0, -1) produces n, n-1, ..., 1. Each iteration builds a string of that many asterisks and prints it.",
+        "bn": "range(n, 0, -1) ধারাবাহিকভাবে n, n-1, ..., 1 উৎপন্ন করে। প্রতিটি ধাপে ভেতরের লুপ ততগুলো * দিয়ে সারি তৈরি করে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "****\n***\n**\n*", "note": { "en": "4 rows", "bn": "৪ সারি" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single star", "bn": "একটি তারকা" } },
+        { "input": "3", "expectedOutput": "***\n**\n*", "note": { "en": "3 rows", "bn": "৩ সারি" } }
+      ]
+    },
+    {
+      "id": "P05-06",
+      "number": 6,
+      "title": {
+        "en": "Inverted Descending Number Triangle",
+        "bn": "উল্টানো অবরোহী সংখ্যা ত্রিভুজ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Decreasing outer loop", "bn": "হ্রাসমান বাইরের লুপ" },
+        { "en": "Descending inner loop", "bn": "অবরোহী ভেতরের লুপ" }
+      ],
+      "description": {
+        "en": "Given a positive integer N, print an inverted number triangle of N rows. The first row prints N down to 1, the second prints N-1 down to 1, and the last row prints 1.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N দেওয়া হলে, N সারির একটি উল্টানো সংখ্যা ত্রিভুজ প্রিন্ট করুন। প্রথম সারিতে N থেকে 1, দ্বিতীয় সারিতে N-1 থেকে 1 এবং শেষ সারিতে 1 প্রিন্ট হবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines of space-separated descending integers.",
+        "bn": "অবরোহী ক্রমে স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যার Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "4 3 2 1\n3 2 1\n2 1\n1",
+          "explanation": {
+            "en": "Row 1 counts down from 4 to 1, row 2 from 3 to 1, and so on.",
+            "bn": "১ম সারিতে ৪ থেকে ১, ২য় সারিতে ৩ থেকে ১ এবং এভাবে শেষ পর্যন্ত।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Let the outer loop variable start run from n down to 1.",
+        "bn": "বাইরের লুপের চলক start-কে n থেকে 1 পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "Inside, loop num from start down to 1 using range(start, 0, -1).",
+        "bn": "ভেতরে num-কে range(start, 0, -1) ব্যবহার করে start থেকে 1 পর্যন্ত চালান।"
+      },
+      "logicBreakdown": {
+        "en": "Both loops count downward: the outer loop sets the starting value for the current row, and the inner loop counts down from that starting value to 1.",
+        "bn": "এখানে দুটি লুপই নিচের দিকে চলে: বাইরের লুপ প্রতিটি সারির শুরুর সংখ্যা নির্ধারণ করে এবং ভেতরের লুপ সেই সংখ্যা থেকে 1 পর্যন্ত গণনা করে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop start from n down to 1.", "bn": "start-কে n থেকে 1 পর্যন্ত চালান।" },
+        { "en": "Inside, loop num from start down to 1 and collect str(num).", "bn": "ভেতরে num-কে start থেকে 1 পর্যন্ত চালিয়ে str(num) সংগ্রহ করুন।" },
+        { "en": "Join with spaces and print.", "bn": "স্পেস দিয়ে যুক্ত করে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor start in range(n, 0, -1):\n    nums = []\n    for num in range(start, 0, -1):\n        nums.append(str(num))\n    print(\" \".join(nums))",
+      "codeExplanation": {
+        "en": "start decreases from n to 1. For each row, the inner loop counts down from start to 1, appends each number as text, and joins them cleanly with spaces.",
+        "bn": "start মানটি n থেকে কমে 1 পর্যন্ত যায়। প্রতিটি সারিতে ভেতরের লুপ start থেকে 1 পর্যন্ত নেমে সংখ্যাগুলো সংগ্রহ করে এবং স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "4 3 2 1\n3 2 1\n2 1\n1", "note": { "en": "4 rows descending", "bn": "৪ সারির অবরোহী ত্রিভুজ" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single element", "bn": "একক সংখ্যা" } },
+        { "input": "3", "expectedOutput": "3 2 1\n2 1\n1", "note": { "en": "3 rows descending", "bn": "৩ সারির অবরোহী ত্রিভুজ" } }
+      ]
+    },
+    {
+      "id": "P05-07",
+      "number": 7,
+      "title": {
+        "en": "N x N Multiplication Matrix",
+        "bn": "N x N গুণের নামতা ম্যাট্রিক্স"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "2D row-column product", "bn": "দ্বিমাত্রিক সারি-কলাম গুণফল" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print an N x N multiplication grid where the entry at row i and column j (1-indexed) equals i * j, with numbers in each row separated by a single space.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। একটি N x N গুণের নামতা গ্রিড প্রিন্ট করুন যেখানে i-তম সারি ও j-তম কলামের (1-ভিত্তিক) মান হবে i * j এবং প্রতিটি সারির সংখ্যাগুলো একটি স্পেস দিয়ে আলাদা থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, each containing N space-separated integers.",
+        "bn": "Nটি লাইন, প্রতিটিতে Nটি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "1 2 3\n2 4 6\n3 6 9",
+          "explanation": {
+            "en": "Row 1: 1*1, 1*2, 1*3. Row 2: 2*1, 2*2, 2*3. Row 3: 3*1, 3*2, 3*3.",
+            "bn": "১ম সারি: 1*1, 1*2, 1*3; ২য় সারি: 2*1, 2*2, 2*3; ৩য় সারি: 3*1, 3*2, 3*3।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Loop i from 1 to n for rows and j from 1 to n for columns.",
+        "bn": "সারির জন্য i-কে 1 থেকে n এবং কলামের জন্য j-কে 1 থেকে n পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "Compute str(i * j) for every pair (i, j) and join the row with ' '.",
+        "bn": "প্রতিটি (i, j) জোড়ার জন্য str(i * j) হিসাব করে ' ' দিয়ে যুক্ত করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Using 1-based outer and inner indices turns every grid position into a direct product i * j. This pattern builds intuition for 2D coordinate tables and matrix traversal.",
+        "bn": "1-ভিত্তিক বাইরের ও ভেতরের সূচক ব্যবহার করলে গ্রিডের প্রতিটি অবস্থানের মান সরাসরি i * j হিসেবে পাওয়া যায়। এটি ম্যাট্রিক্স ও দ্বিমাত্রিক টেবিল বোঝার ভিত্তি।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Create an empty row list, then loop j from 1 to n appending str(i * j).", "bn": "খালি লিস্ট নিয়ে j = 1 থেকে n পর্যন্ত str(i * j) যোগ করুন।" },
+        { "en": "Print ' '.join(row).", "bn": "' '.join(row) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = []\n    for j in range(1, n + 1):\n        row.append(str(i * j))\n    print(\" \".join(row))",
+      "codeExplanation": {
+        "en": "For every row i, j iterates from 1 to n, calculating i * j and storing it as a string. Joining the list prints each multiplication row cleanly.",
+        "bn": "প্রতিটি সারি i-এর জন্য j 1 থেকে n পর্যন্ত ঘুরে i * j গণনা করে স্ট্রিং হিসেবে লিস্টে রাখে এবং স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "1 2 3\n2 4 6\n3 6 9", "note": { "en": "3x3 multiplication table", "bn": "৩x৩ নামতা গ্রিড" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "1x1 grid", "bn": "১x১ গ্রিড" } },
+        { "input": "4", "expectedOutput": "1 2 3 4\n2 4 6 8\n3 6 9 12\n4 8 12 16", "note": { "en": "4x4 grid", "bn": "৪x৪ গ্রিড" } }
+      ]
+    },
+    {
+      "id": "P05-08",
+      "number": 8,
+      "title": {
+        "en": "Right-Aligned Star Triangle",
+        "bn": "ডান-সারিবদ্ধ তারকা ত্রিভুজ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Leading spaces + symbol counts", "bn": "শুরুর স্পেস ও চিহ্নের হিসাব" },
+        { "en": "Sequential inner loops", "bn": "ধারাবাহিক ভেতরের লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a right-aligned triangle of stars with N rows, padding the left side of each row with spaces so all rows end at column N.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। N সারির একটি ডান-সারিবদ্ধ তারকা ত্রিভুজ প্রিন্ট করুন, যেখানে বাম দিকে প্রয়োজনীয় স্পেস বসিয়ে সব সারির শেষ প্রান্ত N-তম কলামে মিলবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, each of width N ending in asterisks with no trailing spaces.",
+        "bn": "Nটি লাইন, প্রতিটির মোট প্রস্থ N এবং ডান দিকে * চিহ্ন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "   *\n  **\n ***\n****",
+          "explanation": {
+            "en": "Row 1 has 3 spaces and 1 star; row 2 has 2 spaces and 2 stars; row 4 has 0 spaces and 4 stars.",
+            "bn": "১ম সারিতে ৩টি স্পেস ও ১টি *, ২য় সারিতে ২টি স্পেস ও ২টি *, ৪র্থ সারিতে ০টি স্পেস ও ৪টি *।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "In row i (1 to N), the total characters equal N: i stars and (N - i) leading spaces.",
+        "bn": "i-তম সারিতে (1 থেকে N) মোট অক্ষর Nটি: এর মধ্যে (N - i)টি স্পেস এবং iটি *।"
+      },
+      "hint2": {
+        "en": "Use two sequential inner loops inside the outer row loop: first for spaces, then for stars.",
+        "bn": "বাইরের লুপের ভেতরে পরপর দুটি লুপ ব্যবহার করুন: প্রথমটি স্পেসের জন্য, দ্বিতীয়টি তারকার জন্য।"
+      },
+      "logicBreakdown": {
+        "en": "Every aligned pattern breaks a row into segments. For a right-aligned triangle of height N, row i consists of (N - i) spaces followed by i asterisks.",
+        "bn": "সারিবদ্ধ প্যাটার্নে প্রতিটি সারিকে অংশে ভাগ করতে হয়। ডান-সারিবদ্ধ ত্রিভুজের i-তম সারিতে প্রথমে (N - i)টি স্পেস ও পরে iটি * বসে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Append (n - i) spaces to row string.", "bn": "সারির শুরুতে (n - i)টি স্পেস যোগ করুন।" },
+        { "en": "Append i asterisks to row string and print it.", "bn": "এরপর iটি * যোগ করে সারিটি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    for _ in range(i):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "For each row i, the first inner loop adds n - i spaces to push the stars to the right, and the second inner loop adds i stars.",
+        "bn": "প্রতিটি সারি i-এর জন্য প্রথম ভেতরের লুপ n - iটি স্পেস এবং দ্বিতীয় ভেতরের লুপ iটি * যোগ করে ডান-সারিবদ্ধ সারি তৈরি করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "   *\n  **\n ***\n****", "note": { "en": "4-row right-aligned", "bn": "৪ সারির ডান-সারিবদ্ধ ত্রিভুজ" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single row", "bn": "একক সারি" } },
+        { "input": "3", "expectedOutput": "  *\n **\n***", "note": { "en": "3-row right-aligned", "bn": "৩ সারির ডান-সারিবদ্ধ ত্রিভুজ" } }
+      ]
+    },
+    {
+      "id": "P05-09",
+      "number": 9,
+      "title": {
+        "en": "Floyd's Continuous Number Triangle",
+        "bn": "ফ্লয়েডের ধারাবাহিক সংখ্যা ত্রিভুজ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "Persistent counter across rows", "bn": "সারিজুড়ে চলমান কাউন্টার" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print Floyd's triangle of N rows, where numbers start at 1 and increment continuously across rows (row 1 has 1 number, row 2 has 2 numbers, etc.).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। N সারির ফ্লয়েডের ত্রিভুজ প্রিন্ট করুন, যেখানে সংখ্যাগুলো 1 থেকে শুরু হয়ে সারিজুড়ে ধারাবাহিকভাবে বাড়তে থাকে (১ম সারিতে ১টি সংখ্যা, ২য় সারিতে ২টি ইত্যাদি)।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines of space-separated consecutive integers.",
+        "bn": "ধারাবাহিক পূর্ণসংখ্যার Nটি স্পেস-বিচ্ছিন্ন লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "1\n2 3\n4 5 6\n7 8 9 10",
+          "explanation": {
+            "en": "A single running counter starts at 1 and increments every time a number is placed.",
+            "bn": "একটি চলমান কাউন্টার 1 থেকে শুরু হয়ে প্রতিবার সংখ্যা বসানোর সাথে সাথে ১ করে বাড়ে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Initialize a variable current = 1 before the outer loop so it is not reset on each new row.",
+        "bn": "বাইরের লুপের আগে current = 1 নিন যাতে প্রতিটি নতুন সারিতে এর মান রিসেট না হয়।"
+      },
+      "hint2": {
+        "en": "Inside the inner loop, append str(current) and then execute current += 1.",
+        "bn": "ভেতরের লুপের মধ্যে str(current) যোগ করার পর current += 1 করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Unlike patterns where values depend solely on i or j, Floyd's triangle maintains state across rows using a separate accumulator variable outside the nested loops.",
+        "bn": "সাধারণ i বা j নির্ভর প্যাটার্নের চেয়ে ভিন্নভাবে, ফ্লয়েডের ত্রিভুজে নেস্টেড লুপের বাইরে একটি কাউন্টার রাখতে হয় যা সব সারিজুড়ে মান ধরে রাখে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and initialize current = 1.", "bn": "n পড়ুন এবং current = 1 সেট করুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Run inner loop i times: add str(current) to row list and increment current.", "bn": "ভেতরের লুপ i বার চালিয়ে str(current) নিন এবং current ১ বাড়ান।" },
+        { "en": "Print ' '.join(row).", "bn": "' '.join(row) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\ncurrent = 1\nfor i in range(1, n + 1):\n    row = []\n    for _ in range(i):\n        row.append(str(current))\n        current += 1\n    print(\" \".join(row))",
+      "codeExplanation": {
+        "en": "current starts at 1 before the outer loop. On row i, the inner loop runs i times, taking current and incrementing it by 1 after each placement.",
+        "bn": "বাইরের লুপের আগে current = 1 নির্ধারিত থাকে। i-তম সারিতে ভেতরের লুপ i বার চলে, প্রতিবার current নেয় এবং ১ বাড়ায়।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "1\n2 3\n4 5 6\n7 8 9 10", "note": { "en": "4 rows up to 10", "bn": "১০ পর্যন্ত ৪ সারি" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single number", "bn": "একটি সংখ্যা" } },
+        { "input": "3", "expectedOutput": "1\n2 3\n4 5 6", "note": { "en": "3 rows up to 6", "bn": "৬ পর্যন্ত ৩ সারি" } }
+      ]
+    },
+    {
+      "id": "P05-10",
+      "number": 10,
+      "title": {
+        "en": "Alphabet Column Triangle",
+        "bn": "বর্ণমালা কলাম ত্রিভুজ"
+      },
+      "difficulty": "Easy",
+      "requiredConcepts": [
+        { "en": "ASCII conversion with chr() and ord()", "bn": "chr() এবং ord() দিয়ে ASCII রূপান্তর" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read an integer N (1 <= N <= 26). Print N rows where row i prints the first i uppercase English letters starting from 'A'.",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 26) ইনপুট নিন। Nটি সারি প্রিন্ট করুন যেখানে i-তম সারিতে 'A' থেকে শুরু করে প্রথম iটি বড় হাতের ইংরেজি বর্ণ পাশাপাশি থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (1 <= N <= 26).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 26)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, with row i containing uppercase letters from A up to the i-th letter.",
+        "bn": "Nটি লাইন, প্রতিটি i-তম লাইনে A থেকে i-তম বর্ণ পর্যন্ত।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "A\nAB\nABC\nABCD",
+          "explanation": {
+            "en": "Row 1 prints A, row 2 prints AB, row 3 prints ABC, row 4 prints ABCD.",
+            "bn": "১ম সারিতে A, ২য় সারিতে AB, ৩য় সারিতে ABC, ৪র্থ সারিতে ABCD।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "The ASCII code of 'A' is 65 (or ord('A')).",
+        "bn": "'A'-এর ASCII কোড হলো 65 (বা ord('A'))।"
+      },
+      "hint2": {
+        "en": "For inner index j from 0 to i - 1, chr(ord('A') + j) produces the j-th letter.",
+        "bn": "ভেতরের সূচক j = 0 থেকে i - 1 হলে chr(ord('A') + j) দিয়ে বর্ণ পাওয়া যায়।"
+      },
+      "logicBreakdown": {
+        "en": "Mapping numeric loop offsets onto character codes via ord('A') + j and converting back with chr() lets standard integer loops generate character patterns.",
+        "bn": "অক্ষর কোড ord('A')-এর সাথে লুপের সূচক j যোগ করে chr() দিয়ে অক্ষরে ফিরিয়ে আনলে সাধারণ সংখ্যার লুপ দিয়েই বর্ণমালার প্যাটার্ন তৈরি করা যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Loop j from 0 to i - 1, appending chr(ord('A') + j).", "bn": "j-কে 0 থেকে i - 1 পর্যন্ত চালিয়ে chr(ord('A') + j) যোগ করুন।" },
+        { "en": "Print each completed row string.", "bn": "প্রতিটি সম্পন্ন সারি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nbase = ord(\"A\")\nfor i in range(1, n + 1):\n    row = \"\"\n    for j in range(i):\n        row += chr(base + j)\n    print(row)",
+      "codeExplanation": {
+        "en": "base stores 65 (ord('A')). As j advances from 0 to i - 1, chr(base + j) yields 'A', 'B', 'C', and so on for each row.",
+        "bn": "base-এ 'A'-এর ASCII মান 65 রাখা হয়েছে। j 0 থেকে i - 1 পর্যন্ত এগোলে chr(base + j) যথাক্রমে 'A', 'B', 'C' ইত্যাদি তৈরি করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "A\nAB\nABC\nABCD", "note": { "en": "First 4 letters", "bn": "প্রথম ৪টি বর্ণ" } },
+        { "input": "1", "expectedOutput": "A", "note": { "en": "Single letter", "bn": "একটি বর্ণ" } },
+        { "input": "5", "expectedOutput": "A\nAB\nABC\nABCD\nABCDE", "note": { "en": "First 5 letters", "bn": "প্রথম ৫টি বর্ণ" } }
+      ]
+    },
+    {
+      "id": "P05-11",
+      "number": 11,
+      "title": {
+        "en": "Centered Star Pyramid",
+        "bn": "কেন্দ্রীয় তারকা পিরামিড"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Odd sequence 2*i - 1", "bn": "বিজোড় ধারা 2*i - 1" },
+        { "en": "Symmetrical spacing", "bn": "প্রতিসম স্পেস বিন্যাস" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a centered pyramid of stars with N rows, where row i (1-indexed) has (N - i) leading spaces and (2 * i - 1) asterisks.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। N সারির একটি কেন্দ্রীয় তারকা পিরামিড প্রিন্ট করুন, যেখানে i-তম সারিতে (1-ভিত্তিক) বাম দিকে (N - i)টি স্পেস এবং তারপরে (2 * i - 1)টি * থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines forming a centered star pyramid with no trailing spaces.",
+        "bn": "শেষে অতিরিক্ত স্পেস ছাড়া কেন্দ্রীয় তারকা পিরামিডের Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "   *\n  ***\n *****\n*******",
+          "explanation": {
+            "en": "Stars grow as odd numbers 1, 3, 5, 7 while leading spaces shrink as 3, 2, 1, 0.",
+            "bn": "তারকার সংখ্যা 1, 3, 5, 7 বিজোড়ভাবে বাড়ে এবং বামের স্পেস 3, 2, 1, 0 হিসেবে কমে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Each row adds two more stars than the previous row: 1, 3, 5, ..., 2*i - 1.",
+        "bn": "প্রতিটি সারিতে আগের সারির চেয়ে ২টি করে বেশি তারকা থাকে: 1, 3, 5, ..., 2*i - 1।"
+      },
+      "hint2": {
+        "en": "To center the row relative to the bottom base of width 2*N - 1, add N - i spaces on the left only.",
+        "bn": "নিচের 2*N - 1 প্রস্থের সাথে কেন্দ্র মেলাতে কেবল বাম দিকে N - iটি স্পেস দিন।"
+      },
+      "logicBreakdown": {
+        "en": "A pyramid expands symmetrically on both sides by 1 star per row, giving 2*i - 1 stars on row i. Because each step shrinks left indentation by 1 space (from N - 1 down to 0), the center column remains fixed at column N.",
+        "bn": "পিরামিডের প্রতিটি ধাপে দুই পাশে ১টি করে মোট ২টি তারকা বাড়ে (2*i - 1)। অন্যদিকে বামের স্পেস N - 1 থেকে 1 করে কমায় পিরামিডের কেন্দ্র সবসময় N-তম কলামে স্থির থাকে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Append n - i spaces.", "bn": "n - iটি স্পেস যোগ করুন।" },
+        { "en": "Append 2 * i - 1 asterisks and print the row.", "bn": "2 * i - 1টি * যোগ করে সারি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    for _ in range(2 * i - 1):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "The first inner loop pads n - i leading spaces, and the second inner loop appends 2 * i - 1 stars. No spaces are added on the right, keeping lines clean.",
+        "bn": "প্রথম ভেতরের লুপ বামে n - iটি স্পেস দেয় এবং দ্বিতীয়টি 2 * i - 1টি * যোগ করে। ডানে কোনো অতিরিক্ত স্পেস না থাকায় আউটপুট পরিচ্ছন্ন থাকে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "   *\n  ***\n *****\n*******", "note": { "en": "4-row pyramid", "bn": "৪ সারির পিরামিড" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single star", "bn": "একটি তারকা" } },
+        { "input": "3", "expectedOutput": "  *\n ***\n*****", "note": { "en": "3-row pyramid", "bn": "৩ সারির পিরামিড" } }
+      ]
+    },
+    {
+      "id": "P05-12",
+      "number": 12,
+      "title": {
+        "en": "Inverted Centered Star Pyramid",
+        "bn": "উল্টানো কেন্দ্রীয় তারকা পিরামিড"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Reverse pyramid formula", "bn": "উল্টো পিরামিডের সূত্র" },
+        { "en": "Nested loops", "bn": "নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print an inverted centered star pyramid of N rows, starting from 2*N - 1 stars on the top row down to 1 star on the bottom row.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। N সারির একটি উল্টানো কেন্দ্রীয় তারকা পিরামিড প্রিন্ট করুন, যার শীর্ষ সারিতে 2*N - 1টি * এবং সর্বনিম্ন সারিতে 1টি * থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines forming an inverted centered pyramid with no trailing spaces.",
+        "bn": "শেষে অতিরিক্ত স্পেস ছাড়া উল্টানো কেন্দ্রীয় পিরামিডের Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "*******\n *****\n  ***\n   *",
+          "explanation": {
+            "en": "Row 0 has 0 spaces and 7 stars; row 3 has 3 spaces and 1 star.",
+            "bn": "প্রথম সারিতে ০ স্পেস ও ৭টি *; শেষ সারিতে ৩ স্পেস ও ১টি *।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Let i run from 0 to N - 1: leading spaces equal i.",
+        "bn": "i-কে 0 থেকে N - 1 পর্যন্ত চালান: বামের স্পেস সংখ্যা হবে i।"
+      },
+      "hint2": {
+        "en": "The number of stars on row i (0-indexed) is 2 * (N - i) - 1.",
+        "bn": "0-ভিত্তিক i-তম সারিতে তারকার সংখ্যা 2 * (N - i) - 1।"
+      },
+      "logicBreakdown": {
+        "en": "Inverting the pyramid swaps the direction of both segments: leading spaces increase from 0 to N - 1 while stars decrease by 2 per row according to 2 * (N - i) - 1.",
+        "bn": "পিরামিড উল্টে দিলে উভয় অংশের দিক বদলে যায়: বামের স্পেস 0 থেকে N - 1 পর্যন্ত বাড়ে এবং তারকা 2 * (N - i) - 1 সূত্রে ২টি করে কমে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 0 to n - 1.", "bn": "i-কে 0 থেকে n - 1 পর্যন্ত চালান।" },
+        { "en": "Append i spaces.", "bn": "iটি স্পেস যোগ করুন।" },
+        { "en": "Append 2 * (n - i) - 1 stars and print.", "bn": "2 * (n - i) - 1টি * যোগ করে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(n):\n    row = \"\"\n    for _ in range(i):\n        row += \" \"\n    for _ in range(2 * (n - i) - 1):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "Using 0-based i from 0 to n - 1 makes spaces equal to i directly, and 2 * (n - i) - 1 counts down odd star widths from 2*n - 1 to 1.",
+        "bn": "0-ভিত্তিক i ব্যবহার করায় স্পেসের সংখ্যা সরাসরি i হয় এবং 2 * (n - i) - 1 দিয়ে তারকার সংখ্যা 2*n - 1 থেকে 1 পর্যন্ত নেমে আসে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "*******\n *****\n  ***\n   *", "note": { "en": "4 rows inverted", "bn": "৪ সারির উল্টো পিরামিড" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single star", "bn": "একটি তারকা" } },
+        { "input": "3", "expectedOutput": "*****\n ***\n  *", "note": { "en": "3 rows inverted", "bn": "৩ সারির উল্টো পিরামিড" } }
+      ]
+    },
+    {
+      "id": "P05-13",
+      "number": 13,
+      "title": {
+        "en": "Hollow Rectangular Border",
+        "bn": "ফাঁপা আয়তাকার সীমানা"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Boundary condition checks", "bn": "সীমানা শর্ত যাচাই" },
+        { "en": "Nested loops + if-else", "bn": "নেস্টেড লুপ ও if-else" }
+      ],
+      "description": {
+        "en": "Read two integers R (rows) and C (columns). Print a hollow rectangle of asterisks (*) of size R x C, where border cells print '*' and strictly interior cells print a space ' '.",
+        "bn": "দুটি পূর্ণসংখ্যা R (সারি) এবং C (কলাম) ইনপুট নিন। R x C আকারের একটি ফাঁপা আয়তক্ষেত্র প্রিন্ট করুন, যেখানে সীমানার ঘরগুলোতে '*' এবং ভেতরের ঘরগুলোতে স্পেস ' ' থাকবে।"
+      },
+      "inputDescription": {
+        "en": "Two lines: integer R and integer C (R >= 1, C >= 1).",
+        "bn": "দুটি লাইন: R এবং C (R >= 1, C >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "R lines forming a hollow border of width C.",
+        "bn": "C প্রস্থের ফাঁপা সীমানার Rটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4\n5",
+          "output": "*****\n*   *\n*   *\n*****",
+          "explanation": {
+            "en": "Only cells on row 0, row R-1, col 0, or col C-1 are stars.",
+            "bn": "শুধুমাত্র সারি 0, সারি R-1, কলাম 0 বা কলাম C-1-এর ঘরগুলোতে তারকা থাকে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "A cell (i, j) is on the border if i == 0 or i == R - 1 or j == 0 or j == C - 1.",
+        "bn": "একটি ঘর (i, j) সীমানায় থাকবে যদি i == 0 বা i == R - 1 বা j == 0 বা j == C - 1 হয়।"
+      },
+      "hint2": {
+        "en": "Inside the inner loop, use an if-else statement to append either '*' or ' '.",
+        "bn": "ভেতরের লুপে if-else ব্যবহার করে '*' অথবা ' ' যোগ করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Combining nested loops with coordinate conditions turns a grid into a boolean mask: border coordinates evaluate to True ('*') and interior coordinates evaluate to False (' ').",
+        "bn": "নেস্টেড লুপের ভেতরে স্থানাঙ্ক শর্ত ব্যবহার করলে পুরো গ্রিড একটি সীমানা-নিয়ন্ত্রিত প্যাটার্নে পরিণত হয়—সীমানায় '*' এবং ভেতরে ' '।"
+      },
+      "algorithm": [
+        { "en": "Read r and c.", "bn": "r এবং c ইনপুট নিন।" },
+        { "en": "Loop i from 0 to r - 1.", "bn": "i-কে 0 থেকে r - 1 পর্যন্ত চালান।" },
+        { "en": "Loop j from 0 to c - 1: if on any edge append '*', else append ' '.", "bn": "j-কে 0 থেকে c - 1 পর্যন্ত চালিয়ে সীমানায় '*' নতুবা ' ' যোগ করুন।" },
+        { "en": "Print each row.", "bn": "প্রতিটি সারি প্রিন্ট করুন।" }
+      ],
+      "solution": "r = int(input())\nc = int(input())\nfor i in range(r):\n    row = \"\"\n    for j in range(c):\n        if i == 0 or i == r - 1 or j == 0 or j == c - 1:\n            row += \"*\"\n        else:\n            row += \" \"\n    print(row)",
+      "codeExplanation": {
+        "en": "The condition i == 0 or i == r - 1 or j == 0 or j == c - 1 detects all four outer edges, placing '*' there and ' ' everywhere inside.",
+        "bn": "i == 0 or i == r - 1 or j == 0 or j == c - 1 শর্তটি চারপাশের চারটি প্রান্ত শনাক্ত করে '*' বসায় এবং ভেতরের অংশে ' ' বসায়।"
+      },
+      "complexity": { "time": "O(R * C)", "space": "O(C)" },
+      "testCases": [
+        { "input": "4\n5", "expectedOutput": "*****\n*   *\n*   *\n*****", "note": { "en": "4x5 hollow box", "bn": "৪x৫ ফাঁপা বাক্স" } },
+        { "input": "2\n2", "expectedOutput": "**\n**", "note": { "en": "No interior cells", "bn": "ভেতরে কোনো খালি ঘর নেই" } },
+        { "input": "3\n3", "expectedOutput": "***\n* *\n***", "note": { "en": "3x3 hollow square", "bn": "৩x৩ ফাঁপা বর্গ" } }
+      ]
+    },
+    {
+      "id": "P05-14",
+      "number": 14,
+      "title": {
+        "en": "Alternating Binary Checkerboard",
+        "bn": "পর্যায়ক্রমিক বাইনারি চেকারবোর্ড"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Parity of coordinate sum (i + j) % 2", "bn": "স্থানাঙ্ক যোগফলের প্যারিটি (i + j) % 2" },
+        { "en": "2D grid indexing", "bn": "দ্বিমাত্রিক গ্রিড ইনডেক্সিং" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print an N x N checkerboard matrix of 1s and 0s where the top-left corner (0, 0) is 1, and adjacent horizontal or vertical cells always alternate between 1 and 0.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। 1 এবং 0-এর একটি N x N চেকারবোর্ড ম্যাট্রিক্স প্রিন্ট করুন যেখানে উপরের-বামের কোণায় (0, 0) 1 থাকবে এবং পাশাপাশি বা উপর-নিচের প্রতিটি ঘর 1 ও 0-এ পর্যায়ক্রমে পরিবর্তিত হবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, each containing N space-separated digits (1 or 0).",
+        "bn": "Nটি লাইন, প্রতিটিতে Nটি স্পেস-বিচ্ছিন্ন অঙ্ক (1 অথবা 0)।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "1 0 1 0\n0 1 0 1\n1 0 1 0\n0 1 0 1",
+          "explanation": {
+            "en": "Cells where (i + j) is even contain 1; cells where (i + j) is odd contain 0.",
+            "bn": "যেসব ঘরে (i + j) জোড় সেখানে 1 এবং যেখানে বিজোড় সেখানে 0 বসে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice what happens to i + j when you move one step right or one step down: it changes parity.",
+        "bn": "ডানে বা নিচে এক ঘর গেলে i + j-এর জোড়-বিজোড় (parity) বদলে যায়।"
+      },
+      "hint2": {
+        "en": "Check (i + j) % 2 == 0: print '1' when true and '0' when false.",
+        "bn": "(i + j) % 2 == 0 সত্য হলে '1' এবং মিথ্যা হলে '0' বসান।"
+      },
+      "logicBreakdown": {
+        "en": "Every horizontal or vertical step increments either i or j by 1, flipping the parity of (i + j). Thus (i + j) % 2 == 0 partitions any 2D grid into a perfect checkerboard.",
+        "bn": "পাশে বা নিচে এক ধাপ গেলে i অথবা j ১ বাড়ে, ফলে (i + j)-এর প্যারিটি উল্টে যায়। তাই (i + j) % 2 == 0 যেকোনো গ্রিডকে নিখুঁত চেকারবোর্ডে রূপ দেয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 0 to n - 1.", "bn": "i-কে 0 থেকে n - 1 পর্যন্ত চালান।" },
+        { "en": "Loop j from 0 to n - 1: append '1' if (i + j) % 2 == 0 else '0'.", "bn": "j-কে 0 থেকে n - 1 পর্যন্ত চালিয়ে (i + j) % 2 == 0 হলে '1' নতুবা '0' যোগ করুন।" },
+        { "en": "Join row values with ' ' and print.", "bn": "সারির মানগুলো স্পেস দিয়ে যুক্ত করে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(n):\n    row = []\n    for j in range(n):\n        if (i + j) % 2 == 0:\n            row.append(\"1\")\n        else:\n            row.append(\"0\")\n    print(\" \".join(row))",
+      "codeExplanation": {
+        "en": "At cell (i, j), (i + j) % 2 determines whether the sum is even (1) or odd (0). Joining the list with single spaces formats the N x N checkerboard.",
+        "bn": "(i, j) অবস্থানে (i + j) % 2 পরীক্ষা করে জোড় হলে '1' এবং বিজোড় হলে '0' লিস্টে নেয় এবং স্পেস দিয়ে প্রিন্ট করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "1 0 1 0\n0 1 0 1\n1 0 1 0\n0 1 0 1", "note": { "en": "4x4 checkerboard", "bn": "৪x৪ চেকারবোর্ড" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "1x1 grid", "bn": "১x১ গ্রিড" } },
+        { "input": "3", "expectedOutput": "1 0 1\n0 1 0\n1 0 1", "note": { "en": "3x3 checkerboard", "bn": "৩x৩ চেকারবোর্ড" } }
+      ]
+    },
+    {
+      "id": "P05-15",
+      "number": 15,
+      "title": {
+        "en": "Palindromic Number Pyramid",
+        "bn": "প্যালিনড্রোমিক সংখ্যা পিরামিড"
+      },
+      "difficulty": "Medium",
+      "requiredConcepts": [
+        { "en": "Ascending & descending inner loops", "bn": "আরোহী ও অবরোহী ভেতরের লুপ" },
+        { "en": "Centered indentation", "bn": "কেন্দ্রীয় ইন্ডেন্টেশন" }
+      ],
+      "description": {
+        "en": "Read an integer N (1 <= N <= 9). Print a centered palindromic number pyramid of N rows where row i prints spaces followed by 1..i and then i-1..1 without spaces between digits.",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 9) ইনপুট নিন। N সারির একটি কেন্দ্রীয় প্যালিনড্রোমিক সংখ্যা পিরামিড প্রিন্ট করুন, যেখানে i-তম সারিতে বামের স্পেসের পর অঙ্কগুলো কোনো স্পেস ছাড়াই 1 থেকে i পর্যন্ত উঠে আবার i-1 থেকে 1 পর্যন্ত নেমে আসবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (1 <= N <= 9).",
+        "bn": "একটি পূর্ণসংখ্যা N (1 <= N <= 9)।"
+      },
+      "expectedOutput": {
+        "en": "N lines forming a centered palindromic number pyramid.",
+        "bn": "কেন্দ্রীয় প্যালিনড্রোমিক সংখ্যা পিরামিডের Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "   1\n  121\n 12321\n1234321",
+          "explanation": {
+            "en": "Row 3 has 1 leading space, then ascending 123, then descending 21.",
+            "bn": "৩য় সারিতে ১টি বামের স্পেস, তারপর আরোহী 123 এবং অবরোহী 21।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Split each row into three inner loops: leading spaces, ascending digits (1 to i), and descending digits (i - 1 down to 1).",
+        "bn": "প্রতিটি সারিকে তিনটি ভেতরের লুপে ভাগ করুন: শুরুর স্পেস, আরোহী অঙ্ক (1 থেকে i) এবং অবরোহী অঙ্ক (i - 1 থেকে 1)।"
+      },
+      "hint2": {
+        "en": "Row i needs N - i leading spaces.",
+        "bn": "i-তম সারিতে N - iটি শুরুর স্পেস প্রয়োজন।"
+      },
+      "logicBreakdown": {
+        "en": "Complex row patterns decompose cleanly into sequential phases within the outer loop: indentation (N - i spaces), rising sequence (1..i), and falling mirror sequence (i-1..1).",
+        "bn": "জটিল সারি প্যাটার্ন বাইরের লুপের ভেতরে পরপর ধাপে ভেঙে ফেলা যায়: শুরুর স্পেস (N - i), আরোহী ধারা (1..i) এবং মিরর অবরোহী ধারা (i-1..1)।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Append n - i spaces.", "bn": "n - iটি স্পেস যোগ করুন।" },
+        { "en": "Append digits j from 1 to i, then digits k from i - 1 down to 1.", "bn": "1 থেকে i পর্যন্ত অঙ্ক এবং এরপর i - 1 থেকে 1 পর্যন্ত অঙ্ক যোগ করে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    for j in range(1, i + 1):\n        row += str(j)\n    for k in range(i - 1, 0, -1):\n        row += str(k)\n    print(row)",
+      "codeExplanation": {
+        "en": "Three sequential loops construct each row: spacing, rising digits up to peak i, and falling digits back to 1. On row 1, the third loop range(0, 0, -1) naturally executes zero times.",
+        "bn": "তিনটি ধারাবাহিক লুপ প্রতিটি সারি গড়ে তোলে: স্পেস, শিখর i পর্যন্ত আরোহী অঙ্ক এবং 1 পর্যন্ত অবরোহী অঙ্ক। প্রথম সারিতে তৃতীয় লুপ শূন্যবার চলে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "   1\n  121\n 12321\n1234321", "note": { "en": "4-row palindrome", "bn": "৪ সারির প্যালিনড্রোম" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Single peak", "bn": "একক শীর্ষ" } },
+        { "input": "5", "expectedOutput": "    1\n   121\n  12321\n 1234321\n123454321", "note": { "en": "5-row palindrome", "bn": "৫ সারির প্যালিনড্রোম" } }
+      ]
+    },
+    {
+      "id": "P05-16",
+      "number": 16,
+      "title": {
+        "en": "Full Symmetrical Star Diamond",
+        "bn": "পূর্ণ প্রতিসম তারকা হীরক (Diamond)"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Two-phase pattern composition", "bn": "দুই-ধাপের প্যাটার্ন গঠন" },
+        { "en": "Pyramid + inverted pyramid", "bn": "পিরামিড ও উল্টো পিরামিডের সমন্বয়" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a full symmetrical star diamond of height 2*N - 1 rows: an upper pyramid of N rows widening to 2*N - 1 stars, followed by an inverted lower pyramid of N - 1 rows.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। 2*N - 1 সারির একটি পূর্ণ প্রতিসম তারকা ডায়মন্ড প্রিন্ট করুন: উপরে N সারির পিরামিড (সর্বোচ্চ 2*N - 1টি *) এবং নিচে N - 1 সারির উল্টানো পিরামিড।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "2*N - 1 lines forming a star diamond with no trailing spaces.",
+        "bn": "শেষে অতিরিক্ত স্পেস ছাড়া 2*N - 1 লাইনের তারকা ডায়মন্ড।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "  *\n ***\n*****\n ***\n  *",
+          "explanation": {
+            "en": "3 upper rows (1, 3, 5 stars) followed by 2 lower rows (3, 1 stars).",
+            "bn": "উপরের ৩টি সারি (১, ৩, ৫ তারকা) এবং নিচের ২টি সারি (৩, ১ তারকা)।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Avoid duplicating the widest middle row: run the upper half for i from 1 to N, and the lower half from N - 1 down to 1.",
+        "bn": "মাঝের প্রশস্ত সারিটি দুবার প্রিন্ট হওয়া এড়াতে উপরের অর্ধেক 1 থেকে N এবং নিচের অর্ধেক N - 1 থেকে 1 পর্যন্ত চালান।"
+      },
+      "hint2": {
+        "en": "For any row level i (1 <= i <= N), leading spaces are N - i and stars are 2*i - 1.",
+        "bn": "যেকোনো স্তর i-এর (1 <= i <= N) জন্য বামের স্পেস N - i এবং তারকা 2*i - 1টি।"
+      },
+      "logicBreakdown": {
+        "en": "A diamond shares the exact same row formula (N - i spaces, 2*i - 1 stars) for both halves; only the sequence of level i changes (rising 1..N, then falling N-1..1).",
+        "bn": "ডায়মন্ডের উভয় অর্ধেকেই সারির সূত্র এক (N - i স্পেস ও 2*i - 1 তারকা); শুধু স্তরের মান i প্রথমে 1..N এবং পরে N-1..1 ক্রমে চলে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n, printing n - i spaces and 2 * i - 1 stars.", "bn": "i = 1 থেকে n পর্যন্ত চালিয়ে n - i স্পেস ও 2 * i - 1টি * প্রিন্ট করুন।" },
+        { "en": "Loop i from n - 1 down to 1, using the same space and star formula.", "bn": "i = n - 1 থেকে 1 পর্যন্ত নেমে একই সূত্রে স্পেস ও * প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    for _ in range(2 * i - 1):\n        row += \"*\"\n    print(row)\nfor i in range(n - 1, 0, -1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    for _ in range(2 * i - 1):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "The first outer loop builds the top half including the widest middle row (i = n). The second outer loop mirrors rows n - 1 down to 1 to complete the diamond.",
+        "bn": "প্রথম বাইরের লুপ মধ্যবর্তী প্রশস্ত সারি (i = n) পর্যন্ত উপরের অংশ তৈরি করে। দ্বিতীয় বাইরের লুপ n - 1 থেকে 1 পর্যন্ত নেমে ডায়মন্ড সম্পূর্ণ করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "  *\n ***\n*****\n ***\n  *", "note": { "en": "Diamond N=3", "bn": "N=3 ডায়মন্ড" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single star diamond", "bn": "এক তারকার ডায়মন্ড" } },
+        { "input": "4", "expectedOutput": "   *\n  ***\n *****\n*******\n *****\n  ***\n   *", "note": { "en": "Diamond N=4", "bn": "N=4 ডায়মন্ড" } }
+      ]
+    },
+    {
+      "id": "P05-17",
+      "number": 17,
+      "title": {
+        "en": "Hollow Centered Star Pyramid",
+        "bn": "ফাঁপা কেন্দ্রীয় তারকা পিরামিড"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Boundary logic inside triangles", "bn": "ত্রিভুজের ভেতরে সীমানা যুক্তি" },
+        { "en": "Edge vs interior spacing", "bn": "প্রান্ত বনাম অভ্যন্তরীণ স্পেস" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a hollow centered star pyramid of N rows: only the pyramid's two slanted sides and bottom base are drawn with '*', while the interior of rows 2 through N-1 is filled with spaces.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। N সারির একটি ফাঁপা কেন্দ্রীয় তারকা পিরামিড প্রিন্ট করুন: পিরামিডের দুই পাশের বাহু ও নিচের ভূমি '*' দিয়ে আঁকা থাকবে, আর 2 থেকে N-1 সারির ভেতরের অংশ স্পেস দিয়ে পূর্ণ থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines forming a hollow centered star pyramid with no trailing spaces.",
+        "bn": "শেষে অতিরিক্ত স্পেস ছাড়া ফাঁপা কেন্দ্রীয় তারকা পিরামিডের Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "4",
+          "output": "   *\n  * *\n *   *\n*******",
+          "explanation": {
+            "en": "Row 1 has 1 star; rows 2 and 3 have stars only at the first and last positions of their 2*i - 1 span; row 4 is solid.",
+            "bn": "১ম সারিতে ১টি *; ২য় ও ৩য় সারিতে 2*i - 1 প্রস্থের কেবল প্রথম ও শেষ অবস্থানে *; ৪র্থ সারি সম্পূর্ণ *।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Each row i has N - i leading spaces, followed by a span of width W = 2*i - 1.",
+        "bn": "প্রতিটি সারিতে বামের N - iটি স্পেসের পরে W = 2*i - 1 প্রস্থের অংশ থাকে।"
+      },
+      "hint2": {
+        "en": "Within span index j (0 to W - 1), print '*' if i == N or j == 0 or j == W - 1, otherwise print ' '.",
+        "bn": "W প্রস্থের সূচক j (0 থেকে W - 1)-এর মধ্যে i == N অথবা j == 0 অথবা j == W - 1 হলে '*' এবং নতুবা ' ' বসান।"
+      },
+      "logicBreakdown": {
+        "en": "Combining the centered pyramid geometry (N - i leading spaces, span width 2*i - 1) with hollow border checks (first row naturally has j == 0 == W - 1, last row has i == N, intermediate rows keep edges j == 0 and j == W - 1) solves all N >= 1 cleanly with one unified rule.",
+        "bn": "কেন্দ্রীয় পিরামিডের জ্যামিতি (N - i স্পেস ও 2*i - 1 প্রস্থ)-এর সাথে সীমানা শর্ত যুক্ত করলে i == N, j == 0 বা j == W - 1 নিয়মটিই সব সারির জন্য নিখুঁত কাজ করে।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop i from 1 to n.", "bn": "i-কে 1 থেকে n পর্যন্ত চালান।" },
+        { "en": "Append n - i leading spaces.", "bn": "n - iটি শুরুর স্পেস যোগ করুন।" },
+        { "en": "Loop j from 0 to 2*i - 2: append '*' if i == n or j == 0 or j == 2*i - 2, else ' '.", "bn": "j = 0 থেকে 2*i - 2 পর্যন্ত চালিয়ে প্রান্ত বা শেষ সারি হলে '*' নতুবা ' ' যোগ করুন।" },
+        { "en": "Print the row.", "bn": "সারিটি প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(n - i):\n        row += \" \"\n    width = 2 * i - 1\n    for j in range(width):\n        if i == n or j == 0 or j == width - 1:\n            row += \"*\"\n        else:\n            row += \" \"\n    print(row)",
+      "codeExplanation": {
+        "en": "After padding n - i leading spaces, the second inner loop iterates across width = 2 * i - 1 positions. On row n (the base) or at the left/right boundaries (j == 0 or j == width - 1), it appends '*'; inside, it appends ' '.",
+        "bn": "n - iটি শুরুর স্পেসের পর দ্বিতীয় ভেতরের লুপ width = 2 * i - 1 ঘর জুড়ে চলে। শেষ সারি (i == n) অথবা প্রান্ত (j == 0 বা width - 1) হলে '*', নতুবা ' ' যোগ করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "4", "expectedOutput": "   *\n  * *\n *   *\n*******", "note": { "en": "4-row hollow pyramid", "bn": "৪ সারির ফাঁপা পিরামিড" } },
+        { "input": "1", "expectedOutput": "*", "note": { "en": "Single star", "bn": "একটি তারকা" } },
+        { "input": "3", "expectedOutput": "  *\n * *\n*****", "note": { "en": "3-row hollow pyramid", "bn": "৩ সারির ফাঁপা পিরামিড" } }
+      ]
+    },
+    {
+      "id": "P05-18",
+      "number": 18,
+      "title": {
+        "en": "Symmetrical Butterfly Star Pattern",
+        "bn": "প্রতিসম প্রজাপতি (Butterfly) তারকা প্যাটার্ন"
+      },
+      "difficulty": "Hard",
+      "requiredConcepts": [
+        { "en": "Mirror wings + center gap", "bn": "মিরর ডানা ও মাঝের ফাঁকা স্থান" },
+        { "en": "Multi-segment nested loops", "bn": "বহু-অংশ নেস্টেড লুপ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a symmetrical butterfly star pattern of 2*N rows and total width 2*N. On wing level i (1 to N going down, then N down to 1), print i stars, 2*(N - i) spaces, and i stars.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। 2*N সারি এবং 2*N প্রস্থের একটি প্রতিসম প্রজাপতি তারকা প্যাটার্ন প্রিন্ট করুন। ডানার স্তর i (প্রথমে 1 থেকে N, পরে N থেকে 1)-এর জন্য iটি *, 2*(N - i)টি স্পেস এবং আবার iটি * প্রিন্ট করুন।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "2*N lines forming a butterfly pattern.",
+        "bn": "প্রজাপতি প্যাটার্নের 2*Nটি লাইন।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "*    *\n**  **\n******\n******\n**  **\n*    *",
+          "explanation": {
+            "en": "Top half widens from 1..3 stars per wing; bottom half mirrors 3..1 stars per wing.",
+            "bn": "উপরের অর্ধেকে প্রতি ডানায় ১..৩টি তারকা; নিচের অর্ধেকে ৩..১টি তারকা মিরর হয়।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Notice every line has fixed total width 2*N: i stars on the left + 2*(N - i) spaces in the middle + i stars on the right.",
+        "bn": "প্রতিটি লাইনের মোট প্রস্থ 2*N: বামে iটি *, মাঝে 2*(N - i)টি স্পেস এবং ডানে iটি *।"
+      },
+      "hint2": {
+        "en": "Write a loop for the upper half (1 to N) and another loop for the lower half (N down to 1).",
+        "bn": "উপরের অর্ধেকের জন্য (1 থেকে N) একটি লুপ এবং নিচের অর্ধেকের জন্য (N থেকে 1) আরেকটি লুপ ব্যবহার করুন।"
+      },
+      "logicBreakdown": {
+        "en": "Each row consists of three mirrored segments: left wing (i stars), central gap (2 * (N - i) spaces), and right wing (i stars). Repeating the formula over i = 1..N and then i = N..1 builds the full butterfly.",
+        "bn": "প্রতিটি সারি তিনটি অংশে গঠিত: বাম ডানা (iটি *), মাঝের ফাঁকা (2 * (N - i) স্পেস) এবং ডান ডানা (iটি *)। এটিকে প্রথমে i = 1..N এবং পরে N..1 পর্যন্ত চালালেই পূর্ণ প্রজাপতি তৈরি হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "For i from 1 to n, print i stars + 2*(n - i) spaces + i stars.", "bn": "i = 1 থেকে n পর্যন্ত iটি * + 2*(n - i) স্পেস + iটি * প্রিন্ট করুন।" },
+        { "en": "For i from n down to 1, print i stars + 2*(n - i) spaces + i stars.", "bn": "i = n থেকে 1 পর্যন্ত নেমে একইভাবে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(1, n + 1):\n    row = \"\"\n    for _ in range(i):\n        row += \"*\"\n    for _ in range(2 * (n - i)):\n        row += \" \"\n    for _ in range(i):\n        row += \"*\"\n    print(row)\nfor i in range(n, 0, -1):\n    row = \"\"\n    for _ in range(i):\n        row += \"*\"\n    for _ in range(2 * (n - i)):\n        row += \" \"\n    for _ in range(i):\n        row += \"*\"\n    print(row)",
+      "codeExplanation": {
+        "en": "The upper section expands the wings from 1 to n while shrinking the gap from 2*(n-1) to 0. The lower section reverses i from n down to 1, producing the exact mirror image.",
+        "bn": "উপরের অংশ ডানা 1 থেকে n পর্যন্ত বাড়িয়ে মাঝের ফাঁকা 0-তে আনে। নিচের অংশ i-কে n থেকে 1 পর্যন্ত নামিয়ে নিখুঁত প্রতিচ্ছবি তৈরি করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "*    *\n**  **\n******\n******\n**  **\n*    *", "note": { "en": "Butterfly N=3", "bn": "N=3 প্রজাপতি" } },
+        { "input": "1", "expectedOutput": "**\n**", "note": { "en": "Minimal N=1", "bn": "ন্যূনতম N=1" } },
+        { "input": "2", "expectedOutput": "*  *\n****\n****\n*  *", "note": { "en": "Butterfly N=2", "bn": "N=2 প্রজাপতি" } }
+      ]
+    },
+    {
+      "id": "P05-19",
+      "number": 19,
+      "title": {
+        "en": "Concentric Number Square Matrix",
+        "bn": "সমকেন্দ্রিক সংখ্যা বর্গ ম্যাট্রিক্স"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Minimum edge distance logic", "bn": "সীমানা থেকে ন্যূনতম দূরত্ব যুক্তি" },
+        { "en": "2D coordinate analysis", "bn": "দ্বিমাত্রিক স্থানাঙ্ক বিশ্লেষণ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print a (2*N - 1) x (2*N - 1) concentric square matrix where the outermost ring contains N, the next inner ring contains N-1, and the center cell contains 1.",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। (2*N - 1) x (2*N - 1) আকারের একটি সমকেন্দ্রিক সংখ্যা বর্গ প্রিন্ট করুন যেখানে সবচেয়ে বাইরের বলয়ে N, পরের ভেতরের বলয়ে N-1 এবং কেন্দ্রে 1 থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "2*N - 1 lines, each with 2*N - 1 space-separated integers.",
+        "bn": "2*N - 1টি লাইন, প্রতিটিতে 2*N - 1টি স্পেস-বিচ্ছিন্ন পূর্ণসংখ্যা।"
+      },
+      "examples": [
+        {
+          "input": "3",
+          "output": "3 3 3 3 3\n3 2 2 2 3\n3 2 1 2 3\n3 2 2 2 3\n3 3 3 3 3",
+          "explanation": {
+            "en": "Outer ring distance from edge is 0 -> value 3 - 0 = 3; center distance is 2 -> value 3 - 2 = 1.",
+            "bn": "বাইরের বলয়ের প্রান্ত থেকে দূরত্ব 0 -> মান 3 - 0 = 3; কেন্দ্রের দূরত্ব 2 -> মান 3 - 2 = 1।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Think in terms of each cell's distance to the four borders of the size x size grid (where size = 2*N - 1).",
+        "bn": "size = 2*N - 1 গ্রিডের চারটি প্রান্ত থেকে প্রতিটি ঘরের দূরত্ব নিয়ে ভাবুন।"
+      },
+      "hint2": {
+        "en": "Let min_dist = min(i, j, size - 1 - i, size - 1 - j). The value at (i, j) is simply N - min_dist!",
+        "bn": "min_dist = min(i, j, size - 1 - i, size - 1 - j) হলে (i, j) ঘরের মান হবে N - min_dist!"
+      },
+      "logicBreakdown": {
+        "en": "Every cell (i, j) has four border distances: top (i), left (j), bottom (size - 1 - i), and right (size - 1 - j). The ring depth is the minimum of these four distances. Subtracting that depth from N produces the exact concentric layer number without any spiral simulation.",
+        "bn": "যেকোনো ঘর (i, j)-এর চার প্রান্ত থেকে দূরত্ব হলো: উপরে i, বামে j, নিচে size - 1 - i এবং ডানে size - 1 - j। এই চারটির ন্যূনতম মানই বলয়ের গভীরতা। N থেকে এই গভীরতা বিয়োগ করলেই প্রতিটি বলয়ের মান সরাসরি পাওয়া যায়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n and compute size = 2 * n - 1.", "bn": "n পড়ুন এবং size = 2 * n - 1 বের করুন।" },
+        { "en": "Loop i from 0 to size - 1.", "bn": "i-কে 0 থেকে size - 1 পর্যন্ত চালান।" },
+        { "en": "Loop j from 0 to size - 1: find min_dist = min(i, j, size - 1 - i, size - 1 - j).", "bn": "j-কে 0 থেকে size - 1 পর্যন্ত চালিয়ে চার প্রান্তের ন্যূনতম দূরত্ব min_dist বের করুন।" },
+        { "en": "Append str(n - min_dist) to row and print ' '.join(row).", "bn": "সারিতে str(n - min_dist) যোগ করে স্পেস দিয়ে প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nsize = 2 * n - 1\nfor i in range(size):\n    row = []\n    for j in range(size):\n        min_dist = min(i, j, size - 1 - i, size - 1 - j)\n        row.append(str(n - min_dist))\n    print(\" \".join(row))",
+      "codeExplanation": {
+        "en": "min(i, j, size - 1 - i, size - 1 - j) computes how many layers deep cell (i, j) sits inside the square. Outer border cells have min_dist = 0 (value n), while the center cell has min_dist = n - 1 (value 1).",
+        "bn": "min(i, j, size - 1 - i, size - 1 - j) নির্ণয় করে ঘরটি কত স্তর ভেতরে আছে। সীমানায় দূরত্ব 0 হওয়ায় মান হয় n, আর কেন্দ্রে দূরত্ব n - 1 হওয়ায় মান হয় 1।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "3", "expectedOutput": "3 3 3 3 3\n3 2 2 2 3\n3 2 1 2 3\n3 2 2 2 3\n3 3 3 3 3", "note": { "en": "N=3 concentric square", "bn": "N=3 সমকেন্দ্রিক বর্গ" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Center only", "bn": "কেবল কেন্দ্র" } },
+        { "input": "2", "expectedOutput": "2 2 2\n2 1 2\n2 2 2", "note": { "en": "N=2 concentric square", "bn": "N=2 সমকেন্দ্রিক বর্গ" } }
+      ]
+    },
+    {
+      "id": "P05-20",
+      "number": 20,
+      "title": {
+        "en": "Pascal's Triangle Generator",
+        "bn": "প্যাসকেলের ত্রিভুজ জেনারেটর"
+      },
+      "difficulty": "Challenge",
+      "requiredConcepts": [
+        { "en": "Multiplicative binomial recurrence", "bn": "গুণিতক দ্বিপদী পুনরাবৃত্তি" },
+        { "en": "Nested loop state update", "bn": "নেস্টেড লুপে মান হালনাগাদ" }
+      ],
+      "description": {
+        "en": "Read a positive integer N. Print the first N rows of Pascal's Triangle, with each row's numbers separated by single spaces (left-aligned row by row).",
+        "bn": "একটি ধনাত্মক পূর্ণসংখ্যা N ইনপুট নিন। প্যাসকেলের ত্রিভুজের প্রথম Nটি সারি প্রিন্ট করুন, যেখানে প্রতিটি সারির সংখ্যাগুলো একটি করে স্পেস দিয়ে আলাদা থাকবে।"
+      },
+      "inputDescription": {
+        "en": "A single integer N (N >= 1).",
+        "bn": "একটি পূর্ণসংখ্যা N (N >= 1)।"
+      },
+      "expectedOutput": {
+        "en": "N lines, row i (0-indexed) containing i + 1 binomial coefficients separated by single spaces.",
+        "bn": "Nটি লাইন, 0-ভিত্তিক i-তম সারিতে i + 1টি দ্বিপদী সহগ স্পেস-বিচ্ছিন্ন অবস্থায়।"
+      },
+      "examples": [
+        {
+          "input": "5",
+          "output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1",
+          "explanation": {
+            "en": "Each row begins with 1 and subsequent terms follow C(i, j) = C(i, j-1) * (i - j + 1) // j.",
+            "bn": "প্রতিটি সারি 1 দিয়ে শুরু হয় এবং পরবর্তী পদগুলো C(i, j) = C(i, j-1) * (i - j + 1) // j মেনে চলে।"
+          }
+        }
+      ],
+      "hint1": {
+        "en": "Every row i (0-indexed) starts with value = 1 as its first term.",
+        "bn": "0-ভিত্তিক প্রতিটি সারি i-এর প্রথম পদ value = 1 দিয়ে শুরু হয়।"
+      },
+      "hint2": {
+        "en": "Given val = C(i, j), the next term in the same row is val = val * (i - j) // (j + 1).",
+        "bn": "একটি পদ val = C(i, j) জানা থাকলে একই সারির পরবর্তী পদ হবে val = val * (i - j) // (j + 1)।"
+      },
+      "logicBreakdown": {
+        "en": "Computing factorials inside nested loops is slow and redundant. Instead, Pascal's row recurrence updates the binomial coefficient in O(1) per column: multiplying by (i - j) and integer-dividing by (j + 1) moves directly from C(i, j) to C(i, j + 1) using O(N) space per row.",
+        "bn": "প্রতিবার ফ্যাক্টোরিয়াল বের করা ধীরগতির। এর বদলে দ্বিপদী সহগের পুনরাবৃত্তি সূত্র val = val * (i - j) // (j + 1) ব্যবহার করলে প্রতিটি কলামের মান O(1) সময়েই হালনাগাদ হয়।"
+      },
+      "algorithm": [
+        { "en": "Read integer n.", "bn": "পূর্ণসংখ্যা n পড়ুন।" },
+        { "en": "Loop row index i from 0 to n - 1.", "bn": "সারি সূচক i-কে 0 থেকে n - 1 পর্যন্ত চালান।" },
+        { "en": "Initialize val = 1 and an empty row list.", "bn": "val = 1 এবং একটি খালি লিস্ট নিন।" },
+        { "en": "Loop j from 0 to i: append str(val), then update val = val * (i - j) // (j + 1).", "bn": "j-কে 0 থেকে i পর্যন্ত চালিয়ে str(val) রাখুন এবং val = val * (i - j) // (j + 1) আপডেট করুন।" },
+        { "en": "Print ' '.join(row).", "bn": "' '.join(row) প্রিন্ট করুন।" }
+      ],
+      "solution": "n = int(input())\nfor i in range(n):\n    val = 1\n    row = []\n    for j in range(i + 1):\n        row.append(str(val))\n        val = val * (i - j) // (j + 1)\n    print(\" \".join(row))",
+      "codeExplanation": {
+        "en": "For row i (0-indexed), val starts at C(i, 0) = 1. Each inner step records val and computes the next binomial coefficient C(i, j + 1) using exact integer division // before advancing j.",
+        "bn": "0-ভিত্তিক সারি i-এর শুরুতে val = 1 থাকে। ভেতরের লুপের প্রতিটি ধাপে বর্তমান val সংরক্ষণ করে এবং পূর্ণসংখ্যার ভাগ (//) দিয়ে পরবর্তী সহগ C(i, j + 1) হিসাব করে।"
+      },
+      "complexity": { "time": "O(N^2)", "space": "O(N)" },
+      "testCases": [
+        { "input": "5", "expectedOutput": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1", "note": { "en": "First 5 rows of Pascal's triangle", "bn": "প্যাসকেলের ত্রিভুজের প্রথম ৫ সারি" } },
+        { "input": "1", "expectedOutput": "1", "note": { "en": "Row 0 only", "bn": "কেবল প্রথম সারি" } },
+        { "input": "4", "expectedOutput": "1\n1 1\n1 2 1\n1 3 3 1", "note": { "en": "4 rows", "bn": "৪ সারি" } }
+      ]
+    }
+  ]
+}
